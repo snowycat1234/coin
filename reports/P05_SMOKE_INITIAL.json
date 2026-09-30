@@ -1,0 +1,106 @@
+{
+  "database": "/home/xflops/coin-state/collector-smoke.sqlite3",
+  "state": "STOPPED",
+  "qualified_72h": false,
+  "scope": "read_only_mainnet_data_readiness",
+  "session": {
+    "id": 1,
+    "started_ms": 1790755282674,
+    "ended_ms": 1790755375973,
+    "state": "STOPPED",
+    "heartbeat_ms": 1790755361822,
+    "healthy_seconds": 0.0,
+    "healthy_since_ms": null,
+    "clock_offset_ms": null,
+    "last_error": "One stale symbol kline for 20s",
+    "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker"
+  },
+  "unresolved_gaps": 0,
+  "repaired_gaps": 0,
+  "symbols": {
+    "BTCUSDT": {
+      "total": 1,
+      "repairs": 0,
+      "first_open_ms": 1790755260000,
+      "last_open_ms": 1790755260000,
+      "last_websocket_received_ms": 1790755342324,
+      "bars_in_last_72h": 1,
+      "complete_quote_minutes_in_last_72h": 1
+    },
+    "ETHUSDT": {
+      "total": 1,
+      "repairs": 0,
+      "first_open_ms": 1790755260000,
+      "last_open_ms": 1790755260000,
+      "last_websocket_received_ms": 1790755342330,
+      "bars_in_last_72h": 1,
+      "complete_quote_minutes_in_last_72h": 1
+    }
+  },
+  "reasons": [
+    "No running real collection session",
+    "Fewer than 72 real healthy monotonic observation hours",
+    "BTCUSDT: missing closed candles in the latest 72h window",
+    "BTCUSDT: missing complete quote minutes in the latest 72h window",
+    "ETHUSDT: missing closed candles in the latest 72h window",
+    "ETHUSDT: missing complete quote minutes in the latest 72h window"
+  ],
+  "disk": {
+    "project_bytes": 1332978454,
+    "wsl_vhd_bytes": 4717543424,
+    "total_bytes": 6050521878,
+    "reserved_bytes": 100000000,
+    "d_free_bytes": 376964513792,
+    "status": "OK",
+    "hard_limit_bytes": 20000000000
+  },
+  "events": [
+    {
+      "kind": "clock_jump",
+      "count": 2
+    },
+    {
+      "kind": "connect_attempt",
+      "count": 2
+    },
+    {
+      "kind": "connected",
+      "count": 2
+    },
+    {
+      "kind": "disconnect_error",
+      "count": 1
+    },
+    {
+      "kind": "disconnected",
+      "count": 1
+    },
+    {
+      "kind": "heartbeat",
+      "count": 6
+    },
+    {
+      "kind": "start",
+      "count": 1
+    },
+    {
+      "kind": "stop",
+      "count": 1
+    }
+  ],
+  "quote_summary": [
+    {
+      "symbol": "BTCUSDT",
+      "minute_rows": 3,
+      "received_samples": 9172,
+      "mean_minute_spread_bps": 0.006559600290373293
+    },
+    {
+      "symbol": "ETHUSDT",
+      "minute_rows": 3,
+      "received_samples": 4131,
+      "mean_minute_spread_bps": 0.04052082600338991
+    }
+  ],
+  "smoke_database_bytes": 40960
+}
