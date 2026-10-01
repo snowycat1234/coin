@@ -8,6 +8,12 @@ FR61官方来源登记、FR62官方历史数据薄包装、FR64唯一科研数�
 已有A09/A10验收保留，旧STOP_v2/holdout/source不改；第一轮10configs/1seed。
 详见`OPEN_SOURCE_REUSE_OVERRIDE_v6.md`与`FAST_RESEARCH_TASK_CHECKLIST.md`。
 
+此前已完成A10收尾：正式凭证`reports/A10_MICRO_FEATURES_V2_ACCEPTANCE_20261001.json`，
+46项专项/Ruff通过，36行实际闭合v2数据的batch/incremental/JSON恢复逐元素一致。
+实际ready=0，短样本不足720条过去5s数据，未计算标签/训练/预测收益。
+13项固定模型输入、七项raw仅QA，源码与schema/定义保持哈希绑定。
+A09/A10分别提交推送；当前新工作仅v6数据和模型比较。
+
 用户新增10月1日审计，已逐字节保存根目录，并明确回复“按新审计执行”。
 `V4_OVERRIDE.md`登记增量覆盖，新45项长目标见`V4_TASK_CHECKLIST.md`。
 当前A09正确性工程已验收，A10最终验收中，随后切换A11。

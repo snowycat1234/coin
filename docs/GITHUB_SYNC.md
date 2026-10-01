@@ -19,6 +19,13 @@ Git备份只表示代码与选定文档证据已同步，不代表真实行情/�
 
 ## 本次检查点
 
+A09完成独立正确性验收并提交`2aff1771631c6e8f9a3cdd276dd634ed46a61fad`，v6登记同批保存。
+两次普通Git HTTPS连接失败，远程仍旧8776224，失败凭证V1/V2保留。
+随后通过GitHub官方Git API传输30份变更blob、tree及完全相同的本地commit对象，
+逐个SHA一致才非强制fast-forward更新main；最终远程SHA确认为同一2aff177。
+凭证`reports/GITHUB_A09_SYNC_VERIFIED_20261001.json`，未修改提交历史或重新生成提交。
+A10也已独立验收46项与实际36行，按用户要求另做模块提交。未验收A11工程排除。
+
 独立异常凭证模块已普通推送并独立核验远程main为
 `8776224d7dc96403719d6bec5f0ac56b50c5927e`，凭证
 `reports/GITHUB_RESILIENT_PUSH_VERIFIED_20261001.json`。当前新完成A09正确性模块

@@ -5,6 +5,9 @@ FR61/62/64并行，长清单`FAST_RESEARCH_TASK_CHECKLIST.md`；执行和观察�
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 
+A10已正式验收46项，36行真实样本batch/incremental/restart一致，ready=0。
+v4旧清单22项工程证据保留；当前目标切换v6，计数不作为新阶段完成率。
+
 更新：2026-10-01。状态：用户明确采纳v4，A09正确性已验收，A10最终验收中，随后A11。
 新的长清单见`V4_TASK_CHECKLIST.md`；旧v3勾选与结果原样保留，不代表v2资格。
 

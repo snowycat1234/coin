@@ -1,0 +1,112 @@
+{
+  "status": "A10_CAUSAL_MICRO_FEATURE_VIEW_ENGINEERING_PASS",
+  "created_utc": "2026-10-01T11:26:27.780641+00:00",
+  "source_hashes": {
+    "src/quant/micro_features_v2.py": "d48909161fad4e4d46789081998d88deecb3f0abcfa48052d07f98a09af6fa28",
+    "tests/test_micro_features_v2.py": "5e425fc7815f494ec6bdd2ccbeda0be3b6d37685e6a9f5bbb54b1181c79edb67",
+    "docs/MODULE_A10_MICRO_FEATURES_V2.md": "e85b65e431fd9f0733085c66438acfcde75fde449b81b61aa96448d2dc4cc190",
+    "scripts/accept_a10_micro_features_v2.py": "dd4feef66356ad9c64c6cb5ffafa6cd71b05c74ba66918458cca4d98da5cd92a"
+  },
+  "verified_a09_acceptance": {
+    "path": "reports/A09_MICROSTRUCTURE_V2_ACCEPTANCE_20261001.json",
+    "sha256": "da8c6327f9c99b0bc0ffe4c712fc841126d95dc288128f4d44ed4c8bdd69c8ec",
+    "bytes": 29630
+  },
+  "feature_contract": {
+    "version": "microstructure_causal_features_v2.0",
+    "source_version": "microstructure_l1_v2",
+    "schema_sha256": "a5872072d309a8d47f514243a7c6393d2dffcaaedcebc5f7d5a8157996d07e80",
+    "definition_sha256": "ea99182eb202406017d56c89466f6fc03b966433bf81a30339dd5b1d10911185",
+    "implementation_sha256": "d48909161fad4e4d46789081998d88deecb3f0abcfa48052d07f98a09af6fa28"
+  },
+  "actual_tests": {
+    "path": "reports/A10_MICRO_FEATURES_V2_TESTS_V2.xml",
+    "sha256": "cca8bf9e07c6af81088ff8cdb0d3fa61b31808391cff6c7591dc6e83ceacc794",
+    "bytes": 6702,
+    "cases": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "actual_ruff_exit_code": 0,
+  "actual_ruff_output": "All checks passed!\n",
+  "actual_source_measurement": {
+    "path": "reports/A09_REAL_SHORT_AND_STORAGE_20261001_V1.json",
+    "sha256": "e9053ac7c45a5cdf312cfc6b366045601d1694171119d3345098401ae11851ea",
+    "bytes": 22578
+  },
+  "actual_rows": 36,
+  "actual_batch_incremental_restart_equal": true,
+  "actual_input_rows_sha256": "e752ac59cd4f8dfbade56c62c17953f6f1b3856d444998757bbdddfe90c21972",
+  "actual_feature_rows_sha256": "d98a05c80ba4a7723b798ce27595f6f8bb017efbfa484641796822ea656aa2aa",
+  "actual_source_status_counts": [
+    {
+      "symbol": "BTCUSDT",
+      "status": "INVALID_QUALITY",
+      "rows": 1
+    },
+    {
+      "symbol": "BTCUSDT",
+      "status": "VALID",
+      "rows": 17
+    },
+    {
+      "symbol": "ETHUSDT",
+      "status": "INVALID_QUALITY",
+      "rows": 1
+    },
+    {
+      "symbol": "ETHUSDT",
+      "status": "VALID",
+      "rows": 17
+    }
+  ],
+  "actual_ready_model_view_rows": 0,
+  "actual_finite_feature_values": 442,
+  "actual_final_state_sha256": "ee7c760d22220dba074aae6fc0e89f7836ef0aabf1c6350b54d49d906b18a77a",
+  "actual_ram_at_acceptance": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 219373568,
+    "ram_peak_bytes": 2083442688,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "model_feature_names": [
+    "ofi_depth_norm_z1h",
+    "log_l1_depth_z1h",
+    "log_trade_notional_z1h",
+    "vwap_offset_bps_z1h",
+    "log_quote_updates_z1h",
+    "log_trade_count_z1h",
+    "quote_trade_ratio_z1h",
+    "trade_flow_imbalance",
+    "spread_bps",
+    "L1_imbalance_mean",
+    "L1_imbalance_last",
+    "microprice_offset_bps_mean",
+    "realized_return_5s"
+  ],
+  "qa_scale_heavy_raw_only": [
+    "ofi_depth_norm",
+    "log_l1_depth",
+    "log_trade_notional",
+    "vwap_offset_bps",
+    "log_quote_updates",
+    "log_trade_count",
+    "quote_trade_ratio"
+  ],
+  "actual_24h_capacity_accepted": false,
+  "actual_24h_quality_accepted": false,
+  "actual_14d_accepted": false,
+  "actual_30d_accepted": false,
+  "actual_60d_accepted": false,
+  "alpha_eligible": false,
+  "training_authorized": false,
+  "healthy_credit_seconds": 0,
+  "network_requests": 0,
+  "orders_sent": 0,
+  "collector_writes": 0,
+  "limitations": "Primary numerical view acceptance with actual closed v2 public smoke rows; no future label, correlation, fit or prediction selection. Short history cannot satisfy 720-past-sample warmup; actual ready count retained. Synthetic causality/normalization tests do not create real qualification."
+}
