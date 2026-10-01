@@ -12,6 +12,12 @@ FR61/62/63/64/66/67已验收推送，远程最近共同数据提交`0feef65`已�
 薄正式入口已通过两项拒绝/恢复测试和Ruff；真实数据不足时实际返回model_fits=0。
 每模型独立CPU worker，TS2Vec两probe共享encoder、可恢复双凭证，不增加配置。
 长清单当前23/40项有阶段证据；不把短段smoke计为正式模型效果。
+2026-10-02：正式入口提交`1251dd5b8f5aa9cb4cd89a6b0fd550b0e383753f`已远程核验。
+独立只读复核未发现需改源码的正确性阻塞；换手无量纲口径补充见
+`FR_FORMAL_RUNNER_INDEPENDENT_REVIEW_20261002_V1.md`，旧验收文件保持原字节。
+三个子agent分工：首个原定完整滚动窗口10配置诊断、正式入口复核、首30日来源QA。
+单窗口已绑定88档244,551,684B；train/validation/test为13,423/2,583/9,773共同端点，
+按原最多10epochs/patience3、600次TS2Vec迭代运行，不能替代正式六fold。
 WSL重启后已保存日志/闭合DB/进度快照，原版本采集与历史V3续跑恢复；新观察器未启动。
 短段成本后Ridge/TS2Vec-linear/River分别约−0.53/−0.44/−14.33%，其余无交易；未调参或晋级。
 新execution/Testnet/mainnet/resource-observer工程冻结，A11新采集/观察未启动。
