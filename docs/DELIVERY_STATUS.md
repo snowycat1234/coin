@@ -22,8 +22,10 @@ normalization已有实际/隔离证据；公共缓存及native工作副本真实
 正式入口已验收推送并独立复核。原21日完整窗口10配置诊断已全部根侧验收，
 共同9,773测试端点、9静态checkpoint各6预测复现、River终态和30成本账本核算通过。
 主成本情景六配置有交易且净亏、四配置无交易，未调参或选top-3。FR69 V2连续14日
-Static/River/weekly XGB实际比较已启动。单窗口不能替代六窗口稳定性结论；模块见
-`MODULE_FR_ROLLING00_FULL_WINDOW_DIAGNOSTIC_20261002_V1.md`。最近完整磁盘扫描12.58GB，
+Static/River/weekly XGB比较已根侧验收：19,144共同端点、9成本账本/连续NAV通过，
+三方向主成本净亏；正式166日仍未完成。模块分别见
+`MODULE_FR_ROLLING00_FULL_WINDOW_DIAGNOSTIC_20261002_V1.md`、
+`MODULE_FR69_CONTINUOUS_30D_DIAGNOSTIC_20261002_V1.md`。最近完整磁盘扫描13.06GB，
 所有运行仍共用5GB RAM、swap0，无GPU、真钱或locked消费。
 
 A10工程已正式验收46项及36行真实样本增量/批量/恢复一致，ready=0。

@@ -18,8 +18,10 @@ FR61/62/63/64与TCN/TLOB/TS2Vec工程已验收推送；全部10配置共同短�
 当前完整单窗口10/10已完成并根侧验收：共同truth/ID/scaler一致、9静态checkpoint
 各6测试预测复现、River终态计数、30成本账本独立核算通过。六配置有交易且净亏，四配置无交易。
 这是单窗口诊断，不据此选top-3。模块见`MODULE_FR_ROLLING00_FULL_WINDOW_DIAGNOSTIC_20261002_V1.md`。
-FR69 V2连续14日Static/River/weekly XGB实际运行已启动，30日真实来源preflight已通过；
-180日来源独立接受后再完整166日比较。没有修改六fold或增加配置。
+FR69 V2连续14日Static/River/weekly XGB实际运行和根侧验收已完成，共同19,144端点，
+9成本账本及连续NAV核验通过，三个方向主成本净结果均负。模块见
+`MODULE_FR69_CONTINUOUS_30D_DIAGNOSTIC_20261002_V1.md`；正式166日仍待180日来源独立接受。
+没有修改六fold或增加配置。下一项是完整180来源/720档验收，然后正式60结果与166日比较。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 
