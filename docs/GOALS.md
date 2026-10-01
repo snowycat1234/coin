@@ -10,14 +10,16 @@ FR61/62/63/64与TCN/TLOB/TS2Vec工程已验收推送；全部10配置共同短�
 长清单`FAST_RESEARCH_TASK_CHECKLIST.md`当前23/40项具阶段证据；执行和观察器新增工程冻结。
 四流两日及共同合同已验收；当前180历史日批次运行，正式10配置×6fold训练待完成。
 正式运行入口拒绝/断点恢复工程已通过；当前等待真实720档共同历史输入完成后独立验收再运行。
-当前并行：首个12d fitting＋2d validation＋7d test完整窗口诊断、首30日独立数据QA；
-训练仍串行，全部10固定配置及原训练参数保持。正式入口独立只读复核已完成，
+首个12d fitting＋2d validation＋7d test完整窗口十配置诊断、首30日独立数据QA均已验收；
+训练串行，全部10固定配置及原训练参数保持。正式入口独立只读复核已完成，
 换手口径补充见`FR_FORMAL_RUNNER_INDEPENDENT_REVIEW_20261002_V1.md`。
 首30日四路120档独立数据QA已通过，根核实际240文件SHA、207万行和116跨日边界；
 正式180日和六窗口结论继续待验收，清单计数仍23/40。项目加整个VHD实测约12.33GB。
-当前实际窗口6/10配置完成；TLOB训练，TS2Vec两probe和River随后继续。
-FR69完整166日薄入口已准备，30日真实来源preflight已通过但fit0；待当前10配置闭合后
-先实际连续14日比较，180日来源独立接受后再完整166日比较。没有修改六fold或增加配置。
+当前完整单窗口10/10已完成并根侧验收：共同truth/ID/scaler一致、9静态checkpoint
+各6测试预测复现、River终态计数、30成本账本独立核算通过。六配置有交易且净亏，四配置无交易。
+这是单窗口诊断，不据此选top-3。模块见`MODULE_FR_ROLLING00_FULL_WINDOW_DIAGNOSTIC_20261002_V1.md`。
+FR69 V2连续14日Static/River/weekly XGB实际运行已启动，30日真实来源preflight已通过；
+180日来源独立接受后再完整166日比较。没有修改六fold或增加配置。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 
