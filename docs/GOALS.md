@@ -1,5 +1,10 @@
 # 总目标与当前步骤
 
+2026-10-02新增用户要求的本机实时任务窗口，已通过15项专项及真实扫描/浏览器断线恢复验收。
+`http://localhost:8765/` 每2秒刷新；所有后续长运行通过with_task_progress.sh登记。
+旧正在运行训练不改源或预算，轮次不可得明确未知。独立模块文档见
+`MODULE_TASK_PROGRESS_WINDOW_20261002_V1.md`；主线23/40及正式研究待办保持。
+
 **当前主线已切换用户直接指定v6**：官方历史trade-flow数据与成熟开源模型比较。
 FR61/62/63/64与TCN/TLOB/TS2Vec工程已验收推送；全部10配置共同短段预测/经济模拟完成。
 长清单`FAST_RESEARCH_TASK_CHECKLIST.md`当前23/40项具阶段证据；执行和观察器新增工程冻结。
@@ -10,6 +15,9 @@ FR61/62/63/64与TCN/TLOB/TS2Vec工程已验收推送；全部10配置共同短�
 换手口径补充见`FR_FORMAL_RUNNER_INDEPENDENT_REVIEW_20261002_V1.md`。
 首30日四路120档独立数据QA已通过，根核实际240文件SHA、207万行和116跨日边界；
 正式180日和六窗口结论继续待验收，清单计数仍23/40。项目加整个VHD实测约12.33GB。
+当前实际窗口6/10配置完成；TLOB训练，TS2Vec两probe和River随后继续。
+FR69完整166日薄入口已准备，30日真实来源preflight已通过但fit0；待当前10配置闭合后
+先实际连续14日比较，180日来源独立接受后再完整166日比较。没有修改六fold或增加配置。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 

@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>任务进度 · coin</title>
+  <style>
+    :root {
+      --bg: #0b1120; --panel: #151f32; --panel-soft: #10192a;
+      --border: #33435a; --text: #f3f6fc; --muted: #afbdd1;
+      --blue: #8ebcff; --green: #6fe2b3; --amber: #ffd07a; --red: #ff969f;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+    button, summary { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    button:focus-visible, summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    .page { max-width: 1180px; margin: 0 auto; padding: 36px 28px 28px; }
+    .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .12em; margin-bottom: 7px; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 36px); font-weight: 750; line-height: 1.2; letter-spacing: -.025em; }
+    .subtitle { color: var(--muted); margin: 10px 0 0; max-width: 620px; }
+    .connection { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-top: 3px; min-width: 220px; }
+    .connection-line { display: flex; align-items: center; gap: 10px; }
+    .connection-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--amber); }
+    .dot { height: 8px; width: 8px; border-radius: 50%; background: currentColor; flex: none; }
+    .connection-badge.online { color: var(--green); }
+    .connection-badge.stale { color: var(--red); }
+    .button { color: var(--text); background: #233149; border: 1px solid #506683; border-radius: 8px; padding: 5px 10px; cursor: pointer; font-size: 12px; }
+    .button:hover { background: #30425f; }
+    .timestamp { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+    .notice { border: 1px solid #896938; background: #2e2518; color: #ffe0a8; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; }
+    .notice.error { border-color: #a45860; background: #341e28; color: #ffc0c7; }
+    .notice p { margin: 0; }
+    .notice ul { margin: 6px 0 0; padding-left: 22px; overflow-wrap: anywhere; }
+    .resources { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .resource { border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); padding: 19px 20px; }
+    .resource-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .resource-label { color: var(--muted); font-size: 13px; }
+    .resource-value { font-size: 27px; font-weight: 730; font-variant-numeric: tabular-nums; line-height: 1.35; }
+    .resource-value .limit { font-size: 17px; color: var(--muted); font-weight: 500; }
+    .resource-note { margin-top: 10px; color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 5px 18px; }
+    .track { width: 100%; height: 7px; background: #293951; border-radius: 99px; overflow: hidden; margin-top: 12px; }
+    .fill { height: 100%; width: 0; background: var(--blue); border-radius: inherit; }
+    .fill.warning { background: var(--amber); }
+    .fill.danger { background: var(--red); }
+    .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    h2 { font-size: 18px; line-height: 1.4; margin: 0; font-weight: 700; }
+    .count { background: #24344c; color: #d5e3f6; padding: 1px 8px; font-size: 12px; border-radius: 99px; font-variant-numeric: tabular-nums; }
+    .task-list { display: grid; gap: 16px; }
+    .task { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .task-body { padding: 20px; }
+    .task-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .task-title { font-size: 17px; font-weight: 700; margin: 0; overflow-wrap: anywhere; }
+    .badge { display: inline-block; white-space: nowrap; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; color: var(--muted); background: #25344a; }
+    .badge.running { color: #c6deff; background: #213b5e; }
+    .badge.done { color: #a4f5d3; background: #193d34; }
+    .badge.error { color: #ffc0c7; background: #4a2631; }
+    .badge.waiting { color: #ffe1a3; background: #443721; }
+    .phase { margin-top: 12px; color: var(--blue); font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+    .progress-label { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-top: 12px; }
+    .progress-count { font-size: 21px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .progress-hint { color: var(--muted); font-size: 12px; }
+    .task-track { height: 8px; margin-top: 9px; }
+    .task-track.indeterminate { background: repeating-linear-gradient(110deg, #26364f 0 16px, #4a6487 16px 32px); background-size: 200% 100%; animation: drift 3s linear infinite; }
+    @keyframes drift { from { background-position: 100% 0; } to { background-position: 0 0; } }
+    .detail { color: #d8e2f0; font-size: 13px; margin: 12px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .task-times { display: flex; flex-wrap: wrap; gap: 5px 22px; color: var(--muted); font-size: 12px; margin-top: 15px; font-variant-numeric: tabular-nums; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; border-top: 1px solid #2b3b52; margin: 16px 0 0; padding-top: 14px; }
+    .metric { min-width: 0; }
+    .metric dt { color: var(--muted); font-size: 11px; margin-bottom: 3px; overflow-wrap: anywhere; }
+    .metric dd { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; white-space: pre-wrap; max-height: 96px; overflow: auto; }
+    .children { border-top: 1px solid #2b3b52; padding: 6px 20px; background: var(--panel-soft); }
+    .child { display: grid; grid-template-columns: minmax(100px, 1fr) auto; column-gap: 14px; padding: 10px 0; }
+    .child + .child { border-top: 1px solid #27364b; }
+    .child-title { font-size: 13px; font-weight: 650; overflow-wrap: anywhere; }
+    .child-count { color: var(--muted); font-size: 12px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .child-detail { grid-column: 1 / -1; color: var(--muted); font-size: 12px; margin-top: 4px; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .empty { border: 1px dashed #3d4e65; border-radius: var(--radius); padding: 26px 20px; color: var(--muted); text-align: center; background: var(--panel-soft); }
+    .completed { margin-top: 28px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .chip { color: #b8f4da; background: #19362f; border: 1px solid #365d50; font-size: 12px; padding: 6px 10px; border-radius: 8px; overflow-wrap: anywhere; }
+    .history { margin-top: 25px; }
+    .history summary { color: var(--muted); cursor: pointer; font-size: 13px; padding: 5px 0; }
+    .history-list { display: grid; gap: 8px; margin-top: 10px; }
+    .history-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; background: var(--panel-soft); border: 1px solid #293a50; padding: 10px 14px; border-radius: 10px; font-size: 13px; }
+    .history-meta { color: var(--muted); font-size: 12px; }
+    footer { border-top: 1px solid #2d3b50; margin-top: 32px; padding-top: 16px; color: #99abc4; font-size: 11px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 20px; }
+    @media (max-width: 700px) {
+      .page { padding: 24px 16px 20px; }
+      .top { flex-direction: column; gap: 16px; }
+      .connection { align-items: flex-start; min-width: 0; }
+      .resources { grid-template-columns: 1fr; gap: 12px; }
+      .task-body { padding: 17px; }
+      .children { padding-left: 17px; padding-right: 17px; }
+      .resource-value { font-size: 25px; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (prefers-reduced-motion: reduce) { .task-track.indeterminate { animation: none; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <div>
+        <div class="eyebrow">COIN / 本机 · 只读</div>
+        <h1>任务进度</h1>
+        <p class="subtitle">查看训练、测试和扫描的实际状态。未登记总量的任务显示“总量未知”。</p>
+      </div>
+      <div class="connection">
+        <div class="connection-line">
+          <span id="connection" class="connection-badge"><span class="dot"></span><span id="connection-text">正在连接</span></span>
+          <button id="refresh" class="button" type="button">立即刷新</button>
+        </div>
+        <div id="updated-at" class="timestamp">等待首次更新</div>
+        <div id="updated-age" class="timestamp">每 2 秒刷新 · 本地时间</div>
+      </div>
+    </header>
+
+    <div id="stale-notice" class="notice error" role="status" aria-live="polite" hidden></div>
+    <div id="source-errors" class="notice" role="status" hidden></div>
+
+    <section class="resources" aria-label="资源状态">
+      <article class="resource">
+        <div class="resource-top"><span class="resource-label">共享 RAM</span><span id="gpu" class="badge">GPU 未知</span></div>
+        <div class="resource-value"><span id="ram-current">—</span> <span class="limit">/ <span id="ram-limit">未知上限</span></span></div>
+        <div id="ram-track" class="track" hidden><div id="ram-fill" class="fill"></div></div>
+        <div class="resource-note"><span>共享累计峰值 <span id="ram-peak">未知</span></span><span>Swap <span id="swap">未知</span></span></div>
+      </article>
+      <article class="resource">
+        <div class="resource-top"><span class="resource-label">最近已知磁盘扫描</span><span id="disk-status" class="badge">尚未测量</span></div>
+        <div class="resource-value"><span id="disk-current">—</span> <span class="limit">/ <span id="disk-limit">未知上限</span></span></div>
+        <div id="disk-track" class="track" hidden><div id="disk-fill" class="fill"></div></div>
+        <div id="disk-time" class="resource-note">尚无已知测量值</div>
+      </article>
+    </section>
+
+    <section aria-labelledby="active-heading">
+      <div class="section-head"><h2 id="active-heading">当前任务</h2><span id="active-count" class="count">—</span></div>
+      <div id="tasks" class="task-list"><div class="empty">正在等待任务状态…</div></div>
+    </section>
+
+    <section class="completed" aria-labelledby="completed-heading">
+      <div class="section-head"><h2 id="completed-heading">已完成配置</h2><span id="config-count" class="count">—</span></div>
+      <div id="completed-configs" class="chips"><span class="timestamp">等待状态记录</span></div>
+    </section>
+
+    <details id="history" class="history" hidden>
+      <summary id="history-summary">已完成任务</summary>
+      <div id="history-list" class="history-list"></div>
+    </details>
+
+    <footer><span>显示后端实际记录；不估算训练或扫描的完成百分比。</span><span>状态窗口只读，不控制任务。</span></footer>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      const numberFormat = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 6 });
+      const clockFormat = new Intl.DateTimeFormat('zh-CN', {
+        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      });
+      const DONE = new Set(['COMPLETE', 'COMPLETED', 'DONE', 'FINISHED', 'SUCCESS', 'SUCCEEDED', 'PASS']);
+      const FAILED = new Set(['FAILED', 'ERROR', 'OOM', 'KILLED', 'REJECTED', 'STOPPED', 'CANCELED', 'CANCELLED']);
+      const WAITING = new Set(['WAITING', 'QUEUED', 'PENDING', 'PAUSED', 'BLOCKED']);
+      const metricNames = {
+        completed_configs: '已完成配置', epochs_completed: '已完成轮次', max_epochs: '最大轮次',
+        epoch: '当前轮次', training_endpoints: '训练样本', test_endpoints: '测试样本',
+        model_fits: '模型拟合数', validation_loss: '验证损失', validation_weighted_mse: '验证误差',
+        validation_best_weighted_mse: '最佳验证误差', worker_seconds: '工作进程用时（秒）',
+        fit_evaluation_seconds: '拟合与评价用时（秒）', process_peak_RAM_bytes: '进程累计 RAM 峰值',
+        files_scanned: '已扫描文件', bytes_scanned: '已扫描大小', gpu_hours: 'GPU 小时'
+      };
+      metricNames['当前模型已运行秒'] = '当前模型用时';
+      metricNames['已计入字节'] = '累计扫描大小';
+      let payload = null;
+      let lastSuccessAt = 0;
+      let connectionError = '';
+      let pending = false;
+      let clockNodes = [];
+
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = String(text);
+        return node;
+      }
+      function numeric(value) {
+        return typeof value === 'number' && Number.isFinite(value) ? value : null;
+      }
+      function timestamp(value) {
+        if (value === null || value === undefined || value === '') return null;
+        const parsed = typeof value === 'number'
+          ? (Math.abs(value) < 1e12 ? value * 1000 : value)
+          : Date.parse(value);
+        return Number.isFinite(parsed) ? parsed : null;
+      }
+      function dateText(value) {
+        const parsed = timestamp(value);
+        return parsed === null ? '未知' : clockFormat.format(new Date(parsed));
+      }
+      function sizeText(value) {
+        const bytes = numeric(value);
+        if (bytes === null || bytes < 0) return '未知';
+        if (bytes < 1000) return numberFormat.format(bytes) + ' B';
+        const units = ['KB', 'MB', 'GB', 'TB'];
+        let scaled = bytes / 1000, index = 0;
+        while (scaled >= 1000 && index < units.length - 1) { scaled /= 1000; index++; }
+        return scaled.toFixed(2) + ' ' + units[index];
+      }
+      function durationText(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) return '未知';
+        const value = Math.floor(seconds);
+        const days = Math.floor(value / 86400), hours = Math.floor(value % 86400 / 3600);
+        const minutes = Math.floor(value % 3600 / 60), remainder = value % 60;
+        if (days) return `${days}天 ${hours}小时 ${minutes}分`;
+        if (hours) return `${hours}小时 ${minutes}分 ${remainder}秒`;
+        if (minutes) return `${minutes}分 ${remainder}秒`;
+        return `${remainder}秒`;
+      }
+      function normalizedStatus(value) { return String(value || '').toUpperCase(); }
+      function stateInfo(value) {
+        const state = normalizedStatus(value);
+        if (DONE.has(state)) return { label: '已完成', className: 'done' };
+        if (FAILED.has(state)) return { label: ({ STOPPED: '已停止', CANCELED: '已取消', CANCELLED: '已取消' })[state] || '失败', className: 'error' };
+        if (WAITING.has(state)) return { label: ({ PAUSED: '已暂停', BLOCKED: '等待处理' })[state] || '等待中', className: 'waiting' };
+        if (['RUNNING', 'ACTIVE', 'IN_PROGRESS', 'TRAINING', 'TESTING', 'SCANNING'].includes(state)) return { label: '进行中', className: 'running' };
+        if (state === 'UNCONFIRMED') return { label: '状态待核验', className: 'waiting' };
+        return { label: value ? String(value) : '状态未知', className: '' };
+      }
+      function badge(value) {
+        const info = stateInfo(value);
+        return element('span', 'badge ' + info.className, info.label);
+      }
+      function progressInfo(task) {
+        const completed = numeric(task.completed), total = numeric(task.total);
+        const unit = task.unit ? ' ' + String(task.unit) : '';
+        const count = completed !== null && completed >= 0 ? numberFormat.format(completed) : '未知';
+        if (total === null || total < 0) return { text: completed === null ? '进度计数未提供' : '已处理 ' + count + unit, hint: '总量未知', ratio: null };
+        if (total === 0) return { text: count + ' / 0' + unit, hint: '总量为 0', ratio: null, empty: true };
+        if (completed === null || completed < 0) return { text: '未知 / ' + numberFormat.format(total) + unit, hint: '当前完成量未知', ratio: null };
+        return {
+          text: numberFormat.format(completed) + ' / ' + numberFormat.format(total) + unit,
+          hint: completed > total ? '实际计数超过登记总量' : '实际完成量 / 登记总量',
+          ratio: Math.max(0, Math.min(1, completed / total))
+        };
+      }
+      function isStale() {
+        if (connectionError) return true;
+        if (!payload) return false;
+        const generated = timestamp(payload.generated_at);
+        return generated === null || Date.now() - lastSuccessAt > 7000 || Date.now() - generated > 12000;
+      }
+      function elapsedText(task) {
+        const start = timestamp(task.started_at);
+        if (start === null) return '未知';
+        const terminal = DONE.has(normalizedStatus(task.status)) || FAILED.has(normalizedStatus(task.status));
+        const end = terminal ? timestamp(task.last_activity_at)
+          : (isStale() ? (timestamp(payload && payload.generated_at) || lastSuccessAt) : Date.now());
+        return end === null ? '未知' : durationText((end - start) / 1000);
+      }
+      function metricText(key, value) {
+        if (value === null || value === undefined) return '未知';
+        if (/已运行秒$/.test(key) && numeric(value) !== null) return durationText(value);
+        if (/时间$/.test(key) && numeric(value) !== null) return dateText(value);
+        if (/bytes$|字节$/i.test(key) && numeric(value) !== null) return sizeText(value);
+        if (typeof value === 'number') return numberFormat.format(value);
+        if (typeof value === 'boolean') return value ? '是' : '否';
+        if (typeof value === 'object') return JSON.stringify(value, null, 2);
+        return String(value);
+      }
+      function taskCard(task) {
+        const card = element('article', 'task');
+        const body = element('div', 'task-body');
+        const header = element('div', 'task-header');
+        header.append(element('h3', 'task-title', task.title || task.id || '未命名任务'), badge(task.status));
+        body.append(header, element('div', 'phase', task.phase || '阶段尚未提供'));
+        const progress = progressInfo(task), label = element('div', 'progress-label');
+        label.append(element('span', 'progress-count', progress.text), element('span', 'progress-hint', progress.hint));
+        body.append(label);
+        if (!progress.empty) {
+          const track = element('div', 'track task-track' + (progress.ratio === null ? ' indeterminate' : ''));
+          track.setAttribute('role', 'progressbar');
+          track.setAttribute('aria-label', String(task.title || '任务') + '进度');
+          track.setAttribute('aria-valuetext', progress.text + '，' + progress.hint);
+          if (progress.ratio !== null) {
+            track.setAttribute('aria-valuemin', '0');
+            track.setAttribute('aria-valuemax', String(task.total));
+            track.setAttribute('aria-valuenow', String(Math.min(task.completed, task.total)));
+            const fill = element('div', 'fill');
+            fill.style.width = progress.ratio * 100 + '%';
+            track.append(fill);
+          }
+          body.append(track);
+        }
+        if (task.detail) body.append(element('p', 'detail', task.detail));
+        const times = element('div', 'task-times'), elapsed = element('span');
+        const elapsedValue = element('span', '', elapsedText(task));
+        elapsed.append(document.createTextNode('已运行 '), elapsedValue);
+        times.append(elapsed, element('span', '', '最后活动 ' + dateText(task.last_activity_at)));
+        clockNodes.push({ task, node: elapsedValue });
+        body.append(times);
+        const entries = Object.entries(task.metrics && typeof task.metrics === 'object' ? task.metrics : {})
+          .filter(([key]) => !/^completed.*(config|configuration)/i.test(key));
+        if (entries.length) {
+          const metrics = element('dl', 'metrics');
+          entries.forEach(([key, value]) => {
+            const item = element('div', 'metric');
+            item.append(element('dt', '', metricNames[key] || key), element('dd', '', metricText(key, value)));
+            metrics.append(item);
+          });
+          body.append(metrics);
+        }
+        card.append(body);
+        if (Array.isArray(task.children) && task.children.length) {
+          const children = element('div', 'children');
+          task.children.forEach(child => {
+            const row = element('div', 'child'), content = element('div');
+            const itemProgress = progressInfo(child);
+            content.append(element('div', 'child-title', child.title || '子任务'));
+            if (numeric(child.completed) !== null || numeric(child.total) !== null) {
+              content.append(element('div', 'child-count', itemProgress.text + ' · ' + itemProgress.hint));
+            }
+            row.append(content, badge(child.status));
+            if (child.detail) row.append(element('div', 'child-detail', child.detail));
+            children.append(row);
+          });
+          card.append(children);
+        }
+        return card;
+      }
+      function setResourceBar(name, current, limit) {
+        const amount = numeric(current), maximum = numeric(limit);
+        $(name + '-track').hidden = amount === null || amount < 0 || maximum === null || maximum <= 0;
+        if ($(name + '-track').hidden) return;
+        const ratio = amount / maximum;
+        $(name + '-fill').style.width = Math.max(0, Math.min(100, ratio * 100)) + '%';
+        $(name + '-fill').className = 'fill' + (ratio >= .95 ? ' danger' : ratio >= .85 ? ' warning' : '');
+      }
+      function renderResources(resources) {
+        const value = resources || {}, disk = value.disk || {};
+        $('ram-current').textContent = sizeText(value.ram_current_bytes);
+        $('ram-limit').textContent = numeric(value.ram_limit_bytes) === null ? '未知上限' : sizeText(value.ram_limit_bytes);
+        $('ram-peak').textContent = sizeText(value.ram_peak_bytes);
+        $('swap').textContent = sizeText(value.swap_bytes);
+        $('gpu').textContent = value.gpu_used === true ? 'GPU 使用中' : value.gpu_used === false ? 'GPU 未使用' : 'GPU 未知';
+        setResourceBar('ram', value.ram_current_bytes, value.ram_limit_bytes);
+        $('disk-current').textContent = numeric(disk.bytes) === null ? '—' : sizeText(disk.bytes);
+        $('disk-limit').textContent = numeric(disk.limit_bytes) === null ? '未知上限' : sizeText(disk.limit_bytes);
+        $('disk-status').textContent = disk.status ? String(disk.status) : '尚未测量';
+        $('disk-time').textContent = timestamp(disk.measured_at) === null ? '测量时刻未知' : '测量于 ' + dateText(disk.measured_at);
+        setResourceBar('disk', disk.bytes, disk.limit_bytes);
+      }
+      function renderCompleted(tasks) {
+        const names = new Set();
+        tasks.forEach(task => {
+          if (Array.isArray(task.children)) task.children.forEach(child => {
+            if (DONE.has(normalizedStatus(child.status)) && child.title &&
+                /(?:RIDGE-1|XGB-[SM]|TCN-[SM]|MLPLOB-1|TLOB-1|TS2VEC-(?:LINEAR|LGB)-1|RIVER-1)$/.test(child.title)) names.add(String(child.title));
+          });
+          const metrics = task.metrics && typeof task.metrics === 'object' ? task.metrics : {};
+          Object.entries(metrics).forEach(([key, values]) => {
+            if (!/^completed.*(config|configuration)/i.test(key) || !Array.isArray(values)) return;
+            values.forEach(value => {
+              const name = typeof value === 'object' && value !== null ? (value.title || value.id || value.config) : value;
+              if (name !== null && name !== undefined) names.add(String(name));
+            });
+          });
+        });
+        $('config-count').textContent = String(names.size);
+        $('completed-configs').replaceChildren(...(names.size
+          ? [...names].map(name => element('span', 'chip', '✓ ' + name))
+          : [element('span', 'timestamp', '尚无已完成配置记录')]));
+        const completed = tasks.filter(task => DONE.has(normalizedStatus(task.status)));
+        $('history').hidden = completed.length === 0;
+        $('history-summary').textContent = '已完成任务 · ' + completed.length;
+        $('history-list').replaceChildren(...completed.map(task => {
+          const row = element('div', 'history-row');
+          row.append(element('span', '', task.title || task.id || '任务'), element('span', 'history-meta', elapsedText(task) + ' · 最后活动 ' + dateText(task.last_activity_at)));
+          return row;
+        }));
+      }
+      function render(value) {
+        clockNodes = [];
+        const tasks = value.tasks.filter(task => task && typeof task === 'object');
+        const current = tasks.filter(task => !DONE.has(normalizedStatus(task.status)));
+        const active = current.filter(task => !FAILED.has(normalizedStatus(task.status)));
+        $('active-count').textContent = active.length + ' 活动';
+        $('tasks').replaceChildren(...(current.length ? current.map(taskCard) : [element('div', 'empty', '当前没有活动任务')]));
+        renderResources(value.resources);
+        renderCompleted(tasks);
+        const errors = Array.isArray(value.errors) ? value.errors : [];
+        $('source-errors').hidden = errors.length === 0;
+        if (errors.length) {
+          const list = element('ul');
+          errors.forEach(error => list.append(element('li', '', typeof error === 'object' ? JSON.stringify(error) : error)));
+          $('source-errors').replaceChildren(element('p', '', '部分数据源有提示'), list);
+        }
+        updateClocks();
+      }
+      function updateClocks() {
+        const stale = isStale();
+        $('connection').className = 'connection-badge ' + (stale ? 'stale' : payload ? 'online' : '');
+        $('connection-text').textContent = stale ? '已过期 · 连接或数据异常' : payload ? '已连接' : '正在连接';
+        $('updated-at').textContent = payload ? '状态生成于 ' + dateText(payload.generated_at) : '等待首次更新';
+        const generated = timestamp(payload && payload.generated_at);
+        $('updated-age').textContent = generated === null ? '每 2 秒刷新 · 本地时间'
+          : '距状态生成 ' + durationText(Math.max(0, (Date.now() - generated) / 1000)) + ' · 本地时间';
+        $('stale-notice').hidden = !stale;
+        if (stale) $('stale-notice').textContent = (connectionError ? '连接中断：' + connectionError : '状态生成时间已过期。')
+          + (payload ? ' 以下保留最后一次有效数据，任务计数与已运行时长已停止更新。' : ' 尚未收到有效状态，正在重试。');
+        clockNodes.forEach(({ task, node }) => { node.textContent = elapsedText(task); });
+      }
+      async function poll() {
+        if (pending) return;
+        pending = true;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 6000);
+        try {
+          const response = await fetch('/api/status', { method: 'GET', cache: 'no-store', credentials: 'same-origin', signal: controller.signal });
+          if (!response.ok) throw new Error('服务返回 HTTP ' + response.status);
+          const next = await response.json();
+          if (!next || !Array.isArray(next.tasks)) throw new Error('状态格式无效');
+          payload = next;
+          lastSuccessAt = Date.now();
+          connectionError = '';
+          render(next);
+        } catch (error) {
+          connectionError = error.name === 'AbortError' ? '请求超时' : (error.message || '无法读取状态');
+          updateClocks();
+        } finally {
+          clearTimeout(timer);
+          pending = false;
+        }
+      }
+      $('refresh').addEventListener('click', poll);
+      poll();
+      setInterval(poll, 2000);
+      setInterval(updateClocks, 1000);
+    })();
+  </script>
+</body>
+</html>

@@ -1,5 +1,13 @@
 # 项目执行约束
 
+用户于2026-10-02明确新增本机实时任务进度窗口；这是旧“不增加dashboard”的窄例外，
+仅显示训练/测试/扫描任务进度，不扩市场、执行或资源观察器。新启动的长任务统一通过
+`scripts/with_task_progress.sh --title '任务名称' -- 原命令`（内部仍经bounded.sh）。
+先核对 `http://localhost:8765/api/status`；服务未运行时经bounded.sh启动
+`scripts/task_progress_window.py`，在Codex浏览器打开并保留 `http://localhost:8765/`。
+已有冻结/正在运行任务不注入或改源；实时轮次不可得时明确未知，只显示实际完成数、
+进程耗时和工件更新。未知扫描总量不造百分比；最近磁盘值必须显示实际扫描时刻。
+
 **当前最高优先级**：用户直接要求立即执行
 `OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`，登记
 `docs/OPEN_SOURCE_REUSE_OVERRIDE_v6.md`，当前长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`。
