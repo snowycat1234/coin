@@ -380,9 +380,7 @@
         $('history-summary').textContent = '已完成任务 · ' + completed.length;
         $('history-list').replaceChildren(...completed.map(task => {
           const row = element('div', 'history-row');
-          const progress = progressInfo(task);
-          const count = numeric(task.completed) === null && numeric(task.total) === null ? '' : progress.text + ' · ';
-          row.append(element('span', '', task.title || task.id || '任务'), element('span', 'history-meta', count + elapsedText(task) + ' · 最后活动 ' + dateText(task.last_activity_at)));
+          row.append(element('span', '', task.title || task.id || '任务'), element('span', 'history-meta', elapsedText(task) + ' · 最后活动 ' + dateText(task.last_activity_at)));
           return row;
         }));
       }

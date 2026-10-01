@@ -12,26 +12,6 @@ ROOT = Path("/mnt/d/codex/coin")
 STATE = Path("/home/xflops/coin-state/task-progress")
 
 
-def command_run_dir(command):
-    raw = None
-    for index, argument in enumerate(command):
-        if argument == "--run-dir":
-            if index + 1 == len(command):
-                raise ValueError("--run-dir requires a path")
-            raw = command[index + 1]
-        elif argument.startswith("--run-dir="):
-            raw = argument.split("=", 1)[1]
-    if raw is None:
-        return None
-    if not raw:
-        raise ValueError("--run-dir requires a path")
-    path = Path(raw)
-    path = (path if path.is_absolute() else ROOT / path).resolve()
-    if not (path.is_relative_to(ROOT.resolve()) or path.is_relative_to(STATE.parent.resolve())):
-        raise ValueError("Progress run directory must stay on D-hosted project storage")
-    return str(path)
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--title", required=True)
@@ -40,18 +20,12 @@ def main():
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if not command:
         parser.error("A command is required")
-    try:
-        run_dir = command_run_dir(command)
-    except ValueError as error:
-        parser.error(str(error))
     STATE.mkdir(exist_ok=True)
     identity = uuid.uuid4().hex
     target = STATE / f"task-{identity}.json"
     value = {"id": identity, "title": args.title, "status": "running",
              "started_at": time.time(), "phase": "启动", "completed": None,
              "total": None, "unit": "", "metrics": {}, "children": []}
-    if run_dir is not None:
-        value["run_dir"] = run_dir
 
     def publish():
         temporary = target.with_suffix(".tmp")

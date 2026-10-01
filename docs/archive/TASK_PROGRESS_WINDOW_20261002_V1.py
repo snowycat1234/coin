@@ -2,7 +2,6 @@
 from datetime import UTC, datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,8 +13,6 @@ STATE = Path("/home/xflops/coin-state")
 PROGRESS = STATE / "task-progress"
 IDS = ("RIDGE-1", "XGB-S", "XGB-M", "TCN-S", "TCN-M", "MLPLOB-1", "TLOB-1",
        "TS2VEC-LINEAR-1", "TS2VEC-LGB-1", "RIVER-1")
-FR69_POLICY = "FR69_STATIC_RIDGE_CONTINUOUS_RIVER_WEEKLY_XGB_FIXED_INITIAL_EXTERNAL_SCALERS_V1"
-FR69_IDS = ("RIDGE-1", "XGB-S", "RIVER-1")
 CACHE = {}
 SNAPSHOT = {}
 KNOWN = {}
@@ -71,94 +68,6 @@ def processes():
 
 def option(arguments, name):
     return arguments[arguments.index(name) + 1] if name in arguments else None
-
-
-def registered_run_dir(task):
-    raw = task.get("run_dir")
-    if raw is None:
-        # A separate link lets an exited V1 task retain its original receipt bytes.
-        link = safe_path(PROGRESS / f"run-link-{task['id']}.json")
-        if link.is_file():
-            value = read_json(link)
-            if value.get("task_id") != task["id"]:
-                raise ValueError("Progress run link has a different task identity")
-            raw = value["run_dir"]
-    return safe_path(raw) if raw is not None else None
-
-
-def receipt_sha256(path):
-    with path.open("rb") as source:
-        content = source.read(2_000_001)
-    if len(content) > 2_000_000:
-        raise ValueError("Progress receipt exceeds 2MB")
-    return hashlib.sha256(content).hexdigest()
-
-
-def fr69_progress(task, run, process):
-    binding_path = safe_path(run / "RUN_BINDING.json")
-    if not binding_path.is_file():
-        return False
-    binding = read_json(binding_path)
-    if binding.get("policy") != FR69_POLICY:
-        return False
-    configs = binding.get("configs")
-    if not isinstance(configs, dict) or set(configs) != set(FR69_IDS):
-        raise ValueError("FR69 progress requires its three fixed bound configurations")
-    binding_sha = hashlib.sha256(json.dumps(binding, sort_keys=True, separators=(",", ":"),
-                                           allow_nan=False).encode()).hexdigest()
-    sample_sha = binding.get("sample_ids_sha256")
-    if not isinstance(sample_sha, str) or len(sample_sha) != 64:
-        raise ValueError("FR69 progress requires bound sample identities")
-    task.update(completed=0, total=len(configs), unit="配置", children=[])
-    task["metrics"] = dict(task.get("metrics", {}))
-    task["last_activity_at"] = max(task.get("last_activity_at", 0), binding_path.stat().st_mtime)
-    receipt_hashes, problems = {}, []
-    for model in FR69_IDS:
-        receipt = safe_path(run / model / "COMPLETE.json")
-        complete = False
-        if receipt.is_file():
-            value = read_json(receipt)
-            complete = (value.get("status") == "COMPLETE_CONTINUOUS_REPLAY"
-                        and value.get("config") == model
-                        and value.get("binding_sha256") == binding_sha
-                        and value.get("sample_ids_sha256") == sample_sha)
-            if complete:
-                receipt_hashes[model] = receipt_sha256(receipt)
-                task["last_activity_at"] = max(task["last_activity_at"], receipt.stat().st_mtime)
-            else:
-                problems.append(model + " 完成凭证与来源绑定不一致")
-        task["completed"] += int(complete)
-        task["children"].append({"title": model, "status": "completed" if complete else "pending"})
-    final_path = safe_path(run / "CONTINUOUS_REPLAY_COMPLETE.json")
-    final_valid = False
-    if final_path.is_file():
-        final = read_json(final_path)
-        final_valid = (final.get("status") == "FR69_CONTINUOUS_REPLAY_COMPLETE"
-                       and final.get("binding_sha256") == binding_sha
-                       and task["completed"] == task["total"]
-                       and final.get("completion_receipt_sha256") == receipt_hashes)
-        if final_valid:
-            task["last_activity_at"] = max(task["last_activity_at"], final_path.stat().st_mtime)
-        else:
-            problems.append("总完成凭证与来源 / 模型凭证不一致")
-    detail = "仅计数绑定一致的模型工件；3/3 仍待根侧验收"
-    if not final_path.is_file():
-        detail += "；总完成凭证尚未发布"
-    if problems:
-        detail += "；" + "；".join(problems)
-    exit_code = task.get("exit_code")
-    if exit_code is not None:
-        detail += f"；实际退出码：{exit_code}"
-    if task.get("status") == "failed" or (exit_code is not None and exit_code != 0):
-        task.update(status="failed", phase="任务失败，已发布工件另行核验")
-    elif task.get("status") == "completed" and exit_code == 0 and final_valid and not problems:
-        task.update(status="completed", phase="三项模型工件与总凭证已发布，待根侧验收")
-    elif process and not problems:
-        task.update(status="running", phase="FR69 连续回放 / 模型工件发布")
-    else:
-        task.update(status="unconfirmed", phase="模型工件 / 结束记录待核验")
-    task["detail"] = detail
-    return True
 
 
 def live_detail(process, phase="运行中"):
@@ -314,24 +223,12 @@ def build_snapshot():
         for path in sorted(PROGRESS.glob("task-*.json"), key=lambda p: p.stat().st_mtime, reverse=True)[:32]:
             try:
                 task = dict(read_json(path))
-                process = inventory.get(task.get("pid"))
-                if process and process["start_ticks"] != task.get("start_ticks"):
-                    process = None
-                run = registered_run_dir(task)
-                artifact_progress = run is not None and fr69_progress(task, run, process)
                 children = [s for s in samples.values() if s.get("task_id") == task["id"]]
                 if task["status"] == "running" and children:
                     sample = max(children, key=lambda s: s["updated_at"])
-                    if artifact_progress:
-                        task["phase"] = "FR69 · " + sample["phase"]
-                        task["metrics"].update(sample.get("metrics", {}))
-                        if sample.get("total") is not None:
-                            task["metrics"]["当前阶段进度"] = (
-                                f"{sample['completed']} / {sample['total']} {sample['unit']}")
-                        task["last_activity_at"] = max(task["last_activity_at"], sample["updated_at"])
-                    else:
-                        task.update({k: sample[k] for k in ("phase", "completed", "total", "unit", "metrics")})
-                        task.update(detail=sample.get("detail", ""), last_activity_at=sample["updated_at"])
+                    task.update({k: sample[k] for k in ("phase", "completed", "total", "unit", "metrics")})
+                    task.update(detail=sample.get("detail", ""), last_activity_at=sample["updated_at"])
+                process = inventory.get(task.get("pid"))
                 if task["status"] == "running" and (not process or process["start_ticks"] != task.get("start_ticks")):
                     task.update(status="unconfirmed", phase="进程已退出，结束记录待核验")
                 tasks.append(task)
