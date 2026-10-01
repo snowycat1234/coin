@@ -1,0 +1,136 @@
+{
+  "module": "A07_RAW_RETENTION_METADATA_QA",
+  "created_utc": "2026-10-01T10:21:07.864112+00:00",
+  "status": "RAW_RETENTION_METADATA_OBSERVATION_COMPLETE",
+  "read_only": true,
+  "helper_sha256": "fac11d7b586ffe6ab95dcd49a31692c0c5164f186c3fb73fdd9b5879ef680ffc",
+  "source_hashes": {
+    "reports/A07_MICROSTRUCTURE_ACCEPTANCE.json": "d0acb843b0f616e777ddeb698245a2e5d5cf10b03a0baf1718b295094f894517",
+    "src/quant/microstructure.py": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+    "src/quant/microstructure_acceptance.py": "0f62cc7cac7a30fe6c05d45cdc4f3a97f8a27384f7e1d8b80f2ca905fd154a48",
+    "tests/test_microstructure.py": "79df5ce937898f1b0b4cf0a43bb9c99ee2be956d1812fd315165e01d9f0c3c23",
+    "docs/MODULE_A07_MICROSTRUCTURE.md": "56122b0e7e6e374259fdfdba88936cc391c165abab30ce855fff16c32ba4ec7b"
+  },
+  "source_snapshot": {
+    "binding": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "mode": "live",
+      "store": "/mnt/d/codex/coin/data/microstructure_v1",
+      "version": "microstructure_l1_v1"
+    },
+    "checkpoint": {
+      "asof_us": 1790850070024694,
+      "session": "4c51dc675f364596a22237be2397abea",
+      "connected": true,
+      "accepted_events": 938086,
+      "duplicate_events": 0,
+      "rejected_events": 0,
+      "observed_monotonic_seconds": 5602.598670799001
+    },
+    "checkpoint_observation_lag_seconds": 0.522698,
+    "checkpoint_fresh_at_snapshot": true,
+    "audit_head_seq": 411,
+    "audit_head_sha256": "9086b527debb83e0a7c7558d3fc6fd58f42bfc5296628adbab19735da4eceb8f",
+    "sql_read_seconds": 0.005745392001699656,
+    "sql_released_before_inventory": true,
+    "raw_pruned_lifetime_summary": {
+      "records": 0,
+      "files": 0,
+      "bytes": 0,
+      "oldest_named_received_us": null,
+      "latest_named_received_us": null
+    },
+    "audit_chain_verified_here": false,
+    "audit_policy": "snapshot metadata only; full frozen quality audit remains required"
+  },
+  "inventory": {
+    "status": "COMPLETE_NONATOMIC_METADATA_SCAN",
+    "reason": null,
+    "scan_started_utc": "2026-10-01T10:21:10.553901+00:00",
+    "scan_finished_utc": "2026-10-01T10:21:15.432293+00:00",
+    "scan_seconds": 4.878395129002456,
+    "entry_budget": 20000,
+    "scan_budget_seconds": 10,
+    "entries_seen": 909,
+    "sampled_files": 909,
+    "sampled_bytes": 139990681,
+    "partial_known_files_not_a_complete_sample": null,
+    "partial_known_bytes_not_a_complete_sample": null,
+    "concurrent_retired_or_missing_entries": 0,
+    "earliest_observed_named_shard": {
+      "name": "raw-1790794574840109-9e001a68.jsonl.gz",
+      "named_received_us": 1790794574840109,
+      "sampled_size_bytes": 132730
+    },
+    "latest_observed_named_shard": {
+      "name": "raw-1790850062363525-27814fc1.jsonl.gz",
+      "named_received_us": 1790850062363525,
+      "sampled_size_bytes": 68212
+    },
+    "oldest_named_start_age_seconds_at_scan_end": 55500.592184,
+    "newest_named_start_age_seconds_at_scan_end": 13.068768,
+    "age_envelope_observation": "WITHIN_24H_NAMED_START_ENVELOPE_OBSERVED",
+    "raw_byte_cap_observation": "WITHIN_4GB_SAMPLED_METADATA",
+    "enumeration_order_metadata_sha256": "b1c84697e9fd577ef6f46b85163a07c04e234a44080fb356f5fe5f08ff674033",
+    "atomic_snapshot": false,
+    "exact_unsampled_peak_known": false,
+    "gzip_closure_checked": false,
+    "raw_event_completeness_certified": false,
+    "pending_unsealed_tail": "unknown; latest named shard may be open; no gzip reads",
+    "named_time_basis": "accepted collector shard-start received_us in filename; not mtime, exchange time, latest record or content verification"
+  },
+  "network_requests": 0,
+  "collector_writes": 0,
+  "collector_restarts": 0,
+  "alpha_eligible": false,
+  "training_authorized": false,
+  "actual_24h_capacity_accepted": false,
+  "actual_24h_quality_accepted": false,
+  "actual_14d_accepted": false,
+  "actual_30d_accepted": false,
+  "healthy_time_credit_seconds": 0,
+  "contract": {
+    "raw_cap_bytes": 4000000000,
+    "raw_retention_seconds": 86400,
+    "shard_rotation": "on append when prior shard age>=60s or uncompressed>=4MB",
+    "purge_cadence": "startup; each append via prune_for_reserve; flush after advance to a new second (also recv timeout near1s)",
+    "purge_predicate": "named shard start < current receipt/advance time -24h; closed oldest shards also removed for reserved byte cap",
+    "cadence_limit": "no kernel timer or guaranteed instantaneous wall-clock TTL; IO, stalls, stopped process and scan races can delay it",
+    "pruning_audit": "RAW_PRUNED aggregate count/bytes/oldest/latest starts; not a retired filename ledger or receipt integrity proof"
+  },
+  "limitations": "Single non-atomic metadata observation; no exact peak, raw content integrity, gzip closure, health, duration or alpha qualification. 4GB raw comparison does not certify native SQLite/WAL/SHM growth, 180d features or total project+entire VHD budget.",
+  "resource_guards": {
+    "aggregate_ram": {
+      "status": "OBSERVED",
+      "value": {
+        "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+        "ram_limit_bytes": 4999999488,
+        "ram_current_bytes": 161239040,
+        "ram_peak_bytes": 2083442688,
+        "swap_bytes": 0,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "gpu_used": false
+      }
+    },
+    "whole_project_and_vhd": {
+      "status": "OBSERVED",
+      "value": {
+        "project_bytes": 2888951976,
+        "wsl_vhd_bytes": 6167724032,
+        "total_bytes": 9056676008,
+        "reserved_bytes": 2000000,
+        "d_free_bytes": 373139226624,
+        "status": "OK",
+        "hard_limit_bytes": 40000000000
+      }
+    }
+  },
+  "global_resource_constraints_accepted": false,
+  "guard_boundary": "RuntimeError from RAM or whole-disk guard is not evidence of raw expiry/cap failure; inspect that independent named guard. Native files already belong to entire VHD; do not add them twice."
+}
