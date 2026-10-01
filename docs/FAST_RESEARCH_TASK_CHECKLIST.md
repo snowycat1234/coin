@@ -19,20 +19,20 @@
 - [x] 09 ZIP/.CHECKSUM实际SHA256核验
 - [x] 10 薄转换器产生固定5s schema；V1现货已验收，永续修正另建v2
 - [x] 11 真实一天download→checksum→convert→raw删除→manifest验收
-- [ ] 12 BTC/ETH×Spot/Perp四路完整UTC日对齐
+- [x] 12 BTC/ETH×Spot/Perp四路完整UTC日对齐
 - [ ] 13 >=180实际历史完整日，无缺日期静默忽略
 - [ ] 14 历史长期特征≤8GB，整个项目/VHD与新增增长复核
 
 ## FR64 唯一科研数据与评价合同
 
-- [ ] 15 Parquet streaming/row-group dataset，无巨大窗口materialization
-- [ ] 16 所有adapter共用sample IDs/tensor/labels
-- [ ] 17 过去256×5s输入，严格可得时间与缺口排除
-- [ ] 18 两primary/two auxiliary因果标签与成熟时间
-- [ ] 19 固定chronological folds、5m embargo、train-only normalization
-- [ ] 20 trade-based return proxy来源、spread假设和费用滑点明确
+- [x] 15 Parquet streaming/row-group dataset，无巨大窗口materialization
+- [x] 16 所有adapter共用sample IDs/tensor/labels（工程接口；实际完整模型比较仍待各模型运行）
+- [x] 17 过去256×5s输入，严格可得时间与缺口排除
+- [x] 18 两primary/two auxiliary因果标签与成熟时间
+- [x] 19 固定chronological folds、5m embargo、train-only normalization
+- [x] 20 trade-based return proxy来源、spread假设和费用滑点明确
 - [ ] 21 所有模型共用预测与经济评价
-- [ ] 22 固定10configs/1seed，无新搜索或locked消费
+- [x] 22 固定10configs/1seed，无新搜索或locked消费
 
 ## FR65/66/67/68/69 模型复用与运行
 
@@ -63,8 +63,12 @@
 FR61已登记8个官方项目、固定commit及许可证；凭证
 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
-当前12/40项有阶段证据；第10项仅记录已验收V1现货工程，不代表四路共同合同通过。
+当前20/40项有阶段证据；四路两日工程合同已通过，不代表180天和正式模型研究完成。
 FR62根侧凭证：`reports/fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
 FR63首日实际失败已保存，完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
-也不会将这些跳号静默删除。公共数据合同待新的聚合成交计数版本及四路实测。
+也不会将这些跳号静默删除。V2四路两日已通过，原失败凭证原样保留。
 FR66/FR67根侧工程验收已闭合，共同最终16项通过；尚无市场训练或预测结论。
+FR63/FR64真实8档/22,096,957B/2,355共同样本已独立验收；24个标签手工回算通过。
+共同缓存复用原源码，3项测试通过；24样本输入/八标签/ID/价格/时间精确相同，
+仅原始净USDT流量QA允许1e-6绝对或1e-12相对浮点差。暖访问实测快10.47倍。
+180历史日批次已启动；Ridge/XGB-S/XGB-M同一短段工程smoke运行中，不授正式研究资格。

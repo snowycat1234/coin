@@ -3,7 +3,8 @@
 ## 当前最高优先级：用户直接指定v6
 
 原附件SHA bc650cda80b6f6478a3bd81f28d0971dfe8183a72e330a443e8b1c741290b86a。
-FR61官方来源登记、FR62官方历史数据薄包装、FR64唯一科研数据合同并行。
+FR61/FR62/FR66/FR67已验收推送；FR63/FR64四路两日与公共缓存已验收，正在提交。
+当前180历史日批次与Ridge/XGB短段接线实测并行；TS2Vec官方最小原始核心已取得，尚未适配。
 新execution/Testnet/mainnet/resource-observer工程冻结，A11新采集/观察未启动。
 已有A09/A10验收保留，旧STOP_v2/holdout/source不改；第一轮10configs/1seed。
 详见`OPEN_SOURCE_REUSE_OVERRIDE_v6.md`与`FAST_RESEARCH_TASK_CHECKLIST.md`。
@@ -37,6 +38,16 @@ FR62已远程核对`f54a28ae52ca14a019e0eb4ab660e2c22c362404`；按完成模块�
 原24h资源窗口终报为FAILED_RESOURCE_WINDOW_NOT_ACCEPTED，实收3h45m区段保留，
 不拼接时间、不授24h资格，不重启观察器。10份日志/窗口与闭合SQLite备份已保存，
 凭证`V6_EXISTING_COLLECTOR_STOP_PRESERVATION_20261001.json`；原启动器恢复旧公开采集。
+
+FR63/FR64实际两日验收闭合：四路8档、22,096,957字节、各17,280桶、跨日范围/聚合
+边界与8份实际Parquet/manifest SHA一致，raw均删除；2,355共同端点，24样本标签独立回算。
+公共缓存3项/22.62秒通过，实际24样本输入/float32标签/ID/价格/时间bit exact；
+QA raw净USDT流量有约1e-9浮点累加差，初次严格dict等值失败保存，首个Ridge短smoke
+拟合后测试矩阵访问被主动中止，未保存预测或发布结果。修正只允许raw流量QA <=1e-6
+USDT绝对或1e-12相对误差；V2复核通过，reference13.72s/cold11.21s/warm1.31s，快10.47倍。
+原dataset/labels/folds/scaler源码不变，所有模型使用同一缓存，根清单20/40。
+180历史日批次正在运行（不是候选180天真实观察），三基线独立V2短段smoke启动。
+FR66/FR67分别远程核对为`fbcb152a`/`9236dddc`；总代码未完成/模型正式结论仍待。
 
 此前已完成A10收尾：正式凭证`reports/A10_MICRO_FEATURES_V2_ACCEPTANCE_20261001.json`，
 46项专项/Ruff通过，36行实际闭合v2数据的batch/incremental/JSON恢复逐元素一致。
