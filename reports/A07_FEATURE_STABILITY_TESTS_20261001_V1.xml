@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="9" time="56.411" timestamp="2026-10-01T07:58:28.027249+00:00" hostname="xflops"><testcase classname="tests.test_microstructure_feature_stability" name="test_welford_nulls_zero_and_population_std_have_correct_denominators" time="0.001" /><testcase classname="tests.test_microstructure_feature_stability" name="test_nonfinite_or_non_numeric_values_are_refused[nan]" time="0.000" /><testcase classname="tests.test_microstructure_feature_stability" name="test_nonfinite_or_non_numeric_values_are_refused[inf]" time="0.000" /><testcase classname="tests.test_microstructure_feature_stability" name="test_nonfinite_or_non_numeric_values_are_refused[1.0]" time="0.000" /><testcase classname="tests.test_microstructure_feature_stability" name="test_nonfinite_or_non_numeric_values_are_refused[True]" time="0.000" /><testcase classname="tests.test_microstructure_feature_stability" name="test_descriptive_pairing_matches_frozen_exclusion_and_keeps_hour_boundaries" time="0.001" /><testcase classname="tests.test_microstructure_feature_stability" name="test_numeric_ranges_report_alerts_without_censoring_values_or_conferring_alpha" time="0.000" /><testcase classname="tests.test_microstructure_feature_stability" name="test_real_collector_format_readonly_integrity_pairs_and_nullable_statistics" time="3.360"><failure message="AttributeError: 'str' object has no attribute 'open'">def test_real_collector_format_readonly_integrity_pairs_and_nullable_statistics():
+        with tempfile.TemporaryDirectory(prefix="a07-stability-", dir=STATE) as native:
+            with tempfile.TemporaryDirectory(prefix="a07-stability-", dir=ROOT / ".cache/tmp") as data:
+                database, store = Path(native) / "source.sqlite3", Path(data)
+                writer = MicrostructureCollector(
+                    MicrostructureConfig(db_path=database, store=store, mode="engineering"),
+                    disk_check=lambda **_: {"status": "OK"},
+                )
+                begin = qa.FUTURE_START
+                writer.set_connected(True, received_us=begin)
+                for second in range(120):
+                    for symbol in qa.SYMBOLS:
+                        writer.ingest({"s": symbol, "u": second + 1, "b": "100", "a": "102",
+                                       "B": "10", "A": "20"},
+                                      received_us=begin + second * qa.SECOND + 100)
+                writer.advance(begin + 120 * qa.SECOND)
+                writer.close()
+                sources = (database, *store.rglob("*.parquet"))
+                before = {path: qa.digest(path) for path in sources}
+                original = qa.CommonSeconds
+&gt;               result = analysis.diagnose(database, store, now_us=begin + 121 * qa.SECOND)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_microstructure_feature_stability.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/audit_microstructure_feature_stability.py:168: in diagnose
+    "scripts/audit_microstructure_quality.py": qa.digest(SPEC.origin),
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/mnt/d/codex/coin/scripts/audit_microstructure_quality.py', limit = None
+
+    def digest(path: Path, limit: int | None = None) -&gt; str:
+        value, read = hashlib.sha256(), 0
+&gt;       with path.open("rb") as stream:
+             ^^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'open'
+
+scripts/audit_microstructure_quality.py:175: AttributeError</failure></testcase><testcase classname="tests.test_microstructure_feature_stability" name="test_frozen_auditor_failure_discards_partial_observations_and_restores_consumer" time="0.257"><failure message="AttributeError: 'str' object has no attribute 'open'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-56/test_frozen_auditor_failure_di0')
+
+    def test_frozen_auditor_failure_discards_partial_observations_and_restores_consumer(tmp_path):
+        original = qa.CommonSeconds
+&gt;       result = analysis.diagnose(STATE / "absent-stability.sqlite3", ROOT / ".cache/absent-store")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_microstructure_feature_stability.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/audit_microstructure_feature_stability.py:168: in diagnose
+    "scripts/audit_microstructure_quality.py": qa.digest(SPEC.origin),
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/mnt/d/codex/coin/scripts/audit_microstructure_quality.py', limit = None
+
+    def digest(path: Path, limit: int | None = None) -&gt; str:
+        value, read = hashlib.sha256(), 0
+&gt;       with path.open("rb") as stream:
+             ^^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'open'
+
+scripts/audit_microstructure_quality.py:175: AttributeError</failure></testcase></testsuite></testsuites>

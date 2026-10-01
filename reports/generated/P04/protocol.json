@@ -1,0 +1,98 @@
+{
+  "version": "logistic_v1",
+  "registered_at": "2026-09-30",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "research_start": "2022-01-01",
+  "holdout_start": "2026-03-01",
+  "holdout_end": "2026-09-01",
+  "train_months": 24,
+  "validation_months": 3,
+  "test_months": 3,
+  "stride_months": 3,
+  "embargo_bars": 1,
+  "label_horizon_minutes": 240,
+  "label_cost_bps_per_side": 15,
+  "feature_names": [
+    "log_return_1",
+    "log_return_4",
+    "log_return_16",
+    "volatility_24",
+    "volatility_96",
+    "volume_z96",
+    "range_fraction",
+    "body_fraction",
+    "ema_gap",
+    "taker_fraction"
+  ],
+  "configurations": [
+    {
+      "id": "L15_C01",
+      "interval": "15m",
+      "C": 0.1,
+      "threshold": 0.55
+    },
+    {
+      "id": "L15_C1",
+      "interval": "15m",
+      "C": 1.0,
+      "threshold": 0.55
+    },
+    {
+      "id": "L60_C01",
+      "interval": "1h",
+      "C": 0.1,
+      "threshold": 0.55
+    },
+    {
+      "id": "L60_C1",
+      "interval": "1h",
+      "C": 1.0,
+      "threshold": 0.55
+    }
+  ],
+  "validation_selection": "highest_net_sharpe_then_lower_C",
+  "fit_policy": "training_only_no_refit_on_validation",
+  "fold_boundary_policy": "candidate_and_B2_flat_at_test_end_minus_1h_and_test_start",
+  "test_tail_policy": "purge_4h_labels_stop_new_predictions_then_flat_at_shared_boundary",
+  "minimum_training_rows": 1000,
+  "max_configurations": 5,
+  "primary_baseline": "B2",
+  "baseline_interval": "1h",
+  "baseline_parameters": {
+    "ema_fast": 20,
+    "ema_slow": 100
+  },
+  "risk": {
+    "single_asset_max": 0.3,
+    "gross_max": 0.6,
+    "annual_vol_target": 0.1
+  },
+  "cost_scenarios": [
+    "base",
+    "fee_x2",
+    "slippage_x2"
+  ],
+  "gates": {
+    "positive_net_return": true,
+    "minimum_sharpe": 0.8,
+    "maximum_drawdown": 0.15,
+    "minimum_round_trips": 30,
+    "maximum_quarter_profit_fraction": 0.7,
+    "exceed_B2": true,
+    "nonnegative_cost_stress": true
+  },
+  "final_selection_priority": [
+    "1h",
+    "15m"
+  ],
+  "holdout_access": "root_authorization_for_one_frozen_strategy_once",
+  "bootstrap": {
+    "block_days": 7,
+    "replicates": 2000,
+    "seed": 20260930
+  },
+  "lightgbm": "disabled_until_logistic_exceeds_B2_and_new_protocol_registered"
+}

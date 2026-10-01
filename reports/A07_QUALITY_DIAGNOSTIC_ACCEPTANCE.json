@@ -1,0 +1,77 @@
+{
+  "module": "A07_QUALITY_DIAGNOSIS",
+  "status": "DATA_QUALITY_DIAGNOSTIC_ENGINEERING_PASS",
+  "created_utc": "2026-10-01T03:06:46.5155127+00:00",
+  "source_hashes": {
+    "scripts/audit_microstructure_quality.py": "c3eb7743727a03b0afa2651d7c5484e0930c8d3550a6aa3c5e6f2f74833fa504",
+    "tests/test_microstructure_quality_audit.py": "b6b728458f9cb4649d0a9fb410cc84d3c453f68b942c9ac02652c4d10301dbd8",
+    "docs/MODULE_A07_QUALITY_AUDIT.md": "5a3f21b91f0c619beee6ceb3c8b6ad0914aa22f6086cf38a50f7796ff97ffaae"
+  },
+  "tests": {
+    "cases": 26,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 60.774,
+    "xml": "reports/A07_QUALITY_ENGINEERING_ACCEPTED.xml",
+    "sha256": "d9c6f3b88921dafd2c0f975be2c32e3255202f8f94bc7de22c15b6c74339aa2f",
+    "ruff": "PASS"
+  },
+  "actual_report": {
+    "path": "reports/generated/A07_QUALITY_20261001_FINAL_V2.json",
+    "sha256": "7ba3875983842c1f873413c78e1cd24aa47691e2bc895906bd7c3b83c2c5cc16",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "integrity": "PASS",
+    "asof_us": 1790823768328610,
+    "manifest_files": 184,
+    "rows": 68398,
+    "feature_bytes": 8786680,
+    "read_transaction_seconds": 0.019620871997176437,
+    "matched_usable_seconds": 27009,
+    "future_matched_usable_seconds": 10449,
+    "actual_24h_capacity_accepted": false,
+    "actual_24h_quality_accepted": false,
+    "evidence_stage": "QA_ONLY"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 204898304,
+    "ram_peak_bytes": 2083442688,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "disk": {
+    "project_bytes": 2599806782,
+    "wsl_vhd_bytes": 5731516416,
+    "total_bytes": 8331323198,
+    "reserved_bytes": 10000000,
+    "d_free_bytes": 374010970112,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000
+  },
+  "fixed_findings": [
+    "Release SQLite snapshot before decoding immutable files.",
+    "Exact BTC/ETH usable 1s intersection and audit uncertainty exclusion; no blank-bucket data age.",
+    "No full-day zero-defect requirement for data-review age and no invented quality percentage.",
+    "Validate unique columns and fixed Arrow dtypes before decode.",
+    "Retrospectively exclude the entire recorded trade ID gap interval.",
+    "Attribute cross-day bytes explicitly and report whole-file upper bounds.",
+    "200000-file ceiling plus 32MB metadata and bounded decoded rows.",
+    "Explicit clock/source fixture provenance and exclusive new-only reports."
+  ],
+  "review_scope": "Independent read-only findings were supplied by research agent; primary repaired and verified them. No separate final independent acceptance is claimed.",
+  "old_study_unchanged": true,
+  "public_collector_sources_unchanged": true,
+  "live_collector_source_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+  "training_authorized": false,
+  "alpha_eligible": false,
+  "orders_sent": 0,
+  "actual_calendar_qualification": false,
+  "limitations": [
+    "Engineering acceptance is independent from the real 24h/14d/30d data gates.",
+    "The actual report remains insufficient evidence; no healthy days or trading candidate is certified.",
+    "Raw ring retirement and native auxiliary growth are not a storage guarantee.",
+    "Prior intermediate diagnostic reports are preserved and not the frozen accepted release."
+  ]
+}

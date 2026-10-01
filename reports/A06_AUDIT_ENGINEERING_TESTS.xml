@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="19" time="23.424" timestamp="2026-09-30T20:12:00.807227+00:00" hostname="xflops"><testcase classname="tests.test_nonlinear_audit_v2" name="test_synthetic_financial_cycle_and_costs_are_independently_reconciled" time="0.188"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_synthetic_financial_cycle0')
+
+    def test_synthetic_financial_cycle_and_costs_are_independently_reconciled(tmp_path):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d82c640&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_financial_tampering_is_rejected_even_if_json_claims_match[fees]" time="0.067"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_financial_tampering_is_re0')
+mutation = 'fees'
+
+    @pytest.mark.parametrize("mutation", ["fees", "cycle", "future_capacity", "unfilled", "days"])
+    def test_financial_tampering_is_rejected_even_if_json_claims_match(tmp_path, mutation):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d8566e0&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_financial_tampering_is_rejected_even_if_json_claims_match[cycle]" time="0.058"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_financial_tampering_is_re1')
+mutation = 'cycle'
+
+    @pytest.mark.parametrize("mutation", ["fees", "cycle", "future_capacity", "unfilled", "days"])
+    def test_financial_tampering_is_rejected_even_if_json_claims_match(tmp_path, mutation):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d8572e0&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_financial_tampering_is_rejected_even_if_json_claims_match[future_capacity]" time="0.058"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_financial_tampering_is_re2')
+mutation = 'future_capacity'
+
+    @pytest.mark.parametrize("mutation", ["fees", "cycle", "future_capacity", "unfilled", "days"])
+    def test_financial_tampering_is_rejected_even_if_json_claims_match(tmp_path, mutation):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d857f40&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_financial_tampering_is_rejected_even_if_json_claims_match[unfilled]" time="0.061"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_financial_tampering_is_re3')
+mutation = 'unfilled'
+
+    @pytest.mark.parametrize("mutation", ["fees", "cycle", "future_capacity", "unfilled", "days"])
+    def test_financial_tampering_is_rejected_even_if_json_claims_match(tmp_path, mutation):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d877a60&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_financial_tampering_is_rejected_even_if_json_claims_match[days]" time="0.040"><failure message="KeyError: 'execution_cost'">tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-44/test_financial_tampering_is_re4')
+mutation = 'days'
+
+    @pytest.mark.parametrize("mutation", ["fees", "cycle", "future_capacity", "unfilled", "days"])
+    def test_financial_tampering_is_rejected_even_if_json_claims_match(tmp_path, mutation):
+&gt;       summary, prices = financial_fixture(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_nonlinear_audit_v2.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_nonlinear_audit_v2.py:131: in financial_fixture
+    "execution_costs": sum(item["execution_cost"] for item in daily),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7e821d876aa0&gt;
+
+&gt;       "execution_costs": sum(item["execution_cost"] for item in daily),
+                               ^^^^^^^^^^^^^^^^^^^^^^
+        "turnover": sum(item["turnover"] for item in daily),
+        "trade_count": 2,
+        "round_trip_count": 1,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": True,
+        "gross_pnl_before_costs": 5.0,
+        "start_utc": "2024-01-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": ExecutionContractV2().digest(),
+        "canonical_latency": True,
+        "open_positions": {"BTCUSDT": 0.0},
+    }
+E   KeyError: 'execution_cost'
+
+tests/test_nonlinear_audit_v2.py:131: KeyError</failure></testcase><testcase classname="tests.test_nonlinear_audit_v2" name="test_failed_metrics_stop_without_final_fit_and_false_gate_claim_is_rejected" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_actual_cycle_minimum_and_missing_stress_cannot_be_waived" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_unique_winner_uses_sharpe_then_fees_then_id_and_not_boolean_claim" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_artifact_hashes_or_path_escape_and_orphan_outputs_are_rejected" time="0.501" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_duplicate_json_and_nonfinite_values_fail_closed" time="0.105" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_fixed_54_commits_and_purge_calendar_cannot_be_shortened_or_duplicated" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_exact_label_embargo_boundary_is_excluded" time="0.004" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_resource_snapshot_is_not_accepted_without_real_limits_and_continuity[oom]" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_resource_snapshot_is_not_accepted_without_real_limits_and_continuity[ram]" time="0.000" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_resource_snapshot_is_not_accepted_without_real_limits_and_continuity[swap]" time="0.000" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_resource_snapshot_is_not_accepted_without_real_limits_and_continuity[disk]" time="0.000" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_resource_snapshot_is_not_accepted_without_real_limits_and_continuity[missing_start]" time="0.001" /><testcase classname="tests.test_nonlinear_audit_v2" name="test_actual_audit_refuses_synthetic_root_before_any_data_or_acceptance_write" time="0.659" /></testsuite></testsuites>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="15" time="262.379" timestamp="2026-10-01T03:46:57.468087+00:00" hostname="xflops"><testcase classname="tests.test_candidate_paper" name="test_incremental_features_match_research_and_future_never_changes_past[15m]" time="0.119" /><testcase classname="tests.test_candidate_paper" name="test_incremental_features_match_research_and_future_never_changes_past[1h]" time="0.013" /><testcase classname="tests.test_candidate_paper" name="test_mock_WS_to_features_four_cost_accounts_and_P06_still_zero_real_days" time="30.101" /><testcase classname="tests.test_candidate_paper" name="test_duplicate_future_and_frozen_change_recovery_contract" time="1.363" /><testcase classname="tests.test_candidate_paper" name="test_restart_cannot_create_healthy_credit" time="0.944" /><testcase classname="tests.test_candidate_paper" name="test_missing_raw_V_freezes_bridge_without_feature_default" time="0.535" /><testcase classname="tests.test_candidate_paper" name="test_actual_STOP_pipeline_rejects_before_model_or_source_creation" time="0.230" /><testcase classname="tests.test_candidate_paper" name="test_engineering_model_cannot_enter_live_and_nan_rejected" time="0.119" /><testcase classname="tests.test_candidate_paper" name="test_deferred_start_requires_fresh_dual_quotes_and_real_qualification_snapshot" time="0.753" /><testcase classname="tests.test_candidate_paper" name="test_runtime_model_change_is_denied_before_new_record" time="0.340" /><testcase classname="tests.test_candidate_paper" name="test_source_single_writer_lock_is_released_by_idempotent_close" time="0.073" /><testcase classname="tests.test_candidate_paper" name="test_wrong_distro_and_protected_source_refuse_before_creation" time="0.102" /><testcase classname="tests.test_candidate_paper" name="test_compact_checkpoint_recovery_replays_only_features_and_keeps_exact_pending[15m]" time="15.873" /><testcase classname="tests.test_candidate_paper" name="test_compact_checkpoint_recovery_replays_only_features_and_keeps_exact_pending[1h]" time="106.425" /><testcase classname="tests.test_candidate_paper" name="test_raw_quote_burst_is_bounded_but_both_closed_bars_and_next_decision_tick_survive" time="0.334"><failure message="KeyError: 'received_us'">feed = PosixPath('/home/xflops/coin-state/candidate-engineering-bbwekfe2')
+
+    def test_raw_quote_burst_is_bounded_but_both_closed_bars_and_next_decision_tick_survive(feed):
+        obj = engine(feed)
+        calls = []
+        obj.ingest_tick = lambda tick: calls.append((tick["kind"], tick["received_ms"]))
+        collector = CandidateCollector(feed / "source.sqlite3", candidate=obj, disk_check=guard)
+        collector.health_snapshot = lambda at: health(at)
+        for index in range(10000):
+            collector.handle_message(quote_message("BTCUSDT", index + 1), END + index // 100)
+        assert len(calls) == 1
+        for symbol in ("BTCUSDT", "ETHUSDT"):
+            collector.handle_message(kline(symbol, END - MINUTE_MS), END + 100)
+        assert [kind for kind, _ in calls].count("closed_bar") == 2
+        for symbol in ("BTCUSDT", "ETHUSDT"):
+            obj.state["features"][symbol]["latest"] = {"available_us": END * 1000}
+        obj.state["last_tick_ms"] = END + 100
+&gt;       collector.handle_message(quote_message("BTCUSDT", 10001), END + 101)
+
+tests/test_candidate_paper.py:561: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/quant/collector.py:372: in handle_message
+    self._notify("quote", symbol, received_ms, None)
+src/quant/candidate_paper.py:920: in _notify
+    and self.candidate.feature_ready(end, received_ms)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/quant/candidate_paper.py:646: in feature_ready
+    return self.strategy.ready(
+src/quant/candidate_strategy.py:356: in ready
+    return all(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;dict_valueiterator object at 0x75cb30325210&gt;
+
+    return all(
+        feature is not None
+        and feature["available_us"] == end_us
+&gt;       and feature["received_us"] &lt;= now_us
+            ^^^^^^^^^^^^^^^^^^^^^^
+        for feature in features.values()
+    )
+E   KeyError: 'received_us'
+
+src/quant/candidate_strategy.py:359: KeyError</failure></testcase></testsuite></testsuites>

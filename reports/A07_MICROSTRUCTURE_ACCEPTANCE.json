@@ -1,0 +1,508 @@
+{
+  "module": "A07",
+  "status": "DATA_ENGINEERING_SHORT_ACCEPTANCE_PASS",
+  "created_us": 1790789275195103,
+  "source_hashes": {
+    "src/quant/microstructure.py": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+    "src/quant/microstructure_acceptance.py": "0f62cc7cac7a30fe6c05d45cdc4f3a97f8a27384f7e1d8b80f2ca905fd154a48",
+    "tests/test_microstructure.py": "79df5ce937898f1b0b4cf0a43bb9c99ee2be956d1812fd315165e01d9f0c3c23",
+    "docs/MODULE_A07_MICROSTRUCTURE.md": "56122b0e7e6e374259fdfdba88936cc391c165abab30ce855fff16c32ba4ec7b"
+  },
+  "tests": {
+    "status": "PASS",
+    "cases": 27,
+    "wall_seconds": 20.92,
+    "command": "bash scripts/bounded.sh .venv/bin/pytest tests/test_microstructure.py -q",
+    "test_functions": [
+      "test_standard_ofi_all_indicator_cases",
+      "test_seventeen_features_aggressor_and_cross_second_ofi",
+      "test_duplicate_id_does_not_double_count_changed_id_is_fatal",
+      "test_trade_gap_is_audited_and_not_repaired_as_received",
+      "test_no_event_seconds_carry_explicitly_then_expire_not_fill_means",
+      "test_disconnect_seconds_remain_invalid_and_ofi_restarts",
+      "test_semantic_aggregation_vwap_flow_stats_and_missing_quality",
+      "test_long_observation_gap_is_sparse_audited_and_never_backfilled",
+      "test_restart_native_recovery_export_and_mode_binding",
+      "test_atomic_orphan_export_retries_without_duplicate_or_overwrite",
+      "test_ring_retention_hard_cap_does_not_delete_feature_or_audit",
+      "test_feature_cap_freezes_without_deleting_existing_evidence",
+      "test_disk_guard_failed_stops_before_ingest",
+      "test_store_single_writer_and_audit_immutable",
+      "test_nullable_parquet_schema_is_stable_and_engineering_cannot_go_network",
+      "test_resource_limits_cannot_be_increased",
+      "test_read_only_status_never_constructs_writer_or_touches_network",
+      "test_feature_cap_preserves_previously_committed_parquet_bytes",
+      "test_all_resampling_frequencies_are_closed_and_partial_restart_is_explicit",
+      "test_failed_startup_releases_both_native_writer_locks",
+      "test_resource_aliases_cannot_redirect_files_to_C"
+    ],
+    "ruff": "PASS"
+  },
+  "proof_report": "/mnt/d/codex/coin/reports/generated/A07_probe_1790788760646887/acceptance.json",
+  "proof_sha256": "3fbd1ba2168bc3427ba5f112b30ba4136e547277f480b4d2b9f822370c0a4dfe",
+  "storage_projection": {
+    "provenance": "engineering_synthetic_high_entropy",
+    "chunks": [
+      {
+        "seed": 20261001,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "bytes": 129359,
+            "rows": 1200,
+            "sha256": "8bd1bb3c884d0e0301ac709617d54182c90fdcf33504123cca9c1b5eacdcafcd"
+          },
+          "5": {
+            "bytes": 66418,
+            "rows": 240,
+            "sha256": "79bb3dcf51a5e48d85ed64bbc8a9b0e381d6bf0cee3c57a06a551ab3453101d9"
+          },
+          "30": {
+            "bytes": 24751,
+            "rows": 40,
+            "sha256": "a02199800000cd39430ab5f653bcf09d81ec27c8ce1d728ef438c7d015de683e"
+          },
+          "60": {
+            "bytes": 19903,
+            "rows": 20,
+            "sha256": "4c668aabb4f9429d3cb017fba0eadf0fd496c9ef1c07433b57710429df883a2f"
+          }
+        },
+        "total_bytes": 240431
+      },
+      {
+        "seed": 20261002,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "bytes": 129327,
+            "rows": 1200,
+            "sha256": "b37ba3fd0d5264a7caf61d7d54f851465997377027c733e29f462f6d35c210e9"
+          },
+          "5": {
+            "bytes": 66368,
+            "rows": 240,
+            "sha256": "4630d4bd81f928b8a0359efa74682f8db9dc9f54812996eea744f6b2450f1345"
+          },
+          "30": {
+            "bytes": 24753,
+            "rows": 40,
+            "sha256": "f2dda40e5872ac5cd462ffa66d1a12b38f0a3b59be01cd37dcc594252a0dc4ca"
+          },
+          "60": {
+            "bytes": 19892,
+            "rows": 20,
+            "sha256": "cd028eb9b09ecb14f9e2428b0a18cfd7c3cff9168b99b7ea06ba9da6df6297a5"
+          }
+        },
+        "total_bytes": 240340
+      },
+      {
+        "seed": 20261003,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "bytes": 129387,
+            "rows": 1200,
+            "sha256": "f833693864cdc63599c9e3360fa17116b2055d3e2633609e8440fabca9a70a78"
+          },
+          "5": {
+            "bytes": 66401,
+            "rows": 240,
+            "sha256": "a438c57d4ec9877a6891b9d1349aae70f6931f449dd0546784e9ecd947ab9398"
+          },
+          "30": {
+            "bytes": 24757,
+            "rows": 40,
+            "sha256": "f1b7fe861b4388fa622bd18e01373d75b69f6ca0c438979be76d04fc51ef0394"
+          },
+          "60": {
+            "bytes": 19893,
+            "rows": 20,
+            "sha256": "98f6f26dcab8a54fb1e14eaf7355a8022cbf8c9a2fe73d84bba40b07160e8622"
+          }
+        },
+        "total_bytes": 240438
+      }
+    ],
+    "production_chunk_seconds": 600,
+    "projected_daily_feature_bytes": 34623072,
+    "projected_180d_feature_bytes": 6232152960,
+    "with_20_percent_margin_and_200MB_ledger": 7678583552,
+    "target_bytes": 8000000000,
+    "projection_pass": true,
+    "actual_24h_measurement_completed": false,
+    "real_time_or_profit_qualification": false
+  },
+  "public_short_smoke": {
+    "status": "SHORT_PUBLIC_SMOKE_PASS",
+    "duration_requested_seconds": 60.0,
+    "total_wall_seconds": 120.72431748500094,
+    "cpu_seconds": 3.884434215,
+    "process_peak_rss_bytes": 83058688,
+    "resource_before": {
+      "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+      "ram_limit_bytes": 4999999488,
+      "ram_current_bytes": 172978176,
+      "ram_peak_bytes": 1894678528,
+      "swap_bytes": 0,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "gpu_used": false
+    },
+    "resource_after": {
+      "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+      "ram_limit_bytes": 4999999488,
+      "ram_current_bytes": 125865984,
+      "ram_peak_bytes": 1894678528,
+      "swap_bytes": 0,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "gpu_used": false
+    },
+    "runtime": {
+      "module": "A07",
+      "version": "microstructure_l1_v1",
+      "mode": "live",
+      "session": "ead3db52696249cbb987271ec75e299d",
+      "state": "DISCONNECTED",
+      "accepted_events": 17229,
+      "schema_sha256": "721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0",
+      "duplicate_events": 0,
+      "rejected_events": 0,
+      "last_received_us": 1790788877578208,
+      "feature_bytes": 71772,
+      "feature_rows": 158,
+      "raw_bytes": 323339,
+      "pending_rows": 0,
+      "alpha_eligible": false,
+      "real_time_days_certified": 0,
+      "fatal": null,
+      "network": "public_read_only",
+      "credentials_used": false
+    },
+    "persistent": {
+      "module": "A07",
+      "state": "STOPPED",
+      "binding": {
+        "compression": {
+          "codec": "zstd",
+          "level": 3,
+          "polars_version": "1.44.2",
+          "statistics": false
+        },
+        "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+        "mode": "live",
+        "store": "/mnt/d/codex/coin/data/micro-smoke-1790788762471562",
+        "version": "microstructure_l1_v1"
+      },
+      "checkpoint": {
+        "accepted_events": 17229,
+        "asof_us": 1790788882582433,
+        "connected": true,
+        "duplicate_events": 0,
+        "ids": {
+          "BTCUSDT:quote": {
+            "hash": "8c1d44c1d400c129614dbe64bec8f85382a381ff9ba95e618ea1c9b86501975d",
+            "id": 100886262096,
+            "received_us": 1790788877578208
+          },
+          "BTCUSDT:trade": {
+            "hash": "3f0814a3fb69cb7b908703cae62090a4621e656aa428168e706bdc18e3abd0bb",
+            "id": 4077895484,
+            "received_us": 1790788877266123
+          },
+          "ETHUSDT:quote": {
+            "hash": "9c3650986d2ec9e89e143af193e1c6070df0a50d053047547d0cd03fa05099d9",
+            "id": 81629818450,
+            "received_us": 1790788877235519
+          },
+          "ETHUSDT:trade": {
+            "hash": "4ef77b89d74e91fccac8c4bead6c30d832f8a6725ed2cd2d94603102c2c9b5bf",
+            "id": 2092594728,
+            "received_us": 1790788876710054
+          }
+        },
+        "last_received_us": 1790788877578208,
+        "mode": "live",
+        "observed_monotonic_seconds": 65.05183965200013,
+        "rejected_events": 0,
+        "session": "ead3db52696249cbb987271ec75e299d"
+      },
+      "feature_bytes": 71772,
+      "feature_rows": 158,
+      "audit_head": "bf937484b73bc33be996c0266a6896af64335ea8a8789da590ef296880808592",
+      "last_audit": {
+        "kind": "STOP",
+        "payload": {
+          "fatal": null,
+          "observed_monotonic_seconds": 65.42882689500038,
+          "partial_aggregate_windows": {
+            "BTCUSDT:30": 22,
+            "BTCUSDT:5": 2,
+            "BTCUSDT:60": 22,
+            "ETHUSDT:30": 22,
+            "ETHUSDT:5": 2,
+            "ETHUSDT:60": 22
+          },
+          "session": "ead3db52696249cbb987271ec75e299d",
+          "unsealed_event_counts": {
+            "BTCUSDT": 0,
+            "ETHUSDT": 0
+          },
+          "unsealed_or_partial_windows_are_not_complete": true,
+          "unsealed_second_us": 1790788882000000
+        }
+      },
+      "read_only": true,
+      "alpha_eligible": false,
+      "real_time_days_certified": 0
+    },
+    "intervals": {
+      "1": {
+        "rows": 126,
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "quality": [
+          {
+            "quality": 0,
+            "len": 115
+          },
+          {
+            "quality": 12,
+            "len": 6
+          },
+          {
+            "quality": 512,
+            "len": 1
+          },
+          {
+            "quality": 513,
+            "len": 1
+          },
+          {
+            "quality": 525,
+            "len": 1
+          },
+          {
+            "quality": 1028,
+            "len": 2
+          }
+        ],
+        "source_modes": [
+          "live"
+        ],
+        "first_bucket_us": 1790788819000000,
+        "last_bucket_us": 1790788881000000,
+        "quote_updates": 16062,
+        "aggregate_trades": 1167
+      },
+      "5": {
+        "rows": 26,
+        "symbols": [
+          "ETHUSDT",
+          "BTCUSDT"
+        ],
+        "quality": [
+          {
+            "quality": 0,
+            "len": 21
+          },
+          {
+            "quality": 512,
+            "len": 1
+          },
+          {
+            "quality": 769,
+            "len": 1
+          },
+          {
+            "quality": 781,
+            "len": 1
+          },
+          {
+            "quality": 1036,
+            "len": 2
+          }
+        ],
+        "source_modes": [
+          "live"
+        ],
+        "first_bucket_us": 1790788815000000,
+        "last_bucket_us": 1790788875000000,
+        "quote_updates": 16062,
+        "aggregate_trades": 1167
+      },
+      "30": {
+        "rows": 4,
+        "symbols": [
+          "ETHUSDT",
+          "BTCUSDT"
+        ],
+        "quality": [
+          {
+            "quality": 0,
+            "len": 2
+          },
+          {
+            "quality": 769,
+            "len": 1
+          },
+          {
+            "quality": 781,
+            "len": 1
+          }
+        ],
+        "source_modes": [
+          "live"
+        ],
+        "first_bucket_us": 1790788800000000,
+        "last_bucket_us": 1790788830000000,
+        "quote_updates": 12217,
+        "aggregate_trades": 903
+      },
+      "60": {
+        "rows": 2,
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "quality": [
+          {
+            "quality": 769,
+            "len": 1
+          },
+          {
+            "quality": 781,
+            "len": 1
+          }
+        ],
+        "source_modes": [
+          "live"
+        ],
+        "first_bucket_us": 1790788800000000,
+        "last_bucket_us": 1790788800000000,
+        "quote_updates": 12217,
+        "aggregate_trades": 903
+      }
+    },
+    "state_db": "/home/xflops/coin-state/micro-smoke-1790788762471562.sqlite3",
+    "store": "/mnt/d/codex/coin/data/micro-smoke-1790788762471562",
+    "credentials_used": false,
+    "orders": 0,
+    "actual_24h_pass": false,
+    "actual_14_or_30d_pass": false,
+    "long_running_process_started": false
+  },
+  "sqlite_schema_sha256": "721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0",
+  "sqlite_schema_and_triggers": [
+    [
+      "table",
+      "audit",
+      "CREATE TABLE audit(seq INTEGER PRIMARY KEY,\n                    received_us INTEGER NOT NULL,\n                    kind TEXT NOT NULL,payload TEXT NOT NULL,\n                    previous_sha TEXT NOT NULL,sha256 TEXT NOT NULL)"
+    ],
+    [
+      "table",
+      "manifests",
+      "CREATE TABLE manifests(path TEXT PRIMARY KEY,sha256 TEXT NOT NULL,\n                    bytes INTEGER NOT NULL,rows INTEGER NOT NULL,interval_s INTEGER NOT NULL,\n                    first_us INTEGER NOT NULL,last_us INTEGER NOT NULL)"
+    ],
+    [
+      "table",
+      "outbox",
+      "CREATE TABLE outbox(seq INTEGER PRIMARY KEY AUTOINCREMENT,\n                    interval_s INTEGER NOT NULL,payload TEXT NOT NULL)"
+    ],
+    [
+      "table",
+      "sqlite_sequence",
+      "CREATE TABLE sqlite_sequence(name,seq)"
+    ],
+    [
+      "table",
+      "state",
+      "CREATE TABLE state(key TEXT PRIMARY KEY,value TEXT NOT NULL)"
+    ],
+    [
+      "trigger",
+      "audit_no_delete",
+      "CREATE TRIGGER audit_no_delete BEFORE DELETE ON audit\n                    BEGIN SELECT RAISE(ABORT,'append only'); END"
+    ],
+    [
+      "trigger",
+      "audit_no_update",
+      "CREATE TRIGGER audit_no_update BEFORE UPDATE ON audit\n                    BEGIN SELECT RAISE(ABORT,'append only'); END"
+    ],
+    [
+      "trigger",
+      "manifests_no_delete",
+      "CREATE TRIGGER manifests_no_delete BEFORE DELETE ON manifests\n                    BEGIN SELECT RAISE(ABORT,'immutable feature manifest'); END"
+    ],
+    [
+      "trigger",
+      "manifests_no_update",
+      "CREATE TRIGGER manifests_no_update BEFORE UPDATE ON manifests\n                    BEGIN SELECT RAISE(ABORT,'immutable feature manifest'); END"
+    ]
+  ],
+  "compression": {
+    "parquet_engine": "polars",
+    "polars_version": "1.44.2",
+    "codec": "zstd",
+    "level": 3,
+    "statistics": false,
+    "raw_codec": "gzip",
+    "raw_level": 1,
+    "zlib_version": "1.3",
+    "sqlite_version": "3.45.1"
+  },
+  "actual_audit_kind_counts": {
+    "CONNECTED": 1,
+    "DISCONNECTED": 1,
+    "FEATURE_EXPORT": 4,
+    "SESSION": 1,
+    "STOP": 1
+  },
+  "current_resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 119926784,
+    "ram_peak_bytes": 1894678528,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "disk_ledger": {
+    "project_bytes": 2116304670,
+    "wsl_vhd_bytes": 5697961984,
+    "total_bytes": 7814266654,
+    "reserved_bytes": 20000000,
+    "d_free_bytes": 375261630464,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000
+  },
+  "limits": {
+    "long_feature_bytes": 8000000000,
+    "raw_bytes": 4000000000,
+    "raw_retention_seconds": 86400,
+    "global_disk_bytes": 40000000000,
+    "aggregate_ram_bytes": 5000000000,
+    "swap_bytes": 0,
+    "gpu": false
+  },
+  "gates": {
+    "engineering_tests": true,
+    "read_only_public_smoke": true,
+    "storage_projection": true,
+    "actual_24h_capacity_quality": false,
+    "actual_14d_diagnostics": false,
+    "actual_30d_M1": false,
+    "alpha_candidate": false,
+    "competitive_forward": false,
+    "testnet_or_mainnet_order_authorization": false
+  },
+  "legacy_process_touched": false,
+  "long_running_process_started_by_this_module_acceptance": false,
+  "prior_prototype_evidence_preserved": [
+    "reports/generated/A07_probe_1790786787318450/acceptance.json",
+    "reports/generated/A07_probe_1790788498049856/acceptance.json"
+  ],
+  "quality_boundary": "Projection is synthetic, not actual 24h certification; short live data has partial boundaries. No replay/repair is treated as original real-time data. Read audit gap ranges as well as row bits before research."
+}

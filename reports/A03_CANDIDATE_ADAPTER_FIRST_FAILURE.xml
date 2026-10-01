@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="22" time="441.029" timestamp="2026-10-01T03:52:16.633639+00:00" hostname="xflops"><testcase classname="tests.test_candidate_adapter" name="test_archived_nonzero_logistic_and_aggregation_bitwise_compatibility[15m]" time="6.382" /><testcase classname="tests.test_candidate_adapter" name="test_archived_nonzero_logistic_and_aggregation_bitwise_compatibility[1h]" time="0.176" /><testcase classname="tests.test_candidate_adapter" name="test_incremental_fixed_hysteresis_exactly_matches_accepted_batch[A]" time="1.877" /><testcase classname="tests.test_candidate_adapter" name="test_incremental_fixed_hysteresis_exactly_matches_accepted_batch[B]" time="0.124" /><testcase classname="tests.test_candidate_adapter" name="test_incremental_fixed_hysteresis_exactly_matches_accepted_batch[C]" time="0.092" /><testcase classname="tests.test_candidate_adapter" name="test_timely_disordered_quotes_do_not_consume_unpaired_hour" time="23.785" /><testcase classname="tests.test_candidate_adapter" name="test_expired_missing_pair_emits_now_risk_flat_not_old_signal" time="36.893"><failure message="assert False&#10; +  where False = all(&lt;generator object test_expired_missing_pair_emits_now_risk_flat_not_old_signal.&lt;locals&gt;.&lt;genexpr&gt; at 0x71f08612f030&gt;)">engine = &lt;quant.candidate_paper.CandidatePaperEngine object at 0x71f085f9ad50&gt;
+
+    def test_expired_missing_pair_emits_now_risk_flat_not_old_signal(engine):
+        seed_features(engine)
+        finish_hour(engine, omit=("ETHUSDT", 59))
+        engine._decision(END + 1000)
+        assert engine.state["last_candidate_end"] is None
+        assert engine._decision(END + 15001)
+        assert not engine.strategy.predictor.calls
+        decisions = [r for r in payloads(engine, "decision") if r["scenario"] != "B2"]
+        assert all(r["risk_missing_or_late"] for r in decisions)
+        orders = [r for r in payloads(engine, "order") if r.get("scenario") != "B2"]
+&gt;       assert all(
+            r["risk_forced_exit"] and r["target_weight"] == 0 and r["not_before_ms"] &gt; END + 15001
+            for r in orders
+        )
+E       assert False
+E        +  where False = all(&lt;generator object test_expired_missing_pair_emits_now_risk_flat_not_old_signal.&lt;locals&gt;.&lt;genexpr&gt; at 0x71f08612f030&gt;)
+
+tests/test_candidate_adapter.py:342: AssertionError</failure></testcase><testcase classname="tests.test_candidate_adapter" name="test_confirmed_incomplete_hour_forces_flat_without_wait_or_prediction" time="15.063" /><testcase classname="tests.test_candidate_adapter" name="test_joint_anchor_pending_pair_incremental_restart_exact_and_zero_credit" time="11.678" /><testcase classname="tests.test_candidate_adapter" name="test_runtime_rebinding_refused_before_any_append[strategy]" time="0.490" /><testcase classname="tests.test_candidate_adapter" name="test_runtime_rebinding_refused_before_any_append[predictor]" time="0.498" /><testcase classname="tests.test_candidate_adapter" name="test_runtime_rebinding_refused_before_any_append[provider]" time="0.430" /><testcase classname="tests.test_candidate_adapter" name="test_runtime_rebinding_refused_before_any_append[threshold]" time="0.813" /><testcase classname="tests.test_candidate_adapter" name="test_runtime_rebinding_refused_before_any_append[model]" time="0.724" /><testcase classname="tests.test_candidate_adapter" name="test_generic_live_admission_denied_before_database_or_source_io" time="0.293" /><testcase classname="tests.test_candidate_adapter" name="test_output_missing_return_riskflat_or_malformed_denied[None]" time="21.530" /><testcase classname="tests.test_candidate_adapter" name="test_output_missing_return_riskflat_or_malformed_denied[not_numeric]" time="17.504" /><testcase classname="tests.test_candidate_adapter" name="test_output_missing_return_riskflat_or_malformed_denied[nan]" time="14.520" /><testcase classname="tests.test_candidate_adapter" name="test_output_missing_return_riskflat_or_malformed_denied[True]" time="13.647" /><testcase classname="tests.test_candidate_adapter" name="test_account_holding_alias_exception_and_partial_fill_independence" time="0.389"><failure message="KeyError: 'decision_us'">engine = &lt;quant.candidate_paper.CandidatePaperEngine object at 0x71f086019b20&gt;
+
+    def test_account_holding_alias_exception_and_partial_fill_independence(engine):
+        # Give each cost account a different first executable arrival; B2 remains hold=0.
+        for index, scenario in enumerate(SCENARIOS):
+            account = engine.state["accounts"][scenario]
+            account["pending"] = {
+                "BTCUSDT": {
+                    "order_id": scenario + ":first",
+                    "account": scenario,
+                    "symbol": "BTCUSDT",
+                    "target_weight": 0.30,
+                    "minimum_hold_minutes": 0 if scenario == "B2" else 120,
+                    "risk_forced_exit": False,
+                    "not_before_ms": END + (index + 1) * MINUTE_MS,
+                    "signal_received_ms": END,
+                    "expires_ms": END + 10 * MINUTE_MS,
+                }
+            }
+            engine.state["account_controls"][scenario]["alpha_holding"]["BTCUSDT"] = {
+                "last_raw": 0.3,
+                "awaiting_first_fill": True,
+                "first_fill_ms": 0,
+            }
+        for index in range(1, 5):
+            now = END + index * MINUTE_MS + 200
+&gt;           engine._fill(now, {s: Quote(s, 100, 100.02, now, index) for s in SYMBOLS})
+
+tests/test_candidate_adapter.py:460: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/quant/candidate_paper.py:682: in _fill
+    changed |= super()._fill(now, quotes)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;quant.candidate_paper.CandidatePaperEngine object at 0x71f086019b20&gt;
+now = 1738458060200
+quotes = {'BTCUSDT': Quote(symbol='BTCUSDT', bid=100, ask=100.02, received_ms=1738458060200, update_id=1, source='websocket'), 'ETHUSDT': Quote(symbol='ETHUSDT', bid=100, ask=100.02, received_ms=1738458060200, update_id=1, source='websocket')}
+
+    def _fill(self, now: int, quotes: dict[str, Quote]) -&gt; bool:
+        account = self.state["accounts"]["B2"]
+        prices = {s: (quotes[s].bid + quotes[s].ask) / 2 for s in SYMBOLS}
+        nav = account["cash"] + sum(account["positions"][s] * prices[s] for s in SYMBOLS)
+        changed = False
+        sequence = sorted(
+            account["pending"],
+            key=lambda s: (
+                account["pending"][s]["target_weight"] * nav - account["positions"][s] * prices[s]
+                &gt;= 0,
+                s,
+            ),
+        )
+        for symbol in sequence:
+            order = account["pending"][symbol]
+            quote = quotes[symbol]
+            if now &gt;= order["expires_ms"]:
+                self._append(
+                    now,
+                    "order_event",
+                    {
+                        "order_id": order["order_id"],
+                        "account": "B2",
+                        "symbol": symbol,
+                        "status": "EXPIRED",
+                    },
+                    f"expired:{order['order_id']}",
+                )
+                del account["pending"][symbol]
+                changed = True
+                continue
+            if (
+                quote.received_ms &lt; order["not_before_ms"]
+                or quote.received_ms &lt;= order["signal_received_ms"]
+            ):
+                continue
+            if quote.received_ms // MINUTE_MS != now // MINUTE_MS:
+                continue
+            if quote.update_id &lt;= self.state["consumed_quotes"].get(symbol, -1):
+                continue
+            prior_open = self.execution_contract.capacity_minute_us(now * 1000) // 1000
+            capacity_bar = self.source.execute(
+                "SELECT quote_volume,received_ms FROM closed_bars "
+                "WHERE symbol=? AND open_ms=? AND source='websocket' AND received_ms&lt;=?",
+                (symbol, prior_open, quote.received_ms),
+            ).fetchone()
+            if not capacity_bar:
+                continue
+            mid = prices[symbol]
+            nav = account["cash"] + sum(account["positions"][s] * prices[s] for s in SYMBOLS)
+            weight = order["target_weight"]
+            dollars = weight * nav - account["positions"][symbol] * mid
+            if abs(dollars) &lt;= 1e-7:
+                del account["pending"][symbol]
+                changed = True
+                continue
+            direction = 1 if dollars &gt; 0 else -1
+            hold_minutes = order.get("minimum_hold_minutes", 0)
+            hold = self.state.get("alpha_holding", {}).get(symbol, {})
+            first_fill_ms = hold.get("first_fill_ms", account["cycles"][symbol]["entry_ms"])
+            hard_risk_exit = hold_minutes == 120 and (
+                account["positions"][symbol] * mid &gt; self.config.single_asset_max * nav + 1e-7
+                or sum(account["positions"][s] * prices[s] for s in SYMBOLS)
+                &gt; self.config.gross_max * nav + 1e-7
+            )
+            if (direction == -1 and not holding_period_complete(
+                    now * 1000, first_fill_ms * 1000,
+                    hold_minutes, order.get("risk_forced_exit", False) or hard_risk_exit)):
+                self._append(now, "order_event", {
+                    "order_id": order["order_id"], "account": "B2", "symbol": symbol,
+                    "status": "MINIMUM_HOLD", "minimum_hold_minutes": 120,
+                }, f"minimum_hold:{order['order_id']}")
+                continue
+            half_spread = (quote.ask - quote.bid) / (2 * mid) * 10_000
+            execution_rate = self.execution_contract.execution_rate(
+                max(half_spread, self.config.half_spread_floor_bps),
+                self.config.extra_slippage_bps,
+            )
+            price = mid * (1 + direction * execution_rate)
+            fee_rate = self.config.fee_bps / 10_000
+            cost_per_q = abs(price - mid) + price * fee_rate
+            desired = abs(dollars) / (mid + direction * weight * cost_per_q)
+            capacity_key = f"{symbol}:{now // MINUTE_MS}"
+            cap = max(
+                0,
+                float(capacity_bar["quote_volume"]) * self.config.participation_rate
+                - self.state["capacity_used"].get(capacity_key, 0),
+            )
+            quantity = min(desired, cap / price)
+            if direction == -1:
+                quantity = min(quantity, account["positions"][symbol])
+            else:
+                gross = sum(account["positions"][s] * prices[s] for s in SYMBOLS)
+                quantity = min(
+                    quantity,
+                    account["cash"] / (price * (1 + fee_rate)),
+                    max(
+                        0,
+                        (self.config.single_asset_max * nav - account["positions"][symbol] * mid)
+                        / (mid + self.config.single_asset_max * cost_per_q),
+                    ),
+                    max(
+                        0,
+                        (self.config.gross_max * nav - gross)
+                        / (mid + self.config.gross_max * cost_per_q),
+                    ),
+                )
+                for other in SYMBOLS:
+                    if other != symbol:
+                        quantity = min(
+                            quantity,
+                            max(
+                                0,
+                                (
+                                    nav
+                                    - account["positions"][other]
+                                    * prices[other]
+                                    / self.config.single_asset_max
+                                )
+                                / cost_per_q,
+                            ),
+                        )
+            step = 0.00001 if symbol == "BTCUSDT" else 0.0001
+            quantity = math.floor(quantity / step + 1e-9) * step
+            self.state["consumed_quotes"][symbol] = quote.update_id
+            changed = True
+            if quantity * price &lt; self.config.min_notional:
+                status = (
+                    "DUST_UNEXECUTED"
+                    if desired * price &lt; self.config.min_notional
+                    else "CAPACITY_OR_RISK"
+                )
+                self._append(
+                    now,
+                    "order_event",
+                    {
+                        "order_id": order["order_id"],
+                        "account": "B2",
+                        "symbol": symbol,
+                        "status": status,
+                        "quote_id": quote.update_id,
+                    },
+                    f"attempt:{order['order_id']}:{quote.update_id}",
+                )
+                if status == "DUST_UNEXECUTED":
+                    del account["pending"][symbol]
+                continue
+            notional, fee = quantity * price, quantity * price * fee_rate
+            account["cash"] -= direction * notional + fee
+            cycle = account["cycles"][symbol]
+            if direction == 1 and account["positions"][symbol] &lt;= 1e-12:
+                cycle = {"entry_ms": now, "cost": 0.0, "proceeds": 0.0, "fees": 0.0}
+                account["cycles"][symbol] = cycle
+            if direction == 1 and hold_minutes == 120 and (
+                hold.get("awaiting_first_fill", False) or account["positions"][symbol] &lt;= 1e-12
+            ):
+                hold["first_fill_ms"] = now
+                hold["awaiting_first_fill"] = False
+            account["positions"][symbol] += direction * quantity
+            if abs(account["positions"][symbol]) &lt; 1e-10:
+                account["positions"][symbol] = 0.0
+            cycle["fees"] += fee
+            if direction == 1:
+                cycle["cost"] += notional + fee
+            else:
+                cycle["proceeds"] += notional - fee
+            if direction == -1 and account["positions"][symbol] == 0:
+                self._append(
+                    now,
+                    "round_trip",
+                    {
+                        "scenario": "B2",
+                        "account": "B2",
+                        "symbol": symbol,
+                        "cycle_id": f"{symbol}:{cycle['entry_ms']}",
+                        "pnl": cycle["proceeds"] - cycle["cost"],
+                    },
+                    f"round_trip:{symbol}:{cycle['entry_ms']}",
+                )
+            nav_after = account["cash"] + sum(account["positions"][s] * prices[s] for s in SYMBOLS)
+            if account["cash"] &lt; -1e-7 or min(account["positions"].values()) &lt; -1e-10:
+                raise AssertionError("negative paper cash or spot quantity")
+            if direction == 1 and (
+                max(account["positions"][s] * prices[s] / nav_after for s in SYMBOLS)
+                &gt; self.config.single_asset_max + 1e-9
+                or sum(account["positions"][s] * prices[s] / nav_after for s in SYMBOLS)
+                &gt; self.config.gross_max + 1e-9
+            ):
+                raise AssertionError("new paper buy exceeds post-cost risk limits")
+            self.state["capacity_used"][capacity_key] = (
+                self.state["capacity_used"].get(capacity_key, 0) + notional
+            )
+            fill = {
+                "execution_contract_version": self.execution_contract.version,
+&gt;               "signal_us": order["decision_us"],
+                             ^^^^^^^^^^^^^^^^^^^^
+                "eligible_us": order["not_before_ms"] * 1000,
+                "expires_us": order["expires_ms"] * 1000,
+                "scenario": "B2",
+                "account": "B2",
+                "order_id": order["order_id"],
+                "symbol": symbol,
+                "side": "buy" if direction == 1 else "sell",
+                "quantity": quantity,
+                "price": price,
+                "mid": mid,
+                "notional": notional,
+                "fee": fee,
+                "execution_cost": quantity * abs(price - mid),
+                "half_spread_bps": half_spread,
+                "quote_id": quote.update_id,
+                "quote_received_ms": quote.received_ms,
+                "capacity_bar_open_ms": prior_open,
+                "capacity_bar_received_ms": capacity_bar["received_ms"],
+                "capacity_limit": float(capacity_bar["quote_volume"])
+                * self.config.participation_rate,
+            }
+E           KeyError: 'decision_us'
+
+src/quant/shadow_v2.py:331: KeyError</failure></testcase><testcase classname="tests.test_candidate_adapter" name="test_existing_native_40feature_WS_collector_generic_engine_without_fit[LGB_A]" time="95.698"><failure message="AssertionError: assert None == {'expected_return': 0.00044189995829235545, 'confidence': None, 'target_weight': None, 'prediction_semantics': 'future_4h_gross_executable_return', ...}">source = PosixPath('/home/xflops/coin-state/a03-adapter-source-di4baf2z/source.sqlite3')
+kind = 'LGB_A'
+
+    @pytest.mark.parametrize("kind", ["LGB_A", "XGB_A"])
+    def test_existing_native_40feature_WS_collector_generic_engine_without_fit(source, kind):
+        folder = ROOT / "reports/generated/A05_NONLINEAR_V2" / kind / "fold0"
+        model = folder / ("model.txt" if kind == "LGB_A" else "model.json")
+        predictor = load_frozen_predictor(model, folder / "manifest.json", **bindings())
+        before = hashlib.sha256(model.read_bytes()).hexdigest()
+        with tempfile.TemporaryDirectory(prefix="a03-native-wire-", dir=STATE) as directory:
+            obj = CandidatePaperEngine(
+                source,
+                Path(directory) / "journal.sqlite3",
+                predictor=predictor,
+                decision_policy="A",
+                config=ShadowConfig(mode="engineering_simulation"),
+                started_ms=END - HOUR_MS - 500,
+                disk_check=guard,
+            )
+            seed_features(obj)
+            collector = CandidateCollector(source, candidate=obj, disk_check=guard)
+            collector.health_snapshot = lambda at: {
+                **health(at),
+                "connected": True,
+                "live_session": True,
+                "qualification": {"qualified_72h": True},
+            }
+            try:
+                for index in range(60):
+                    opened = END - HOUR_MS + index * MINUTE_MS
+                    now = opened + MINUTE_MS + 100
+                    for symbol in SYMBOLS:
+                        collector.latest_quotes[symbol] = {
+                            "symbol": symbol,
+                            "bid": 100.0,
+                            "ask": 100.02,
+                            "received_ms": now,
+                            "update_id": index + 1,
+                        }
+                    for symbol in SYMBOLS:
+                        raw = minute(symbol, opened, 5940 + index)
+                        k = {
+                            "s": symbol,
+                            "t": opened,
+                            "T": opened + MINUTE_MS - 1,
+                            "i": "1m",
+                            "x": True,
+                            "n": 100,
+                            **{
+                                dest: str(raw[src])
+                                for dest, src in (
+                                    ("o", "open"),
+                                    ("h", "high"),
+                                    ("l", "low"),
+                                    ("c", "close"),
+                                    ("v", "volume"),
+                                    ("q", "quote_volume"),
+                                    ("V", "taker_buy_base"),
+                                    ("Q", "taker_buy_quote"),
+                                )
+                            },
+                        }
+                        # Existing synthetic source bars are same opening keys but different
+                        # OHLC; collector rejects changed evidence. Feed the enriched callback
+                        # using a dedicated minute path, not overwrite the seed source table.
+                        collector._notify("closed_bar", symbol, now, now, k)
+                obj.process_tick(
+                    END + 200,
+                    health(END + 200),
+                    [Quote(s, 100, 100.02, END + 200, 100) for s in SYMBOLS],
+                )
+                decisions = [r for r in payloads(obj, "decision") if r["scenario"] != "B2"]
+                assert {r["scenario"] for r in decisions} == {"candidate", "fee_x2", "slippage_x2"}
+                assert len(payloads(obj, "feature")) == 2
+                for symbol in SYMBOLS:
+                    feature = obj.feature_provider.latest(obj.state["features"])[symbol]
+                    vector = {k: feature[k] for k in FEATURE_NAMES_V2}
+                    expected = predictor.predict(vector)
+&gt;                   assert decisions[0]["predictions"][symbol] == expected
+E                   AssertionError: assert None == {'expected_return': 0.00044189995829235545, 'confidence': None, 'target_weight': None, 'prediction_semantics': 'future_4h_gross_executable_return', ...}
+
+tests/test_candidate_adapter.py:550: AssertionError</failure></testcase><testcase classname="tests.test_candidate_adapter" name="test_existing_native_40feature_WS_collector_generic_engine_without_fit[XGB_A]" time="68.708"><failure message="AssertionError: assert None == {'expected_return': 0.0002451376349199563, 'confidence': None, 'target_weight': None, 'prediction_semantics': 'future_4h_gross_executable_return', ...}">source = PosixPath('/home/xflops/coin-state/a03-adapter-source-di4baf2z/source.sqlite3')
+kind = 'XGB_A'
+
+    @pytest.mark.parametrize("kind", ["LGB_A", "XGB_A"])
+    def test_existing_native_40feature_WS_collector_generic_engine_without_fit(source, kind):
+        folder = ROOT / "reports/generated/A05_NONLINEAR_V2" / kind / "fold0"
+        model = folder / ("model.txt" if kind == "LGB_A" else "model.json")
+        predictor = load_frozen_predictor(model, folder / "manifest.json", **bindings())
+        before = hashlib.sha256(model.read_bytes()).hexdigest()
+        with tempfile.TemporaryDirectory(prefix="a03-native-wire-", dir=STATE) as directory:
+            obj = CandidatePaperEngine(
+                source,
+                Path(directory) / "journal.sqlite3",
+                predictor=predictor,
+                decision_policy="A",
+                config=ShadowConfig(mode="engineering_simulation"),
+                started_ms=END - HOUR_MS - 500,
+                disk_check=guard,
+            )
+            seed_features(obj)
+            collector = CandidateCollector(source, candidate=obj, disk_check=guard)
+            collector.health_snapshot = lambda at: {
+                **health(at),
+                "connected": True,
+                "live_session": True,
+                "qualification": {"qualified_72h": True},
+            }
+            try:
+                for index in range(60):
+                    opened = END - HOUR_MS + index * MINUTE_MS
+                    now = opened + MINUTE_MS + 100
+                    for symbol in SYMBOLS:
+                        collector.latest_quotes[symbol] = {
+                            "symbol": symbol,
+                            "bid": 100.0,
+                            "ask": 100.02,
+                            "received_ms": now,
+                            "update_id": index + 1,
+                        }
+                    for symbol in SYMBOLS:
+                        raw = minute(symbol, opened, 5940 + index)
+                        k = {
+                            "s": symbol,
+                            "t": opened,
+                            "T": opened + MINUTE_MS - 1,
+                            "i": "1m",
+                            "x": True,
+                            "n": 100,
+                            **{
+                                dest: str(raw[src])
+                                for dest, src in (
+                                    ("o", "open"),
+                                    ("h", "high"),
+                                    ("l", "low"),
+                                    ("c", "close"),
+                                    ("v", "volume"),
+                                    ("q", "quote_volume"),
+                                    ("V", "taker_buy_base"),
+                                    ("Q", "taker_buy_quote"),
+                                )
+                            },
+                        }
+                        # Existing synthetic source bars are same opening keys but different
+                        # OHLC; collector rejects changed evidence. Feed the enriched callback
+                        # using a dedicated minute path, not overwrite the seed source table.
+                        collector._notify("closed_bar", symbol, now, now, k)
+                obj.process_tick(
+                    END + 200,
+                    health(END + 200),
+                    [Quote(s, 100, 100.02, END + 200, 100) for s in SYMBOLS],
+                )
+                decisions = [r for r in payloads(obj, "decision") if r["scenario"] != "B2"]
+                assert {r["scenario"] for r in decisions} == {"candidate", "fee_x2", "slippage_x2"}
+                assert len(payloads(obj, "feature")) == 2
+                for symbol in SYMBOLS:
+                    feature = obj.feature_provider.latest(obj.state["features"])[symbol]
+                    vector = {k: feature[k] for k in FEATURE_NAMES_V2}
+                    expected = predictor.predict(vector)
+&gt;                   assert decisions[0]["predictions"][symbol] == expected
+E                   AssertionError: assert None == {'expected_return': 0.0002451376349199563, 'confidence': None, 'target_weight': None, 'prediction_semantics': 'future_4h_gross_executable_return', ...}
+
+tests/test_candidate_adapter.py:550: AssertionError</failure></testcase></testsuite></testsuites>

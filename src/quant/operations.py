@@ -24,6 +24,7 @@ def frame_digest(frame: pl.DataFrame) -> str:
 
 
 def run_baselines() -> dict:
+    raise RuntimeError("P03 legacy is frozen; use the V2 baseline suite after A01 acceptance")
     from .backtest import BacktestConfig, baseline_targets, run_backtest
 
     lock = verify_dataset_lock()
@@ -89,6 +90,7 @@ def run_baselines() -> dict:
 
 
 def run_registered_research(resume_reason: str | None = None) -> dict:
+    raise RuntimeError("Logistic v1 STOP is frozen; use the separately registered V2 study")
     from .research import run_research
 
     lock = verify_dataset_lock()

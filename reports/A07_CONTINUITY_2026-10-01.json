@@ -1,0 +1,310 @@
+{
+  "module": "A07",
+  "created_us": 1790797631744578,
+  "status": "PUBLIC_COLLECTION_RECOVERED_SHORT_CONTINUITY_OBSERVED",
+  "incident": {
+    "classification": "HOST_WSL_SERVICE_TRANSITION_AND_VM_TEARDOWN_OBSERVED",
+    "actual_shutdown_actor": "UNKNOWN",
+    "application_exit_code": "NOT_PRESERVED",
+    "application_traceback": "NOT_PRESERVED",
+    "disk_refresh_exception": "NOT_CONFIRMED",
+    "prior_host_pid": 30640,
+    "prior_session": "2749c70ae7d74784861d79b1509c8f6c",
+    "prior_audit_count": 17,
+    "prior_audit_head": "cd4368d70871b81325ebd08f547beb9e92705e4672012388f963dbba0dbdc6b2",
+    "prior_last_received_us": 1790795508461079,
+    "prior_last_audit_received_us": 1790795513465857,
+    "prior_normal_stop_record_present": false,
+    "windows_service_disabled_utc": "2026-09-30T19:11:48.3050241Z",
+    "windows_vm_nic_disconnected_utc": "2026-09-30T19:11:53.8959215Z",
+    "windows_service_reinstalled_utc": "2026-09-30T19:15:02.5716391Z",
+    "global_wsl_environment_restart_observed": true
+  },
+  "recovery": {
+    "command": "powershell -ExecutionPolicy Bypass -File scripts/microstructure.ps1 start",
+    "host_pid": 8936,
+    "linux_pid": 500,
+    "session": "40c881d3ef8b484ba2ac36263517f8f6",
+    "same_native_db": "/home/xflops/coin-state/microstructure.sqlite3",
+    "same_D_store": "/mnt/d/codex/coin/data/microstructure_v1",
+    "pending_committed_rows_recovered": 842,
+    "old_feature_rows": 1504,
+    "new_total_feature_rows": 2346,
+    "new_total_feature_bytes": 326167,
+    "audit_records_added": [
+      {
+        "seq": 18,
+        "received_us": 1790796928660684,
+        "kind": "SESSION",
+        "payload": {
+          "compression": {
+            "codec": "zstd",
+            "level": 3,
+            "polars_version": "1.44.2",
+            "statistics": false
+          },
+          "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade",
+          "mode": "live",
+          "schema_sha256": "721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0",
+          "session": "40c881d3ef8b484ba2ac36263517f8f6",
+          "source_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+          "version": "microstructure_l1_v1"
+        },
+        "previous_sha": "cd4368d70871b81325ebd08f547beb9e92705e4672012388f963dbba0dbdc6b2",
+        "sha256": "2d653e15cd4e00233af426f42096191338bbbbb7d411313868255425a640a181",
+        "utc": "2026-09-30T19:35:28.660684+00:00"
+      },
+      {
+        "seq": 19,
+        "received_us": 1790796928660851,
+        "kind": "RESTART_GAP",
+        "payload": {
+          "end_us": 1790796928660839,
+          "start_us": 1790795513465857,
+          "uncommitted_tail_unknown": true
+        },
+        "previous_sha": "2d653e15cd4e00233af426f42096191338bbbbb7d411313868255425a640a181",
+        "sha256": "3088fb48c15c8ad42bbfb2a8f077658d2e1267092a196a5b7eaa14979720f4dd",
+        "utc": "2026-09-30T19:35:28.660851+00:00"
+      },
+      {
+        "seq": 20,
+        "received_us": 1790796928890728,
+        "kind": "FEATURE_EXPORT",
+        "payload": {
+          "bytes": 54462,
+          "file": "features/1s/batch-0000000001505-0000000002346.parquet",
+          "rows": 676,
+          "sha256": "d306112c8d762e54af16ba16590709037e03cbf8efcfc27bf4f103ff6cec170f"
+        },
+        "previous_sha": "3088fb48c15c8ad42bbfb2a8f077658d2e1267092a196a5b7eaa14979720f4dd",
+        "sha256": "5c42d9ec4b1f5ba4e6bc8adb1b14c1b2727e517d133891c55e1b5b52feb89b3b",
+        "utc": "2026-09-30T19:35:28.890728+00:00"
+      },
+      {
+        "seq": 21,
+        "received_us": 1790796928935423,
+        "kind": "FEATURE_EXPORT",
+        "payload": {
+          "bytes": 39774,
+          "file": "features/5s/batch-0000000001514-0000000002340.parquet",
+          "rows": 134,
+          "sha256": "1ce2dca9e91150ca928091fe5a5eecf5e05d9d593b224da20969707153f39a18"
+        },
+        "previous_sha": "5c42d9ec4b1f5ba4e6bc8adb1b14c1b2727e517d133891c55e1b5b52feb89b3b",
+        "sha256": "e877df5cc7265e690dc52617429e1079bdb6744eb66dce57a4a0f867c2659a1a",
+        "utc": "2026-09-30T19:35:28.935423+00:00"
+      },
+      {
+        "seq": 22,
+        "received_us": 1790796928984474,
+        "kind": "FEATURE_EXPORT",
+        "payload": {
+          "bytes": 20196,
+          "file": "features/30s/batch-0000000001539-0000000002292.parquet",
+          "rows": 22,
+          "sha256": "d932d364a5f7ebbc48cdb3dd894c2e319fa50ed2fe1369e16b0fdc3bb56eb90a"
+        },
+        "previous_sha": "e877df5cc7265e690dc52617429e1079bdb6744eb66dce57a4a0f867c2659a1a",
+        "sha256": "b937d5848288cbe3dc35ca7a96e5d5a9040f74ca15ee2c0a4668eabc31b56078",
+        "utc": "2026-09-30T19:35:28.984474+00:00"
+      },
+      {
+        "seq": 23,
+        "received_us": 1790796929022227,
+        "kind": "FEATURE_EXPORT",
+        "payload": {
+          "bytes": 17189,
+          "file": "features/60s/batch-0000000001614-0000000002218.parquet",
+          "rows": 10,
+          "sha256": "79a4adac33f6a6396aae209d1ab07dc1f6fcf6cc7d62aaa94e77d93466c55ded"
+        },
+        "previous_sha": "b937d5848288cbe3dc35ca7a96e5d5a9040f74ca15ee2c0a4668eabc31b56078",
+        "sha256": "ba1a8dbd5b95d6ce03c65c19ce092ef34d2c582ab0d6a937eb3577b5471e697c",
+        "utc": "2026-09-30T19:35:29.022227+00:00"
+      },
+      {
+        "seq": 24,
+        "received_us": 1790796931653537,
+        "kind": "CONNECTED",
+        "payload": {
+          "detected_us": 1790796931653537,
+          "reason": "connection",
+          "session": "40c881d3ef8b484ba2ac36263517f8f6",
+          "uncertain_from_us": null
+        },
+        "previous_sha": "ba1a8dbd5b95d6ce03c65c19ce092ef34d2c582ab0d6a937eb3577b5471e697c",
+        "sha256": "31c888b6bf720af14a91c20cd92c050e3d595df682f06f9df2fdc87e4341015f",
+        "utc": "2026-09-30T19:35:31.653537+00:00"
+      },
+      {
+        "seq": 25,
+        "received_us": 1790796932289054,
+        "kind": "AGG_ID_GAP",
+        "payload": {
+          "from": 2092627466,
+          "from_received_us": 1790795508403730,
+          "symbol": "ETHUSDT",
+          "to": 2092633649,
+          "to_received_us": 1790796932289054
+        },
+        "previous_sha": "31c888b6bf720af14a91c20cd92c050e3d595df682f06f9df2fdc87e4341015f",
+        "sha256": "b38c18eb01a4598ab5aa4b6147c69771c44e86fc58f15424501c0724dd4a4c65",
+        "utc": "2026-09-30T19:35:32.289054+00:00"
+      },
+      {
+        "seq": 26,
+        "received_us": 1790796933531288,
+        "kind": "AGG_ID_GAP",
+        "payload": {
+          "from": 4077947468,
+          "from_received_us": 1790795508079212,
+          "symbol": "BTCUSDT",
+          "to": 4077966708,
+          "to_received_us": 1790796933531288
+        },
+        "previous_sha": "b38c18eb01a4598ab5aa4b6147c69771c44e86fc58f15424501c0724dd4a4c65",
+        "sha256": "38b70f43b53febc0bb42df2b63bf6786af1eb364fa2b8c24bc73d87fbb45f0cc",
+        "utc": "2026-09-30T19:35:33.531288+00:00"
+      }
+    ],
+    "cross_call_wall_interval_seconds": 265.625028,
+    "cross_call_monotonic_interval_seconds": 265.993379993,
+    "received_events_first": 24389,
+    "received_events_second": 68473,
+    "last_observed_status": "CONNECTED",
+    "checkpoint_observed_monotonic_seconds": 426.48931526200005,
+    "missing_data_backfilled_as_live": false,
+    "healthy_time_backfilled": false,
+    "legacy_collector_started_or_stopped": false
+  },
+  "checks": {
+    "old_audit_prefix_unchanged": true,
+    "old_manifests_unchanged": true,
+    "all_manifest_files_sha_verified": true,
+    "sqlite_quick_check_ok": true,
+    "prior_writer_absent": true,
+    "resumed_writer_present": true,
+    "same_boot_across_resumed_calls": true,
+    "same_session_across_resumed_calls": true,
+    "same_owned_host_identity": true,
+    "checkpoint_received_events_increased": true,
+    "checkpoint_received_timestamp_increased": true,
+    "both_resumed_status_samples_connected": true,
+    "restart_gap_explicit": true,
+    "two_symbol_agg_gaps_explicit": true,
+    "committed_outbox_recovered": true,
+    "frozen_source_unchanged": true,
+    "original_acceptance_receipt_unchanged": true,
+    "frozen_module_doc_unchanged": true,
+    "disk_within_intake_limit": true,
+    "shared_ram_within_5gb": true,
+    "swap_zero": true,
+    "gpu_not_used": true
+  },
+  "disk_ledger": {
+    "project_bytes": 2339515991,
+    "wsl_vhd_bytes": 5697961984,
+    "total_bytes": 8037477975,
+    "reserved_bytes": 20000000,
+    "d_free_bytes": 374586941440,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000
+  },
+  "resource_snapshot": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 117891072,
+    "ram_peak_bytes": 419467264,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "current_disk_source_sha256": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+  "disk_patch_tests": {
+    "cases": 4,
+    "status": "PASS",
+    "wall_seconds": 1.54
+  },
+  "evidence": [
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/before.json",
+      "sha256": "6fcefdd9600d46b77c44e1b301a6429a3e3292a846ac3081aff5b4b997ca0b24",
+      "bytes": 17572
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/disk-guard-tests.txt",
+      "sha256": "fcdbfa84d0fd6ae851f6491b9c89b638922b59436775018b736e14811aabf805",
+      "bytes": 100
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/disk-ledger-after.json",
+      "sha256": "30722827c37ef194c7583c3470bb76e759202c0d4bdb8431fa14a8445d7293fa",
+      "bytes": 218
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/host-after-first.json",
+      "sha256": "5b2bb9738cac94b6f3eb70581d4d083a63829fd23d5cbbb2a178e62a368184aa",
+      "bytes": 634
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/host-after-second.json",
+      "sha256": "79108647e9d8f4285d90c3f77220e99d2ba60c37ef2a266866f3d1cfcffda2cc",
+      "bytes": 634
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/host-before.json",
+      "sha256": "da88e171a4e815645d9d1626d14cffd1d9a8090b65c0a763239150f8bffb5dc4",
+      "bytes": 170
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/restarted-connected-first.json",
+      "sha256": "232920b1af596edd678377f107d2cc2c4ac9d9389896c8b5c387fb8c7996dd8a",
+      "bytes": 24580
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/restarted-connected-second.json",
+      "sha256": "6b83c5e1b05effe6cef914ee389251237b57a10f677ffcff6e7219682b601493",
+      "bytes": 24504
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/restarted-first.json",
+      "sha256": "8855d1b5fa8bef3f446d6b5fe931f1b6723f0d952f9e2489a5b6ca2f21c74a83",
+      "bytes": 18528
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/stderr-before.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/stdout-before.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/generated/A07_incident_20261001_0329/windows-system-events.json",
+      "sha256": "ff3c8b1c8043f2bd52e2315626582efd1b41067637d208cdf44a6d441d367c75",
+      "bytes": 29202
+    }
+  ],
+  "independent_document": {
+    "path": "/mnt/d/codex/coin/docs/A07_INCIDENT_AND_CONTINUITY_2026-10-01.md",
+    "sha256": "e0ef818054038f2b083347608ca794ae6d2258d206ce9a62d27a23425963d087"
+  },
+  "public_data_only": true,
+  "credentials_used": false,
+  "account_requests": 0,
+  "order_requests": 0,
+  "alpha_eligible": false,
+  "real_time_days_certified": 0,
+  "actual_24h_capacity_accepted": false,
+  "actual_14d_30d_quality_accepted": false,
+  "historical_receipts_altered": false,
+  "limitations": [
+    "No normal STOP evidence for the original process; its unsealed tail is unknown.",
+    "Host service transition and VM teardown are evidenced; installer actor/precise kill command is unknown.",
+    "Post-restart current cgroup OOM counters cannot certify the previous boot.",
+    "Connected snapshots prove sampled survival and receipt progress, not future continuous health."
+  ]
+}

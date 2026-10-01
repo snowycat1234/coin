@@ -1,0 +1,73 @@
+{
+  "module": "A03",
+  "created_utc": "2026-09-30T16:58:41.144138+00:00",
+  "status": "ENGINEERING_INFERENCE_PASS_OPTIONAL_NATIVE_PENDING",
+  "alpha_candidate": false,
+  "training_executed": false,
+  "parameter_search_executed": false,
+  "historical_performance_evaluated": false,
+  "market_data_read": false,
+  "locked_historical_test_consumed": false,
+  "account_state_machine_modified": false,
+  "tests": {
+    "passed": 40,
+    "failed": 0,
+    "elapsed_seconds": 54.23,
+    "command": "scripts/bounded.sh .venv/bin/pytest tests/test_predictor.py -q",
+    "data": "manual synthetic coefficients and synthetic feature vectors only"
+  },
+  "lint": "PASS",
+  "inference_tolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-10
+  },
+  "logistic_parity": "research exported inference == direct declared scaler/logit math == predictor; 25 synthetic vectors",
+  "native_backends": {
+    "lightgbm": {
+      "dependency_present": false,
+      "real_native_model_loading": "NOT_EXECUTED_DEPENDENCY_ABSENT",
+      "adapter_contract_synthetic_test": "PASS",
+      "missing_dependency_denial": "PASS"
+    },
+    "xgboost": {
+      "dependency_present": false,
+      "real_native_model_loading": "NOT_EXECUTED_DEPENDENCY_ABSENT",
+      "adapter_contract_synthetic_test": "PASS",
+      "missing_dependency_denial": "PASS"
+    }
+  },
+  "artifacts": {
+    "src/quant/predictor.py": {
+      "bytes": 26987,
+      "sha256": "b6c75dde6ab13629179ae6852bae6c041891962bcd863bcc64e8143a087147a0"
+    },
+    "tests/test_predictor.py": {
+      "bytes": 14203,
+      "sha256": "dbddaf851b5bf2786498c60c7a13b94ec0b463f235799019c4e4cb0d50211307"
+    },
+    "docs/MODULE_A03_PREDICTOR.md": {
+      "bytes": 7063,
+      "sha256": "9328de51645cee431e6108a0af065e114766669d3a19ad4a574f859c42499825"
+    }
+  },
+  "execution_binding": {
+    "version": "execution_v2",
+    "digest": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+    "receipt_file": "/mnt/d/codex/coin/reports/A01_EXECUTION_PARITY_ACCEPTANCE.json",
+    "receipt_sha256": "4ca64a6ddbeb108392c45af75b666cb44c4d9c8965f03a9cc1ff14cd5547fca1"
+  },
+  "resources": {
+    "wsl": "hpc_linux",
+    "shared_memory_max_bytes": 4999999488,
+    "shared_swap_max_bytes": 0,
+    "shared_memory_peak_bytes_all_project": 1702211584,
+    "disk_hard_limit_bytes": 40000000000,
+    "gpu_used": false,
+    "max_model_bytes": 64000000,
+    "max_manifest_bytes": 128000
+  },
+  "remaining": [
+    "Install only selected optional CPU backend when authorized research gate permits; run actual native artifact inference parity without substituting mocks.",
+    "Wire generic predictor into candidate engine in a separately reviewed integration; no deployment authorization is granted by this report."
+  ]
+}

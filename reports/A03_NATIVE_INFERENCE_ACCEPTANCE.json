@@ -1,0 +1,104 @@
+{
+  "module": "A03",
+  "created_utc": "2026-09-30T17:25:06.227679+00:00",
+  "status": "ENGINEERING_NATIVE_INFERENCE_PASS",
+  "alpha_candidate": false,
+  "formal_alpha_training": false,
+  "synthetic_engineering_fit": true,
+  "historical_performance_evaluated": false,
+  "market_data_read": false,
+  "parameter_search_executed": false,
+  "locked_historical_test_consumed": false,
+  "account_state_machine_modified": false,
+  "tests": {
+    "passed": 43,
+    "failed": 0,
+    "skipped": 0,
+    "console_elapsed_seconds": 53.64,
+    "junit_elapsed_seconds": 53.164,
+    "command": "scripts/bounded.sh .venv/bin/pytest tests/test_predictor.py -q -o junit_family=xunit1 --junitxml=reports/A03_NATIVE_INFERENCE_TESTS_REPAIR1.xml"
+  },
+  "lint": "PASS",
+  "tolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-10
+  },
+  "models": {
+    "lightgbm": {
+      "library_version": "4.7.0",
+      "synthetic_training_rows": 32,
+      "features": [
+        "f0",
+        "f1"
+      ],
+      "trees": 2,
+      "device": "cpu",
+      "threads": 1,
+      "native_model": "/mnt/d/codex/coin/reports/a03_native_engineering_models/lightgbm/model.txt",
+      "model_bytes": 3989,
+      "model_sha256": "a5a76fec2317b23d8fd057515de0897cf2b5f2578d0c0e8e80c0bd3afdfd1610",
+      "manifest": "/mnt/d/codex/coin/reports/a03_native_engineering_models/lightgbm/release.json",
+      "release_sha256": "f1cf14463eb9a2178534f6beb565183f0ae24aeb2e2fc99f2544c1c701cd903b",
+      "training_data_sha256": "48e5fa005ff99ab5c018bb756c3de92d364ed67fcad5020bb657bb5a0404c4a8",
+      "maximum_absolute_prediction_error": 0.0,
+      "research_exported_runtime_parity": "PASS",
+      "native_schema_swap_denied": true,
+      "native_classification_as_return_denied": true
+    },
+    "xgboost": {
+      "library_version": "3.4.1",
+      "synthetic_training_rows": 32,
+      "features": [
+        "f0",
+        "f1"
+      ],
+      "trees": 2,
+      "device": "cpu",
+      "threads": 1,
+      "native_model": "/mnt/d/codex/coin/reports/a03_native_engineering_models/xgboost/model.json",
+      "model_bytes": 1979,
+      "model_sha256": "865e0958ed7cb7d861b68d4a8c66603469ede7f3642562d023bfcdcc5e0c5662",
+      "manifest": "/mnt/d/codex/coin/reports/a03_native_engineering_models/xgboost/release.json",
+      "release_sha256": "19f1af0753c81a9bf7067c44ed94a24182f26685f2b1215431cb336e1ca0ff62",
+      "training_data_sha256": "48e5fa005ff99ab5c018bb756c3de92d364ed67fcad5020bb657bb5a0404c4a8",
+      "maximum_absolute_prediction_error": 0.0,
+      "research_exported_runtime_parity": "PASS",
+      "native_schema_swap_denied": true,
+      "native_classification_as_return_denied": true
+    }
+  },
+  "production_source_sha256": "50497620d5d649d7eb0ebe0a424f93053f5c4574a5c846e20ac51c9f4e3c7ff1",
+  "test_source_sha256": "8fa66bdecddb69daefa093d55f29b5cb7dc1afb7c6c7ab154545cf0c94cb2809",
+  "module_document_sha256": "8444286b59331a3bde7e91567b5abff63a594421ce026498371b2567205026cd",
+  "execution_binding": {
+    "version": "execution_v2",
+    "digest": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+    "A01_receipt_sha256": "4ca64a6ddbeb108392c45af75b666cb44c4d9c8965f03a9cc1ff14cd5547fca1"
+  },
+  "dependency_receipt_sha256": "e7ac9f2bde73d575cc8765bc4ee1590188d0b43d64e0793a8bf5b94b6a71a61b",
+  "preserved_prior_evidence": {
+    "core_40_tests": "reports/A03_PREDICTOR_ACCEPTANCE.json",
+    "native_initial_failure": {
+      "junit": "reports/A03_NATIVE_INFERENCE_TESTS.xml",
+      "sha256": "90643b707df9d253647c037c09bb845317b2be8f44f7f09126dd2d45bf8b8665",
+      "result": "1 passed / 1 failed; native regression parity passed, binary LightGBM derived fixture lacked sigmoid; repaired fixture and actual model_str params handling"
+    },
+    "final_43_tests": {
+      "junit": "reports/A03_NATIVE_INFERENCE_TESTS_REPAIR1.xml",
+      "sha256": "4766863ffc2cd1666a4d304413962a6db746e7e7e9ca1fc56260eb30e5eed376"
+    }
+  },
+  "resources": {
+    "wsl": "hpc_linux",
+    "shared_memory_max_bytes": 4999999488,
+    "shared_swap_max_bytes": 0,
+    "shared_memory_peak_bytes_all_project": 1894678528,
+    "disk_hard_limit_bytes": 40000000000,
+    "GPU_used": false,
+    "synthetic_artifact_bundle_bytes": 9940
+  },
+  "remaining": [
+    "Account pipeline integration is separate and not modified here.",
+    "Actual alpha strategy fitting, development performance and R2 gate remain future authorized work; these fixtures grant no deployment authority."
+  ]
+}

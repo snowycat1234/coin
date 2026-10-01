@@ -8,7 +8,7 @@ if ! test -x .tools/bin/uv; then
   UV_INSTALL_DIR="$QUANT_ROOT/.tools/bin" UV_NO_MODIFY_PATH=1 sh .cache/tmp/uv-install.sh
 fi
 bash scripts/bounded.sh uv lock --python /usr/bin/python3
-bash scripts/bounded.sh uv sync --locked --python /usr/bin/python3
+bash scripts/bounded.sh uv sync --locked --inexact --python /usr/bin/python3
 git init -q
 git config core.autocrlf false
 uv --version

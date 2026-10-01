@@ -1,0 +1,260 @@
+{
+  "schema_version": "frozen_predictor_v1",
+  "model_type": "xgboost",
+  "model_format": "native_json",
+  "model_sha256": "0b4ebabe347a5e8a5a9d922e5ff883aa8e9ae251e38a83f9909058fb7f48469c",
+  "predictor_implementation_sha256": "50497620d5d649d7eb0ebe0a424f93053f5c4574a5c846e20ac51c9f4e3c7ff1",
+  "model_bytes": 561252,
+  "feature_schema": {
+    "version": "hourly_causal_features_v2.0",
+    "missing_policy": "reject",
+    "features": [
+      {
+        "name": "log_return_1",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-1]); 1+1 consecutive complete hours"
+      },
+      {
+        "name": "log_return_4",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-4]); 4+1 consecutive complete hours"
+      },
+      {
+        "name": "log_return_16",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-16]); 16+1 consecutive complete hours"
+      },
+      {
+        "name": "volatility_24",
+        "dtype": "float64",
+        "definition": "sample std(ddof=1) of last 24 hourly log_return_1 including t"
+      },
+      {
+        "name": "volatility_96",
+        "dtype": "float64",
+        "definition": "sample std(ddof=1) of last 96 hourly log_return_1 including t"
+      },
+      {
+        "name": "volume_z96",
+        "dtype": "float64",
+        "definition": "(volume[t]-mean(volume,96))/(std(volume,96,ddof=1)+1e-12)"
+      },
+      {
+        "name": "range_fraction",
+        "dtype": "float64",
+        "definition": "(high[t]-low[t])/close[t]"
+      },
+      {
+        "name": "body_fraction",
+        "dtype": "float64",
+        "definition": "(close[t]-open[t])/open[t]; unchanged legacy definition"
+      },
+      {
+        "name": "ema_gap",
+        "dtype": "float64",
+        "definition": "EMA20(close,adjust=False)/EMA100(close,adjust=False)-1; min_samples=100"
+      },
+      {
+        "name": "taker_fraction",
+        "dtype": "float64",
+        "definition": "taker_buy_base[t]/volume[t]; zero volume -> 0.5"
+      },
+      {
+        "name": "log_return_2",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-2]); 2+1 consecutive complete hours"
+      },
+      {
+        "name": "log_return_8",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-8]); 8+1 consecutive complete hours"
+      },
+      {
+        "name": "log_return_24",
+        "dtype": "float64",
+        "definition": "log(close[t]/close[t-24]); 24+1 consecutive complete hours"
+      },
+      {
+        "name": "ema_gap_8_32",
+        "dtype": "float64",
+        "definition": "EMA8(close,adjust=False)/EMA32(close,adjust=False)-1; min_samples=32"
+      },
+      {
+        "name": "high_distance_24",
+        "dtype": "float64",
+        "definition": "close[t]/max(high,last 24 bars including t)-1"
+      },
+      {
+        "name": "high_distance_96",
+        "dtype": "float64",
+        "definition": "close[t]/max(high,last 96 bars including t)-1"
+      },
+      {
+        "name": "low_distance_24",
+        "dtype": "float64",
+        "definition": "close[t]/min(low,last 24 bars including t)-1"
+      },
+      {
+        "name": "low_distance_96",
+        "dtype": "float64",
+        "definition": "close[t]/min(low,last 96 bars including t)-1"
+      },
+      {
+        "name": "volatility_6",
+        "dtype": "float64",
+        "definition": "sample std(ddof=1) of last 6 hourly log_return_1 including t"
+      },
+      {
+        "name": "atr_fraction_14",
+        "dtype": "float64",
+        "definition": "mean(TR,last 14 including t)/close[t]; TR=max(high-low,abs(high-prevclose),abs(low-prevclose)); first bar of segment uses high-low; not Wilder smoothing"
+      },
+      {
+        "name": "atr_fraction_48",
+        "dtype": "float64",
+        "definition": "mean(TR,last 48 including t)/close[t]; TR=max(high-low,abs(high-prevclose),abs(low-prevclose)); first bar of segment uses high-low; not Wilder smoothing"
+      },
+      {
+        "name": "close_location",
+        "dtype": "float64",
+        "definition": "(close-low)/(high-low); zero range -> 0.5"
+      },
+      {
+        "name": "volume_z24",
+        "dtype": "float64",
+        "definition": "(volume[t]-mean(volume,24))/(std(volume,24,ddof=1)+1e-12)"
+      },
+      {
+        "name": "quote_volume_z24",
+        "dtype": "float64",
+        "definition": "(quote_volume[t]-mean(quote_volume,24))/(std(quote_volume,24,ddof=1)+1e-12)"
+      },
+      {
+        "name": "quote_volume_z96",
+        "dtype": "float64",
+        "definition": "(quote_volume[t]-mean(quote_volume,96))/(std(quote_volume,96,ddof=1)+1e-12)"
+      },
+      {
+        "name": "taker_imbalance",
+        "dtype": "float64",
+        "definition": "2*taker_fraction-1"
+      },
+      {
+        "name": "taker_imbalance_mean_4",
+        "dtype": "float64",
+        "definition": "mean(2*taker_fraction-1,last 4 including t)"
+      },
+      {
+        "name": "taker_imbalance_mean_16",
+        "dtype": "float64",
+        "definition": "mean(2*taker_fraction-1,last 16 including t)"
+      },
+      {
+        "name": "other_asset_return_1",
+        "dtype": "float64",
+        "definition": "other asset log_return_1 at the SAME closed hour, only after both are available"
+      },
+      {
+        "name": "other_asset_return_4",
+        "dtype": "float64",
+        "definition": "other asset log_return_4 at the SAME closed hour, only after both are available"
+      },
+      {
+        "name": "other_asset_return_16",
+        "dtype": "float64",
+        "definition": "other asset log_return_16 at the SAME closed hour, only after both are available"
+      },
+      {
+        "name": "relative_return_1",
+        "dtype": "float64",
+        "definition": "own log_return_1-other_asset_return_1"
+      },
+      {
+        "name": "relative_return_4",
+        "dtype": "float64",
+        "definition": "own log_return_4-other_asset_return_4"
+      },
+      {
+        "name": "rolling_corr_24",
+        "dtype": "float64",
+        "definition": "Pearson correlation of 24 synchronized hourly log returns; population std<=1e-12 in either series -> 0 (uninformative); never stale asof matching"
+      },
+      {
+        "name": "is_BTC",
+        "dtype": "float64",
+        "definition": "1 for BTCUSDT else 0; numeric categorical indicator"
+      },
+      {
+        "name": "is_ETH",
+        "dtype": "float64",
+        "definition": "1 for ETHUSDT else 0; numeric categorical indicator"
+      },
+      {
+        "name": "hour_sin",
+        "dtype": "float64",
+        "definition": "sin(2*pi*UTC_hour(logical paired availability)/24)"
+      },
+      {
+        "name": "hour_cos",
+        "dtype": "float64",
+        "definition": "cos(2*pi*UTC_hour(logical paired availability)/24)"
+      },
+      {
+        "name": "weekday_sin",
+        "dtype": "float64",
+        "definition": "sin(2*pi*UTC_weekday(logical paired availability)/7); Monday=0"
+      },
+      {
+        "name": "weekday_cos",
+        "dtype": "float64",
+        "definition": "cos(2*pi*UTC_weekday(logical paired availability)/7); Monday=0"
+      }
+    ],
+    "sha256": "373cfb9c581616a23bf9a38b37bc7264b45b8c05a48fcc475582888f95a9d945"
+  },
+  "execution_contract": {
+    "version": "execution_v2",
+    "sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2"
+  },
+  "cost_contract": {
+    "version": "spot_taker_proxy_cost_v1",
+    "definition": {
+      "fee_bps": 10.0,
+      "half_spread_floor_bps": 1.0,
+      "extra_slippage_bps": 4.0,
+      "fee_basis": "actual_fill_notional"
+    },
+    "sha256": "6fcc8f5027afa8386495dddf84264629d5a4f879bdfab1c57dca100bf1d56cbc"
+  },
+  "risk_contract": {
+    "version": "spot_long_cash_risk_v1",
+    "definition": {
+      "single_asset_max": 0.3,
+      "gross_max": 0.6,
+      "annual_vol_target": 0.1,
+      "participation_rate": 0.001,
+      "min_notional": 10.0,
+      "market": "spot_long_cash",
+      "lot_steps": {
+        "BTCUSDT": 1e-05,
+        "ETHUSDT": 0.0001
+      }
+    },
+    "sha256": "335f3533a15f3dbb5399ea9011b9dc065445a1be97f5176983800610e0be0878"
+  },
+  "training_cutoff": "2025-10-01T00:00:00Z",
+  "training_last_available_us": 1759255200000000,
+  "training_last_label_end_us": 1759269660000001,
+  "training_data_sha256": "bb05b14448988b32a5f1f267ed006c172c3e7319bbd61643db5579c14640d6bc",
+  "decision_interval": "1h",
+  "prediction_horizon": "4h",
+  "prediction_semantics": "future_4h_gross_executable_return",
+  "return_unit": "decimal_simple_return",
+  "runtime": {
+    "device": "cpu",
+    "threads": 1,
+    "missing_features": "reject"
+  },
+  "qualification": "inference_binding_only_not_alpha_or_live_authorization",
+  "release_sha256": "e99640b36df534cf0918255a829bd20dbd2ab4616e634c529b92217021924055"
+}

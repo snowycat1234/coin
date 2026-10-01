@@ -29,7 +29,13 @@ def tree_bytes(root: Path) -> int:
                 elif entry.is_dir(follow_symlinks=False):
                     pending.append(Path(entry.path))
                 elif entry.is_file(follow_symlinks=False):
-                    total += entry.stat(follow_symlinks=False).st_size
+                    try:
+                        total += entry.stat(follow_symlinks=False).st_size
+                    except FileNotFoundError:
+                        # Atomic status replacement and the bounded raw ring may
+                        # remove a file after scandir. A vanished file uses no
+                        # space; permission/IO errors still fail the guard.
+                        continue
     return total
 
 

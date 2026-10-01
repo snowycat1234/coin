@@ -45,6 +45,8 @@ def target_rows(*items):
 
 
 def unscaled(**kwargs):
+    # Preserved regression coverage for the archived zero-latency implementation.
+    kwargs.setdefault("latency_minutes", 0)
     return BacktestConfig(target_annual_vol=None, min_notional=0, lot_step_by_symbol={}, **kwargs)
 
 

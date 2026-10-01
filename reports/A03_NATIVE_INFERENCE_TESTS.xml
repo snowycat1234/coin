@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="96.930" timestamp="2026-09-30T17:14:06.778216+00:00" hostname="xflops"><testcase classname="tests.test_predictor" name="test_real_native_cpu_synthetic_export_runtime_parity[lightgbm]" file="tests/test_predictor.py" line="388" time="3.307"><properties><property name="model_type" value="lightgbm" /><property name="library_version" value="4.7.0" /><property name="synthetic_rows" value="32" /><property name="features" value="['f0', 'f1']" /><property name="trees" value="2" /><property name="device" value="cpu" /><property name="threads" value="1" /><property name="model_sha256" value="a5a76fec2317b23d8fd057515de0897cf2b5f2578d0c0e8e80c0bd3afdfd1610" /><property name="release_sha256" value="130c09e1222e49f134b70530fbeb4ebbcd4017f87a595716826aa445c897215c" /><property name="artifact_path" value="/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-37/test_real_native_cpu_synthetic0/model.txt" /><property name="maximum_absolute_prediction_error" value="0.0" /></properties><failure message="AssertionError: Regex pattern did not match.&#10;  Expected regex: 'objective'&#10;  Actual message: 'invalid native LightGBM text model'">kind = 'lightgbm'
+tmp_path = PosixPath('/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-37/test_real_native_cpu_synthetic0')
+record_property = &lt;function record_property.&lt;locals&gt;.append_property at 0x701b6fb91260&gt;
+
+    @pytest.mark.parametrize("kind", ["lightgbm", "xgboost"])
+    def test_real_native_cpu_synthetic_export_runtime_parity(kind, tmp_path, record_property):
+        """A01-authorized engineering fit only: 32 synthetic rows, two small trees."""
+        library = pytest.importorskip(kind)
+        rng = np.random.default_rng(20261001)
+        matrix = rng.normal(size=(32, 2))
+        target = 0.003 * matrix[:, 0] - 0.002 * matrix[:, 1] + 0.001 * matrix[:, 0] * matrix[:, 1]
+        names = ["f0", "f1"]
+        if kind == "lightgbm":
+            dataset = library.Dataset(matrix, label=target, feature_name=names)
+            native = library.train(
+                {
+                    "objective": "regression",
+                    "device_type": "cpu",
+                    "num_threads": 1,
+                    "seed": 20261001,
+                    "deterministic": True,
+                    "force_col_wise": True,
+                    "num_leaves": 4,
+                    "max_depth": 2,
+                    "min_data_in_leaf": 2,
+                    "max_bin": 16,
+                    "learning_rate": 0.1,
+                    "verbosity": -1,
+                },
+                dataset,
+                num_boost_round=2,
+            )
+            blob = native.model_to_string(num_iteration=2).encode()
+            oracle = native.predict(matrix, num_threads=1, num_iteration=2)
+            exported = library.Booster(
+                params={"device_type": "cpu", "num_threads": 1}, model_str=blob.decode()
+            )
+            exported_oracle = exported.predict(matrix, num_threads=1, num_iteration=-1)
+            assert exported.feature_name() == names
+            assert exported.dump_model()["objective"] == "regression"
+        else:
+            dataset = library.DMatrix(matrix, label=target, feature_names=names, nthread=1)
+            native = library.train(
+                {
+                    "objective": "reg:squarederror",
+                    "device": "cpu",
+                    "nthread": 1,
+                    "seed": 20261001,
+                    "tree_method": "hist",
+                    "max_depth": 2,
+                    "max_bin": 16,
+                    "eta": 0.1,
+                },
+                dataset,
+                num_boost_round=2,
+            )
+            blob = bytes(native.save_raw(raw_format="json"))
+            oracle = native.predict(dataset, validate_features=True)
+            exported = library.Booster(params={"device": "cpu", "nthread": 1})
+            exported.load_model(bytearray(blob))
+            exported.set_param({"device": "cpu", "nthread": 1})
+            exported_oracle = exported.predict(dataset, validate_features=True)
+            configuration = json.loads(exported.save_config())["learner"]
+            assert configuration["generic_param"]["device"] == "cpu"
+            assert configuration["objective"]["name"] == "reg:squarederror"
+            assert exported.feature_names == names
+        release = manifest(blob, kind)
+        model_path = tmp_path / ("model.txt" if kind == "lightgbm" else "model.json")
+        release_path = tmp_path / "release.json"
+        model_path.write_bytes(blob)
+        release_path.write_bytes(encoded(release))
+        predictor = load_frozen_predictor(model_path, release_path, **bindings())
+        actual = [predictor.predict({"f1": row[1], "f0": row[0]})["expected_return"] for row in matrix]
+        np.testing.assert_allclose(actual, oracle, atol=ABS_TOLERANCE, rtol=REL_TOLERANCE)
+        np.testing.assert_allclose(actual, exported_oracle, atol=ABS_TOLERANCE, rtol=REL_TOLERANCE)
+        record_property("model_type", kind)
+        record_property("library_version", library.__version__)
+        record_property("synthetic_rows", 32)
+        record_property("features", names)
+        record_property("trees", 2)
+        record_property("device", "cpu")
+        record_property("threads", 1)
+        record_property("model_sha256", release["model_sha256"])
+        record_property("release_sha256", release["release_sha256"])
+        record_property("artifact_path", str(model_path))
+        record_property("maximum_absolute_prediction_error", float(np.max(np.abs(actual - oracle))))
+        # Native feature names remain authoritative even if a caller re-signs a wrong
+        # schema. A swapped column order must fail before producing any prediction.
+        schema = copy.deepcopy(release["feature_schema"])
+        schema.pop("sha256")
+        schema["features"].reverse()
+        wrong_release = manifest(blob, kind, feature_schema=schema)
+        with pytest.raises(PredictorDenied, match="schema"):
+            load_frozen_predictor_bytes(blob, wrong_release, **bindings())
+        # Re-label a copy of the same tiny native tree model as binary classification;
+        # no additional training. Its sigmoid output must never be called gross return.
+        if kind == "lightgbm":
+            classifier_blob = blob.replace(b"objective=regression", b"objective=binary")
+            classifier_blob = classifier_blob.replace(
+                b"[objective: regression]", b"[objective: binary]"
+            )
+        else:
+            classifier = json.loads(blob)
+            classifier["learner"]["objective"]["name"] = "binary:logistic"
+            parameters = classifier["learner"]["learner_model_param"]
+            parameters["base_score"] = "[5E-1]" if parameters["base_score"].startswith("[") else "5E-1"
+            classifier_blob = encoded(classifier)
+&gt;       with pytest.raises(PredictorDenied, match="objective"):
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'objective'
+E         Actual message: 'invalid native LightGBM text model'
+
+tests/test_predictor.py:492: AssertionError</failure></testcase><testcase classname="tests.test_predictor" name="test_real_native_cpu_synthetic_export_runtime_parity[xgboost]" file="tests/test_predictor.py" line="388" time="3.142"><properties><property name="model_type" value="xgboost" /><property name="library_version" value="3.4.1" /><property name="synthetic_rows" value="32" /><property name="features" value="['f0', 'f1']" /><property name="trees" value="2" /><property name="device" value="cpu" /><property name="threads" value="1" /><property name="model_sha256" value="865e0958ed7cb7d861b68d4a8c66603469ede7f3642562d023bfcdcc5e0c5662" /><property name="release_sha256" value="09af14ee68a99b95f2b92b860e2f2c0578ccd2608f3698fea3138bc78ddf9bba" /><property name="artifact_path" value="/mnt/d/codex/coin/.cache/tmp/pytest-of-xflops/pytest-37/test_real_native_cpu_synthetic1/model.json" /><property name="maximum_absolute_prediction_error" value="0.0" /></properties></testcase></testsuite></testsuites>

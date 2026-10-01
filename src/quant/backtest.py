@@ -1,7 +1,7 @@
 """Deterministic, long-only spot research simulator; never sends exchange orders.
 
 Kline open prices are an execution proxy. Default executions happen one microsecond
-after the first minute open at or after signal availability. Capacity is measured
+after ceil(signal availability to a minute) plus one minute. Capacity is measured
 from the *previous* complete minute, and all costs are charged exactly once.
 """
 
@@ -17,6 +17,8 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 
+from quant.decision_policy import holding_period_complete
+from quant.execution_contract import ExecutionContractV2
 from quant.metrics import daily_metrics
 
 MINUTE_US = 60_000_000
@@ -34,7 +36,7 @@ class BacktestConfig:
     slippage_bps: float = 4.0
     fee_multiplier: float = 1.0
     slippage_multiplier: float = 1.0
-    latency_minutes: int = 0
+    latency_minutes: int = 1
     start_us: int | None = None
     end_us: int | None = None  # exclusive
     max_weight: float = MAX_WEIGHT
@@ -61,7 +63,10 @@ class BacktestConfig:
             raise ValueError("target_annual_vol cannot exceed the frozen 10% target")
         if not 0 <= self.min_vol_days <= self.vol_window_days or self.vol_window_days < 2:
             raise ValueError("invalid volatility history window")
-        if self.latency_minutes < 0 or self.max_order_wait_minutes < 1:
+        if (not isinstance(self.latency_minutes, int) or isinstance(self.latency_minutes, bool)
+                or not isinstance(self.max_order_wait_minutes, int)
+                or isinstance(self.max_order_wait_minutes, bool)
+                or self.latency_minutes < 0 or self.max_order_wait_minutes < 1):
             raise ValueError("invalid execution delay / order lifetime")
         costs = [
             self.fee_bps, self.half_spread_bps, self.slippage_bps,
@@ -82,7 +87,20 @@ class BacktestConfig:
 
     @property
     def execution_rate(self) -> float:
-        return (self.half_spread_bps + self.slippage_bps * self.slippage_multiplier) / 10_000
+        return ExecutionContractV2.execution_rate(
+            self.half_spread_bps, self.slippage_bps * self.slippage_multiplier,
+        )
+
+    @property
+    def execution_version(self) -> str:
+        return "legacy_execution_v1" if self.latency_minutes == 0 else "execution_v2"
+
+    def eligible_us(self, decision_us: int) -> int:
+        if self.latency_minutes == 0:
+            return (decision_us + MINUTE_US - 1) // MINUTE_US * MINUTE_US
+        return ExecutionContractV2().earliest_execution_us(
+            decision_us, extra_delay_minutes=self.latency_minutes - 1,
+        )
 
 
 @dataclass
@@ -250,7 +268,11 @@ def _daily_covariances(
         .filter(pl.col("count") == 1440)
     )
     values = {(r["symbol"], r["day"]): r["close"] for r in daily.iter_rows(named=True)}
-    days = sorted(set(daily.get_column("day").to_list()))
+    # Include missing calendar days, so a cached covariance cannot retain an
+    # observation outside the rolling window during an isolated whole-day gap.
+    first_day = int(minutes["open_us"].min()) // DAY_US
+    last_day = int(minutes["open_us"].max()) // DAY_US
+    days = range(first_day, last_day + 1)
     dates: list[int] = []
     covs: list[np.ndarray | None] = []
     returns: list[tuple[int, np.ndarray]] = []
@@ -311,6 +333,15 @@ def run_backtest(
         raise ValueError("target fields cannot be null")
     if targets.filter(~pl.col("target_weight").is_finite()).height:
         raise ValueError("target weights must be finite")
+    if "minimum_hold_minutes" in targets.columns:
+        if targets.filter(pl.col("minimum_hold_minutes").is_null()
+                          | ~pl.col("minimum_hold_minutes").is_in([0, 120])).height:
+            raise ValueError("Only zero or frozen 120-minute hold policy is supported")
+    if "risk_forced_exit" in targets.columns and (
+        targets.schema["risk_forced_exit"] != pl.Boolean
+        or targets["risk_forced_exit"].null_count()
+    ):
+        raise ValueError("Risk exit declarations must be explicit booleans")
     if not set(targets.get_column("symbol").unique().to_list()).issubset(symbols):
         raise ValueError("target symbol has no minute prices")
     if not {"symbol", "available_us", "close_us"}.issubset(bars.columns):
@@ -335,20 +366,24 @@ def run_backtest(
     covariance_times, covariances = _daily_covariances(minutes, symbols, config)
     target_events: dict[int, list[dict]] = {}
     raw = {symbol: 0.0 for symbol in symbols}
+    policies = {symbol: {"minimum_hold_minutes": 0, "risk_forced_exit": False}
+                for symbol in symbols}
     sorted_targets = targets.sort(["available_us", "symbol"])
     prior_targets = sorted_targets.filter(pl.col("available_us") < start)
     for row in prior_targets.group_by("symbol", maintain_order=True).last().iter_rows(named=True):
-        target_events.setdefault(start + config.latency_minutes * MINUTE_US, []).append(row)
+        # Starting an account is an availability boundary; no backdated fill.
+        target_events.setdefault(config.eligible_us(start), []).append(row)
     for row in sorted_targets.filter(
         (pl.col("available_us") >= start) & (pl.col("available_us") < end)
     ).iter_rows(named=True):
         available = int(row["available_us"])
-        when = ((available + MINUTE_US - 1) // MINUTE_US + config.latency_minutes) * MINUTE_US
+        when = config.eligible_us(available)
         if when < end:
             target_events.setdefault(when, []).append(row)
     if config.liquidate_at_end:
         target_events.setdefault(end - MINUTE_US, []).extend(
-            {"available_us": end - MINUTE_US - 1, "symbol": s, "target_weight": 0.0}
+            {"available_us": end - (config.latency_minutes + 1) * MINUTE_US,
+             "symbol": s, "target_weight": 0.0}
             for s in symbols
         )
     marks = set()
@@ -362,6 +397,11 @@ def run_backtest(
     pending: dict[str, dict] = {}
     cycles = {symbol: {"entry_us": 0, "cost": 0.0, "proceeds": 0.0, "fees": 0.0}
               for symbol in symbols}
+    # Alpha holding is separate from accounting cycles: exchange dust can keep a
+    # financial cycle open while a later flat->long intent creates a new holding
+    # obligation. Partial fills within one intent never restart its first-fill clock.
+    holding = {symbol: {"last_raw": 0.0, "awaiting_first_fill": False,
+                        "first_fill_us": 0} for symbol in symbols}
     trades: list[dict] = []
     orders: list[dict] = []
     round_trips: list[dict] = []
@@ -376,13 +416,24 @@ def run_backtest(
         prices = {symbol: assets[symbol].mark(timestamp)[0] for symbol in symbols}
         nav = cash + sum(positions[s] * prices[s] for s in symbols)
         if timestamp in target_events:
+            signal_time = max(int(row["available_us"]) for row in target_events[timestamp])
             for row in target_events[timestamp]:
                 raw[row["symbol"]] = float(np.clip(row["target_weight"], 0, config.max_weight))
+                policies[row["symbol"]] = {
+                    "minimum_hold_minutes": row.get("minimum_hold_minutes", 0),
+                    "risk_forced_exit": row.get("risk_forced_exit", False),
+                }
+                symbol = row["symbol"]
+                if policies[symbol]["minimum_hold_minutes"] == 120:
+                    if raw[symbol] > 0 and holding[symbol]["last_raw"] <= 0:
+                        holding[symbol]["awaiting_first_fill"] = True
+                    holding[symbol]["last_raw"] = raw[symbol]
             weights = np.array([raw[s] for s in symbols])
             if weights.sum() > config.max_gross:
                 weights *= config.max_gross / weights.sum()
             if config.target_annual_vol is not None and weights.sum() > 0:
-                cov_index = int(np.searchsorted(covariance_times, timestamp, side="right")) - 1
+                cov_index = int(np.searchsorted(covariance_times, max(start, signal_time),
+                                               side="right")) - 1
                 cov = covariances[cov_index] if cov_index >= 0 else None
                 if cov is None:
                     weights[:] = 0
@@ -391,13 +442,21 @@ def run_backtest(
                     annual_vol = float(np.sqrt(max(0, weights @ cov @ weights)))
                     if annual_vol > config.target_annual_vol:
                         weights *= config.target_annual_vol / annual_vol
+            risk_limited = {s: float(weight) < raw[s] - 1e-12
+                            for s, weight in zip(symbols, weights, strict=True)}
             # Reserve worst-case sell+buy costs for a full allowed rebalance.
             # Otherwise the second buy's fee can push the first coin above 30% NAV.
-            rebalance_cost = config.execution_rate + (1 + config.execution_rate) * config.fee_rate
-            weights *= max(0.0, 1 - 2 * config.max_gross * rebalance_cost)
-            signal_time = max(int(row["available_us"]) for row in target_events[timestamp])
+            weights *= ExecutionContractV2.rebalance_buffer(
+                config.execution_rate, config.fee_rate, config.max_gross,
+            )
             for symbol, weight in zip(symbols, weights, strict=True):
+                alpha_risk_reduction = (policies[symbol]["minimum_hold_minutes"] == 120
+                                        and risk_limited[symbol])
                 pending[symbol] = {"weight": float(weight), "signal_us": signal_time,
+                                   **policies[symbol],
+                                   "risk_forced_exit": bool(policies[symbol]["risk_forced_exit"]
+                                                            or (raw[symbol] > 0 and weight == 0)
+                                                            or alpha_risk_reduction),
                                    "expires_us": timestamp
                                    + config.max_order_wait_minutes * MINUTE_US}
         liquidity = {}
@@ -405,7 +464,7 @@ def run_backtest(
         for symbol, asset in assets.items():
             i = asset.index(timestamp)
             valid = (i < len(asset.times) and asset.times[i] == timestamp and i > 0
-                     and asset.times[i - 1] == timestamp - MINUTE_US)
+                     and asset.times[i - 1] == ExecutionContractV2().capacity_minute_us(timestamp))
             gap |= not valid
             liquidity[symbol] = float(asset.quotes[i - 1]) if valid else 0.0
         # Sells release cash before buys; ties use sorted symbols for deterministic replay.
@@ -421,7 +480,13 @@ def run_backtest(
                 del pending[symbol]
                 continue
             side = "buy" if desired_dollars > 0 else "sell"
+            hard_risk_exit = (goal["minimum_hold_minutes"] == 120 and (
+                positions[symbol] * mid > config.max_weight * nav + 1e-7
+                or sum(positions[s] * prices[s] for s in symbols)
+                > config.max_gross * nav + 1e-7
+            ))
             order = {"open_us": timestamp, "signal_us": goal["signal_us"],
+                     "capacity_open_us": ExecutionContractV2().capacity_minute_us(timestamp),
                      "symbol": symbol, "side": side, "requested_notional": abs(desired_dollars),
                      "capacity": liquidity[symbol] * config.participation_rate,
                      "filled_notional": 0.0, "status": ""}
@@ -432,6 +497,10 @@ def run_backtest(
             elif gap:
                 order["status"] = "gap_frozen"
                 gap_blocks += 1
+            elif (side == "sell" and not holding_period_complete(
+                    timestamp + 1, holding[symbol]["first_fill_us"],
+                    goal["minimum_hold_minutes"], goal["risk_forced_exit"] or hard_risk_exit)):
+                order["status"] = "minimum_hold"
             elif timestamp + 1 <= goal["signal_us"]:
                 raise AssertionError("execution is not strictly after signal availability")
             else:
@@ -494,6 +563,11 @@ def run_backtest(
                     if side == "buy" and positions[symbol] <= 1e-12:
                         cycles[symbol] = {"entry_us": timestamp + 1, "cost": 0.0,
                                           "proceeds": 0.0, "fees": 0.0}
+                    if (side == "buy" and goal["minimum_hold_minutes"] == 120
+                            and (holding[symbol]["awaiting_first_fill"]
+                                 or positions[symbol] <= 1e-12)):
+                        holding[symbol]["first_fill_us"] = timestamp + 1
+                        holding[symbol]["awaiting_first_fill"] = False
                     positions[symbol] += direction * quantity
                     if abs(positions[symbol]) < 1e-10:
                         positions[symbol] = 0.0
@@ -531,6 +605,8 @@ def run_backtest(
                     ):
                         raise AssertionError("new buy exceeds post-cost spot risk limits")
                     trades.append({"execution_us": timestamp + 1, "signal_us": goal["signal_us"],
+                                   "capacity_open_us": order["capacity_open_us"],
+                                   "target_weight": weight,
                                    "symbol": symbol, "side": side, "quantity": quantity,
                                    "mid_price": mid, "fill_price": fill, "notional": notional,
                                    "fee": fee, "execution_cost": execution_cost,
@@ -563,6 +639,8 @@ def run_backtest(
                                "gross_weight": pl.Float64, "stale_prices": pl.Boolean,
                                "stale_exposure": pl.Boolean})
     trade_frame = _frame(trades, {"execution_us": pl.Int64, "signal_us": pl.Int64,
+                                 "capacity_open_us": pl.Int64,
+                                 "target_weight": pl.Float64,
                                  "symbol": pl.String, "side": pl.String,
                                  "quantity": pl.Float64, "mid_price": pl.Float64,
                                  "fill_price": pl.Float64, "notional": pl.Float64,
@@ -571,6 +649,7 @@ def run_backtest(
                                  "asset_weight_after": pl.Float64,
                                  "gross_weight_after": pl.Float64, "capacity": pl.Float64})
     order_frame = _frame(orders, {"open_us": pl.Int64, "signal_us": pl.Int64,
+                                 "capacity_open_us": pl.Int64,
                                  "symbol": pl.String, "side": pl.String,
                                  "requested_notional": pl.Float64, "capacity": pl.Float64,
                                  "filled_notional": pl.Float64, "status": pl.String})
@@ -578,6 +657,10 @@ def run_backtest(
                                       "exit_us": pl.Int64, "pnl": pl.Float64, "fees": pl.Float64})
     summary = daily_metrics(daily_frame, config.initial_cash)
     summary.update({"start_utc": _utc(start), "end_utc": _utc(end),
+                    "execution_contract_version": config.execution_version,
+                    "execution_contract_sha256": ExecutionContractV2().digest()
+                    if config.latency_minutes > 0 else "legacy_archive",
+                    "canonical_latency": config.latency_minutes == 1,
                     "trade_count": len(trades), "round_trip_count": len(round_trips),
                     "open_positions": positions.copy(), "gap_blocks": gap_blocks,
                     "capacity_limits": capacity_limits, "expired_orders": expired_orders,

@@ -1,0 +1,160 @@
+{
+  "state": "CALLBACK_STOP",
+  "asof_ms": 1790762648612,
+  "scope": "B0_B2_references_no_champion",
+  "candidate_status": "NO_ADMITTED_MODEL",
+  "real_money_authorized": false,
+  "execution_contract": "paper_baselines_runtime_v1",
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 218370048,
+    "ram_peak_bytes": 250114048,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "collector": {
+    "healthy": true,
+    "reasons": [],
+    "ages": {
+      "BTCUSDT": {
+        "quote_age_ms": 63,
+        "kline_age_ms": 574,
+        "closed_age_ms": 16568
+      },
+      "ETHUSDT": {
+        "quote_age_ms": 0,
+        "kline_age_ms": 574,
+        "closed_age_ms": 16556
+      }
+    },
+    "connected": true,
+    "live_session": true,
+    "clock_offset_ms": 2086.0,
+    "unresolved_gaps": 0,
+    "session_id": 2,
+    "qualification": {
+      "qualified_72h": false,
+      "asof_ms": 1790762591399,
+      "observed_seconds": 2442.560518404,
+      "healthy_seconds": 2347.61266946,
+      "uptime_fraction": 0.9611277394240203
+    },
+    "heartbeat_ms": 1790762591399,
+    "disk": {
+      "status": "OK",
+      "conservative_total_bytes": 6763813137,
+      "growth_bytes": 67108864,
+      "reserve_bytes": 100000000,
+      "asof_ms": 1790762591399,
+      "check_kind": "cheap_guard"
+    },
+    "qualified_72h": false,
+    "state": "RUNNING"
+  },
+  "paper": {
+    "database": "/home/xflops/coin-state/shadow.sqlite3",
+    "version": "paper_baselines_v1:fcc9c44344072419",
+    "mode": "live_paper",
+    "scope": "B0_B2_engineering_references_no_champion",
+    "frozen": true,
+    "freeze_reasons": [
+      "collector_72h_unqualified"
+    ],
+    "observed_seconds": 2898.551999999991,
+    "healthy_seconds": 0.0,
+    "cash": {
+      "B0": 10000.0,
+      "B2": 10000.0
+    },
+    "positions": {
+      "B0": {
+        "BTCUSDT": 0.0,
+        "ETHUSDT": 0.0
+      },
+      "B2": {
+        "BTCUSDT": 0.0,
+        "ETHUSDT": 0.0
+      }
+    },
+    "last_signal_hour_ms": null,
+    "strategy_state": "WAITING_FOR_QUALIFIED_LIVE_HOUR",
+    "records": 302,
+    "head_hash": "cefcd075750010f393b7de7ff2958e0fe4324f4dc16f562774151696d415765c"
+  },
+  "quote_sampling": "at most once per second plus closed candle events",
+  "final_collector": {
+    "database": "/home/xflops/coin-state/live.sqlite3",
+    "state": "CALLBACK_STOP",
+    "qualified_72h": false,
+    "scope": "read_only_mainnet_data_readiness",
+    "session": {
+      "id": 2,
+      "started_ms": 1790760148840,
+      "ended_ms": 1790762602780,
+      "state": "CALLBACK_STOP",
+      "heartbeat_ms": 1790762591399,
+      "healthy_seconds": 2347.61266946,
+      "observed_seconds": 2442.560518404,
+      "healthy_since_ms": 1790761360842,
+      "clock_offset_ms": 2086.0,
+      "last_error": "tick_callback failed: RuntimeError: shadow 100 MB writer budget exhausted; refresh full disk ledger",
+      "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker"
+    },
+    "unresolved_gaps": 0,
+    "repaired_gaps": 2,
+    "symbols": {
+      "BTCUSDT": {
+        "total": 49,
+        "repairs": 6,
+        "first_open_ms": 1790759640000,
+        "last_open_ms": 1790762520000,
+        "last_websocket_received_ms": 1790762580149,
+        "bars_in_last_72h": 49,
+        "complete_quote_minutes_in_last_72h": 42,
+        "partial_quote_minutes_in_last_72h": 2,
+        "missing_quote_minutes_in_last_72h": 4276,
+        "quote_coverage_fraction": 0.009722222222222222
+      },
+      "ETHUSDT": {
+        "total": 49,
+        "repairs": 6,
+        "first_open_ms": 1790759640000,
+        "last_open_ms": 1790762520000,
+        "last_websocket_received_ms": 1790762580161,
+        "bars_in_last_72h": 49,
+        "complete_quote_minutes_in_last_72h": 42,
+        "partial_quote_minutes_in_last_72h": 2,
+        "missing_quote_minutes_in_last_72h": 4276,
+        "quote_coverage_fraction": 0.009722222222222222
+      }
+    },
+    "reasons": [
+      "No running real collection session",
+      "Fewer than 72 real monotonic observation hours",
+      "Healthy observed uptime is below 99.9%",
+      "BTCUSDT: missing closed candles in the latest 72h window",
+      "BTCUSDT: complete quote minute coverage is below 99.9%",
+      "ETHUSDT: missing closed candles in the latest 72h window",
+      "ETHUSDT: complete quote minute coverage is below 99.9%"
+    ],
+    "observed_seconds": 2442.560518404,
+    "healthy_seconds": 2347.61266946,
+    "downtime_seconds": 94.94784894400027,
+    "uptime_fraction": 0.9611277394240203,
+    "required_uptime_fraction": 0.999,
+    "clock_incidents": {},
+    "clock_incident_count": 0,
+    "planned_rotations": 0,
+    "disk": {
+      "project_bytes": 1770627217,
+      "wsl_vhd_bytes": 5026873344,
+      "total_bytes": 6797500561,
+      "reserved_bytes": 100000000,
+      "d_free_bytes": 376299237376,
+      "status": "OK",
+      "hard_limit_bytes": 40000000000
+    }
+  }
+}
