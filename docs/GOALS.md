@@ -8,6 +8,8 @@ FR61/62/63/64与TCN/TLOB/TS2Vec工程已验收推送；全部10配置共同短�
 当前并行：首个12d fitting＋2d validation＋7d test完整窗口诊断、首30日独立数据QA；
 训练仍串行，全部10固定配置及原训练参数保持。正式入口独立只读复核已完成，
 换手口径补充见`FR_FORMAL_RUNNER_INDEPENDENT_REVIEW_20261002_V1.md`。
+首30日四路120档独立数据QA已通过，根核实际240文件SHA、207万行和116跨日边界；
+正式180日和六窗口结论继续待验收，清单计数仍23/40。项目加整个VHD实测约12.33GB。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 
