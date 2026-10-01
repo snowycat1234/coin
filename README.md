@@ -1,7 +1,23 @@
 # Coin Quant
 
-当前执行用户指定的v3纠偏：`CODEX_AUDIT_AND_NEXT_PLAN_2026-09-30.md`。
-最新工单A01–A08见`docs/GOALS.md`；先统一执行语义，再做强基线和受控非线性研究。
+**当前最高优先级：用户直接指定开源复用科研v6**，见
+`OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`与`docs/OPEN_SOURCE_REUSE_OVERRIDE_v6.md`。
+官方Binance历史数据→统一5s Spot/Perp数据→Ridge/XGB→pytorch-tcn→MLPLOB/TLOB→TS2Vec
+→River→统一排行榜。第一轮最多10配置/1seed，所有模型共用数据与评价。
+新execution/Testnet/mainnet/resource-observer工程冻结；下述v4结果保留，不再是当前主线。
+长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`，当前FR61/62/64。
+
+当前用户明确采纳10月1日v4审计：`CODEX_AUDIT_AND_NEXT_PLAN_2026-10-01.md`。
+A09独立L1 v2正确性/schema已通过79项及真实90秒短测验收，A10最终验收中；随后A11重启版本独立资格，
+按真实14/30/60天分阶段推进。新长清单`docs/V4_TASK_CHECKLIST.md`，
+旧v3来源/数据/研究STOP及其验收保留；无GPU、无锁定历史消费、无真钱。
+
+A09容量测量的180d高熵合成投影9.077GB超过8GB特征子预算，失败保留，
+真实24h容量资格尚未通过。最新实测整个项目＋整个D盘WSL VHD为9.105GB，
+共享RAM历史峰2.083GB、swap0/OOM0；未开始盈利候选180天实测。
+
+以下保留v3纠偏阶段结果：`CODEX_AUDIT_AND_NEXT_PLAN_2026-09-30.md`。
+已验收工单A01–A08见`docs/GOALS.md`，当前优先级由v4增量覆盖。
 G47/G50执行层扩张停止，旧Logistic STOP和原始报告保留。资源仍40GB/5GB，不用GPU。
 
 当前A05/A06已完成：六配置×九fold共54次拟合、23个账户的790日开发期评估，

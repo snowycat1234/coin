@@ -1,0 +1,80 @@
+{
+  "protocol": "A07_DATA_EVIDENCE_REVIEW_V2",
+  "created_utc": "2026-10-01T10:53:27+00:00",
+  "scope": "Independent read-only composition of frozen A07 diagnostics; no replacement of old criteria or reports",
+  "frozen_acceptances": {
+    "reports/A07_MICROSTRUCTURE_ACCEPTANCE.json": "d0acb843b0f616e777ddeb698245a2e5d5cf10b03a0baf1718b295094f894517",
+    "reports/A07_QUALITY_DIAGNOSTIC_ACCEPTANCE.json": "737264a53bacd2c78e33c971a6931fb411d54766da0d498f0588f46a7579c926",
+    "reports/A07_RESOURCE_OBSERVER_ACCEPTANCE_20261001.json": "79342daab8e447817a6e0120b1d1d4631ae90b9111ccc863c16af55f67c7a873",
+    "reports/A07_DIAGNOSTIC_MODULES_ACCEPTANCE_20261001.json": "70ec8e947e0d794b435a261a9a475d41a74f2156f23ed6867c2be4fe7b6e387d"
+  },
+  "accepted_source": {
+    "version": "microstructure_l1_v1",
+    "mode": "live",
+    "store": "/mnt/d/codex/coin/data/microstructure_v1",
+    "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4"
+  },
+  "calendar_report": {
+    "symbols": ["BTCUSDT", "ETHUSDT"],
+    "interval_seconds": [1, 5, 30, 60],
+    "known_seconds_per_common_exported_utc_day": 86400,
+    "report_complete_is_healthy": false,
+    "strict_clean_criterion": "Preserve frozen all-eight-stream fully valid day and no audit uncertainty; report separately, never relax or overwrite",
+    "bad_seconds_policy": "Always exclude frozen INVALID, missing positive finite mid and exact audit uncertainty overlap; no normal-rotation credit"
+  },
+  "data_review_stage": {
+    "future_start_utc": "2026-10-01T00:00:00+00:00",
+    "predictive_minimum_consecutive_observed_days": 14,
+    "predictive_minimum_actual_paired_usable_seconds": 1209600,
+    "preregistration_minimum_consecutive_observed_days": 30,
+    "preregistration_minimum_actual_paired_usable_seconds": 2592000,
+    "basis": "Same open_us BTC/ETH 1s positive finite mid, no INVALID, excluding exact audit uncertainty in one continuous all-eight-stream fully exported UTC-day segment",
+    "no_summed_symbols_or_disjoint_fragments": true,
+    "data_review_is_training_authorization": false
+  },
+  "capacity_evidence": {
+    "actual_resource_span_seconds": 86400,
+    "raw_unknown_samples_allowed_for_complete_evidence": 0,
+    "raw_retention_seconds": 86400,
+    "raw_cap_bytes": 4000000000,
+    "feature_cap_bytes": 8000000000,
+    "feature_projection_days": 180,
+    "projection_margin_numerator": 13,
+    "projection_margin_denominator": 10,
+    "feature_projection_basis": "Maximum whole-file upper bound from common complete UTC days, including cross-day rows and container overhead",
+    "raw_retirement_witness": "Complete non-atomic post-window filename inventory within age and byte caps, fresh same-session checkpoint and actual RAW_PRUNED summary with oldest retired shard start older than 24h at inventory end; not content integrity or exact TTL proof",
+    "native_and_total_scope": "Record native sampled bytes/growth and whole-project+entire-VHD endpoint ledgers separately; native already belongs to VHD, no double count; no 180d native guarantee",
+    "disk_warning_bytes": 32000000000,
+    "disk_intake_stop_bytes": 36000000000,
+    "disk_hard_limit_bytes": 40000000000,
+    "ram_aggregate_limit_bytes": 5000000000,
+    "swap_bytes": 0,
+    "evidence_complete_is_acceptance": false,
+    "missing_unknown_overage_or_projection_failure": "PENDING_PRIMARY_REVIEW"
+  },
+  "disconnect_cause": {
+    "classification": "UNCLASSIFIED_DISCONNECT",
+    "reason": "Frozen collector records rotation_or_disconnect for all finally exits; 23h50 source policy or at-most-100 incident samples cannot prove each actual cause",
+    "use_complete_aggregate_kind_counts_only": true,
+    "normal_or_abnormal_gap_usable_seconds_added": 0,
+    "planned_rotation_audit_in_current_source": false
+  },
+  "outputs": {
+    "calendar_quality_report": "PENDING_COMPLETE_COMMON_UTC_DAY or COMPLETE_COMMON_UTC_DAY_DIAGNOSTIC_REPORT_ONLY",
+    "capacity_evidence": "PENDING_PRIMARY_REVIEW or FINITE_CAPACITY_EVIDENCE_COMPLETE_PRIMARY_REVIEW_REQUIRED",
+    "data_review_stage": "QA_ONLY or PREDICTIVE_DIAGNOSTICS_ONLY or PREREGISTRATION_REVIEW_ONLY",
+    "actual_24h_capacity_accepted": false,
+    "actual_24h_quality_accepted": false,
+    "training_authorized": false,
+    "alpha_eligible": false,
+    "healthy_credit_seconds": 0
+  },
+  "limits": {
+    "input_json_bytes": 10000000,
+    "output_json_bytes": 2000000,
+    "utc_days_per_stream": 4096,
+    "stream_count": 8,
+    "source_files_per_receipt": 100,
+    "fixtures": "Native STATE only; test module isolated ROOT; no live database/store/source mutation"
+  }
+}

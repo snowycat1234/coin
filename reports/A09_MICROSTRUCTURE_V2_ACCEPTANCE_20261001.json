@@ -1,0 +1,673 @@
+{
+  "status": "A09_MICROSTRUCTURE_V2_CORRECTNESS_ENGINEERING_PASS",
+  "created_utc": "2026-10-01T11:25:54.767974+00:00",
+  "version": "microstructure_l1_v2",
+  "source_hashes": {
+    "src/quant/microstructure_v2.py": "553e96bb59fd0bc121c91a6df477eafe4cdc08186a0bd683ee29a124472adddf",
+    "tests/test_microstructure_v2.py": "8c8ba7a7031f1604ade8e2ed74072125358e3f774b4f69b9a1934e842b8fcd53",
+    "docs/MODULE_A09_MICROSTRUCTURE_V2.md": "49aa128888704e204cf8e7d9bc310fc98306c4c4bea0f9c59abb2f753a1429e8",
+    "scripts/microstructure_v2.ps1": "9a6ffbc1ed8d2c9fcf9a0bcfe518193435a39a07ce3e9830f08785c3952583f0",
+    "scripts/microstructure_v2.sh": "faf0116810f410dbe7e08b3552278257806ed1ccd098ce5f7d3d485160b0aa3d",
+    "scripts/measure_a09_microstructure_v2.py": "37d69c9066fd3b1b7d2b944ac0eedccdeef00c3f5d2d3e271f936926b4443369",
+    "scripts/accept_a09_microstructure_v2.py": "636b0fc1b2ed73e63d8b68d600d98ff7ef55784de618d6de998dcdd4c130ce7f"
+  },
+  "verified_prior_files": {
+    "reports/A07_RESILIENT_OBSERVER_ACCEPTANCE_20261001.json": "c8d00922ba81b0ff11d14432a47384c2826bc830f4df8547b197c3056cac843d",
+    "CODEX_AUDIT_AND_NEXT_PLAN_2026-10-01.md": "6845cf09cd21c9258d7e446e42327adc3b3864d699935915fc936f06fb664b91",
+    "scripts/observe_a07_resources_resilient.py": "c9ae6b2f8ce24d13cd0773fa186c3d9b0c647212c12798549b02f13ff0f3e28d",
+    "tests/test_a07_resilient_observer.py": "f8cb86fc3fb9234635ac1dd6ba268ba36d17259d356f9abc30682bf262071492",
+    "docs/MODULE_A07_RESILIENT_OBSERVER.md": "575a29fc6ae93c07ed381c73869ac18ea490816a848f42b84664ed7ed8d0e05e",
+    "scripts/accept_a07_resilient_observer.py": "55aa873dc7ea223f03be4cc8ba19c3db6bdf26268f010eb5127fe9aebfdbbf9d",
+    "reports/A07_DIAGNOSTIC_MODULES_ACCEPTANCE_20261001.json": "70ec8e947e0d794b435a261a9a475d41a74f2156f23ed6867c2be4fe7b6e387d",
+    "scripts/audit_a07_resource_window.py": "b4504f0810206a29599f09e751734c18bf6d82ab185b69e820399d0347287a67",
+    "tests/test_a07_resource_window_review.py": "3e07161be31eae555c55390b503f14f1704f69e4657fded6af5e000341dad92d",
+    "docs/MODULE_A07_RESOURCE_WINDOW_REVIEW.md": "0305d750451d37fc93c5078ac6ad15c50964ef9354fbe80f1e8fd457b813c91a",
+    "scripts/audit_a07_raw_retention.py": "fac11d7b586ffe6ab95dcd49a31692c0c5164f186c3fb73fdd9b5879ef680ffc",
+    "tests/test_a07_raw_retention.py": "87ac10515568bb2fe38fa37807fa8c5c6d341a25aa620b5691b283284125e74f",
+    "docs/MODULE_A07_RAW_RETENTION.md": "60e8aad1e19222d6fa6aaa5d53188080c026daf4fea874e224fc75f3c852365e",
+    "docs/A07_DIAGNOSTIC_REVIEW_20261001.md": "0b2d4e73e4d7e61daf0903ee6eb71c013f7d9d70fe5c4fe1c8faadcacdd7ac0c",
+    "scripts/accept_a07_diagnostics.py": "f7b19864a0f17d8d253f98ae28cfec1679354b47eb3a028e4a90feaf74cb16ed",
+    "reports/A07_RESOURCE_OBSERVER_ACCEPTANCE_20261001.json": "79342daab8e447817a6e0120b1d1d4631ae90b9111ccc863c16af55f67c7a873",
+    "src/quant/microstructure.py": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+    "scripts/microstructure.ps1": "e3cccc36e1c570682de58137a4d9ae05fc8aa2133106b303cc791aa57aa24452",
+    "scripts/microstructure.sh": "16363c1fb903fafbc838d2e5233109c212fd527686e9a8088a577515bca71a78",
+    "scripts/observe_a07_resources.py": "154df3c7513f8bbbdfd51ea90965eb93fb3df823ca45f57d0cd7a85e8be3aadc",
+    "scripts/observe_a07_resources.ps1": "90a408df3e8d70fbdaa4ec55bfc4aa62ff35f0361d8d164d793046ecf5d8256f",
+    "tests/test_a07_resource_observer.py": "a18aa6247ac2edc6f5171391e372dbd66a36b313564e27b8f21bd8f37c0a9546",
+    "scripts/accept_a07_resource_observer.py": "de8c5e2a5d5dd859c2846f1329c7e714116abbc5322f8ffa1a0500970a49ad3d",
+    "docs/MODULE_A07_RESOURCE_OBSERVATION.md": "87fb65f43fd9fd05c8fe6753307e502bfc3e201a8456c43144b476120fde6951",
+    "reports/A07_MICROSTRUCTURE_ACCEPTANCE.json": "d0acb843b0f616e777ddeb698245a2e5d5cf10b03a0baf1718b295094f894517",
+    "src/quant/microstructure_acceptance.py": "0f62cc7cac7a30fe6c05d45cdc4f3a97f8a27384f7e1d8b80f2ca905fd154a48",
+    "tests/test_microstructure.py": "79df5ce937898f1b0b4cf0a43bb9c99ee2be956d1812fd315165e01d9f0c3c23",
+    "docs/MODULE_A07_MICROSTRUCTURE.md": "56122b0e7e6e374259fdfdba88936cc391c165abab30ce855fff16c32ba4ec7b",
+    "reports/PUBLIC_COLLECTOR_V3_ACCEPTANCE.json": "700a4edfe4f14255f1f79c0f898b5fb5dd258e2803629518dfbc8bcd0308b003",
+    "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+    "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+    "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+    "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/env.sh": "8761ed858db1561b3d27d271e4e44a3e083986179222ad83d25b5cdf4df5906c",
+    "scripts/bounded.sh": "93f6ef9767fa67cc14c6a4a0495c7b2c4e7753c52b1f945988898f45c91843aa",
+    "scripts/collector_public_v3.sh": "c5b782e8d67aa9096dfec206ebf6e87702ca5b0118f77d7bf9dd903ea2986ea8",
+    "scripts/collector_public_v3.ps1": "fe3807c797567057bea99f5700e131588bd2eee2e0c3a76340d941541b511674",
+    "pyproject.toml": "bb863f68ce4187e3a23a4b6ef22dad24962c0bf8fe2a7e88fbc3ac3d0c14f69d",
+    "uv.lock": "3db962663090852884ff02910bd64879aa475c2a7be12d16eb90e45d593cd49e",
+    "reports/A07_QUALITY_DIAGNOSTIC_ACCEPTANCE.json": "737264a53bacd2c78e33c971a6931fb411d54766da0d498f0588f46a7579c926",
+    "scripts/audit_microstructure_quality.py": "c3eb7743727a03b0afa2651d7c5484e0930c8d3550a6aa3c5e6f2f74833fa504",
+    "tests/test_microstructure_quality_audit.py": "b6b728458f9cb4649d0a9fb410cc84d3c453f68b942c9ac02652c4d10301dbd8",
+    "docs/MODULE_A07_QUALITY_AUDIT.md": "5a3f21b91f0c619beee6ceb3c8b6ad0914aa22f6086cf38a50f7796ff97ffaae",
+    "reports/A07_FEATURE_STABILITY_ACCEPTANCE_20261001.json": "843fa41e88efe8002d7f8428b68fb793a1262763bc4db0d1f8e3e0bba507327c",
+    "scripts/audit_microstructure_feature_stability.py": "41e95eb888760daed4423ff88099fc04db5fb27c4abc747624a07cb4abf10b28",
+    "tests/test_microstructure_feature_stability.py": "9bc53cb6b51c35b36917a9d4fed6863cbfa6f19851c460ad77e568fbf2a0fb8e",
+    "docs/MODULE_A07_FEATURE_STABILITY.md": "e20cae2c40fcaa8c377c4dde89f1aa8ca4e23ed536b15538cd3ce3c081b374bc",
+    "scripts/accept_microstructure_feature_stability.py": "817519b0edcf3aade530458b4dfd3595e2b63e30313b9f4e248eb96715af0ae0",
+    "reports/A03_GENERIC_INTEGRATION_ACCEPTANCE_20261001.json": "13663c92c925b929e72d9a83ae16b86a685fa91dac8212cb09e9af3403be1f9a",
+    "src/quant/candidate_paper.py": "dee9bde3671a20bf23112a4c9955db9417abad172534b4c1508714d1955daff7",
+    "src/quant/candidate_strategy.py": "0fa4a516e83b95deec4e10e3c7ff04052ec843e36df30f23c5a96112c15ff717",
+    "src/quant/candidate_storage.py": "d3a105f5c8ccaee26f074e223fcf7dd9ff7dbdc317091204dfe1dbfc9011b27a",
+    "tests/test_candidate_adapter.py": "b52788c38a21434085a1388925ac9d00a463ae96ae4d76fbb23a15e5c05703bf",
+    "tests/test_candidate_paper.py": "1b4b1c5ee944f56cf3ea8bce0838a8b4648abc5dc6c9c1d30a0a9d71867bdf26",
+    "tests/test_candidate_storage.py": "3e6f67e3f2106fe3ee9fd1b80a050360c64e7ef1ed0af0b73af9c0b1e9593c0a",
+    "scripts/probe_candidate_funded_congestion.py": "a19c330bec465f2a197608534b013493c3313cf10cc93d0ff9beba3b0b867e82",
+    "scripts/measure_candidate_adapter_v5.py": "95cdbe8c0d9dfdbb24f3e19b74467fbf2f3179cd29073381ea554a456225b2cf",
+    "scripts/accept_candidate_integration.py": "9e3fc2a5545579eccc247f2b1aebb7ea368a35cb197362d937b501fbf08bee97",
+    "scripts/audit_candidate_integration.py": "b833e357061fe12536e913ba8439b3fcd2e692d1e6bcd4ba9685654ad2d47f38",
+    "scripts/stage_candidate_runtime.py": "632f22f29c219f23ee64a8707da474d5dc0a4c8418492c82272293f93c6c9ab6",
+    "docs/MODULE_A03_CANDIDATE_INTEGRATION.md": "8be6d1dd27cd29eb619659542e5d6b4fc042fa8985261cb90c726d4d37c19d91"
+  },
+  "actual_tests": {
+    "path": "reports/A09_MICROSTRUCTURE_V2_TESTS_20261001_V3.xml",
+    "sha256": "65f237b35fed63b5174caf782b9b60d070abfc3891b19edbea324ce964c1d5ea",
+    "bytes": 11987,
+    "cases": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "preserved_first_cases": 72
+  },
+  "actual_ruff_exit_code": 0,
+  "actual_ruff_output": "All checks passed!\n",
+  "actual_shell_parse_exit_code": 0,
+  "actual_measurement": {
+    "path": "reports/A09_REAL_SHORT_AND_STORAGE_20261001_V1.json",
+    "sha256": "e9053ac7c45a5cdf312cfc6b366045601d1694171119d3345098401ae11851ea",
+    "bytes": 22578
+  },
+  "actual_public_smoke": {
+    "status": "REAL_PUBLIC_V2_SHORT_SMOKE_PASS",
+    "requested_seconds": 90,
+    "database": "/home/xflops/coin-state/a09-v2-smoke-1790853355041767.sqlite3",
+    "store": "/mnt/d/codex/coin/data/a09-v2-smoke-1790853355041767",
+    "run_result": {
+      "module": "A07",
+      "version": "microstructure_l1_v2",
+      "mode": "live",
+      "session": "92564a0bea61482a923069566476d7cb",
+      "state": "DISCONNECTED",
+      "accepted_events": 11579,
+      "schema_sha256": "721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0",
+      "duplicate_events": 0,
+      "rejected_events": 0,
+      "last_received_us": 1790853578548642,
+      "feature_bytes": 80083,
+      "feature_rows": 230,
+      "raw_bytes": 227245,
+      "pending_rows": 0,
+      "alpha_eligible": false,
+      "real_time_days_certified": 0,
+      "fatal": null,
+      "network": "public_read_only",
+      "credentials_used": false
+    },
+    "closed_read_only_status": {
+      "module": "A07",
+      "state": "STOPPED",
+      "binding": {
+        "compression": {
+          "codec": "zstd",
+          "level": 3,
+          "polars_version": "1.44.2",
+          "statistics": false
+        },
+        "implementation_sha256": "553e96bb59fd0bc121c91a6df477eafe4cdc08186a0bd683ee29a124472adddf",
+        "mode": "live",
+        "store": "/mnt/d/codex/coin/data/a09-v2-smoke-1790853355041767",
+        "version": "microstructure_l1_v2"
+      },
+      "checkpoint": {
+        "accepted_events": 11579,
+        "asof_us": 1790853583553754,
+        "connected": true,
+        "duplicate_events": 0,
+        "ids": {
+          "BTCUSDT:quote": {
+            "hash": "2bbcda47193fb1ab653bd27805a8ce7fafa5d72e136ed254f6efe2f815a3f4cf",
+            "id": 100916841361,
+            "received_us": 1790853578490037
+          },
+          "BTCUSDT:trade": {
+            "agg_id_high_water": 4078361138,
+            "f": 6727588937,
+            "hash": "bf297e82257df45aed8748193f798f202b4df4b126424415959a618acbbdf5ce",
+            "id": 4078361138,
+            "l": 6727588937,
+            "last_agg_id": 4078361138,
+            "last_raw_trade_id": 6727588937,
+            "received_us": 1790853578452195
+          },
+          "ETHUSDT:quote": {
+            "hash": "99f90bcb624fda30e28be62ae870145cdbbd5cdddc87dd2f6d37841a34c39936",
+            "id": 81650055938,
+            "received_us": 1790853578426107
+          },
+          "ETHUSDT:trade": {
+            "agg_id_high_water": 2092924908,
+            "f": 4399156207,
+            "hash": "00233aa000ffa3a0ef7c0262e63e5478bd13cec6fc366f5941d59311161b53ef",
+            "id": 2092924908,
+            "l": 4399156220,
+            "last_agg_id": 2092924908,
+            "last_raw_trade_id": 4399156220,
+            "received_us": 1790853578548642
+          }
+        },
+        "last_received_us": 1790853578548642,
+        "mode": "live",
+        "observed_monotonic_seconds": 95.09665594700346,
+        "rejected_events": 0,
+        "session": "92564a0bea61482a923069566476d7cb"
+      },
+      "feature_bytes": 80083,
+      "feature_rows": 230,
+      "audit_head": "211d66a9dffda01441b30904feea0122ed4977e147fccc668f5a56fd649134ec",
+      "last_audit": {
+        "kind": "STOP",
+        "payload": {
+          "fatal": null,
+          "observed_monotonic_seconds": 95.30358813099883,
+          "partial_aggregate_windows": {
+            "BTCUSDT:30": 13,
+            "BTCUSDT:5": 3,
+            "BTCUSDT:60": 43,
+            "ETHUSDT:30": 13,
+            "ETHUSDT:5": 3,
+            "ETHUSDT:60": 43
+          },
+          "session": "92564a0bea61482a923069566476d7cb",
+          "unsealed_event_counts": {
+            "BTCUSDT": 0,
+            "ETHUSDT": 0
+          },
+          "unsealed_or_partial_windows_are_not_complete": true,
+          "unsealed_second_us": 1790853583000000
+        }
+      },
+      "read_only": true,
+      "alpha_eligible": false,
+      "real_time_days_certified": 0
+    },
+    "intervals": {
+      "1": {
+        "rows": 186,
+        "valid_flag_rows": 178,
+        "reconstructable_valid_rows": 178,
+        "quality_counts": [
+          {
+            "quality": 0,
+            "len": 175
+          },
+          {
+            "quality": 12,
+            "len": 6
+          },
+          {
+            "quality": 513,
+            "len": 2
+          },
+          {
+            "quality": 1028,
+            "len": 3
+          }
+        ],
+        "schema": {
+          "L1_imbalance_last": "Float64",
+          "L1_imbalance_mean": "Float32",
+          "OFI_L1": "Float64",
+          "agg_trade_count": "UInt32",
+          "aggressive_buy_notional": "Float64",
+          "aggressive_sell_notional": "Float64",
+          "ask_price_change_count": "UInt32",
+          "ask_qty_mean": "Float32",
+          "available_us": "Int64",
+          "bid_price_change_count": "UInt32",
+          "bid_qty_mean": "Float32",
+          "close_us": "Int64",
+          "event_first_us": "Int64",
+          "event_last_us": "Int64",
+          "interval_s": "UInt16",
+          "known_seconds": "UInt16",
+          "l1_total_depth_last": "Float64",
+          "microprice_offset_bps_mean": "Float32",
+          "mid": "Float64",
+          "mode": "String",
+          "open_us": "Int64",
+          "quality": "UInt16",
+          "quote_update_count": "UInt32",
+          "realized_return_1s": "Float32",
+          "received_first_us": "Int64",
+          "received_last_us": "Int64",
+          "session": "String",
+          "spread_bps": "Float32",
+          "spread_bps_last": "Float64",
+          "symbol": "String",
+          "trade_first_us": "Int64",
+          "trade_flow_imbalance": "Float32",
+          "trade_last_us": "Int64",
+          "trade_vwap": "Float64",
+          "valid_seconds": "UInt16",
+          "version": "String"
+        },
+        "files": [
+          {
+            "path": "data/a09-v2-smoke-1790853355041767/features/1s/batch-0000000000001-0000000000230.parquet",
+            "sha256": "fe42b3bb0c9196829df9f38a8224d61fa030a4b43bdd6faffa72b68d7938d63a",
+            "bytes": 25219
+          }
+        ]
+      },
+      "5": {
+        "rows": 36,
+        "valid_flag_rows": 34,
+        "reconstructable_valid_rows": 34,
+        "quality_counts": [
+          {
+            "quality": 0,
+            "len": 31
+          },
+          {
+            "quality": 513,
+            "len": 2
+          },
+          {
+            "quality": 1028,
+            "len": 3
+          }
+        ],
+        "schema": {
+          "L1_imbalance_last": "Float64",
+          "L1_imbalance_mean_last": "Float32",
+          "L1_imbalance_mean_max": "Float32",
+          "L1_imbalance_mean_mean": "Float32",
+          "L1_imbalance_mean_min": "Float32",
+          "L1_imbalance_mean_std": "Float32",
+          "OFI_L1": "Float64",
+          "agg_trade_count": "UInt32",
+          "aggressive_buy_notional": "Float64",
+          "aggressive_sell_notional": "Float64",
+          "ask_price_change_count": "UInt32",
+          "ask_qty_mean_last": "Float32",
+          "ask_qty_mean_max": "Float32",
+          "ask_qty_mean_mean": "Float32",
+          "ask_qty_mean_min": "Float32",
+          "ask_qty_mean_std": "Float32",
+          "available_us": "Int64",
+          "bid_price_change_count": "UInt32",
+          "bid_qty_mean_last": "Float32",
+          "bid_qty_mean_max": "Float32",
+          "bid_qty_mean_mean": "Float32",
+          "bid_qty_mean_min": "Float32",
+          "bid_qty_mean_std": "Float32",
+          "close_us": "Int64",
+          "event_first_us": "Int64",
+          "event_last_us": "Int64",
+          "interval_s": "UInt16",
+          "known_seconds": "UInt16",
+          "l1_total_depth_last": "Float64",
+          "microprice_offset_bps_mean_last": "Float32",
+          "microprice_offset_bps_mean_max": "Float32",
+          "microprice_offset_bps_mean_mean": "Float32",
+          "microprice_offset_bps_mean_min": "Float32",
+          "microprice_offset_bps_mean_std": "Float32",
+          "mid_last": "Float64",
+          "mid_max": "Float64",
+          "mid_mean": "Float64",
+          "mid_min": "Float64",
+          "mid_std": "Float64",
+          "mode": "String",
+          "open_us": "Int64",
+          "quality": "UInt16",
+          "quote_update_count": "UInt32",
+          "realized_return": "Float32",
+          "received_first_us": "Int64",
+          "received_last_us": "Int64",
+          "session": "String",
+          "spread_bps_last": "Float64",
+          "spread_bps_max": "Float32",
+          "spread_bps_mean": "Float32",
+          "spread_bps_min": "Float32",
+          "spread_bps_std": "Float32",
+          "symbol": "String",
+          "trade_first_us": "Int64",
+          "trade_flow_imbalance": "Float32",
+          "trade_last_us": "Int64",
+          "trade_vwap": "Float64",
+          "valid_seconds": "UInt16",
+          "version": "String"
+        },
+        "files": [
+          {
+            "path": "data/a09-v2-smoke-1790853355041767/features/5s/batch-0000000000010-0000000000224.parquet",
+            "sha256": "07c2f83bd1832d4dd4a95231ff2a21afe451179e8a7f1dfbf5ed50b3fe9232ed",
+            "bytes": 23207
+          }
+        ]
+      },
+      "30": {
+        "rows": 6,
+        "valid_flag_rows": 4,
+        "reconstructable_valid_rows": 4,
+        "quality_counts": [
+          {
+            "quality": 0,
+            "len": 3
+          },
+          {
+            "quality": 769,
+            "len": 2
+          },
+          {
+            "quality": 1028,
+            "len": 1
+          }
+        ],
+        "schema": {
+          "L1_imbalance_last": "Float64",
+          "L1_imbalance_mean_last": "Float32",
+          "L1_imbalance_mean_max": "Float32",
+          "L1_imbalance_mean_mean": "Float32",
+          "L1_imbalance_mean_min": "Float32",
+          "L1_imbalance_mean_std": "Float32",
+          "OFI_L1": "Float64",
+          "agg_trade_count": "UInt32",
+          "aggressive_buy_notional": "Float64",
+          "aggressive_sell_notional": "Float64",
+          "ask_price_change_count": "UInt32",
+          "ask_qty_mean_last": "Float32",
+          "ask_qty_mean_max": "Float32",
+          "ask_qty_mean_mean": "Float32",
+          "ask_qty_mean_min": "Float32",
+          "ask_qty_mean_std": "Float32",
+          "available_us": "Int64",
+          "bid_price_change_count": "UInt32",
+          "bid_qty_mean_last": "Float32",
+          "bid_qty_mean_max": "Float32",
+          "bid_qty_mean_mean": "Float32",
+          "bid_qty_mean_min": "Float32",
+          "bid_qty_mean_std": "Float32",
+          "close_us": "Int64",
+          "event_first_us": "Int64",
+          "event_last_us": "Int64",
+          "interval_s": "UInt16",
+          "known_seconds": "UInt16",
+          "l1_total_depth_last": "Float64",
+          "microprice_offset_bps_mean_last": "Float32",
+          "microprice_offset_bps_mean_max": "Float32",
+          "microprice_offset_bps_mean_mean": "Float32",
+          "microprice_offset_bps_mean_min": "Float32",
+          "microprice_offset_bps_mean_std": "Float32",
+          "mid_last": "Float64",
+          "mid_max": "Float64",
+          "mid_mean": "Float64",
+          "mid_min": "Float64",
+          "mid_std": "Float64",
+          "mode": "String",
+          "open_us": "Int64",
+          "quality": "UInt16",
+          "quote_update_count": "UInt32",
+          "realized_return": "Float32",
+          "received_first_us": "Int64",
+          "received_last_us": "Int64",
+          "session": "String",
+          "spread_bps_last": "Float64",
+          "spread_bps_max": "Float32",
+          "spread_bps_mean": "Float32",
+          "spread_bps_min": "Float32",
+          "spread_bps_std": "Float32",
+          "symbol": "String",
+          "trade_first_us": "Int64",
+          "trade_flow_imbalance": "Float32",
+          "trade_last_us": "Int64",
+          "trade_vwap": "Float64",
+          "valid_seconds": "UInt16",
+          "version": "String"
+        },
+        "files": [
+          {
+            "path": "data/a09-v2-smoke-1790853355041767/features/30s/batch-0000000000047-0000000000200.parquet",
+            "sha256": "a847caafeccbfd98ee98497e54e3af126eb6a236de5de67258871653fc56320d",
+            "bytes": 16420
+          }
+        ]
+      },
+      "60": {
+        "rows": 2,
+        "valid_flag_rows": 0,
+        "reconstructable_valid_rows": 0,
+        "quality_counts": [
+          {
+            "quality": 769,
+            "len": 1
+          },
+          {
+            "quality": 1797,
+            "len": 1
+          }
+        ],
+        "schema": {
+          "L1_imbalance_last": "Float64",
+          "L1_imbalance_mean_last": "Float32",
+          "L1_imbalance_mean_max": "Float32",
+          "L1_imbalance_mean_mean": "Float32",
+          "L1_imbalance_mean_min": "Float32",
+          "L1_imbalance_mean_std": "Float32",
+          "OFI_L1": "Float64",
+          "agg_trade_count": "UInt32",
+          "aggressive_buy_notional": "Float64",
+          "aggressive_sell_notional": "Float64",
+          "ask_price_change_count": "UInt32",
+          "ask_qty_mean_last": "Float32",
+          "ask_qty_mean_max": "Float32",
+          "ask_qty_mean_mean": "Float32",
+          "ask_qty_mean_min": "Float32",
+          "ask_qty_mean_std": "Float32",
+          "available_us": "Int64",
+          "bid_price_change_count": "UInt32",
+          "bid_qty_mean_last": "Float32",
+          "bid_qty_mean_max": "Float32",
+          "bid_qty_mean_mean": "Float32",
+          "bid_qty_mean_min": "Float32",
+          "bid_qty_mean_std": "Float32",
+          "close_us": "Int64",
+          "event_first_us": "Int64",
+          "event_last_us": "Int64",
+          "interval_s": "UInt16",
+          "known_seconds": "UInt16",
+          "l1_total_depth_last": "Float64",
+          "microprice_offset_bps_mean_last": "Float32",
+          "microprice_offset_bps_mean_max": "Float32",
+          "microprice_offset_bps_mean_mean": "Float32",
+          "microprice_offset_bps_mean_min": "Float32",
+          "microprice_offset_bps_mean_std": "Float32",
+          "mid_last": "Float64",
+          "mid_max": "Float64",
+          "mid_mean": "Float64",
+          "mid_min": "Float64",
+          "mid_std": "Float64",
+          "mode": "String",
+          "open_us": "Int64",
+          "quality": "UInt16",
+          "quote_update_count": "UInt32",
+          "realized_return": "Float32",
+          "received_first_us": "Int64",
+          "received_last_us": "Int64",
+          "session": "String",
+          "spread_bps_last": "Float64",
+          "spread_bps_max": "Float32",
+          "spread_bps_mean": "Float32",
+          "spread_bps_min": "Float32",
+          "spread_bps_std": "Float32",
+          "symbol": "String",
+          "trade_first_us": "Int64",
+          "trade_flow_imbalance": "Float32",
+          "trade_last_us": "Int64",
+          "trade_vwap": "Float64",
+          "valid_seconds": "UInt16",
+          "version": "String"
+        },
+        "files": [
+          {
+            "path": "data/a09-v2-smoke-1790853355041767/features/60s/batch-0000000000122-0000000000126.parquet",
+            "sha256": "4d4838addf4636b3207d28dd92acdc0a5bdfd8a4b400d2d0efc7d33a65a464d3",
+            "bytes": 15237
+          }
+        ]
+      }
+    },
+    "reconstruction_scope": "Positivity/finite/reconstructable rows, not an independent quote comparison; isolated event tests verify equality. No executable labels or forward qualification."
+  },
+  "finite_storage_probe": {
+    "provenance": "synthetic_dense_high_entropy_engineering",
+    "chunks": [
+      {
+        "seed": 20261001,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261001-1s.parquet",
+            "bytes": 152837,
+            "rows": 1200,
+            "sha256": "fbc1b7f594988190b20ef485cfd6c887b3b150ff83d7df35f44d41aee9c3ed15"
+          },
+          "5": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261001-5s.parquet",
+            "bytes": 70397,
+            "rows": 240,
+            "sha256": "39d8b0ccdaeabe833bf1126214621d14ad6e089b4522359e33c86117559c0da4"
+          },
+          "30": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261001-30s.parquet",
+            "bytes": 25665,
+            "rows": 40,
+            "sha256": "e82a19dc915cc4aec718de189ed3e4b040e897eb29ca2cd74263e67d8933a357"
+          },
+          "60": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261001-60s.parquet",
+            "bytes": 20472,
+            "rows": 20,
+            "sha256": "5a3841009c20f2853ceef0e3c7d000762d4a0df983f97c996819fbba26aa7687"
+          }
+        },
+        "total_bytes": 269371
+      },
+      {
+        "seed": 20261002,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261002-1s.parquet",
+            "bytes": 152855,
+            "rows": 1200,
+            "sha256": "1582ea35aafc7531ee76ba0cdadc730cbcc7c191f23e685ab268b8c28a4e7a35"
+          },
+          "5": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261002-5s.parquet",
+            "bytes": 70324,
+            "rows": 240,
+            "sha256": "323fbe87958f2687d62deeb454957a61e36ae65b30febd4150394141fae4a31d"
+          },
+          "30": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261002-30s.parquet",
+            "bytes": 25662,
+            "rows": 40,
+            "sha256": "3df6cf299db7287933057cb7b38542bfe31fb3bdf5c95152f4069ace29bb8f29"
+          },
+          "60": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261002-60s.parquet",
+            "bytes": 20473,
+            "rows": 20,
+            "sha256": "8195624349c05b9b3670c0c4472de42ddb3ff825057510236e654cd82794d5b5"
+          }
+        },
+        "total_bytes": 269314
+      },
+      {
+        "seed": 20261003,
+        "seconds": 600,
+        "intervals": {
+          "1": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261003-1s.parquet",
+            "bytes": 152786,
+            "rows": 1200,
+            "sha256": "e89adab191c90135f09e335a7b90d627b774a86290b67fd6a55cd4424eeccf48"
+          },
+          "5": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261003-5s.parquet",
+            "bytes": 70358,
+            "rows": 240,
+            "sha256": "f244d4c2a53a1333e37b01b110a504484c350fdd1e7195f81db60b50ce4d5978"
+          },
+          "30": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261003-30s.parquet",
+            "bytes": 25668,
+            "rows": 40,
+            "sha256": "886a4571624fce051b3896f2e3afdeb7013693a46087f36ae6a54c08934a96f8"
+          },
+          "60": {
+            "path": "reports/generated/A09_PROBE_1790853355041767/synthetic-20261003-60s.parquet",
+            "bytes": 20468,
+            "rows": 20,
+            "sha256": "713fd1516c548e0ce3c7d6fb96ce36bf61ca86b563772d509c30abfedc44fa70"
+          }
+        },
+        "total_bytes": 269280
+      }
+    ],
+    "daily_whole_files_projection_bytes": 38789424,
+    "conditional_180d_with_30_percent_margin_bytes": 9076725216,
+    "feature_cap_bytes": 8000000000,
+    "finite_projection_within_cap": false,
+    "actual_180d_observed": false,
+    "native_and_total_capacity_accepted": false,
+    "limitation": "Finite synthetic samples; no real full UTC day or worst-case guarantee. If over cap, retain failure; actual 24h capacity remains pending. Native/raw/whole project+entire VHD assessed separately."
+  },
+  "actual_disk_from_measurement": {
+    "project_bytes": 2903597739,
+    "wsl_vhd_bytes": 6201278464,
+    "total_bytes": 9104876203,
+    "reserved_bytes": 0,
+    "d_free_bytes": 373089865728,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000
+  },
+  "actual_ram_at_acceptance": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 224002048,
+    "ram_peak_bytes": 2083442688,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "actual_24h_capacity_accepted": false,
+  "actual_24h_quality_accepted": false,
+  "actual_14d_accepted": false,
+  "actual_30d_accepted": false,
+  "actual_60d_accepted": false,
+  "alpha_eligible": false,
+  "training_authorized": false,
+  "healthy_credit_seconds": 0,
+  "production_launch_authorized_scope": "V2 public data qualification only, no orders/models",
+  "limitations": "Primary correctness/schema/real-short-smoke acceptance, no full UTC-day or 24h resource/storage acceptance. Finite high-entropy projection and any failure retained; native/raw/total combined 180d budget remains separate. Short smoke database/store never joins default v2 qualification clock."
+}
