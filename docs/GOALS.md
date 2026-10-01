@@ -1,7 +1,8 @@
 # 总目标与当前步骤
 
 **当前主线已切换用户直接指定v6**：官方历史trade-flow数据与成熟开源模型比较。
-FR61/62/64并行，长清单`FAST_RESEARCH_TASK_CHECKLIST.md`；执行和观察器新增工程冻结。
+FR61已推送、FR62现货一日工程已验收；当前修正FR63永续编号语义并推进FR64公共合同。
+长清单`FAST_RESEARCH_TASK_CHECKLIST.md`当前10/40项具阶段证据；执行和观察器新增工程冻结。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 

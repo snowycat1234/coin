@@ -16,6 +16,15 @@ Parquet2,720,619B、ZIP11,611,012B验校后删除。转换6.318s、全流程377.
 两次D盘扫描363.707s；根正将新的ignored研究环境/缓存迁入D盘WSL内部以减少遍历，
 旧冻结守卫与依赖保持。历史180d/alpha尚未验收。
 
+FR62 V1现货工程已完成根侧验收：12项专项、实际Parquet/manifest SHA、整日17,280桶、
+买卖计数分区和raw删除分别复核。凭证`fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
+FR61模块远程main已核对为`7fd5d936fdfb945c0660b98f69177b6383057cf9`。
+FR63四路首日实际完成两路现货，BTC永续停止于原始编号检查；失败报告和owned raw保留。
+完整永续档案只读核对788,464条：聚合编号连续、时间有序、无原始范围重叠，
+原始范围跳号299处/350个编号。官方永续聚合接口只含market trades，不含保险基金/ADL；
+具体跳号成因不能逐笔确认。另建v2记录范围跳号、聚合计数和明确观察范围，旧V1来源不改。
+TCN/TLOB官方适配各8项smoke已实际通过，尚未市场训练或正式模块验收；完整共同日仍0。
+
 此前已完成A10收尾：正式凭证`reports/A10_MICRO_FEATURES_V2_ACCEPTANCE_20261001.json`，
 46项专项/Ruff通过，36行实际闭合v2数据的batch/incremental/JSON恢复逐元素一致。
 实际ready=0，短样本不足720条过去5s数据，未计算标签/训练/预测收益。

@@ -1,6 +1,6 @@
 # 当前长目标：开源复用科研 v6
 
-当前步骤：FR61开源登记、FR62官方历史数据薄包装与FR64公共数据合同并行。
+当前步骤：FR61已验收推送；FR62真实现货日已验收，FR63四路首日发现永续编号语义问题，正在另建v2修正。
 下面仅凭实际工件勾选；旧v3/v4清单保留，当前优先级为用户直接指定的v6。
 
 ## 约束与保留
@@ -15,10 +15,10 @@
 
 - [x] 06 官方repo、commit/version与许可证登记
 - [x] 07 LOBFrame仅方法参考；LOBench未确认许可前不vendor
-- [ ] 08 官方aggTrades Spot/Perp URL、字段和时间单位
-- [ ] 09 ZIP/.CHECKSUM实际SHA256核验
-- [ ] 10 同一薄转换器产生固定5s schema，原始不长期保留
-- [ ] 11 真实一天download→checksum→convert→raw删除→manifest验收
+- [x] 08 官方aggTrades Spot/Perp URL、字段和时间单位
+- [x] 09 ZIP/.CHECKSUM实际SHA256核验
+- [x] 10 薄转换器产生固定5s schema；V1现货已验收，永续修正另建v2
+- [x] 11 真实一天download→checksum→convert→raw删除→manifest验收
 - [ ] 12 BTC/ETH×Spot/Perp四路完整UTC日对齐
 - [ ] 13 >=180实际历史完整日，无缺日期静默忽略
 - [ ] 14 历史长期特征≤8GB，整个项目/VHD与新增增长复核
@@ -63,4 +63,7 @@
 FR61已登记8个官方项目、固定commit及许可证；凭证
 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
-当前6/40项有阶段证据；FR62根侧最终验收/四路数据仍推进。
+当前10/40项有阶段证据；第10项仅记录已验收V1现货工程，不代表四路共同合同通过。
+FR62根侧凭证：`reports/fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
+FR63首日实际失败已保存，完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
+也不会将这些跳号静默删除。公共数据合同待新的聚合成交计数版本及四路实测。
