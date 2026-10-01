@@ -70,7 +70,9 @@ Windows 调用方式：`wsl -d hpc_linux --exec bash /mnt/d/codex/coin/scripts/r
 闭合资源窗口复核63项、原始环年龄诊断21项已完成工程验收；实际raw快照909分片、
 139.99MB、最早命名15.42h，仍无24h保留/质量资格。正常连接轮转与strict clean日
 判据的冲突见`docs/A07_DIAGNOSTIC_REVIEW_20261001.md`；不改冻结结果来授予资格。
-异常凭证包装器正修缮独立审查发现的I/O捕获缺口，当前24h资源窗口继续运行。
+异常凭证模块修缮后26项及真实60.004448秒验收通过，当前24h资源窗口继续运行。
+原14/30研究门槛已按实际共同可用秒数累计；新报告解释范围见
+`docs/A07_DATA_REVIEW_SCOPE_20261001.md`，不凭模糊断开原因增加有效/健康秒。
 
 GitHub仓库为 `https://github.com/snowycat1234/coin.git`；按用户选择，仅每完成一个
 模块并验收、更新文档后提交与推送。同步范围和推送记录见 `docs/GITHUB_SYNC.md`。
