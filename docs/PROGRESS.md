@@ -3,8 +3,11 @@
 ## 当前最高优先级：用户直接指定v6
 
 原附件SHA bc650cda80b6f6478a3bd81f28d0971dfe8183a72e330a443e8b1c741290b86a。
-FR61/FR62/FR66/FR67已验收推送；FR63/FR64四路两日与公共缓存已验收，正在提交。
-当前180历史日批次与Ridge/XGB短段接线实测并行；TS2Vec官方最小原始核心已取得，尚未适配。
+FR61/62/63/64/66/67已验收推送，远程最近共同数据提交`0feef65`已核验。
+FR65三基线真实两日接线完成；FR68官方TS2Vec核心及三项smoke通过。
+共同native工作副本八档SHA及24完整样本逐项相同，暖访问段约340倍提速。
+当前180历史日批次运行，统一预测/经济评价、TS2Vec两probe和River时序接线仍待完成。
+长清单当前21/40项有阶段证据；不把短段smoke计为正式模型效果。
 新execution/Testnet/mainnet/resource-observer工程冻结，A11新采集/观察未启动。
 已有A09/A10验收保留，旧STOP_v2/holdout/source不改；第一轮10configs/1seed。
 详见`OPEN_SOURCE_REUSE_OVERRIDE_v6.md`与`FAST_RESEARCH_TASK_CHECKLIST.md`。
@@ -24,7 +27,7 @@ FR63四路首日实际完成两路现货，BTC永续停止于原始编号检查�
 完整永续档案只读核对788,464条：聚合编号连续、时间有序、无原始范围重叠，
 原始范围跳号299处/350个编号。官方永续聚合接口只含market trades，不含保险基金/ADL；
 具体跳号成因不能逐笔确认。另建v2记录范围跳号、聚合计数和明确观察范围，旧V1来源不改。
-TCN/TLOB官方适配各8项smoke已实际通过，尚未市场训练或正式模块验收；完整共同日仍0。
+当时TCN/TLOB各8项smoke通过、尚未根侧验收且共同日0；后续正式工程验收及V2四路两日已通过。
 
 FR66/FR67后续根侧最终验收已闭合：共同16项/26.11秒通过、Ruff通过，安装版本与
 第三方原始字节/兼容修改逐项绑定。`FR66_ADAPTER_ACCEPTANCE_20261001.json`和

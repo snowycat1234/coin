@@ -26,31 +26,6 @@ FR66/FR67/FR68仅模型接线验收。Ridge及两档XGBoost已跑完同一四路
 完整本地修改逐项见`third_party/tlob/UPSTREAM.md`，独立模块文档/验收凭证另列。
 不安装tsai、不复制LOBFrame或未确认许可的LOBench代码。
 
-### 共同数据与评价的既有依赖
-
-以下实际import/安装元数据核验保存在
-`reports/fast_research/FR65_SHARED_LIBRARY_METADATA_20261001_V2.json`。
-沿用既有环境，零本地库修改；包发行版与repo HEAD不混称。
-
-| 项目repo | 实际包版本 | 主项目许可证 | 用途 | 本地修改 |
-|---|---|---|---|---|
-| https://github.com/scikit-learn/scikit-learn | 1.9.1 | BSD-3-Clause | 共同StandardScaler、Ridge、多输出probe | 无 |
-| https://github.com/dmlc/xgboost | xgboost-cpu 3.4.1 | Apache-2.0 | 两档固定树模型 | 无 |
-| https://github.com/lightgbm-org/LightGBM | 4.7.0 | MIT | TS2Vec固定树probe | 无 |
-| https://github.com/apache/arrow | pyarrow 23.0.1 | Apache-2.0 | Parquet row-group读取 | 无 |
-| https://github.com/pola-rs/polars | 1.44.2 | MIT | 原有共享聚合、labels、daily metrics | 无 |
-| https://github.com/scipy/scipy | 1.18.1 | BSD-3-Clause | Pearson/Spearman共同指标 | 无 |
-| https://github.com/encode/httpx | 0.28.1 | BSD-3-Clause | 原有薄官方归档HTTP调用 | 无 |
-| https://github.com/numpy/numpy | 2.5.3 | BSD-3-Clause | 共同数组/数值接口 | 无 |
-| https://github.com/pytorch/pytorch | 2.7.1+cpu | BSD-3-Clause | 官方DataLoader/optimizer及模型运行 | 无 |
-| https://github.com/arogozhnikov/einops | 0.8.2 | MIT | 官方TLOB张量变换依赖 | 无 |
-| https://github.com/narwhals-dev/narwhals | 2.26.0 | MIT | River发行版依赖 | 无 |
-
-主项目许可证不能覆盖wheel内全部第三方运行库；实际发行版完整license保留于安装环境。
-XGBoost的发行包名为`xgboost-cpu`，Python import名为`xgboost`；首次按import名查询
-包元数据失败，独立V2模块快照保留，随后按真实发行名补核，不是依赖损坏或重新安装。
-FR68核心登记时的原表也保存于`docs/archive/OPEN_SOURCE_REGISTRY_FR68_CORE_20261001.md`。
-
 ## 原FR61来源核验快照（以下安装状态以当时为准）
 
 登记依据：用户已采纳 `OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`，SHA256 `bc650cda80b6f6478a3bd81f28d0971dfe8183a72e330a443e8b1c741290b86a`。核验于 2026-10-01 UTC；GitHub 默认分支实际 HEAD 查询时间 11:32:05，许可证/PyPI 查询时间 11:36:31。完整来源、响应摘要与文件摘要见 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。

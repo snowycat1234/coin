@@ -1,6 +1,7 @@
 # 当前长目标：开源复用科研 v6
 
-当前步骤：FR61已验收推送；FR62真实现货日已验收，FR63四路首日发现永续编号语义问题，正在另建v2修正。
+当前步骤：官方四路两日、共同dataset、TCN/TLOB/TS2Vec工程接入通过；
+三基线短段接线完成。180历史日下载运行中，正在补统一评价与模型共同训练接线。
 下面仅凭实际工件勾选；旧v3/v4清单保留，当前优先级为用户直接指定的v6。
 
 ## 约束与保留
@@ -41,7 +42,7 @@
 - [ ] 25 TCN-S/M同一数据实际运行
 - [x] 26 MIT TLOB上游固定commit/LICENSE/UPSTREAM与薄adapter
 - [ ] 27 MLPLOB1/TLOB1同一数据实际运行
-- [ ] 28 MIT TS2Vec最小核心/兼容性修改与来源登记
+- [x] 28 MIT TS2Vec最小核心/兼容性修改与来源登记
 - [ ] 29 train-period预训练后linear/LGB两个probe
 - [ ] 30 River依赖，predict→label mature→learn_one复测
 - [ ] 31 Static/River/weekly refit同一chronological replay
@@ -63,12 +64,14 @@
 FR61已登记8个官方项目、固定commit及许可证；凭证
 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
-当前20/40项有阶段证据；四路两日工程合同已通过，不代表180天和正式模型研究完成。
+当前21/40项有阶段证据；四路两日工程合同已通过，不代表180天和正式模型研究完成。
 FR62根侧凭证：`reports/fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
-FR63首日实际失败已保存，完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
+FR63 V1首日实际失败已保存，当时完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
 也不会将这些跳号静默删除。V2四路两日已通过，原失败凭证原样保留。
 FR66/FR67根侧工程验收已闭合，共同最终16项通过；尚无市场训练或预测结论。
 FR63/FR64真实8档/22,096,957B/2,355共同样本已独立验收；24个标签手工回算通过。
 共同缓存复用原源码，3项测试通过；24样本输入/八标签/ID/价格/时间精确相同，
 仅原始净USDT流量QA允许1e-6绝对或1e-12相对浮点差。暖访问实测快10.47倍。
-180历史日批次已启动；Ridge/XGB-S/XGB-M同一短段工程smoke运行中，不授正式研究资格。
+180历史日批次已启动；Ridge/XGB-S/XGB-M同一短段工程smoke三项已完成，不授正式研究资格。
+TS2Vec上游最小核心及三项smoke已通过；两个probe和市场预训练仍待执行。
+共同native工作副本八文件SHA及24真实完整样本逐项相同，暖访问段实测快340倍。

@@ -1,9 +1,9 @@
 # 总目标与当前步骤
 
 **当前主线已切换用户直接指定v6**：官方历史trade-flow数据与成熟开源模型比较。
-FR61已推送、FR62现货一日工程已验收；当前修正FR63永续编号语义并推进FR64公共合同。
-长清单`FAST_RESEARCH_TASK_CHECKLIST.md`当前20/40项具阶段证据；执行和观察器新增工程冻结。
-四流两日及共同合同工程已验收；当前180历史日批次运行，三基线短段接线实测推进。
+FR61/62/63/64与TCN/TLOB工程已验收推送；TS2Vec接入及三基线短段接线完成。
+长清单`FAST_RESEARCH_TASK_CHECKLIST.md`当前21/40项具阶段证据；执行和观察器新增工程冻结。
+四流两日及共同合同工程已验收；当前180历史日批次运行，统一经济评价及完整模型训练待完成。
 固定10configs/1seed，两primary，统一dataset/split/labels/normalization/metrics/economics。
 下述v4/v3阶段证据保留；A11版本切换未启动，不等待live时间才进行历史研发。
 
