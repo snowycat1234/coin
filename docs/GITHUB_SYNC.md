@@ -19,6 +19,10 @@ Git备份只表示代码与选定文档证据已同步，不代表真实行情/�
 
 ## 本次检查点
 
+A10模块已提交并通过官方Git API精确对象传输核验远程main为
+`8ca8340ca2339e9b2ef003e7d600610fa120f411`，未强推或修改历史，凭证
+`reports/GITHUB_A10_SYNC_VERIFIED_20261001.json`。FR61登记模块随后独立保存检查点。
+
 A09完成独立正确性验收并提交`2aff1771631c6e8f9a3cdd276dd634ed46a61fad`，v6登记同批保存。
 两次普通Git HTTPS连接失败，远程仍旧8776224，失败凭证V1/V2保留。
 随后通过GitHub官方Git API传输30份变更blob、tree及完全相同的本地commit对象，

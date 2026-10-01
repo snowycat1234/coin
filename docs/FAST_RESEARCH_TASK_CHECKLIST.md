@@ -13,8 +13,8 @@
 
 ## FR61/62/63 官方来源与数据
 
-- [ ] 06 官方repo、commit/version与许可证登记
-- [ ] 07 LOBFrame仅方法参考；LOBench未确认许可前不vendor
+- [x] 06 官方repo、commit/version与许可证登记
+- [x] 07 LOBFrame仅方法参考；LOBench未确认许可前不vendor
 - [ ] 08 官方aggTrades Spot/Perp URL、字段和时间单位
 - [ ] 09 ZIP/.CHECKSUM实际SHA256核验
 - [ ] 10 同一薄转换器产生固定5s schema，原始不长期保留
@@ -59,3 +59,8 @@
 - [ ] 40 最终研究结论、模块凭证、文档与远程一致性汇总
 
 资金授权、锁定历史启封、候选未来资格仍为另外的用户授权与实测门槛。
+
+FR61已登记8个官方项目、固定commit及许可证；凭证
+`reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
+FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
+当前6/40项有阶段证据；FR62根侧最终验收/四路数据仍推进。

@@ -8,6 +8,14 @@ FR61官方来源登记、FR62官方历史数据薄包装、FR64唯一科研数�
 已有A09/A10验收保留，旧STOP_v2/holdout/source不改；第一轮10configs/1seed。
 详见`OPEN_SOURCE_REUSE_OVERRIDE_v6.md`与`FAST_RESEARCH_TASK_CHECKLIST.md`。
 
+FR61完成：8个官方repo commit、5份完整LICENSE、3个包发行版及4个官方CHECKSUM元数据
+实际核对。`OPEN_SOURCE_REGISTRY.md`与FR61来源验收凭证保存；软件/data许可区别、
+LOBFrame方法参考和LOBench未确认许可限制均登记。未把来源登记等同模型smoke通过。
+FR62首个真实BTC现货日已完成：802,159聚合事件/2,013,289原始成交，17,280桶，
+Parquet2,720,619B、ZIP11,611,012B验校后删除。转换6.318s、全流程377.298s，
+两次D盘扫描363.707s；根正将新的ignored研究环境/缓存迁入D盘WSL内部以减少遍历，
+旧冻结守卫与依赖保持。历史180d/alpha尚未验收。
+
 此前已完成A10收尾：正式凭证`reports/A10_MICRO_FEATURES_V2_ACCEPTANCE_20261001.json`，
 46项专项/Ruff通过，36行实际闭合v2数据的batch/incremental/JSON恢复逐元素一致。
 实际ready=0，短样本不足720条过去5s数据，未计算标签/训练/预测收益。
