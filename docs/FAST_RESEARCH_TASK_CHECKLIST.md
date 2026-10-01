@@ -37,9 +37,9 @@
 ## FR65/66/67/68/69 模型复用与运行
 
 - [ ] 23 Ridge1/XGB2真实历史初轮结果
-- [ ] 24 pytorch-tcn依赖及shape/causal/deterministic/no future norm smoke
+- [x] 24 pytorch-tcn依赖及shape/causal/deterministic/no future norm smoke
 - [ ] 25 TCN-S/M同一数据实际运行
-- [ ] 26 MIT TLOB上游固定commit/LICENSE/UPSTREAM与薄adapter
+- [x] 26 MIT TLOB上游固定commit/LICENSE/UPSTREAM与薄adapter
 - [ ] 27 MLPLOB1/TLOB1同一数据实际运行
 - [ ] 28 MIT TS2Vec最小核心/兼容性修改与来源登记
 - [ ] 29 train-period预训练后linear/LGB两个probe
@@ -63,7 +63,8 @@
 FR61已登记8个官方项目、固定commit及许可证；凭证
 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
-当前10/40项有阶段证据；第10项仅记录已验收V1现货工程，不代表四路共同合同通过。
+当前12/40项有阶段证据；第10项仅记录已验收V1现货工程，不代表四路共同合同通过。
 FR62根侧凭证：`reports/fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
 FR63首日实际失败已保存，完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
 也不会将这些跳号静默删除。公共数据合同待新的聚合成交计数版本及四路实测。
+FR66/FR67根侧工程验收已闭合，共同最终16项通过；尚无市场训练或预测结论。

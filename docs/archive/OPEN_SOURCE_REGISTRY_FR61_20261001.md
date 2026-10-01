@@ -1,27 +1,5 @@
 # FR61 开源复用登记表
 
-## 当前集成增量（FR66/FR67）
-
-以下原FR61核验是11:49 UTC的历史快照，字节副本保存在
-`docs/archive/OPEN_SOURCE_REGISTRY_FR61_20261001.md`，SHA256
-`54b3995408556c7b2960aba1defc0731222ae825b7bf17b1c90b1a49580ec134`。
-原凭证与Git提交`7fd5d936`保留；本登记表按实际集成继续更新。
-
-| 项目 | 实际集成状态 | 本地修改与验收范围 |
-|---|---|---|
-| pytorch-tcn 1.2.3 / MIT | ADOPTED_ENGINEERING | 原包零修改；仅末态encoder＋共同8输出head；TCN-S/M各四项smoke通过 |
-| TLOB `f1c0af4d81067978914361766db0457a7d8b6a46` / MIT | ADOPTED_ENGINEERING | `third_party/tlob`最小三核心、LICENSE/原字节/SOURCE_INDEX/UPSTREAM；仅相对导入、显式CPU、移除无用绘图导入、BiN负权重原地修复与零std保护；adapter替换末层3类head |
-| River 0.26.1 / BSD-3-Clause | INSTALLED_PENDING_ADAPTER_ACCEPTANCE | 原包零修改；尚未市场replay，不能计FR69通过 |
-| TS2Vec固定commit / MIT | PINNED | 尚未vendor或训练 |
-| Torch 2.7.1+cpu / BSD-3-Clause | CPU_RUNTIME | 官方CPU发行版，未编译CUDA；独立D盘WSL研究环境，不改旧依赖锁 |
-| NumPy 2.5.3 / BSD-3-Clause，einops 0.8.2 / MIT | COMPATIBILITY_DEPENDENCIES | 原包零修改；固定实际版本；NumPy/Torch/sklearn接口已运行核对 |
-
-FR66/FR67仅模型接线验收，历史市场训练、共同180天数据、预测或盈利证据尚未通过。
-完整本地修改逐项见`third_party/tlob/UPSTREAM.md`，独立模块文档/验收凭证另列。
-不安装tsai、不复制LOBFrame或未确认许可的LOBench代码。
-
-## 原FR61来源核验快照（以下安装状态以当时为准）
-
 登记依据：用户已采纳 `OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`，SHA256 `bc650cda80b6f6478a3bd81f28d0971dfe8183a72e330a443e8b1c741290b86a`。核验于 2026-10-01 UTC；GitHub 默认分支实际 HEAD 查询时间 11:32:05，许可证/PyPI 查询时间 11:36:31。完整来源、响应摘要与文件摘要见 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 
 本模块只登记来源和接口。没有安装依赖、vendor 代码、训练或改变已冻结工程；下列“PINNED”是后续集成的固定来源，不等于已经安装或通过模型 smoke。

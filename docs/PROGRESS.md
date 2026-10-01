@@ -25,6 +25,19 @@ FR63四路首日实际完成两路现货，BTC永续停止于原始编号检查�
 具体跳号成因不能逐笔确认。另建v2记录范围跳号、聚合计数和明确观察范围，旧V1来源不改。
 TCN/TLOB官方适配各8项smoke已实际通过，尚未市场训练或正式模块验收；完整共同日仍0。
 
+FR66/FR67后续根侧最终验收已闭合：共同16项/26.11秒通过、Ruff通过，安装版本与
+第三方原始字节/兼容修改逐项绑定。`FR66_ADAPTER_ACCEPTANCE_20261001.json`和
+`FR67_ADAPTER_ACCEPTANCE_20261001.json`仅授工程接线资格，市场训练0次。
+FR61原登记表副本及原凭证保留，当前登记表追加实际集成，长清单12/40。
+FR62已远程核对`f54a28ae52ca14a019e0eb4ab660e2c22c362404`；按完成模块分别推送。
+永续修正适配8项/6.36秒通过、共同dataset修正版8项/60.51秒通过，四流两日实测运行中。
+
+旧micro v1于13:25 UTC前停止（DISK_LEDGER_FAILED，具体内部异常未确认）；旧Kline
+日志报告曾拒绝新研究环境的短暂外部解释器链接。环境目录已移出ROOT，旧来源保持。
+原24h资源窗口终报为FAILED_RESOURCE_WINDOW_NOT_ACCEPTED，实收3h45m区段保留，
+不拼接时间、不授24h资格，不重启观察器。10份日志/窗口与闭合SQLite备份已保存，
+凭证`V6_EXISTING_COLLECTOR_STOP_PRESERVATION_20261001.json`；原启动器恢复旧公开采集。
+
 此前已完成A10收尾：正式凭证`reports/A10_MICRO_FEATURES_V2_ACCEPTANCE_20261001.json`，
 46项专项/Ruff通过，36行实际闭合v2数据的batch/incremental/JSON恢复逐元素一致。
 实际ready=0，短样本不足720条过去5s数据，未计算标签/训练/预测收益。
