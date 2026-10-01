@@ -2,12 +2,7 @@
 
 Repository: https://github.com/zhihanyue/ts2vec
 Commit: b0088e14a99706c05451316dc6db8d3da9351163
-Retrieval date: 2026-10-01T14:41:09.729453+00:00 (official API; SOURCE_INDEX.json)
 License: MIT
-
-The accepted core-integration document bytes are preserved in
-UPSTREAM_FR68_CORE_20261001.md. This update only supplies the explicit retrieval date;
-upstream code, license, imports and adapter bytes are unchanged.
 
 Original files, complete LICENSE and Git blob/SHA256 bindings retained.
 Local changes: three package-relative imports in ts2vec.py; package export.

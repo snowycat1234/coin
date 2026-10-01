@@ -1,0 +1,34 @@
+E501 Line too long (102 > 100)
+  --> tests/test_fast_research_evaluation.py:82:101
+   |
+80 |     assert metrics["flow_IC"] == pytest.approx(-1.)
+81 |     assert metrics["return_Pearson_IC"] == pytest.approx(pearsonr(pred[:, 0, 1], truth[:, 0, 1])[0])
+82 |     assert metrics["return_Spearman_IC"] == pytest.approx(spearmanr(pred[:, 0, 1], truth[:, 0, 1])[0])
+   |                                                                                                     ^^
+83 |     assert metrics["RV_rank_IC"] == pytest.approx(1.)
+84 |     assert metrics["flow_sign_accuracy"] == pytest.approx(.2)
+   |
+
+E501 Line too long (102 > 100)
+   --> tests/test_fast_research_evaluation.py:215:101
+    |
+213 |         metrics = {stream: {"flow_IC": value, "return_Spearman_IC": 0.}
+214 |                    for stream in ("spot_BTCUSDT", "spot_ETHUSDT")}
+215 |         economic = EconomicsResult(None, None, {"gross_proxy_return": gross, "net_proxy_return": net})
+    |                                                                                                     ^^
+216 |         reports.append(FoldEvaluation(
+217 |             {"fold": fold.name, "formal_fold": True, "status": "FORMAL_DATA_READY" if formal
+    |
+
+E501 Line too long (103 > 100)
+   --> tests/test_fast_research_evaluation.py:238:101
+    |
+236 |     assert sprint_screen(reports[:-1])["status"] == "INSUFFICIENT_EVIDENCE"
+237 |     assert sprint_screen(fold_reports([.06] * 6, formal=False))["status"] == "INSUFFICIENT_EVIDENCE"
+238 |     assert sprint_screen(fold_reports([.06] * 6, net=-.001))["status"] == "PREDICTIVE_BUT_COST_LIMITED"
+    |                                                                                                     ^^^
+239 |     with pytest.raises(ValueError, match="Duplicate"):
+240 |         sprint_screen(reports + reports[:1])
+    |
+
+Found 3 errors.

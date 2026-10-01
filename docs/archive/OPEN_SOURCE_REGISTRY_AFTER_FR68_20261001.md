@@ -16,13 +16,12 @@ FR66/FR67验收时的登记表原字节已保存在
 |---|---|---|
 | pytorch-tcn 1.2.3 / MIT | ADOPTED_ENGINEERING | 原包零修改；仅末态encoder＋共同8输出head；TCN-S/M各四项smoke通过 |
 | TLOB `f1c0af4d81067978914361766db0457a7d8b6a46` / MIT | ADOPTED_ENGINEERING | `third_party/tlob`最小三核心、LICENSE/原字节/SOURCE_INDEX/UPSTREAM；仅相对导入、显式CPU、移除无用绘图导入、BiN负权重原地修复与零std保护；adapter替换末层3类head |
-| River 0.26.1 / BSD-3-Clause | ADOPTED_ENGINEERING | 原包零修改；462个RECORD摘要逐字节核验；官方scaler/LinearRegression/ADWIN加完整标签成熟队列、共同replay六项通过。正式六fold待运行 |
-| TS2Vec `b0088e14a99706c05451316dc6db8d3da9351163` / MIT | ADOPTED_ENGINEERING_AND_SHORT_MARKET_SMOKE | `third_party/ts2vec`官方七文件＋完整LICENSE和原字节；仅三个相对导入及包导出；官方合成smoke三项通过。共同两日实际train-only预训练600迭代及两个冻结probe完成；正式六fold待运行 |
+| River 0.26.1 / BSD-3-Clause | INSTALLED_PENDING_ADAPTER_ACCEPTANCE | 原包零修改；尚未市场replay，不能计FR69通过 |
+| TS2Vec `b0088e14a99706c05451316dc6db8d3da9351163` / MIT | ADOPTED_ENGINEERING | `third_party/ts2vec`官方七文件＋完整LICENSE和原字节；仅三个相对导入及包导出；官方合成训练/冻结encode/保存恢复等三项smoke通过。市场train-only预训练与两个probe待执行 |
 | Torch 2.7.1+cpu / BSD-3-Clause | CPU_RUNTIME | 官方CPU发行版，未编译CUDA；独立D盘WSL研究环境，不改旧依赖锁 |
 | NumPy 2.5.3 / BSD-3-Clause，einops 0.8.2 / MIT | COMPATIBILITY_DEPENDENCIES | 原包零修改；固定实际版本；NumPy/Torch/sklearn接口已运行核对 |
 
-TCN-S/M、MLPLOB、TLOB、TS2Vec两probe以及Ridge和两档XGBoost均完成共同四路两日工程段。
-River工程接入通过、真实短段回放另行验收。
+FR66/FR67/FR68仅模型接线验收。Ridge及两档XGBoost已跑完同一四路两日工程段，
 共同180天、六个OOS fold、统一经济评价及预测稳定性结论尚未通过。
 完整本地修改逐项见`third_party/tlob/UPSTREAM.md`，独立模块文档/验收凭证另列。
 不安装tsai、不复制LOBFrame或未确认许可的LOBench代码。
@@ -51,8 +50,6 @@ River工程接入通过、真实短段回放另行验收。
 XGBoost的发行包名为`xgboost-cpu`，Python import名为`xgboost`；首次按import名查询
 包元数据失败，独立V2模块快照保留，随后按真实发行名补核，不是依赖损坏或重新安装。
 FR68核心登记时的原表也保存于`docs/archive/OPEN_SOURCE_REGISTRY_FR68_CORE_20261001.md`。
-FR68完整依赖登记时原表保存在`docs/archive/OPEN_SOURCE_REGISTRY_AFTER_FR68_20261001.md`。
-TS2Vec的UPSTREAM日期补记仅文档增量；其原文保存在同目录`UPSTREAM_FR68_CORE_20261001.md`。
 
 ## 原FR61来源核验快照（以下安装状态以当时为准）
 
@@ -150,3 +147,4 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 11:36:11 的旧 `.venv` 包元数据快照：pytorch-tcn/River/tsai/Torch/pandas 未安装；本快照不描述主代理之后新 `.venv-research` 的安装状态。没有 `third_party` 目录。已使用的底层依赖沿用原 pyproject/uv.lock 与旧凭证；本次不改它们。
 
 后续每次实际安装/vendor 按 FR66/67/68/69 独立更新集成凭证，将该项目从 PINNED 升为 ADOPTED，并登记许可证、upstream SHA、实际本地文件 SHA、所有修改和四项 smoke。FR61 不提供模型训练效果、容量、alpha 或未来实盘授权；RAM≤5GB、项目加整个 D 盘 VHD≤40GB、无 GPU 约束继续执行。
+

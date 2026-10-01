@@ -5,9 +5,9 @@
 官方Binance历史数据→统一5s Spot/Perp数据→Ridge/XGB→pytorch-tcn→MLPLOB/TLOB→TS2Vec
 →River→统一排行榜。第一轮最多10配置/1seed，所有模型共用数据与评价。
 新execution/Testnet/mainnet/resource-observer工程冻结；下述v4结果保留，不再是当前主线。
-长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`，当前21/40项具阶段证据。
-官方四路两日、共同dataset、TCN/TLOB/TS2Vec工程接入已通过；三基线短段接线完成。
-180历史日批次运行中，六fold/10configs及共同经济评价仍待完成。
+长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`，当前23/40项具阶段证据。
+官方四路两日、共同dataset、全部10配置真实预测与统一经济评价工程模拟已完成。
+180历史日批次运行中，正式六fold/10configs与leaderboard仍待完成。
 
 以下为v6覆盖前的v4历史快照：`CODEX_AUDIT_AND_NEXT_PLAN_2026-10-01.md`。
 A09独立L1 v2正确性/schema已通过79项及真实90秒短测验收，A10最终验收中；随后A11重启版本独立资格，

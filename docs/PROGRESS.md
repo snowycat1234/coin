@@ -4,10 +4,13 @@
 
 原附件SHA bc650cda80b6f6478a3bd81f28d0971dfe8183a72e330a443e8b1c741290b86a。
 FR61/62/63/64/66/67已验收推送，远程最近共同数据提交`0feef65`已核验。
-FR65三基线真实两日接线完成；FR68官方TS2Vec核心及三项smoke通过。
+后续提交`d07afb6`远程核验完成，FR65三基线及FR68官方接入已推送。
+全部10配置共同两日真实预测/经济评价完成，982×8标签逐项一致；River及共同评价测试通过。
 共同native工作副本八档SHA及24完整样本逐项相同，暖访问段约340倍提速。
-当前180历史日批次运行，统一预测/经济评价、TS2Vec两probe和River时序接线仍待完成。
-长清单当前21/40项有阶段证据；不把短段smoke计为正式模型效果。
+当前180历史日批次运行，正式10配置×6fold与最终leaderboard仍待完成。
+长清单当前23/40项有阶段证据；不把短段smoke计为正式模型效果。
+WSL重启后已保存日志/闭合DB/进度快照，原版本采集与历史V3续跑恢复；新观察器未启动。
+短段成本后Ridge/TS2Vec-linear/River分别约−0.53/−0.44/−14.33%，其余无交易；未调参或晋级。
 新execution/Testnet/mainnet/resource-observer工程冻结，A11新采集/观察未启动。
 已有A09/A10验收保留，旧STOP_v2/holdout/source不改；第一轮10configs/1seed。
 详见`OPEN_SOURCE_REUSE_OVERRIDE_v6.md`与`FAST_RESEARCH_TASK_CHECKLIST.md`。

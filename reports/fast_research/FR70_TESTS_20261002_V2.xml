@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="11" time="26.077" timestamp="2026-10-01T16:06:28.956624+00:00" hostname="xflops"><testcase classname="tests.test_fast_research_evaluation" name="test_original_units_inverse_and_scipy_metrics_keep_all_common_samples" time="0.063"><failure message="AssertionError: &#10;Not equal to tolerance rtol=1e-07, atol=1e-12&#10;&#10;Mismatched elements: 36 / 40 (90%)&#10;First 5 mismatches are at indices:&#10; [0, 0, 0]: 0.8000003091667907 (ACTUAL), 0.800000011920929 (DESIRED)&#10; [0, 0, 1]: 0.09999871324947662 (ACTUAL), 0.10000000149011612 (DESIRED)&#10; [0, 0, 2]: 0.20000028531170955 (ACTUAL), 0.20000000298023224 (DESIRED)&#10; [0, 0, 3]: -11.999998571542896 (ACTUAL), -12.0 (DESIRED)&#10; [0, 1, 0]: 0.7999981653736441 (ACTUAL), 0.800000011920929 (DESIRED)&#10;Max absolute difference among violations: 2.85897097e-06&#10;Max relative difference among violations: 2.71638128e-05&#10; ACTUAL: array([[[ 8.000003e-01,  9.999871e-02,  2.000003e-01, -1.200000e+01],&#10;        [ 7.999982e-01,  9.999931e-02,  2.000009e-01, -1.200000e+01]],&#10;...&#10; DESIRED: array([[[  0.8  ,   0.1  ,   0.2  , -12.   ],&#10;        [  0.8  ,   0.1  ,   0.2  , -12.   ]],&#10;...">def test_original_units_inverse_and_scipy_metrics_keep_all_common_samples():
+        batch = common_batch((0, 60, 120, 180, 240))
+        truth = batch.truth.copy()
+        truth[:, :, 1] = np.array([.01, -.02, .03, -.01, .02])[:, None]
+        exit_prices = batch.entry_price * (1 + truth[:, :, 1])
+        batch = replace(batch, truth=truth, exit_price=exit_prices)
+        pred = truth.copy()
+        pred[:, :, 0] = truth[::-1, :, 0]
+        pred[:, :, 1] = np.array([.1, -.1, .2, .05, 0.])[:, None]
+        scaler = StandardScaler().fit(np.arange(80).reshape(10, 8))
+        normalizer = TargetNormalizer(scaler, SHA, "engineering", BASE - 1, 10)
+        restored = original_predictions(
+            batch, normalizer.transform(pred), batch.sample_ids,
+            units="standardized", normalizer=normalizer,
+        )
+&gt;       np.testing.assert_allclose(restored, pred, atol=1e-12)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-07, atol=1e-12
+E       
+E       Mismatched elements: 36 / 40 (90%)
+E       First 5 mismatches are at indices:
+E        [0, 0, 0]: 0.8000003091667907 (ACTUAL), 0.800000011920929 (DESIRED)
+E        [0, 0, 1]: 0.09999871324947662 (ACTUAL), 0.10000000149011612 (DESIRED)
+E        [0, 0, 2]: 0.20000028531170955 (ACTUAL), 0.20000000298023224 (DESIRED)
+E        [0, 0, 3]: -11.999998571542896 (ACTUAL), -12.0 (DESIRED)
+E        [0, 1, 0]: 0.7999981653736441 (ACTUAL), 0.800000011920929 (DESIRED)
+E       Max absolute difference among violations: 2.85897097e-06
+E       Max relative difference among violations: 2.71638128e-05
+E        ACTUAL: array([[[ 8.000003e-01,  9.999871e-02,  2.000003e-01, -1.200000e+01],
+E               [ 7.999982e-01,  9.999931e-02,  2.000009e-01, -1.200000e+01]],
+E       ...
+E        DESIRED: array([[[  0.8  ,   0.1  ,   0.2  , -12.   ],
+E               [  0.8  ,   0.1  ,   0.2  , -12.   ]],
+E       ...
+
+tests/test_fast_research_evaluation.py:77: AssertionError</failure></testcase><testcase classname="tests.test_fast_research_evaluation" name="test_missing_misaligned_nonfinite_predictions_and_mutated_truth_are_rejected" time="0.005" /><testcase classname="tests.test_fast_research_evaluation" name="test_one_roundtrip_hand_accounting_cost_identity_and_return_only_signal" time="0.003" /><testcase classname="tests.test_fast_research_evaluation" name="test_same_symbol_no_overlap_pending_and_open_position_then_new_hold" time="0.006" /><testcase classname="tests.test_fast_research_evaluation" name="test_two_coins_post_cost_caps_cash_and_fixed_spread_sensitivities" time="0.004" /><testcase classname="tests.test_fast_research_evaluation" name="test_decision_budget_uses_observed_price_never_future_entry_exit_or_label" time="0.002" /><testcase classname="tests.test_fast_research_evaluation" name="test_midnight_observed_nav_hand_sharpe_mdd_and_cash_flow_conservation" time="0.002" /><testcase classname="tests.test_fast_research_evaluation" name="test_missing_decision_mark_blocks_without_model_specific_sample_drop" time="0.002" /><testcase classname="tests.test_fast_research_evaluation" name="test_sprint_gate_uses_equal_folds_sign_and_positive_concentration_not_pooling" time="0.003" /><testcase classname="tests.test_fast_research_evaluation" name="test_complete_ten_config_binding_and_top_three_or_no_partial_leaderboard" time="0.034" /><testcase classname="tests.test_fast_research_evaluation" name="test_batch_dataset_thin_adapter_matches_existing_common_labels_and_ids" time="0.606" /></testsuite></testsuites>

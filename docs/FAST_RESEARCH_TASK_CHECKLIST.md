@@ -1,7 +1,7 @@
 # 当前长目标：开源复用科研 v6
 
-当前步骤：官方四路两日、共同dataset、TCN/TLOB/TS2Vec工程接入通过；
-三基线短段接线完成。180历史日下载运行中，正在补统一评价与模型共同训练接线。
+当前步骤：官方四路两日、共同dataset和全部10配置工程模拟/统一评价通过；
+180历史日下载运行中，正式六fold入口正在接线。未开始正式首轮或top-3晋级。
 下面仅凭实际工件勾选；旧v3/v4清单保留，当前优先级为用户直接指定的v6。
 
 ## 约束与保留
@@ -32,7 +32,7 @@
 - [x] 18 两primary/two auxiliary因果标签与成熟时间
 - [x] 19 固定chronological folds、5m embargo、train-only normalization
 - [x] 20 trade-based return proxy来源、spread假设和费用滑点明确
-- [ ] 21 所有模型共用预测与经济评价
+- [x] 21 所有模型共用预测与经济评价（十配置982端点工程模拟；正式六fold待完成）
 - [x] 22 固定10configs/1seed，无新搜索或locked消费
 
 ## FR65/66/67/68/69 模型复用与运行
@@ -44,7 +44,7 @@
 - [ ] 27 MLPLOB1/TLOB1同一数据实际运行
 - [x] 28 MIT TS2Vec最小核心/兼容性修改与来源登记
 - [ ] 29 train-period预训练后linear/LGB两个probe
-- [ ] 30 River依赖，predict→label mature→learn_one复测
+- [x] 30 River依赖，predict→label mature→learn_one复测（六项＋真实短段2095成熟更新）
 - [ ] 31 Static/River/weekly refit同一chronological replay
 - [ ] 32 GPU确需使用时资源落实；GPU-hours与peak RAM实测
 
@@ -55,7 +55,7 @@
 - [ ] 35 实际OOS fold同号≥60%，positive signal集中度≤60%独立判定
 - [ ] 36 可预测但成本受限明确记录，不当生产通过
 - [ ] 37 第一轮结束只保留最多top-3；其余停止
-- [ ] 38 仅top-3允许后续3seeds/ablation/regime
+- [ ] 38 仅top-3允许后续3seeds/ablation/regime；TS2Vec若晋级，才允许唯一fine-tune配置
 - [ ] 39 无预测结构则记录有效否定结果，不扩复杂模型
 - [ ] 40 最终研究结论、模块凭证、文档与远程一致性汇总
 
@@ -64,7 +64,7 @@
 FR61已登记8个官方项目、固定commit及许可证；凭证
 `reports/fast_research/FR61_OPEN_SOURCE_REGISTRY_ACCEPTANCE.json`。
 FR62已闭合真实BTC现货2025-07-01一天，CHECKSUM通过、17,280桶/2.72MB，raw已删除。
-当前21/40项有阶段证据；四路两日工程合同已通过，不代表180天和正式模型研究完成。
+当前23/40项有阶段证据；十配置短段工程模拟通过，不代表180天和正式模型研究完成。
 FR62根侧凭证：`reports/fast_research/FR62_OFFICIAL_PIPELINE_ACCEPTANCE_20261001.json`。
 FR63 V1首日实际失败已保存，当时完整共同日=0；不会用原始编号跳号直接冒充永续档案缺失，
 也不会将这些跳号静默删除。V2四路两日已通过，原失败凭证原样保留。
@@ -73,5 +73,10 @@ FR63/FR64真实8档/22,096,957B/2,355共同样本已独立验收；24个标签�
 共同缓存复用原源码，3项测试通过；24样本输入/八标签/ID/价格/时间精确相同，
 仅原始净USDT流量QA允许1e-6绝对或1e-12相对浮点差。暖访问实测快10.47倍。
 180历史日批次已启动；Ridge/XGB-S/XGB-M同一短段工程smoke三项已完成，不授正式研究资格。
-TS2Vec上游最小核心及三项smoke已通过；两个probe和市场预训练仍待执行。
+TS2Vec上游最小核心及三项smoke已通过；正式六fold两个probe和预训练仍待执行。
+后续：TS2Vec已在共同两日fitting段完成600次官方迭代及两个probe；TCN-S/M、MLPLOB、TLOB
+均完成一epoch市场接线smoke，同一982测试端点。正式六fold训练仍未通过。
 共同native工作副本八文件SHA及24真实完整样本逐项相同，暖访问段实测快340倍。
+River六项、共同评价十一项最终测试通过；十配置共同真实评价全部982×8标签一致。
+主成本情景三项有交易模型均亏损，七项无交易；不据此改配置或选top-3。
+WSL重启已保存/恢复，88已验校历史文件续跑独立V3，不拼接健康时间。

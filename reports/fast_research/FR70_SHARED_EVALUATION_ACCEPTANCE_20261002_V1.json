@@ -1,0 +1,90 @@
+{
+  "module": "FR70_SHARED_EVALUATION",
+  "status": "IMPLEMENTED_ENGINEERING_VERIFIED_PENDING_ROOT_ACCEPTANCE",
+  "test_started_utc": "2026-10-01T16:12:02.393916+00:00",
+  "filename_local_date": "2026-10-02",
+  "source_hashes": {
+    "src/quant/research_fast/evaluation.py": "f23d37ede10aa1ed3a3e1d7336d2a7c85884fc2e62dc6cb2ddfdf91e798d171e",
+    "tests/test_fast_research_evaluation.py": "28a0b212e38ed717e1282a0f6f4f39c2dbbc33348093291175d9caa5b24b110e",
+    "docs/MODULE_FR70_SHARED_EVALUATION.md": "4774d0d19cd1ae60619dbaeba379a122b2e04504324ae3e6653a9dd6b71f54b2"
+  },
+  "reused_sources_before_and_after_identical": {
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+    "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+    "protocols/fast_research_v6.json": "a51adea6ff382128c9d4632280ad31d00c486b165f2ef4019b0a4f508e2e03bd"
+  },
+  "reuse": {
+    "IC": "scipy.stats.pearsonr / spearmanr, existing registered scipy 1.18.1 BSD-3-Clause, library unmodified",
+    "daily_statistics": "quant.metrics.daily_metrics, byte-identical existing implementation",
+    "labels": "existing label_table, common float32 y_raw values before float64 statistical arithmetic",
+    "accounting": "thin fixed research policy and stdlib heapq chronology; no execution or exchange framework"
+  },
+  "validation": {
+    "pytest_final": {
+      "artifact": "reports/fast_research/FR70_TESTS_20261002_V4.xml",
+      "sha256": "0d08a6b7c487ede920e38aca121834d48f7e77f1a6a843d1fbce30379961786d",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 18.167,
+      "basetemp": "/home/xflops/coin-state/fr70-evaluation-20261002-v4"
+    },
+    "ruff_final": {
+      "artifact": "reports/fast_research/FR70_RUFF_20261002_V4.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "status": "PASS"
+    },
+    "retained_history": [
+      {"artifact": "reports/fast_research/FR70_TESTS_20261002_V1.xml", "sha256": "4bf08b1f27c3788d9b3e18d84246fc2a1e69c7e6b4522d47979fddff476371b8", "tests": 11, "failures": 0},
+      {"artifact": "reports/fast_research/FR70_RUFF_20261002_V1.txt", "sha256": "7c817ba06ea75bff704ab2999aa3fb5ffe16f322abf9fcc42d2bb0bfdf30ae65", "status": "3_TEST_LINE_LENGTH_ERRORS"},
+      {"artifact": "reports/fast_research/FR70_TESTS_20261002_V2.xml", "sha256": "726f219fefbcf5deafe11e955ff05a67d927414d5ce9e9909c4b525ba88c925e", "tests": 11, "failures": 1, "reason": "Test falsely required a float32 standardized/inverse roundtrip to 1e-12 after common truth precision became float32; repaired with explicitly float64 test input. No scaler implementation changed."},
+      {"artifact": "reports/fast_research/FR70_TESTS_20261002_V3.xml", "sha256": "8c944b3f15056937a79847915eba8cd1b0900e2ea81fe9f48753c2eb2eac2afa", "tests": 11, "failures": 0}
+    ],
+    "V1_source_snapshot": {
+      "src/quant/research_fast/evaluation.py": "410046a758bf36521851ef441a326a0bcb5be892e10a8ea7df9d783289ec3c29",
+      "tests/test_fast_research_evaluation.py": "1489f56025509bda81c5eb6d3bef4681235064d99ffd79b5d5c95ecd24c06b97"
+    }
+  },
+  "verified_cases": [
+    "Original-unit inverse transform and SciPy per-symbol statistics on all shared rows",
+    "Misaligned IDs, missing predictions, NaN, incompatible truth/QA, immutable truth rejection",
+    "Independent one-roundtrip quantity/cash/fee/gross-minus-cost-equals-net hand calculation",
+    "Return-only signals and no same-symbol pending/position overlap",
+    "Two-coin post-cost new-buy 30/60 NAV caps and fixed 2/4/8 bp spread sensitivities",
+    "Changing future entry/exit prices does not change decision NAV/price/quote budget",
+    "Independent UTC midnight mark, cash/quantity continuity, Sharpe and MDD hand calculation",
+    "Missing decision observed-price signal counted while common prediction rows retained",
+    "Six fixed equal-weight fold mean/sign/concentration gates, same dataset binding, no short-data qualification",
+    "Ten-config common batch binding; related XGB/TCN/TS2Vec configs grouped into distinct top directions",
+    "Existing synthetic FR64 dataset full test endpoints: all eight y_raw float32 values and entry/exit price/times exact"
+  ],
+  "resources": {
+    "distribution": "hpc_linux",
+    "launcher": "scripts/bounded.sh",
+    "python": "/home/xflops/coin-state/research-env-v6/bin/python",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "shared_RAM_limit_bytes": 5000000000,
+    "swap_bytes": 0,
+    "GPU": false,
+    "raw_market_data_created": false,
+    "model_training_performed": false,
+    "test_artifacts_location": "exclusive native STATE directories; small XML/Ruff/acceptance files on D"
+  },
+  "limitations": {
+    "economics_basis": "CONDITIONAL_FUTURE_VALID_ENDPOINT_TRADE_PRICE_PROXY",
+    "implementable_strategy": false,
+    "real_historical_BBO_known": false,
+    "source_of_conditioning": "The common dataset endpoints are already filtered by complete future label/QA validity; missing endpoint decisions have no model prediction here.",
+    "risk_caps": "New-buy post-cost NAV limits; passive holding-price/cost drift is reported and no continuous rebalance changes fixed approximately five-minute hold.",
+    "drawdown": "Observed UTC daily NAV including initial cash and partial end days; not a known intraday drawdown.",
+    "formal_180_day_six_fold_market_evaluation_completed": false,
+    "formal_leaderboard_or_top3_generated": false,
+    "production_or_candidate_qualification": false,
+    "locked_history_consumed": false,
+    "real_money_used": false
+  },
+  "git": "No commit or push by delegated agent; root owns module acceptance and repository updates."
+}
