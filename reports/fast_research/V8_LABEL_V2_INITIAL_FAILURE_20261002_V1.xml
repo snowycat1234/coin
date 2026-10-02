@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="27" time="22.567" timestamp="2026-10-02T08:43:24.832450+00:00" hostname="xflops"><testcase classname="tests.test_v8_label_contract_v2" name="test_all_registered_variants_and_direct_match[LEAD_LAG_5M_5M]" time="0.104" /><testcase classname="tests.test_v8_label_contract_v2" name="test_all_registered_variants_and_direct_match[EARLY_LATE_150S_GAP5]" time="0.066" /><testcase classname="tests.test_v8_label_contract_v2" name="test_all_registered_variants_and_direct_match[EARLY_LATE_150S_GAP10]" time="0.071" /><testcase classname="tests.test_v8_label_contract_v2" name="test_late_gap_quality_enters_actual_maturity" time="0.043" /><testcase classname="tests.test_v8_label_contract_v2" name="test_exact_registered_boundaries_reject_mutation[flow_label_start_us]" time="0.055" /><testcase classname="tests.test_v8_label_contract_v2" name="test_exact_registered_boundaries_reject_mutation[flow_label_end_us]" time="0.051" /><testcase classname="tests.test_v8_label_contract_v2" name="test_exact_registered_boundaries_reject_mutation[return_label_start_us]" time="0.056" /><testcase classname="tests.test_v8_label_contract_v2" name="test_exact_registered_boundaries_reject_mutation[return_label_end_us]" time="0.052" /><testcase classname="tests.test_v8_label_contract_v2" name="test_exact_registered_boundaries_reject_mutation[delayed_entry_us]" time="0.057" /><testcase classname="tests.test_v8_label_contract_v2" name="test_changed_gap10_to_gap5_with_consistent_orders_still_rejected" time="0.043" /><testcase classname="tests.test_v8_label_contract_v2" name="test_observed_flow_cannot_become_available_at_decision" time="0.055" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[observed_future_flow_available_us]" time="0.037" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[flow_label_mature_us]" time="0.036" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[return_label_mature_us]" time="0.048" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[validity_mature_us]" time="0.044" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[label_mature_us]" time="0.035" /><testcase classname="tests.test_v8_label_contract_v2" name="test_maturity_and_signal_metadata_mutations_rejected[predicted_signal_available_us]" time="0.037" /><testcase classname="tests.test_v8_label_contract_v2" name="test_price_anchor_timestamp_mutation_rejected[entry]" time="0.067" /><testcase classname="tests.test_v8_label_contract_v2" name="test_price_anchor_timestamp_mutation_rejected[exit]" time="0.052" /><testcase classname="tests.test_v8_label_contract_v2" name="test_missing_future_notional_only_invalidates_affected_window[nan]" time="0.067"><failure message="assert False&#10; +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90867220&gt;)">joint = shape: (1_000, 97)
+┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────...      ┆          │
+└───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘
+decisions = array([1751329800000000, 1751329860000000]), bad_value = nan
+
+    @pytest.mark.parametrize("bad_value", [np.nan, -1., np.inf])
+    def test_missing_future_notional_only_invalidates_affected_window(joint, decisions, bad_value):
+        stream = v8.STREAMS[0]
+        stamp = decisions[0] + 5_000_000
+        changed = joint.with_columns(pl.when(pl.col("timestamp") == stamp).then(bad_value)
+            .otherwise(pl.col(f"{stream}__aggressive_buy_notional")).alias(f"{stream}__aggressive_buy_notional"))
+        labels = v8.label_table(changed, decisions)
+        control = v8.label_table(joint, decisions)
+        assert labels["label_valid"].to_list() == [False, True]
+        assert all(np.isnan(labels[field][0]) for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+&gt;       assert all(labels[field][1] == control[field][1] for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+E       assert False
+E        +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90867220&gt;)
+
+tests/test_v8_label_contract_v2.py:92: AssertionError</failure></testcase><testcase classname="tests.test_v8_label_contract_v2" name="test_missing_future_notional_only_invalidates_affected_window[-1.0]" time="0.067"><failure message="assert False&#10; +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90836960&gt;)">joint = shape: (1_000, 97)
+┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────...      ┆          │
+└───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘
+decisions = array([1751329800000000, 1751329860000000]), bad_value = -1.0
+
+    @pytest.mark.parametrize("bad_value", [np.nan, -1., np.inf])
+    def test_missing_future_notional_only_invalidates_affected_window(joint, decisions, bad_value):
+        stream = v8.STREAMS[0]
+        stamp = decisions[0] + 5_000_000
+        changed = joint.with_columns(pl.when(pl.col("timestamp") == stamp).then(bad_value)
+            .otherwise(pl.col(f"{stream}__aggressive_buy_notional")).alias(f"{stream}__aggressive_buy_notional"))
+        labels = v8.label_table(changed, decisions)
+        control = v8.label_table(joint, decisions)
+        assert labels["label_valid"].to_list() == [False, True]
+        assert all(np.isnan(labels[field][0]) for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+&gt;       assert all(labels[field][1] == control[field][1] for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+E       assert False
+E        +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90836960&gt;)
+
+tests/test_v8_label_contract_v2.py:92: AssertionError</failure></testcase><testcase classname="tests.test_v8_label_contract_v2" name="test_missing_future_notional_only_invalidates_affected_window[inf]" time="0.072"><failure message="assert False&#10; +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90837060&gt;)">joint = shape: (1_000, 97)
+┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────...      ┆          │
+└───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘
+decisions = array([1751329800000000, 1751329860000000]), bad_value = inf
+
+    @pytest.mark.parametrize("bad_value", [np.nan, -1., np.inf])
+    def test_missing_future_notional_only_invalidates_affected_window(joint, decisions, bad_value):
+        stream = v8.STREAMS[0]
+        stamp = decisions[0] + 5_000_000
+        changed = joint.with_columns(pl.when(pl.col("timestamp") == stamp).then(bad_value)
+            .otherwise(pl.col(f"{stream}__aggressive_buy_notional")).alias(f"{stream}__aggressive_buy_notional"))
+        labels = v8.label_table(changed, decisions)
+        control = v8.label_table(joint, decisions)
+        assert labels["label_valid"].to_list() == [False, True]
+        assert all(np.isnan(labels[field][0]) for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+&gt;       assert all(labels[field][1] == control[field][1] for field in (*v8.FLOW_COLUMNS, *v8.RETURN_COLUMNS))
+E       assert False
+E        +  where False = all(&lt;generator object test_missing_future_notional_only_invalidates_affected_window.&lt;locals&gt;.&lt;genexpr&gt; at 0x7b8b90837060&gt;)
+
+tests/test_v8_label_contract_v2.py:92: AssertionError</failure></testcase><testcase classname="tests.test_v8_label_contract_v2" name="test_unknown_future_availability_is_invalid_not_imputed" time="0.012"><failure message="ValueError: Feature availability after decision or unknown past source">joint = shape: (1_000, 97)
+┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────...      ┆          │
+└───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘
+decisions = array([1751329800000000, 1751329860000000])
+
+    def test_unknown_future_availability_is_invalid_not_imputed(joint, decisions):
+        stream = v8.STREAMS[0]
+        changed = joint.with_columns(pl.when(pl.col("timestamp") == decisions[0] + 5_000_000).then(float("nan"))
+            .otherwise(pl.col(f"{stream}__available_us")).alias(f"{stream}__available_us"))
+&gt;       labels = v8.label_table(changed, decisions)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_v8_label_contract_v2.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/research_v8/labels_v2.py:74: in label_table
+    require(np.isfinite(feature_available).all() and np.all(feature_available &lt;= decisions), "Feature availability after decision or unknown past source")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = np.False_
+message = 'Feature availability after decision or unknown past source'
+
+    def require(condition, message):
+        if not bool(condition):
+&gt;           raise ValueError(message)
+E           ValueError: Feature availability after decision or unknown past source
+
+scripts/research_v8/labels.py:33: ValueError</failure></testcase><testcase classname="tests.test_v8_label_contract_v2" name="test_full_split_receipt_and_actual_lag" time="0.173" /><testcase classname="tests.test_v8_label_contract_v2" name="test_validation_test_maturity_and_row_metadata" time="0.179" /><testcase classname="tests.test_v8_label_contract_v2" name="test_delayed_observed_lag_cannot_use_nominal_registered_lag" time="0.165" /><testcase classname="tests.test_v8_label_contract_v2" name="test_future_availability_perturbation_cannot_touch_past_features" time="0.025" /></testsuite></testsuites>

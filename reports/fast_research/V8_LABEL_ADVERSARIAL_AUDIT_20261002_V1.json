@@ -1,0 +1,243 @@
+{
+  "report_id": "V8_LABEL_ADVERSARIAL_AUDIT_20261002_V1",
+  "auditor_role": "independent_adversarial_auditor",
+  "created_at_utc": "2026-10-02T07:59:58.660512+00:00",
+  "status": "FAIL_CONTRACT_IMPLEMENTATION",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "git_base": "40e77fc3bec0257e2a173ca08f12efa02928d839",
+  "diff_note": "All three audited files were untracked new files relative to Git HEAD; their full bytes are the audited new-file diff. Ordinary tracked-file git diff was empty.",
+  "audited_sources_sha256": {
+    "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+    "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+    "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d"
+  },
+  "source_unchanged_during_probe": true,
+  "provided_test_output": {
+    "path": "/home/xflops/coin-state/test-v8-label-contract-20261002-v1.xml",
+    "sha256": "6c459ccea9a81277dc48ca3734d40bdc7e7380595a397400b6c1890be9562a72",
+    "reported_tests": 11,
+    "reported_failures": 0,
+    "reported_errors": 0,
+    "interpretation": "Existing synthetic unit tests omit the confirmed counterexamples; unit PASS is not a P1 gate result."
+  },
+  "scope": {
+    "read_market_data": false,
+    "read_OOS_metrics": false,
+    "read_builder_status_or_plan_documents": false,
+    "fit_market_model": false,
+    "consume_locked_holdout": false,
+    "GPU_used": false,
+    "modified_audited_sources": false,
+    "modified_top_level_docs": false,
+    "synthetic_probe_directory": "/home/xflops/coin-state/test-v8-adversarial-20261002-v1",
+    "python": "/home/xflops/coin-state/research-env-v6/bin/python",
+    "PYTHONPATH": "/mnt/d/codex/coin/src",
+    "execution_wrapper": "scripts/with_task_progress.sh --title V8 \u72ec\u7acb\u53cd\u4f8b\u5ba1\u8ba1 -- env PYTHONPATH=/mnt/d/codex/coin/src /home/xflops/coin-state/research-env-v6/bin/python /home/xflops/coin-state/test-v8-adversarial-20261002-v1/probe.py",
+    "resource_policy": "shared bounded.sh 5,000,000,000-byte RAM; swap0; GPU0"
+  },
+  "evidence": {
+    "probe_script": "/home/xflops/coin-state/test-v8-adversarial-20261002-v1/probe.py",
+    "probe_output": "/home/xflops/coin-state/test-v8-adversarial-20261002-v1/probes.json",
+    "probe_output_sha256": "747603d7881e3cb18873f9179e21feb0d181d5bc54f02f961fadff97ee91fd4e",
+    "probes": [
+      {
+        "id": "control_exact_LEAD_LAG_5M_5M",
+        "all_valid": true,
+        "observed_maturity_lag_us": [
+          600000000,
+          600000000
+        ]
+      },
+      {
+        "id": "control_exact_EARLY_LATE_150S_GAP5",
+        "all_valid": true,
+        "observed_maturity_lag_us": [
+          305000000,
+          305000000
+        ]
+      },
+      {
+        "id": "control_exact_EARLY_LATE_150S_GAP10",
+        "all_valid": true,
+        "observed_maturity_lag_us": [
+          310000000,
+          310000000
+        ]
+      },
+      {
+        "id": "gap10_late_quality_availability",
+        "accepted": true,
+        "gap_bar_timestamp_us": 1751329950000000,
+        "gap_quality_available_us": 1751331800000000,
+        "label_valid": true,
+        "label_mature_us": 1751330110000000,
+        "expected_minimum_label_mature_us": 1751331800000000,
+        "maturity_understatement_us": 1690000000
+      },
+      {
+        "id": "registered_gap10_contracted_to_gap5",
+        "assert_nonoverlap_accepted": true,
+        "direct_return_labels_accepted": true,
+        "label_variant": "EARLY_LATE_150S_GAP10",
+        "registered_gap_us": 10000000,
+        "accepted_gap_us": 5000000
+      },
+      {
+        "id": "observed_flow_made_available_at_decision",
+        "assert_nonoverlap_accepted": true,
+        "direct_return_labels_accepted": true,
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "signal_available_us": 1751329800000000,
+        "observed_future_flow_available_us": 1751330100000000,
+        "accepted_earliest_order_us": 1751329805000000,
+        "required_earliest_order_us": 1751330105000000
+      },
+      {
+        "id": "missing_future_notional_policy",
+        "raised": true,
+        "exception_type": "ValueError",
+        "exception": "Finite nonnegative aggressive notionals"
+      },
+      {
+        "id": "split_guard_coverage",
+        "parameters": [
+          "fit_cutoff_us",
+          "validation_start_us",
+          "embargo_us",
+          "max_label_lag_us",
+          "fitting_label_mature_us"
+        ],
+        "training_cutoff_control_accepted": true,
+        "validation_label_maturity_input_present": false,
+        "test_start_input_present": false,
+        "actual_label_lag_derivation_or_crosscheck_present": false
+      },
+      {
+        "id": "control_late_exit_maturity",
+        "label_mature_us": 1751331600000000,
+        "expected_label_mature_us": 1751331600000000,
+        "correct": true
+      },
+      {
+        "id": "control_oof_scaler",
+        "fitted_forecast_id_rejected": true,
+        "future_scaler_source_rejected": true
+      }
+    ],
+    "probe_script_sha256": "3af48f8243b8e7a352ab8246c6963326e227b8a2a7a3cda7c9e3d089b33c8ac2",
+    "probe_script_metadata_correction": "Only execution-wrapper title metadata corrected after the probe; probe logic and synthetic outcomes unchanged."
+  },
+  "findings": [
+    {
+      "id": "V8A-01",
+      "priority": "P1",
+      "status": "CONFIRMED",
+      "title": "GAP10 quality availability is used but omitted from maturity",
+      "source_lines": [
+        105,
+        106,
+        107,
+        113
+      ],
+      "contract_fields": [
+        "maturity",
+        "missing_policy",
+        "split"
+      ],
+      "evidence_probe": "gap10_late_quality_availability",
+      "impact": "The t+150s bar quality is read by validity over first_flow:exit_row, but flow maturity stops at t+150s and return maturity starts at the t+155s entry anchor. A valid offline label is reported mature at t+310s while required quality is unavailable until t+2000s. Chronology using this emitted maturity can fit before all needed information exists.",
+      "required_fix": "Compute maturity over every source field/bar used for label values or label validity, including any registered latency interval quality, or remove unsupported gap-quality dependencies with an explicit contract-consistent rule."
+    },
+    {
+      "id": "V8A-02",
+      "priority": "P1",
+      "status": "CONFIRMED",
+      "title": "Exported frame guard accepts changed registered variant boundaries",
+      "source_lines": [
+        159,
+        162,
+        167,
+        236,
+        238
+      ],
+      "contract_fields": [
+        "labels.EARLY_LATE_150S_GAP10",
+        "exact_window_note",
+        "overlap_assertions",
+        "DIRECT_RETURN_BASELINE"
+      ],
+      "evidence_probe": "registered_gap10_contracted_to_gap5",
+      "impact": "assert_nonoverlap hardcodes a minimum 5s gap and does not bind endpoints to label_variant. A GAP10 frame with return start/end moved 5s earlier passes the guard and direct target selection, despite retaining registered GAP10 identity and stale anchor provenance.",
+      "required_fix": "Validate each frame against its registered variant, exact offsets/durations, registered gap, price-anchor timestamps/availability and maturity fields before direct target selection or comparison."
+    },
+    {
+      "id": "V8A-03",
+      "priority": "P1",
+      "status": "CONFIRMED",
+      "title": "Exported guard does not bind diagnostic signal availability to future-flow maturity",
+      "source_lines": [
+        159,
+        164,
+        165,
+        166,
+        236,
+        238
+      ],
+      "contract_fields": [
+        "earliest_order_rule",
+        "overlap_assertions"
+      ],
+      "evidence_probe": "observed_flow_made_available_at_decision",
+      "impact": "An OBSERVED_FUTURE_FLOW_DIAGNOSTIC frame keeps flow maturity at decision+300s but changes signal_available to decision and both earliest-order aliases to decision+5s. The guard and direct target selector accept this causal violation.",
+      "required_fix": "Resolve actual signal availability from signal_kind, require observed signal availability and observed_future_flow_available to equal flow_label_mature, and require predicted availability to follow its declared past-only decision provenance."
+    },
+    {
+      "id": "V8A-04",
+      "priority": "P2",
+      "status": "CONFIRMED",
+      "title": "Missing future notionals abort labels instead of per-row invalidation",
+      "source_lines": [
+        126,
+        127,
+        128,
+        151,
+        152,
+        153
+      ],
+      "contract_fields": [
+        "missing_policy"
+      ],
+      "evidence_probe": "missing_future_notional_policy",
+      "impact": "A NaN in the first row future buy notional raises ValueError for the entire frame. The required result is label_valid=false and NaN label values for affected rows, with unaffected rows preserved. This is a missing-policy implementation gap, not proven leakage.",
+      "required_fix": "Validate future notional inputs by affected label windows and propagate invalidity/NaNs without interpolation or a batch-wide abort for row-level missing future data."
+    },
+    {
+      "id": "V8A-05",
+      "priority": "P1",
+      "status": "STATIC_IMPLEMENTATION_GAP",
+      "title": "Validation-to-test maturity boundary and observed maximum lag are not implemented",
+      "source_lines": [
+        170,
+        171,
+        172,
+        173
+      ],
+      "contract_fields": [
+        "split",
+        "maturity"
+      ],
+      "evidence_probe": "split_guard_coverage",
+      "impact": "The only split chronology helper has no validation label maturities or test_start, so it cannot enforce validation labels mature strictly before test_start-embargo. It also trusts caller max_label_lag_us without comparison to decision-to-maturity lags. This file does not implement the full declared split contract; this is not a claim that an external pipeline was audited or leaked.",
+      "required_fix": "Add explicit full split receipt verification with decision IDs/timestamps, actual observed maturity lag, registered conservative lag, validation maturities and test_start; reject any declared lag below the observed maximum."
+    }
+  ],
+  "blocker_ids": [
+    "V8A-01",
+    "V8A-02",
+    "V8A-03",
+    "V8A-05"
+  ],
+  "decision": "Do not accept this implementation as complete LABEL_CONTRACT_V8 compliance until the confirmed guard/maturity defects and full split receipt gap are fixed and independently retested. Keep P1 screening/economic/statistical status NOT_EVALUATED and candidate status NO_QUALIFIED_CANDIDATE."
+}

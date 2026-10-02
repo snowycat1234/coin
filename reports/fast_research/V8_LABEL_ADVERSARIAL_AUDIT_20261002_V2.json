@@ -1,0 +1,485 @@
+{
+  "report_id": "V8_LABEL_ADVERSARIAL_AUDIT_20261002_V2",
+  "created_at_utc": "2026-10-02T08:59:41.321073+00:00",
+  "auditor_role": "independent_adversarial_auditor",
+  "status": "FAIL_CONTRACT_IMPLEMENTATION",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "actual_git_HEAD": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+  "diff_note": "labels_v2.py and test_v8_label_contract_v2.py were untracked new files relative to this actual HEAD; full current bytes form the reviewed new-file diff.",
+  "sources_sha256": {
+    "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+    "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+    "tests/test_v8_label_contract_v2.py": "534ef6fa127e9c3f108dd5ac2bb0734dade93217e83e7ab1164d153e7536c5af",
+    "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+    "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+  },
+  "source_unchanged_during_probe_and_before_report": true,
+  "contract_bytes_unchanged_from_V1_audit": true,
+  "V1_preservation": {
+    "report_path": "/mnt/d/codex/coin/reports/fast_research/V8_LABEL_ADVERSARIAL_AUDIT_20261002_V1.json",
+    "report_sha256": "1c0d28d439fb73da84d29e8a0272676bb13b794fb24c1723cff735e48806be30",
+    "source_adapter_sha256": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+    "test_sha256": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+    "unchanged_by_auditor": true
+  },
+  "scope": {
+    "research_specification": "protocols/LABEL_CONTRACT_V8.json; AGENTS resource/locked boundaries remain mandatory",
+    "read_builder_explanation_status_or_plan_documents": false,
+    "read_market_data": false,
+    "read_OOS_metrics": false,
+    "fit_market_model": false,
+    "consume_real_locked_observations": false,
+    "synthetic_locked_timestamp_probe_only": true,
+    "GPU_used": false,
+    "modified_audited_sources": false,
+    "modified_top_level_docs": false,
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "PYTHONPATH": "/mnt/d/codex/coin/src",
+    "dependency_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "resource_policy": "All probes executed in hpc_linux through with_task_progress/bounded.sh shared 5GB RAM, swap0, GPU0",
+    "experiment_registry_writer": "root agent; auditor did not concurrently append shared registry"
+  },
+  "commands": {
+    "actual_WSL_probe_argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--cd",
+      "/mnt/d/codex/coin",
+      "--",
+      "bash",
+      "scripts/with_task_progress.sh",
+      "--title",
+      "V8 \u7b2c\u4e8c\u7248\u72ec\u7acb\u53cd\u4f8b\u5ba1\u8ba1",
+      "--",
+      "env",
+      "PYTHONPATH=/mnt/d/codex/coin/src",
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "/home/xflops/coin-state/test-v8-adversarial-20261002-v2/probe.py"
+    ],
+    "postprocessing_argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--cd",
+      "/mnt/d/codex/coin",
+      "--",
+      "bash",
+      "scripts/bounded.sh",
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "/home/xflops/coin-state/test-v8-adversarial-20261002-v2/finalize_report.py"
+    ]
+  },
+  "provided_actual_test_outputs": [
+    {
+      "path": "/home/xflops/coin-state/test-v8-label-contract-v2-20261002-v1.xml",
+      "sha256": "0fe4558f28d11442b4a536c69b93ff7106b9d6c02de0dc79e3170dbde4a63d3b",
+      "junit_counts": {
+        "tests": 27,
+        "errors": 0,
+        "failures": 4,
+        "skipped": 0
+      },
+      "observed_exit_code_supplied_by_root_from_actual_execution": 1,
+      "execution_session_if_supplied": null,
+      "run_source_sha256_binding_intrinsic_to_junit": "UNKNOWN",
+      "interpretation": "Actual provided output, retained as observed; source byte binding is independently established for this audit probe, not reconstructed for prior XML runs."
+    },
+    {
+      "path": "/home/xflops/coin-state/test-v8-label-contract-v2-20261002-v2.xml",
+      "sha256": "777458b35f5ba4940b9a2c9a6761180427db9b6d3a6ae74424e4247cc3dd3008",
+      "junit_counts": {
+        "tests": 27,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "observed_exit_code_supplied_by_root_from_actual_execution": 0,
+      "execution_session_if_supplied": null,
+      "run_source_sha256_binding_intrinsic_to_junit": "UNKNOWN",
+      "interpretation": "Actual provided output, retained as observed; source byte binding is independently established for this audit probe, not reconstructed for prior XML runs."
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_CLEAN_CI_20261002_V1.xml",
+      "sha256": "c6c0278f1ace56ed80b64169d5685409acde87ed4447bc9b620730bd306a5752",
+      "junit_counts": {
+        "tests": 42,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "observed_exit_code_supplied_by_root_from_actual_execution": 0,
+      "execution_session_if_supplied": 47777,
+      "run_source_sha256_binding_intrinsic_to_junit": "UNKNOWN",
+      "interpretation": "Actual provided output, retained as observed; source byte binding is independently established for this audit probe, not reconstructed for prior XML runs."
+    }
+  ],
+  "independent_probe": {
+    "exit_code": 0,
+    "directory": "/home/xflops/coin-state/test-v8-adversarial-20261002-v2",
+    "script": "/home/xflops/coin-state/test-v8-adversarial-20261002-v2/probe.py",
+    "script_sha256": "d264fc78b9f01670b3602bbac03f3c43373556d6493e17f20bdc03a9626fd62c",
+    "output": "/home/xflops/coin-state/test-v8-adversarial-20261002-v2/probes.json",
+    "output_sha256": "20f4b3aa1a00c0f9d1eb19003e1e50def0b1bb514c5ae121113e84eeacb0dd19",
+    "git_HEAD_at_probe": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+    "source_unchanged": true
+  },
+  "V1_regression_results": [
+    {
+      "original_finding_id": "V8A-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_v1_gap10_delayed_quality",
+        "label_valid": true,
+        "label_mature_us": 1751331800000000.0,
+        "required_minimum_us": 1751331800000000,
+        "validity_mature_us": 1751331800000000.0
+      }
+    },
+    {
+      "original_finding_id": "V8A-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_v1_gap10_contracted_to_gap5",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        },
+        "direct_selector": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-03",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_v1_observed_future_signal_falsely_early",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        },
+        "direct_selector": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-04",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_v1_missing_future_notional",
+        "label_valid": [
+          false,
+          true
+        ],
+        "first_all_targets_nan": true,
+        "second_targets_exactly_unchanged": true
+      }
+    },
+    {
+      "original_finding_id": "V8A-05",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_v1_full_split_gap",
+        "normal_receipt": {
+          "implementation_version": "V8_LABELS_V2_20261002",
+          "actual_observed_max_label_lag_us": 600000000,
+          "registered_max_label_lag_us": 600000000,
+          "fit_cutoff_us": 1751330100000000,
+          "max_train_label_mature_us": 1751329920000000,
+          "max_validation_label_mature_us": 1751331600000000,
+          "max_test_label_mature_us": 1751332800000000,
+          "counts": {
+            "train": 1,
+            "validation": 1,
+            "test": 1
+          }
+        },
+        "validation_maturity_at_test_minus_embargo": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Validation label maturity must precede test minus embargo"
+        },
+        "declared_lag_below_actual": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Declared lag smaller than actual observed maximum across splits"
+        }
+      }
+    }
+  ],
+  "V1_counterexamples_all_fixed_in_this_probe": true,
+  "probes": [
+    {
+      "id": "control_exact_LEAD_LAG_5M_5M",
+      "all_valid": true,
+      "maturity_lag_us": [
+        600000000.0,
+        600000000.0
+      ]
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP5",
+      "all_valid": true,
+      "maturity_lag_us": [
+        305000000.0,
+        305000000.0
+      ]
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP10",
+      "all_valid": true,
+      "maturity_lag_us": [
+        310000000.0,
+        310000000.0
+      ]
+    },
+    {
+      "id": "repeat_v1_gap10_delayed_quality",
+      "label_valid": true,
+      "label_mature_us": 1751331800000000.0,
+      "required_minimum_us": 1751331800000000,
+      "validity_mature_us": 1751331800000000.0
+    },
+    {
+      "id": "repeat_v1_gap10_contracted_to_gap5",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      },
+      "direct_selector": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      }
+    },
+    {
+      "id": "repeat_v1_observed_future_signal_falsely_early",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      },
+      "direct_selector": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      }
+    },
+    {
+      "id": "repeat_v1_missing_future_notional",
+      "label_valid": [
+        false,
+        true
+      ],
+      "first_all_targets_nan": true,
+      "second_targets_exactly_unchanged": true
+    },
+    {
+      "id": "repeat_v1_full_split_gap",
+      "normal_receipt": {
+        "implementation_version": "V8_LABELS_V2_20261002",
+        "actual_observed_max_label_lag_us": 600000000,
+        "registered_max_label_lag_us": 600000000,
+        "fit_cutoff_us": 1751330100000000,
+        "max_train_label_mature_us": 1751329920000000,
+        "max_validation_label_mature_us": 1751331600000000,
+        "max_test_label_mature_us": 1751332800000000,
+        "counts": {
+          "train": 1,
+          "validation": 1,
+          "test": 1
+        }
+      },
+      "validation_maturity_at_test_minus_embargo": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Validation label maturity must precede test minus embargo"
+      },
+      "declared_lag_below_actual": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Declared lag smaller than actual observed maximum across splits"
+      }
+    },
+    {
+      "id": "locked_date_exported_frame_and_split",
+      "source_builder": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Development dates only; locked access forbidden"
+      },
+      "frame_guard": {
+        "accepted": true,
+        "exception": null
+      },
+      "split_guard": {
+        "accepted": true,
+        "exception": null
+      },
+      "locked_start_us": 1772323200000000,
+      "accepted_decision_us": [
+        1772324520000000,
+        1772326200000000,
+        1772327400000000
+      ],
+      "market_data_read": false
+    },
+    {
+      "id": "standalone_fit_lag_broadcast",
+      "fitting_maturity_us": [
+        1751330300000000,
+        1751329980000000
+      ],
+      "supplied_fitting_decision_us": [
+        1751329380000000
+      ],
+      "hypothetical_aligned_fitting_decision_us": [
+        1751329320000000,
+        1751329380000000
+      ],
+      "declared_lag_us": 920000000,
+      "true_aligned_maximum_lag_us": 980000000,
+      "guard": {
+        "accepted": true,
+        "exception": null
+      }
+    },
+    {
+      "id": "fractional_decision_silently_coerced",
+      "input_decision_us": 1751329800000000.5,
+      "returned_decision_us": 1751329800000000,
+      "accepted": true
+    },
+    {
+      "id": "impossible_flow_ratio_exported_frame",
+      "injected_flow_value": 100.0,
+      "frame_guard": {
+        "accepted": true,
+        "exception": null
+      },
+      "split_guard": {
+        "accepted": true,
+        "exception": null
+      }
+    },
+    {
+      "id": "control_oof_scaler",
+      "fitted_forecast_id": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF forecast row was fitted by this model"
+      },
+      "future_scaler_source": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Future/nonfinite scaler fitting inputs"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "V8B-01",
+      "priority": "P1",
+      "status": "CONFIRMED",
+      "title": "Exported-frame and full split guards accept locked-date labels",
+      "source": "scripts/research_v8/labels_v2.py",
+      "source_lines": [
+        138,
+        217,
+        221
+      ],
+      "contract_fields": [
+        "qualification.locked_holdout_allowed",
+        "split",
+        "AGENTS development/locked boundary"
+      ],
+      "evidence_probe": "locked_date_exported_frame_and_split",
+      "impact": "Shifting every synthetic timestamp and split boundary into dates at/after LOCKED passes both public frame and full split validators. label_table rejects an actual source grid at those dates, but its exported/scored-fit receipt path does not retain that development/locked boundary. No real locked observations were read; this is an accepted forbidden-date metadata path.",
+      "required_fix": "Require valid development decision/observation endpoints and price trade timestamps in exported-frame and split validation, preserving the exact allowed pre-LOCKED endpoint convention. Reject any scored/fitting receipt that uses locked observation dates."
+    },
+    {
+      "id": "V8B-02",
+      "priority": "P2",
+      "status": "CONFIRMED",
+      "title": "Standalone fit chronology helper silently broadcasts mismatched row metadata",
+      "source": "scripts/research_v8/labels_v2.py",
+      "source_lines": [
+        208,
+        210,
+        211,
+        212
+      ],
+      "contract_fields": [
+        "split"
+      ],
+      "evidence_probe": "standalone_fit_lag_broadcast",
+      "impact": "Two fitting label maturities and one fitting decision pass because NumPy broadcasts the single decision. Declared lag 920s is accepted, although the aligned example has actual max lag 980s and fit cutoff 2450s would violate the true validation boundary. The full-frame split validator constructs aligned arrays internally; this defect is in the public standalone helper.",
+      "required_fix": "Require one-dimensional finite integer timestamp arrays with equal nonzero lengths before subtracting; reject any broadcasting or row alignment ambiguity."
+    },
+    {
+      "id": "V8B-03",
+      "priority": "P2",
+      "status": "CONFIRMED",
+      "title": "Fractional decision timestamps are silently changed before validation",
+      "source": "scripts/research_v8/labels_v2.py",
+      "source_lines": [
+        57,
+        58,
+        59
+      ],
+      "contract_fields": [
+        "timestamp_unit",
+        "decision_frequency_seconds"
+      ],
+      "evidence_probe": "fractional_decision_silently_coerced",
+      "impact": "Input decision+0.5 microsecond is silently cast to the exact minute decision and accepted. The integer UTC microsecond/minute-grid contract requires rejecting malformed decision timestamps, not rounding them into a different endpoint ID.",
+      "required_fix": "Validate the original decision array type, dimensionality, finite integer values and exact minute grid before int64 conversion. Apply an equivalent integer-domain policy to known source availability/trade timestamps."
+    },
+    {
+      "id": "V8B-04",
+      "priority": "P2",
+      "status": "CONFIRMED",
+      "title": "Exported/scored-flow frames accept ratios outside original flow units",
+      "source": "scripts/research_v8/labels_v2.py",
+      "source_lines": [
+        159,
+        160,
+        162,
+        217,
+        221
+      ],
+      "contract_fields": [
+        "flow_units",
+        "FLOW_SURPRISE.assertions"
+      ],
+      "evidence_probe": "impossible_flow_ratio_exported_frame",
+      "impact": "The source builder rejects flow values outside [-1,1], but both exported-frame and scored split guards accept future flow=100 with label_valid=true. That cannot equal a signed nonnegative-notional ratio and can conceal a bps/unit conversion or target corruption before fitting.",
+      "required_fix": "For any present valid future-flow columns, enforce the original ratio bounds with the same registered numerical tolerance used by label generation."
+    }
+  ],
+  "blocker_ids": [
+    "V8B-01"
+  ],
+  "limits": [
+    "Only the declared label/scaler/OOF/split adapter contract and synthetic boundary cases were audited.",
+    "No market predictions, model-selection behavior, dataset-wide evidence, or P1 economic/statistical gate were evaluated.",
+    "No real locked observations were accessed: locked-date acceptance is demonstrated solely by synthetic frame metadata.",
+    "Source builder rejects locked-date grids; the confirmed locked defect is in exported-frame and full split receipt validation.",
+    "The standalone broadcast defect does not affect aligned arrays constructed internally by the full-frame split helper.",
+    "Prior JUnit outputs do not intrinsically include code hashes; missing historical source receipt fields remain UNKNOWN.",
+    "Green provided unit/clean-CI outputs do not cover the newly confirmed counterexamples or establish alpha qualification."
+  ],
+  "decision": "V1 counterexamples are fixed in V2, but V2 is not complete contract compliance. Preserve V1/V2 evidence; repair newly confirmed boundary/input-validation defects in another immutable implementation version and independently retest. Keep NO_QUALIFIED_CANDIDATE and P1 statistical/economic gate NOT_EVALUATED."
+}
