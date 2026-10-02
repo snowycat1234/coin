@@ -567,3 +567,17 @@
 
 - 主体18档actual0、独立QA actual0、根验收actual0：实际540资金事件／518400价行，新增30.8MB；原官方download／转换／audit_one精确复用，未重做旧QA。首次启动参数错误在source执行前失败，保留。
 - 采用新来源格式，单位仍UNCONFIRMED、没有新账户收益。下一固定90日ALL_FLAT／PAIR_TRIM共用输入与BybitVIP0原费用／caps／margin；新周期和端点协议先冻结、0调参，标签SCREENING，不叫unseen。原native／盈利资格缺口与暂停reopen保持。
+
+### D031经济闭合（2026-10-03）
+
+- 固定90日两控制实际exit0、独立V3和根验收exit0：均10k→10003.988973，净+0.039890%、fund17.573984／最高既有成本13.362536。0减仓，minute／daily净值SHA相同，不能将相同结果当减仓再次胜出。
+- 2月net−9.373282／fund−3.189198，gross-cost-addback亦−3.877301；收益源变号而非仅期末手续费。全观察DD0.198205%、daily0.094190%分别保留。122日+0.247449%与90日分别报告，不拼接为连续APR。
+- 接受薄周期／来源／端点与条件账本能力；暂停静态配方投资采用，候选NONE／长期APR NE。独立区段定位与不存在的PAIR_TRIM旧literal guard导致两次真实exit1，失败／partial均保留；最终V3两case闭合，不将失败改PASS。
+
+### D032：固定过去资金费永久退出假设（新状态控制／数组数学前，2026-10-03）
+
+- 不继续调减仓target或挑2月退出；新增一个无拟合假设，完整原122日与90日各一个新账户，对照已保存pair-trim。C0=10k、初始q／1250reserve／625guard、gross0.6／单币0.3、BybitVIP0 fee／spread／slip、延迟／ownership规则完全保持；不新下载、改旧源码证据或重跑控制。
+- 原开仓不变，持有满8×24h后，在每日00:00 UTC用决策前完整7UTC日、结束于决策前1UTC日的已归属signed funding合计；窗口首时刻须晚于entry。合计≤0则下一严格较晚closed分钟全平、永久CASH。原margin全平优先，已经排定的cap partial照固定事件优先级处理；无重入／增仓／补保证金／按币赢家选择。
+- 一日滞后是显式未认证publication假设；raw archive event time／fraction／真实平台到账仍未证明，不能把历史已实现coupon视为即时可交易信号。新协议／费用钱包／退出ownership因果边界先冻结验收，再一次完整运行，7日窗／1日滞后不因结果更改。
+- 预期信息：过去负coupon是否持续、提前永久退出损失多少后续正收入及两腿退出成本；从两完整窗口净值／事件DD／费用／放弃coupon判断，不以单月或Sharpe采用。两窗改善不一致或主要正收入被截断，则暂停这一固定gate；不接着扫3／14／30日，重开需新过去可得状态信息或真正时间外证据。原静态carry能力及负结果保留。
+- 新模型拟合0／HPO0；预算共享5GB、swap0、GPU0、D40GB，新STATE两账户合计≤50MB／每任务≤600s。Bybit native重开仍须合规可达原生输入／filters／MMR；locked／真钱／密钥／付费／冻结覆盖须另获授权，普通研究继续。
