@@ -1,0 +1,97 @@
+{
+  "status": "STATIC_SKEPTICAL_REVIEW_D032_NOT_RUNTIME_OR_ECONOMIC_ACCEPTANCE",
+  "Python_executed": false,
+  "market_arrays_read": false,
+  "shared_sources_modified": false,
+  "D032_snapshot_sha256": "d6f9cf8324307e2bb695c34f3526a0e9d913e1f2e83f8517159e8274aec8c212",
+  "causal_freeze_required": [
+    "For decision calendar anchor D=00:00UTC, freeze seven full UTC days as [D-8days,D-1day), with inclusive lower/exclusive upper, excluding the most recent full UTC day.",
+    "Use exact held_time_us>=8*24h and window_start_us>entry_us; no UTC-day flooring or partial-entry day.",
+    "Sum actual owned signed_funding_USDT across both fixed assets, including signed negative credits/debits and continuing slices. Never raw-rate sums, unowned rows, fee-adjusted proxy returns or per-coin selection.",
+    "Define deterministic sum arithmetic and the exact <=0 comparison. Financial absolute tolerances must not become a zero/sign deadband.",
+    "Freeze midnight decision timestamp: if attached to existing daily close+1us observation, anchor window at D and signal at D+1us; fill at next strictly later closed minute+1us. Do not consume the D close before availability.",
+    "Retain all source events and NAV minutes after exit as excluded events/permanent cash; terminal D>=END cannot invent a post-period fill."
+  ],
+  "event_wallet_cost": [
+    "Existing symbol-ordered funding before fill, strict full-exit ownership tie, first risk scheduling and margin-full priority remain exact.",
+    "A newly scheduled daily full exit cannot retroactively cancel a cap trim already due at the current observation. Preserve original full-before-partial dispatch; freeze same-timestamp reason priority.",
+    "No q/entry/reserve reseeding, collateral topup or negative cash borrowing. Full exit sells net base, settles remaining short once, debits true fee/realized losses free-cash-first then own isolated reserve, releases only remaining own reserve.",
+    "Compare native received-asset fees, spread/slip, gross cost-addback, bridge and all-observation DD at every cash/fill/minute observation. Gate cannot subtract avoided costs or foregone coupon into cash."
+  ],
+  "single_new_tiny_advice": [
+    "One integrated new fixture can traverse an ineligible partial-entry window, an eligible positive gate and then an exact-zero or negative eligible gate, followed by permanent cash despite later positive funding.",
+    "Assert window-start/end inclusion, one-day-lag exclusion of recent/current events, excluded ownership and a future perturbation leave the gate unchanged.",
+    "Assert first exact eligible daily decision and next strictly later close+1us, both-leg fee/cash/quantity settlement, all events retained including exit-tie exclusion.",
+    "Cover same-observation margin/full priority and already-due trim behavior in compact state assertions; reuse existing fee/cap proofs rather than replaying old green suites."
+  ],
+  "economic_interpretation": [
+    "The one-day publication lag is unverified. Raw fractions, archive event time, settlement, native venue funding and availability remain UNCONFIRMED; this is conditional historical accounting.",
+    "Primary paired comparison is net_PnL difference at identical initial capital and cost in each complete 122/90 window separately. Report minute/all-observation DD, realized exposures, turnover, fee and monthly continuous NAV without choosing months.",
+    "Numerically indistinguishable deltas within the preregistered accounting error are no measurable improvement. Net improvements inconsistent across windows, no gate activation, or major conditional positive coupon sacrifice are not evidence for adoption.",
+    "If numeric risk-improvement or major-coupon-sacrifice adoption thresholds are desired, freeze them before new arrays; do not invent a post-result pass criterion.",
+    "Foregone coupon is only post-result saved-control conditional ownership attribution after the gate exit, not a trading signal, actual funding receipt or NAV cashflow.",
+    "Mechanical annualization of a seen short sample is not long-term net CAGR/APR or a qualified candidate. Pause negative/no-increment gate; reopen only new past-available state or genuine time-out evidence, not 3/14/30day window search."
+  ],
+  "V3_metadata_only": {
+    "path": "reports/fast_research/CARRY_90D_TWO_POLICY_DECIMAL_INDEPENDENT_AUDIT_20261003_V3.json",
+    "sha256": "fb020128a4c2e0c7be22bb5b54e5a47a651a40a91bd77c69a57d8b79294ba504",
+    "status": "PASS_CARRY_90D_TWO_POLICY_DECIMAL_CONDITIONAL_ACCOUNTING_NOT_NATIVE_OR_LONG_TERM_APR",
+    "binding": {
+      "task_id": "289b34e535f043f395b75c6dfd04267d",
+      "checker_sha256": "14415acb5feb67a559106920ff6b1cb0c21aea2a6f6a2a0df5b2ea86ff3767d7",
+      "ACTUAL_BINDING_sha256": "11bb4ac935faa9b14b3544165c8318f97ab598bf7bb2a322f055a07fee319d2d"
+    },
+    "closed_task": {
+      "id": "289b34e535f043f395b75c6dfd04267d",
+      "status": "completed",
+      "exit_code": 0,
+      "pid": 35617,
+      "start_ticks": 4829576
+    },
+    "cases": [
+      {
+        "policy": "ALL_FLAT",
+        "source_files": 24,
+        "minutes": 129600,
+        "funding_events": 540,
+        "fills": 8,
+        "days": 90,
+        "months": 3,
+        "trims": 0,
+        "first_risk_signal": null,
+        "source_span": [
+          278,
+          453
+        ],
+        "replaced_old_literals": [
+          175680,
+          732,
+          122
+        ]
+      },
+      {
+        "policy": "PAIR_TRIM",
+        "source_files": 24,
+        "minutes": 129600,
+        "funding_events": 540,
+        "fills": 8,
+        "days": 90,
+        "months": 3,
+        "trims": 0,
+        "first_risk_signal": null,
+        "source_span": [
+          99,
+          305
+        ],
+        "replaced_old_literals": [
+          732,
+          122
+        ]
+      }
+    ],
+    "V2_to_V3_production_source_hash_changes": [],
+    "source_hash_count": 66,
+    "field_limit": "PAIR_TRIM first_risk_signal is margin-stop only in frozen V3; null is consistent with this no-cap/no-margin/no-trim window, frozen V3 left unchanged."
+  },
+  "candidate_status": "NO_QUALIFIED_CANDIDATE"
+}

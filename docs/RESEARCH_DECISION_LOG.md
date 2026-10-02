@@ -581,3 +581,30 @@
 - 一日滞后是显式未认证publication假设；raw archive event time／fraction／真实平台到账仍未证明，不能把历史已实现coupon视为即时可交易信号。新协议／费用钱包／退出ownership因果边界先冻结验收，再一次完整运行，7日窗／1日滞后不因结果更改。
 - 预期信息：过去负coupon是否持续、提前永久退出损失多少后续正收入及两腿退出成本；从两完整窗口净值／事件DD／费用／放弃coupon判断，不以单月或Sharpe采用。两窗改善不一致或主要正收入被截断，则暂停这一固定gate；不接着扫3／14／30日，重开需新过去可得状态信息或真正时间外证据。原静态carry能力及负结果保留。
 - 新模型拟合0／HPO0；预算共享5GB、swap0、GPU0、D40GB，新STATE两账户合计≤50MB／每任务≤600s。Bybit native重开仍须合规可达原生输入／filters／MMR；locked／真钱／密钥／付费／冻结覆盖须另获授权，普通研究继续。
+
+### D032实施时序澄清（新gate数学前，2026-10-03）
+
+- 日界锚点D=00:00 UTC，观察窗口精确为[D−8day,D−1day)，排除最近完整日，window_start>entry；合计为实际OWNED的两币signed funding现金，不用raw rate之和、不按币选择，真≤0且不加数值零带。复用原closed+1μs观察阶段判定，记decision_price_close_us=D及decision_observation_us=D+1；新退出在(D+60s)+1μs，原事件／fill循环不拆写。来源整数ms×1000不能在D+1μs发生事件，日界coupon输入仍严格滞后；原margin/full与已due partial优先规则保持。该时序明确实现口径，没有依据新结果改窗口／阈值；publication单位资格仍未认证。
+
+### D032比较口径冻结（新gate正确性／行情数学前，2026-10-03）
+
+- 两完整窗口分别对照已保存PAIR_TRIM；研究机制采用需每窗netΔ>1e−7USDT、all-observation MDD≤各自control+1e−10且原成本／risk／wallet检查闭合。阈值只是沿用会计误差判可分辨增量，不称为经济显著性、长期APR或完整风险等价。
+- “主要正收入被截断”明确为退出后放弃的saved-control实际OWNED正coupon超过其全期OWNED正coupon总额50%；任一窗出现即暂停这个永久退出配方。负coupon避免额、净放弃额、暴露／费用／月度净值完整并列；这些均为结果后条件归因，不进入交易signal／NAV或倒选月份。0触发／两窗无一致净改善同样无新增采用依据。
+- 门槛不会因本轮结果改变；Candidate仍NONE、长期APR仍NE。失败只否定固定7日／1日滞后永久退出，不永久删除adaptive learning或资金费能力，重开须新过去可得状态信息或真正时间外证据。
+- 数值谓词事前明确为math.fsum已实际credited且逐事件独立核验的Float64 ledger cash≤0，无零带。Decimal钱包只核金额，不替换该决策符号；另报告Decimal.from_float精确和／独立钱包Decimal和及符号分歧。触发若对舍入敏感，保留ROUNDING_SENSITIVE_TRIGGER_WITNESS并暂停本固定gate采用，不把数值边界当稳定经济信号。
+
+### D032经济闭合（2026-10-03）
+
+- 两完整新账户、独立Decimal、经济比较及根验收均真实exit0；122日净12.138169，对控制−12.606683USDT，观察DD0.387572%→0.416530%；90日净6.567334，对控制+2.578361，DD0.198205%→0.121545%。不拼两账户，不择月／改阈值／费用／杠杆。
+- 122日永久早退避免负coupon0.707383却放弃正12.164115USDT；90日避免3.862038、放弃1.649367。这是saved-control实际OWNED结果后归因，不是新钱包现金流。单段改善不抵消另一段净值及风险变差，固定门槛false；舍入敏感计数0，会计最大误差1.42027e−11只认证计算。
+- 暂停固定7日／滞后1日永久退出配方，保留因果gate、carry、已见控制和负结果；不接着扫窗口。重开须新过去可得状态或真正时间外证据。单位／Bybit原生／MMR／availability仍未认证，候选NONE／长期APR NE。
+- 初次freeze import启动真实exit1且无行情／数学，原失败保留，后改子进程绝对路径。比较／根metadata的浮点一致性与类型guard均在执行前薄修，无旧金融／QA／绿测重跑或冻结覆盖。完整验收／源码与实际task绑定见D032报告。
+
+### D033：较长固定公开策略开发否证（新范围适配／数组数学前，2026-10-03）
+
+- D032不稳定且净余量小，不继续carry退出窗HPO。此前公开2h与hybrid在122／90日的胜负也不一致，尚无统一赢家；现金继续为防御基准。下一唯一问题是原公开配方的较长经济路径是否仍有费用后优势，而非增加模型／更低费用。
+- 固定2024-01-01..<2025-07-01全部547日，2023-12仅31日warmup；使用既有CASH／COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER／COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER三个账户。直接复用MIT Jesse pin与原fixed_targets/native账户，原10k／30%单币／60%gross／10%目标波动／30日min20日历史risk、延迟／容量／lot保持；只用已接受36bp档（Spot10bp/side、slip4bp/side、spread8bp完整）。0拟合／HPO／配方选择，旧30／32bp账户不重跑。
+- 这段历史曾用于旧训练／测试，明确项目级SCREENING，不能称真正unseen／投资资格。locked2026-03..<09价格不消费，也不借其warmup。38档旧QA／lock metadata具备，但新专属source receipt和当前文件SHA核对尚未完成；静态笔记不冒充source accepted。
+- 最薄实现是隔离新period namespace/date guards及一个固定成本subset，复用共享入口、targets、回测和费用资产守恒；不改冻结labels／core或复制策略。旧源helper的2025／微秒假设不能套到混合毫秒／微秒新档，保留原QA元数据。新protocol/必要边界case先冻结，明确38路径，禁止全库加载／locked fallback／重跑旧QA。
+- 预期价值是以完整长账户分辨少数月份贡献、信号稳定性和换手成本。全期间净值、事件DD、费用与风险暴露并列，月表只诊断不挑月／拼curve。若无净优势或只由少数月份支撑，则暂停原配方投资采用，重开需真正未来证据／新信息；保留公开benchmark能力。
+- 普通研究继续，预算先新STATE≤100MB、共享5GB／swap0／GPU0／D40GB，后续执行前按实际scope固定wall预算；无原生认证／真钱／密钥／付费／冻结覆盖权限扩张。2h／hybrid只重开冻结配方长开发否证，不重开参数搜索；RSI2／分钟／1h／maker依原reopen。

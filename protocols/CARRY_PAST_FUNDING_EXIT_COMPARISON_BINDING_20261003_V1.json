@@ -1,0 +1,172 @@
+{
+    "contract_id":  "D032_ECONOMIC_COMPARISON_BINDING_V1",
+    "scope":  "POST_RESULT_CONDITIONAL_ATTRIBUTION_NOT_CASHFLOW_OR_TRADING_SIGNAL",
+    "reader_authorized":  true,
+    "reader_authorization":  "Root autonomous authorized research: saved actually owned coupon attribution only after two new actual and independent actual exit0",
+    "helper_sha256":  "690542e7cbb21b0dbcd15af67a73fc3e2b33fa96e74b26bfbab08b7281078173",
+    "master_protocol_sha256":  "98238b8e12522e510820a87e56f7e2c5fa54495eb92d6b374a2e56039305ba7b",
+    "audit_sha256":  "8188c0aed63e7745e364fa9ab7d83e3d993fa2eeb67016cf4a10ce8a7e11948f",
+    "gate_rules":  {
+                       "minimum_hold_us":  691200000000,
+                       "decision_clock":  "DAILY_UTC_CLOSED_DAY_00_00",
+                       "decision_observation_offset_us":  1,
+                       "observed_window":  "[D-8DAY,D-1DAY)",
+                       "window_start_strictly_after_entry":  true,
+                       "threshold_signed_owned_cash_USDT":  0.0,
+                       "condition":  "SUM_LE_ZERO",
+                       "publication_assumption":  "UNCERTIFIED_ONE_UTC_DAY_LAG",
+                       "decision_arithmetic":  "MATH_FSUM_OF_ACTUAL_CREDITED_FLOAT64_LEDGER_CASH_EXACT_LE_ZERO_NO_BAND",
+                       "input":  "ACTUALLY_OWNED_SIGNED_FUNDING_CASH_ACCOUNT_SUM_BOTH_SYMBOLS",
+                       "action":  "NEXT_STRICTLY_LATER_CLOSED_MINUTE_ALL_FLAT_PERMANENT_CASH",
+                       "priority":  "ALREADY_PENDING_FULL_EXIT_FIRST_EXISTING_DUE_TRIM_DISPATCH_UNCHANGED",
+                       "no_reentry":  true,
+                       "no_extra_capital":  true,
+                       "no_HPO":  true
+                   },
+    "adoption_criteria":  {
+                              "both_net_delta_gt_USDT":  1E-07,
+                              "all_observation_DD_increment_lte":  1E-10,
+                              "major_positive_coupon_foregone_share_gt":  0.5,
+                              "pause_rounding_sensitive_trigger":  true,
+                              "no_trigger_is_no_adoption_evidence":  true,
+                              "constraints_unchanged":  true,
+                              "accounting_tolerances_not_statistical_significance":  true
+                          },
+    "audit_host_result":  "session49432 / chunkc09155 / actual exit0",
+    "actual_audit_task":  {
+                              "id":  "c3959789d9054047bd7f2595a077f561",
+                              "title":  "过去资金费退出 · 两段完整账户独立核验",
+                              "status":  "completed",
+                              "started_at":  1790973954.0186439,
+                              "phase":  "完成",
+                              "completed":  null,
+                              "total":  null,
+                              "unit":  "",
+                              "metrics":  {
+
+                                          },
+                              "children":  [
+
+                                           ],
+                              "pid":  37000,
+                              "last_activity_at":  1790973995.6414573,
+                              "start_ticks":  4993534,
+                              "exit_code":  0,
+                              "detail":  "实际退出码：0",
+                              "ended_at":  1790973995.6414618
+                          },
+    "cases":  [
+                  {
+                      "period":  "122D",
+                      "new_actual_sha256":  "4e5af1da710d522f3c6d27123123c2ffeeb1fc80963490998de1471bf5a22505",
+                      "frozen_control_outputs":  {
+                                                     "minute_nav":  {
+                                                                        "path":  "/home/xflops/coin-state/conditional-carry-pair-trim-122d-actual-20261003-v1/minute_nav.parquet",
+                                                                        "sha256":  "7ac36a0c8069489556d887d3b85f6ad5156ecc29664ab40cd8f586804241c1e6",
+                                                                        "bytes":  8401996,
+                                                                        "rows":  175680
+                                                                    },
+                                                     "daily_nav":  {
+                                                                       "path":  "/home/xflops/coin-state/conditional-carry-pair-trim-122d-actual-20261003-v1/daily_nav.parquet",
+                                                                       "sha256":  "60a28d1c900cb7dbcfbd428d0c3604bcb8ef6e3b55e6ff77b51b36521e4df62b",
+                                                                       "bytes":  4255,
+                                                                       "rows":  122
+                                                                   },
+                                                     "funding_ledger":  {
+                                                                            "path":  "/home/xflops/coin-state/conditional-carry-pair-trim-122d-actual-20261003-v1/funding_ledger.parquet",
+                                                                            "sha256":  "255fd545fa90e3a5bb802e01d11e2e0ec82f6186b6d4c827cd12d81622b20445",
+                                                                            "bytes":  51705,
+                                                                            "rows":  732
+                                                                        },
+                                                     "fill_ledger":  {
+                                                                         "path":  "/home/xflops/coin-state/conditional-carry-pair-trim-122d-actual-20261003-v1/fill_ledger.parquet",
+                                                                         "sha256":  "7b0f08baa90bcfdcb2a6fabbaee857eb350ac410dfb0591a7293965a783819b9",
+                                                                         "bytes":  15477,
+                                                                         "rows":  10
+                                                                     }
+                                                 },
+                      "actual_task":  {
+                                          "id":  "2b60079d63024663b4b6af749f9a602c",
+                                          "title":  "过去资金费退出 · 完整122日回放",
+                                          "status":  "completed",
+                                          "started_at":  1790973868.0981655,
+                                          "phase":  "完成",
+                                          "completed":  null,
+                                          "total":  null,
+                                          "unit":  "",
+                                          "metrics":  {
+
+                                                      },
+                                          "children":  [
+
+                                                       ],
+                                          "run_dir":  "/home/xflops/coin-state/carry-past-funding-exit-122d-actual-20261003-v1",
+                                          "pid":  36882,
+                                          "last_activity_at":  1790973936.6865659,
+                                          "start_ticks":  4984942,
+                                          "exit_code":  0,
+                                          "detail":  "实际退出码：0",
+                                          "ended_at":  1790973936.6865692
+                                      }
+                  },
+                  {
+                      "period":  "90D",
+                      "new_actual_sha256":  "7452021164d1b3a6bf4cb0710e2cb9eb77e1193d38d7e0edd71c1eddc2657f56",
+                      "frozen_control_outputs":  {
+                                                     "minute_nav":  {
+                                                                        "path":  "/home/xflops/coin-state/carry-90d-pair-trim-actual-20261003-v1/minute_nav.parquet",
+                                                                        "sha256":  "9b054c6d1a5c0d68767094a56bdc93ea56721a617119c6937c2d643c065f0d42",
+                                                                        "bytes":  6147357,
+                                                                        "rows":  129600
+                                                                    },
+                                                     "daily_nav":  {
+                                                                       "path":  "/home/xflops/coin-state/carry-90d-pair-trim-actual-20261003-v1/daily_nav.parquet",
+                                                                       "sha256":  "921d2bea66d1df64db49fec7144aae87358c11a10117dbb1cb32cdca3471ed2f",
+                                                                       "bytes":  3910,
+                                                                       "rows":  90
+                                                                   },
+                                                     "funding_ledger":  {
+                                                                            "path":  "/home/xflops/coin-state/carry-90d-pair-trim-actual-20261003-v1/funding_ledger.parquet",
+                                                                            "sha256":  "c7212202ff52b077d08719b575873b7983807ea71bbe5ed03a75d0334df3cfd6",
+                                                                            "bytes":  41597,
+                                                                            "rows":  540
+                                                                        },
+                                                     "fill_ledger":  {
+                                                                         "path":  "/home/xflops/coin-state/carry-90d-pair-trim-actual-20261003-v1/fill_ledger.parquet",
+                                                                         "sha256":  "93e6a844e69f0c3e7965f054b031c838e8362aece81eed1d41382926ce90bffb",
+                                                                         "bytes":  12959,
+                                                                         "rows":  8
+                                                                     }
+                                                 },
+                      "actual_task":  {
+                                          "id":  "2d0cf21b4e47423eb9564270983f7f17",
+                                          "title":  "过去资金费退出 · 完整90日回放",
+                                          "status":  "completed",
+                                          "started_at":  1790973868.0966754,
+                                          "phase":  "完成",
+                                          "completed":  null,
+                                          "total":  null,
+                                          "unit":  "",
+                                          "metrics":  {
+
+                                                      },
+                                          "children":  [
+
+                                                       ],
+                                          "run_dir":  "/home/xflops/coin-state/carry-past-funding-exit-90d-actual-20261003-v1",
+                                          "pid":  36881,
+                                          "last_activity_at":  1790973936.278944,
+                                          "start_ticks":  4984942,
+                                          "exit_code":  0,
+                                          "detail":  "实际退出码：0",
+                                          "ended_at":  1790973936.2789469
+                                      }
+                  }
+              ],
+    "source_change_before_comparison_freeze":  "Two static guards tightened: original ratio tolerance for Decimal/Float agreement; all prior risk rules must match. No executed comparison overwritten.",
+    "binder_archive":  "docs/archive/CARRY_PAST_FUNDING_EXIT_COMPARISON_BINDER_20261003_V1.ps1",
+    "binder_sha256":  "c0fe6abe52ee149c75d8a247f83d9069b32309845fce52b32619dc35a1bd23b3",
+    "no_old_NAV_IO":  true,
+    "no_old_account_or_source_QA_replay":  true,
+    "locked_consumed":  false
+}
