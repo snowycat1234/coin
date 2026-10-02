@@ -387,3 +387,57 @@
   先看是否存在覆盖双腿成本的收入余量；若连门槛不足，避免建carry engine。若足够，仅支持
   补相应venue可成交basis／event-charge-mark／资本保证金信息，不证明净APR或Bybit收入。
   资金占用、hedge净数量、清算／ADL、摩擦未闭合；两腿不能双计总本金。保持5GB／40GB／GPU0边界。
+
+### D023：固定资金费收入门槛诊断（结果前，2026-10-03）
+
+- HEAD78d2616与实际任务核对：无研究训练任务运行，原两路只读采集／进度服务存活；
+  本轮接续D022，更换收入机制。当前盈利主力NONE，冻结RSI2负结果和旧Spot控制不重跑。
+- 先核官方fraction／支付方向／事件mark语义，以每币最多3条2025年8月初官方历史API与
+  既有archive样本交叉核对；计算记录时间只校准字段，不认证提前availability／精确扣款时刻。
+  网络或匹配失败保存，不绕TLS／网络边界；语义未闭合时必须明确条件假设或NE。
+- 唯一真实诊断范围：已验收8个funding档、BTC/ETH、2025-08-01..<12-01完整122日，732事件。
+  固定每事件单腿单位名义金额、全部signed rates求和及分月／负事件／连续负序列／累计coupon
+  回撤，0策略选择／fit／search。它不是固定币数量的真实收款、NAV回放、价格或净APR。
+- Bybit普通费率分腿：Spot10bp与perp taker5.5bp每side；各开平一次名义fee-only31bp。
+  固定假设每腿slip4bp/side、RTspread2/4/8bp给51/55/63bp，全部报告，不选赢档。
+  这些是收入余量门槛，非已验证perp成本；basis、event charge mark、资本／保证金、数量与
+  融资摩擦尚未闭合。无positive-future assumption，不选事后高费窗口，不借库存造收益。
+- 复用官方PyArrow／Polars与原source QA，最小薄科学计算及独立原CSV Decimal核验；
+  不建carry engine、重下载／全24档QA、读取价格arrays或locked。语义／新math／真732
+  各按实际凭证记录，失败保留。新工件≤20MB，共享5GBRAM／40GB盘／swap0／GPU0。
+  结果只决定暂停harvest或补可成交basis／资本信息；模块验收修文档后正常commit/push。
+
+### D024：单位桥接受限后，仅做显式条件收入诊断（读取732事件前，2026-10-03）
+
+- 官方V1真实exit1为WSL网络不可达；V2使用已有Windows系统HTTPS通道，唯一BTC请求返回
+  HTTP451，按冻结规则停止，ETH未请求，0/6匹配。两失败原字节／实际task／来源保留；
+  不再换通道、代理、域名、TLS设置或重试来规避交易所限制。单位仍UNCONFIRMED。
+- 不把网络失败改名成功。可继续不依赖单位认证的描述性研究：在新协议中明确假设
+  原始last_funding_rate为fraction，固定乘10000，完成唯一全期732事件的条件式coupon
+  与31/51/55/63bp门槛数学比较；主报告／独立核验均标记UNCERTIFIED_UNIT_NOT_APR。
+  该新分支必须显式选择且绑定真实HTTP451报告，runner不能自动fallback。
+- 原coupon统计／成本／全122日／币种／负事件口径不变，原strict PASS单位分支保留。
+  未运行的strict准备源码／测试按原字节归档后，仅增加明确条件分支和针对性case断言；
+  条件实验不能放行真实收入、账户净PnL、净APR、执行或候选资格。
+- 若条件收入不足，仅否定此假设下的成本余量；若足够，也只支持下一步核Bybit原生公开
+  funding单位／同期间收入和可成交basis／资本。不能把Binance条件coupon当Bybit收入。
+  保持真钱／locked／5GB RAM／40GB盘／GPU0边界，所有实际计算仍在bounded WSL。
+
+### D025：条件收入有余量，优先核Bybit原生输入（验收后，2026-10-03）
+
+- 实际唯一主诊断exit0、732/732事件，BTC／ETH原rate和0.01796165／0.01536858；假定fraction
+  coupon179.6165／153.6858bp，扣最高63bp名义全期一次门槛仍余116.6165／90.6858bp。
+  全部负事件45／57、最长负run10／4，不假定一直正；四个月全部报告，无selection/HPO。
+- 采用条件统计与负事件证据，保留carry研究方向，不采用投资候选。盈利主力NONE，净APR
+  仍NE。单位V1/V2真实failed1／0matched保留；条件会计通过不是fraction或Bybit收入认证。
+- 独立原CSV Decimal全期／月／run／DD／门槛已过，首轮因Arrow large_string兼容断言
+  失败。原FAIL643ac6/source3fd保留；仅新prefix补验732条，最大差1.4188e−14假定bp
+  低于1e−9容差，不重算已过汇总。组合审计a943e7、根af9399实际0，未称一轮新绿。
+- 下一选Bybit官方V5 funding/history固定BTC/ETH各2025-08-01一日小窗口，先核原生单位／
+  历史覆盖，成功才按有限固定窗口补全同122日；已锁httpx／既有小来源凭证薄复用，不引
+  新SDK／下载framework。固定双边毫秒边界，不读latest／locked；访问限制即停，不绕过。
+- 这是当前最大信息差距：已换Bybit成本却仍用Binance funding条件率。先核对应venue比
+  新模型或建carry engine更能改变投资判断。原生率有余量后，才补basis／收费mark／净
+  对冲数量／费用资产／总资本及保证金，统一风险后净经济比较；31bp是名义费率门槛，
+  不是已闭合received-asset／实际成交成本。完整carry资格须这些输入闭合后重开。
+  固定RSI2／更多阈值与旧分钟配方按旧reopen条件暂停，能力及阴性证据保留。

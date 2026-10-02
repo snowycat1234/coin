@@ -8,6 +8,7 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-本轮：Bybit费用标准下固定RSI2 122/90日各三成本账户、官方kernel／因果集成与独立验收完成；
-[结果与证据入口](PUBLIC_RSI2_NATIVE_FEE_ECONOMICS_20261002.md)。
-六账户均负；122日主要成本消耗、90日还缺毛收益。当前无盈利候选，暂停固定配方及调参；下项资金费两腿成本诊断。
+本轮：全122日732个资金费事件条件统计实际完成，BTC／ETH假定fraction后的coupon179.6165／153.6858bp；
+[结果与证据入口](FUNDING_INCOME_CONDITIONAL_DIAGNOSTIC_20261003.md)。
+单位核对两次真实exit1保留，条件数学完成不代表单位、账户收益或APR通过。下一项Bybit原生历史输入核对。
+原RSI2／Spot控制／源码／阴性结果保留不重跑；当前无盈利候选，完整目标继续。

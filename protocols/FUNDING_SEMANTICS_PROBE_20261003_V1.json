@@ -1,0 +1,161 @@
+{
+  "contract_id": "FUNDING_SEMANTICS_PROBE_20261003_V1",
+  "experiment_id": "FUNDING-SEMANTICS-PROBE-20261003-V1",
+  "created_before_actual_requests_utc": "2026-10-02T16:29:38.4690376Z",
+  "source_sha256": "c433703b696e67b7a279756cee0891cf686111fed24f808e6f0c1992ce5bdf74",
+  "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "api_endpoint": "https://fapi.binance.com/fapi/v1/fundingRate",
+  "startTime_ms": 1754006400000,
+  "endTime_ms": 1754064001000,
+  "api_limit_per_symbol": 3,
+  "api_scope": "2025-08-01 UTC first three settled funding event records per symbol only; exclusive no latest/no pagination/no other endpoints",
+  "time_tolerance_ms": 1000,
+  "rate_absolute_tolerance": "0.000000000001",
+  "rate_rescaling_allowed": false,
+  "timeout_seconds": 20,
+  "maximum_document_bytes": 2000000,
+  "maximum_API_bytes": 64000,
+  "maximum_new_owned_bytes": 10000000,
+  "maximum_wall_seconds": 180,
+  "shared_RAM_limit_bytes": 5000000000,
+  "swap": 0,
+  "GPU": 0,
+  "CPU_threads": 2,
+  "document_urls": [
+    {
+      "filename": "official-developer-docs.html",
+      "url": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data"
+    },
+    {
+      "filename": "official-funding-faq.html",
+      "url": "https://www.binance.com/en/support/faq/detail/360033525031"
+    }
+  ],
+  "documentary_evidence": [
+    {
+      "supports": [
+        "funding history endpoint accepts inclusive startTime/endTime in milliseconds, returns ascending historical fundingRate and fundingTime",
+        "markPrice is the mark associated with the funding fee charge",
+        "MarkPrice response shows interestRate decimal 0.00010000; together with FAQ default 0.01% eight-hour interest supports the REST numeric-ratio convention; archive unit bridge still requires sampled API equality"
+      ],
+      "resolved_primary_url": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "observed_utc_date": "2026-10-02",
+      "url": "https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api/Get-Funding-Rate-History",
+      "observed_via": "PRIMARY_WEB_TOOL_BEFORE_PROTOCOL"
+    },
+    {
+      "supports": [
+        "positive rate long pays short, negative rate short pays long",
+        "funding amount is position notional multiplied by funding rate; USD-M notional is mark price times contract quantity",
+        "default eight-hour interest component is 0.01%; intervals may change",
+        "account processing time and settlement charge mark differ from displayed periodic market updates; archive calc_time is not publication or account-availability evidence"
+      ],
+      "observed_utc_date": "2026-10-02",
+      "url": "https://www.binance.com/en/support/faq/detail/360033525031",
+      "observed_via": "PRIMARY_WEB_TOOL_BEFORE_PROTOCOL"
+    }
+  ],
+  "acceptance_path": "reports/fast_research/V8_FUNDING_MARK_INDEX_SOURCE_ACCEPTANCE_20261002_V1.json",
+  "funding_sources": [
+    {
+      "kind": "fundingRate",
+      "symbol": "BTCUSDT",
+      "month": "2025-08",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-08/source.parquet",
+      "parquet_sha256": "b24da3791b01a74916f35a7faccd8a7b8b206897617647f48ed2cc3c43087096",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-08/receipt.json",
+      "receipt_sha256": "c0604d01ca083844458462335eb53ceb92ad537b6b3d033a2040ef8e3aa5a1c6"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "BTCUSDT",
+      "month": "2025-09",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-09/source.parquet",
+      "parquet_sha256": "c6b851799d3b1209579eacbaaa7c66ea413cf280822b0b4cf8df4c2e6a07a7a2",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-09/receipt.json",
+      "receipt_sha256": "711c93661b3acda6c82163cec3f9189dacc9d46ad25a691020751b549e85c5e4"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "BTCUSDT",
+      "month": "2025-10",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-10/source.parquet",
+      "parquet_sha256": "90052ce0e7e173f14175e8cc416c8cd78bf1ebae9af9ba7bf56c573d1a882dbb",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-10/receipt.json",
+      "receipt_sha256": "8aaa681929b913fc5dae6eb66e6c6e524a79c7f385b6c61d9ab7c489401bf5ad"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "BTCUSDT",
+      "month": "2025-11",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-11/source.parquet",
+      "parquet_sha256": "6ac1e46c1bba3064a833673ef132f09e02d22f7537b085c3982dccf4aec4b110",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-BTCUSDT-2025-11/receipt.json",
+      "receipt_sha256": "d187a78590ab8481308ec5b8459a7e0c3cee49ac4d569f8fd93920ad3111e2c0"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "ETHUSDT",
+      "month": "2025-08",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-08/source.parquet",
+      "parquet_sha256": "eecc7be761a4fc18226dac405aa6c2d98c87cb615119ce2a45ed001504c0b0b0",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-08/receipt.json",
+      "receipt_sha256": "7fbfcb81471055e943cebc6c89e26fc3e731c9912789bd1b0e3357a79de72fc5"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "ETHUSDT",
+      "month": "2025-09",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-09/source.parquet",
+      "parquet_sha256": "d6b8e0b77ad72214eaf69370e47524e5f14fe7f07e6645dc5ab1977f73717e58",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-09/receipt.json",
+      "receipt_sha256": "4a3d5dcc50781e61af656c8624dee92baa6a2eacb04899d25b27179941aa0ce5"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "ETHUSDT",
+      "month": "2025-10",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-10/source.parquet",
+      "parquet_sha256": "a160e21799b37a8295c0f71632c568c509c5cde7ed2d773d0d487c6aa916a365",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-10/receipt.json",
+      "receipt_sha256": "8bedf42b202ae982ce255b062c8f03810bf0ce267eb4f6e7da23059bbf5fc4b1"
+    },
+    {
+      "kind": "fundingRate",
+      "symbol": "ETHUSDT",
+      "month": "2025-11",
+      "parquet_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-11/source.parquet",
+      "parquet_sha256": "bfe541ab1cf241b42e195a76e7b4acbf17f3554f8571f02761cefcd83b8ad0df",
+      "receipt_path": "/home/xflops/coin-state/v8-funding-mark-index-source-20261002-v1/fundingRate-ETHUSDT-2025-11/receipt.json",
+      "receipt_sha256": "12fc1b5112500cffcfeb6c30a57ef2f810c2bc70515c7a23f1d69fee80c71c71"
+    }
+  ],
+  "frozen_sources": {
+    "scripts/investment/funding_semantics_probe.py": "c433703b696e67b7a279756cee0891cf686111fed24f808e6f0c1992ce5bdf74",
+    "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+    "reports/fast_research/V8_FUNDING_MARK_INDEX_SOURCE_ACCEPTANCE_20261002_V1.json": "318622721ed9733d84ae66082f750e8b7d4ed960d7812c9e899c94b3cb5188aa",
+    "reports/fast_research/V8_FUNDING_MARK_INDEX_INDEPENDENT_QA_20261002_V1.json": "2f2b13b6be120a2db7e09abc24943f33b0892e53bfcc6b474f1bf3a53055ac74",
+    "reports/fast_research/V8_FUNDING_MARK_INDEX_HEADER_CORRECTION_20261002_V1.json": "9d529a13208b7bdd0fa31c9386dfe19d62d3947e9fd7789ca0281cff060726d9",
+    "protocols/FUNDING_MARK_INDEX_SOURCE_V8_V1.json": "2b3ef722ba3276c95d4a658d63ecdae12d92ae7a4f95a88de2918a4fd775d38a"
+  },
+  "scope": {
+    "locked_consumed": false,
+    "market": "BINANCE_USD_M_FUNDING_SOURCE_SEMANTICS_ONLY",
+    "real_orders": 0,
+    "funding_income_calculated": false,
+    "new_dependencies": 0,
+    "price_arrays_read": false,
+    "account_keys_used": false,
+    "mark_index_arrays_read": false,
+    "existing_sources_modified": false,
+    "models_fit": 0
+  },
+  "qualification": "Limited documentary unit convention and up to six sampled archive/API rate/time parity; never full historical account settlement, feature availability, executable carry, netAPR or Bybit funding proof",
+  "network_policy": "System verified HTTPS; one request per declared URL; no TLS bypass/retry/alternatehost/mirror/proxy modification",
+  "output": "reports/fast_research/FUNDING_SEMANTICS_PROBE_20261003_V1.json",
+  "run_dir": "/home/xflops/coin-state/funding-semantics-probe-20261003-v1"
+}
