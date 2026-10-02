@@ -8,7 +8,7 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-本轮：全122日732个资金费事件条件统计实际完成，BTC／ETH假定fraction后的coupon179.6165／153.6858bp；
-[结果与证据入口](FUNDING_INCOME_CONDITIONAL_DIAGNOSTIC_20261003.md)。
-单位核对两次真实exit1保留，条件数学完成不代表单位、账户收益或APR通过。下一项Bybit原生历史输入核对。
-原RSI2／Spot控制／源码／阴性结果保留不重跑；当前无盈利候选，完整目标继续。
+本轮：Bybit普通费用口径保持采用，原生BTC固定历史请求实际HTTP403／exit1，未请求ETH，
+0样本／经济计算；[实现、真实失败和证据入口](BYBIT_NATIVE_FUNDING_PILOT_20261003.md)。
+原生carry映射暂缓，合规可达原生输入后重开；下一项已有122日价源的基差风险尺度诊断。
+旧732事件条件统计、RSI2／Spot控制／源码／阴性结果保留不重跑；无盈利候选或净APR，完整目标继续。

@@ -8,7 +8,7 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-当前阶段：Bybit普通用户费用标准已采用；完整122日732个资金费事件完成条件收入门槛诊断，见
-[当前结果及边界](FUNDING_INCOME_CONDITIONAL_DIAGNOSTIC_20261003.md)。
-单位核对因HTTP451仍未确认，条件余量支持下一步核Bybit原生历史资金费；不产生账户净APR。
-固定RSI2暂停、能力保留，盈利主力及真钱候选NONE。完整项目目标未完成，普通科研继续。
+当前阶段：Bybit普通用户费用标准已采用；[原生资金费小窗口](BYBIT_NATIVE_FUNDING_PILOT_20261003.md)
+实跑HTTP403／exit1，验明失败但未取得输入，完整采集暂缓。当前转已有122日价源的基差风险尺度检查。
+旧条件coupon仅假定fraction，不产生账户净APR；固定RSI2暂停，能力／失败来源全部保留。
+盈利主力及真钱候选NONE，完整项目目标未完成，普通科研继续，locked／资金边界不变。

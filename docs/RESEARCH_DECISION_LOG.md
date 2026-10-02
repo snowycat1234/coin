@@ -441,3 +441,41 @@
   对冲数量／费用资产／总资本及保证金，统一风险后净经济比较；31bp是名义费率门槛，
   不是已闭合received-asset／实际成交成本。完整carry资格须这些输入闭合后重开。
   固定RSI2／更多阈值与旧分钟配方按旧reopen条件暂停，能力及阴性证据保留。
+
+### D026：Bybit原生历史资金费固定小窗口（请求前，2026-10-03）
+
+- HEAD `6d46fc8bb9d90a65f2262fb544f1de1a328dc4aa`；盈利主力／候选仍NONE，净APR NE。
+  D025的条件coupon支持核对应venue，但不能直接宣称Bybit收入。旧源／经济／单位失败不重跑。
+- 最多2个公开只读请求：官方 `api.bybit.com/v5/market/funding/history`，linear BTCUSDT、
+  ETHUSDT各2025-08-01 UTC `[1754006400000,1754092800000)`，双边ms参数、limit200。
+  固定先BTC再ETH；任一网络／HTTP／业务／格式失败停止，限制状态不重试／换通道／换域。
+- 官方integration文档说明部分IP地域返回403；仅采用既有系统HTTPS路径，验证TLS、
+  无重定向、无账户头、每响应20s／64KB。Windows只传字节与HTTP元数据，解析／校验在
+  bounded WSL，Windows进程peak单列，不谎称纳入Linux共享cgroup。
+- 校验原始JSON／SHA、retCode、category、symbol、字符串时间／有限Decimal率、逐条边界、
+  重复、返回数小于200及非空。文档不保证保留期／完整历史结算日历；不预填8h或3事件。
+  fundingRate仅按官方文档的ratio convention解释，不认证Binance单位、publication或账户入账。
+- 本pilot不计算coupon／成本／收益／APR、不读价格或locked、不发单、不启用GPU。
+  新工件预算2MB、墙钟180s、当前共享5GBRAM；盘依据最近实际扫描19,413,115,004B
+  （2026-10-02 17:00:09.997777UTC），不是新扫描。独立审计后才决定完整122日source采集。
+  若限制／覆盖失败，保留失败并暂停原生carry投资映射，重开需合规可达原生来源；不绕过。
+
+### D027：原生接口受限后，转已有来源的基差风险排除检查（2026-10-03）
+
+- 唯一实际BTC请求HTTP403、96B，host session76274关闭exit1，task
+  `5ac8dbb781d849ce8a42e51d162fbd65`；报告`eac907e1…9d2765`。ETH／样本均0，
+  原生单位／完整性未确认，0经济计算。不重试或另找通道；未启动完整122日Bybit采集。
+- 暂停Bybit原生carry投资映射及income adapter，能力／阴性证据保留，重开需合规可达
+  的对应原生输入。费用profile保持普通Spot10bp／perp taker5.5bp，不以失败改低成本。
+- 下一信息价值最高的是既有全122日Spot与mark/index的基差风险尺度：同币、固定历史
+  时间、固定单位数量，所有月份／全部期间的不利变化，零下载／fit／HPO；结果只作
+  mark／last-trade代理风险诊断，不称可成交basis／收费mark／账户NAV或APR。
+  开始前先明确Spot价格字段／时间语义并冻结源路径／SHA；缺可比价源则不虚构。
+- 原条件事件名义coupon余量116.6165／90.6858bp很薄；资金占用和不利价差都可能消耗它。
+  因coupon不是恒qty实际现金，这只是待检查的尺度，不与basis简单相加伪造净收益。
+  若风险接近该尺度，暂停进一步条件carry工程；若较小，也只支持保留方向补真实输入。
+  盈利主力／候选仍NONE、净APR NE。其他暂停路线沿原reopen，完整目标继续。
+- 并行只读接线已确认Spot为官方1m kline Close原值cast，而非自行last-trade重建。
+  `BASIS_RISK_SOURCE_OPTIONS_20261003_V1.json`（`fd1b4c56…aaee7de7`）列明8Spot＋8mark＋
+  8index准确路径及既有SHA；open timestamp join、proxy inclusive close+1ms与Spot逻辑bar end
+  对齐。只是元数据，不读／hash价数组、重QA或算basis；尚无basis经济证据。

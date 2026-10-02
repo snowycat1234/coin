@@ -1,0 +1,46 @@
+{
+  "status": "PASS_BYBIT_PILOT_INDEPENDENT_FOUR_PARSER_FIXTURES_NO_NETWORK_NOT_MARKET_ACCEPTANCE",
+  "binding": {
+    "task_id": "5c3f82906f7f4b8fadfdd0b01cd96910",
+    "source_sha256": "61fda7b5275c8cc977f38df4722a715980193042176369382ee0dc089c3602df",
+    "source_hashes": {
+      "scripts/investment/bybit_funding_history_pilot.py": "1b1a2c5064641c7ac45000b9253f1c9f6dc89404e82e2de086149a31f55b4845",
+      "scripts/investment/bybit_funding_windows_transport_v1.ps1": "d982140ea84156d0ce8f298f9ba611c3f71039e5fa99bf3213aad0f80d7d6b44",
+      "scripts/investment/funding_semantics_probe.py": "c433703b696e67b7a279756cee0891cf686111fed24f808e6f0c1992ce5bdf74"
+    },
+    "SYNTHETIC_BINDING_sha256": "7080d587427dd82f14c1977b687b049ba2e160f75ae8e4f866bab03848a01a4b"
+  },
+  "fixture_results": [
+    {
+      "fixture": "valid_no_8h_assumption.json",
+      "sha256": "67c5e4185bb931d381120d488fb78e6354bbfe97eb1f07d79e1da7eeb5ce7cf0",
+      "result": "ACCEPTED_EXPECTED_POSITIVE_4H_NOT_ASSUMED8H"
+    },
+    {
+      "fixture": "bad_boolean_retcode.json",
+      "sha256": "b396e95c8712991637fd7985467550f4be34fcddf2a24f5655285d801721d248",
+      "result": "REJECTED_EXPECTED_INVALID",
+      "reason": "Integer retCode required"
+    },
+    {
+      "fixture": "bad_duplicate_key.json",
+      "sha256": "8512f96b2a63ab2ef91c9aba846373dccae1737c8f43db4cacdb6c84690377c4",
+      "result": "REJECTED_EXPECTED_INVALID",
+      "reason": "Duplicate JSON key rejected: retCode"
+    },
+    {
+      "fixture": "bad_wrongdate.json",
+      "sha256": "28ce1ac992e101f675343646a5f730aa145ae8861747b7a1394da8d3c6b1ac85",
+      "result": "REJECTED_EXPECTED_INVALID",
+      "reason": "Out-of-window or duplicate event"
+    }
+  ],
+  "actual_HTTP_requests": 0,
+  "original_history_inputs_read": 0,
+  "models_fit": 0,
+  "orders_sent": 0,
+  "funding_income_calculated": false,
+  "unit_or_settlement_or_retention_certified": false,
+  "elapsed_seconds": 6.5580042069996125,
+  "peak_RSS_bytes": 46977024
+}

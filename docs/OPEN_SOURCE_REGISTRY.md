@@ -1,5 +1,19 @@
 # FR61 开源复用登记表
 
+## 2026-10-03 Bybit原生公开资金费小窗口（D026）
+
+复用已锁定Python标准JSON／Decimal及项目来源凭证、progress／registry；不增加依赖。
+HTTP传输复用既有Windows系统`System.Net.Http.HttpClient`，只取原始字节，WSL负责解析；
+不复制SDK、建立下载框架或改变系统HTTPS配置。已有httpx0.28.1／BSD-3登记保持，不新增安装。
+`bybit-exchange/pybit`仅查官方接口参考，**NOT_INSTALLED / NOT_ADOPTED**，不借其MIT标签
+描述服务或Windows运行库。官方服务协议版本为V5，无源码commit／开源license；
+接口及数据条款仍属服务方，不把公开API资料当MIT代码。
+
+主文档：[funding/history](https://bybit-exchange.github.io/docs/v5/market/history-fund-rate)、
+[官方主机与访问范围](https://bybit-exchange.github.io/docs/v5/guide)、
+[收费公式与符号](https://www.bybit.com/en/help-center/article/Funding-fee-calculation)。
+本地修改仅新薄固定历史请求与格式校验；单位仅Bybit文档ratio惯例，真实覆盖／限制以本轮结果为准。
+
 ## 2026-10-02 具体公开策略比较增量
 
 | repo | 固定commit／许可 | 用途与本地修改 |
