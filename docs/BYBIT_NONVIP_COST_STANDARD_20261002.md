@@ -3,6 +3,7 @@
 核实时间：**2026-10-02 13:50:20 UTC**。固定登记为
 `protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json`。
 
+**后续实现状态（2026-10-03）**：下方原始登记的兼容性说明是2026-10-02首次登记时的状态。收到资产扣费薄适配已完成并验收，后续现货账户均绑定其独立版本及profile SHA；见[费用资产经济验收](BYBIT_SPOT_NATIVE_FEE_ECONOMICS_20261002.md)和[当前研究状态](RESEARCH_STATUS.md)。研究仍使用Binance价格上的BybitVIP0费用反事实，原生Bybit行情／成交与filters未获认证；原协议和旧quote-fee证据保留。
 ## 公开基础费率
 
 | 市场 | Maker／每边 | Taker／每边 |

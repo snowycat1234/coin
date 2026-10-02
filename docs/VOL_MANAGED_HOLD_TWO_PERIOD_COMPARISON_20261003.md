@@ -65,7 +65,7 @@ VM仅Aug正；90日三个月gross全部负。公开策略在Sep／Nov／Dec／Fe
 
 两个主体和保存比较已closed0；独立最终V2核2账户／305,280评分分钟／212日／7月。逐成交Decimal结算最大现金误差1.735752e−11／1.349254e−11USDT；分钟、日度、月表用已接受数值断言，不称全账本Decimal。独立37.1458s／RSS454,311,936B。V1在行情数组前因旧父协议省略`source_scope`而KeyError，0金融完成、真实exit1保留；V2只修metadata兼容，未重跑主体。
 
-主体122／90耗时67.4137／69.9556s、RSS665,391,104／567,521,280B，自有69,850,907／54,963,123B；模块预算150MB，共享5GB／swap0／GPU0保持。最新主体磁盘扫描20,110,293,084B，完成2026-10-03 06:38:51.801197+08:00；此值仅扫描时刻，非当前实时盘量。最终根验收真实session29904/chunkbf08c9 exit0；Git提交／推送待模块文档修缮和标准字节检查通过后执行。
+主体122／90耗时67.4137／69.9556s、RSS665,391,104／567,521,280B，自有69,850,907／54,963,123B；模块预算150MB，共享5GB／swap0／GPU0保持。最新主体磁盘扫描20,110,293,084B，完成2026-10-03 06:38:51.801197+08:00；此值仅扫描时刻，非当前实时盘量。最终根验收真实session29904/chunkbf08c9 exit0；Git提交／推送及远程一致已完成：89a305dff9a6ed3708b1bd0add44acf047531fe0。
 
 - [122日协议](../protocols/VOL_MANAGED_HOLD_122D_BYBIT_20261003_V1.json)，SHA`9ec8e182…`；[90日协议](../protocols/VOL_MANAGED_HOLD_90D_BYBIT_20261003_V1.json)，SHA`5c95df3a…`。
 - [122日实际](../reports/fast_research/VOL_MANAGED_HOLD_122D_ACTUAL_20261003_V1.json)，SHA`a58b6936…`，task`e9e6d603464e4963b76d64968730125a`；[90日实际](../reports/fast_research/VOL_MANAGED_HOLD_90D_ACTUAL_20261003_V1.json)，SHA`0bf3fbf2…`，task`e70852d1606b4e7daf6954c1a1b941a8`。
@@ -80,3 +80,7 @@ VM仅Aug正；90日三个月gross全部负。公开策略在Sep／Nov／Dec／Fe
 
 首次根元数据检查session72876/chunk363ae6/1错误把比较pin中的Python源码当JSON解析；[真实失败凭证](archive/VOL_MANAGED_HOLD_TWO_PERIOD_ROOT_PREFLIGHT_FAILURE_20261003_V1.json)保留原task/source/binding，未生成根通过报告。最终ROOT helperV4仅按字节/SHA核混合pin，不改财务或容差。V3未执行路径草稿修正另有静态记录；真正执行源码为独立V3、比较V4、ROOT V4。未运行草稿不称失败测试或经济结果。
 最终根实际task228d52174080459a8bf1e6566220ee54 completed/exit0；六新STATE合计127,021,300B，资源约束通过。两元数据失败和SOURCE legacy未知task分别保留，源码/协议不覆盖。
+
+## Git模块关闭
+
+最终标准入库门槛V2实际session90003/chunk8f4dc0 exit0，134冻结pins一致；提交session77040/chunk2078a2、推送session49474/chunk6ed019、远程一致chunk6aafed均exit0。本机与remote main均89a305dff9a6ed3708b1bd0add44acf047531fe0，[后验同步凭证](../reports/GITHUB_VOL_MANAGED_HOLD_TWO_PERIOD_SYNC_VERIFIED_20261003_V1.json) SHA1f6f7db29bd9e5a04bbd5446b9dd311a741ff5f90a7fd62f44922abf6c84a554；此凭证和本段后验文字在下个正常模块checkpoint入库。原DATA_QUALITY_REPORT已受Git跟踪且字节27aa56不变，首次广泛stage提示ignored目录不会增加源文件或改变旧QA；随后标准树核验实际通过。无raw/arrays/models/数据库/VHD/credentials入库，不强推。
