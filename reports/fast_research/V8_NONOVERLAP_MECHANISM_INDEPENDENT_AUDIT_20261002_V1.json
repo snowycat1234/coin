@@ -1,0 +1,2524 @@
+{
+  "report_id": "V8_NONOVERLAP_MECHANISM_INDEPENDENT_AUDIT_20261002_V1",
+  "created_at_utc": "2026-10-02T10:19:01.577396+00:00",
+  "status": "FAIL_DIAGNOSTIC_CALENDAR_SCOPE",
+  "audited_diagnostic_version": "V8_NONOVERLAP_MECHANISM_20261002_V2",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_gate": "NOT_READY",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "actual_HEAD_at_audit_start": "3a9515c788cf985bd2e92d37ba8dbee18675f8e1",
+  "actual_HEAD_at_audit_end": "3a9515c788cf985bd2e92d37ba8dbee18675f8e1",
+  "input_artifact_hashes": {
+    "protocol_v1": {
+      "path": "/mnt/d/codex/coin/protocols/NONOVERLAP_MECHANISM_V8_V1.json",
+      "sha256": "c291b6674ebebddc5ad3d87a2cf27d063f7abe6a63ad6b0c32e26a9cc0dbf44f"
+    },
+    "protocol_v2": {
+      "path": "/mnt/d/codex/coin/protocols/NONOVERLAP_MECHANISM_V8_V2.json",
+      "sha256": "a8e010cc22298320f1dd2cb7d818b943105425c99101f9a550103fec4ff82130"
+    },
+    "P1": {
+      "path": "/mnt/d/codex/coin/protocols/P1_GATE_V8.json",
+      "sha256": "dc252b0d0fcab18c1f0b784b55c0ff7dfee7e25222a866cbdacfb9ee5d1151e2"
+    },
+    "label_contract": {
+      "path": "/mnt/d/codex/coin/protocols/LABEL_CONTRACT_V8.json",
+      "sha256": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47"
+    },
+    "source_v1": {
+      "path": "/mnt/d/codex/coin/scripts/research_v8/nonoverlap_mechanism.py",
+      "sha256": "40da2cde8a73904f1705b9418842396ba21bd3a723cff438a86be3b7a8d73e53"
+    },
+    "source_v2": {
+      "path": "/mnt/d/codex/coin/scripts/research_v8/nonoverlap_mechanism_v2.py",
+      "sha256": "1286c66b4439475cf381d6bdf21348dc0c02e5c53f4f2b7f15cdb85a7c76a5f1"
+    },
+    "actual_output": {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_NONOVERLAP_MECHANISM_20261002_V2.json",
+      "sha256": "39e8b29e99c6bd28667626fca1a22ad050504e0683be6e9734684fdff859faf5"
+    },
+    "label_audit": {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_LABEL_ADVERSARIAL_AUDIT_20261002_V5_R2.json",
+      "sha256": "0f1e269299eb68832c1efbf12c8e1403cbc7b0f87dc7b7fab0dde2f487880fdf"
+    },
+    "actual_execution_receipt": {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_NONOVERLAP_ACTUAL_EXECUTION_RECEIPT_20261002_V2.json",
+      "sha256": "9c85997f9c96bea9e9d8905d71707ae00fd4228c7120e2264a5cc51806788cb7"
+    }
+  },
+  "verified_registered_dependency_hashes": {
+    "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+    "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+    "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+    "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+    "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+    "tests/test_v8_label_contract_v2.py": "534ef6fa127e9c3f108dd5ac2bb0734dade93217e83e7ab1164d153e7536c5af",
+    "tests/test_v8_label_contract_v3.py": "d4708430040ea68fba07d75ff051f0fa23c34ecf48c37b4bfc282a005775cbc4",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "scripts/research_v8/labels_v4.py": "e7ab19a2052bc5ccc63de8c40eac63e8e7a0dacd6c5e7a0c3514a59536e1a3ea",
+    "scripts/research_v8/labels_v5.py": "64772439fa00aa3919799386883fdf38fa05b7675f228a6519775a3009ab7eed",
+    "tests/test_v8_label_contract_v4.py": "062ff4fc242486b9ab6fef6d6b13ef2acb450ee3904f15ffb3c0bd4bcfb3f5a2",
+    "tests/test_v8_label_contract_v5.py": "ca9bf611463a3adbe16a43fdf3002df06de50dcd2ee3bd6b1f5512252817b6a8",
+    "src/quant/research_fast/trade_flow.py": "be07e53ad9c2f1590c1ca8e7c6332f3953d53a79cd869bdc36052c0a24003439",
+    "scripts/hf_fetch.py": "b515610fefcbf8ad18209c12da27b8c98fb38162a95137bc816a7a2bd80d23c3",
+    "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+    "scripts/hf_fetch_v2.py": "ea0680a52d0b25a9f0edb1db79bede0f2eef8a5d064f956e7bf6e1f2d3202165",
+    "scripts/research_v7/source_view.py": "9b5cedf83f1de618f642640740d9b8528a84a30af34968e94d20bba0a03a8ac9",
+    "scripts/research_v8/verify_source_view_153d.py": "dc02c8ab7baf043a6a2dfabf9294905f3ef4fae3d5237d567df9384ebf17bcc8",
+    "scripts/research_v8/nonoverlap_mechanism_v2.py": "1286c66b4439475cf381d6bdf21348dc0c02e5c53f4f2b7f15cdb85a7c76a5f1",
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+    "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+    "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+    "protocols/P1_GATE_V8.json": "dc252b0d0fcab18c1f0b784b55c0ff7dfee7e25222a866cbdacfb9ee5d1151e2"
+  },
+  "source_receipt_sha256_only": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/V8_SHARED_SOURCE_VIEW_153D_20261002_V1.json",
+    "sha256": "dd931ce79f7f78e7e2c070f553077ffeca4ed73d7c0c0a1c744e4288d68f05cf"
+  },
+  "source_and_output_bytes_unchanged_during_audit": true,
+  "scope": {
+    "read_raw_or_bar_market_source_files": false,
+    "repeat_source_QA": false,
+    "read_market_derived_output_labels": true,
+    "allowed_output_parquets": [
+      {
+        "path": "/home/xflops/coin-state/v8-nonoverlap-mechanism-20261002-v2/v8_A-nonoverlap-label-calendar.parquet",
+        "sha256": "5a72553a0b46382100808490b71063a76b74e9c4443fee8a7ba52e518acc4e95",
+        "rows": 82020,
+        "columns": [
+          "decision_us",
+          "feature_available_us",
+          "predicted_signal_available_us",
+          "signal_available_us",
+          "earliest_order_us",
+          "earliest_permissible_order_us",
+          "delayed_entry_us",
+          "flow_label_start_us",
+          "flow_label_end_us",
+          "flow_label_mature_us",
+          "observed_future_flow_available_us",
+          "return_label_start_us",
+          "return_label_end_us",
+          "return_label_mature_us",
+          "validity_mature_us",
+          "label_mature_us",
+          "implementation_version",
+          "label_variant",
+          "flow_return_overlap",
+          "split",
+          "signal_kind",
+          "price_proxy_kind",
+          "spot_BTCUSDT__future_flow",
+          "spot_ETHUSDT__future_flow",
+          "perp_BTCUSDT__future_flow",
+          "perp_ETHUSDT__future_flow",
+          "spot_BTCUSDT__subsequent_return_proxy",
+          "spot_BTCUSDT__entry_price_proxy",
+          "spot_BTCUSDT__exit_price_proxy",
+          "spot_BTCUSDT__entry_price_trade_us",
+          "spot_BTCUSDT__exit_price_trade_us",
+          "spot_BTCUSDT__entry_price_available_us",
+          "spot_BTCUSDT__exit_price_available_us",
+          "spot_ETHUSDT__subsequent_return_proxy",
+          "spot_ETHUSDT__entry_price_proxy",
+          "spot_ETHUSDT__exit_price_proxy",
+          "spot_ETHUSDT__entry_price_trade_us",
+          "spot_ETHUSDT__exit_price_trade_us",
+          "spot_ETHUSDT__entry_price_available_us",
+          "spot_ETHUSDT__exit_price_available_us",
+          "label_valid",
+          "split_maturity_deadline_us",
+          "diagnostic_outcome_valid"
+        ]
+      },
+      {
+        "path": "/home/xflops/coin-state/v8-nonoverlap-mechanism-20261002-v2/v8_B-nonoverlap-label-calendar.parquet",
+        "sha256": "359fb4dabe1d2f5501ff4be0d03682bb363b667bf13f77af0ae148361430578e",
+        "rows": 82020,
+        "columns": [
+          "decision_us",
+          "feature_available_us",
+          "predicted_signal_available_us",
+          "signal_available_us",
+          "earliest_order_us",
+          "earliest_permissible_order_us",
+          "delayed_entry_us",
+          "flow_label_start_us",
+          "flow_label_end_us",
+          "flow_label_mature_us",
+          "observed_future_flow_available_us",
+          "return_label_start_us",
+          "return_label_end_us",
+          "return_label_mature_us",
+          "validity_mature_us",
+          "label_mature_us",
+          "implementation_version",
+          "label_variant",
+          "flow_return_overlap",
+          "split",
+          "signal_kind",
+          "price_proxy_kind",
+          "spot_BTCUSDT__future_flow",
+          "spot_ETHUSDT__future_flow",
+          "perp_BTCUSDT__future_flow",
+          "perp_ETHUSDT__future_flow",
+          "spot_BTCUSDT__subsequent_return_proxy",
+          "spot_BTCUSDT__entry_price_proxy",
+          "spot_BTCUSDT__exit_price_proxy",
+          "spot_BTCUSDT__entry_price_trade_us",
+          "spot_BTCUSDT__exit_price_trade_us",
+          "spot_BTCUSDT__entry_price_available_us",
+          "spot_BTCUSDT__exit_price_available_us",
+          "spot_ETHUSDT__subsequent_return_proxy",
+          "spot_ETHUSDT__entry_price_proxy",
+          "spot_ETHUSDT__exit_price_proxy",
+          "spot_ETHUSDT__entry_price_trade_us",
+          "spot_ETHUSDT__exit_price_trade_us",
+          "spot_ETHUSDT__entry_price_available_us",
+          "spot_ETHUSDT__exit_price_available_us",
+          "label_valid",
+          "split_maturity_deadline_us",
+          "diagnostic_outcome_valid"
+        ]
+      },
+      {
+        "path": "/home/xflops/coin-state/v8-nonoverlap-mechanism-20261002-v2/v8_C-nonoverlap-label-calendar.parquet",
+        "sha256": "e3a78f9356439c9334cf8a74cf52c9223746e808e42a868336625457956a79dc",
+        "rows": 82020,
+        "columns": [
+          "decision_us",
+          "feature_available_us",
+          "predicted_signal_available_us",
+          "signal_available_us",
+          "earliest_order_us",
+          "earliest_permissible_order_us",
+          "delayed_entry_us",
+          "flow_label_start_us",
+          "flow_label_end_us",
+          "flow_label_mature_us",
+          "observed_future_flow_available_us",
+          "return_label_start_us",
+          "return_label_end_us",
+          "return_label_mature_us",
+          "validity_mature_us",
+          "label_mature_us",
+          "implementation_version",
+          "label_variant",
+          "flow_return_overlap",
+          "split",
+          "signal_kind",
+          "price_proxy_kind",
+          "spot_BTCUSDT__future_flow",
+          "spot_ETHUSDT__future_flow",
+          "perp_BTCUSDT__future_flow",
+          "perp_ETHUSDT__future_flow",
+          "spot_BTCUSDT__subsequent_return_proxy",
+          "spot_BTCUSDT__entry_price_proxy",
+          "spot_BTCUSDT__exit_price_proxy",
+          "spot_BTCUSDT__entry_price_trade_us",
+          "spot_BTCUSDT__exit_price_trade_us",
+          "spot_BTCUSDT__entry_price_available_us",
+          "spot_BTCUSDT__exit_price_available_us",
+          "spot_ETHUSDT__subsequent_return_proxy",
+          "spot_ETHUSDT__entry_price_proxy",
+          "spot_ETHUSDT__exit_price_proxy",
+          "spot_ETHUSDT__entry_price_trade_us",
+          "spot_ETHUSDT__exit_price_trade_us",
+          "spot_ETHUSDT__entry_price_available_us",
+          "spot_ETHUSDT__exit_price_available_us",
+          "label_valid",
+          "split_maturity_deadline_us",
+          "diagnostic_outcome_valid"
+        ]
+      },
+      {
+        "path": "/home/xflops/coin-state/v8-nonoverlap-mechanism-20261002-v2/v8_D-nonoverlap-label-calendar.parquet",
+        "sha256": "4508d042abdb622322968e2b5aeea94e4c2018c522e3ffce62fbbabb1ac4505e",
+        "rows": 82020,
+        "columns": [
+          "decision_us",
+          "feature_available_us",
+          "predicted_signal_available_us",
+          "signal_available_us",
+          "earliest_order_us",
+          "earliest_permissible_order_us",
+          "delayed_entry_us",
+          "flow_label_start_us",
+          "flow_label_end_us",
+          "flow_label_mature_us",
+          "observed_future_flow_available_us",
+          "return_label_start_us",
+          "return_label_end_us",
+          "return_label_mature_us",
+          "validity_mature_us",
+          "label_mature_us",
+          "implementation_version",
+          "label_variant",
+          "flow_return_overlap",
+          "split",
+          "signal_kind",
+          "price_proxy_kind",
+          "spot_BTCUSDT__future_flow",
+          "spot_ETHUSDT__future_flow",
+          "perp_BTCUSDT__future_flow",
+          "perp_ETHUSDT__future_flow",
+          "spot_BTCUSDT__subsequent_return_proxy",
+          "spot_BTCUSDT__entry_price_proxy",
+          "spot_BTCUSDT__exit_price_proxy",
+          "spot_BTCUSDT__entry_price_trade_us",
+          "spot_BTCUSDT__exit_price_trade_us",
+          "spot_BTCUSDT__entry_price_available_us",
+          "spot_BTCUSDT__exit_price_available_us",
+          "spot_ETHUSDT__subsequent_return_proxy",
+          "spot_ETHUSDT__entry_price_proxy",
+          "spot_ETHUSDT__exit_price_proxy",
+          "spot_ETHUSDT__entry_price_trade_us",
+          "spot_ETHUSDT__exit_price_trade_us",
+          "spot_ETHUSDT__entry_price_available_us",
+          "spot_ETHUSDT__exit_price_available_us",
+          "label_valid",
+          "split_maturity_deadline_us",
+          "diagnostic_outcome_valid"
+        ]
+      }
+    ],
+    "read_real_locked_or_model_artifacts": false,
+    "fit_market_model": false,
+    "read_builder_explanations_or_root_state_documents": false,
+    "modified_original_code_output_or_registry": false,
+    "GPU_used": false,
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "purpose": "Read-only deterministic output verification; scipy descriptive correlations on supplied label outputs are recomputed, no market fitting or parameter selection.",
+    "hash_only_code_dependencies_not_semantically_reaudited": [
+      "protocols/LABEL_CONTRACT_V8.json",
+      "scripts/research_v8/labels.py",
+      "scripts/research_v8/labels_v2.py",
+      "scripts/research_v8/labels_v3.py",
+      "tests/test_v8_label_contract.py",
+      "tests/test_v8_label_contract_v2.py",
+      "tests/test_v8_label_contract_v3.py",
+      "environments/v8/uv.lock",
+      "scripts/research_v8/labels_v4.py",
+      "scripts/research_v8/labels_v5.py",
+      "tests/test_v8_label_contract_v4.py",
+      "tests/test_v8_label_contract_v5.py",
+      "src/quant/research_fast/trade_flow.py",
+      "scripts/hf_fetch.py",
+      "src/quant/research_fast/trade_flow_v2.py",
+      "scripts/hf_fetch_v2.py",
+      "scripts/research_v7/source_view.py",
+      "scripts/research_v8/verify_source_view_153d.py",
+      "scripts/research_v8/nonoverlap_mechanism_v2.py",
+      "src/quant/research_fast/dataset.py",
+      "scripts/research_v7/oracle_flow_ceiling.py",
+      "src/quant/research_fast/labels.py",
+      "protocols/P1_GATE_V8.json"
+    ],
+    "resource_policy": "hpc_linux bounded.sh/with_task_progress shared 5GB RAM, swap0, GPU0"
+  },
+  "original_actual_execution_evidence": {
+    "evidence_kind": "verified_actual_execution_receipt_and_trusted_parent_message",
+    "actual_session_id": 98389,
+    "actual_exit_code": 0,
+    "actual_completed_days": 76,
+    "actual_total_days": 76,
+    "exact_registered_command_verified": true,
+    "task_receipt_path": "/mnt/d/codex/coin/reports/fast_research/V8_NONOVERLAP_ACTUAL_EXECUTION_RECEIPT_20261002_V2.json",
+    "task_receipt_sha256": "9c85997f9c96bea9e9d8905d71707ae00fd4228c7120e2264a5cc51806788cb7",
+    "actual_task_id": "f5ee55fc6c1645618454ae66b17a7efd",
+    "output_sha256": "39e8b29e99c6bd28667626fca1a22ad050504e0683be6e9734684fdff859faf5",
+    "limitation": "Actual task exit 0, completed status, source/protocol/environment/output digests and exact command are cross-checked against the supplied immutable actual receipt. Root completion message corroborates 76/76 days. No mechanism JUnit/XML was generated or asserted."
+  },
+  "independent_checker_execution": {
+    "exit_code": 0,
+    "argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--",
+      "bash",
+      "-lc",
+      "cd /mnt/d/codex/coin && scripts/with_task_progress.sh --title V8\u975e\u91cd\u53e0\u673a\u5236\u72ec\u7acb\u8f93\u51fa\u6838\u9a8c -- env PYTHONPATH=/mnt/d/codex/coin/src /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /home/xflops/coin-state/test-v8-mechanism-output-audit-20261002-v1/check_outputs.py"
+    ],
+    "peak_RSS_bytes": 355110912
+  },
+  "independent_checker": {
+    "directory": "/home/xflops/coin-state/test-v8-mechanism-output-audit-20261002-v1",
+    "script_sha256": "019a74621c2b646059a290473674d36da57a5a0660d56b529e89238977979b5f",
+    "output": "/home/xflops/coin-state/test-v8-mechanism-output-audit-20261002-v1/output_checks.json",
+    "output_sha256": "3de70d60fd8f0c7799557fd85c83dd92857fe9e669f792870d25440183cd389c"
+  },
+  "checked_pair_summaries": 96,
+  "checked_daily_statistics": 672,
+  "checks": [
+    {
+      "id": "V1_V2_algorithm_bytes_unchanged_after_declared_binding_changes",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "registered_current_dependency_hashes",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "registered_protocol_and_fold_binding",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "registered_lock_and_label_audit_binding",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "accepted_source_receipt_binding_without_raw_QA",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "root_reported_actual_runner_protocol_sha",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "actual_exit_receipt_source_output_command_bindings",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "exact_registered_progress_wrapper_command",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_fold_and_variant_registration",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "diagnostic_hypothesis_count",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "economic_statistical_fields_null_and_no_qualification",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "scope_flags_no_models_orders_locked",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "actual_standard_costs_remain_only_registered_scenarios",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "calendar_path_v8_A",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "calendar_hash_v8_A",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "complete_variant_set_v8_A",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "only_explicit_train_OOS_and_observed_flow_v8_A",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "full_train_calendar_v8_A_LEAD_LAG_5M_5M",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_A",
+        "variant": "LEAD_LAG_5M_5M",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1755473999999999,
+        "missing_start_us": 1755474000000000,
+        "missing_last_us": 1755475140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_A_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_A_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_A_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_A_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_A_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10066,
+        "daily_rows_sum": 10066
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_A",
+        "variant": "EARLY_LATE_150S_GAP5",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1755473999999999,
+        "missing_start_us": 1755474000000000,
+        "missing_last_us": 1755475140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_A_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10072,
+        "daily_rows_sum": 10072
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_A",
+        "variant": "EARLY_LATE_150S_GAP10",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1755473999999999,
+        "missing_start_us": 1755474000000000,
+        "missing_last_us": 1755475140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_A_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_A_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10071,
+        "daily_rows_sum": 10071
+      }
+    },
+    {
+      "id": "calendar_path_v8_B",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "calendar_hash_v8_B",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "complete_variant_set_v8_B",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "only_explicit_train_OOS_and_observed_flow_v8_B",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "full_train_calendar_v8_B_LEAD_LAG_5M_5M",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_B",
+        "variant": "LEAD_LAG_5M_5M",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1758584399999999,
+        "missing_start_us": 1758584400000000,
+        "missing_last_us": 1758585540000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_B_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_B_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_B_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_B_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_B_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10040,
+        "daily_rows_sum": 10040
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_B",
+        "variant": "EARLY_LATE_150S_GAP5",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1758584399999999,
+        "missing_start_us": 1758584400000000,
+        "missing_last_us": 1758585540000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_B_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10048,
+        "daily_rows_sum": 10048
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_B",
+        "variant": "EARLY_LATE_150S_GAP10",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1758584399999999,
+        "missing_start_us": 1758584400000000,
+        "missing_last_us": 1758585540000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_B_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_B_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10051,
+        "daily_rows_sum": 10051
+      }
+    },
+    {
+      "id": "calendar_path_v8_C",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "calendar_hash_v8_C",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "complete_variant_set_v8_C",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "only_explicit_train_OOS_and_observed_flow_v8_C",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "full_train_calendar_v8_C_LEAD_LAG_5M_5M",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_C",
+        "variant": "LEAD_LAG_5M_5M",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1761089999999999,
+        "missing_start_us": 1761090000000000,
+        "missing_last_us": 1761091140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_C_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_C_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_C_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_C_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_C_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10029,
+        "daily_rows_sum": 10029
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_C",
+        "variant": "EARLY_LATE_150S_GAP5",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1761089999999999,
+        "missing_start_us": 1761090000000000,
+        "missing_last_us": 1761091140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_C_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10027,
+        "daily_rows_sum": 10027
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_C",
+        "variant": "EARLY_LATE_150S_GAP10",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1761089999999999,
+        "missing_start_us": 1761090000000000,
+        "missing_last_us": 1761091140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_C_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_C_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10014,
+        "daily_rows_sum": 10014
+      }
+    },
+    {
+      "id": "calendar_path_v8_D",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "calendar_hash_v8_D",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "complete_variant_set_v8_D",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "only_explicit_train_OOS_and_observed_flow_v8_D",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "full_train_calendar_v8_D_LEAD_LAG_5M_5M",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_D",
+        "variant": "LEAD_LAG_5M_5M",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1763249999999999,
+        "missing_start_us": 1763250000000000,
+        "missing_last_us": 1763251140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_D_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_D_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_D_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_D_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_D_LEAD_LAG_5M_5M",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_LEAD_LAG_5M_5M_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10053,
+        "daily_rows_sum": 10053
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_D",
+        "variant": "EARLY_LATE_150S_GAP5",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1763249999999999,
+        "missing_start_us": 1763250000000000,
+        "missing_last_us": 1763251140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_D_EARLY_LATE_150S_GAP5",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP5_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10064,
+        "daily_rows_sum": 10064
+      }
+    },
+    {
+      "id": "full_train_calendar_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": false,
+      "evidence": {
+        "fold": "v8_D",
+        "variant": "EARLY_LATE_150S_GAP10",
+        "complete_pre_validation_train_minutes": 17280,
+        "actual_train_minutes": 17260,
+        "missing_train_minutes": 20,
+        "fitting_cutoff_us": 1763249999999999,
+        "missing_start_us": 1763250000000000,
+        "missing_last_us": 1763251140000000,
+        "actual_OOS_minutes": 10080,
+        "expected_OOS_minutes": 10080
+      }
+    },
+    {
+      "id": "actual_cutoff_window_complete_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "fixed_maturity_deadline_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "validity_exactly_label_and_deadline_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "summary_counts_and_invalid_rows_retained_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "all_eight_pairs_no_OOS_selection_v8_D_EARLY_LATE_150S_GAP10",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_spot_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_BTCUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_BTCUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "pair_summary_and_train_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "id": "daily_summary_consistency_and_frozen_direction_v8_D_EARLY_LATE_150S_GAP10_perp_ETHUSDT_spot_ETHUSDT",
+      "passed": true,
+      "evidence": {
+        "days": 7,
+        "total_rows": 10059,
+        "daily_rows_sum": 10059
+      }
+    },
+    {
+      "id": "all_input_source_and_output_bytes_unchanged",
+      "passed": true,
+      "evidence": null
+    }
+  ],
+  "complete_TRAIN_missing_variant_rows": 240,
+  "calendar_gap_evidence": [
+    {
+      "fold": "v8_A",
+      "variant": "LEAD_LAG_5M_5M",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1755473999999999,
+      "missing_start_us": 1755474000000000,
+      "missing_last_us": 1755475140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_A",
+      "variant": "EARLY_LATE_150S_GAP5",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1755473999999999,
+      "missing_start_us": 1755474000000000,
+      "missing_last_us": 1755475140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_A",
+      "variant": "EARLY_LATE_150S_GAP10",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1755473999999999,
+      "missing_start_us": 1755474000000000,
+      "missing_last_us": 1755475140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_B",
+      "variant": "LEAD_LAG_5M_5M",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1758584399999999,
+      "missing_start_us": 1758584400000000,
+      "missing_last_us": 1758585540000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_B",
+      "variant": "EARLY_LATE_150S_GAP5",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1758584399999999,
+      "missing_start_us": 1758584400000000,
+      "missing_last_us": 1758585540000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_B",
+      "variant": "EARLY_LATE_150S_GAP10",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1758584399999999,
+      "missing_start_us": 1758584400000000,
+      "missing_last_us": 1758585540000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_C",
+      "variant": "LEAD_LAG_5M_5M",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1761089999999999,
+      "missing_start_us": 1761090000000000,
+      "missing_last_us": 1761091140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_C",
+      "variant": "EARLY_LATE_150S_GAP5",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1761089999999999,
+      "missing_start_us": 1761090000000000,
+      "missing_last_us": 1761091140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_C",
+      "variant": "EARLY_LATE_150S_GAP10",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1761089999999999,
+      "missing_start_us": 1761090000000000,
+      "missing_last_us": 1761091140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_D",
+      "variant": "LEAD_LAG_5M_5M",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1763249999999999,
+      "missing_start_us": 1763250000000000,
+      "missing_last_us": 1763251140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_D",
+      "variant": "EARLY_LATE_150S_GAP5",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1763249999999999,
+      "missing_start_us": 1763250000000000,
+      "missing_last_us": 1763251140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    },
+    {
+      "fold": "v8_D",
+      "variant": "EARLY_LATE_150S_GAP10",
+      "complete_pre_validation_train_minutes": 17280,
+      "actual_train_minutes": 17260,
+      "missing_train_minutes": 20,
+      "fitting_cutoff_us": 1763249999999999,
+      "missing_start_us": 1763250000000000,
+      "missing_last_us": 1763251140000000,
+      "actual_OOS_minutes": 10080,
+      "expected_OOS_minutes": 10080
+    }
+  ],
+  "findings": [
+    {
+      "id": "V8M-01",
+      "priority": "P2",
+      "status": "CONFIRMED_COMPLETE_CALENDAR_SCOPE_GAP",
+      "title": "Pre-validation TRAIN minute calendar is truncated at the fitting cutoff",
+      "source": "scripts/research_v8/nonoverlap_mechanism_v2.py",
+      "source_lines": [
+        106,
+        108,
+        163
+      ],
+      "contract_fields": [
+        "calendar",
+        "train_cutoff",
+        "P1_GATE_V8.folds"
+      ],
+      "actual_missing_variant_rows": 240,
+      "per_fold_per_variant_missing_minutes": 20,
+      "evidence": "All 12 fold/variant calendars omit the predetermined 20 minute interval before validation_start, keeping 17260 of the 17280 pre-validation TRAIN minutes. All 10080 OOS minutes are present. The existing pre-cutoff calendar retains invalid and immature labels and the statistics are independently consistent with only label_valid and deadline-eligible rows. The fitting cutoff should filter statistics while the complete TRAIN calendar retains these additional unscored minutes.",
+      "scope_consequence": "Do not accept a complete TRAIN calendar for V2. This is a calendar/output scope gap; it is not a new alpha-negative conclusion or an economic P1 failure.",
+      "required_fix": "Preserve V2 outputs, append an independently bound thin supplement of the missing 20 minutes per fold using unchanged V5 labels and source definitions. Keep original scored rows, direction and all statistics unchanged; independently verify the supplemented calendar."
+    }
+  ],
+  "acceptance_blocker_ids": [
+    "V8M-01"
+  ],
+  "limits": [
+    "The accepted 153-day source receipt and registered source-byte hashes are bound; raw source QA, label recomputation from raw bars and dataset-source hash reconstruction were not repeated.",
+    "Only the allowed V2 output calendars, all 96 registered descriptive pair summaries and their UTC daily statistics were inspected/recomputed.",
+    "No predictor, OOF surprise, matched direct-return executable ledger, benchmark, dependence correction, economic/statistical P1 gate or trading qualification is accepted.",
+    "Observed future flow remains a mechanism diagnostic; adjacent minute labels overlap and no IID p-value is accepted.",
+    "V2 calendar gap requires a preserved supplement; root confirmation of the ambiguity is not used to relabel the original incomplete scope as passed."
+  ],
+  "decision": "Preserve V2 source and output bytes with their actual successful process exit. Statistics and dependency bindings pass output checks within the recorded truncated TRAIN domain; block complete-calendar acceptance pending an independently verified thin supplement. Keep P1 NOT_READY and NO_QUALIFIED_CANDIDATE."
+}

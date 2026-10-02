@@ -1,0 +1,62 @@
+{
+  "version": "V8_NONOVERLAP_MECHANISM_20261002_V2",
+  "role": "OBSERVED_FLOW_NONOVERLAP_MECHANISM_DIAGNOSTIC_ONLY",
+  "objective": "risk-constrained net CAGR",
+  "candidate": "NONE",
+  "source_receipt": "reports/fast_research/V8_SHARED_SOURCE_VIEW_153D_20261002_V1.json",
+  "source_receipt_sha256": "dd931ce79f7f78e7e2c070f553077ffeca4ed73d7c0c0a1c744e4288d68f05cf",
+  "source_view_sha256": "9b5cedf83f1de618f642640740d9b8528a84a30af34968e94d20bba0a03a8ac9",
+  "label_contract": "protocols/LABEL_CONTRACT_V8.json",
+  "label_adapter": "scripts/research_v8/labels_v5.py",
+  "required_independent_label_audit_status": "PASS_CONTRACT_IMPLEMENTATION",
+  "fold_contract": "protocols/P1_GATE_V8.json",
+  "fold_contract_sha256": "dc252b0d0fcab18c1f0b784b55c0ff7dfee7e25222a866cbdacfb9ee5d1151e2",
+  "all_fold_ids": [
+    "v8_A",
+    "v8_B",
+    "v8_C",
+    "v8_D"
+  ],
+  "variants": [
+    "LEAD_LAG_5M_5M",
+    "EARLY_LATE_150S_GAP5",
+    "EARLY_LATE_150S_GAP10"
+  ],
+  "primary_pairs": [
+    [
+      "spot_BTCUSDT",
+      "spot_BTCUSDT"
+    ],
+    [
+      "spot_ETHUSDT",
+      "spot_ETHUSDT"
+    ]
+  ],
+  "secondary_pairs": "All remaining four registered flow streams by two registered Spot return streams; never pick a winning pair or target from OOS results.",
+  "calendar": "Every minute of TRAIN and OOS_SCREENING; preserve invalid future labels and report them. Do not use future validity as online eligibility. Validation is not inspected in this mechanism diagnostic.",
+  "training_direction": "Sign of TRAIN Spearman correlation, determined once separately for every predeclared pair/variant/fold. Constant or insufficient train input gives unknown direction; do not flip using OOS.",
+  "train_cutoff": "validation_start minus embargo minus max nominal label lag minus one microsecond; only TRAIN labels mature by this cutoff enter descriptive fit-period statistics.",
+  "test_maturity": "Only labels mature by the predeclared exclusive test end enter descriptive outcome statistics. Tail minutes remain in the calendar as invalid or immature.",
+  "metrics": [
+    "valid/minute counts",
+    "Pearson correlation",
+    "Spearman correlation",
+    "train-signed mean subsequent return bps",
+    "UTC daily versions of the same statistics",
+    "OOS sign agreement"
+  ],
+  "statistics": "Official scipy.stats Pearson/Spearman implementation; their IID p-values are discarded. Correlations and signed response are descriptive only. No DSR/SPA/CSCV/PBO or dependence-aware confidence interval is claimed.",
+  "economic_fields": "net CAGR, gross/net executed edge, strongest benchmark delta, break-even transaction cost and concentration of executed PnL are null: no strategy or executable-price ledger is constructed here.",
+  "model_fits": 0,
+  "hyperparameter_search": false,
+  "locked_holdout_allowed": false,
+  "real_money_allowed": false,
+  "GPU_allowed": false,
+  "P1_pass_allowed_from_this_diagnostic": false,
+  "reopen_deep_allowed_from_this_diagnostic": false,
+  "budget": "One deterministic run of all four fixed folds and all three fixed variants; no outcome-driven rerun. Each investigated pair is reported and counted as a descriptive hypothesis, not silently collapsed to a single trial.",
+  "previous_protocol_sha256": "c291b6674ebebddc5ad3d87a2cf27d063f7abe6a63ad6b0c32e26a9cc0dbf44f",
+  "audit_source_binding_field": "verified_source_hashes",
+  "implementation": "scripts/research_v8/nonoverlap_mechanism_v2.py",
+  "implementation_change": "Only independent-audit receipt key and version/path bindings change; all windows/folds/metrics/thresholds are identical."
+}
