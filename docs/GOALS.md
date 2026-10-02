@@ -8,6 +8,6 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-当前阶段：Bybit普通现货费用资产兼容与六个固定2h控制账户，见
-[本轮实际经济影响](BYBIT_SPOT_NATIVE_FEE_ECONOMICS_20261002.md)。
-固定2h入场/1h退出已完成信号验收，经济运行尚未启动；以当前状态和逐项凭证为准。
+当前阶段：Bybit普通现货费用标准已采用，固定2h入场/1h退出六新账户已实测与独立验收，见
+[本轮共同经济比较](PUBLIC_DONCHIAN_HYBRID_NATIVE_FEE_ECONOMICS_20261002.md)。
+两段正负反转，没有统一盈利赢家；下一项固定公开RSI2入场假说，先核官方依赖兼容。

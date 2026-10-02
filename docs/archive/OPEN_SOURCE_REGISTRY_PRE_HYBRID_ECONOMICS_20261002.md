@@ -35,21 +35,16 @@
 独立15账本限定精确Parquet/逻辑绑定，原内存IPC指纹未重现，初次FAIL保留。
 Jesse原策略、指标及MIT许可无新改动；用户新增Bybit费用基准不改写上述Binance代理结果。
 
-### Bybit费用资产与固定hybrid增量（D017–D020）
+### Bybit费用资产与固定hybrid增量（D017–D018）
 
 第三方仍为上列两个固定Jesse commit/MIT，原上游文件与许可证零修改，无新增依赖。
 新本地`public_donchian_hybrid.py`（SHA `80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68`）
-只复用原hook/闭合K线及共同目标格式，固定2h入场/1h退出；7项旧信号验收凭证直接复用，
-新增一个native费用联合用例通过，六新实际账户及独立数学/因果核验完成。122日恶化、90日改善，
-暂停此固定配方，未采用为盈利主力。[规则](PUBLIC_DONCHIAN_HYBRID_FIXED_TARGET_20261002.md)与
-[实际经济比较](PUBLIC_DONCHIAN_HYBRID_NATIVE_FEE_ECONOMICS_20261002.md)。common/core/fee/hybrid源无新改动。
+只复用原hook/闭合K线及共同目标格式，固定2h入场/1h退出；7项合成信号验收通过，
+经济尚未运行，不是新盈利方案。[规则与修改](PUBLIC_DONCHIAN_HYBRID_FIXED_TARGET_20261002.md)。
 Bybit费用资产adapter来自本项目冻结backtest与execution.py commissionAsset语句，
 属于本地复用，无新增第三方模型框架；六个2h费用控制账本通过限定金融核验，原盈利结论不变。
 本次增量前登记表精确字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_BYBIT_HYBRID_20261002.md`，
 SHA `67b1d5e77a7ba0b2d595bac50429522848c0e89053966b1585f344d5770174e0`。
-本轮经济登记前原表精确字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_HYBRID_ECONOMICS_20261002.md`，
-SHA `f77aec85bf0ddf442fe7f1b23c8911c43b5f2784e7fbc5f41b1638086defdb4e`。
-下一公开RSI2仅浏览同pin官方策略原文，未vendor/安装/运行；需先复用成熟官方RSI依赖及核兼容。
 
 ## 当前集成增量（FR66/FR67/FR68）
 
