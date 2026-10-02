@@ -1,0 +1,267 @@
+{
+  "status": "PASS_READ_ONLY_L1_AND_MINUTE_LIVENESS_SNAPSHOT",
+  "measured_utc": "2026-10-02T09:29:45.326151+00:00",
+  "conditions": {
+    "original_l1_process_identity": true,
+    "original_l1_task_running": true,
+    "original_l1_new_session_connected": true,
+    "original_l1_source_bytes": true,
+    "minute_running_source_matches": true,
+    "restart_stderr_empty": true
+  },
+  "processes": {
+    "2453": {
+      "pid": 2453,
+      "live": true,
+      "state": "S",
+      "start_ticks": 395718,
+      "command": ".venv/bin/python -u -m quant.microstructure --run ",
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r1a11af5e579947a4933752b37de2c2e1.scope\n"
+    },
+    "540": {
+      "pid": 540,
+      "live": true,
+      "state": "S",
+      "start_ticks": 29299,
+      "command": ".venv/bin/python -u -m quant.collector_public_v3 --run ",
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r0c93036a019e40d28bf55d2208271bc4.scope\n"
+    },
+    "384": {
+      "pid": 384,
+      "live": true,
+      "state": "S",
+      "start_ticks": 528,
+      "command": "/usr/bin/python3 /mnt/d/codex/coin/.cache/serve_task_progress_v2.py ",
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r28d52a3576a340b1b8c13303240b5314.scope\n"
+    }
+  },
+  "l1_task_snapshot": {
+    "id": "7ed0a9c3456b4d90a947a217d1dd4906",
+    "title": "V8原源码L1公开采集恢复 · 时钟断档新会话V2",
+    "status": "running",
+    "started_at": 1790927975.8625197,
+    "phase": "运行中",
+    "completed": null,
+    "total": null,
+    "unit": "",
+    "metrics": {},
+    "children": [],
+    "pid": 2453,
+    "last_activity_at": 1790927975.8667643,
+    "start_ticks": 395718
+  },
+  "l1_status": {
+    "module": "A07",
+    "state": "CONNECTED",
+    "binding": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "mode": "live",
+      "store": "/mnt/d/codex/coin/data/microstructure_v1",
+      "version": "microstructure_l1_v1"
+    },
+    "checkpoint": {
+      "accepted_events": 1224604,
+      "asof_us": 1790933385034076,
+      "connected": true,
+      "duplicate_events": 0,
+      "ids": {
+        "BTCUSDT:quote": {
+          "hash": "4f74999a18fe539ed29a2a82d7a3624e269c1c4b04187579981e451d0fa51c4f",
+          "id": 100966746040,
+          "received_us": 1790933384981781
+        },
+        "BTCUSDT:trade": {
+          "hash": "cd005c6f7e85400409e98ab720873bd93c132e661b6be491d409ebf6dd469079",
+          "id": 4079261339,
+          "received_us": 1790933384982143
+        },
+        "ETHUSDT:quote": {
+          "hash": "4bf3617eefb4fd9b3dd7f93c5edc03bfc58c582667029c72be8c5000e01ad757",
+          "id": 81686406492,
+          "received_us": 1790933384853884
+        },
+        "ETHUSDT:trade": {
+          "hash": "d763b2e5dc5f796f8932bd686a776ee51b25ae39164b38da9229f95409363372",
+          "id": 2093576798,
+          "received_us": 1790933383650702
+        }
+      },
+      "last_received_us": 1790933384982143,
+      "mode": "live",
+      "observed_monotonic_seconds": 5314.568338075,
+      "rejected_events": 0,
+      "session": "6ba28c2935bc4c858f988ac62cd5a6da"
+    },
+    "feature_bytes": 37920993,
+    "feature_rows": 285260,
+    "audit_head": "9261195d8a8c3ea8786cdf7b6d54e95dd4ea318de58b4d385ece93f50c87c7f5",
+    "last_audit": {
+      "kind": "RAW_PRUNED",
+      "payload": {
+        "bytes": 91759,
+        "count": 1,
+        "latest_us": 1790846930901847,
+        "oldest_us": 1790846930901847
+      }
+    },
+    "read_only": true,
+    "alpha_eligible": false,
+    "real_time_days_certified": 0
+  },
+  "l1_audit_tail_snapshot": [
+    {
+      "seq": 1430,
+      "received_us": 1790933331059690,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":91759,\"count\":1,\"latest_us\":1790846930901847,\"oldest_us\":1790846930901847}",
+      "previous_sha": "a7bf6de6482368855e7a58a8e6801255d8a93224a9b6be38afc805fff49d11d8",
+      "sha256": "9261195d8a8c3ea8786cdf7b6d54e95dd4ea318de58b4d385ece93f50c87c7f5"
+    },
+    {
+      "seq": 1429,
+      "received_us": 1790933271064326,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":185844,\"count\":1,\"latest_us\":1790846870798391,\"oldest_us\":1790846870798391}",
+      "previous_sha": "f126632bdfb5d009b788cb2932d777568970dd699428c7ff451929df252896d2",
+      "sha256": "a7bf6de6482368855e7a58a8e6801255d8a93224a9b6be38afc805fff49d11d8"
+    },
+    {
+      "seq": 1428,
+      "received_us": 1790933211135995,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":148971,\"count\":1,\"latest_us\":1790846810625775,\"oldest_us\":1790846810625775}",
+      "previous_sha": "d8a58e940330f3b937f6e42016d094d62e6e18e11836f7b07d70ee319dfd90ec",
+      "sha256": "f126632bdfb5d009b788cb2932d777568970dd699428c7ff451929df252896d2"
+    },
+    {
+      "seq": 1427,
+      "received_us": 1790933151174474,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":91949,\"count\":1,\"latest_us\":1790846750561028,\"oldest_us\":1790846750561028}",
+      "previous_sha": "e60f5e58bcfccfe92f31ed898ed894e1a26657dae4154cde6df97ef292471e2f",
+      "sha256": "d8a58e940330f3b937f6e42016d094d62e6e18e11836f7b07d70ee319dfd90ec"
+    },
+    {
+      "seq": 1426,
+      "received_us": 1790933091010741,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":125489,\"count\":1,\"latest_us\":1790846690431425,\"oldest_us\":1790846690431425}",
+      "previous_sha": "c8d4602946f9af778f66702646f8bee417e27a8c01e72e504dedde8d2ef2b148",
+      "sha256": "e60f5e58bcfccfe92f31ed898ed894e1a26657dae4154cde6df97ef292471e2f"
+    },
+    {
+      "seq": 1425,
+      "received_us": 1790933031016859,
+      "kind": "RAW_PRUNED",
+      "payload": "{\"bytes\":142566,\"count\":1,\"latest_us\":1790846630411801,\"oldest_us\":1790846630411801}",
+      "previous_sha": "9a46e8d159ef39fd221596b7eaa69dcfb278b16f08dc7b48305db85aee34f1b5",
+      "sha256": "c8d4602946f9af778f66702646f8bee417e27a8c01e72e504dedde8d2ef2b148"
+    }
+  ],
+  "minute_status": {
+    "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+    "public_version": "collector_public_v3",
+    "read_only": true,
+    "financial_accounts": false,
+    "credentials_used": false,
+    "orders_sent": 0,
+    "alpha_eligible": false,
+    "qualified_72h": null,
+    "qualification_scope": "NOT_CERTIFIED_BY_THIS_SNAPSHOT",
+    "state": "RUNNING",
+    "sampled_ms": 1790933385182,
+    "stored_source_matches_current": true,
+    "contract": {
+      "credentials": false,
+      "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+      "disk_hard_bytes": 40000000000,
+      "engineering": false,
+      "financial_accounts": false,
+      "gpu": false,
+      "interval": "1m",
+      "orders": false,
+      "ram_shared_max_bytes": 5000000000,
+      "rest_base": "https://data-api.binance.vision",
+      "scope": "public_market_data_only",
+      "sources": {
+        "pyproject.toml": "bb863f68ce4187e3a23a4b6ef22dad24962c0bf8fe2a7e88fbc3ac3d0c14f69d",
+        "scripts/bounded.sh": "93f6ef9767fa67cc14c6a4a0495c7b2c4e7753c52b1f945988898f45c91843aa",
+        "scripts/collector_public_v3.ps1": "fe3807c797567057bea99f5700e131588bd2eee2e0c3a76340d941541b511674",
+        "scripts/collector_public_v3.sh": "c5b782e8d67aa9096dfec206ebf6e87702ca5b0118f77d7bf9dd903ea2986ea8",
+        "scripts/env.sh": "8761ed858db1561b3d27d271e4e44a3e083986179222ad83d25b5cdf4df5906c",
+        "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+        "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+        "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+        "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+        "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+        "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+        "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+        "uv.lock": "3db962663090852884ff02910bd64879aa475c2a7be12d16eb90e45d593cd49e"
+      },
+      "stream_url": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker",
+      "swap_bytes": 0,
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "version": "collector_public_v3",
+      "versions": {
+        "httpx": "0.28.1",
+        "numpy": "2.5.3",
+        "python": "3.12.3",
+        "sqlite": "3.45.1",
+        "websockets": "16.1.1"
+      }
+    },
+    "contract_sha256": "67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873",
+    "lifecycle_head": "27523539ceae7069209b3a0de15c4d88f724e560e443a4af716c430165986876",
+    "session": {
+      "id": 5,
+      "started_ms": 1790919439119,
+      "ended_ms": null,
+      "state": "RUNNING",
+      "heartbeat_ms": 1790933384614,
+      "healthy_seconds": 8868.38857822,
+      "observed_seconds": 9031.627824299,
+      "healthy_since_ms": 1790925764333,
+      "clock_offset_ms": -58.0,
+      "last_error": "no close frame received or sent",
+      "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker"
+    },
+    "symbols": {
+      "BTCUSDT": {
+        "total": 2198,
+        "websocket": 1772,
+        "rest": 426,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1790933280000,
+        "last_websocket_received_ms": 1790933340345
+      },
+      "ETHUSDT": {
+        "total": 2198,
+        "websocket": 1772,
+        "rest": 426,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1790933280000,
+        "last_websocket_received_ms": 1790933340347
+      }
+    },
+    "unresolved_gaps": 0
+  },
+  "script_sha256": "2ac53e556299da8c7ca8ba79780c41a71f47688a96f0045d677503c8b5515c65",
+  "read_only_collector_access": true,
+  "collector_restarted": false,
+  "clock_modified": false,
+  "healthy_time_spliced": false,
+  "qualification": "NOT_CERTIFIED_BY_THIS_SNAPSHOT",
+  "alpha_eligible": false,
+  "real_time_days_certified": 0,
+  "model_fits": 0,
+  "orders_sent": 0
+}

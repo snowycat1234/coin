@@ -1,0 +1,236 @@
+{
+  "status": "PUBLIC_L1_RECOVERED_NEW_SESSION_SOURCE_PREFIX_VERIFIED",
+  "created_utc": "2026-10-02T08:01:28.636425+00:00",
+  "preservation_path": "/home/xflops/coin-state/v8-l1-clock-preservation-20261002-v2/PRESERVATION.json",
+  "preservation_sha256": "f1a53d80ed8f8fb8ba622728b24d6869149f60cbc8c166170e1303717004a531",
+  "helper_path": "/mnt/d/codex/coin/.cache/v8_verify_l1_recovery_20261002_v2.py",
+  "helper_sha256": "4d5bb3f4caab669e590188f9c52c765fd0758878bfb3172177fc8aed02dd1bf6",
+  "restart_wrapper_path": "/mnt/d/codex/coin/.cache/v8_restart_l1_20261002_v2.sh",
+  "restart_wrapper_sha256": "19793a162bd23dee5e0fbf9d5ed484306e9265d4892908c6d1512f4e4615f76c",
+  "process": {
+    "pid": 2453,
+    "command": ".venv/bin/python -u -m quant.microstructure --run ",
+    "start_ticks": 395718,
+    "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r1a11af5e579947a4933752b37de2c2e1.scope"
+  },
+  "original_exit_code": 1,
+  "cause": "Actual exit 1; CLOCK_INCIDENT audit and Receipt clock incident requires restart traceback.",
+  "original_clock_incident": {
+    "seq": 1317,
+    "received_us": 1790925704827478,
+    "kind": "CLOCK_INCIDENT",
+    "payload": {
+      "previous_us": 1790920774928885,
+      "wall_us": 1790925704827412
+    },
+    "previous_sha": "a23bee4578305991fb17cce777a2784c317dc000ca2c68515b9277f974f210d4",
+    "sha256": "7b06fc00856f91146b0110c16db11552a17995a1d1fb450f8092d7d960a8790d"
+  },
+  "old_checkpoint": {
+    "accepted_events": 298714,
+    "asof_us": 1790925702855739,
+    "connected": false,
+    "duplicate_events": 0,
+    "ids": {
+      "BTCUSDT:quote": {
+        "hash": "74047f549eff1c02c85581791b14f1262d7589473f3f40afe146d60bfe752e6e",
+        "id": 100959620979,
+        "received_us": 1790920774928825
+      },
+      "BTCUSDT:trade": {
+        "hash": "ebc4c90fc07a0e2c3bbd41a3a752cc9161ddca2f50294d27e8acab02ea912618",
+        "id": 4079117143,
+        "received_us": 1790920774202071
+      },
+      "ETHUSDT:quote": {
+        "hash": "e0a5038749d789b6a6c522d2ec2ac143dc9a57868b4eb949e36ef3010c552a26",
+        "id": 81680638507,
+        "received_us": 1790920774445076
+      },
+      "ETHUSDT:trade": {
+        "hash": "d83da8ed207fe55fe15798e7c2c25db52285417b3667aa5744432e9a4df47d03",
+        "id": 2093450505,
+        "received_us": 1790920772561178
+      }
+    },
+    "last_received_us": 1790920774928825,
+    "mode": "live",
+    "observed_monotonic_seconds": 1352.3996583449998,
+    "rejected_events": 0,
+    "session": "dc77843136a94e4cabf36fd0fbe7a10f"
+  },
+  "old_audit_head": {
+    "seq": 1320,
+    "received_us": 1790925709871757,
+    "kind": "STOP",
+    "sha256": "1027ece38191d45c87f69e030372e1ee44ec01f89a0ec7f5b6e05fd026575d58"
+  },
+  "snapshot_audit_head": {
+    "seq": 1326,
+    "received_us": 1790928079828589,
+    "kind": "AGG_ID_GAP",
+    "sha256": "2673aaa286151107102e7b05baaf4ee270ca946458ed9f13fdbc54f4f3901652"
+  },
+  "exact_old_audit_prefix_rows": 1320,
+  "exact_old_manifest_prefix_rows": 744,
+  "old_feature_actual_sha256_verified_again": true,
+  "new_session_audit": {
+    "seq": 1321,
+    "received_us": 1790928077925201,
+    "kind": "SESSION",
+    "payload": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade",
+      "mode": "live",
+      "schema_sha256": "721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0",
+      "session": "6ba28c2935bc4c858f988ac62cd5a6da",
+      "source_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "version": "microstructure_l1_v1"
+    },
+    "previous_sha": "1027ece38191d45c87f69e030372e1ee44ec01f89a0ec7f5b6e05fd026575d58",
+    "sha256": "d65e57a74b6f6c13ffddcaf35eed7b761b338ae415fff06160a6639a00e1ac85"
+  },
+  "restart_gap_audit": {
+    "seq": 1322,
+    "received_us": 1790928077925300,
+    "kind": "RESTART_GAP",
+    "payload": {
+      "end_us": 1790928077925295,
+      "start_us": 1790925702855739,
+      "uncommitted_tail_unknown": true
+    },
+    "previous_sha": "d65e57a74b6f6c13ffddcaf35eed7b761b338ae415fff06160a6639a00e1ac85",
+    "sha256": "7a91e9cb025f79611034fa9e164453dec99316c49f59b407c8f8abf2f94a7a24"
+  },
+  "restart_gap_seconds": 2375.069556,
+  "microstructure": {
+    "module": "A07",
+    "state": "CONNECTED",
+    "binding": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "mode": "live",
+      "store": "/mnt/d/codex/coin/data/microstructure_v1",
+      "version": "microstructure_l1_v1"
+    },
+    "checkpoint": {
+      "accepted_events": 117,
+      "asof_us": 1790928080004938,
+      "connected": true,
+      "duplicate_events": 0,
+      "ids": {
+        "BTCUSDT:quote": {
+          "hash": "091ce34c67fb298c1a419f210dad03985ee0876b52bf5cec608f6ec5cf766b71",
+          "id": 100963702220,
+          "received_us": 1790928079992638
+        },
+        "BTCUSDT:trade": {
+          "hash": "0591e38735adfc0182bf557fd975b5f263964440f4fe6aa70b0c823ad870e449",
+          "id": 4079196537,
+          "received_us": 1790928079868536
+        },
+        "ETHUSDT:quote": {
+          "hash": "5475d9bd61f1d1eb9ce2f45ef66da81fed85a555d1d52af79813a81bdda7363a",
+          "id": 81683511464,
+          "received_us": 1790928079960271
+        },
+        "ETHUSDT:trade": {
+          "hash": "e16a76ba5be52118cb03ea9df04a6d1991e07154b3036a6c99453677923d3114",
+          "id": 2093502228,
+          "received_us": 1790928079871809
+        }
+      },
+      "last_received_us": 1790928079992638,
+      "mode": "live",
+      "observed_monotonic_seconds": 9.539725469000132,
+      "rejected_events": 0,
+      "session": "6ba28c2935bc4c858f988ac62cd5a6da"
+    },
+    "feature_bytes": 36255968,
+    "feature_rows": 273248,
+    "audit_head": "2673aaa286151107102e7b05baaf4ee270ca946458ed9f13fdbc54f4f3901652",
+    "last_audit": {
+      "kind": "AGG_ID_GAP",
+      "payload": {
+        "from": 2093450505,
+        "from_received_us": 1790920772561178,
+        "symbol": "ETHUSDT",
+        "to": 2093502227,
+        "to_received_us": 1790928079828589
+      }
+    },
+    "read_only": true,
+    "alpha_eligible": false,
+    "real_time_days_certified": 0
+  },
+  "new_task": {
+    "id": "7ed0a9c3456b4d90a947a217d1dd4906",
+    "title": "V8原源码L1公开采集恢复 · 时钟断档新会话V2",
+    "status": "running",
+    "started_at": 1790927975.8625197,
+    "phase": "运行中",
+    "completed": null,
+    "total": null,
+    "unit": "",
+    "metrics": {},
+    "children": [],
+    "pid": 2453,
+    "last_activity_at": 1790927975.8667643,
+    "start_ticks": 395718
+  },
+  "other_processes_unchanged": [
+    {
+      "pid": 540,
+      "command": ".venv/bin/python -u -m quant.collector_public_v3 --run ",
+      "start_ticks": 29299,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r0c93036a019e40d28bf55d2208271bc4.scope"
+    },
+    {
+      "pid": 384,
+      "command": "/usr/bin/python3 /mnt/d/codex/coin/.cache/serve_task_progress_v2.py ",
+      "start_ticks": 528,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r28d52a3576a340b1b8c13303240b5314.scope"
+    }
+  ],
+  "prelaunch_disk": {
+    "project_bytes": 4071630998,
+    "wsl_vhd_bytes": 12041846784,
+    "total_bytes": 16113477782,
+    "reserved_bytes": 1000000000,
+    "d_free_bytes": 364151009280,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-02T07:58:33.852616+00:00",
+    "elapsed_seconds": 73.55899089800005
+  },
+  "disk_measurement_is_prelaunch_not_current": true,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 895643648,
+    "ram_peak_bytes": 2657411072,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "frozen_source_changed": false,
+  "source_version_switch": false,
+  "healthy_gap_splicing": false,
+  "collector_restart_only": true,
+  "real_time_days_certified": 0,
+  "alpha_eligible": false,
+  "qualified_candidate": "NONE",
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "gpu_hours": 0
+}
