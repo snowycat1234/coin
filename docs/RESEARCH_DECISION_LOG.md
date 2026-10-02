@@ -343,3 +343,47 @@
 - 协议冻结helper首次因旧报告字段KeyError在0协议写/0价格读取时exit1，V2仅修metadata字段；
   双源码与退出保留。审计出口两次Windows invocation/JSON解码失败无金融复测，原checker
   字节及最终真实exit0凭证保留；不重写原失败或把元数据失败当策略数学失败。
+
+### D021：固定公开RSI2入场假说，先核成熟kernel后共同比较（结果前）
+
+- 当前盈利主力NONE；hybrid跨期反转，继续搜退出周期的信息价值较低。只选固定MIT Jesse
+  RSI2 long-only1h，检验趋势内回撤入场能否提供不同于突破的毛收益来源并覆盖现货成本。
+  close>SMA200且RSI2≤10入场，held且close>SMA5退出；原wholebalance不移植，仍common sizing。
+- 同官方example-strategies7c91原hook及Jesse417f官方RSI wrapper/kernel，依赖版本依据该pin
+  requirements。未知seed/flat/warmup先通过官方成熟库实际核验，禁止手写Wilder/RSI。
+  优先按官方scalar观察窗口每个完整hour调用，不以未验证fullprefix向量代替截断语义；
+  连续可用预热门槛取实际官方窗口，31日过去源足够。先保存许可证/版本/工件hash。
+- 第一轮最多一个配方、0fit/HPO，两段已见122/90日各3成本新账户；旧native2h和hybrid只
+  复用JSON摘要。与control同source Parquet/physicalArrow、10k资金、31日预热、风险规则、
+  延迟/容量/lot、Bybit非VIP10bp/side原生费用；30bp主参照与32/36bp全部保留。
+  两段不拼接、不按结果挑月份/成本/threshold；非unseen或长期净APR资格。
+- common只追加策略ID及薄路由，原bff源码精确归档后演进；core/native费用/旧信号和冻结
+  证据不改。唯一新合成test覆盖官方目标→费用→分钟账本/前缀/非空成交；旧绿不重跑。
+  固定入场信息不同可重开均值回归研究能力，不等于重启旧失败的MR配方或盈利部署。
+- 新库增量放D承载STATE，clean env/uv.lock不变；共享RAM≤5GB/swap0/noGPU、每窗≤512MB
+  工件/≤1hCPU、项目+整个VHD40GB及32/36GB阈值继续。无locked/key/funds。
+
+### D022：RSI2高换手且毛优势不足，暂停固定配方并检查资金费收入机制
+
+- 固定RSI2六新账户、一次独立金融／完整因果目标核验及根验收真实退出0。30/32/36bp：
+  122日net−5.7930／−6.1457／−6.8512%，90日−7.3942／−7.5818／−7.9569%。
+  主30bp同净收到库存gross−31.28／−450.81USDT、总成本548.01／288.61；7个月net全负。
+  前段主要成本损耗，后段还存在明显毛损失，不能简单归因费率或把perp低费率移植Spot。
+  turnover37.53／20.01、fills544／396；实现年化vol3.005／3.849%而分钟MDD5.896／7.528%。
+  共同资金／约束不代表等实现风险；入场与SMA5退出联合变化不是纯入口因果消融。
+- 采用MIT官方kernel与比较能力，暂停本固定RSI2配方／继续周期阈值搜索；盈利主力NONE。
+  Reopen需新独立时间或信息支持毛优势与充分成本余量并事先冻结；保留能力和全部阴性证据。
+  旧native2h/hybrid仅静态摘要，旧绿色不重跑；新集成只1case，市场6新，0fit/HPO。
+  两段仍已见SCREENING，不拼接、不按月份挑策略、不消费locked、不推导长期净APR。
+- 原官方wrapper默认240bar scalar语义实测，fullprefix反例100vs33.333；不自写RSI。
+  官方1.3.0 wheel与NumPy2.5.3／Python3.12 ABI通过；D承载STATE增量约2.54MB、env/uv.lock不改。
+  common原bff字节归档后仅新ID／三行路由，core/nativefee/旧信号保持。安装两次实际exit1：
+  LICENSE握手超时与错误sdist rsi.rs路径假设；只恢复缺项／使用真实oscillators.rs，失败不覆盖。
+  新协议10月2日UTC冻结，北京时间10月3日完成；根fcbc823e、audit36ae8d6d实际退出0。
+- 下一选一次funding-only两腿成本可行性诊断，先核官方rate单位／符号／calc_time事件定义，
+  再用已验收8份funding档（Binance BTC/ETH、2025年8–11月、732事件）固定全122日与分月。
+  不做未来高费窗口筛选／signal／NAV回测；没有可认证availability，不能把calc_time当信号时点。
+  Bybit NonVIP Spot10bp＋perp taker5.5bp每side，各开平一次名义fee-only31bp／匹配单腿金额。
+  先看是否存在覆盖双腿成本的收入余量；若连门槛不足，避免建carry engine。若足够，仅支持
+  补相应venue可成交basis／event-charge-mark／资本保证金信息，不证明净APR或Bybit收入。
+  资金占用、hedge净数量、清算／ADL、摩擦未闭合；两腿不能双计总本金。保持5GB／40GB／GPU0边界。

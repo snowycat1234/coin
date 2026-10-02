@@ -8,24 +8,6 @@
 | https://github.com/jesse-ai/jesse | `417f8765225e3bfc12043d4b712f19fe15a3c078`／MIT | PINNED：仅原Donchian指标及MIT原字节；复用其nonsequential NumPy分支。未安装Jesse／Rust框架，最小context port提供已观察candle及SMA200 NumPy reduction；所有改动与逐字节摘要见上述目录`UPSTREAM.md`。 |
 
 本轮参数在收益运行前固定，不根据上游展示收益或本轮结果选择。
-
-### 固定公开RSI2与官方Rust依赖登记（D021，结果前登记，D022已验收）
-
-| repo／发行源 | 固定commit／version／许可 | 用途与本地修改 |
-|---|---|---|
-| https://github.com/jesse-ai/example-strategies | `7c91e0a37bf62165790120d730442e4f6eb00364`／MIT | RSI2原hook保持字节，long-only1h、2/5/200/10固定；原wholebalance/short不移植，common资金风险与费用。已完成六实际账户及独立审计，固定配方净负暂停，研究能力保留。 |
-| https://github.com/jesse-ai/jesse | `417f8765225e3bfc12043d4b712f19fe15a3c078`／MIT | 复用原RSI wrapper与官方helpers截尾语义；默认nonsequential240bar是上下文配置，与SMA200参数不同。原文件不改，不安装完整框架。 |
-| https://github.com/jesse-ai/jesse-rust / https://pypi.org/project/jesse-rust/1.3.0/ | `1.3.0`／MIT，配套上述requirements | ADOPTED_OFFICIAL_KERNEL：cp312 Linux wheel独立置D承载STATE，wheel SHA `65c0e9edd3af5397642ca417da2ef7c23f311d6fa2bf6a2d46c729f656528cee`；原wrapper/helpers/Rust源保留字节。不改旧env或手写RSI；Python3.12/NumPy2.5.3 ABI、scalar240/seed/flat实际验收通过，安装约2.54MB。 |
-
-版本/许可在下载执行前登记于`third_party/jesse_example_rsi2/DOWNLOAD_PREBIND_20261002_V1.json`。
-首次raw官方LICENSE握手超时退出1，未安装wheel或调用kernel；沿用同pin已有许可证后仅恢复失败项。
-本轮登记前原表完整字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_RSI2_20261002.md`。
-第二次安装因假设`rsi.rs`路径而失败，官方sdist实际为`src/oscillators.rs`；复用既有wheel/sdist恢复，失败报告与helper原字节保留。
-最终依赖与synthetic语义实际退出0，唯一新增集成1case及六新proxy账本独立审计完成。
-COIN只增加薄指标／目标adapter与common策略ID／三行路由；MIT rawhooks/wrapper/helper/kernel零修改。
-状态为**ADOPTED_RESEARCH_CAPABILITY_ONLY / PAUSED_FIXED_RSI2_RECIPE**，不是原Jesse全仓复刻或盈利资格。
-见[实际经济比较](PUBLIC_RSI2_NATIVE_FEE_ECONOMICS_20261002.md)、`RSI2_OFFICIAL_KERNEL_ACTUAL_EXIT_20261002_V1.json`与新根验收。
-
 共同策略72个实际账本与独立资金/风险复核已通过，状态为 **ADOPTED_PROXY_SCREENING_ONLY**。
 根验收 `INVESTMENT_COMPARISON_ROOT_MODULE_ACCEPTANCE_20261002_V1.json`；
 随后连续122日已完成，原30/32/36bp情景均净负；1h保留为防御研究参照，
@@ -67,7 +49,7 @@ Bybit费用资产adapter来自本项目冻结backtest与execution.py commissionA
 SHA `67b1d5e77a7ba0b2d595bac50429522848c0e89053966b1585f344d5770174e0`。
 本轮经济登记前原表精确字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_HYBRID_ECONOMICS_20261002.md`，
 SHA `f77aec85bf0ddf442fe7f1b23c8911c43b5f2784e7fbc5f41b1638086defdb4e`。
-D020时下一公开RSI2仅浏览同pin原文；该结果前状态现由上方D021–D022实际安装／六账户证据更新。
+下一公开RSI2仅浏览同pin官方策略原文，未vendor/安装/运行；需先复用成熟官方RSI依赖及核兼容。
 
 ## 当前集成增量（FR66/FR67/FR68）
 

@@ -8,6 +8,6 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-本轮：Bybit费用标准下固定hybrid122/90日各三种成本新账户完成并独立验收；
-[结果与独立验收入口](PUBLIC_DONCHIAN_HYBRID_NATIVE_FEE_ECONOMICS_20261002.md)。
-122日恶化而90日改善，当前无盈利候选。暂停此固定配方的周期调参；下项固定公开RSI2趋势回撤假说。
+本轮：Bybit费用标准下固定RSI2 122/90日各三成本账户、官方kernel／因果集成与独立验收完成；
+[结果与证据入口](PUBLIC_RSI2_NATIVE_FEE_ECONOMICS_20261002.md)。
+六账户均负；122日主要成本消耗、90日还缺毛收益。当前无盈利候选，暂停固定配方及调参；下项资金费两腿成本诊断。

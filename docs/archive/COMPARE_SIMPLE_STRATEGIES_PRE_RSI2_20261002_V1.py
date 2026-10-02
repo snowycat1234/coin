@@ -38,7 +38,7 @@ from scripts.research_v7.oracle_flow_ceiling import Progress
 PROTOCOL = ROOT / "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json"
 SYMBOLS = ("BTCUSDT", "ETHUSDT")
 STRATEGIES = ("CASH", "SPOT_BUY_AND_HOLD", "VOL_MANAGED_BUY_AND_HOLD", "FIXED_TREND", "FIXED_MEAN_REVERSION", public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID,
-    "COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER", "COIN_JESSE_RSI2_1H_SPOT_ADAPTER")
+    "COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER")
 file_sha = benchmarks.file_sha
 START, LOCKED = date(2025, 7, 1), date(2026, 3, 1)
 SOURCE_SCOPES = {
@@ -512,9 +512,6 @@ def research(spec, source, work, progress, report):
             elif strategy == "COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER":
                 from scripts.investment import public_donchian_hybrid
                 plan = public_donchian_hybrid.fixed_targets(fold_minutes, calendar)
-            elif strategy == "COIN_JESSE_RSI2_1H_SPOT_ADAPTER":
-                from scripts.investment import public_rsi2_adapter
-                plan = public_rsi2_adapter.fixed_targets(fold_minutes, calendar)
             elif strategy in (public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID):
                 plan = public_strategy.fixed_targets(fold_minutes, calendar, timeframe_minutes=120 if strategy == public_strategy.STRATEGY_2H_ID else 60)
             else:
