@@ -1,0 +1,1066 @@
+{
+  "status": "COMPLETE_ACTUAL_PROXY_STRATEGY_SCREENING",
+  "registration_start": {
+    "experiment_id": "VOL-MANAGED-HOLD-547D-ACTUAL-20261003-V1",
+    "git_commit": "cc2f2df4d0b945ba9e50a7dd1fc5e56d70bbed58",
+    "data_manifest_hash": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+    "protocol_hash": "d60d7f0364a93e0918e1fe71f3c44d166a1a9c073e76dc0898e3fce09fa83303",
+    "feature_set": "CLOSED_SPOT_MINUTE_PRICES_AND_31D_PAST_HISTORY_NO_478_CACHE",
+    "labels": "NONE_STRATEGY_LEDGER_COMPARISON",
+    "model_family": "NONE",
+    "hyperparameters": {
+      "per_symbol_cap": 0.3,
+      "max_order_wait_minutes": 5,
+      "participation_rate": 0.001,
+      "min_notional": 10,
+      "latency_minutes": 1,
+      "gross_cap": 0.6,
+      "liquidate_at_end": true,
+      "ETH_lot": 0.0001,
+      "min_vol_days": 20,
+      "execution_timestamp": "exclusive complete-minute signal +1minute +1microsecond",
+      "terminal_inventory": "Residual quantities remain marked at final available close; no assumed free liquidation",
+      "vol_window_days": 30,
+      "initial_cash": 10000,
+      "BTC_lot": 1e-05,
+      "capacity": "previous completed minute quote_volume",
+      "target_annual_vol": 0.1
+    },
+    "seed": "NOT_APPLICABLE_DETERMINISTIC",
+    "thresholds": {
+      "terminal": "Original costed terminal zero target, realistic original latency/capacity/lot and marked remainder",
+      "selection": "One fixed547day VM account at36bp, no winner/month selection, HPO, fitting, leverage or reduced cost",
+      "VOL_MANAGED_BUY_AND_HOLD": "Unchanged original fixed.3/.3 gross basket daily returns, past-only full-prefix EWMA span7/min7 annualvol multiplier min(1,.10/max(.01,vol)); update at existing closed UTCday boundary; original common30day/min20 intent-risk layer also retained",
+      "causality": "Original complete source/warmup/reference_daily_returns/target calendar and execution risk availability"
+    },
+    "cost_assumptions": {
+      "spread_bps": [
+        8
+      ],
+      "cost_booking": "Once per fill; buy base fee net receipt at fillmid, sell quote fee; gross order spread/slippage; no fee discount",
+      "slippage_bps_per_side": 4,
+      "fee_bps_per_side": 10,
+      "nominal_roundtrip_bps": [
+        36
+      ]
+    },
+    "all_folds": [
+      {
+        "period_start": "2024-01-01",
+        "id": "CONT547",
+        "period_end_exclusive": "2025-07-01"
+      }
+    ],
+    "success_failure": "START",
+    "reason_for_next_experiment": "Create actual fair simple-strategy net-return/risk/cost comparison before new model research",
+    "result_influenced_later_choice": false,
+    "event_id": "VOL-MANAGED-HOLD-547D-ACTUAL-20261003-V1:START",
+    "event_type": "OPERATIONAL_START",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V2.json": "ad12be630fe75257334c299df66a4c02cf86ce7e65116a7986a76ecf3aaf4e05",
+      "docs/archive/PUBLIC_DONCHIAN_BEFORE_NULL_GUARD_20261002_V1.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V3.json": "80e9e3b62dca7bac4a1189af8acff3dbc9a0af49ac7fdbb00dc6950937544df4",
+      "reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V3.json": "b9825db24c880064af68f3e9280f60d6593e3667742cf053fa8b7b2b13a0177d",
+      "protocols/SIMPLE_STRATEGY_CONTINUOUS_122D_V1.json": "3e9f28128231f8633a64c64f93c72c7356eac94f8b504238ec1ef96d8250a3bd",
+      "reports/fast_research/SIMPLE_STRATEGY_CONTINUOUS_122D_ACTUAL_20261002_V1.json": "62cb5604580e3af8de3bcf7d1db5f76343581ef44f656ba89f927ba4bdb24e94",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+      "scripts/investment/compare_simple_strategies.py": "3dfa0e3176791980de51e5bc990b1998f93eb24c02bdc1261a074eab92fb52f1",
+      "tests/test_bybit_spot_adapter.py": "a786332e6780a24a12db4fa970261bc3265bd61c565f1d64a6ed6be636fa9998",
+      "tests/test_investment_bybit_pipeline.py": "412d0638a48673fc1d0209a9e70cbbcf50d6b2d1252f0f813ff7465c0f90418c",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+      "protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_COMPOSITE_ACCEPTANCE_20261002_V1.json": "850b8a2e984bd00d33c396dca43af6b6a2f0d55c327eff3c29fc2f238f63d2b0",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_TINY_20261002_V1.json": "494994ec5a5ad52216936b0ce4388b7dc0d30ca943a96214c548be98a2941607",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_TINY_20261002_V2.json": "933236cc26141df1f4b6cc9b763114baa45ce7cce4e474e12b7b49d909abd04c",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_ACTUAL_20261002_V1.json": "2c3799fc82858a6bda6ac42767cd6d740a9d532553dfb5607a3043006d5bce57",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_INDEPENDENT_ACTUAL_AUDIT_20261002_V1.json": "5b5409b71fa7c838a6d11fde1d65e288ef4a78e4dc77daaa9571f92d710b506d",
+      "protocols/BYBIT_SPOT_2H_122D_V1.json": "02b221a6a3b21e3db2c78b5cff6fc2f2756b761e3851060a7131d1eec54c231c",
+      "reports/fast_research/BYBIT_SPOT_COMMON_PIPELINE_TINY_20261002_V1.json": "d17f2eaa4e4b5e778ec216ac48f108e62ea9b6248fb48750e475b5d14ee38869",
+      "scripts/investment/public_donchian_hybrid.py": "80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68",
+      "tests/test_public_donchian_hybrid.py": "43f75ddce8301962638a4b215b00486e1e79b1925423af47643b5e5ac82ffdc5",
+      "tests/test_hybrid_native_fee_integration.py": "29c380c8031e2d9de1d869ec6277ffffaa88f33a27e26fe2550db6b11b37ce59",
+      "reports/fast_research/PUBLIC_DONCHIAN_HYBRID_TARGET_TINY_20261002_V1.json": "32086aa3f4d1e331da1dc4f3e1f242b433500690a65e53d98f08b6eeb534a808",
+      "reports/fast_research/BYBIT_SPOT_COMMON_PIPELINE_TINY_20261002_V2.json": "5538567a796646e7e1420119a4704044c499d8bce47ceb1931f490244e1cecb7",
+      "reports/fast_research/BYBIT_SPOT_NATIVE_FEE_SIX_LEDGER_COMPOSITE_AUDIT_20261002_V1.json": "70fc1568e51019d2c13abb42eb7fd844a58f9c39e77f0ff27278f1b5f7d94c6f",
+      "reports/fast_research/BYBIT_SPOT_NATIVE_FEE_ROOT_MODULE_ACCEPTANCE_20261002_V1.json": "04b98fbf88f5a3ed06675f0e49299468410153f809d7368987afa82496cdc253",
+      "protocols/BYBIT_SPOT_2H_122D_V2.json": "11a667b18ec6c3f779214c28fc0bcfe805319ee8b89e62097f6ee3aa52659192",
+      "reports/fast_research/BYBIT_SPOT_2H_122D_ACTUAL_20261002_V2.json": "53447ac3722829cb5c4db12f5b469b100edb20c05bbb6e9c83f29bce5138bee3",
+      "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+      "tests/test_public_long_development_adapter.py": "babaf5a0bd859734faa77925e7cacde459dd44c839e8ae94e271cf2e13166839",
+      "reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+      "scripts/investment/public_long_source_reuse.py": "5fba2ea4e62491025acfc215b1867bffd97e418c914851ae57acab8bed495bd7",
+      "protocols/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "c189ce72dc1f1e783ca109e11abc2cb448c0e60c7c3c28d6a8a6e9955897494b",
+      "reports/fast_research/PUBLIC_LONG_DEVELOPMENT_STATIC_REUSE_20261003_V1.json": "1550f73785c45155589b0df796bdd1a69717c7bccd6c5f280306d0cda6eeabaf",
+      "docs/archive/PUBLIC_LONG_547D_RESEARCH_PROTOCOL_FREEZER_20261003_V1.ps1": "36072eebd67bde0efb7032af4d697855a16a2d26d195c69cd7a790eb2b2f05aa",
+      "reports/fast_research/VOL_MANAGED_HOLD_547D_BOUNDARY_TINY_20261003_V1.json": "a09f779f3dabdad7cfa8e60d2884ff21e2e82206850caab67b0361eb5938e21d",
+      "protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V1.json": "685ecb9b1f737db821f301df939aa767ac16ef300e48880c2081a8c109c81c6e",
+      "tests/test_public_long_vol_managed_adapter.py": "be56f209bc726462012676cc590ef561a46e8959ce19005293564f3ca3262111",
+      "docs/archive/VOL_MANAGED_HOLD_547D_PROTOCOL_FREEZER_SOURCE_20261003_V1.ps1": "291373152643a7c92c3914c1a19426f90b4cb3347b2dbbff7dcbe3e4ac4b47a7",
+      "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d",
+      "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "reports/fast_research/PUBLIC_LONG_547D_THREE_LEDGER_INDEPENDENT_AUDIT_20261003_V3.json": "c7033ef299071f1d3149381fc19d923487bbbdd1040c4b20c75481058203441d",
+      "reports/fast_research/PUBLIC_LONG_547D_ROOT_ACCEPTANCE_20261003_V1.json": "3c34b9b01b84d2febc6692e8d0d310ce2f416ade0b1a7006b434c176ef03f76c",
+      "scripts/investment/public_long_vol_managed_adapter.py": "cdaaebe4889d7eddc4dd950f003eb73342080ffe4b844342d3e4f3d2b36f2088",
+      "tests/test_public_long_vol_managed_adapter_v2.py": "01b801cd8c9d614e1fce88c14377777a65507b5a2c12f541e09c1390121e2b2e",
+      "docs/archive/VOL_MANAGED_HOLD_547D_PROTOCOL_FREEZER_SOURCE_20261003_V2.ps1": "f863bff07639c5bf0525864076c4a4723422253027cf49f5c0f6c8544d2d23b1",
+      "protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V2.json": "d60d7f0364a93e0918e1fe71f3c44d166a1a9c073e76dc0898e3fce09fa83303"
+    },
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/public_long_vol_managed_adapter.py --research --protocol /mnt/d/codex/coin/protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V2.json --experiment-id VOL-MANAGED-HOLD-547D-ACTUAL-20261003-V1 --run-dir /home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1 --output /mnt/d/codex/coin/reports/fast_research/VOL_MANAGED_HOLD_547D_ACTUAL_20261003_V1.json",
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "run_binding_sha256": "b496e087614863b9b250293e6a2255980fb8761ecbe7de112ccb44ac2c86c9b2",
+    "market_models_fit": 0,
+    "created_utc": "2026-10-02T22:05:34.670031+00:00",
+    "previous_record_sha256": "68283084c8e05acc903ab415821e139f1d4acc7063eb47126ef950c531360bd9",
+    "record_sha256": "3dfc2195697332ec5273eb3cef5b9e4a2b34aba452cf0faebf49cf6d777149bd"
+  },
+  "binding": {
+    "git_commit": "cc2f2df4d0b945ba9e50a7dd1fc5e56d70bbed58",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V2.json": "ad12be630fe75257334c299df66a4c02cf86ce7e65116a7986a76ecf3aaf4e05",
+      "docs/archive/PUBLIC_DONCHIAN_BEFORE_NULL_GUARD_20261002_V1.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V3.json": "80e9e3b62dca7bac4a1189af8acff3dbc9a0af49ac7fdbb00dc6950937544df4",
+      "reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V3.json": "b9825db24c880064af68f3e9280f60d6593e3667742cf053fa8b7b2b13a0177d",
+      "protocols/SIMPLE_STRATEGY_CONTINUOUS_122D_V1.json": "3e9f28128231f8633a64c64f93c72c7356eac94f8b504238ec1ef96d8250a3bd",
+      "reports/fast_research/SIMPLE_STRATEGY_CONTINUOUS_122D_ACTUAL_20261002_V1.json": "62cb5604580e3af8de3bcf7d1db5f76343581ef44f656ba89f927ba4bdb24e94",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+      "scripts/investment/compare_simple_strategies.py": "3dfa0e3176791980de51e5bc990b1998f93eb24c02bdc1261a074eab92fb52f1",
+      "tests/test_bybit_spot_adapter.py": "a786332e6780a24a12db4fa970261bc3265bd61c565f1d64a6ed6be636fa9998",
+      "tests/test_investment_bybit_pipeline.py": "412d0638a48673fc1d0209a9e70cbbcf50d6b2d1252f0f813ff7465c0f90418c",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+      "protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_COMPOSITE_ACCEPTANCE_20261002_V1.json": "850b8a2e984bd00d33c396dca43af6b6a2f0d55c327eff3c29fc2f238f63d2b0",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_TINY_20261002_V1.json": "494994ec5a5ad52216936b0ce4388b7dc0d30ca943a96214c548be98a2941607",
+      "reports/fast_research/BYBIT_SPOT_FEE_ASSET_TINY_20261002_V2.json": "933236cc26141df1f4b6cc9b763114baa45ce7cce4e474e12b7b49d909abd04c",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_ACTUAL_20261002_V1.json": "2c3799fc82858a6bda6ac42767cd6d740a9d532553dfb5607a3043006d5bce57",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_INDEPENDENT_ACTUAL_AUDIT_20261002_V1.json": "5b5409b71fa7c838a6d11fde1d65e288ef4a78e4dc77daaa9571f92d710b506d",
+      "protocols/BYBIT_SPOT_2H_122D_V1.json": "02b221a6a3b21e3db2c78b5cff6fc2f2756b761e3851060a7131d1eec54c231c",
+      "reports/fast_research/BYBIT_SPOT_COMMON_PIPELINE_TINY_20261002_V1.json": "d17f2eaa4e4b5e778ec216ac48f108e62ea9b6248fb48750e475b5d14ee38869",
+      "scripts/investment/public_donchian_hybrid.py": "80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68",
+      "tests/test_public_donchian_hybrid.py": "43f75ddce8301962638a4b215b00486e1e79b1925423af47643b5e5ac82ffdc5",
+      "tests/test_hybrid_native_fee_integration.py": "29c380c8031e2d9de1d869ec6277ffffaa88f33a27e26fe2550db6b11b37ce59",
+      "reports/fast_research/PUBLIC_DONCHIAN_HYBRID_TARGET_TINY_20261002_V1.json": "32086aa3f4d1e331da1dc4f3e1f242b433500690a65e53d98f08b6eeb534a808",
+      "reports/fast_research/BYBIT_SPOT_COMMON_PIPELINE_TINY_20261002_V2.json": "5538567a796646e7e1420119a4704044c499d8bce47ceb1931f490244e1cecb7",
+      "reports/fast_research/BYBIT_SPOT_NATIVE_FEE_SIX_LEDGER_COMPOSITE_AUDIT_20261002_V1.json": "70fc1568e51019d2c13abb42eb7fd844a58f9c39e77f0ff27278f1b5f7d94c6f",
+      "reports/fast_research/BYBIT_SPOT_NATIVE_FEE_ROOT_MODULE_ACCEPTANCE_20261002_V1.json": "04b98fbf88f5a3ed06675f0e49299468410153f809d7368987afa82496cdc253",
+      "protocols/BYBIT_SPOT_2H_122D_V2.json": "11a667b18ec6c3f779214c28fc0bcfe805319ee8b89e62097f6ee3aa52659192",
+      "reports/fast_research/BYBIT_SPOT_2H_122D_ACTUAL_20261002_V2.json": "53447ac3722829cb5c4db12f5b469b100edb20c05bbb6e9c83f29bce5138bee3",
+      "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+      "tests/test_public_long_development_adapter.py": "babaf5a0bd859734faa77925e7cacde459dd44c839e8ae94e271cf2e13166839",
+      "reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+      "scripts/investment/public_long_source_reuse.py": "5fba2ea4e62491025acfc215b1867bffd97e418c914851ae57acab8bed495bd7",
+      "protocols/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "c189ce72dc1f1e783ca109e11abc2cb448c0e60c7c3c28d6a8a6e9955897494b",
+      "reports/fast_research/PUBLIC_LONG_DEVELOPMENT_STATIC_REUSE_20261003_V1.json": "1550f73785c45155589b0df796bdd1a69717c7bccd6c5f280306d0cda6eeabaf",
+      "docs/archive/PUBLIC_LONG_547D_RESEARCH_PROTOCOL_FREEZER_20261003_V1.ps1": "36072eebd67bde0efb7032af4d697855a16a2d26d195c69cd7a790eb2b2f05aa",
+      "reports/fast_research/VOL_MANAGED_HOLD_547D_BOUNDARY_TINY_20261003_V1.json": "a09f779f3dabdad7cfa8e60d2884ff21e2e82206850caab67b0361eb5938e21d",
+      "protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V1.json": "685ecb9b1f737db821f301df939aa767ac16ef300e48880c2081a8c109c81c6e",
+      "tests/test_public_long_vol_managed_adapter.py": "be56f209bc726462012676cc590ef561a46e8959ce19005293564f3ca3262111",
+      "docs/archive/VOL_MANAGED_HOLD_547D_PROTOCOL_FREEZER_SOURCE_20261003_V1.ps1": "291373152643a7c92c3914c1a19426f90b4cb3347b2dbbff7dcbe3e4ac4b47a7",
+      "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d",
+      "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "reports/fast_research/PUBLIC_LONG_547D_THREE_LEDGER_INDEPENDENT_AUDIT_20261003_V3.json": "c7033ef299071f1d3149381fc19d923487bbbdd1040c4b20c75481058203441d",
+      "reports/fast_research/PUBLIC_LONG_547D_ROOT_ACCEPTANCE_20261003_V1.json": "3c34b9b01b84d2febc6692e8d0d310ce2f416ade0b1a7006b434c176ef03f76c",
+      "scripts/investment/public_long_vol_managed_adapter.py": "cdaaebe4889d7eddc4dd950f003eb73342080ffe4b844342d3e4f3d2b36f2088",
+      "tests/test_public_long_vol_managed_adapter_v2.py": "01b801cd8c9d614e1fce88c14377777a65507b5a2c12f541e09c1390121e2b2e",
+      "docs/archive/VOL_MANAGED_HOLD_547D_PROTOCOL_FREEZER_SOURCE_20261003_V2.ps1": "f863bff07639c5bf0525864076c4a4723422253027cf49f5c0f6c8544d2d23b1",
+      "protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V2.json": "d60d7f0364a93e0918e1fe71f3c44d166a1a9c073e76dc0898e3fce09fa83303"
+    },
+    "protocol_sha256": "d60d7f0364a93e0918e1fe71f3c44d166a1a9c073e76dc0898e3fce09fa83303",
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/public_long_vol_managed_adapter.py --research --protocol /mnt/d/codex/coin/protocols/VOL_MANAGED_HOLD_547D_BYBIT_20261003_V2.json --experiment-id VOL-MANAGED-HOLD-547D-ACTUAL-20261003-V1 --run-dir /home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1 --output /mnt/d/codex/coin/reports/fast_research/VOL_MANAGED_HOLD_547D_ACTUAL_20261003_V1.json",
+    "exact_test_command": null,
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "sys_prefix": "/home/xflops/coin-state/v8-clean-env-20261002-v2",
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "all_folds": [
+      {
+        "period_start": "2024-01-01",
+        "id": "CONT547",
+        "period_end_exclusive": "2025-07-01"
+      }
+    ],
+    "strategies": [
+      "VOL_MANAGED_BUY_AND_HOLD"
+    ],
+    "planned_ledgers": 1,
+    "data_scope": "ACCEPTED_DEVELOPMENT_HISTORICAL_SCREENING_NOT_UNSEEN",
+    "task_id": "2b79cc77db21476f9e15d13805901bff",
+    "fits": 0,
+    "seed": "NOT_APPLICABLE_DETERMINISTIC"
+  },
+  "run_dir": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1",
+  "run_binding_sha256": "b496e087614863b9b250293e6a2255980fb8761ecbe7de112ccb44ac2c86c9b2",
+  "folds": [
+    {
+      "fold": "CONT547",
+      "start_us": 1704067200000000,
+      "end_us": 1751328000000000,
+      "days": 547,
+      "results": [
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 547,
+            "initial_nav": 10000.0,
+            "final_nav": 11606.234069480117,
+            "total_return": 0.1606234069480117,
+            "annual_return": 0.10450318326004582,
+            "annual_volatility": 0.10163562216292565,
+            "sharpe": 1.028694284586571,
+            "max_drawdown": 0.08392468756788163,
+            "fees": 81.81013564540352,
+            "execution_costs": 65.4746229644773,
+            "turnover": 7.376604489466749,
+            "start_utc": "2024-01-01T00:00:00+00:00",
+            "end_utc": "2025-07-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 856,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 8.56999999998033e-06,
+              "ETHUSDT": 0.28075750000000044
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 13,
+            "expired_orders": 0,
+            "dust_orders": 1094,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.18962828748796684,
+            "max_observed_gross": 0.3787226973296068,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 1753.5188280899977,
+            "fee_settlement_version": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+            "bybit_fee_profile_sha256": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+            "derived_AST_SHA256": "39ffd9142be81285b3a6b460c73b1c7799c7621a1c34a2f1faa845d290608b73",
+            "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+            "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+            "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+            "fill_time_cost_addback_pnl_diagnostic": 1753.5188280899977,
+            "old_execution_contract_binding_scope": "TIMING_AND_ORIGINAL_RISK_SOURCE_NEW_FEE_SETTLEMENT_ID_SEPARATE",
+            "native_bybit_market_execution_proven": false,
+            "candidate_qualification_allowed": false,
+            "net_cash_PnL": 1606.234069480117,
+            "gross_cash_PnL_same_quantities": 1753.5188280899977,
+            "period_days": 547,
+            "period_net_return": 0.1606234069480117,
+            "period_descriptive_net_CAGR": 0.10450318326004582,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.09254981120898198,
+            "spread_cost": 32.73731148223865,
+            "slippage_cost": 32.73731148223865,
+            "actual_two_sided_mid_notional": 81843.27870560001,
+            "break_even_roundtrip_cost_bps": 428.5064957863218,
+            "max_minute_marked_gross_weight": 0.3798495090855339,
+            "minimum_marked_cash": 6967.7579398268335,
+            "terminal_marked_notional": 698.732589029999,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.19026120094886537,
+            "max_minute_ETH_weight": 0.19008623252432336,
+            "top1_day_positive_gross_PnL_share": 0.02393511397698029,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "gross_reference_quantity_semantics": "NET_RECEIVED_BUYS_AND_GROSS_SELLS_MATCH_ACTUAL_INVENTORY",
+            "fee_valuation": "BASE_FEE_MARKED_AT_FILL_MID;_QUOTE_SELL_FEE_ALREADY_USDT",
+            "fee_cash_and_inventory_changes_native_rule": true,
+            "data_venue": "Binance",
+            "fee_reference_venue": "Bybit",
+            "native_Bybit_market_or_filters_proven": false
+          },
+          "directory": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1/CONT547-VOL_MANAGED_BUY_AND_HOLD/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "b5e84def8cf10bbc1307475696e5557f1cf2800027a078bd43479e8e2a93b288",
+              "bytes": 2697
+            },
+            "orders.parquet": {
+              "sha256": "50090eb1676f06f46801ce239ef2d903c98fe87aef6400c38d70185a913a4be3",
+              "bytes": 62507
+            },
+            "trades.parquet": {
+              "sha256": "13072488350121285df3593d4ada1723ac5ce325138d34933517dd8dde1ab0ad",
+              "bytes": 112183
+            },
+            "daily_nav.parquet": {
+              "sha256": "4f02c164f418c95b6a2c30d4551040e010235ec38d57392f23a2d9db960ee629",
+              "bytes": 31232
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "4270a7e37a1005dbcd5e405566c11e692be38ae187d478fd58f8c09d38c05f12",
+              "bytes": 29382829
+            }
+          }
+        }
+      ],
+      "minute_input_path": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1/CONT547-minute-input.arrow",
+      "minute_input_sha256": "10f2d8a5524e6e807693418a7b34643bb38a1b8bf7cfaa3af860eeca60c71628",
+      "minute_input_format": "IMMUTABLE_ARROW_IPC_FILE_READ_BEFORE_SIGNALS_AND_EXECUTION",
+      "status": "COMPLETE_PROXY_COMPARISON"
+    }
+  ],
+  "market_inputs_read": true,
+  "market_models_fit": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "classification": "MINUTE_PROXY_SCREENING",
+  "limitations": [
+    "Previously used training/test historical span, development SCREENING only; not new OOS or native Bybit execution",
+    "Binance normalized minute OHLC/previous-minute quote-volume capacity proxies; actual BBO/depth/filters/account fee not proven",
+    "Current fixed Bybit VIP0 fees are counterfactual on history; buy base/sell quote settlement reused",
+    "Common caps and volatility mechanism are equal rules, not equal realized risk; original compressed intent risk scaling and passive cap drift retained",
+    "Minute close/daily MDD reported separately; all-event MDD is not established by minute observations alone",
+    "Gross same-net-received-quantity diagnostic plus fees/spread/slippage bridge is not a fee-free re-simulated account",
+    "Original forced terminal target/latency/lot/capacity can leave marked positive dust",
+    "547day descriptive CAGR and Sharpe do not establish sustainable long-term APR; locked and future eligibility remain untouched",
+    "VM adds simple exposure baseline evidence only, not a new qualified candidate; compare realized risk/exposure and all costs to saved full-period controls",
+    "BybitVIP0 settlement and fee counterfactual on historical Binance data remain; nativeBybit market/filter/BBO/fee-history not certified",
+    "No newraw source QA or38 price file read; original derivative currentSHA/schema/calendar verification occurs only in preregistered bounded research"
+  ],
+  "primary_reference": "VOL_MANAGED_BUY_AND_HOLD",
+  "period_namespace_derivation": {
+    "classification": "D034_SINGLE_FIXED_VM_547D_SEEN_DEVELOPMENT_SCREENING_NOT_UNSEEN",
+    "accounts": 1,
+    "strategy_ids": [
+      "VOL_MANAGED_BUY_AND_HOLD"
+    ],
+    "fixed_spread_bps": [
+      8
+    ],
+    "nominal_roundtrip_bps": [
+      36
+    ],
+    "parent_protocol": {
+      "path": "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json",
+      "sha256": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d"
+    },
+    "parent_adapter_sha256": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+    "inherited_date_namespace": {
+      "classification": "D033_547D_PREVIOUSLY_SEEN_DEVELOPMENT_SCREENING_NOT_UNSEEN",
+      "source_scope": "DEC2023_JUN2025",
+      "source_receipt_status_required": "PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR",
+      "warmup_start": "2023-12-01",
+      "period_start": "2024-01-01",
+      "period_end_exclusive": "2025-07-01",
+      "days": 547,
+      "warmup_days": 31,
+      "source_files": 38,
+      "source_days_per_symbol": 578,
+      "source_rows": 1664640,
+      "research_minutes_per_asset": 787680,
+      "fixed_spread_bps": [
+        8
+      ],
+      "nominal_roundtrip_bps": [
+        36
+      ],
+      "accounts": 3,
+      "pinned_sources": {
+        "scripts/investment/compare_simple_strategies.py": "3dfa0e3176791980de51e5bc990b1998f93eb24c02bdc1261a074eab92fb52f1",
+        "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+        "scripts/investment/public_donchian_hybrid.py": "80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68",
+        "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+        "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+        "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+        "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+        "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078"
+      },
+      "functions": [
+        {
+          "module": "scripts/research_v8/labels_v3.py",
+          "function": "_integer_array",
+          "original_AST_sha256": "8f55ae7ab3d5306f8d65a4c5d22576bca0ff7db7457b7836937f12699bbde77b",
+          "derived_AST_sha256": "8f55ae7ab3d5306f8d65a4c5d22576bca0ff7db7457b7836937f12699bbde77b",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/labels_v3.py",
+          "function": "_timestamps",
+          "original_AST_sha256": "c9fc5b91cbf81c37ed7b75cbae67d6e71c2e3c5ffc38de2525945c9d77d0f9ff",
+          "derived_AST_sha256": "c9fc5b91cbf81c37ed7b75cbae67d6e71c2e3c5ffc38de2525945c9d77d0f9ff",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/labels_v3.py",
+          "function": "_stamp",
+          "original_AST_sha256": "3d8975d9217844aff3a4a036b999fdee1bafbd86db7f66d322d0fc189792fe42",
+          "derived_AST_sha256": "3d8975d9217844aff3a4a036b999fdee1bafbd86db7f66d322d0fc189792fe42",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/labels_v3.py",
+          "function": "_minute_decisions",
+          "original_AST_sha256": "ded7d6e566f070e5b62ff0efdae201c19e51be7e5b32db03251561a8ac59d5ad",
+          "derived_AST_sha256": "ded7d6e566f070e5b62ff0efdae201c19e51be7e5b32db03251561a8ac59d5ad",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets.py",
+          "function": "calendar_array",
+          "original_AST_sha256": "cc9bdaf169509a828a03da7c43a066f5d0c0eb50a6cc26deda72ee8252c37557",
+          "derived_AST_sha256": "cc9bdaf169509a828a03da7c43a066f5d0c0eb50a6cc26deda72ee8252c37557",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets.py",
+          "function": "_plan",
+          "original_AST_sha256": "11d57f7990040621c38b6afa9e24d39826e622bf48634e35dd637dde848076d2",
+          "derived_AST_sha256": "11d57f7990040621c38b6afa9e24d39826e622bf48634e35dd637dde848076d2",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets.py",
+          "function": "fixed_targets",
+          "original_AST_sha256": "e8df7cef3c143db8dadedd17274ec1d6a0f5bb4fa72728462a516041c2cc3dd8",
+          "derived_AST_sha256": "e8df7cef3c143db8dadedd17274ec1d6a0f5bb4fa72728462a516041c2cc3dd8",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets_v2.py",
+          "function": "calendar_array",
+          "original_AST_sha256": "70d065db0c5971643e030b77670453dee250a9ffb6c755c55134380abc4aab8d",
+          "derived_AST_sha256": "70d065db0c5971643e030b77670453dee250a9ffb6c755c55134380abc4aab8d",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets_v2.py",
+          "function": "_integer_timestamp_columns",
+          "original_AST_sha256": "530315ced639aa3faba70944ed7d7f6d71f5fe6afd005c0649dc34e1a3f00b19",
+          "derived_AST_sha256": "530315ced639aa3faba70944ed7d7f6d71f5fe6afd005c0649dc34e1a3f00b19",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets_v2.py",
+          "function": "_version",
+          "original_AST_sha256": "dd5893a51df5a7ebc22bd796b0716109f5c40bbe63094b3452f10f4e1e307cd9",
+          "derived_AST_sha256": "dd5893a51df5a7ebc22bd796b0716109f5c40bbe63094b3452f10f4e1e307cd9",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/benchmark_targets_v2.py",
+          "function": "fixed_targets",
+          "original_AST_sha256": "7a93d8559826625e2592057aee5ddb7d9e614df6e9cf0ecbcaf4bfb5ab30207c",
+          "derived_AST_sha256": "7a93d8559826625e2592057aee5ddb7d9e614df6e9cf0ecbcaf4bfb5ab30207c",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/public_donchian_adapter.py",
+          "function": "_load_public_hooks",
+          "original_AST_sha256": "2c46ac525269fee1c6dbe49210087c8812e73caacb16755264325bc3789e33dd",
+          "derived_AST_sha256": "2c46ac525269fee1c6dbe49210087c8812e73caacb16755264325bc3789e33dd",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/public_donchian_adapter.py",
+          "function": "closed_hours",
+          "original_AST_sha256": "b13451e3dddf98fa0d2e677605bd0e02fe6625ebec78a3907870e53569296513",
+          "derived_AST_sha256": "b13451e3dddf98fa0d2e677605bd0e02fe6625ebec78a3907870e53569296513",
+          "changes": []
+        },
+        {
+          "module": "scripts/research_v8/public_donchian_adapter.py",
+          "function": "fixed_targets",
+          "original_AST_sha256": "59dccc029ac11e19d11245412f6f7ecdbb0cb7b1d1672ade548907d42f3b6210",
+          "derived_AST_sha256": "59dccc029ac11e19d11245412f6f7ecdbb0cb7b1d1672ade548907d42f3b6210",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/public_donchian_hybrid.py",
+          "function": "fixed_targets",
+          "original_AST_sha256": "0afc2f79c2d20011b1f0c804c36605b473dcc66fda2c5e8d35e2c4b8ad583500",
+          "derived_AST_sha256": "0afc2f79c2d20011b1f0c804c36605b473dcc66fda2c5e8d35e2c4b8ad583500",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/bulk_fixed_targets.py",
+          "function": "fixed_targets",
+          "original_AST_sha256": "3bbf9dc1e419797d4c8f66af161b2e00c84f1d83b0f1be3f4cb0d334e13231c3",
+          "derived_AST_sha256": "3bbf9dc1e419797d4c8f66af161b2e00c84f1d83b0f1be3f4cb0d334e13231c3",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/bybit_spot_adapter.py",
+          "function": "run_backtest",
+          "original_AST_sha256": "0adf448b31cddb8b71f29c0edbcfb7853b46e0c2b65a62990faff96ff983eb02",
+          "derived_AST_sha256": "0adf448b31cddb8b71f29c0edbcfb7853b46e0c2b65a62990faff96ff983eb02",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "source_scope",
+          "original_AST_sha256": "178770e16b7efa92205887a205158a492fb4b93f837462c91551d8b59e110d7d",
+          "derived_AST_sha256": "178770e16b7efa92205887a205158a492fb4b93f837462c91551d8b59e110d7d",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "allowed_source_path",
+          "original_AST_sha256": "8c8fda6c8c8bd5def2bb682315017466abb4f38c327c25c2e07b1deffac9df30",
+          "derived_AST_sha256": "8c8fda6c8c8bd5def2bb682315017466abb4f38c327c25c2e07b1deffac9df30",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "minute_view",
+          "original_AST_sha256": "900427b77ac2f2864abbc3ac2b3d1da491505f84371b0c887c5d79b8e16eddb2",
+          "derived_AST_sha256": "900427b77ac2f2864abbc3ac2b3d1da491505f84371b0c887c5d79b8e16eddb2",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "signal_close_view",
+          "original_AST_sha256": "83024abe17e23ef3ede65971b16ae92bc304918e7bed82a604dc8ce8e9c8123e",
+          "derived_AST_sha256": "83024abe17e23ef3ede65971b16ae92bc304918e7bed82a604dc8ce8e9c8123e",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "comparison_plan",
+          "original_AST_sha256": "cef1e4975b568962e5cb07ff68e8d7c781129d336a341b6621ce566e13877f95",
+          "derived_AST_sha256": "7bfee47b521cc60fbcd9ba5b5d3e1818a21424149d3b5bf874aa3377435e2bf2",
+          "changes": [
+            {
+              "change": "ONE_COST_PLANNED_LEDGER_COUNT",
+              "matches": 1,
+              "old_ast_sha256": "dcac670698c76bfc6771a05b7e544e797f75a40a324fe3a1cc1312495926718c",
+              "new_ast_sha256": "e1466ae64281d0b6c41386b101586998dc58be4d756d3fbd6259267f6152bc7d",
+              "old_statement": "planned = len(windows) * len(strategies) * 3",
+              "new_statement": "planned = len(windows) * len(strategies)"
+            }
+          ]
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "period_aggregate",
+          "original_AST_sha256": "fe632ccc25c2f3f9559ea3e95f43dbc9ce7f70e344c46a6a42ee93c5c6a69556",
+          "derived_AST_sha256": "12b694871b2ebd6d0837897d4980a569e19848cd63cd94eba58899cfa631b0c4",
+          "changes": [
+            {
+              "change": "ONLY_ACCEPTED_SPREAD8_AGGREGATE",
+              "matches": 1,
+              "old_ast_sha256": "ebbdef485b1419caffd0c041923aeef3a4eeb9217e6ba7aab42ef670eb903b79",
+              "new_ast_sha256": "edc20a4ed7ab6ec5b6b0a6020005124b44966c4b2aa494c085c95b6578c49787"
+            }
+          ]
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "verify_source_calendar",
+          "original_AST_sha256": "5110834d77d36511d75e46c4d517b38c44828cdf7b9d97d9ca26f4d515e1768f",
+          "derived_AST_sha256": "24f207a2a023bf63bfc3ff01a420dab8c02ebf28eb06cb015286ba2fa7f3024e",
+          "changes": [
+            {
+              "change": "EXACT_38_SOURCE_RECEIPT_COUNTS",
+              "matches": 2,
+              "old_ast_sha256": "a2838193f927321540fb9a36355934a87e15ba202009114f32bc7e4a1f2ec794",
+              "new_ast_sha256": "8c350a91e47326bd2f5a5ca561a533316b02c35a675b60fe5a4ba80dbd10f20d"
+            }
+          ]
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "verify_sources",
+          "original_AST_sha256": "0ed2fc321bf929103d4bbca67a37eaa8512430650329434b9281ee3fac247748",
+          "derived_AST_sha256": "05180744afde7bb863d4215b0b0fb699ae1126417b296afb0ba9c29c812740d2",
+          "changes": [
+            {
+              "change": "PRIVATE_NATIVE_DATE_WRAPPER",
+              "matches": 1,
+              "old_ast_sha256": "782a5f23d9c4754a43a87ae06f41fb6844b1972c3581bca2fc825a4bef1e24a8",
+              "new_ast_sha256": "337ef9cd61cdd4d549f272e108475315528eb9903eeeedac4a1eee22df5dc3f5",
+              "old_statement": "from scripts.investment import bybit_spot_adapter",
+              "new_statement": "bybit_spot_adapter = PERIOD_NATIVE"
+            }
+          ]
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "research",
+          "original_AST_sha256": "a676eb0efe30b818429c0ff07435bc49db68065e414e76d18f6e5e88cad9e026",
+          "derived_AST_sha256": "5b520311f5441b8adeb42dee2cddc4a5054eb4ca025ec0cfde25dfc4c17a93b3",
+          "changes": [
+            {
+              "change": "SOURCE_COUNT_AND_PROGRESS_38",
+              "matches": 3,
+              "old_ast_sha256": "a2838193f927321540fb9a36355934a87e15ba202009114f32bc7e4a1f2ec794",
+              "new_ast_sha256": "8c350a91e47326bd2f5a5ca561a533316b02c35a675b60fe5a4ba80dbd10f20d"
+            },
+            {
+              "change": "ONLY_ACCEPTED_SPREAD8_ACTUAL_LOOP",
+              "matches": 1,
+              "old_ast_sha256": "ebbdef485b1419caffd0c041923aeef3a4eeb9217e6ba7aab42ef670eb903b79",
+              "new_ast_sha256": "edc20a4ed7ab6ec5b6b0a6020005124b44966c4b2aa494c085c95b6578c49787"
+            },
+            {
+              "change": "PRIVATE_NATIVE_RESEARCH_ROUTE",
+              "matches": 1,
+              "old_ast_sha256": "782a5f23d9c4754a43a87ae06f41fb6844b1972c3581bca2fc825a4bef1e24a8",
+              "new_ast_sha256": "337ef9cd61cdd4d549f272e108475315528eb9903eeeedac4a1eee22df5dc3f5",
+              "old_statement": "from scripts.investment import bybit_spot_adapter",
+              "new_statement": "bybit_spot_adapter = PERIOD_NATIVE"
+            },
+            {
+              "change": "PRIVATE_HYBRID_RESEARCH_ROUTE",
+              "matches": 1,
+              "old_ast_sha256": "dafc9478a08a254b70b9102b22975f9199873b3cb423e1e06d61e6056fcb5339",
+              "new_ast_sha256": "53a6e35dcd72385b1dc57f0b83105a6330ed688c61329fe9161f85a42d71440d",
+              "old_statement": "from scripts.investment import public_donchian_hybrid",
+              "new_statement": "public_donchian_hybrid = PERIOD_HYBRID"
+            },
+            {
+              "change": "ONE_COST_FOLD_COMPLETION_COUNT",
+              "matches": 1,
+              "old_ast_sha256": "8e294428daec1de394989fafcc97aeda46fd18fde6caa881e3e172cd88508b3a",
+              "new_ast_sha256": "59f6c82390830332f788dda7f4e17ca1debe7aefee07d26f3af46402b65f796d",
+              "old_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) * 3 else 'PARTIAL_INPUT_COVERAGE'",
+              "new_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) else 'PARTIAL_INPUT_COVERAGE'"
+            }
+          ]
+        },
+        {
+          "module": "scripts/investment/compare_simple_strategies.py",
+          "function": "main",
+          "original_AST_sha256": "ceda7ccf04c37da40b45c2a0c8d8e185913cf55e9298fd53401925fc64aea5c6",
+          "derived_AST_sha256": "71a33d2760761bc12455d26333defb198cf976a47da564121f6ad5d9526b446f",
+          "changes": [
+            {
+              "change": "EXPLICIT_PRIVATE_PERIOD_DERIVATION",
+              "matches": 1,
+              "old_ast_sha256": "6b711a333abe26604ce110c383643058ec99da7a1cf4f211ebf12fb144018c86",
+              "new_ast_sha256": "f0a00b19fd27c5183e0c537eeb46f3164b9596c797a734fada69fc6759ab9f2f",
+              "old_statement": "progress = Progress()",
+              "new_statement": "report['period_namespace_derivation'] = PERIOD_DERIVATION\nprogress = Progress()"
+            }
+          ]
+        }
+      ],
+      "original_modules_or_globals_mutated": false,
+      "new_engine_or_account_loop_written": false,
+      "native_financial_kernel_AST_unchanged": true,
+      "public_hooks_unchanged": true,
+      "source_acceptance_performed_by_context": false,
+      "market_arrays_read_by_context": false,
+      "long_term_APR_or_native_execution_qualification": false
+    },
+    "additional_private_functions": [
+      {
+        "module": "scripts/research_v8/benchmark_targets_v2.py",
+        "function": "causal_vol_multiplier",
+        "original_AST_sha256": "0d00658e2aaa9caf9eeb86a68a8e480c28e4cc4965da3db000df22b1b3062b48",
+        "derived_AST_sha256": "0d00658e2aaa9caf9eeb86a68a8e480c28e4cc4965da3db000df22b1b3062b48",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/bulk_fixed_targets.py",
+        "function": "fixed_targets",
+        "original_AST_sha256": "3bbf9dc1e419797d4c8f66af161b2e00c84f1d83b0f1be3f4cb0d334e13231c3",
+        "derived_AST_sha256": "3bbf9dc1e419797d4c8f66af161b2e00c84f1d83b0f1be3f4cb0d334e13231c3",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "research",
+        "original_AST_sha256": "a676eb0efe30b818429c0ff07435bc49db68065e414e76d18f6e5e88cad9e026",
+        "derived_AST_sha256": "5b520311f5441b8adeb42dee2cddc4a5054eb4ca025ec0cfde25dfc4c17a93b3",
+        "changes": [
+          {
+            "change": "SOURCE_COUNT_AND_PROGRESS_38",
+            "matches": 3,
+            "old_ast_sha256": "a2838193f927321540fb9a36355934a87e15ba202009114f32bc7e4a1f2ec794",
+            "new_ast_sha256": "8c350a91e47326bd2f5a5ca561a533316b02c35a675b60fe5a4ba80dbd10f20d"
+          },
+          {
+            "change": "ONLY_ACCEPTED_SPREAD8_ACTUAL_LOOP",
+            "matches": 1,
+            "old_ast_sha256": "ebbdef485b1419caffd0c041923aeef3a4eeb9217e6ba7aab42ef670eb903b79",
+            "new_ast_sha256": "edc20a4ed7ab6ec5b6b0a6020005124b44966c4b2aa494c085c95b6578c49787"
+          },
+          {
+            "change": "PRIVATE_NATIVE_RESEARCH_ROUTE",
+            "matches": 1,
+            "old_ast_sha256": "782a5f23d9c4754a43a87ae06f41fb6844b1972c3581bca2fc825a4bef1e24a8",
+            "new_ast_sha256": "337ef9cd61cdd4d549f272e108475315528eb9903eeeedac4a1eee22df5dc3f5",
+            "old_statement": "from scripts.investment import bybit_spot_adapter",
+            "new_statement": "bybit_spot_adapter = PERIOD_NATIVE"
+          },
+          {
+            "change": "PRIVATE_HYBRID_RESEARCH_ROUTE",
+            "matches": 1,
+            "old_ast_sha256": "dafc9478a08a254b70b9102b22975f9199873b3cb423e1e06d61e6056fcb5339",
+            "new_ast_sha256": "53a6e35dcd72385b1dc57f0b83105a6330ed688c61329fe9161f85a42d71440d",
+            "old_statement": "from scripts.investment import public_donchian_hybrid",
+            "new_statement": "public_donchian_hybrid = PERIOD_HYBRID"
+          },
+          {
+            "change": "ONE_COST_FOLD_COMPLETION_COUNT",
+            "matches": 1,
+            "old_ast_sha256": "8e294428daec1de394989fafcc97aeda46fd18fde6caa881e3e172cd88508b3a",
+            "new_ast_sha256": "59f6c82390830332f788dda7f4e17ca1debe7aefee07d26f3af46402b65f796d",
+            "old_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) * 3 else 'PARTIAL_INPUT_COVERAGE'",
+            "new_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) else 'PARTIAL_INPUT_COVERAGE'"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "main",
+        "original_AST_sha256": "ceda7ccf04c37da40b45c2a0c8d8e185913cf55e9298fd53401925fc64aea5c6",
+        "derived_AST_sha256": "71a33d2760761bc12455d26333defb198cf976a47da564121f6ad5d9526b446f",
+        "changes": [
+          {
+            "change": "EXPLICIT_PRIVATE_PERIOD_DERIVATION",
+            "matches": 1,
+            "old_ast_sha256": "6b711a333abe26604ce110c383643058ec99da7a1cf4f211ebf12fb144018c86",
+            "new_ast_sha256": "f0a00b19fd27c5183e0c537eeb46f3164b9596c797a734fada69fc6759ab9f2f",
+            "old_statement": "progress = Progress()",
+            "new_statement": "report['period_namespace_derivation'] = PERIOD_DERIVATION\nprogress = Progress()"
+          }
+        ]
+      }
+    ],
+    "reused_minute_input": {
+      "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2",
+      "report_sha256": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "path": "/home/xflops/coin-state/public-long-547d-actual-20261003-v1/shared_source_minutes.parquet",
+      "report_path": "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json"
+    },
+    "reused_input_rows": 1664640,
+    "raw_normalized_market_files_read": false,
+    "original_reused_Parquet_reader_and_research_IO_unchanged": true,
+    "original_native_financial_kernel_AST_unchanged": true,
+    "original_VM_EWMA_and_targets_unchanged": true,
+    "EWMA_scope": "ALL_AVAILABLE_COMPLETED_DAILY_GROSS_REFERENCE_RETURNS_SPAN7_MIN7_NOT_LAST7_ONLY",
+    "original_shared_modules_or_globals_mutated": false,
+    "old_accounts_replayed": false,
+    "source_acceptance_or_market_IO_performed_by_context": false,
+    "same_risk_rules_not_equal_realized_risk": true,
+    "long_term_APR_or_native_execution_qualification": false
+  },
+  "disk": {
+    "scan_started_utc": "2026-10-02T22:05:40.753908+00:00",
+    "project_bytes": 4409454825,
+    "wsl_vhd_bytes": 15363735552,
+    "total_bytes": 19773190377,
+    "reserved_bytes": 280000000,
+    "d_free_bytes": 360044253184,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "scan_finished_utc": "2026-10-02T22:06:46.642795+00:00"
+  },
+  "synthetic_acceptance_scope": "EXACT_SHARED_CODE_AND_ECONOMIC_RULES_PERIOD_AND_INPUTS_VERIFIED_SEPARATELY",
+  "accepted_smoke_sha256": "e80ee18b778c5305377d8a66c1f84d94ba8bb3b30a19ab56fc3ca5005dc1130d",
+  "planned_ledgers": 1,
+  "account_continuity": "SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST",
+  "source_receipt_sha256": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+  "source_days_per_symbol": 578,
+  "source_scope": "DEC2023_JUN2025",
+  "source_calendar": [
+    "2023-12",
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2024-11",
+    "2024-12",
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06"
+  ],
+  "source_month_files": 38,
+  "reused_minute_input": {
+    "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2",
+    "report_sha256": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+    "path": "/home/xflops/coin-state/public-long-547d-actual-20261003-v1/shared_source_minutes.parquet",
+    "report_path": "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json"
+  },
+  "raw_normalized_market_files_read": false,
+  "minute_source": {
+    "path": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1/shared_source_minutes.parquet",
+    "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2",
+    "rows": 1664640,
+    "invalid_minutes": 0
+  },
+  "fee_derivation": {
+    "fee_settlement_version": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+    "adapter_source_sha256": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+    "dependency_source_sha256": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f"
+    },
+    "adapter_protocol_sha256": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+    "original_function_ast_sha256": "086cfcec28a4baceba0efd91ea75334afef33a321aaac454547e08b34d3bfb5a",
+    "derived_AST_SHA256": "39ffd9142be81285b3a6b460c73b1c7799c7621a1c34a2f1faa845d290608b73",
+    "allowed_ast_changes": [
+      {
+        "change": "BUY_NET_UNIT_AND_COST",
+        "matches": 1,
+        "old_ast_sha256": "ac73cebe9857ccb5cbb8ec0815dd00ec8f0ca9f79ac2bb0df956d9062ccd18a1",
+        "new_ast_sha256": "f367d7e42a59b89d90b37c7f6dad5693a4458384cb497d8874fca52d5eaa129b",
+        "old_statement": "cost_per_quantity = abs(fill - mid) + fill * config.fee_rate",
+        "new_statement": "received_mid = mid * (1 - config.fee_rate) if side == 'buy' else mid\ncost_per_quantity = fill - received_mid if side == 'buy' else abs(fill - mid) + fill * config.fee_rate"
+      },
+      {
+        "change": "NET_TARGET_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "eccdcf8a76bc694e35a31b93daa0580b0b89310bda0883d4f90bdc193d26e94b",
+        "new_ast_sha256": "278e892ecd6e351056a357244d66d068d093a85de66347dffee32f9299feb35b",
+        "old_statement": "desired_quantity = abs(desired_dollars) / (mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)",
+        "new_statement": "desired_quantity = abs(desired_dollars) / (received_mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)"
+      },
+      {
+        "change": "NET_ASSET_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ecdd9a22cce3544884ecc721088b313b7a0bcc1d507f76a81cbc22f18365cd3a",
+        "new_ast_sha256": "c88346eda900260c56ec10f057691d8eb178bc1237ed3b692fb9377330395976",
+        "old_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (mid + config.max_weight * cost_per_quantity))",
+        "new_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (received_mid + config.max_weight * cost_per_quantity))"
+      },
+      {
+        "change": "NET_GROSS_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ad9f5b51e07fca33b7b606fa2dcb547850df44a9e980b89249a85ba826582aa6",
+        "new_ast_sha256": "c3685f057812f29088eb828ac64419a2d3b375acc1ae021da41700a0d0e9da4a",
+        "old_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (mid + config.max_gross * cost_per_quantity))",
+        "new_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (received_mid + config.max_gross * cost_per_quantity))"
+      },
+      {
+        "change": "BUY_CASH_FILL_ONLY",
+        "matches": 1,
+        "old_ast_sha256": "1784f3b427468d37b090e02f5dca64c2a80688623f4d7ec1f7ccc48645559e0a",
+        "new_ast_sha256": "278a4ea50732dc1601002ca95292bf4fbe6f2184c6c73fcd72c4d4b10cda305d",
+        "old_statement": "quantity = min(quantity, cash / (fill * (1 + config.fee_rate)), asset_limit, gross_limit)",
+        "new_statement": "quantity = min(quantity, cash / fill, asset_limit, gross_limit)"
+      },
+      {
+        "change": "NO_GROSS_LOT_OVERSELL_NET_HOLDINGS",
+        "matches": 1,
+        "old_ast_sha256": "83c7414c16c0ffed4f9495b089541f1dfc183bd6da477d8d99113a424c4d09ee",
+        "new_ast_sha256": "76eb649d4946f8596586b7ea4952f81cf5db73c742928c5b58343f859a8fc6f4",
+        "old_statement": "quantity = math.floor(quantity / step + 1e-09) * step",
+        "new_statement": "quantity = math.floor(quantity / step + 1e-09) * step\nif side == 'sell' and quantity > positions[symbol]:\n    quantity = max(0.0, quantity - step)"
+      },
+      {
+        "change": "RECEIVED_ASSET_COMMISSION",
+        "matches": 1,
+        "old_ast_sha256": "5b992c639ee7a180b5bfac25828ecd322d2780798c32d0576db4799b6cc58393",
+        "new_ast_sha256": "972ee920cfd6324003fe4bae0d16825df69f9f8dda977840266e1779e0d40e7f",
+        "old_statement": "fee = notional * config.fee_rate",
+        "new_statement": "cash_delta, position_delta, fee_asset, fee_amount, fee_USDT_mid = _received_asset_fill(symbol, side, quantity, fill, mid, config.fee_rate)\nfee = fee_USDT_mid"
+      },
+      {
+        "change": "NATIVE_CASH_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "4ab9c020aeeb76d0aef74436ea730b524a2e44144a0cec2fbddfdf5b54f09ea3",
+        "new_ast_sha256": "3278718b9d02f3547784b5272aa5aec5ea7bb785b9c495643e555f552bd7ab7f",
+        "old_statement": "cash -= direction * notional + fee",
+        "new_statement": "cash += cash_delta"
+      },
+      {
+        "change": "NET_RECEIVED_POSITION_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "e66bb596011bd061cd81e009761bb410177cac3905b8cf88e8e1744caa9668eb",
+        "new_ast_sha256": "e6391c6dabcfb7a796a81a691958013c55ea26f77acce2d8c3949c5a5eff9442",
+        "old_statement": "positions[symbol] += direction * quantity",
+        "new_statement": "positions[symbol] += position_delta"
+      },
+      {
+        "change": "PRESERVE_POSITIVE_SUBLOT_DUST",
+        "matches": 1,
+        "old_ast_sha256": "e7a31445e32f817d5e0049c713afd90a3bb58f8191c032281ed315edaa9dc570",
+        "new_ast_sha256": "228648015525d65e5ae179311ad9ebc2e96c3e52ce57758bc373f25c65fee3c6",
+        "old_statement": "if abs(positions[symbol]) < 1e-10:\n    positions[symbol] = 0.0",
+        "new_statement": "if positions[symbol] < 0:\n    raise AssertionError('Received-asset settlement cannot oversell net spot inventory')"
+      },
+      {
+        "change": "BUY_CYCLE_NO_QUOTE_FEE_DOUBLE_CHARGE",
+        "matches": 1,
+        "old_ast_sha256": "a06d8e3e847440f280cf7f2c06693159357abfeb4997b6196e56eafb5b668527",
+        "new_ast_sha256": "f6bdab22da0f58a8fb43cc1c0cfc7fda7e9d250489c27823a87e6ef1b8e4f9d4",
+        "old_statement": "cycle['cost'] += notional + fee",
+        "new_statement": "cycle['cost'] += notional"
+      },
+      {
+        "change": "ORDER_GROSS_FILLED_QUANTITY",
+        "matches": 1,
+        "old_ast_sha256": "06836908b9dd7d1d503793d46901c4f88778945dd9830a21d25f6a124d585852",
+        "new_ast_sha256": "863522f8e0d5157c68a1617afb2fb5eae334a64624f936fe253bbe4a80013fb1",
+        "old_statement": "order['filled_notional'] = notional",
+        "new_statement": "order['filled_notional'] = notional\norder['quantity'] = quantity"
+      },
+      {
+        "change": "ORDER_QUANTITY_INITIAL_ZERO",
+        "matches": 1,
+        "old_ast_sha256": "947ea5416bb122d12981d706722b931a7413e4d5d6e5e96c1a4bcc992e7535c0",
+        "new_ast_sha256": "419fa59f500d3bd9bdb43443a9ade6ebed4d77c2ca45ccb245d44bdd27a779f1",
+        "old_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': ''}",
+        "new_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': '', 'quantity': 0.0}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_FIELDS",
+        "matches": 1,
+        "old_ast_sha256": "66fcf26916a521b6b887fdf063f487ecc41fd8b7600bbf6f29e567af58bee211",
+        "new_ast_sha256": "b4e2eb8d4328a8c6ddeaaced2a68fed0e60310dab054bb0b47a7695b6c1f347e",
+        "old_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity']}",
+        "new_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity'], 'gross_quantity': quantity, 'position_delta': position_delta, 'cash_delta': cash_delta, 'fee_asset': fee_asset, 'fee_amount': fee_amount, 'fee_USDT_mid': fee_USDT_mid}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "12f4f17ea3e896a9ff22788aeb21f756737f6f2118e72eae5feb81c6549ca97b",
+        "new_ast_sha256": "c2b29e4c7ecd21ff3dc99f4e8d20c45390cf348af0eb6b036f3d1a5fd10c3de9",
+        "old_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64}",
+        "new_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64, 'gross_quantity': pl.Float64, 'position_delta': pl.Float64, 'cash_delta': pl.Float64, 'fee_asset': pl.String, 'fee_amount': pl.Float64, 'fee_USDT_mid': pl.Float64}"
+      },
+      {
+        "change": "ORDER_GROSS_QUANTITY_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "a67e3eba597339403d37d571141aa5ab34a79c40ed2c0c8db7a7e9b876dfb3c5",
+        "new_ast_sha256": "7cb24460855476ac06d32e176298a5c6878815e2c95ac7bb91cdf6138926fca3",
+        "old_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String}",
+        "new_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String, 'quantity': pl.Float64}"
+      }
+    ],
+    "original_globals_mutated": false,
+    "fee_asset_semantics": "REUSED_PINNED_EXECUTION_COMMISSION_ASSET_BALANCE_UPDATES",
+    "native_bybit_market_execution_proven": false,
+    "derived_source_file_sha256": "a33c4f392c033d44224be5f64a42456b529e973d9af0925c8a454043f2762a8f",
+    "derived_source_path": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1/fee-derivation/derived_engine_ast.py",
+    "receipt_path": "/home/xflops/coin-state/vol-managed-hold-547d-actual-20261003-v1/fee-derivation/derivation.json",
+    "receipt_sha256": "44d9e5b4f4178a0e002615fbc3b2c792610a15ed42473420543615c8d9c5bf63"
+  },
+  "fee_settlement": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+  "fee_profile_sha256": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+  "completed_ledgers": 1,
+  "all_planned_ledgers_complete": true,
+  "aggregate": [
+    {
+      "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        547
+      ],
+      "period_net_return": 0.1606234069480117,
+      "mean_period_net_return": 0.1606234069480117,
+      "worst_period_net_return": 0.1606234069480117,
+      "max_observed_daily_MDD": 0.08392468756788163,
+      "max_observed_minute_MDD": 0.09254981120898198,
+      "fees_USDT_across_period_accounts": 81.81013564540352,
+      "execution_cost_USDT_across_period_accounts": 65.4746229644773,
+      "trade_count": 856,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    }
+  ],
+  "source_bytes_unchanged": true,
+  "created_utc": "2026-10-02T22:06:56.250764+00:00",
+  "elapsed_seconds": 81.55058470999938,
+  "orchestrator_peak_RSS_bytes": 2146881536,
+  "owned_bytes": 264486229,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1274617856,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

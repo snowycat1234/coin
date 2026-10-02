@@ -629,3 +629,20 @@
 - D033 Git元数据边界：实际preflight session33053／chunk84d8b8 exit1，唯一缺失为本机state/dataset_lock.json（原绑定哈希29d930…92f45d）。不改完整闭合报告或标准守卫；执行新的portable投影，保留本机哈希、原来源报告哈希及失败任务实际元数据，所有可入库冻结文件继续逐字节核验。此决定先于修正投影运行，无新价格、数学或协议变更。
 
 - D033 portable投影实际chunk105955 exit0，d48ccd…271911，保存原失败task709480…/sha95cb15…与2ef32c…失败凭证；只有本机state锁从Git用途pins排除，独立校验锁字节，标准guard2f709f…未改。重跑标准提交门槛仍必须通过；不以投影成功代替Git验收。
+
+## D034运行前接线与预算（2026-10-03，HEAD cc2f2df）
+
+- 主问题仍为公开主动交易是否胜过受控市场暴露；只新增原VOL_MANAGED_BUY_AND_HOLD一个547日账户，同2024-01-01..<2025-07-01／Dec2023预热／10k／原风险及36bp received-asset费用，0fit/HPO。三D033账户仅保存结果比较，不重跑；所有历史已见，非unseen／盈利资格。
+- 复用原common.reused_minute_input的父shared_source_minutes.parquet；不重读38档源数据、不下载、不重做旧QA。按原research写新Parquet与IPC，未造新IO框架。实际只读stat显示这两输入分别50,992,557／160,444,779B，合计211,437,336B，初步200MB设想不足且从未运行；先固定本轮总STATE300,000,000B（research280MB、唯一synthetic10MB、独立与根等10MB）再开始新市场数组IO。共享RAM5GB、单科研／审计RSS3.5GB、CPU2、swap0/GPU0；research1800s、audit600s。沿原磁盘守卫核D盘总量，不改守卫。
+- 具体新增correctness接线：D033无VM调用，未克隆v2.causal_vol_multiplier，继承函数globals仍绑旧2025范围。只在新D034私有namespace克隆该原wrapper并绑定已隔离时间／v1；原7完整日EWMA、10%意图cap和common30日／最少20日risk均不改。唯一新case覆盖这条2024日度availability路由、单账户／单成本／终端规则及共享globals未变，旧绿例／金融循环不重跑。
+- 采用判断：仅核新账户意图／账本与完整547日／18月，和三份冻结D033并列net、cost、turnover、actualvol、minute/daily DD、持仓。若简单基准在相近或更低实际风险下至少匹配主动净收益，则暂停原主动配方新增复杂度研究；不以共同caps宣称实际风险相同，不事后缩放收益或选月。新协议与exactsource冻结后才执行；locked／真钱／密钥仍不消费。
+
+- D034唯一case第一次实际session7560／chunka429aa exit1：daily group_by表未承诺行序，测试daily[0]最早日假设错误；原causal_vol_multiplier先sort，未见策略错误，无市场回放。失败协议685ecb…、原test be56…和report ；新test_v2仅在构造daily后sort(day_end_us)，新protocol V2记录preceding_failure及旧原字节。费用／规则／预算不变，针对该新增边界复测，不重旧绿／金融。
+
+### D034 — 原波动管理持有共同547日证据与下一科研选择（2026-10-03）
+
+实际b56cb8／独立469514／比较10e1ef／根32f166均真实closed0；独立1账户×787680分钟／547日／18月。VM净+1606.234069USDT（16.062341%）、机械CAGR10.450318%仅描述，vol10.163562%／minuteDD9.254981%，总成本147.284759、turnover7.376604，terminalMTM698.732589。旧2h/hybrid只读D033保存结果，未重放。两组严格Pareto均false；不以本轮实测vol事后缩放或标为同风险赢家，CandidateNONE／长期APRNE。12正月／18；2025H1净+21.443850，正月份集中度分母仍为正net月之和。
+
+采用固定VM benchmark／独立时序与核算能力；暂停VM／2h／hybrid投资采用，未来／原生同成本风险净稳定优势为reopen。D035优先固定原VM配方，在已有122日与90日不同市场窗口各新增1完整账户，同36bp/风险/资本/两层vol、旧保存控制不再执行。目的检验长上涨窗口暴露与成本节约能否跨状态成立；不新增HPO、阈值／杠杆、资金权限或locked访问。保留20%frontier方向，数据映射／执行信息未改善前不盲目重训旧负模型。
+
+失败保留：V1合成行序假设失败session7560/a429aa/1、报告a09f；新V2只对测试日表排序（生产本来排序），session95898/64cfe9/0；协议V1/V2与源原字节保存。主体81.55s/RSS2.147GB、独立27.76s/RSS974MB，共享5GB/swap0/GPU0，五新增STATE268476489B≤事前300MB。实际扫描19.773GB时刻06:06:46.642795+08保留，随后工件不计入旧扫描。
