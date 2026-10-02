@@ -543,3 +543,22 @@
 - 预期信息价值：区分“收入不足”与“单币cap使两币收入截断”，直接衡量延长持有的额外funding
   是否超过减仓维护成本。原全平配方reopen需新独立时间／原生信息在同风险成本下显示净稳定性；
   Bybit原生映射仍需合规可达原生输入。新STATE≤50MB／600s、共享5GBRAM／swap0／GPU0／D40GB。
+- 新减仓代码运行前补充钱包正确性：partial realized为正只credit freecash；为负复用
+  freecash-first→本币isolated debit，禁止负freecash信用或跨币救援。reserve不返还指不按
+  减仓比例释放／重置／补足余额，不阻止实际损失扣余额；原625阈值不变，剩余entryfill不重置。
+
+### D031：小正净值后固定时间否证（新90日源／carry数学之前，2026-10-03）
+
+- D030完整主体／独立／根验收真实closed0，10k资本净+24.744852USDT／122d，fund39.512100，
+  最高既有成本14.390056，仅一次ETH减仓维持730事件。采用研究机制但候选NONE、长期APR NE。
+  全观察DD0.387572%比原全平0.110113%高，机械样本年化0.742143%仍小，不以daily Sharpe选赢家。
+- 下一项冻结原pair-trim与ALL_FLAT规则／资本／费用／caps／margin，跑2025-12-01..<2026-03-01
+  两个固定账户；不调target、不择月、加杠杆或降成本。旧Spot6档复用原accepted SHA与真实exit，
+  缺funding／mark／index18月档，先复用已有官方薄download_archive／convert_source并核新来源，
+  不另造downloader，不重复旧source QA。另协议冻结后才新数学，新增源预算先≤200MB／共享5GB／D40GB。
+- 12–2月此前用于Spot研究，称固定时间稳定性SCREENING而非真正unseen OOS；核心要否证正funding
+  与basis能否跨时段支撑小净利。原UNCONFIRMED／Bybit403／REST451证据保留，不重试绕过限制。
+  官方一般费率公式不能认证archive last_funding_rate映射，单位／native仍门槛，不覆盖旧失败。
+- 不继续pair-target HPO；旧flow的perp低费映射暂后排，缺过去可得优势及matched perp经济证据。
+  全平配方reopen需新独立时间／原生信息同成本caps下净稳定性；maker需真实BBO/queue。
+  普通科研继续，locked／真钱／密钥／新付费／GPU权限不变；无需等待固定roadmap或时间规划。
