@@ -39,3 +39,26 @@
 - **能力状态**：OOF/horizon/cross-market主线ACTIVE_CORE；conditional impact与信息源
   诊断ACTIVE_FRONTIER；adaptive与ensemble后续按残差证据推进。序列/representation能力
   保留，三个unseen folds后再按净成本结果/残差价值决定继续。旧大批量入口审计不阻塞本实验。
+
+## 2026-10-02 D003：筛价格相关的可预测组件，不按flow IC继续堆容量
+
+- **决定**：冻结5/15m×Ridge/XGB-S/TCN-S六个recipe、1seed，执行三个已预登记unseen
+  folds。A数据已有即开始，B/C到齐且独立QA后同配置继续，首fold结果后不改配方。
+  共同四流flow＋两Spot return目标；保留Perp目标，TCN只复用官方encoder＋小head。
+  原费用、阈值、风险不变；共同dataset/split/labels/normalization/metrics/economics。
+- **证据**：OOF两阶段15/30/60m净−0.4221%/−2.0994%/−5.8463%，DIRECT15m微正
+  仅3往返且36bp成本净负。零fit组件诊断中，SpotBTC5/15m预测flow本身IC .177/.176，
+  但预测组件与return Pearson仅−.0034/.0054；真实futureflow与return .492/.516。
+  M1未来flow残差仍有强关系，它是相对当前M1的未来误差，不是可用输入或结构因果创新。
+- **信息增益/APR价值**：验证序列保留了tabular统计丢失的价格相关信息与否、flow组件是否
+  在新regime仍可预测且对价格有意义。若只改进已弱价格相关的flow IC，不能据此晋级。
+  三fold还提供残差/ensemble独立性；均不是正式连续长期账户或候选未来证据。
+- **预算**：最多12个tabular＋6个TCN fit；TCN沿原max10/patience3，预计30–90分钟
+  CPU墙时；新增缓存估计≤1GB，不落全部[N,256,F]序列。原5GB/swap0/GPU0。
+  序列信息/价格相关性探索保留至少20%科研份额；并行官方Spot/USD-M成本映射。
+- **暂停/重开**：当前long-horizon两阶段HPO暂缓，新unseen的M1/残差/净成本增益或新
+  信息集支持时重开。TLOB/TS2Vec更大批量暂缓；TCN出现独立价格信息、三fold说明
+  表示损失，或周转资源改善时重开。adaptive保留，流组件漂移/残差结构明确时优先。
+  不以这个July短窗淘汰整个能力，不重新启动旧全十模型六fold大循环。
+- **协议**：`protocols/research_v7_family_screen_20261002_v1.json`。评估不使用locked、
+  不把未来有效性筛选当在线过滤，不通过换venue费用改写既有Spot结果。

@@ -8,8 +8,10 @@ proxy净结果 −0.1591%，不能推算可靠长期APR。
 
 已完成：同一30日开发来源、共同样本的5/15/30/60m oracle flow→return诊断及
 独立标签/预测/成本算术核验；September Spot BTC官方月档30日与独立来源QA。
-当前实验：严格 chronological OOF flow→impact，对照相同样本的直接return模型；
-并行补齐September/October四流，供应预登记三个真正unseen fold。
+已完成严格 chronological OOF flow→impact：相同OOF样本的直接return对照更好，
+两阶段15/30/60m主成本净−0.4221%/−2.0994%/−5.8463%，5m均无交易。
+15m DIRECT仅+0.0335%/3往返，不构成长APR证据。已冻结六recipe/三个unseen fold，
+当前准备薄接口启动A；September四流和92日共同来源已接受，October四流正在串行获取。
 
 主要阻碍是可预测flow能否保留足够价格edge来支付原成本。oracle使用未来flow，
 不是候选或APR证据；共同未来有效样本筛选也不能作为在线过滤器。

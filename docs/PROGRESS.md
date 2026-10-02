@@ -1,5 +1,31 @@
 # 模块进度与验收记录
 
+## 2026-10-02 v7：OOF两阶段开发诊断已完成
+
+当前无合格长期APR候选；15m DIRECT条件七天净+0.0335%、仅3往返，不能推算
+长期APR。OOF两阶段主成本5/15/30/60m净结果为0/−0.4221%/−2.0994%/−5.8463%；
+后3周期break-even往返成本仅1.79/1.65/5.43bp，低于原30bp成本。
+最大障碍是flow预测误差/impact映射后的可支付成本edge，较长周期Perp-flow更弱。
+
+实际固定24拟合调用、130.91秒/RSS551.55MB；相同8,607 OOF拟合行及9,281开发
+测试行。严格成熟/embargo、OOF输入、保存模型预测、官方scaler拟合来源及24成本
+账本/因果NAV/期末平仓已通过必要独立核验。首次fit目录初始化失败和两次核验器
+方法错误分别留证，不覆盖科学来源/模型/报告，不放宽容差。M1 flow报告字段误名
+不计作收益，单位addendum另存。详见 `MODULE_V7_OOF_FLOW_IMPACT_20261002_V2.md`。
+
+下一步优先有限模型族在三个预登记unseen folds的筛选/残差分析，并行Spot/USD-M
+实际经济映射。长horizon两阶段调参暂缓，独立M1信息/残差与扣费证据改善时重开；
+能力保留，不用单一July regime永久淘汰整个方向。
+零fit组件诊断中，SpotBTC5/15m预测flow自身IC .177/.176，但其price relevance
+Pearson仅−.0034/.0054，真实futureflow与return .492/.516；不能凭flow IC晋级。
+六recipe/三个unseen日期已在首新结果前冻结，当前准备薄接口启动A，B/C沿同配置。
+
+September四流已全部独立QA：120档/2,073,600行，18个旧daily重叠字节一致。
+92日共同source-view真实通过（368档/6,359,040行，266旧＋102新），只读来源/SHA/
+metadata，无新OOS标签/模型结果。最近实测磁盘13,899,993,807B，UTC01:34:55.398544。
+October四路新薄版本正在串行取档，未算接受；模块见
+`MODULE_V7_SEPTEMBER_MONTHLY_SOURCE_VIEW_20261002_V1.md`。
+
 ## 2026-10-02 v7：oracle 四周期诊断与官方月档试点
 
 8765持续运行修复另已实际验收：原bounded.sh＋enabled v7-v3用户服务，viewer

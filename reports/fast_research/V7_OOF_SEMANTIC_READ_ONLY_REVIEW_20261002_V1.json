@@ -1,0 +1,1237 @@
+{
+  "status": "V7_OOF_CAUSALITY_SCALER_AND_SETTLEMENT_READ_ONLY_REVIEW_PASS_WITH_REPORTING_LIMITS",
+  "created_utc": "2026-10-02T01:28:52.070076+00:00",
+  "reviewed_report_sha256": "569a9a0e0fe15e6ae37363b7ff3d32e4bad5e6c0d8c2986a3ee0b38694505781",
+  "review_script_sha256": "cb399aff3410c6b93b29399a6a4958994577b3f55a285173f6c833d5de180806",
+  "source_hashes": {
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+    "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+    "src/quant/research_fast/evaluation.py": "f23d37ede10aa1ed3a3e1d7336d2a7c85884fc2e62dc6cb2ddfdf91e798d171e",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+    "scripts/research_v7/oof_flow_impact.py": "510d45214e462effe8e64e711145ffe0edfc31c7f1c286e7dc1968360d76b910",
+    "protocols/fast_research_v6.json": "a51adea6ff382128c9d4632280ad31d00c486b165f2ef4019b0a4f508e2e03bd"
+  },
+  "reviewed_current_verifier_snapshot_sha256": "33ff4cc9bb32eb671dbf69867b547bf454ba0339aad9ae819dfb9166eec2866a",
+  "scope": "Only original registered July development artifacts; no unseen/locked reads, no model refits, no source/evidence modification",
+  "counts": {
+    "train": 11590,
+    "validation": 2283,
+    "test": 9281,
+    "OOF_M2_direct": 8607
+  },
+  "scaler_parameter_checks": [
+    {
+      "horizon_minutes": 5,
+      "role": "M1-OOF-0",
+      "fit_rows": 2952,
+      "forecast_rows": 1743,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 2952,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 2952,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 5,
+      "role": "M1-OOF-1",
+      "fit_rows": 4661,
+      "forecast_rows": 2972,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 4661,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 4661,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 5,
+      "role": "M1-OOF-2",
+      "fit_rows": 7592,
+      "forecast_rows": 3892,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 7592,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 7592,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 5,
+      "role": "M1-final",
+      "fit_rows": 11590,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 11590,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 11590,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 5,
+      "role": "DIRECT-past-only",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 5,
+      "role": "M2-OOF-flow-impact",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "M1-OOF-0",
+      "fit_rows": 2952,
+      "forecast_rows": 1743,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 2952,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 2952,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "M1-OOF-1",
+      "fit_rows": 4661,
+      "forecast_rows": 2972,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 4661,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 4661,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "M1-OOF-2",
+      "fit_rows": 7592,
+      "forecast_rows": 3892,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 7592,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 7592,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "M1-final",
+      "fit_rows": 11590,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 11590,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 11590,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "DIRECT-past-only",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "role": "M2-OOF-flow-impact",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "M1-OOF-0",
+      "fit_rows": 2952,
+      "forecast_rows": 1743,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 2952,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 2952,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "M1-OOF-1",
+      "fit_rows": 4661,
+      "forecast_rows": 2972,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 4661,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 4661,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "M1-OOF-2",
+      "fit_rows": 7592,
+      "forecast_rows": 3892,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 7592,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 7592,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "M1-final",
+      "fit_rows": 11590,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 11590,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 11590,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "DIRECT-past-only",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "role": "M2-OOF-flow-impact",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "M1-OOF-0",
+      "fit_rows": 2952,
+      "forecast_rows": 1743,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 2952,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 2952,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "M1-OOF-1",
+      "fit_rows": 4661,
+      "forecast_rows": 2972,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 4661,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 4661,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "M1-OOF-2",
+      "fit_rows": 7592,
+      "forecast_rows": 3892,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 7592,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 7592,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "M1-final",
+      "fit_rows": 11590,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 11590,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 11590,
+        "columns": 4,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "DIRECT-past-only",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "role": "M2-OOF-flow-impact",
+      "fit_rows": 8607,
+      "forecast_rows": 11564,
+      "maturity_plus_embargo_respected": true,
+      "input_scaler": {
+        "rows": 8607,
+        "columns": 210,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      },
+      "target_scaler": {
+        "rows": 8607,
+        "columns": 2,
+        "all_official_scaler_parameters_exact": true,
+        "max_absolute_parameter_differences": {
+          "mean": 0.0,
+          "scale": 0.0,
+          "var": 0.0
+        }
+      }
+    }
+  ],
+  "predicted_flow_scaler_checks": [
+    {
+      "horizon_minutes": 5,
+      "rows": 8607,
+      "columns": 4,
+      "all_official_scaler_parameters_exact": true,
+      "max_absolute_parameter_differences": {
+        "mean": 0.0,
+        "scale": 0.0,
+        "var": 0.0
+      }
+    },
+    {
+      "horizon_minutes": 15,
+      "rows": 8607,
+      "columns": 4,
+      "all_official_scaler_parameters_exact": true,
+      "max_absolute_parameter_differences": {
+        "mean": 0.0,
+        "scale": 0.0,
+        "var": 0.0
+      }
+    },
+    {
+      "horizon_minutes": 30,
+      "rows": 8607,
+      "columns": 4,
+      "all_official_scaler_parameters_exact": true,
+      "max_absolute_parameter_differences": {
+        "mean": 0.0,
+        "scale": 0.0,
+        "var": 0.0
+      }
+    },
+    {
+      "horizon_minutes": 60,
+      "rows": 8607,
+      "columns": 4,
+      "all_official_scaler_parameters_exact": true,
+      "max_absolute_parameter_differences": {
+        "mean": 0.0,
+        "scale": 0.0,
+        "var": 0.0
+      }
+    }
+  ],
+  "direct_M2_same_rows_scalers_and_targets": true,
+  "actual_M2_training_input_lineage_is_exact_three_block_OOF_union": true,
+  "actual_terminal_settlement_checks": [
+    {
+      "horizon_minutes": 5,
+      "policy": "DIRECT",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "DIRECT",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "DIRECT",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "DIRECT",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "DIRECT",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "DIRECT",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "DIRECT",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "DIRECT",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "DIRECT",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "DIRECT",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "DIRECT",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "DIRECT",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 2,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 4,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "OOF_TWO_STAGE",
+      "spread_bps": 8,
+      "actual_7d_terminal_cash_and_flat_positions_verified": true
+    }
+  ],
+  "economic_summary": [
+    {
+      "horizon_minutes": 5,
+      "policy": "DIRECT",
+      "net_7d_return": 0.0,
+      "gross_7d_return": 0.0,
+      "cost_fraction": 0.0,
+      "roundtrips": 0,
+      "break_even_roundtrip_cost_bps": null,
+      "BTC_return_rank_IC": 0.05756341356534286,
+      "ETH_return_rank_IC": 0.03077823307004686
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "OOF_TWO_STAGE",
+      "net_7d_return": 0.0,
+      "gross_7d_return": 0.0,
+      "cost_fraction": 0.0,
+      "roundtrips": 0,
+      "break_even_roundtrip_cost_bps": null,
+      "BTC_return_rank_IC": 0.054253565125716864,
+      "ETH_return_rank_IC": 0.034050041134642085
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "DIRECT",
+      "net_7d_return": 0.00033506638007785305,
+      "gross_7d_return": 0.003039711110700512,
+      "cost_fraction": 0.0027046447306226704,
+      "roundtrips": 3,
+      "break_even_roundtrip_cost_bps": 33.71656627893388,
+      "BTC_return_rank_IC": 0.06116053527453497,
+      "ETH_return_rank_IC": 0.01502448652038234
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "OOF_TWO_STAGE",
+      "net_7d_return": -0.004220693892900806,
+      "gross_7d_return": 0.00026848776398189715,
+      "cost_fraction": 0.004489181656882715,
+      "roundtrips": 6,
+      "break_even_roundtrip_cost_bps": 1.7942318968330095,
+      "BTC_return_rank_IC": 0.05371019297140461,
+      "ETH_return_rank_IC": -0.007170543752279596
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "DIRECT",
+      "net_7d_return": -0.01467581158128306,
+      "gross_7d_return": 0.003177026724619756,
+      "cost_fraction": 0.017852838305902806,
+      "roundtrips": 22,
+      "break_even_roundtrip_cost_bps": 5.338691815019726,
+      "BTC_return_rank_IC": 0.009070233151070917,
+      "ETH_return_rank_IC": 0.028652787289895176
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "OOF_TWO_STAGE",
+      "net_7d_return": -0.020994136974807454,
+      "gross_7d_return": 0.0012247028064123868,
+      "cost_fraction": 0.022218839781219794,
+      "roundtrips": 26,
+      "break_even_roundtrip_cost_bps": 1.6536004829312585,
+      "BTC_return_rank_IC": 0.009590896197701185,
+      "ETH_return_rank_IC": 0.00015440794509968697
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "DIRECT",
+      "net_7d_return": -0.052729225469957286,
+      "gross_7d_return": 0.02021786867456732,
+      "cost_fraction": 0.07294709414452455,
+      "roundtrips": 109,
+      "break_even_roundtrip_cost_bps": 8.314739159250477,
+      "BTC_return_rank_IC": 0.03346952510767834,
+      "ETH_return_rank_IC": -0.0024943442967151684
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "OOF_TWO_STAGE",
+      "net_7d_return": -0.05846300142450633,
+      "gross_7d_return": 0.012922433033936967,
+      "cost_fraction": 0.07138543445844334,
+      "roundtrips": 99,
+      "break_even_roundtrip_cost_bps": 5.430701570412938,
+      "BTC_return_rank_IC": 0.0069567114375208095,
+      "ETH_return_rank_IC": 0.005041239553999651
+    }
+  ],
+  "reporting_unit_findings": [
+    {
+      "horizon_minutes": 5,
+      "section": "M1_test_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 451.896175911999,
+      "correct_signed_flow_imbalance_mean": 0.0451896175911999,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_test_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 263.6393653293703,
+      "correct_signed_flow_imbalance_mean": 0.026363936532937032,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_test_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 375.2433112284418,
+      "correct_signed_flow_imbalance_mean": 0.03752433112284418,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_test_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 211.98744286543092,
+      "correct_signed_flow_imbalance_mean": 0.021198744286543093,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_OOF_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 617.533937180184,
+      "correct_signed_flow_imbalance_mean": 0.0617533937180184,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_OOF_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 203.88488573277695,
+      "correct_signed_flow_imbalance_mean": 0.020388488573277696,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_OOF_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 188.78855396777368,
+      "correct_signed_flow_imbalance_mean": 0.018878855396777368,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 5,
+      "section": "M1_OOF_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 164.68154864248905,
+      "correct_signed_flow_imbalance_mean": 0.016468154864248904,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_test_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 387.55120399515573,
+      "correct_signed_flow_imbalance_mean": 0.03875512039951557,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_test_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 135.32050165364456,
+      "correct_signed_flow_imbalance_mean": 0.013532050165364455,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_test_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 164.84053447503044,
+      "correct_signed_flow_imbalance_mean": 0.016484053447503044,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_test_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 116.67833450007045,
+      "correct_signed_flow_imbalance_mean": 0.011667833450007044,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_OOF_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 429.4692279163657,
+      "correct_signed_flow_imbalance_mean": 0.04294692279163657,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_OOF_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 194.7134042949327,
+      "correct_signed_flow_imbalance_mean": 0.01947134042949327,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_OOF_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 58.54583411964375,
+      "correct_signed_flow_imbalance_mean": 0.005854583411964375,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 15,
+      "section": "M1_OOF_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 34.94071808797301,
+      "correct_signed_flow_imbalance_mean": 0.003494071808797301,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_test_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 347.9674520155971,
+      "correct_signed_flow_imbalance_mean": 0.03479674520155971,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_test_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 136.6978416539661,
+      "correct_signed_flow_imbalance_mean": 0.013669784165396609,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_test_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 102.38616936759956,
+      "correct_signed_flow_imbalance_mean": 0.010238616936759957,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_test_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 126.67816313071908,
+      "correct_signed_flow_imbalance_mean": 0.012667816313071909,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_OOF_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 332.6901411318916,
+      "correct_signed_flow_imbalance_mean": 0.03326901411318916,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_OOF_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 108.19561916450911,
+      "correct_signed_flow_imbalance_mean": 0.010819561916450912,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_OOF_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 13.285544310099754,
+      "correct_signed_flow_imbalance_mean": 0.0013285544310099753,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 30,
+      "section": "M1_OOF_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": -0.22363589679965515,
+      "correct_signed_flow_imbalance_mean": -2.2363589679965514e-05,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_test_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 297.87607167096274,
+      "correct_signed_flow_imbalance_mean": 0.029787607167096275,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_test_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 91.790866248564,
+      "correct_signed_flow_imbalance_mean": 0.0091790866248564,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_test_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 29.815546513883927,
+      "correct_signed_flow_imbalance_mean": 0.002981554651388393,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_test_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 87.72613225428587,
+      "correct_signed_flow_imbalance_mean": 0.008772613225428588,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_OOF_flow",
+      "stream": "spot_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 225.3251188357431,
+      "correct_signed_flow_imbalance_mean": 0.02253251188357431,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_OOF_flow",
+      "stream": "spot_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 42.72334162973721,
+      "correct_signed_flow_imbalance_mean": 0.004272334162973721,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_OOF_flow",
+      "stream": "perp_BTCUSDT",
+      "historical_ambiguous_signed_return_mean_bps": -0.41484154190435496,
+      "correct_signed_flow_imbalance_mean": -4.1484154190435496e-05,
+      "monetary_return_or_bps": false
+    },
+    {
+      "horizon_minutes": 60,
+      "section": "M1_OOF_flow",
+      "stream": "perp_ETHUSDT",
+      "historical_ambiguous_signed_return_mean_bps": 33.96794741794647,
+      "correct_signed_flow_imbalance_mean": 0.003396794741794647,
+      "monetary_return_or_bps": false
+    }
+  ],
+  "findings": [
+    "No training label/scaler lookahead found under declared 3610s max maturity and 3600s embargo.",
+    "Past204 construction slices only bars before decision; six state fields use already-closed contemporaneous/preceding-hour inputs. No exact raw-feature reproduction repeated here.",
+    "Future-valid common filtering uses future four-stream quality/price-anchor validity at all four horizons, so every economic replay is conditional and cannot prove executable APR.",
+    "M1-final uses more and later data than three expanding OOF generators; predicted-flow distribution/calibration changes are a scientific limitation, not label leakage.",
+    "5m flow has modest predictive association, but actual-return predictions do not cross fixed cost threshold; zero trades proves no monetization for this recipe, not no market signal.",
+    "15m DIRECT +0.0335% at primary assumed costs uses only 3 roundtrips; one already-viewed regime and cost sensitivity make it insufficient as long-term candidate evidence.",
+    "OOF two-stage underperforms matched direct control at 15/30/60m; pause this implementation while preserving flow capability, reopen on unseen matched-row incremental-net-edge/residual evidence.",
+    "M1 signed_return_mean_bps fields have flow imbalance units scaled by10000, not return bps; never use these fields as monetary edge/APR.",
+    "Initial independent verifier manually normalized float32 with float64 parameters, differing from official sklearn dtype casting. Owner is repairing separately; this review does not claim saved-model numerical reproduction PASS."
+  ],
+  "long_term_net_APR_proven": false,
+  "recommended_next_information_gain": "Predeclare three genuinely unseen OOS blocks with fixed fit/cost/risk/horizon rules; prioritize lower-turnover direct15m versus matched OOF increment while measuring calibration and residual independence, and preserve frontier allocation.",
+  "shared_resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1383845888,
+    "ram_peak_bytes": 1590603776,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

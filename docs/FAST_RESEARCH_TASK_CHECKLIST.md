@@ -1,14 +1,16 @@
 # 当前科研：v7 长期净 APR；保留下方 v6 长清单
 
-当前所在：四周期oracle诊断已完成，正在执行严格OOF flow→impact，对照direct return。
-官方monthly补齐独立unseen folds所需数据；September Spot BTC30日已独立QA。
+当前所在：四周期oracle与严格OOF flow→impact开发诊断已完成，未产生APR候选。
+两阶段没有改善matched direct return；下一步有限模型族unseen筛选与venue经济映射。
+官方monthly补齐独立unseen folds所需数据；September四流120档已独立QA，92日共同来源已绑定。
 当前无合格APR候选，未消费locked，无真钱。下一实验根据结果选择，不机械推进旧roadmap。
 
 - [x] v7原文登记、优先级和决策日志
 - [x] 5/15/30/60m共同样本oracle诊断及必要正确性核验
 - [x] 官方monthly Spot BTC September 30日试点/独立QA
 - [x] 三个时间分散、结果未查看的unseen OOS folds预登记
-- [ ] 严格OOF flow→impact与同样本direct return开发比较（当前）
+- [x] 5/15m×Ridge/XGB-S/TCN-S六recipe在首unseen结果前冻结
+- [x] 严格OOF flow→impact与同样本direct return开发比较、必要独立核验
 - [ ] 三fold模型族筛选与prediction residual / ensemble diversity
 - [ ] Spot / USD-M真实经济合同映射
 - [ ] adaptive / frontier保留约20%预算，按机制与证据选择实验

@@ -5,8 +5,11 @@
 **无合格长期净APR候选**。已有工程与负结果保留，不能代替盈利证据。
 本次四周期oracle机制诊断已完成并核验，支持优先检验严格OOF flow→impact；
 oracle含未来信息，不属于可交易模型。原成本和风险未放宽，locked仍封存。
+严格OOF实际24固定拟合调用及必要核验已完成：本版两阶段没有改善DIRECT，
+15m DIRECT条件七天净+0.0335%仅3往返，仍无APR候选。下一步有限unseen模型族筛选
+与Spot/USD-M经济映射，详见 `MODULE_V7_OOF_FLOW_IMPACT_20261002_V2.md`。
 三个时间分散的unseen folds已预登记；研究不再等待完整180日后才开始。
-September Spot BTC官方月档30日独立QA完成，余下三流正在运行；October接续。
+September四流120档独立QA与92日共同来源视图已完成；October四流新V2正在串行获取。
 原两路公开采集保留来源恢复新会话；断档不记健康时间。
 8765已恢复，持续运行修复及实际4.639秒故障恢复另立验收凭证。原5GB共享硬限/swap0保持，无GPU。
 当前决策与限制见 `RESEARCH_DECISION_LOG.md` 和
