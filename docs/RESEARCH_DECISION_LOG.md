@@ -62,3 +62,17 @@
   不以这个July短窗淘汰整个能力，不重新启动旧全十模型六fold大循环。
 - **协议**：`protocols/research_v7_family_screen_20261002_v1.json`。评估不使用locked、
   不把未来有效性筛选当在线过滤，不通过换venue费用改写既有Spot结果。
+
+## 2026-10-02 D004：V8纠偏，先证伪非重叠增量alpha
+
+- 用户直接提供V8，冲突处覆盖v7。目标改为risk-constrained net CAGR；候选NONE，
+  <=180日仅SCREENING。旧oracle只标SAME_WINDOW_IMPACT_DIAGNOSTIC，无预测上限声明。
+- 原V7队列先停止并保存146工件SHA：A6/B2完成，其他中止，执行污染不因根未读而抹去。
+  旧源码/模型/负结果保持；locked和真钱边界不变。
+- 下一信息增益最高路线为非重叠标签/strict OOF surprise与matched direct及最强风险基准；
+  四个预注册月份分散OOS不等于四独立经济regime，需如实统计依赖。P1未过不得深度扩展。
+- 只追加登记所有历史成功/失败/中断工件，未知元数据不伪造；工件数不是trial count。
+  bootstrap/DSR/PBO/SPA输入不足则NOT_EVALUABLE，不通过省略结果或假0制造通过。
+- P1失败：aggTrades-only directional alpha PAUSED；仅真实L1/L5/BBO新信息或carry/basis/
+  慢速组合重开。maker缺queue/真实fills，carry缺mark/资金费/保证金输入时不可评价。
+- 8765实际修復已接受保持WSL连接；显式shutdown和时钟跳变仍如实保留，不扩工程观察器。

@@ -1,20 +1,6 @@
 # 项目执行约束
 
-**当前最高科研指令为用户于2026-10-02直接提供的V8**，原文逐字节留存
-`docs/archive/COIN_V8_USER_DIRECTIVE_20261002.md`，登记`docs/V8_OVERRIDE.md`。
-冲突处覆盖下列v7：目标为risk-constrained net CAGR，当前必须
-`NO_QUALIFIED_CANDIDATE`；≤180天仅SCREENING。旧oracle只叫
-`SAME_WINDOW_IMPACT_DIAGNOSTIC`，不能叫可交易预测上限。
-P1非重叠/严格OOF/匹配direct基线及四个分散OOS与统计经济gate通过前，暂停正式
-深度模型研究、新增模型族、大HPO、maker盈利声明和真钱。P1若失败只能以真实
-L1/L5/BBO信息重开，或转carry/basis/慢速组合，不继续同标签堆模型。
-当前权威状态仅`docs/RESEARCH_STATUS.md`，决策日志只追加，所有运行登记
-`reports/experiment_registry.jsonl`（旧运行缺失元数据明确UNKNOWN，不伪造）。
-v7预算/自主权限及旧源码、数据哈希、负结果保留；40GB磁盘、当前5GB共享RAM、
-swap0、GPU0和locked/真钱/密钥边界继续。旧AGENTS完整快照保存在
-`docs/archive/AGENTS_PRE_V8_20261002.md`。窗口修复仅用户已授权的进度显示。
-
-**此前v7科研指令（冲突处让位V8）**：
+**当前最高科研指令为用户于2026-10-02明确采纳的v7**：
 `CODEX_AUTONOMOUS_RESEARCH_DIRECTIVE_v7_2026-10-02.md`，登记`docs/V7_OVERRIDE.md`。
 最终目标为统一风险下、扣除真实成本的长期净几何APR。自主选择信息增益最高的下一实验；
 普通科研无需逐项批准。旧v6冲突的固定roadmap/180日启动等待/纯IC排名让位v7；

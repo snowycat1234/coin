@@ -1,0 +1,537 @@
+{
+  "status": "V7_SPOT_USDM_ECONOMIC_MAPPING_READ_ONLY_COMPLETE_WITH_EXPLICIT_INPUT_GAPS",
+  "created_utc": "2026-10-02T05:46:10.062642+00:00",
+  "run_dir": "/home/xflops/coin-state/v7-venue-economic-mapping-20261002-v1",
+  "analysis_script_sha256": "ee361a404330ba55181f70b25b19e881a9a2e10bad7fa68ab059ff06fa4ecd75",
+  "input_hashes": {
+    "reports/fast_research/V7_VENUE_METADATA_AVAILABILITY_20261002_V1.json": "f9c5b2c2168d9ec52e21c380906c1a97489bdd256c76c5f6c841275adeae7fee",
+    "reports/fast_research/V7_OOF_FLOW_IMPACT_20261002_V2.json": "569a9a0e0fe15e6ae37363b7ff3d32e4bad5e6c0d8c2986a3ee0b38694505781",
+    "docs/OPEN_SOURCE_REGISTRY.md": "efe6cef8ffa1d76f0ab65ae72fc8c154b77828fd98012c8e9f0fedb3cca01910",
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+    "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+    "src/quant/research_fast/evaluation.py": "f23d37ede10aa1ed3a3e1d7336d2a7c85884fc2e62dc6cb2ddfdf91e798d171e",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+    "scripts/research_v7/oof_flow_impact.py": "510d45214e462effe8e64e711145ffe0edfc31c7f1c286e7dc1968360d76b910",
+    "protocols/fast_research_v6.json": "a51adea6ff382128c9d4632280ad31d00c486b165f2ef4019b0a4f508e2e03bd"
+  },
+  "only_market_sample_read": "Existing registered July2025 development funding archives and aggregate prior OOF report; no new target labels",
+  "funding_archives": [
+    {
+      "symbol": "BTCUSDT",
+      "archive_url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2025-07.zip",
+      "checksum_url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2025-07.zip.CHECKSUM",
+      "zip_sha256": "b097dff828f6e43fece23db0d3cb98042a9d7bc19693b8cbfd051d88eb973b7b",
+      "checksum_sha256": "53c42a2613545a993accd1885c07470b4199b67b81fbe6f6a63a53b994a6914f",
+      "rows": 93,
+      "published_timestamp_field": "calc_time; not account-level actual funding transaction timestamp",
+      "timestamp_unit": "milliseconds",
+      "first_timestamp_ms": 1751328000007,
+      "last_timestamp_ms": 1753977600000,
+      "declared_funding_intervals_hours": [
+        8
+      ],
+      "actual_event_spacing_hours_min": 7.999996944444445,
+      "actual_event_spacing_hours_max": 8.000003055555556,
+      "published_8h_boundary_offset_ms_min": 0,
+      "published_8h_boundary_offset_ms_max": 11,
+      "positive_events": 93,
+      "negative_events": 0,
+      "zero_events": 0,
+      "rate_bps_min": 0.1028,
+      "rate_bps_max": 1.0,
+      "rate_bps_mean": 0.783136559139785,
+      "rate_bps_median": 1.0,
+      "long_cashflow_per_event_notional_bps_min": -1.0,
+      "long_cashflow_per_event_notional_bps_max": -0.1028,
+      "short_cashflow_per_event_notional_bps_min": 0.1028,
+      "short_cashflow_per_event_notional_bps_max": 1.0,
+      "mark_price_available_in_funding_archive": false
+    },
+    {
+      "symbol": "ETHUSDT",
+      "archive_url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDT/ETHUSDT-fundingRate-2025-07.zip",
+      "checksum_url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDT/ETHUSDT-fundingRate-2025-07.zip.CHECKSUM",
+      "zip_sha256": "5f2d840c5669ca946529c33f6df32433c5d0cd973eb4adfd40459270c460e7f8",
+      "checksum_sha256": "c6cdea45f491c9fcb59022c4e737a80abf08c2fb10633f731827253863466004",
+      "rows": 93,
+      "published_timestamp_field": "calc_time; not account-level actual funding transaction timestamp",
+      "timestamp_unit": "milliseconds",
+      "first_timestamp_ms": 1751328000007,
+      "last_timestamp_ms": 1753977600000,
+      "declared_funding_intervals_hours": [
+        8
+      ],
+      "actual_event_spacing_hours_min": 7.999996944444445,
+      "actual_event_spacing_hours_max": 8.000003055555556,
+      "published_8h_boundary_offset_ms_min": 0,
+      "published_8h_boundary_offset_ms_max": 11,
+      "positive_events": 90,
+      "negative_events": 3,
+      "zero_events": 0,
+      "rate_bps_min": -0.3011,
+      "rate_bps_max": 1.0,
+      "rate_bps_mean": 0.7559741935483871,
+      "rate_bps_median": 1.0,
+      "long_cashflow_per_event_notional_bps_min": -1.0,
+      "long_cashflow_per_event_notional_bps_max": 0.3011,
+      "short_cashflow_per_event_notional_bps_min": -0.3011,
+      "short_cashflow_per_event_notional_bps_max": 1.0,
+      "mark_price_available_in_funding_archive": false
+    }
+  ],
+  "holding_horizon_scenarios": [
+    {
+      "symbol": "BTCUSDT",
+      "holding_minutes": 5,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.010416666666666666,
+      "cross_event_probability_percent": 1.0416666666666667,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        -0.1028
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        0.1028,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.008157672491039427,
+      "illustrative_expected_short_cashflow_bps": 0.008157672491039427,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "holding_minutes": 15,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.03125,
+      "cross_event_probability_percent": 3.125,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        -0.1028
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        0.1028,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.02447301747311828,
+      "illustrative_expected_short_cashflow_bps": 0.02447301747311828,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "holding_minutes": 30,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.0625,
+      "cross_event_probability_percent": 6.25,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        -0.1028
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        0.1028,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.04894603494623656,
+      "illustrative_expected_short_cashflow_bps": 0.04894603494623656,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "holding_minutes": 60,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.125,
+      "cross_event_probability_percent": 12.5,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        -0.1028
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        0.1028,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.09789206989247312,
+      "illustrative_expected_short_cashflow_bps": 0.09789206989247312,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "holding_minutes": 5,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.010416666666666666,
+      "cross_event_probability_percent": 1.0416666666666667,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        0.3011
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        -0.3011,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.007874731182795698,
+      "illustrative_expected_short_cashflow_bps": 0.007874731182795698,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "holding_minutes": 15,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.03125,
+      "cross_event_probability_percent": 3.125,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        0.3011
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        -0.3011,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.023624193548387098,
+      "illustrative_expected_short_cashflow_bps": 0.023624193548387098,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "holding_minutes": 30,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.0625,
+      "cross_event_probability_percent": 6.25,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        0.3011
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        -0.3011,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.047248387096774196,
+      "illustrative_expected_short_cashflow_bps": 0.047248387096774196,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "holding_minutes": 60,
+      "status": "ILLUSTRATIVE_UNIFORM_ENTRY_PHASE_AND_CONSTANT_MARK_NOTIONAL_ONLY",
+      "period_minutes": 480,
+      "cross_event_probability": 0.125,
+      "cross_event_probability_percent": 12.5,
+      "maximum_nominal_events_for_fixed_horizon_in_observed_July_schedule": 1,
+      "event_crossing_is_required_for_nonzero_cashflow": true,
+      "conditional_event_cashflow_range_long_bps": [
+        -1.0,
+        0.3011
+      ],
+      "conditional_event_cashflow_range_short_bps": [
+        -0.3011,
+        1.0
+      ],
+      "illustrative_expected_long_cashflow_bps": -0.09449677419354839,
+      "illustrative_expected_short_cashflow_bps": 0.09449677419354839,
+      "realized_strategy_funding_or_APR": false,
+      "assumptions": [
+        "entry phase uniform and independent of rate/event; event rates sampled uniformly from observed July",
+        "mark notional constant; bps denominated by event mark notional, not collateral equity",
+        "fixed holding duration equals target horizon; actual strategy can hold longer and must use real entry/exit",
+        "ignore month edge and transaction-time ambiguity for this illustration; 15-second transaction deviation requires conservative boundary treatment in real replay"
+      ]
+    }
+  ],
+  "small_daily_price_checksum_probe": [
+    {
+      "symbol": "BTCUSDT",
+      "data_type": "markPriceKlines",
+      "scope": "this exact daily July01 1m CHECKSUM key only",
+      "url": "https://data.binance.vision/data/futures/um/daily/markPriceKlines/BTCUSDT/1m/BTCUSDT-markPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "method": "GET",
+      "credentials_used": false,
+      "requested_utc": "2026-10-02T05:46:05.375635+00:00",
+      "http_status": 404,
+      "error": "HTTPError",
+      "saved_path": "/home/xflops/coin-state/v7-venue-economic-mapping-20261002-v1/BTCUSDT-markPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "sha256": "86e29e906521c806048cad5950710555a7f5f0754610721d4e50b235340649ce",
+      "bytes": 390,
+      "elapsed_seconds": 1.3777291549999973
+    },
+    {
+      "symbol": "BTCUSDT",
+      "data_type": "indexPriceKlines",
+      "scope": "this exact daily July01 1m CHECKSUM key only",
+      "url": "https://data.binance.vision/data/futures/um/daily/indexPriceKlines/BTCUSDT/1m/BTCUSDT-indexPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "method": "GET",
+      "credentials_used": false,
+      "requested_utc": "2026-10-02T05:46:06.753534+00:00",
+      "http_status": 404,
+      "error": "HTTPError",
+      "saved_path": "/home/xflops/coin-state/v7-venue-economic-mapping-20261002-v1/BTCUSDT-indexPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "sha256": "d6bc574a3e08f6eaf1b197daf2c3562bdc59afd0bfca2b79d3e2845c2953fafa",
+      "bytes": 392,
+      "elapsed_seconds": 1.0303437799999529
+    },
+    {
+      "symbol": "ETHUSDT",
+      "data_type": "markPriceKlines",
+      "scope": "this exact daily July01 1m CHECKSUM key only",
+      "url": "https://data.binance.vision/data/futures/um/daily/markPriceKlines/ETHUSDT/1m/ETHUSDT-markPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "method": "GET",
+      "credentials_used": false,
+      "requested_utc": "2026-10-02T05:46:07.783944+00:00",
+      "http_status": 404,
+      "error": "HTTPError",
+      "saved_path": "/home/xflops/coin-state/v7-venue-economic-mapping-20261002-v1/ETHUSDT-markPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "sha256": "683402de85f5d1cb4fadb8994045f0f7cbcbe989ebe435a6589fe2f6f805d5d0",
+      "bytes": 390,
+      "elapsed_seconds": 1.0462645039999643
+    },
+    {
+      "symbol": "ETHUSDT",
+      "data_type": "indexPriceKlines",
+      "scope": "this exact daily July01 1m CHECKSUM key only",
+      "url": "https://data.binance.vision/data/futures/um/daily/indexPriceKlines/ETHUSDT/1m/ETHUSDT-indexPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "method": "GET",
+      "credentials_used": false,
+      "requested_utc": "2026-10-02T05:46:08.830332+00:00",
+      "http_status": 404,
+      "error": "HTTPError",
+      "saved_path": "/home/xflops/coin-state/v7-venue-economic-mapping-20261002-v1/ETHUSDT-indexPriceKlines-1m-2025-07-01.zip.CHECKSUM",
+      "sha256": "7ea1ff46853ad3c166f4d958e5d9fb258df914632b2916934f27ba580eefd28c",
+      "bytes": 372,
+      "elapsed_seconds": 1.2322341020000067
+    }
+  ],
+  "actual_new_downloaded_bytes": 1544,
+  "prior_metadata_downloaded_bytes": 9544,
+  "total_venue_branch_downloaded_bytes": 11088,
+  "new_request_bound_bytes": 20000,
+  "prior_monthly_price_checksum_status": "All four exact July2025 monthly 1m mark/index CHECKSUM keys HTTP404; no conclusion about all archival directories",
+  "public_usdm_REST_status": "Prior credential-free fundingRate/fundingInfo/exchangeInfo HTTP451 restricted location; not retried on alternate hosts or bypassed",
+  "current_fee_verification": {
+    "spot_standard_regular_user_no_discount": {
+      "status": "official public table verified by web text extract 2026-10-02; WSL direct HTML was HTTP202 empty",
+      "maker_oneway_bps": 10,
+      "taker_oneway_bps": 10,
+      "url": "https://www.binance.com/en/fee/trading"
+    },
+    "usdm_regular_user_no_discount": {
+      "status": "current public table extract has No records found; current user applicability unverified",
+      "url": "https://www.binance.com/en/fee/futureFee",
+      "hypothetical_official_FAQ_only": {
+        "maker_oneway_bps": 2,
+        "taker_oneway_bps": 5,
+        "taker_roundtrip_bps": 10,
+        "maker_roundtrip_bps": 4,
+        "url": "https://www.binance.com/en/support/faq/detail/360033544231",
+        "FAQ_updated": "2026-05-01",
+        "applicable_current_or_historical_fee_verified": false
+      }
+    },
+    "historical_2025_2026_account_fee_tier_and_pair_specific_promotions": "UNKNOWN; no account keys, BNB/referral/VIP discount or promotion assumed"
+  },
+  "preserved_spot_policy": {
+    "roundtrip_fee_bps": 20,
+    "roundtrip_slippage_bps": 8,
+    "roundtrip_assumed_spread_bps": [
+      2,
+      4,
+      8
+    ],
+    "prediction_threshold_bps": 35,
+    "per_symbol_new_allocation_nav_fraction": 0.3,
+    "aggregate_new_allocation_nav_fraction": 0.6,
+    "leverage_added": false
+  },
+  "observed_spot_mechanism_comparison": [
+    {
+      "horizon_minutes": 5,
+      "policy": "DIRECT",
+      "observed_spot_closed_roundtrips": 0,
+      "observed_spot_7d_net_return": 0.0,
+      "observed_spot_break_even_roundtrip_cost_bps": null,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 5,
+      "policy": "OOF_TWO_STAGE",
+      "observed_spot_closed_roundtrips": 0,
+      "observed_spot_7d_net_return": 0.0,
+      "observed_spot_break_even_roundtrip_cost_bps": null,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "DIRECT",
+      "observed_spot_closed_roundtrips": 3,
+      "observed_spot_7d_net_return": 0.00033506638007785305,
+      "observed_spot_break_even_roundtrip_cost_bps": 33.71656627893388,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 15,
+      "policy": "OOF_TWO_STAGE",
+      "observed_spot_closed_roundtrips": 6,
+      "observed_spot_7d_net_return": -0.004220693892900806,
+      "observed_spot_break_even_roundtrip_cost_bps": 1.7942318968330095,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "DIRECT",
+      "observed_spot_closed_roundtrips": 22,
+      "observed_spot_7d_net_return": -0.01467581158128306,
+      "observed_spot_break_even_roundtrip_cost_bps": 5.338691815019726,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 30,
+      "policy": "OOF_TWO_STAGE",
+      "observed_spot_closed_roundtrips": 26,
+      "observed_spot_7d_net_return": -0.020994136974807454,
+      "observed_spot_break_even_roundtrip_cost_bps": 1.6536004829312585,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "DIRECT",
+      "observed_spot_closed_roundtrips": 109,
+      "observed_spot_7d_net_return": -0.052729225469957286,
+      "observed_spot_break_even_roundtrip_cost_bps": 8.314739159250477,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    },
+    {
+      "horizon_minutes": 60,
+      "policy": "OOF_TWO_STAGE",
+      "observed_spot_closed_roundtrips": 99,
+      "observed_spot_7d_net_return": -0.05846300142450633,
+      "observed_spot_break_even_roundtrip_cost_bps": 5.430701570412938,
+      "conditional_future_valid_filter": true,
+      "perp_result": false
+    }
+  ],
+  "economic_identity_required_for_perp": {
+    "realized_trade_gross": "direction * quantity * (actual perp exit fill - actual perp entry fill)",
+    "funding_cashflow": "-direction * abs(quantity_at_event) * mark_price_at_event * actual_event_rate; only when the position is actually liable at that settlement event",
+    "fee": "actual fill notional * applicable maker/taker rate on each side",
+    "valuation": "mark-based unrealized PnL and margin constraints; liquidation and clearance cost when applicable",
+    "basis": "Spot return differs from perp return by changing venue basis; must build separate perp target and fill ledger",
+    "price_kline_is_BBO_or_guaranteed_fill": false,
+    "uniform_risk_comparison": "Predeclare notional/collateral caps matching existing risk; no extra leverage to increase APR"
+  },
+  "documented_current_rules": [
+    {
+      "url": "https://www.binance.com/en/support/faq/detail/360033525031",
+      "updated": "2026-03-06",
+      "facts": [
+        "positive funding long pays short; negative funding short pays long",
+        "funding uses mark notional and discrete settlement; not prorated by holding minutes",
+        "default8h can change; actual transaction has a15-second deviation; published calc_time is not proof of exact account charge timestamp",
+        "funding can reduce available balance or position margin"
+      ]
+    },
+    {
+      "url": "https://www.binance.com/en/support/faq/detail/360033525271",
+      "updated": "2026-01-04",
+      "facts": [
+        "mark determines unrealized PnL/liquidation rather than executable fill",
+        "maintenance margin depends on exposure tier; exact historical brackets/clearance fees unverified",
+        "fully collateralized short not guaranteed liquidation-free because upside exposure is unbounded"
+      ]
+    }
+  ],
+  "primary_scientific_conclusion": "Existing 30m DIRECT5.34bp/60m DIRECT8.31bp and OOF1.65/5.43bp observed Spot gross break-even are below even hypothetical USD-M10bp roundtrip taker fee alone. This does not prove perp impossibility: perp/short targets and fills were not evaluated. Funding in this July sample is small relative to fees, discrete and signed; borrowing a low fee cannot solve missing venue target/fill evidence.",
+  "current_long_term_net_APR_candidate": null,
+  "long_term_net_APR_proven": false,
+  "next_experiment_priority": "Root-owned three genuinely unseen folds under matched fixed Spot cost/risk: lower-turnover direct15m/control and calibration/residual diagnostics before more infrastructure; preserve >=20pct frontier for venue-specific perp/short target if input gaps close",
+  "paused_routes": [
+    {
+      "route": "USD-M economic replay / short extension",
+      "reopen_condition": "Verified independent perp execution-price inputs, actual event funding mark series, predeclared conservative historical fee assumptions or verified fee schedule, causal BBO/slippage treatment and historical margin/clearance constraints; immutable unseen risk/cost protocol"
+    },
+    {
+      "route": "Maker fee-based edge rescue",
+      "reopen_condition": "Actual BBO/queue/fill and adverse-selection evidence, verified applicable fees, after original required gates; not currently implemented"
+    }
+  ],
+  "unseen_or_locked_labels_read": false,
+  "account_keys_used": false,
+  "orders_sent": 0,
+  "models_fit": 0,
+  "original_sources_or_evidence_modified": false,
+  "gpu_used": false,
+  "shared_resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1946599424,
+    "ram_peak_bytes": 2183634944,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}
