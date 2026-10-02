@@ -526,3 +526,20 @@
   MMR／ADL／venue历史及实际收费mark均NE，不能称完整风险等价／原生投资回测。
   新独占STATE≤50MB／900s，共享5GB／swap0／GPU0／D40GB；来源继续固定既有
   Aug1..<Dec1全部24价档＋8funding档，无新API／locked／HPO／旧绿重跑。
+
+### D030：完整负结果后检验持有截断机制（新减仓数学／数组运行前，2026-10-03）
+
+- D029主体／独立金融／根验收真实closed0；10k资本条件净亏11.011349USDT，funding5.621259，
+  总成本16.680241。ETH名义cap而非margin触发约11.65日后永久CASH；全部732事件中68计入。
+  暂停该ALL_FLAT配方的盈利采用，保留账本及固定控制；不据短持有负结果删除carry能力。
+- 下一项仅一个相同122日的matched pair减仓机制：原gross0.6／每币0.3、费用／spread／slip、
+  C0／初始q／1250reserve／625margin阈值不变。敞口触发时冻结q_keep=0.25×signalNAV/(signalS+M)，
+  下一严格较晚closed分钟仅减该币等量Spot／short，保留另一币；无增仓、重入、补资或参数搜索。
+  partial realized只结一次，reserve不返还；margin触发仍全部退出，isolated≤0仍明确FAIL。
+  exact funding与partial退出同时则closing chunk排除，continuing chunk继续持有；事件优先级事前固定。
+- 复用冻结d29账本的精确AST薄适配，不复制整个循环／新建框架、不改旧证据。独立手算应核
+  partial钱包／费用／funding ownership／signal sizing因果性；另冻结独立协议后唯一完整回放。
+  同窗为已见机制控制，不叫unseen OOS或长期APR；原native单位／price／filters／MMR缺口继续披露。
+- 预期信息价值：区分“收入不足”与“单币cap使两币收入截断”，直接衡量延长持有的额外funding
+  是否超过减仓维护成本。原全平配方reopen需新独立时间／原生信息在同风险成本下显示净稳定性；
+  Bybit原生映射仍需合规可达原生输入。新STATE≤50MB／600s、共享5GBRAM／swap0／GPU0／D40GB。

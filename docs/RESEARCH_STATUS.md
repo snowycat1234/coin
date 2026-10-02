@@ -4,14 +4,16 @@
 
 ## 当前选择与证据
 
-1. **当前选择**：盈利主力与真钱候选均为 **NONE**。Bybit普通用户费用资产语义已采用；当前研究优先固定carry条件账户，原生投资映射暂缓。2h/hybrid只是参照，没有统一盈利赢家或长期净APR证明。
-2. **净APR证据**：基差主体与独立审计完成，现金NAV／净APR仍 **NE**。固定q／首Spot close的终点不利变化BTC3.0661／ETH2.1805bp，标记回撤114.5151／344.1374bp。旧条件coupon及63bp名义成本余量是不同单位，不相加成为净收益。旧固定RSI2负结果不重复回放／拼接年化。
-3. **最大阻碍**：需把净qty、Spot base／perp quote费、全部signed资金费、共同资本／保证金和因果退出闭合。Bybit历史唯一请求HTTP403／0样本与Binance单位失败继续保留；当前价格／funding假设加Bybit费用不能称原生收入或投资资格，不绕过接口限制。
-4. **本轮发现**：全351360分钟与全10窗口独立复核，终点基差变化小而中途风险显著，尤其October。max adverse／回撤主要是资金及保证金压力，不能仅因接近旧coupon自动STOP；也不能用终点小变动忽略持有风险。最大数学误差9.09555e−14bp，非账户盈利认证。
-5. **下一实验及原因**：直接一版D029固定全期连续条件carry账户，C0=10000、每币首signal定额1250USDT／腿，netbase对冲、每币1250独立margin／freecash。仅最高既有spread／slip成本，gross0.6／每underlier0.3／margin50% guard触发下一分钟全平并永久CASH。它最短闭合资本净收益问题；不再增加碎片hurdle、降成本、杠杆或HPO。旧vol／容量／真实MMR尚不可等价，明确proxy边界。
-6. **暂停与重开**：Bybit完整原生采集暂缓，合规可达原生输入后重开；完整carry资格需真实可成交basis／收费mark／filters／保证金证据。固定RSI2及阈值HPO暂停，独立新时间或信息提供毛优势与成本余量并事前冻结后重开。其他分钟／1h／2h／hybrid能力依原reopen保留；maker需真实BBO/depth/queue。普通科研继续，locked／资金／资源边界不变。
+1. **当前选择**：盈利主力与真钱候选均为 **NONE**。Bybit普通用户Spot10bp／perp5.5bp taker及收费资产语义已采用。下一研究候选为同风险caps的carry部分减仓控制，尚未运行；2h/hybrid仍只是条件参照，没有长期净APR证明。
+2. **净APR证据**：固定122日连续账户10000USDT→9988.988651，条件净收益 **−0.110113%**；funding+5.621259，手续费／价差／滑点16.680241USDT。全观察MDD0.110113%，机械样本年化−0.329077%只描述已见条件窗口；长期净APR **NE**。旧coupon、basis统计及Spot收益不拼接为净APR。
+3. **最大阻碍**：全平guard在约11.65日截断收入，成本未摊薄。账本资本／净qty／费用／正负funding已闭合，但单位、真实Bybit价格／收费mark／filters／MMR与完整风险等价未认证。HTTP403／451失败继续保留，不绕过接口限制。
+4. **本轮发现**：ETH名义gross达到0.3导致下一分钟全平，触发时isolated权益约997＞625，非保证金破产。全部732事件中只有68持有期计入、664排除，9–11月真实保持CASH。独立175680分钟／122日／4月账本现金误差1.42027e−11USDT，说明负结果的会计可核；不产生原生投资资格。
+5. **下一实验及原因**：D030只固定一个同资本／同成本／同0.3与0.6caps的matched pair减仓控制。signal冻结qty到0.25NAV，下一closed分钟减超限币两腿、保留另一币，不增仓／重入／补资；原1250reserve与625margin阈值不放松。直接检验继续持有是否覆盖维护成本；不降成本、提高杠杆、HPO或称同窗unseen OOS。
+6. **暂停与重开**：本全平配方暂停盈利采用、保留能力与控制；新独立时间／原生信息在同成本与caps下显示持有净稳定性后重开。Bybit原生映射需合规可达原生输入及真实执行／保证金。固定RSI2及阈值HPO仍暂停，新独立信息的毛优势与成本余量经事前冻结后重开。其他分钟／1h／2h／hybrid依原reopen；maker需真实BBO/depth/queue。普通科研继续，locked／资金／资源边界不变。
 
 最新模块为 [固定全122日基差风险](BASIS_RISK_DIAGNOSTIC_20261003.md)、[实际结果](../reports/fast_research/BASIS_RISK_DIAGNOSTIC_122D_ACTUAL_20261003_V1.json)、[独立Decimal](../reports/fast_research/BASIS_RISK_DECIMAL_INDEPENDENT_AUDIT_20261003_V1.json)、[根验收](../reports/fast_research/BASIS_RISK_ROOT_ACCEPTANCE_20261003_V1.json)。三主体任务真实closed0；采用诊断能力，未计算cash NAV或APR。D028修正粗STOP，D029在carry新合成／市场回放前固定口径。
+
+**最新已验收账户**：[D029连续条件carry](CONDITIONAL_CARRY_ACCOUNT_20261003.md)、[完整实际](../reports/fast_research/CONDITIONAL_CARRY_ACCOUNT_122D_ACTUAL_20261003_V1.json)、[唯一独立Decimal](../reports/fast_research/CONDITIONAL_CARRY_ACCOUNT_DECIMAL_INDEPENDENT_AUDIT_20261003_V1.json)、[根验收](../reports/fast_research/CONDITIONAL_CARRY_ROOT_ACCEPTANCE_20261003_V1.json)、[closed0源码绑定](../reports/GITHUB_CONDITIONAL_CARRY_SOURCE_BINDING_20261003_V1.json)。主体session10927／chunk1714f6、独立session22783／chunkfa9bb0、根chunka0d87a均真实exit0。采用账本能力，暂停固定全平配方盈利采用；负结果／Windows元数据启动失败保留。单位与执行仍条件代理，长期APR NE；下一单一减仓机制需另事前固定。
 
 最新实现／实际失败／费用与后续决策见 [Bybit原生资金费小窗口](BYBIT_NATIVE_FUNDING_PILOT_20261003.md)、[实际exit1报告](../reports/fast_research/BYBIT_FUNDING_HISTORY_PILOT_ACTUAL_20261003_V1.json)、[独立源失败审计](../reports/fast_research/BYBIT_FUNDING_PILOT_INDEPENDENT_FAILED_RESPONSE_AUDIT_20261003_V1.json)、[根验收](../reports/fast_research/BYBIT_FUNDING_PILOT_ROOT_ACCEPTANCE_20261003_V1.json)。模块边界验收完成，原生data／unit gate **NOT_PASSED**。D026／D027事前范围与结果决策保留。
 
@@ -64,12 +66,12 @@ Bybit标准登记见 [费用口径](BYBIT_NONVIP_COST_STANDARD_20261002.md)。
 
 ## 资源、进度与同步
 
-- 最新实际容量扫描：项目 + 整个 D 盘 WSL VHD **19,408,082,087B**，扫描结束于 **2026-10-03 02:21:55.586777 +08:00**；project4,379,890,855B＋VHD15,028,191,232B，预留10MB、状态OK。是本次实际扫描时刻值，非当前瞬时值。基差主体进程峰值279,302,144B／独立80,076,800B；旧kernel资源凭证保留。
+- 最新实际容量扫描：项目 + 整个 D 盘 WSL VHD **19,414,326,918B**，扫描结束于 **2026-10-03 02:47:10.171751 +08:00**；project4,386,135,686B＋VHD15,028,191,232B，预留50MB、状态OK。是实际扫描时刻值，非当前瞬时值。carry主体RSS539,357,184B／独立119,386,112B，新独占STATE1,856,955B；旧kernel资源凭证保留。
 - 新RSI2 122/90编排进程峰值 RAM **626,372,608 / 526,163,968B**，独立审计 **409,174,016B**；共享 cgroup 历史峰值 **3,236,868,096B**，硬上限 **4,999,999,488B**，swap 0、GPU 0、OOM 0。总盘上限 40GB/32GB 预警/36GB 停新增不变。
 - [本机任务窗口](http://localhost:8765/)显示实际任务状态与测量时间；不造未知百分比。公开采集保持原来源，未因历史研究重启或合并健康时间。
-- 当前已核对的远程 HEAD 为 `1fdfd7d6ef23610ee7d1202646a6eb0fab4ad75d`，Bybit原生小窗口实际失败、独立审计／根验收与费用边界模块已推送；[远程一致凭证](../reports/GITHUB_BYBIT_FUNDING_PILOT_SYNC_VERIFIED_20261003_V1.json)。本行与后验同步凭证在推送完成后本机追加，下一个正常模块checkpoint纳入Git，未改冻结科研证据。[旧条件资金费同步](../reports/GITHUB_FUNDING_INCOME_SYNC_VERIFIED_20261003_V1.json)、[旧RSI2同步](../reports/GITHUB_RSI2_BYBIT_SYNC_VERIFIED_20261002_V1.json)、[旧hybrid同步](../reports/GITHUB_HYBRID_BYBIT_SYNC_VERIFIED_20261002_V1.json)、[旧Bybit费用模块同步](../reports/GITHUB_BYBIT_NATIVE_FEE_SYNC_VERIFIED_20261002_V1.json)、旧90d和2h同步凭证保留。
+- 当前已核对的远程 HEAD 为 `9c918ae9b3c9f9caddbd77d78a45fd07cbb04dd9`，全122日基差风险主体／独立及根验收、文档与失败来源已推送；[远程一致凭证](../reports/GITHUB_BASIS_RISK_SYNC_VERIFIED_20261003_V1.json)。本行与后验同步凭证在推送完成后本机追加，下一个正常模块checkpoint纳入Git，未改冻结科研证据。[旧Bybit原生失败同步](../reports/GITHUB_BYBIT_FUNDING_PILOT_SYNC_VERIFIED_20261003_V1.json)、[旧条件资金费同步](../reports/GITHUB_FUNDING_INCOME_SYNC_VERIFIED_20261003_V1.json)、[旧RSI2同步](../reports/GITHUB_RSI2_BYBIT_SYNC_VERIFIED_20261002_V1.json)、[旧hybrid同步](../reports/GITHUB_HYBRID_BYBIT_SYNC_VERIFIED_20261002_V1.json)、[旧Bybit费用模块同步](../reports/GITHUB_BYBIT_NATIVE_FEE_SYNC_VERIFIED_20261002_V1.json)、旧90d和2h同步凭证保留。
 - 固定90日外推已完成并根验收。保留首轮3CASH后exit1和独立初次IPC失败；只修signal-close过去信息视图、针对新增边界复测，旧绿测试及旧账户未重跑。详见D014–D016。
-- 当前步骤：全122日基差风险主体、唯一新手算、独立Decimal及根验收已完成，固定24价档／351360分钟／10窗口。两次root metadata hash抄写失败与独立metadata准备失败保留，来源字节未改，最终绑定实际64位SHA。已有条件资金费及阴性证据保留，旧QA／绿测试／Spot账本不重跑；下一项D029固定连续条件carry完整账户正在实现，尚未合成／市场验收。
+- 当前步骤：D029固定122日连续carry账户、唯一新手算、完整独立Decimal及根验收已完成；来源字节保持、各closed0任务可核。原单位失败与metadata启动失败保留。下一项D030同caps matched pair减仓控制正做独立薄适配准备，尚未运行；旧QA／绿测试／Spot账本不重跑。
 
 **NO_QUALIFIED_CANDIDATE。** 不消费 locked historical test、不使用真钱/账户密钥/付费服务、不启用 GPU。已见窗口和当前历史 proxy 不产生未来竞争资格。
 
