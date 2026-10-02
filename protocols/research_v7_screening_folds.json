@@ -1,0 +1,19 @@
+{
+  "version": "V7_UNSEEN_FAMILY_SCREENING_DATES_20261002_V1",
+  "purpose": "Predeclare dispersed OOS dates before any new model-family results are inspected; this is not a result or production qualification.",
+  "data_range": ["2025-07-01", "2026-03-01"],
+  "test_end_exclusive": true,
+  "folds": [
+    {"id": "v7_screen_A", "train_start": "2025-07-29", "validation_start": "2025-08-10", "test_start": "2025-08-12", "test_end": "2025-08-19"},
+    {"id": "v7_screen_B", "train_start": "2025-09-02", "validation_start": "2025-09-14", "test_start": "2025-09-16", "test_end": "2025-09-23"},
+    {"id": "v7_screen_C", "train_start": "2025-10-07", "validation_start": "2025-10-19", "test_start": "2025-10-21", "test_end": "2025-10-28"}
+  ],
+  "exclusions": "July 15-29 already inspected development comparisons and the current July oracle diagnostic cannot be counted as unseen evidence.",
+  "configuration_policy": "Use registered open-source families; freeze experiment-specific horizon, targets, normalization, costs and parameters before screening. No OOS threshold search.",
+  "maturity_policy": "All fitting labels must mature before their allowed fit cutoff; embargo at least the tested horizon. No earlier 5m embargo reuse for a longer horizon.",
+  "screening_rule": "At least three genuinely unseen dispersed folds plus residual/ensemble-diversity evidence before family pruning; no model family permanently retired on a short window.",
+  "ranking_goal": "net geometric APR under equal risk budget, interpreted with regime robustness, drawdown, worst rolling loss and capacity",
+  "locked_consumed": false,
+  "money_or_keys_used": false,
+  "model_fits_at_registration": 0
+}

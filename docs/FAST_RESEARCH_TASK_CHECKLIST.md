@@ -1,4 +1,23 @@
-# 当前长目标：开源复用科研 v6
+# 当前科研：v7 长期净 APR；保留下方 v6 长清单
+
+当前所在：四周期oracle诊断已完成，正在执行严格OOF flow→impact，对照direct return。
+官方monthly补齐独立unseen folds所需数据；September Spot BTC30日已独立QA。
+当前无合格APR候选，未消费locked，无真钱。下一实验根据结果选择，不机械推进旧roadmap。
+
+- [x] v7原文登记、优先级和决策日志
+- [x] 5/15/30/60m共同样本oracle诊断及必要正确性核验
+- [x] 官方monthly Spot BTC September 30日试点/独立QA
+- [x] 三个时间分散、结果未查看的unseen OOS folds预登记
+- [ ] 严格OOF flow→impact与同样本direct return开发比较（当前）
+- [ ] 三fold模型族筛选与prediction residual / ensemble diversity
+- [ ] Spot / USD-M真实经济合同映射
+- [ ] adaptive / frontier保留约20%预算，按机制与证据选择实验
+- [ ] 产生可冻结候选后的未来记录、统一基线与长期净APR证据
+
+下方23/40为历史v6工程/研究清单，不是当前科研完成率；未完成项不虚记完成，
+旧“等待180日/下一项”只记当时安排。v7决策日志决定现行顺序和暂停/重开条件。
+
+## v6 长清单历史状态
 
 当前步骤：官方四路两日、共同dataset和全部10配置工程模拟/统一评价通过；
 用户新增本机实时任务窗口已独立验收（15项＋真实扫描＋断线恢复），每2秒显示任务。

@@ -1,14 +1,5 @@
 # 项目执行约束
 
-**当前最高科研指令为用户于2026-10-02明确采纳的v7**：
-`CODEX_AUTONOMOUS_RESEARCH_DIRECTIVE_v7_2026-10-02.md`，登记`docs/V7_OVERRIDE.md`。
-最终目标为统一风险下、扣除真实成本的长期净几何APR。自主选择信息增益最高的下一实验；
-普通科研无需逐项批准。旧v6冲突的固定roadmap/180日启动等待/纯IC排名让位v7；
-REUSE FIRST、冻结证据、holdout/真钱边界和D盘40GB继续。v7授权RAM最多8GB，
-当前内核仍保持原5GB，GPU尚未启用。预算约60/20/20，至少20%frontier。
-报告先讲APR候选/证据/阻碍/发现/下步/暂停与reopen；不追测试数量或工程百分比。
-重大选择只追加短`docs/RESEARCH_DECISION_LOG.md`，不重新编写大规划。
-
 用户于2026-10-02明确新增本机实时任务进度窗口；这是旧“不增加dashboard”的窄例外，
 仅显示训练/测试/扫描任务进度，不扩市场、执行或资源观察器。新启动的长任务统一通过
 `scripts/with_task_progress.sh --title '任务名称' -- 原命令`（内部仍经bounded.sh）。
@@ -17,7 +8,7 @@ REUSE FIRST、冻结证据、holdout/真钱边界和D盘40GB继续。v7授权RAM
 已有冻结/正在运行任务不注入或改源；实时轮次不可得时明确未知，只显示实际完成数、
 进程耗时和工件更新。未知扫描总量不造百分比；最近磁盘值必须显示实际扫描时刻。
 
-**此前v6优先级（冲突部分让位v7）**：用户直接要求立即执行
+**当前最高优先级**：用户直接要求立即执行
 `OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`，登记
 `docs/OPEN_SOURCE_REUSE_OVERRIDE_v6.md`，当前长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`。
 REUSE FIRST → ADAPTER SECOND → CUSTOM MODEL LAST。冻结除实际correctness blocker外的

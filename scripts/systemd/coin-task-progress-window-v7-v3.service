@@ -1,0 +1,20 @@
+[Unit]
+Description=Coin local read-only task progress window via bounded.sh
+
+[Service]
+Type=simple
+WorkingDirectory=/mnt/d/codex/coin
+ExecStart=/usr/bin/bash /mnt/d/codex/coin/scripts/bounded.sh /usr/bin/python3 /mnt/d/codex/coin/.cache/serve_task_progress_v2.py
+Environment=WSL_DISTRO_NAME=hpc_linux
+Environment=PYTHONDONTWRITEBYTECODE=1
+Slice=coin-quant.slice
+MemorySwapMax=0
+KillMode=mixed
+Restart=on-failure
+RestartSec=3s
+TimeoutStopSec=10s
+StandardOutput=append:/home/xflops/coin-state/v7-task-window-bounded-restoration-20261002-v1/STDOUT.log
+StandardError=append:/home/xflops/coin-state/v7-task-window-bounded-restoration-20261002-v1/STDERR.log
+
+[Install]
+WantedBy=default.target
