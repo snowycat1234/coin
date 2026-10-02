@@ -1,5 +1,18 @@
 # FR61 开源复用登记表
 
+## 2026-10-02 具体公开策略比较增量
+
+| repo | 固定commit／许可 | 用途与本地修改 |
+|---|---|---|
+| https://github.com/jesse-ai/example-strategies | `7c91e0a37bf62165790120d730442e4f6eb00364`／MIT | PINNED：Donchian官方49行策略原字节及LICENSE置于`third_party/jesse_example_donchian`；复用信号hook，预先固定1h、common风险／账本。与原全仓配置不同，名称为`COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER`，不称原回测复现。 |
+| https://github.com/jesse-ai/jesse | `417f8765225e3bfc12043d4b712f19fe15a3c078`／MIT | PINNED：仅原Donchian指标及MIT原字节；复用其nonsequential NumPy分支。未安装Jesse／Rust框架，最小context port提供已观察candle及SMA200 NumPy reduction；所有改动与逐字节摘要见上述目录`UPSTREAM.md`。 |
+
+本轮参数在收益运行前固定，不根据上游展示收益或本轮结果选择。
+共同策略72个实际账本与独立资金/风险复核已通过，状态为 **ADOPTED_PROXY_SCREENING_ONLY**。
+根验收 `INVESTMENT_COMPARISON_ROOT_MODULE_ACCEPTANCE_20261002_V1.json`；
+下一阶段作为连续122日研究主力。原Jesse字节无本地改动，COIN adapter显式移植；
+不表示长期盈利、真实BBO可成交或可用真钱。
+
 ## 当前集成增量（FR66/FR67/FR68）
 
 FR66/FR67验收时的登记表原字节已保存在

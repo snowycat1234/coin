@@ -1,0 +1,1087 @@
+{
+  "status": "FAIL_SIMPLE_STRATEGY_COMPARISON",
+  "registration_start": {
+    "experiment_id": "SIMPLE-STRATEGY-COMPARISON-ACTUAL-20261002-V1",
+    "git_commit": "73546402fa45970044e6e091afb58cbde6700bc4",
+    "data_manifest_hash": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+    "protocol_hash": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+    "feature_set": "CLOSED_SPOT_MINUTE_PRICES_AND_31D_PAST_HISTORY_NO_478_CACHE",
+    "labels": "NONE_STRATEGY_LEDGER_COMPARISON",
+    "model_family": "NONE",
+    "hyperparameters": {
+      "per_symbol_cap": 0.3,
+      "max_order_wait_minutes": 5,
+      "participation_rate": 0.001,
+      "min_notional": 10,
+      "latency_minutes": 1,
+      "gross_cap": 0.6,
+      "liquidate_at_end": true,
+      "ETH_lot": 0.0001,
+      "min_vol_days": 20,
+      "execution_timestamp": "exclusive complete-minute signal +1minute +1microsecond",
+      "terminal_inventory": "Residual quantities remain marked at final available close; no assumed free liquidation",
+      "vol_window_days": 30,
+      "initial_cash": 10000,
+      "BTC_lot": 1e-05,
+      "capacity": "previous completed minute quote_volume",
+      "target_annual_vol": 0.1
+    },
+    "seed": "NOT_APPLICABLE_DETERMINISTIC",
+    "thresholds": {
+      "VM_BH": "seven completed UTC daily .3/.3 gross-reference-basket returns; official span7 EWMA annualvol target10%; multiplier cap1; daily decision",
+      "MR": "preceding60 logclose population std; z<=-2 enter, z>=0 exit or60minute intent; zero std abstain",
+      "CASH": "zero",
+      "BH": "capped .3/.3 hold intents",
+      "PUBLIC": "Pinned MIT Jesse Donchian hooks; prior20 exclude-current channel, currentclose>SMA200 filter; closed1h;long only; .3 allocation; common COIN risk/execution port",
+      "TREND": "official Polars EWMA60/240 minutes adjust=false min_samples240"
+    },
+    "cost_assumptions": {
+      "spread_bps": [
+        2,
+        4,
+        8
+      ],
+      "cost_booking": "Once per actual fill; fee on actual notional; spread and slippage on actual quantity",
+      "slippage_bps_per_side": 4,
+      "fee_bps_per_side": 10,
+      "nominal_roundtrip_bps": [
+        30,
+        32,
+        36
+      ]
+    },
+    "all_folds": [
+      {
+        "test_start": "2025-08-20",
+        "test_end_exclusive": "2025-08-27",
+        "id": "A"
+      },
+      {
+        "test_start": "2025-09-25",
+        "test_end_exclusive": "2025-10-02",
+        "id": "B"
+      },
+      {
+        "test_start": "2025-10-24",
+        "test_end_exclusive": "2025-10-31",
+        "id": "C"
+      },
+      {
+        "test_start": "2025-11-18",
+        "test_end_exclusive": "2025-11-25",
+        "id": "D"
+      }
+    ],
+    "success_failure": "START",
+    "reason_for_next_experiment": "Create actual fair simple-strategy net-return/risk/cost comparison before new model research",
+    "result_influenced_later_choice": false,
+    "event_id": "SIMPLE-STRATEGY-COMPARISON-ACTUAL-20261002-V1:START",
+    "event_type": "OPERATIONAL_START",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "scripts/investment/compare_simple_strategies.py": "c0f62db1136d09804c76e13aab2a80053568023743990f950bf106550cb48856",
+      "tests/test_simple_strategy_comparison.py": "eb2fed99bb1628cd6dc0bf652b4f0016caccf30ae0e8dab64feef683e01d99c1"
+    },
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/compare_simple_strategies.py --research --experiment-id SIMPLE-STRATEGY-COMPARISON-ACTUAL-20261002-V1 --run-dir /home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1 --output /mnt/d/codex/coin/reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V1.json",
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "run_binding_sha256": "e5949e1e6d026c6c6b19186a5ec68cd0706656b09f3afa8d0fa237d5fc7b89f1",
+    "market_models_fit": 0,
+    "created_utc": "2026-10-02T11:24:45.745845+00:00",
+    "previous_record_sha256": "e425e94b6dc04854d855a86b793fa9f176728766a1d66a4f898d21fcb0341a0d",
+    "record_sha256": "9cf331fceed59cd6bb32c8101ac92eeb49633165fcaf18c98c632fcfa12c017e"
+  },
+  "binding": {
+    "git_commit": "73546402fa45970044e6e091afb58cbde6700bc4",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "scripts/investment/compare_simple_strategies.py": "c0f62db1136d09804c76e13aab2a80053568023743990f950bf106550cb48856",
+      "tests/test_simple_strategy_comparison.py": "eb2fed99bb1628cd6dc0bf652b4f0016caccf30ae0e8dab64feef683e01d99c1"
+    },
+    "protocol_sha256": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/compare_simple_strategies.py --research --experiment-id SIMPLE-STRATEGY-COMPARISON-ACTUAL-20261002-V1 --run-dir /home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1 --output /mnt/d/codex/coin/reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V1.json",
+    "exact_test_command": null,
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "sys_prefix": "/home/xflops/coin-state/v8-clean-env-20261002-v2",
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "all_folds": [
+      {
+        "test_start": "2025-08-20",
+        "test_end_exclusive": "2025-08-27",
+        "id": "A"
+      },
+      {
+        "test_start": "2025-09-25",
+        "test_end_exclusive": "2025-10-02",
+        "id": "B"
+      },
+      {
+        "test_start": "2025-10-24",
+        "test_end_exclusive": "2025-10-31",
+        "id": "C"
+      },
+      {
+        "test_start": "2025-11-18",
+        "test_end_exclusive": "2025-11-25",
+        "id": "D"
+      }
+    ],
+    "strategies": [
+      "CASH",
+      "SPOT_BUY_AND_HOLD",
+      "VOL_MANAGED_BUY_AND_HOLD",
+      "FIXED_TREND",
+      "FIXED_MEAN_REVERSION",
+      "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER"
+    ],
+    "data_scope": "ACCEPTED_DEVELOPMENT_DATES_ALREADY_INSPECTED_MECHANISM_SCREENING",
+    "task_id": "a05d908741a340dc817947ebdae97024",
+    "fits": 0,
+    "seed": "NOT_APPLICABLE_DETERMINISTIC"
+  },
+  "run_dir": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1",
+  "run_binding_sha256": "e5949e1e6d026c6c6b19186a5ec68cd0706656b09f3afa8d0fa237d5fc7b89f1",
+  "folds": [
+    {
+      "fold": "A",
+      "start_us": 1755648000000000,
+      "end_us": 1756252800000000,
+      "days": 7,
+      "results": [
+        {
+          "strategy": "CASH",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-CASH/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "56a2585c6ed4d0c2616dd2a0e6f4c1bd97f6b9fe9a1b9c85c49aff3b02facf1a",
+              "bytes": 1682
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "b0f6667f6eecd6b9b36f9734d54183f87cfb83fa7d93da0fbeba816744b82e8d",
+              "bytes": 3238
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "8db9c4d5d82bffc94589bc2447e30f9c8e124b20c5809147dd12ba6476ac5bb7",
+              "bytes": 35031
+            }
+          }
+        },
+        {
+          "strategy": "CASH",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-CASH/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "cb5800718f578181c51d6ed641301269d33c41f40d4a66aec9f3c1095e690c75",
+              "bytes": 1696
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "b0f6667f6eecd6b9b36f9734d54183f87cfb83fa7d93da0fbeba816744b82e8d",
+              "bytes": 3238
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "8db9c4d5d82bffc94589bc2447e30f9c8e124b20c5809147dd12ba6476ac5bb7",
+              "bytes": 35031
+            }
+          }
+        },
+        {
+          "strategy": "CASH",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-CASH/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "fca9ea1d5177df358c021a2adaac9d1a37ddab4b604144407d1671f6518a49d9",
+              "bytes": 1682
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "b0f6667f6eecd6b9b36f9734d54183f87cfb83fa7d93da0fbeba816744b82e8d",
+              "bytes": 3238
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "8db9c4d5d82bffc94589bc2447e30f9c8e124b20c5809147dd12ba6476ac5bb7",
+              "bytes": 35031
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10121.306893166951,
+            "total_return": 0.012130689316695031,
+            "annual_return": 0.8752144789273115,
+            "annual_volatility": 0.2108490387990223,
+            "sharpe": 3.0744252566407058,
+            "max_drawdown": 0.01832619425127535,
+            "fees": 3.5471279722492,
+            "execution_costs": 1.7733606607998853,
+            "turnover": 0.35406377830686586,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.00841,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.12132200208435939,
+            "max_observed_gross": 0.2180724648359833,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": 126.62738180000042,
+            "net_cash_PnL": 121.30689316695134,
+            "gross_cash_PnL_same_quantities": 126.62738180000042,
+            "max_observed_minute_MDD": 0.02222444066769702,
+            "spread_cost": 0.35467213215997706,
+            "slippage_cost": 1.4186885286399082,
+            "actual_two_sided_mid_notional": 3546.7213216,
+            "break_even_roundtrip_cost_bps": 714.0531793621506,
+            "max_minute_marked_gross_weight": 0.2373535289052026,
+            "minimum_marked_cash": 7816.717583029345,
+            "terminal_marked_notional": 939.9286802000001,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.11099460804635326,
+            "max_minute_ETH_weight": 0.12911070028603164,
+            "top1_day_positive_gross_PnL_share": 0.567521239585915,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-SPOT_BUY_AND_HOLD/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "ac03f48ff64c54381073895c1790d1493afb4c77a7871600ecc00c20414070eb",
+              "bytes": 1863
+            },
+            "orders.parquet": {
+              "sha256": "bb8f6855476e6393c7e7e12c409b0de66ad73a4ced8689f1f7bac0546706d1c5",
+              "bytes": 3518
+            },
+            "trades.parquet": {
+              "sha256": "768984e9c0f2bf60e7aa322911c5d7e7f4f03d0b49b3c8f9fa890f5a0a6cd146",
+              "bytes": 6206
+            },
+            "daily_nav.parquet": {
+              "sha256": "f7381b30c177d6b65fbb33933fa94f3c591e30bc1a4ad7fe980ec7235cdc2b8b",
+              "bytes": 3450
+            },
+            "round_trips.parquet": {
+              "sha256": "10bee9da42b067c3144a51dec8dbd1f3ec995b3df0f08dc566ac1dc9d5b36a90",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "e901c568ae9473ad4507225424949e01777df302980312cb5a92074137ce1a60",
+              "bytes": 367966
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10120.952139704661,
+            "total_return": 0.012095213970466201,
+            "annual_return": 0.8717903774720013,
+            "annual_volatility": 0.2107942154151954,
+            "sharpe": 3.0664925405474577,
+            "max_drawdown": 0.018326584978128113,
+            "fees": 3.5472093023790396,
+            "execution_costs": 2.1280327929599085,
+            "turnover": 0.35407492869605106,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.00841,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.12132478335748936,
+            "max_observed_gross": 0.21807722525545073,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": 126.62738179999998,
+            "net_cash_PnL": 120.95213970466102,
+            "gross_cash_PnL_same_quantities": 126.62738179999998,
+            "max_observed_minute_MDD": 0.02222491385355263,
+            "spread_cost": 0.7093442643199696,
+            "slippage_cost": 1.418688528639939,
+            "actual_two_sided_mid_notional": 3546.7213216,
+            "break_even_roundtrip_cost_bps": 714.0531793621481,
+            "max_minute_marked_gross_weight": 0.23735858245567606,
+            "minimum_marked_cash": 7816.499363897214,
+            "terminal_marked_notional": 939.9286802000001,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.11099698519782648,
+            "max_minute_ETH_weight": 0.1291134500991617,
+            "top1_day_positive_gross_PnL_share": 0.5675212395859152,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-SPOT_BUY_AND_HOLD/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "9336309315e5b0e797bb5e2319ea566ea88d61ed1524ba54664d17a5f64ee955",
+              "bytes": 1882
+            },
+            "orders.parquet": {
+              "sha256": "6a9fdb083e398ae12ad8a08856e57cac03e7b21aabd447e3f9fe78d9cff90d74",
+              "bytes": 3518
+            },
+            "trades.parquet": {
+              "sha256": "1384efb966c94c7dab946fa1ae6f37a8eb4f2d26a7ea4de769e7d9081115b1d2",
+              "bytes": 6207
+            },
+            "daily_nav.parquet": {
+              "sha256": "f3bfadc48559bdaf3c954c8e6d444d8bfa32bd035575c1b201c210571253ad79",
+              "bytes": 3450
+            },
+            "round_trips.parquet": {
+              "sha256": "7bfb8b1f9e674bebe129ece9bad8b9a8b1dfa344dcedea7993053e9a07e0deb1",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "a3c4f6d492751e9091189fc2c84def1cf986a348c45bbf70bd7b4ab0bd762b88",
+              "bytes": 370642
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10120.192475567106,
+            "total_return": 0.012019247556710688,
+            "annual_return": 0.864478667287804,
+            "annual_volatility": 0.21062488758209907,
+            "sharpe": 3.0501984795720842,
+            "max_drawdown": 0.018323044969976943,
+            "fees": 3.5465037660147205,
+            "execution_costs": 2.836682466879676,
+            "turnover": 0.3540110109185992,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.00841,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.12128551510873384,
+            "max_observed_gross": 0.21804588874746567,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 126.57566180000056,
+            "net_cash_PnL": 120.19247556710616,
+            "gross_cash_PnL_same_quantities": 126.57566180000056,
+            "max_observed_minute_MDD": 0.022220588785550666,
+            "spread_cost": 1.418341233439838,
+            "slippage_cost": 1.418341233439838,
+            "actual_two_sided_mid_notional": 3545.8530836,
+            "break_even_roundtrip_cost_bps": 713.9363014526931,
+            "max_minute_marked_gross_weight": 0.23732288816224487,
+            "minimum_marked_cash": 7816.471919825759,
+            "terminal_marked_notional": 939.9286802000001,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.11100235051415314,
+            "max_minute_ETH_weight": 0.12907168025604665,
+            "top1_day_positive_gross_PnL_share": 0.5675235663562518,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-SPOT_BUY_AND_HOLD/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "d57260691c304199bd855cfc9b144dcb4864f4b6bf77339d605911c20db57958",
+              "bytes": 1866
+            },
+            "orders.parquet": {
+              "sha256": "05e037ed962350ab61caa59c7ce7adb788fa6bbe901f4cad501274313dc6514c",
+              "bytes": 3518
+            },
+            "trades.parquet": {
+              "sha256": "4b135b824909fd8e81fd4e25c562b1d85e6877710fc3f5780dc1cd2c44b2ecf8",
+              "bytes": 6207
+            },
+            "daily_nav.parquet": {
+              "sha256": "975d32bef83660dd132a61dd031f851a866cd3021e584052223d99711f2c4730",
+              "bytes": 3450
+            },
+            "round_trips.parquet": {
+              "sha256": "da5943480ae49785e79293729c93f716406d0af3678bed2f8b193d6c526748d6",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "6d882a1fb08e9ffdfed7584082c626038bd18ae78ba2e1589ea06cc20a5f8473",
+              "bytes": 378918
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10131.055569944565,
+            "total_return": 0.01310555699445648,
+            "annual_return": 0.9717510677048409,
+            "annual_volatility": 0.1429959129305868,
+            "sharpe": 4.8132236528085794,
+            "max_drawdown": 0.009302865277910244,
+            "fees": 4.42048260398815,
+            "execution_costs": 2.2101681514498117,
+            "turnover": 0.43893115283560385,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 16,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.003850000000000001,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 14,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.10077840582520342,
+            "max_observed_gross": 0.19122413354827045,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": 137.68622070000288,
+            "net_cash_PnL": 131.05556994456492,
+            "gross_cash_PnL_same_quantities": 137.68622070000288,
+            "max_observed_minute_MDD": 0.011640495404420692,
+            "spread_cost": 0.44203363028996234,
+            "slippage_cost": 1.7681345211598494,
+            "actual_two_sided_mid_notional": 4420.3363029,
+            "break_even_roundtrip_cost_bps": 622.9671738309713,
+            "max_minute_marked_gross_weight": 0.19780598395241245,
+            "minimum_marked_cash": 8085.438694938595,
+            "terminal_marked_notional": 430.2883970000002,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.09622309893686687,
+            "max_minute_ETH_weight": 0.10160739428738282,
+            "top1_day_positive_gross_PnL_share": 0.5913530568491134,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-VOL_MANAGED_BUY_AND_HOLD/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "0c72b71c7c742f88656d690185c41e8d69e2348b320aa845bdb92b3bd89141f6",
+              "bytes": 1880
+            },
+            "orders.parquet": {
+              "sha256": "0ab26145bb1f4ffeff5139e6a908738a37c9db324c21005571f57842dc1e124c",
+              "bytes": 4285
+            },
+            "trades.parquet": {
+              "sha256": "9637be867e55b9853da0701283d82ec4ca08919d924807f6dd8727f24d5854fe",
+              "bytes": 7494
+            },
+            "daily_nav.parquet": {
+              "sha256": "70c593b941f386e4f37403af962f0c297f6c02999b90912233048f34cfae69a5",
+              "bytes": 3587
+            },
+            "round_trips.parquet": {
+              "sha256": "e16cba99ce98950c49514984eec1a0d0b6c06ea063d2b1a461d297bd0da9d21f",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "8697902e0f9403ac4fc18df0d90c1d5d9c766114dcdacd6500aa4277f55b7140",
+              "bytes": 387435
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10130.60648468731,
+            "total_return": 0.013060648468731006,
+            "annual_return": 0.9671987893041052,
+            "annual_volatility": 0.14291877108691262,
+            "sharpe": 4.7995528958654825,
+            "max_drawdown": 0.009309877765225849,
+            "fees": 4.41954709534538,
+            "execution_costs": 2.6516229173399566,
+            "turnover": 0.4388471756818382,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 16,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.003850000000000001,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 14,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.10078051253415156,
+            "max_observed_gross": 0.1912277939419281,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": 137.67765469999586,
+            "net_cash_PnL": 130.6064846873105,
+            "gross_cash_PnL_same_quantities": 137.67765469999586,
+            "max_observed_minute_MDD": 0.011647536797076197,
+            "spread_cost": 0.8838743057799855,
+            "slippage_cost": 1.767748611559971,
+            "actual_two_sided_mid_notional": 4419.3715289,
+            "break_even_roundtrip_cost_bps": 623.0644054235667,
+            "max_minute_marked_gross_weight": 0.1978097395208867,
+            "minimum_marked_cash": 8085.247334488314,
+            "terminal_marked_notional": 430.288397,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.09622492622017399,
+            "max_minute_ETH_weight": 0.10160932341773121,
+            "top1_day_positive_gross_PnL_share": 0.591257154030492,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-VOL_MANAGED_BUY_AND_HOLD/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "7c6a5863232849831a542104ee7ea95edfe340689670839fd7bd67cccc7d29c3",
+              "bytes": 1893
+            },
+            "orders.parquet": {
+              "sha256": "05b898e09beb89b75ebf2c662458a6543b74d5738caf075b5995ed0e54f362b2",
+              "bytes": 4285
+            },
+            "trades.parquet": {
+              "sha256": "6fac8e326f23b67adae7e3059c3a1763029a4a8c299c59038b9625a77eb32463",
+              "bytes": 7494
+            },
+            "daily_nav.parquet": {
+              "sha256": "33754feb1e99739087fe3c4abf67cf0724bf3524d61945cd23721493091c0b7b",
+              "bytes": 3587
+            },
+            "round_trips.parquet": {
+              "sha256": "8c9a73135a1018b6448b52f78033596be4cac75fb6fe45fb4411c88c09dfad0b",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "29fbd16f99686c11f9fd7f859fdec4f41372ce60574a2fe6c8f1952c09163bfb",
+              "bytes": 388958
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 7,
+            "initial_nav": 10000.0,
+            "final_nav": 10129.738064283705,
+            "total_return": 0.012973806428370427,
+            "annual_return": 0.9584250248057142,
+            "annual_volatility": 0.14285174281695023,
+            "sharpe": 4.770398434722598,
+            "max_drawdown": 0.009328634168764394,
+            "fees": 4.41652987821296,
+            "execution_costs": 3.533036638079757,
+            "turnover": 0.4385632806924261,
+            "start_utc": "2025-08-20T00:00:00+00:00",
+            "end_utc": "2025-08-27T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 16,
+            "round_trip_count": 1,
+            "open_positions": {
+              "BTCUSDT": 0.003850000000000001,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 1,
+            "expired_orders": 0,
+            "dust_orders": 14,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.10074193427624586,
+            "max_observed_gross": 0.1911942611288874,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 137.6876307999979,
+            "net_cash_PnL": 129.73806428370517,
+            "gross_cash_PnL_same_quantities": 137.6876307999979,
+            "max_observed_minute_MDD": 0.011667239615959057,
+            "spread_cost": 1.7665183190398785,
+            "slippage_cost": 1.7665183190398785,
+            "actual_two_sided_mid_notional": 4416.295797600001,
+            "break_even_roundtrip_cost_bps": 623.5435175099598,
+            "max_minute_marked_gross_weight": 0.19777441885018493,
+            "minimum_marked_cash": 8085.273607780559,
+            "terminal_marked_notional": 430.288397,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.09622884242004075,
+            "max_minute_ETH_weight": 0.10157007963404686,
+            "top1_day_positive_gross_PnL_share": 0.5913110586104212,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/A-VOL_MANAGED_BUY_AND_HOLD/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "853857e4f8b0388ce79bfd901f86fc0f8aeca619158be7ac6c361e3acd3315a5",
+              "bytes": 1877
+            },
+            "orders.parquet": {
+              "sha256": "f5564b727a19c9411412d460eda3ae77af2b016c6970a64891d998fcb441b87c",
+              "bytes": 4285
+            },
+            "trades.parquet": {
+              "sha256": "4cca420c183fdc12e34470ea49de256a44bac10a9a5cfbdf82817750bf18421f",
+              "bytes": 7494
+            },
+            "daily_nav.parquet": {
+              "sha256": "ed14631848138864fbaca5a2b20a6ca2e3654bd9ce39624f1d56a222d8754255",
+              "bytes": 3587
+            },
+            "round_trips.parquet": {
+              "sha256": "39d7215d9a33bbbc44e49c825b7845f50dab7e9f5d3ed3c0114717d930bb464b",
+              "bytes": 1818
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "83bba73f0047f859e221ee4e7d27c422c9d51d785d4dc38ceb424a04996a218f",
+              "bytes": 388959
+            }
+          }
+        }
+      ],
+      "minute_input_sha256": "2a5e8f331e9ab0cedf4c5d2647500e16f15d2ddb0171462031ec4fa09a2caa17"
+    }
+  ],
+  "market_inputs_read": true,
+  "market_models_fit": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "classification": "MINUTE_PROXY_SCREENING",
+  "limitations": [
+    "Minute open OHLC is a price proxy, not historical BBO/orderbook executable fills",
+    "Capacity is previous minute quote-volume proxy; actual exchange queue/depth not proven",
+    "Fee tiers, lot filters and latency are fixed research assumptions, not historical account snapshots",
+    "All strategies share funding, cost scenarios, caps and causal risk mechanism, not identical realized risk",
+    "Original compressed intents rebalance only when intent changes; engine risk scaling occurs at these decision events; passive price drift may exceed target caps",
+    "VM EWMA uses a fixed .3/.3 gross reference basket, not recursive strategy gross NAV; this is explicitly a COIN benchmark adaptation",
+    "Forced terminal zero target has same scheduled proxy latency/cost; partial capacity/minimum lots may leave marked residuals",
+    "Daily-only MDD/Sharpe and seven-day annualized engine figures are descriptive, not long-term APR evidence; minute MDD also reported by adapter",
+    "Public timeframe1h and common COIN funding/risk/execution are ports, not original Jesse sizing or native engine replica",
+    "Old benchmark 5second intent-order metadata is preserved under a distinct name; actual replay uses original minute ExecutionContractV2",
+    "CURRENT_XGB, carry and full equal-risk ensemble lack required frozen own inputs and are not evaluated in this six-strategy comparison",
+    "Historical four periods were previously inspected in mechanism research, so this is SCREENING, not unseen prospective qualification"
+  ],
+  "primary_reference": "VOL_MANAGED_BUY_AND_HOLD",
+  "disk": {
+    "scan_started_utc": "2026-10-02T11:24:46.841341+00:00",
+    "project_bytes": 4331781108,
+    "wsl_vhd_bytes": 15028191232,
+    "total_bytes": 19359972340,
+    "reserved_bytes": 512000000,
+    "d_free_bytes": 362491789312,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "scan_finished_utc": "2026-10-02T11:25:48.580697+00:00"
+  },
+  "accepted_smoke_sha256": "f2657570e255244358f44ea904013eb1d36d91ea8da8e223e561052e8056e1dd",
+  "source_receipt_sha256": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+  "source_days_per_symbol": 153,
+  "source_month_files": 10,
+  "minute_source": {
+    "path": "/home/xflops/coin-state/simple-strategy-comparison-actual-20261002-v1/shared_source_minutes.parquet",
+    "sha256": "898e67edfc6d2c64fcbb48666ac1e62033709f80bfe97ce3707a62f8ad2c99dc",
+    "rows": 368640,
+    "invalid_minutes": 0
+  },
+  "created_utc": "2026-10-02T11:30:06.911160+00:00",
+  "elapsed_seconds": 321.1595522589978,
+  "orchestrator_peak_RSS_bytes": 398258176,
+  "owned_bytes": 15287017,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 816095232,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}
