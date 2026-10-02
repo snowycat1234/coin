@@ -1,0 +1,56 @@
+{
+  "version": "PUBLIC_DONCHIAN_2H_INDEPENDENT_BOUNDARY_AUDIT_20261002_V1",
+  "status": "PASS_2H_STATIC_AND_EXACT_WARMUP_BOUNDARY_ONLY",
+  "verified_source_hashes": {
+    "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+    "scripts/investment/compare_simple_strategies.py": "5b42c2c8fca0d456a54d9a6d2cd6e9ae358b5f2d9485f13df66b29085818edbc",
+    "tests/test_public_donchian_2h.py": "f59a29fca7b20f68ce6b4a9805a68c07a6b869cd0d8293633772a24e9a2415e8",
+    "protocols/PUBLIC_DONCHIAN_2H_122D_V1.json": "8d67fe5a3bfcaa4f0c2666b069c3fe0000fad400dccc1b0d300a96fe1639cf51"
+  },
+  "git_commit": "bcd35b0723933b4f3727d19c3fb18b98911290fe",
+  "independent_source": "/home/xflops/coin-state/test-simple-strategy-public-2h-audit-20261002-v1/boundary_probe.py",
+  "independent_source_sha256": "d7839c15a2863235c843fd179e2612c2ab071dc1783f546abd63773c2d6aca6b",
+  "independent_task_id": "2b918e906b6c4ec1904a3f81ef6159ac",
+  "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+  "cases": [
+    {
+      "id": "EXACT200_COMPLETE_AVAILABLE_BARS",
+      "status": "PASS",
+      "bars_per_symbol": 200,
+      "first_decision_weights": [
+        {
+          "symbol": "BTCUSDT",
+          "target_weight": 0.3
+        },
+        {
+          "symbol": "ETHUSDT",
+          "target_weight": 0.3
+        }
+      ],
+      "receipt_status": "TARGET_INTENTS_ONLY"
+    },
+    {
+      "id": "ONLY199_COMPLETE_AVAILABLE_BARS",
+      "status": "PASS",
+      "bars_per_symbol": 199,
+      "receipt_status": "NOT_EVALUABLE_PAIRED_FOLD_WARMUP",
+      "all_intent_weights_zero": true
+    }
+  ],
+  "market_inputs_read": false,
+  "market_models_fit": 0,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "static_findings": {
+    "UTC_candles": "floor(open_us/120MIN); require120 unique minute-aligned samples with exactfirst/last; close=end; avail=max constituent availability",
+    "causal_endpoint": "expected UTC120min close<=decision and199 adjacent deltas120MIN; all200 available<=decision",
+    "hooks_and_risk": "Pinned originalhooks/DC20 excludescurrent/SMA200, common frozenrisk/funds/cost/execution unchanged; default60min route preserved",
+    "predefined_scope": "Single120min strategy at fixed30/32/36bp and fixed122day window; known historical development, no new split or unseen claim",
+    "missing_delayed_future": "Already covered by bound new builder tiny case; auditor did not rerun those cases; availability/warmup guard confirmed statically",
+    "actual_accounts": "Not evaluated by this synthetic/static report; require separate actual3 completed0 audit"
+  },
+  "registry_appended_by_auditor": false,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "created_utc": "2026-10-02T12:51:48.211468+00:00",
+  "peak_RSS_bytes": 216522752
+}

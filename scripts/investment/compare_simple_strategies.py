@@ -37,7 +37,7 @@ from scripts.research_v7.oracle_flow_ceiling import Progress
 
 PROTOCOL = ROOT / "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json"
 SYMBOLS = ("BTCUSDT", "ETHUSDT")
-STRATEGIES = ("CASH", "SPOT_BUY_AND_HOLD", "VOL_MANAGED_BUY_AND_HOLD", "FIXED_TREND", "FIXED_MEAN_REVERSION", public_strategy.STRATEGY_ID)
+STRATEGIES = ("CASH", "SPOT_BUY_AND_HOLD", "VOL_MANAGED_BUY_AND_HOLD", "FIXED_TREND", "FIXED_MEAN_REVERSION", public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID)
 file_sha = benchmarks.file_sha
 START, LOCKED = date(2025, 7, 1), date(2026, 3, 1)
 
@@ -93,9 +93,9 @@ def complete_fold(minutes, lower, start, end):
 
 def comparison_plan(spec):
     """Protocol-selected sleeves and whole UTC periods; no outcome selection."""
-    strategies = tuple(spec.get("strategy_ids", STRATEGIES))
+    strategies = tuple(spec.get("strategy_ids", STRATEGIES[:6]))
     require(strategies and len(set(strategies)) == len(strategies) and set(strategies) <= set(STRATEGIES),
-        "Unique subset of the six already fixed strategies required")
+        "Unique subset of the already fixed strategies required")
     windows = []
     for period in spec["folds"]:
         identifier = period["id"]
@@ -260,6 +260,27 @@ def verify_sources(spec):
     return source
 
 
+def bind_reused_reference(spec, minute_source, report):
+    if "reused_reference_report" not in spec:
+        return
+    path = ROOT / spec["reused_reference_report"]
+    previous = read_json(path)
+    require(file_sha(path) == spec["reused_reference_report_sha256"]
+        and previous["status"] == "COMPLETE_ACTUAL_PROXY_STRATEGY_SCREENING" and previous["completed_ledgers"] == 12,
+        "Exact accepted twelve reference accounts required; no replays")
+    require(previous["minute_source"]["sha256"] == minute_source["sha256"], "New account must share byte-identical reference minute input")
+    require(previous["registration_start"]["hyperparameters"] == spec["common_config"]
+        and previous["registration_start"]["cost_assumptions"] == spec["costs"] and previous["binding"]["all_folds"] == spec["folds"],
+        "Reference must share period, funding and risk parameters")
+    for name in ("src/quant/backtest.py", "src/quant/execution_contract.py", "src/quant/decision_policy.py", "src/quant/metrics.py"):
+        require(previous["binding"]["source_hashes"][name] == file_sha(ROOT / name), "Reference economic engine changed")
+    report["reused_reference_binding"] = {"report_path": str(path.relative_to(ROOT)), "report_sha256": file_sha(path),
+        "run_binding_sha256": previous["run_binding_sha256"], "minute_input_sha256": minute_source["sha256"],
+        "reference_source_hashes": previous["binding"]["source_hashes"], "reference_run_git_commit": previous["binding"]["git_commit"],
+        "reused_accounts": 12, "new_accounts": 3, "existing_reference_accounts_replayed": False,
+        "same_common_config_and_period": True, "historical_screening_not_unseen": True}
+
+
 def research(spec, source, work, progress, report):
     strategies, windows, planned = comparison_plan(spec)
     report.update(planned_ledgers=planned, account_continuity="SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST" if len(windows) == 1
@@ -280,6 +301,7 @@ def research(spec, source, work, progress, report):
     minutes.write_parquet(work / "shared_source_minutes.parquet", compression="zstd")
     report["minute_source"] = {"path": str(work / "shared_source_minutes.parquet"), "sha256": file_sha(work / "shared_source_minutes.parquet"),
         "rows": minutes.height, "invalid_minutes": minutes.filter(~pl.col("minute_valid")).height}
+    bind_reused_reference(spec, report["minute_source"], report)
     completed = 0
     for fold, lower, start, end in windows:
         fold_minutes = minutes.filter(pl.col("open_us").is_between(lower, end, closed="left"))
@@ -296,7 +318,7 @@ def research(spec, source, work, progress, report):
         for strategy in strategies:
             progress.update("生成固定策略意图；内部分钟轮次未知", completed, planned, "收益账本", fold=fold, strategy=strategy)
             generation_started = time.monotonic()
-            plan = public_strategy.fixed_targets(fold_minutes, calendar) if strategy == public_strategy.STRATEGY_ID else bulk_fixed_targets.fixed_targets(
+            plan = public_strategy.fixed_targets(fold_minutes, calendar, timeframe_minutes=120 if strategy == public_strategy.STRATEGY_2H_ID else 60) if strategy in (public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID) else bulk_fixed_targets.fixed_targets(
                 strategy, closes, calendar, daily_returns=daily_reference if strategy == "VOL_MANAGED_BUY_AND_HOLD" else None)
             target_dir = work / (fold + "-" + strategy)
             target_dir.mkdir()
@@ -341,10 +363,12 @@ def main():
     spec = read_json(protocol_path)
     strategies, windows, planned = comparison_plan(spec)
     hashes = {path: file_sha(ROOT / path) for path in spec["frozen_sources"]}
+    smoke_test_path = spec.get("smoke_test_path", "tests/test_simple_strategy_comparison.py")
+    require(smoke_test_path.startswith("tests/") and (ROOT / smoke_test_path).resolve().is_relative_to(ROOT / "tests"), "Explicit project test source")
     hashes.update({str(protocol_path.relative_to(ROOT)): file_sha(protocol_path), str(Path(__file__).resolve().relative_to(ROOT)): file_sha(Path(__file__)),
-        "tests/test_simple_strategy_comparison.py": file_sha(ROOT / "tests/test_simple_strategy_comparison.py")})
+        smoke_test_path: file_sha(ROOT / smoke_test_path)})
     command = [sys.executable, str(Path(__file__).resolve()), *sys.argv[1:]]
-    test_command = [sys.executable, "-m", "pytest", "tests/test_simple_strategy_comparison.py", "-q",
+    test_command = [sys.executable, "-m", "pytest", smoke_test_path, "-q",
         "--basetemp=" + str(work / "pytest"), "-o", "cache_dir=" + str(work / "pytest-cache"), "--junitxml=" + str(work / "junit.xml")]
     if spec.get("smoke_pytest_expression"):
         test_command.extend(["-k", spec["smoke_pytest_expression"]])
@@ -362,7 +386,7 @@ def main():
         shutil.copyfile(ROOT / name, saved)
     event = dict.fromkeys(FIELDS)
     event.update(experiment_id=args.experiment_id, event_id=args.experiment_id + ":START", event_type="OPERATIONAL_START",
-        git_commit=binding["git_commit"], data_manifest_hash=hashes["tests/test_simple_strategy_comparison.py"] if args.smoke else spec["source_receipt_sha256"],
+        git_commit=binding["git_commit"], data_manifest_hash=hashes[smoke_test_path] if args.smoke else spec["source_receipt_sha256"],
         protocol_hash=binding["protocol_sha256"], feature_set="CLOSED_SPOT_MINUTE_PRICES_AND_31D_PAST_HISTORY_NO_478_CACHE",
         labels="NONE_STRATEGY_LEDGER_COMPARISON", model_family="NONE", hyperparameters=spec["common_config"], seed=binding["seed"],
         thresholds=spec["strategy_rules"], cost_assumptions=spec["costs"], all_folds=spec["folds"], success_failure="START",

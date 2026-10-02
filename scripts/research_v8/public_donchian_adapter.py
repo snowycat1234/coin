@@ -13,6 +13,7 @@ from . import benchmark_targets_v2 as common
 from . import benchmark_targets as original
 
 STRATEGY_ID = "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER"
+STRATEGY_2H_ID = "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER"
 HOUR_US = 60 * common.MINUTE_US
 VENDOR = common.ROOT / "third_party/jesse_example_donchian"
 PINNED_HASHES = {
@@ -45,7 +46,9 @@ def _load_public_hooks():
     return namespace["Donchian"]
 
 
-def closed_hours(minutes: pl.DataFrame) -> pl.DataFrame:
+def closed_hours(minutes: pl.DataFrame, *, timeframe_minutes: int = 60) -> pl.DataFrame:
+    common.require(type(timeframe_minutes) is int and timeframe_minutes in (60, 120), "Only fixed60/120minute public bars")
+    bar_us = timeframe_minutes * common.MINUTE_US
     required = {"symbol", "open_us", "high", "low", "close"}
     common.require(required <= set(minutes.columns), "Public strategy requires original minute OHLC")
     common.require(minutes.schema["open_us"] == pl.Int64, "Integer original open timestamps required")
@@ -63,19 +66,20 @@ def closed_hours(minutes: pl.DataFrame) -> pl.DataFrame:
     common.require(frame["available_us"].null_count() == 0, "Unknown minute availability must not disappear in hourly max")
     common.require(frame.filter(pl.col("available_us") < pl.col("open_us") + common.MINUTE_US).is_empty(), "Completed candles only")
     hourly = frame.sort(["symbol", "open_us"]).with_columns(
-        (pl.col("open_us") // HOUR_US * HOUR_US).alias("hour_open_us")
+        (pl.col("open_us") // bar_us * bar_us).alias("hour_open_us")
     ).group_by(["symbol", "hour_open_us"], maintain_order=True).agg(
         pl.col("open_us").first().alias("first_us"), pl.col("open_us").last().alias("last_us"),
         pl.len().alias("count"), pl.col("high").max(), pl.col("low").min(),
         pl.col("close").last(), pl.col("available_us").max(),
-    ).filter((pl.col("count") == 60) & (pl.col("first_us") == pl.col("hour_open_us")) &
-             (pl.col("last_us") == pl.col("hour_open_us") + HOUR_US - common.MINUTE_US))
-    return hourly.with_columns((pl.col("hour_open_us") + HOUR_US).alias("close_us")).sort(["symbol", "close_us"])
+    ).filter((pl.col("count") == timeframe_minutes) & (pl.col("first_us") == pl.col("hour_open_us")) &
+             (pl.col("last_us") == pl.col("hour_open_us") + bar_us - common.MINUTE_US))
+    return hourly.with_columns((pl.col("hour_open_us") + bar_us).alias("close_us")).sort(["symbol", "close_us"])
 
 
-def fixed_targets(minutes: pl.DataFrame, calendar) -> common.TargetPlan:
+def fixed_targets(minutes: pl.DataFrame, calendar, *, timeframe_minutes: int = 60) -> common.TargetPlan:
     calendar = common.calendar_array(calendar)
-    hours = closed_hours(minutes.filter(pl.col("open_us") + common.MINUTE_US <= int(calendar[-1])))
+    hours = closed_hours(minutes.filter(pl.col("open_us") + common.MINUTE_US <= int(calendar[-1])), timeframe_minutes=timeframe_minutes)
+    bar_us = timeframe_minutes * common.MINUTE_US
     PublicRules = _load_public_hooks()
     weights = np.zeros((len(calendar), 2), dtype=np.float64)
     reasons = [["PUBLIC_RULE_FLAT", "PUBLIC_RULE_FLAT"] for _ in calendar]
@@ -94,13 +98,14 @@ def fixed_targets(minutes: pl.DataFrame, calendar) -> common.TargetPlan:
         held, prior_index = False, None
         for row_index, decision in enumerate(calendar):
             index = int(np.searchsorted(stamps, decision, side="right") - 1)
-            expected = int(decision) // HOUR_US * HOUR_US
+            expected = int(decision) // bar_us * bar_us
             valid = (index >= 199 and int(stamps[index]) == expected and
-                     np.all(np.diff(stamps[index - 199:index + 1]) == HOUR_US) and
+                     np.all(np.diff(stamps[index - 199:index + 1]) == bar_us) and
                      np.all(available[index - 199:index + 1] <= decision))
             if not valid:
                 warmup_failed = True
-                reasons[row_index][asset_index] = "MISSING_OR_UNAVAILABLE_COMPLETE_200_HOURS"
+                reasons[row_index][asset_index] = ("MISSING_OR_UNAVAILABLE_COMPLETE_200_HOURS" if timeframe_minutes == 60
+                    else "MISSING_OR_UNAVAILABLE_COMPLETE_200_2H_BARS")
                 continue
             if index != prior_index:
                 rules.candles = candles[max(0, index - 200):index + 1]
@@ -118,11 +123,12 @@ def fixed_targets(minutes: pl.DataFrame, calendar) -> common.TargetPlan:
     if warmup_failed:
         weights[:] = 0.
     weights[-1] = 0.
-    return original._plan(STRATEGY_ID, calendar, weights, reasons,
+    identifier = STRATEGY_ID if timeframe_minutes == 60 else STRATEGY_2H_ID
+    return original._plan(identifier, calendar, weights, reasons,
         warmup_failed=warmup_failed, metadata={
             "public_upstream_sha256": PINNED_HASHES,
-            "timeframe_minutes": 60, "donchian_period": 20, "trend_sma_period": 200,
+            "timeframe_minutes": timeframe_minutes, "donchian_period": 20, "trend_sma_period": 200,
             "signal_hooks_reused_unmodified": True, "native_Jesse_engine_replicated": False,
-            "adaptations": ["fixed closed1h", "SMA NumPy mean port", "common COIN risk and sizing", "common COIN proxy execution"],
+            "adaptations": ["fixed closed1h" if timeframe_minutes == 60 else "fixed closed2h", "SMA NumPy mean port", "common COIN risk and sizing", "common COIN proxy execution"],
             "upstream_balance_sizing_called": False, "model_fits": 0,
         })
