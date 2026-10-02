@@ -562,3 +562,8 @@
 - 不继续pair-target HPO；旧flow的perp低费映射暂后排，缺过去可得优势及matched perp经济证据。
   全平配方reopen需新独立时间／原生信息同成本caps下净稳定性；maker需真实BBO/queue。
   普通科研继续，locked／真钱／密钥／新付费／GPU权限不变；无需等待固定roadmap或时间规划。
+
+### D031来源闭合（2026-10-03）
+
+- 主体18档actual0、独立QA actual0、根验收actual0：实际540资金事件／518400价行，新增30.8MB；原官方download／转换／audit_one精确复用，未重做旧QA。首次启动参数错误在source执行前失败，保留。
+- 采用新来源格式，单位仍UNCONFIRMED、没有新账户收益。下一固定90日ALL_FLAT／PAIR_TRIM共用输入与BybitVIP0原费用／caps／margin；新周期和端点协议先冻结、0调参，标签SCREENING，不叫unseen。原native／盈利资格缺口与暂停reopen保持。

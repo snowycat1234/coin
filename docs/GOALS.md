@@ -13,3 +13,5 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 采用研究机制，长期APR仍NE；全平控制保留，下一步D031固定90日时间外推，先补18个新源，尚未运行。
 原生历史HTTP403和假定fraction边界保留；固定RSI2及全平carry配方暂停，能力／失败来源与reopen条件保留。
 盈利主力及真钱候选NONE，完整项目目标未完成，普通科研继续，locked／资金边界不变。
+
+D031新增18官方月档已实际完成、独立逐行QA及根验收：[输入模块](CARRY_CHRONOLOGY_SOURCE_18_20261003.md)。下一步固定90日ALL_FLAT／PAIR_TRIM账户比较；540事件为实际值，单位仍UNCONFIRMED、候选NONE、长期APR NE。

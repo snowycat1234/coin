@@ -14,3 +14,5 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 下一D031固定90日时间外推需补18个新官方源，尚未来源／经济运行；全平盈利采用与target HPO暂停。
 Bybit普通费用口径采用，原生HTTP403与单位失败保留；旧QA／绿测试／coupon／Spot账户不重跑。
 盈利主力／真钱候选NONE，完整项目目标继续。
+
+D031新增18官方月档已实际完成、独立逐行QA及根验收：[输入模块](CARRY_CHRONOLOGY_SOURCE_18_20261003.md)。下一步固定90日ALL_FLAT／PAIR_TRIM账户比较；540事件为实际值，单位仍UNCONFIRMED、候选NONE、长期APR NE。
