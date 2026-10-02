@@ -1,0 +1,80 @@
+{
+  "profile_id": "BYBIT_NONVIP_FEE_REFERENCE_20261002",
+  "profile_version": 1,
+  "classification": "PUBLIC_GLOBAL_BASE_FEE_REFERENCE_NOT_ACCOUNT_OR_HISTORICAL_VENUE_VERIFICATION",
+  "verified_at_utc": "2026-10-02T13:50:20Z",
+  "fee_reference_venue": "Bybit",
+  "account_tier": "Non-VIP / VIP 0",
+  "scope": "Global base rates for ordinary crypto-crypto Spot and ordinary perpetual/futures products; region and account rates require separate verification",
+  "official_sources": [
+    {
+      "title": "Bybit Trading Fee Structure",
+      "url": "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+      "page_last_updated_display": "2026-09-02 01:17:46",
+      "page_last_updated_timezone": "NOT_SPECIFIED_BY_PAGE",
+      "verified_claims": "VIP 0 ordinary crypto Spot maker/taker 0.1000%; perpetual/futures maker 0.0200%, taker 0.0550%; regional rates may differ"
+    },
+    {
+      "title": "Spot Trading: Fees Explained",
+      "url": "https://www.bybit.com/en/help-center/article/Bybit-Spot-Fees-Explained",
+      "page_last_updated_display": "2026-09-10 11:22:27",
+      "page_last_updated_timezone": "NOT_SPECIFIED_BY_PAGE",
+      "verified_claims": "Spot fee charged in the purchased asset; no fee on unfilled/cancelled portions; example rates are illustrative, not an override of the current base table"
+    }
+  ],
+  "public_base_rates": {
+    "ordinary_crypto_spot": {
+      "maker_bps_per_side": 10,
+      "taker_bps_per_side": 10,
+      "maker_fraction": 0.001,
+      "taker_fraction": 0.001,
+      "fee_asset_rule": "PURCHASED_ASSET",
+      "BTCUSDT_or_ETHUSDT_buy_fee_asset": "BASE_ASSET",
+      "BTCUSDT_or_ETHUSDT_sell_fee_asset": "USDT"
+    },
+    "ordinary_perpetual_and_futures": {
+      "maker_bps_per_side": 2,
+      "taker_bps_per_side": 5.5,
+      "maker_fraction": 0.0002,
+      "taker_fraction": 0.00055,
+      "usable_for_spot": false,
+      "funding_borrow_margin_liquidation_and_fee_asset_accounting": "NOT_VERIFIED_BY_THIS_PROFILE"
+    }
+  },
+  "excluded_products_and_adjustments": [
+    "Fiat-crypto pairs and special trading zones",
+    "Pre-market perpetual and Innovation Zone",
+    "VIP discounts, maker incentives, promotions and token fee discounts",
+    "Region-specific and authenticated-account-specific fee schedules"
+  ],
+  "existing_coin_spot_proxy": {
+    "data_venue": "Binance",
+    "accounting_engine": "src/quant/backtest.py",
+    "accounting_engine_sha256": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+    "fee_bps_per_side": 10,
+    "fee_asset_rule": "USDT_ON_BOTH_BUY_AND_SELL",
+    "compatibility_status": "RATE_NUMERICALLY_UNCHANGED_FEE_ASSET_ACCOUNTING_NOT_BYBIT_NATIVE",
+    "nominal_roundtrip_fee_bps": 20,
+    "unchanged_research_slippage_bps_per_side": 4,
+    "unchanged_research_roundtrip_spread_bps": [2, 4, 8],
+    "unchanged_research_total_nominal_roundtrip_bps": [30, 32, 36],
+    "cost_scenarios_are_exchange_verified": false,
+    "existing_90day_replay_repeated_for_fee_reference": false
+  },
+  "future_experiment_binding": {
+    "required_profile_reference": "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json",
+    "must_bind_profile_sha256": true,
+    "must_declare_market_type_and_fee_asset_accounting": true,
+    "current_label": "BINANCE_DATA_COIN_MINUTE_PROXY_WITH_BYBIT_NONVIP_BASE_RATE_REFERENCE",
+    "first_compatibility_question": "Match purchased-asset Spot fees and cash/inventory conservation before declaring native Bybit accounting"
+  },
+  "unverified_venue_capabilities": [
+    "Bybit historical prices and BBO/depth/queue",
+    "Bybit historical account fee tier and regional schedule",
+    "Bybit lot sizes, minimum notional and filters",
+    "Bybit funding, margin, borrowing and liquidation economics",
+    "Bybit executable order latency and capacity"
+  ],
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "action_scope": "FEE_STANDARD_REGISTRATION_ONLY_NO_ENGINE_CHANGE_OR_MARKET_REPLAY"
+}

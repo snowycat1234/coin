@@ -223,3 +223,42 @@
 - 预先判断：比较原成本净/gross/换手/分钟MDD/月贡献；若gross弱则缩小2h为防御参照，
   自主转向有具体经济理由的新因果方向。不给事后阈值/新周期搜索补救；原正负证据保持。
   1h盈利部署、分钟trend/MR固定配方和更多周期尝试暂停，重开需新机制或独立证据。
+
+### D014 实施补记：同步和合法期末时间戳
+
+- 本地2h模块`1519a61`验收提交后，WSL的GitHub主域TCP两次超时；不让外部同步故障
+  阻塞只读来源/普通研究。复用本机已存在网络和Git、原WSL bounded认证后push实际0，
+  GitHub API确认main精确为`1519a61b1398bba0f6a4f2793f50a39aae4126ac`。失败尝试保存。
+- 90d来源复用10文件/151日/434880行实际exit0。唯一actualV1在3个CASH账本后exit1：
+  bulk signal-close输入包含最后minute的exclusiveclose=Mar1，被旧日期守卫拒绝。
+  这不是读取March价格，也不是经济阴性结论；原FAIL/START-RESULT/snapshot/工件保留。
+- 只在bulk signal-close视图排除晚于最后decision的close，和public既有past-only输入一致；
+  不clamp时间、不放宽March guard、不删除任何完整execution/valuation价格或收益行。
+  新增边界case针对复测，旧source/public/engine已绿核验按依赖复用；新V2独立15账本恢复。
+
+### D015：90日外推否定2h盈利主力，保留能力并缩小下一假设
+
+- V2 actual4852/task73a916…真实exit0、15/15；独立R2 88702真实exit0、15账本数学核验。
+  30bp现货COIN代理净1h−0.7497%、2h−1.8175%。2h毛−104.26USDT、成本77.49，
+  1h毛+52.62、成本127.59；2h只是低成本，不能作为本段盈利主力。部署候选NONE。
+- 原122日2h+0.6580%不撤销，但两段fresh账户不拼接、不挑各期赢家；Dec–Feb已被A05/A06看过。
+  三个月只有Jan正gross和net，收益集中与信号状态失效已超过手续费问题。
+- 独立初次checker实际exit1、0数学账本：Parquet回读不能重现原memoryIPC物理指纹。
+  FAIL保留；R2限定精确Parquet SHA+单fold逻辑日历/schema/值+自身IPC回读与15资金账本，
+  原指纹明确NOT_REPRODUCED，未改经济门槛/成本/market source，不把序列化限制写成字节通过。
+- 本版根验收只读报告和SHA，未重跑旧行情/绿测；首个根metadata builder缺失failed报告字段exit1，
+  使用已保存实际退出/部分工件归档凭证修复，未修改原失败或运行市场。
+- 下一策略假设仅固定2h入场/1h退出，复用原MIT hooks，检验联合退出尺度的gross/net/成本/
+  月贡献/分钟MDD/实际暴露。尚未证明慢退出原因；退出物理回看与检查频率同时改变。
+  若无共同经济增量则暂停该hybrid；更多周期/HPO暂停，新因果信息或独立证据可以重开。
+
+### D016：用户指定Bybit普通用户标准，先补产品和费用资产兼容
+
+- 2026-10-02用户明确允许平台标准改为Bybit nonVIP。核实官方2026Sep2费用表：global常规crypto
+  Spot maker/taker均0.1%（10bp/side）；perpetual/futures maker0.02%/taker0.055%（2/5.5bp）。
+  官方Sep10 Spot说明：费用扣收到的资产，buy扣base、sell扣quote；地区/账户实际费率未验证。
+- 当前Spot十bp数值不变，不重复15账本或把旧Binance数据报告改写为Bybit成交。旧common引擎按
+  quote扣费，不等同Bybit原生持仓。未来费用profile单独登记，保留历史Binance research输入；
+  Bybit价格/BBO/过滤器/资金费需产品对应来源，永续较低费率不得拿来计算Spot盈利。
+- 此用户方向优先于D015下一策略实验：先做最薄费用资产兼容并针对账本独立核验，之后再hybrid。
+  不重建执行平台、不启用账户或真钱；仅在真实接入依赖需要时推进必要Bybit公开输入。

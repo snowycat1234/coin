@@ -109,12 +109,6 @@ def complete_fold(minutes, lower, start, end):
         minutes.filter(pl.col("symbol") == symbol)["open_us"].to_numpy(), expected) for symbol in SYMBOLS))
 
 
-def signal_close_view(minutes, calendar):
-    """Exclude closes after the last decision; keep full execution/MTM minutes."""
-    calendar = benchmarks.calendar_array(calendar)
-    return minutes.select("symbol", "close_us", "available_us", "close").filter(pl.col("close_us") <= int(calendar[-1]))
-
-
 def comparison_plan(spec):
     """Protocol-selected sleeves and whole UTC periods; no outcome selection."""
     strategies = tuple(spec.get("strategy_ids", STRATEGIES[:6]))
@@ -365,7 +359,7 @@ def research(spec, source, work, progress, report):
             fold_record.update(status="NOT_EVALUABLE_COMPLETE_MINUTE_SOURCE_MISSING", missing_minutes=fold_minutes.filter(~pl.col("minute_valid")).height)
             continue
         bars = fold_minutes.select("symbol", "close_us", "available_us")
-        closes = signal_close_view(fold_minutes, calendar)
+        closes = fold_minutes.select("symbol", "close_us", "available_us", "close")
         daily_reference = reference_daily_returns(fold_minutes)
         for strategy in strategies:
             progress.update("生成固定策略意图；内部分钟轮次未知", completed, planned, "收益账本", fold=fold, strategy=strategy)

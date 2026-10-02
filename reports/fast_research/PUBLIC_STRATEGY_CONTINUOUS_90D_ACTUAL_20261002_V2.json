@@ -1,0 +1,1960 @@
+{
+  "status": "COMPLETE_ACTUAL_PROXY_STRATEGY_SCREENING",
+  "registration_start": {
+    "experiment_id": "PUBLIC-STRATEGY-CONTINUOUS-90D-ACTUAL-20261002-V2",
+    "git_commit": "1519a61b1398bba0f6a4f2793f50a39aae4126ac",
+    "data_manifest_hash": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+    "protocol_hash": "82996c128746826a5557bf248548f04fb3abde88761cbbccf157e3a28c8e4b6e",
+    "feature_set": "CLOSED_SPOT_MINUTE_PRICES_AND_31D_PAST_HISTORY_NO_478_CACHE",
+    "labels": "NONE_STRATEGY_LEDGER_COMPARISON",
+    "model_family": "NONE",
+    "hyperparameters": {
+      "per_symbol_cap": 0.3,
+      "max_order_wait_minutes": 5,
+      "participation_rate": 0.001,
+      "min_notional": 10,
+      "latency_minutes": 1,
+      "gross_cap": 0.6,
+      "liquidate_at_end": true,
+      "ETH_lot": 0.0001,
+      "min_vol_days": 20,
+      "execution_timestamp": "exclusive complete-minute signal +1minute +1microsecond",
+      "terminal_inventory": "Residual quantities remain marked at final available close; no assumed free liquidation",
+      "vol_window_days": 30,
+      "initial_cash": 10000,
+      "BTC_lot": 1e-05,
+      "capacity": "previous completed minute quote_volume",
+      "target_annual_vol": 0.1
+    },
+    "seed": "NOT_APPLICABLE_DETERMINISTIC",
+    "thresholds": {
+      "VM_BH": "seven completed UTC daily .3/.3 gross-reference-basket returns; official span7 EWMA annualvol target10%; multiplier cap1; daily decision",
+      "MR": "preceding60 logclose population std; z<=-2 enter, z>=0 exit or60minute intent; zero std abstain",
+      "CASH": "zero",
+      "BH": "capped .3/.3 hold intents",
+      "PUBLIC": "Same pinned MIT hooks/long/.3; only fixed UTC120minute candles instead60; prior20bar Donchian excludes current, currentSMA200; untouched fees/funding/risk/execution",
+      "TREND": "official Polars EWMA60/240 minutes adjust=false min_samples240"
+    },
+    "cost_assumptions": {
+      "spread_bps": [
+        2,
+        4,
+        8
+      ],
+      "cost_booking": "Once per actual fill; fee on actual notional; spread and slippage on actual quantity",
+      "slippage_bps_per_side": 4,
+      "fee_bps_per_side": 10,
+      "nominal_roundtrip_bps": [
+        30,
+        32,
+        36
+      ]
+    },
+    "all_folds": [
+      {
+        "id": "CONT90",
+        "period_end_exclusive": "2026-03-01",
+        "period_start": "2025-12-01"
+      }
+    ],
+    "success_failure": "START",
+    "reason_for_next_experiment": "Create actual fair simple-strategy net-return/risk/cost comparison before new model research",
+    "result_influenced_later_choice": false,
+    "event_id": "PUBLIC-STRATEGY-CONTINUOUS-90D-ACTUAL-20261002-V2:START",
+    "event_type": "OPERATIONAL_START",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V2.json": "ad12be630fe75257334c299df66a4c02cf86ce7e65116a7986a76ecf3aaf4e05",
+      "docs/archive/PUBLIC_DONCHIAN_BEFORE_NULL_GUARD_20261002_V1.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V3.json": "80e9e3b62dca7bac4a1189af8acff3dbc9a0af49ac7fdbb00dc6950937544df4",
+      "reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V3.json": "b9825db24c880064af68f3e9280f60d6593e3667742cf053fa8b7b2b13a0177d",
+      "protocols/SIMPLE_STRATEGY_CONTINUOUS_122D_V1.json": "3e9f28128231f8633a64c64f93c72c7356eac94f8b504238ec1ef96d8250a3bd",
+      "reports/fast_research/SIMPLE_STRATEGY_CONTINUOUS_122D_ACTUAL_20261002_V1.json": "62cb5604580e3af8de3bcf7d1db5f76343581ef44f656ba89f927ba4bdb24e94",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_TINY_20261002_V1.json": "aadf6d9a7c93201deca02186c16cba306ec09ef46ec2a780a0a7edf5a6831fb4",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_ACTUAL_20261002_V1.json": "2c3799fc82858a6bda6ac42767cd6d740a9d532553dfb5607a3043006d5bce57",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_INDEPENDENT_ACTUAL_AUDIT_20261002_V1.json": "5b5409b71fa7c838a6d11fde1d65e288ef4a78e4dc77daaa9571f92d710b506d",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_INDEPENDENT_BOUNDARY_AUDIT_20261002_V1.json": "3ddce1e4858b67c837d64533f45ca6cff77b404c5ff83c28c24af352d4a68114",
+      "protocols/PUBLIC_DONCHIAN_2H_122D_V1.json": "8d67fe5a3bfcaa4f0c2666b069c3fe0000fad400dccc1b0d300a96fe1639cf51",
+      "reports/fast_research/PUBLIC_STRATEGY_CHRONOLOGY_SOURCE_REUSE_20261002_V1.json": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+      "protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V1.json": "cdcfb9c18214da601d385c65b9d4e934f36d64db5c49ff9c276cb292fd6f2f43",
+      "reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_TINY_20261002_V1.json": "7dab6b867c9e1fb9efbc8b5a11c6bd3c7b1d296819b6de59003072002c13caa6",
+      "reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_ACTUAL_20261002_V1.json": "87b3612321539b6fe8c408270efd8c8dee09ccae15489bef94fc5a751a7a6491",
+      "protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V2.json": "82996c128746826a5557bf248548f04fb3abde88761cbbccf157e3a28c8e4b6e",
+      "scripts/investment/compare_simple_strategies.py": "3079ce734610fe1fb479411974d902b0aea4450e22c3a9c1b91e0f3f94c876b1",
+      "tests/test_simple_strategy_source_scope.py": "be8ae36af944a7ef97770c92bd32ca16e3a192b32af371cb013e6e3bc431acfc"
+    },
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/compare_simple_strategies.py --research --protocol /mnt/d/codex/coin/protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V2.json --experiment-id PUBLIC-STRATEGY-CONTINUOUS-90D-ACTUAL-20261002-V2 --run-dir /home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2 --output /mnt/d/codex/coin/reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_ACTUAL_20261002_V2.json",
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "run_binding_sha256": "e312a4110b8bc9b986c54ac27a2567e801c99721fd3f359c64b1c68425c1ca98",
+    "market_models_fit": 0,
+    "created_utc": "2026-10-02T13:29:39.618065+00:00",
+    "previous_record_sha256": "3dd571071c4f21b3700ef76566b1e22a8331237fcd53cc4637c9d484111f6630",
+    "record_sha256": "754bc96a89fa31dd219981f0bd149193761b0c2376eff4d931cc2808726dfb65"
+  },
+  "binding": {
+    "git_commit": "1519a61b1398bba0f6a4f2793f50a39aae4126ac",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+      "src/quant/research_fast/labels.py": "cfb3a514788abe2b8d2f999b0ac513fcf019f0c3ffdb83cf81f7dcbfa294770d",
+      "src/quant/research_fast/trade_flow_v2.py": "0d701168f7d973369c1265a5f10070a3d6d94532a8e75625146d770ef51e2bc2",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "reports/generated/DATA_QUALITY_REPORT.json": "27aa56b33b12c1e6085230318bef6bd41cb3d95b23ca8714a35fc9a5b62125cf",
+      "configs/dataset_policy.json": "3e1adcfbed86d0cc2414d37934126dcc2ddcdfcbe52b4e74ec58ff3447a7d880",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/PUBLIC_DONCHIAN_ADAPTER_TINY_20261002_V1.json": "5a06f19b915894c8ba842d12653d5c2d94093ff3ba33d12374a719908e27b493",
+      "docs/archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md": "ba5a270f3202049333085916fa06d1fa3dd705baf162aba172af4dccc2f5a7bd",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json": "a2b865eb7ade7cf8f1240b209d49543a2bef8363a30e4bbff4c831eba2af49a0",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V2.json": "ad12be630fe75257334c299df66a4c02cf86ce7e65116a7986a76ecf3aaf4e05",
+      "docs/archive/PUBLIC_DONCHIAN_BEFORE_NULL_GUARD_20261002_V1.py": "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344",
+      "protocols/SIMPLE_STRATEGY_COMPARISON_V3.json": "80e9e3b62dca7bac4a1189af8acff3dbc9a0af49ac7fdbb00dc6950937544df4",
+      "reports/fast_research/SIMPLE_STRATEGY_COMPARISON_ACTUAL_20261002_V3.json": "b9825db24c880064af68f3e9280f60d6593e3667742cf053fa8b7b2b13a0177d",
+      "protocols/SIMPLE_STRATEGY_CONTINUOUS_122D_V1.json": "3e9f28128231f8633a64c64f93c72c7356eac94f8b504238ec1ef96d8250a3bd",
+      "reports/fast_research/SIMPLE_STRATEGY_CONTINUOUS_122D_ACTUAL_20261002_V1.json": "62cb5604580e3af8de3bcf7d1db5f76343581ef44f656ba89f927ba4bdb24e94",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_TINY_20261002_V1.json": "aadf6d9a7c93201deca02186c16cba306ec09ef46ec2a780a0a7edf5a6831fb4",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_ACTUAL_20261002_V1.json": "2c3799fc82858a6bda6ac42767cd6d740a9d532553dfb5607a3043006d5bce57",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_122D_INDEPENDENT_ACTUAL_AUDIT_20261002_V1.json": "5b5409b71fa7c838a6d11fde1d65e288ef4a78e4dc77daaa9571f92d710b506d",
+      "reports/fast_research/PUBLIC_DONCHIAN_2H_INDEPENDENT_BOUNDARY_AUDIT_20261002_V1.json": "3ddce1e4858b67c837d64533f45ca6cff77b404c5ff83c28c24af352d4a68114",
+      "protocols/PUBLIC_DONCHIAN_2H_122D_V1.json": "8d67fe5a3bfcaa4f0c2666b069c3fe0000fad400dccc1b0d300a96fe1639cf51",
+      "reports/fast_research/PUBLIC_STRATEGY_CHRONOLOGY_SOURCE_REUSE_20261002_V1.json": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+      "protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V1.json": "cdcfb9c18214da601d385c65b9d4e934f36d64db5c49ff9c276cb292fd6f2f43",
+      "reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_TINY_20261002_V1.json": "7dab6b867c9e1fb9efbc8b5a11c6bd3c7b1d296819b6de59003072002c13caa6",
+      "reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_ACTUAL_20261002_V1.json": "87b3612321539b6fe8c408270efd8c8dee09ccae15489bef94fc5a751a7a6491",
+      "protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V2.json": "82996c128746826a5557bf248548f04fb3abde88761cbbccf157e3a28c8e4b6e",
+      "scripts/investment/compare_simple_strategies.py": "3079ce734610fe1fb479411974d902b0aea4450e22c3a9c1b91e0f3f94c876b1",
+      "tests/test_simple_strategy_source_scope.py": "be8ae36af944a7ef97770c92bd32ca16e3a192b32af371cb013e6e3bc431acfc"
+    },
+    "protocol_sha256": "82996c128746826a5557bf248548f04fb3abde88761cbbccf157e3a28c8e4b6e",
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/compare_simple_strategies.py --research --protocol /mnt/d/codex/coin/protocols/PUBLIC_STRATEGY_CONTINUOUS_90D_V2.json --experiment-id PUBLIC-STRATEGY-CONTINUOUS-90D-ACTUAL-20261002-V2 --run-dir /home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2 --output /mnt/d/codex/coin/reports/fast_research/PUBLIC_STRATEGY_CONTINUOUS_90D_ACTUAL_20261002_V2.json",
+    "exact_test_command": null,
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "sys_prefix": "/home/xflops/coin-state/v8-clean-env-20261002-v2",
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "all_folds": [
+      {
+        "id": "CONT90",
+        "period_end_exclusive": "2026-03-01",
+        "period_start": "2025-12-01"
+      }
+    ],
+    "strategies": [
+      "CASH",
+      "SPOT_BUY_AND_HOLD",
+      "VOL_MANAGED_BUY_AND_HOLD",
+      "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+      "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER"
+    ],
+    "planned_ledgers": 15,
+    "data_scope": "ACCEPTED_DEVELOPMENT_HISTORICAL_SCREENING_NOT_UNSEEN",
+    "task_id": "73a916e59e7444d2af9d9ed8de512999",
+    "fits": 0,
+    "seed": "NOT_APPLICABLE_DETERMINISTIC"
+  },
+  "run_dir": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2",
+  "run_binding_sha256": "e312a4110b8bc9b986c54ac27a2567e801c99721fd3f359c64b1c68425c1ca98",
+  "folds": [
+    {
+      "fold": "CONT90",
+      "start_us": 1764547200000000,
+      "end_us": 1772323200000000,
+      "days": 90,
+      "results": [
+        {
+          "strategy": "CASH",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "period_days": 90,
+            "period_net_return": 0.0,
+            "period_descriptive_net_CAGR": 0.0,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-CASH/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "b9b2d1061a49135c763e45e7c4fb2a95ddc27eea49850cfcaafc61dbc21626c3",
+              "bytes": 1683
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "902251fd65c82e875c5ebee40a03d60f7d0133d1a49b2a4963b052cae437b105",
+              "bytes": 3606
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "9c72bb212ea6f8af3b8dc5b5ca0d32e7ef935a229c93df256fc1eea2afc1e70e",
+              "bytes": 400364
+            }
+          }
+        },
+        {
+          "strategy": "CASH",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "period_days": 90,
+            "period_net_return": 0.0,
+            "period_descriptive_net_CAGR": 0.0,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-CASH/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "7f596eed4d67546dd6ba3f72de4dd72f056b7b07a5974535e97e3bf31ac37349",
+              "bytes": 1697
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "902251fd65c82e875c5ebee40a03d60f7d0133d1a49b2a4963b052cae437b105",
+              "bytes": 3606
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "9c72bb212ea6f8af3b8dc5b5ca0d32e7ef935a229c93df256fc1eea2afc1e70e",
+              "bytes": 400364
+            }
+          }
+        },
+        {
+          "strategy": "CASH",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 10000.0,
+            "total_return": 0.0,
+            "annual_return": 0.0,
+            "annual_volatility": 0.0,
+            "sharpe": 0.0,
+            "max_drawdown": -0.0,
+            "fees": 0.0,
+            "execution_costs": 0.0,
+            "turnover": 0.0,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 0,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 0,
+            "expired_orders": 0,
+            "dust_orders": 0,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.0,
+            "max_observed_gross": 0.0,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 0.0,
+            "net_cash_PnL": 0.0,
+            "gross_cash_PnL_same_quantities": 0.0,
+            "period_days": 90,
+            "period_net_return": 0.0,
+            "period_descriptive_net_CAGR": 0.0,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": -0.0,
+            "spread_cost": 0.0,
+            "slippage_cost": 0.0,
+            "actual_two_sided_mid_notional": 0.0,
+            "break_even_roundtrip_cost_bps": null,
+            "max_minute_marked_gross_weight": 0.0,
+            "minimum_marked_cash": 10000.0,
+            "terminal_marked_notional": 0.0,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.0,
+            "max_minute_ETH_weight": 0.0,
+            "top1_day_positive_gross_PnL_share": null,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-CASH/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "07de7c37785843fc76dbf523edbb7aedefd2cedb2735818c33154d33ada37712",
+              "bytes": 1683
+            },
+            "orders.parquet": {
+              "sha256": "5a46ef141091aae6e223c62069db1a753e3aec89f4c6b7144663387e814bd26f",
+              "bytes": 1005
+            },
+            "trades.parquet": {
+              "sha256": "d3be24774ee391e6ba5a67e68a165be65dd8db82cbb75cc77586947d60b09cba",
+              "bytes": 1743
+            },
+            "daily_nav.parquet": {
+              "sha256": "902251fd65c82e875c5ebee40a03d60f7d0133d1a49b2a4963b052cae437b105",
+              "bytes": 3606
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "9c72bb212ea6f8af3b8dc5b5ca0d32e7ef935a229c93df256fc1eea2afc1e70e",
+              "bytes": 400364
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9442.657286365798,
+            "total_return": -0.05573427136342013,
+            "annual_return": -0.20751097516748107,
+            "annual_volatility": 0.10255262546104245,
+            "sharpe": -2.2163599730987467,
+            "max_drawdown": 0.07994397690575827,
+            "fees": 2.25629455855235,
+            "execution_costs": 1.1277935756498885,
+            "turnover": 0.22821003530284217,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.00572,
+              "ETHUSDT": 0.24320000000000003
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 2,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.09178974141404721,
+            "max_observed_gross": 0.18357063299109813,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": -553.9586254999994,
+            "net_cash_PnL": -557.3427136342016,
+            "gross_cash_PnL_same_quantities": -553.9586254999994,
+            "period_days": 90,
+            "period_net_return": -0.05573427136342013,
+            "period_descriptive_net_CAGR": -0.20751097516748107,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.08673957186974468,
+            "spread_cost": 0.2255587151299777,
+            "slippage_cost": 0.9022348605199108,
+            "actual_two_sided_mid_notional": 2255.5871513,
+            "break_even_roundtrip_cost_bps": -4911.879598008236,
+            "max_minute_marked_gross_weight": 0.19919224002934907,
+            "minimum_marked_cash": 8162.045453157586,
+            "terminal_marked_notional": 860.8558792,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.09743256039221014,
+            "max_minute_ETH_weight": 0.10364275688907011,
+            "top1_day_positive_gross_PnL_share": 0.11200315617315494,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-SPOT_BUY_AND_HOLD/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "83ab0c75f9fdd8093b56be95a66ae04eb99a11fc81dee42fd91785aa4e7f6c38",
+              "bytes": 1885
+            },
+            "orders.parquet": {
+              "sha256": "4848a913518a79f891680b0a44a06304054dfde6b0602acfc468b15793b8749e",
+              "bytes": 3522
+            },
+            "trades.parquet": {
+              "sha256": "ccb8b7cd095608d7a1e05eb52375c78a82b289b98066125895f4ff063d730be9",
+              "bytes": 6210
+            },
+            "daily_nav.parquet": {
+              "sha256": "65ab4bf5fe3ae4a7aa87c5c6bdae44469c28d172cfd8c9fa305cb40d339c1789",
+              "bytes": 5749
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "a9da2501a25459caa657dde430f81ce7338a0fe0cf27a8c7c1eaf759d005f024",
+              "bytes": 4365968
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9442.77116983616,
+            "total_return": -0.05572288301638395,
+            "annual_return": -0.2074722121052055,
+            "annual_volatility": 0.10249775934405098,
+            "sharpe": -2.217123851842325,
+            "max_drawdown": 0.07989771530402834,
+            "fees": 2.2552314772985804,
+            "execution_costs": 1.352629986539967,
+            "turnover": 0.22810266265441312,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.005710000000000001,
+              "ETHUSDT": 0.24309999999999998
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 2,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.09175257592809395,
+            "max_observed_gross": 0.183453551468917,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": -553.6209687000014,
+            "net_cash_PnL": -557.22883016384,
+            "gross_cash_PnL_same_quantities": -553.6209687000014,
+            "period_days": 90,
+            "period_net_return": -0.05572288301638395,
+            "period_descriptive_net_CAGR": -0.2074722121052055,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.0866889844782539,
+            "spread_cost": 0.45087666217998895,
+            "slippage_cost": 0.9017533243599779,
+            "actual_two_sided_mid_notional": 2254.3833108999997,
+            "break_even_roundtrip_cost_bps": -4911.506983069207,
+            "max_minute_marked_gross_weight": 0.19906876810811167,
+            "minimum_marked_cash": 8163.067516821648,
+            "terminal_marked_notional": 859.9896956,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.09733938649976223,
+            "max_minute_ETH_weight": 0.1036116158941995,
+            "top1_day_positive_gross_PnL_share": 0.1119944683462551,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-SPOT_BUY_AND_HOLD/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "e1ea691ad42e46aa12cc85373fc038fc6071b03d19e87dc6bf7bb3f825817680",
+              "bytes": 1908
+            },
+            "orders.parquet": {
+              "sha256": "925c3ab80046c85e9bdf159bdf5e781d5821da7084ed5cef4de1234f080f45bd",
+              "bytes": 3522
+            },
+            "trades.parquet": {
+              "sha256": "5ad7c2757ca02898ae5277138f38fbfc762c6bc7471d48e4666068cf43aeed2f",
+              "bytes": 6210
+            },
+            "daily_nav.parquet": {
+              "sha256": "63aaef1eb7f6245a823daed4dfb3ff45d5b3a899dd2d00c3f086b6ab7dfd8e5d",
+              "bytes": 5759
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "08bfdcc9a969668a6d9047e0b7b4b1330c2c9476e55c8ed69a9a934e8e844b68",
+              "bytes": 4465193
+            }
+          }
+        },
+        {
+          "strategy": "SPOT_BUY_AND_HOLD",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9442.423856254252,
+            "total_return": -0.055757614374574715,
+            "annual_return": -0.20759042442793085,
+            "annual_volatility": 0.10249515973144394,
+            "sharpe": -2.2186370172822207,
+            "max_drawdown": 0.07988585362951073,
+            "fees": 2.25521420262584,
+            "execution_costs": 1.8032668431198169,
+            "turnover": 0.22810164866949623,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 4,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.005710000000000001,
+              "ETHUSDT": 0.243
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 2,
+            "expired_orders": 0,
+            "dust_orders": 2,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.09172595532925748,
+            "max_observed_gross": 0.1834302939804242,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": -553.517662700002,
+            "net_cash_PnL": -557.5761437457477,
+            "gross_cash_PnL_same_quantities": -553.517662700002,
+            "period_days": 90,
+            "period_net_return": -0.055757614374574715,
+            "period_descriptive_net_CAGR": -0.20759042442793085,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.08667638079600581,
+            "spread_cost": 0.9016334215599084,
+            "slippage_cost": 0.9016334215599084,
+            "actual_two_sided_mid_notional": 2254.0835539,
+            "break_even_roundtrip_cost_bps": -4911.243522826025,
+            "max_minute_marked_gross_weight": 0.1990434463124497,
+            "minimum_marked_cash": 8163.000647427136,
+            "terminal_marked_notional": 859.7932446,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.0973432613343084,
+            "max_minute_ETH_weight": 0.10358194390663399,
+            "top1_day_positive_gross_PnL_share": 0.1119987722412974,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-SPOT_BUY_AND_HOLD/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "00b102180337ee20df3667c10e7e619158b22d607c8e59c4a341eb62a095b8ce",
+              "bytes": 1883
+            },
+            "orders.parquet": {
+              "sha256": "286eb3e7456ed0f2a5518404304216934bea3f21ff0f9549c0fdbb52500664fe",
+              "bytes": 3522
+            },
+            "trades.parquet": {
+              "sha256": "6b871d5b149bbd8d350c205a210a09ee410f2debfa90c2262352ced7f91ab9e4",
+              "bytes": 6210
+            },
+            "daily_nav.parquet": {
+              "sha256": "3decf3f5fe364534a65b11457d2ba75c431789fefd56b7b7f8735878c20c28cb",
+              "bytes": 5770
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "c643e101c4688ac70b27e705f3c2f38567b645ffac47ef1c4e0b77d130ec4736",
+              "bytes": 4549672
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9441.845251298935,
+            "total_return": -0.05581547487010652,
+            "annual_return": -0.20778733002873218,
+            "annual_volatility": 0.11000483628868087,
+            "sharpe": -2.0622219196601397,
+            "max_drawdown": 0.0890223318175487,
+            "fees": 16.61824391652085,
+            "execution_costs": 8.30883528454894,
+            "turnover": 1.672640845782278,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 145,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.0032199999999999963,
+              "ETHUSDT": 0.2024999999999998
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 6,
+            "expired_orders": 0,
+            "dust_orders": 180,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.17172738027863882,
+            "max_observed_gross": 0.3259597293711163,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": -533.2276694999949,
+            "net_cash_PnL": -558.1547487010648,
+            "gross_cash_PnL_same_quantities": -533.2276694999949,
+            "period_days": 90,
+            "period_net_return": -0.05581547487010652,
+            "period_descriptive_net_CAGR": -0.20778733002873218,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.09379391723331754,
+            "spread_cost": 1.6617670569097878,
+            "slippage_cost": 6.647068227639151,
+            "actual_two_sided_mid_notional": 16617.670569100002,
+            "break_even_roundtrip_cost_bps": -641.7598270259537,
+            "max_minute_marked_gross_weight": 0.34018912528543466,
+            "minimum_marked_cash": 6790.457296564515,
+            "terminal_marked_notional": 613.4671721999994,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.1681197740154072,
+            "max_minute_ETH_weight": 0.17228216005817926,
+            "top1_day_positive_gross_PnL_share": 0.13861759218779743,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-VOL_MANAGED_BUY_AND_HOLD/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "b076923d0c09539a57f2eba79c1b657d2b808f631da2800a4f1a48a29c3b5008",
+              "bytes": 1897
+            },
+            "orders.parquet": {
+              "sha256": "f8dfa2413770d6085b2860e7136b957c78afb43ed04de5bcdfbe98daf73511c0",
+              "bytes": 12533
+            },
+            "trades.parquet": {
+              "sha256": "06fbeb389190a21ae54d92cf99646f11a00cce84d1e64dbddfc2d132efed17a6",
+              "bytes": 20077
+            },
+            "daily_nav.parquet": {
+              "sha256": "512a9380fe37d0759d31575288d4716ae58af15a213b67f2eaa20b60245f127c",
+              "bytes": 8251
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "83e51a80e3c1d3db27c90f3f2dfed4d24cfae5c58cb93fc228202e295205c7dd",
+              "bytes": 4750618
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9440.25040166518,
+            "total_return": -0.055974959833481996,
+            "annual_return": -0.20832988397607255,
+            "annual_volatility": 0.11000114567633562,
+            "sharpe": -2.0685185918392364,
+            "max_drawdown": 0.0890804636836211,
+            "fees": 16.61896845030028,
+            "execution_costs": 9.9709682845197,
+            "turnover": 1.6728607030023614,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 145,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.003219999999999998,
+              "ETHUSDT": 0.20249999999999974
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 6,
+            "expired_orders": 0,
+            "dust_orders": 180,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.171707620887567,
+            "max_observed_gross": 0.32585816606283013,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": -533.1596615999999,
+            "net_cash_PnL": -559.7495983348199,
+            "gross_cash_PnL_same_quantities": -533.1596615999999,
+            "period_days": 90,
+            "period_net_return": -0.055974959833481996,
+            "period_descriptive_net_CAGR": -0.20832988397607255,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.09385665924944431,
+            "spread_cost": 3.3236560948398997,
+            "slippage_cost": 6.647312189679799,
+            "actual_two_sided_mid_notional": 16618.2804742,
+            "break_even_roundtrip_cost_bps": -641.6544267955209,
+            "max_minute_marked_gross_weight": 0.3400859223795885,
+            "minimum_marked_cash": 6791.06841383543,
+            "terminal_marked_notional": 613.4671721999994,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.16803763650912365,
+            "max_minute_ETH_weight": 0.1722610502468632,
+            "top1_day_positive_gross_PnL_share": 0.13859884300068756,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-VOL_MANAGED_BUY_AND_HOLD/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "22d0453bbd31a68e42e1e42c7fea065824774de6e8a2c2d9edb1e85559f07110",
+              "bytes": 1910
+            },
+            "orders.parquet": {
+              "sha256": "a1cb761ef12f90b90c6e3db6fa03a0625a4623c57d1510cdf201a944cdd14415",
+              "bytes": 12534
+            },
+            "trades.parquet": {
+              "sha256": "ab59945588afc7c06e8370e52b4df9c018aed4e4b6d8b8881a225e8e6510160c",
+              "bytes": 20047
+            },
+            "daily_nav.parquet": {
+              "sha256": "68e7b48ab36f5f59afc1354ad35d1a02f59c87447b8b8ead9470c767530b1808",
+              "bytes": 8265
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "408a6e13f7ccc90fe0f42dbe2c75d02ded85f80924795f07891437e36dd4c77e",
+              "bytes": 4757816
+            }
+          }
+        },
+        {
+          "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9436.650974870374,
+            "total_return": -0.05633490251296258,
+            "annual_return": -0.20955334868176978,
+            "annual_volatility": 0.10996832074225966,
+            "sharpe": -2.083223313202131,
+            "max_drawdown": 0.08917164252502863,
+            "fees": 16.59068499995048,
+            "execution_costs": 13.271814629679275,
+            "turnover": 1.6701844155583583,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 146,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 0.003209999999999995,
+              "ETHUSDT": 0.20229999999999976
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 6,
+            "expired_orders": 0,
+            "dust_orders": 180,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.17166896897282755,
+            "max_observed_gross": 0.32584051155881893,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": -533.4865254999964,
+            "net_cash_PnL": -563.3490251296262,
+            "gross_cash_PnL_same_quantities": -533.4865254999964,
+            "period_days": 90,
+            "period_net_return": -0.05633490251296258,
+            "period_descriptive_net_CAGR": -0.20955334868176978,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.0939551707893318,
+            "spread_cost": 6.6359073148396375,
+            "slippage_cost": 6.6359073148396375,
+            "actual_two_sided_mid_notional": 16589.7682871,
+            "break_even_roundtrip_cost_bps": -643.151268019613,
+            "max_minute_marked_gross_weight": 0.3400673113023517,
+            "minimum_marked_cash": 6790.333830624835,
+            "terminal_marked_notional": 612.4045375999992,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.16806055449785948,
+            "max_minute_ETH_weight": 0.17221948449259109,
+            "top1_day_positive_gross_PnL_share": 0.13867271289284336,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-VOL_MANAGED_BUY_AND_HOLD/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "36d45cec4c5cd79562d8f8b40d28be34f3d77acdf1176fe98d08a9ac39a4065a",
+              "bytes": 1901
+            },
+            "orders.parquet": {
+              "sha256": "463adc4eaf2043f3ef237484ee2ab1484a6b28d21518b3c5b4cf29be92cd15ce",
+              "bytes": 12538
+            },
+            "trades.parquet": {
+              "sha256": "3c89a996aa178d87561efcc6d14605c9c5476e7aacdddb1a332dea3bbf45c0f9",
+              "bytes": 20028
+            },
+            "daily_nav.parquet": {
+              "sha256": "dfaa45f1e64e9a383e9eb3e5bf3249e00ef42fecf6a39d1372513bbfcb417ed6",
+              "bytes": 8221
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "1aeb1f7ec99ff761cf2a781467ffacd7675349f238b76bda2d2e34b2f9e60efb",
+              "bytes": 4766336
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9925.031206472622,
+            "total_return": -0.007496879352737795,
+            "annual_return": -0.030057561629203366,
+            "annual_volatility": 0.061874598492382867,
+            "sharpe": -0.46277746052919033,
+            "max_drawdown": 0.027083287099999076,
+            "fees": 85.0607216910247,
+            "execution_costs": 42.530208936345375,
+            "turnover": 8.499758944916746,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 120,
+            "round_trip_count": 27,
+            "open_positions": {
+              "BTCUSDT": 0.00364,
+              "ETHUSDT": 0.21200000000000002
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 48,
+            "expired_orders": 3,
+            "dust_orders": 43,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.24758096777176292,
+            "max_observed_gross": 0.3251267506586373,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": 52.62213709999229,
+            "net_cash_PnL": -74.96879352737778,
+            "gross_cash_PnL_same_quantities": 52.62213709999229,
+            "period_days": 90,
+            "period_net_return": -0.007496879352737795,
+            "period_descriptive_net_CAGR": -0.030057561629203366,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.032524102479326134,
+            "spread_cost": 8.506041787269075,
+            "slippage_cost": 34.0241671490763,
+            "actual_two_sided_mid_notional": 85060.4178727,
+            "break_even_roundtrip_cost_bps": 12.372884689737992,
+            "max_minute_marked_gross_weight": 0.33942954819400856,
+            "minimum_marked_cash": 6743.035941072395,
+            "terminal_marked_notional": 660.2587863999993,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.2490429752983028,
+            "max_minute_ETH_weight": 0.24357691681554586,
+            "top1_day_positive_gross_PnL_share": 0.2529031284233452,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "4c7e92c0b6ba59736471969dc74c5176f7a62dc7dbba8515656b2960f7d4ce72",
+              "bytes": 1891
+            },
+            "orders.parquet": {
+              "sha256": "b5a501ff5d477ab981e7e753d0e1ca04ec240ed2d91dc41484a1df5a44194ee5",
+              "bytes": 8843
+            },
+            "trades.parquet": {
+              "sha256": "b5c31d8d6a401f618882ce0e796c0b65d1b469980e8a106795d160822dd246c4",
+              "bytes": 17446
+            },
+            "daily_nav.parquet": {
+              "sha256": "c4078734428ad6e452f48875616de9b2a82f908b3ab277e7125982e629839bb9",
+              "bytes": 5839
+            },
+            "round_trips.parquet": {
+              "sha256": "52f0505c1372658f205883fe79c9abb0f78270aa5e6ab5b9de13e019c92dad23",
+              "bytes": 2602
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "0dd379bd33e28d94f84db2a23b157d97f2e8babe2443327ae98d4033e5c9bf3a",
+              "bytes": 2673452
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9916.64839043329,
+            "total_return": -0.008335160956670862,
+            "annual_return": -0.03337569568886678,
+            "annual_volatility": 0.061986165118229325,
+            "sharpe": -0.5171126427973363,
+            "max_drawdown": 0.027364083429794017,
+            "fees": 85.01683350892766,
+            "execution_costs": 51.009881757778956,
+            "turnover": 8.498823829229806,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 120,
+            "round_trip_count": 27,
+            "open_positions": {
+              "BTCUSDT": 0.0036300000000000004,
+              "ETHUSDT": 0.21180000000000004
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 48,
+            "expired_orders": 3,
+            "dust_orders": 43,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.24756665721652418,
+            "max_observed_gross": 0.32506532758120704,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": 52.67510569999746,
+            "net_cash_PnL": -83.35160956670916,
+            "gross_cash_PnL_same_quantities": 52.67510569999746,
+            "period_days": 90,
+            "period_net_return": -0.008335160956670862,
+            "period_descriptive_net_CAGR": -0.03337569568886678,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.03276992829649661,
+            "spread_cost": 17.00329391925965,
+            "slippage_cost": 34.0065878385193,
+            "actual_two_sided_mid_notional": 85016.46959630001,
+            "break_even_roundtrip_cost_bps": 12.391741494353917,
+            "max_minute_marked_gross_weight": 0.3393666553709302,
+            "minimum_marked_cash": 6740.384764306812,
+            "terminal_marked_notional": 659.1961518000003,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.24902860820590095,
+            "max_minute_ETH_weight": 0.24354293726980414,
+            "top1_day_positive_gross_PnL_share": 0.2528492709285563,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "3d30a80343f73326ab4d927941a6356c9e34839d32255bdd78c0ed997e387fbc",
+              "bytes": 1918
+            },
+            "orders.parquet": {
+              "sha256": "670f47b0f69430b9d668de1a8b350cc1ab97ab77787139bdec396442621d8562",
+              "bytes": 8842
+            },
+            "trades.parquet": {
+              "sha256": "d02e45580c9a0b97e5e6b21c56e028836ace37b3474cb94d142f98685deaee1c",
+              "bytes": 17482
+            },
+            "daily_nav.parquet": {
+              "sha256": "bef882f1328a4fabac02a4f614b6557d33aa11a76995f6d09d3e9183b5d0afb2",
+              "bytes": 5841
+            },
+            "round_trips.parquet": {
+              "sha256": "26ff5a56c81712a89361b160ec05907d7ef00aa52abcd3abaaee757fad0a40c4",
+              "bytes": 2602
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "045152afe4ab7dee6c40e949510c7326d16f7ef6bfdde482f8ba204b823fdedc",
+              "bytes": 2931628
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9899.763177825986,
+            "total_return": -0.010023682217401464,
+            "annual_return": -0.04003332749313271,
+            "annual_volatility": 0.06222175245552437,
+            "sharpe": -0.6259858305264713,
+            "max_drawdown": 0.02792609430537718,
+            "fees": 84.92483695593359,
+            "execution_costs": 67.93948241807716,
+            "turnover": 8.496599120247406,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 120,
+            "round_trip_count": 27,
+            "open_positions": {
+              "BTCUSDT": 0.003620000000000001,
+              "ETHUSDT": 0.21130000000000004
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 48,
+            "expired_orders": 3,
+            "dust_orders": 43,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.2475399127778605,
+            "max_observed_gross": 0.32501087422445446,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 52.62749719999637,
+            "net_cash_PnL": -100.23682217401438,
+            "gross_cash_PnL_same_quantities": 52.62749719999637,
+            "period_days": 90,
+            "period_net_return": -0.010023682217401464,
+            "period_descriptive_net_CAGR": -0.04003332749313271,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.03327274642719602,
+            "spread_cost": 33.96974120903858,
+            "slippage_cost": 33.96974120903858,
+            "actual_two_sided_mid_notional": 84924.3530226,
+            "break_even_roundtrip_cost_bps": 12.393970710849263,
+            "max_minute_marked_gross_weight": 0.33931099167997764,
+            "minimum_marked_cash": 6734.2899036514755,
+            "terminal_marked_notional": 657.5441641999998,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.24900175809848601,
+            "max_minute_ETH_weight": 0.24347819468490958,
+            "top1_day_positive_gross_PnL_share": 0.2528069244691119,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "ac44bba5663a83f1fd0c9217859672cbc949cbce3c425a6bc273c5d857d2d391",
+              "bytes": 1900
+            },
+            "orders.parquet": {
+              "sha256": "83e73eacf47da3f3187709cccd5d042fdfc4809eca93dc5e0721aa907c109ca7",
+              "bytes": 8837
+            },
+            "trades.parquet": {
+              "sha256": "140865bae158e2295beb0035d5f9060909b77bc32a723dbc565c5379971785ce",
+              "bytes": 17482
+            },
+            "daily_nav.parquet": {
+              "sha256": "e5a4b1ad3d31d852348c9ba3b078b74462fed0ce2bf026190cbb022db641c82d",
+              "bytes": 5843
+            },
+            "round_trips.parquet": {
+              "sha256": "65e01d74fe227ab5ac96a2fe1fe664aa04a566001fb2d5b4885247804357c97e",
+              "bytes": 2602
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "5e85a70488437f386084589f8088d23deee933f711ca539fdce502dd57669b75",
+              "bytes": 2442955
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+          "spread_bps": 2,
+          "nominal_roundtrip_bps": 30,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9818.254048597933,
+            "total_return": -0.018174595140206695,
+            "annual_return": -0.07168681143792677,
+            "annual_volatility": 0.06601341571028303,
+            "sharpe": -1.0942106183840306,
+            "max_drawdown": 0.03181169442397713,
+            "fees": 51.657099244764304,
+            "execution_costs": 25.82852355729689,
+            "turnover": 5.209172730594983,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 65,
+            "round_trip_count": 15,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 28,
+            "expired_orders": 2,
+            "dust_orders": 22,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.2993696314853513,
+            "max_observed_gross": 0.32514082085452606,
+            "cost_rate_one_way_bps": 15.0,
+            "gross_pnl_before_costs": -104.26032860000537,
+            "net_cash_PnL": -181.74595140206657,
+            "gross_cash_PnL_same_quantities": -104.26032860000537,
+            "period_days": 90,
+            "period_net_return": -0.018174595140206695,
+            "period_descriptive_net_CAGR": -0.07168681143792677,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.03720704949423215,
+            "spread_cost": 5.165704711459378,
+            "slippage_cost": 20.662818845837513,
+            "actual_two_sided_mid_notional": 51657.047114600005,
+            "break_even_roundtrip_cost_bps": -40.366352481862215,
+            "max_minute_marked_gross_weight": 0.34148029246653105,
+            "minimum_marked_cash": 6651.104087026496,
+            "terminal_marked_notional": 1.0905221170531831e-13,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.300162515120386,
+            "max_minute_ETH_weight": 0.24289568333752146,
+            "top1_day_positive_gross_PnL_share": 0.27864236597200326,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER/spread2",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "43923bf0e0ff1ea2683f4f4778ddbcf94f910688def227ebe0bbd06e61c3ef61",
+              "bytes": 1869
+            },
+            "orders.parquet": {
+              "sha256": "a26fb85b75e94dff08ca6c57b37bcf095f59839f00b73e3fad11921696d493be",
+              "bytes": 6529
+            },
+            "trades.parquet": {
+              "sha256": "2e2be2ecc961646bfdac08f52d3adb64fa0e68a54e43d6c26bf67d9bd3f21ff8",
+              "bytes": 12477
+            },
+            "daily_nav.parquet": {
+              "sha256": "b38f609631b010a1659ee1c5084ee92050f43ef3199f834ca11c5f7b701cf136",
+              "bytes": 5461
+            },
+            "round_trips.parquet": {
+              "sha256": "9430e4e11fdb225149fb5e98aa321e072ac604231cd75b3fdb770a3fccf13e31",
+              "bytes": 2257
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "f8a4cd901f215fe3f70ca18d274d3ed077c966713e59355fb2076798d3aa78c3",
+              "bytes": 2025797
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+          "spread_bps": 4,
+          "nominal_roundtrip_bps": 32,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9813.161936080549,
+            "total_return": -0.018683806391945113,
+            "annual_return": -0.07363784378103722,
+            "annual_volatility": 0.06608039649433922,
+            "sharpe": -1.1248667341697318,
+            "max_drawdown": 0.031977084187201466,
+            "fees": 51.63905214817079,
+            "execution_costs": 30.983393771279275,
+            "turnover": 5.208640896596345,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 65,
+            "round_trip_count": 15,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 28,
+            "expired_orders": 2,
+            "dust_orders": 22,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.29936920444136766,
+            "max_observed_gross": 0.3250773061381074,
+            "cost_rate_one_way_bps": 15.999999999999998,
+            "gross_pnl_before_costs": -104.21561800000103,
+            "net_cash_PnL": -186.8380639194511,
+            "gross_cash_PnL_same_quantities": -104.21561800000103,
+            "period_days": 90,
+            "period_net_return": -0.018683806391945113,
+            "period_descriptive_net_CAGR": -0.07363784378103722,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.03732621086804733,
+            "spread_cost": 10.327797923759759,
+            "slippage_cost": 20.655595847519518,
+            "actual_two_sided_mid_notional": 51638.989618800006,
+            "break_even_roundtrip_cost_bps": -40.36315147500859,
+            "max_minute_marked_gross_weight": 0.34141519031284423,
+            "minimum_marked_cash": 6649.181917995782,
+            "terminal_marked_notional": -1.0905221170531831e-13,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.30016231772009955,
+            "max_minute_ETH_weight": 0.24286863695133767,
+            "top1_day_positive_gross_PnL_share": 0.2786061043637305,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER/spread4",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "20687fe8d8bbf2235716c0a2863337341d8af9f804b1c202aa2a039718cc3edf",
+              "bytes": 1884
+            },
+            "orders.parquet": {
+              "sha256": "1f908c759890e1c3d55078c84be7ead4dc576a673307565b9d65423f97d86533",
+              "bytes": 6529
+            },
+            "trades.parquet": {
+              "sha256": "7d852dce383662718211c8dfedf6570982c1ed2e13cbec9927670d2cf65fcddb",
+              "bytes": 12476
+            },
+            "daily_nav.parquet": {
+              "sha256": "354fd6a0ae95814187dfd89aa488447367aaa396903fc5260cbadd933abacbd8",
+              "bytes": 5465
+            },
+            "round_trips.parquet": {
+              "sha256": "45f0a40b56bcede583fe192ce8c9398487913c1508a8ba7066fe6f48f1dd5f67",
+              "bytes": 2257
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "32dd57c8687d3ba3227a26279cf2615f22c9d32fb7d68fcb324307d8e62361dc",
+              "bytes": 2533583
+            }
+          }
+        },
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 90,
+            "initial_nav": 10000.0,
+            "final_nav": 9802.907250337403,
+            "total_return": -0.019709274966259738,
+            "annual_return": -0.07755752848979702,
+            "annual_volatility": 0.0662285596855194,
+            "sharpe": -1.1862133085708628,
+            "max_drawdown": 0.03231665141591744,
+            "fees": 51.60479847404327,
+            "execution_costs": 41.283772088557946,
+            "turnover": 5.207784516569869,
+            "start_utc": "2025-12-01T00:00:00+00:00",
+            "end_utc": "2026-03-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 65,
+            "round_trip_count": 15,
+            "open_positions": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 28,
+            "expired_orders": 2,
+            "dust_orders": 22,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.29927682355770474,
+            "max_observed_gross": 0.32498261007508833,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": -104.20417909999605,
+            "net_cash_PnL": -197.09274966259727,
+            "gross_cash_PnL_same_quantities": -104.20417909999605,
+            "period_days": 90,
+            "period_net_return": -0.019709274966259738,
+            "period_descriptive_net_CAGR": -0.07755752848979702,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.037573290287575056,
+            "spread_cost": 20.641886044278973,
+            "slippage_cost": 20.641886044278973,
+            "actual_two_sided_mid_notional": 51604.71511070001,
+            "break_even_roundtrip_cost_bps": -40.38552635218009,
+            "max_minute_marked_gross_weight": 0.34131826082642924,
+            "minimum_marked_cash": 6645.003476181241,
+            "terminal_marked_notional": -1.0905221170531831e-13,
+            "terminal_positions_flat": true,
+            "max_minute_BTC_weight": 0.30007031534953077,
+            "max_minute_ETH_weight": 0.24281462827493483,
+            "top1_day_positive_gross_PnL_share": 0.27852836573885414,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "candidate_qualification_allowed": false
+          },
+          "directory": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/CONT90-COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "dc80af0cb0b6ff7719e6a5ddbd005b69a5ff61c41c32ec62d075e26cf7a01147",
+              "bytes": 1869
+            },
+            "orders.parquet": {
+              "sha256": "925010431c3505714caf4c3a985e3fe25ee88e6cc1ff0c5635a4a785f1f918b4",
+              "bytes": 6530
+            },
+            "trades.parquet": {
+              "sha256": "adbefdb2d2b862d34df85aa58577b83d3b4cc64036d5f6558876903714f01507",
+              "bytes": 12463
+            },
+            "daily_nav.parquet": {
+              "sha256": "6da6f71eb5d358c5349d45bd30fa4d9e64cf746b04484c2540ec95e31afc55f9",
+              "bytes": 5459
+            },
+            "round_trips.parquet": {
+              "sha256": "b343df38aef33244291007106cd417572f99b4095efdec44b090a5bfec2885e6",
+              "bytes": 2257
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "eb7060c7305750a576853161822b3aab5577dba21ac2ff5490fb81e8909a4ec6",
+              "bytes": 2431453
+            }
+          }
+        }
+      ],
+      "minute_input_sha256": "f55c459ba8210703602f9e57db81c71c871cfb0fc8c7eccde1a6d10d9b875874",
+      "status": "COMPLETE_PROXY_COMPARISON"
+    }
+  ],
+  "market_inputs_read": true,
+  "market_models_fit": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "classification": "MINUTE_PROXY_SCREENING",
+  "limitations": [
+    "Minute open OHLC fills and previous-minute volume capacity are proxies, not historical BBO/queue proof",
+    "Fixed fees, lot filters and latency are research assumptions; no account keys or orders",
+    "All strategies share unchanged capital, cost, caps and causal risk rules, not identical realized risk",
+    "Risk scaling occurs only at compressed intent changes; passive price drift may exceed target caps and must be disclosed",
+    "VM EWMA uses fixed .3/.3 gross reference basket, not recursive gross strategy NAV",
+    "Terminal forced zero target has common latency/cost; minimum lots or capacity may leave marked residuals",
+    "Public1h/2h candles and COIN funding/risk/execution are adaptations, not native Jesse full-balance simulation",
+    "December2025-February2026 were previously consumed by A05/A06; this is later-development chronology SCREENING, not unseen OOS",
+    "Three monthly NAV boundaries retain cash and marked inventory continuously; only final terminal liquidation is common",
+    "No new model, timeframe, cost tier, threshold search, or locked March2026 data"
+  ],
+  "primary_reference": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+  "disk": {
+    "scan_started_utc": "2026-10-02T13:29:40.958292+00:00",
+    "project_bytes": 4354385937,
+    "wsl_vhd_bytes": 15028191232,
+    "total_bytes": 19382577169,
+    "reserved_bytes": 512000000,
+    "d_free_bytes": 362467115008,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "scan_finished_utc": "2026-10-02T13:30:46.612451+00:00"
+  },
+  "accepted_smoke_sha256": "cfba136819ec11f5bec42381d5aedff7c60349148e5031633fdb94946a24d81f",
+  "planned_ledgers": 15,
+  "account_continuity": "SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST",
+  "source_receipt_sha256": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+  "source_days_per_symbol": 151,
+  "source_scope": "OCT2025_FEB2026",
+  "source_calendar": [
+    "2025-10",
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02"
+  ],
+  "source_month_files": 10,
+  "minute_source": {
+    "path": "/home/xflops/coin-state/public-strategy-continuous-90d-actual-20261002-v2/shared_source_minutes.parquet",
+    "sha256": "96adcfe79bb73f11bcdc924e83b43d51f6381c7b43977be90504f968b3bd0905",
+    "rows": 348480,
+    "invalid_minutes": 0
+  },
+  "completed_ledgers": 15,
+  "all_planned_ledgers_complete": true,
+  "aggregate": [
+    {
+      "strategy": "CASH",
+      "spread_bps": 2,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": 0.0,
+      "mean_period_net_return": 0.0,
+      "worst_period_net_return": 0.0,
+      "max_observed_daily_MDD": -0.0,
+      "max_observed_minute_MDD": -0.0,
+      "fees_USDT_across_period_accounts": 0.0,
+      "execution_cost_USDT_across_period_accounts": 0.0,
+      "trade_count": 0,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "CASH",
+      "spread_bps": 4,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": 0.0,
+      "mean_period_net_return": 0.0,
+      "worst_period_net_return": 0.0,
+      "max_observed_daily_MDD": -0.0,
+      "max_observed_minute_MDD": -0.0,
+      "fees_USDT_across_period_accounts": 0.0,
+      "execution_cost_USDT_across_period_accounts": 0.0,
+      "trade_count": 0,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "CASH",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": 0.0,
+      "mean_period_net_return": 0.0,
+      "worst_period_net_return": 0.0,
+      "max_observed_daily_MDD": -0.0,
+      "max_observed_minute_MDD": -0.0,
+      "fees_USDT_across_period_accounts": 0.0,
+      "execution_cost_USDT_across_period_accounts": 0.0,
+      "trade_count": 0,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "SPOT_BUY_AND_HOLD",
+      "spread_bps": 2,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.05573427136342013,
+      "mean_period_net_return": -0.05573427136342013,
+      "worst_period_net_return": -0.05573427136342013,
+      "max_observed_daily_MDD": 0.07994397690575827,
+      "max_observed_minute_MDD": 0.08673957186974468,
+      "fees_USDT_across_period_accounts": 2.25629455855235,
+      "execution_cost_USDT_across_period_accounts": 1.1277935756498885,
+      "trade_count": 4,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "SPOT_BUY_AND_HOLD",
+      "spread_bps": 4,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.05572288301638395,
+      "mean_period_net_return": -0.05572288301638395,
+      "worst_period_net_return": -0.05572288301638395,
+      "max_observed_daily_MDD": 0.07989771530402834,
+      "max_observed_minute_MDD": 0.0866889844782539,
+      "fees_USDT_across_period_accounts": 2.2552314772985804,
+      "execution_cost_USDT_across_period_accounts": 1.352629986539967,
+      "trade_count": 4,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "SPOT_BUY_AND_HOLD",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.055757614374574715,
+      "mean_period_net_return": -0.055757614374574715,
+      "worst_period_net_return": -0.055757614374574715,
+      "max_observed_daily_MDD": 0.07988585362951073,
+      "max_observed_minute_MDD": 0.08667638079600581,
+      "fees_USDT_across_period_accounts": 2.25521420262584,
+      "execution_cost_USDT_across_period_accounts": 1.8032668431198169,
+      "trade_count": 4,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+      "spread_bps": 2,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.05581547487010652,
+      "mean_period_net_return": -0.05581547487010652,
+      "worst_period_net_return": -0.05581547487010652,
+      "max_observed_daily_MDD": 0.0890223318175487,
+      "max_observed_minute_MDD": 0.09379391723331754,
+      "fees_USDT_across_period_accounts": 16.61824391652085,
+      "execution_cost_USDT_across_period_accounts": 8.30883528454894,
+      "trade_count": 145,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+      "spread_bps": 4,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.055974959833481996,
+      "mean_period_net_return": -0.055974959833481996,
+      "worst_period_net_return": -0.055974959833481996,
+      "max_observed_daily_MDD": 0.0890804636836211,
+      "max_observed_minute_MDD": 0.09385665924944431,
+      "fees_USDT_across_period_accounts": 16.61896845030028,
+      "execution_cost_USDT_across_period_accounts": 9.9709682845197,
+      "trade_count": 145,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "VOL_MANAGED_BUY_AND_HOLD",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.05633490251296258,
+      "mean_period_net_return": -0.05633490251296258,
+      "worst_period_net_return": -0.05633490251296258,
+      "max_observed_daily_MDD": 0.08917164252502863,
+      "max_observed_minute_MDD": 0.0939551707893318,
+      "fees_USDT_across_period_accounts": 16.59068499995048,
+      "execution_cost_USDT_across_period_accounts": 13.271814629679275,
+      "trade_count": 146,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+      "spread_bps": 2,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.007496879352737795,
+      "mean_period_net_return": -0.007496879352737795,
+      "worst_period_net_return": -0.007496879352737795,
+      "max_observed_daily_MDD": 0.027083287099999076,
+      "max_observed_minute_MDD": 0.032524102479326134,
+      "fees_USDT_across_period_accounts": 85.0607216910247,
+      "execution_cost_USDT_across_period_accounts": 42.530208936345375,
+      "trade_count": 120,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+      "spread_bps": 4,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.008335160956670862,
+      "mean_period_net_return": -0.008335160956670862,
+      "worst_period_net_return": -0.008335160956670862,
+      "max_observed_daily_MDD": 0.027364083429794017,
+      "max_observed_minute_MDD": 0.03276992829649661,
+      "fees_USDT_across_period_accounts": 85.01683350892766,
+      "execution_cost_USDT_across_period_accounts": 51.009881757778956,
+      "trade_count": 120,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_1H_SPOT_ADAPTER",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.010023682217401464,
+      "mean_period_net_return": -0.010023682217401464,
+      "worst_period_net_return": -0.010023682217401464,
+      "max_observed_daily_MDD": 0.02792609430537718,
+      "max_observed_minute_MDD": 0.03327274642719602,
+      "fees_USDT_across_period_accounts": 84.92483695593359,
+      "execution_cost_USDT_across_period_accounts": 67.93948241807716,
+      "trade_count": 120,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+      "spread_bps": 2,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.018174595140206695,
+      "mean_period_net_return": -0.018174595140206695,
+      "worst_period_net_return": -0.018174595140206695,
+      "max_observed_daily_MDD": 0.03181169442397713,
+      "max_observed_minute_MDD": 0.03720704949423215,
+      "fees_USDT_across_period_accounts": 51.657099244764304,
+      "execution_cost_USDT_across_period_accounts": 25.82852355729689,
+      "trade_count": 65,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+      "spread_bps": 4,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.018683806391945113,
+      "mean_period_net_return": -0.018683806391945113,
+      "worst_period_net_return": -0.018683806391945113,
+      "max_observed_daily_MDD": 0.031977084187201466,
+      "max_observed_minute_MDD": 0.03732621086804733,
+      "fees_USDT_across_period_accounts": 51.63905214817079,
+      "execution_cost_USDT_across_period_accounts": 30.983393771279275,
+      "trade_count": 65,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    },
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_2H_SPOT_ADAPTER",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        90
+      ],
+      "period_net_return": -0.019709274966259738,
+      "mean_period_net_return": -0.019709274966259738,
+      "worst_period_net_return": -0.019709274966259738,
+      "max_observed_daily_MDD": 0.03231665141591744,
+      "max_observed_minute_MDD": 0.037573290287575056,
+      "fees_USDT_across_period_accounts": 51.60479847404327,
+      "execution_cost_USDT_across_period_accounts": 41.283772088557946,
+      "trade_count": 65,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    }
+  ],
+  "source_bytes_unchanged": true,
+  "created_utc": "2026-10-02T13:30:59.922249+00:00",
+  "elapsed_seconds": 80.29766526399908,
+  "orchestrator_peak_RSS_bytes": 632123392,
+  "owned_bytes": 73832601,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 943333376,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

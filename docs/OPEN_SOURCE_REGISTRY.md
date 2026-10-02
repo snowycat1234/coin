@@ -29,6 +29,12 @@
 具体证据见 `PUBLIC_DONCHIAN_2H_122D_ACTUAL_20261002_V1.json` 与独立审计；
 原1h阴性和旧全部账本保留，不用新版本覆盖它们。
 
+90日固定外推已完成，原30/32/36bp净2h−1.8175/−1.8684/−1.9709%，且同数量gross为负；
+按结果前D014缩小为 **RETAINED_DEFENSIVE_PROXY_REFERENCE_ONLY**（D015），盈利主力NONE。
+根验收 `PUBLIC_STRATEGY_90D_ROOT_MODULE_ACCEPTANCE_20261002_V1.json`；
+独立15账本限定精确Parquet/逻辑绑定，原内存IPC指纹未重现，初次FAIL保留。
+Jesse原策略、指标及MIT许可无新改动；用户新增Bybit费用基准不改写上述Binance代理结果。
+
 ## 当前集成增量（FR66/FR67/FR68）
 
 FR66/FR67验收时的登记表原字节已保存在

@@ -12,6 +12,14 @@
 已有已验收入口／模型／失败工件保留，依赖不变不重复全套检查；普通方向无需逐项批准。
 当前权威状态／只追加决策日志／registry继续沿用；不重新写总计划或扩平台。
 
+用户2026-10-02新增平台费用标准为 **Bybit普通用户（nonVIP/VIP0）**，见
+`protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json`与`docs/BYBIT_NONVIP_COST_STANDARD_20261002.md`。
+常规crypto Spot maker/taker10bp/side；perp/futures maker2bp/taker5.5bp/side，不能混产品。
+当前历史Spot研究输入仍为既有Binance封存来源，不把代理结果改称Bybit成交；旧协议/报告不覆盖。
+Bybit Spot费用扣收到的资产，须薄适配并验证base/quote资金守恒；原quote扣费引擎保留。
+未来实验显式绑定市场、费用profile SHA及费用资产规则；区域/实际账户费率、Bybit行情/过滤器
+未验证。普通公开研究授权继续；不因此使用密钥、真钱、扩资源或重建执行平台。
+
 **此前V8科研指令（冲突处让位上述长期原则）**，原文逐字节留存
 `docs/archive/COIN_V8_USER_DIRECTIVE_20261002.md`，登记`docs/V8_OVERRIDE.md`。
 冲突处覆盖下列v7：目标为risk-constrained net CAGR，当前必须
