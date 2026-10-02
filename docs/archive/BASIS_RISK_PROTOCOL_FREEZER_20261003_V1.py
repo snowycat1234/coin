@@ -1,0 +1,55 @@
+"""Freeze one complete-period diagnostic before synthetic or price math."""
+from datetime import UTC, datetime
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+ROOT=Path('/mnt/d/codex/coin')
+OUT=ROOT/'protocols/BASIS_RISK_DIAGNOSTIC_20261003_V1.json'
+ARCHIVE='docs/archive/BASIS_RISK_PROTOCOL_FREEZER_20261003_V1.py'
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+options_name='reports/fast_research/BASIS_RISK_SOURCE_OPTIONS_20261003_V1.json'
+assert sha(ROOT/options_name)=='fd1b4c5683b3569a9e770600d325c26a86ffa235aa9fbefc595eafaabaaee7de7'
+options=json.loads((ROOT/options_name).read_bytes())
+fixed={**options['source_proofs'],
+    options_name:sha(ROOT/options_name),
+    'scripts/research_v7/oracle_flow_ceiling.py':'959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e',
+    'scripts/research_v8/registry.py':'081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab',
+    'src/quant/resources.py':'e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3',
+    'src/quant/disk.py':'4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9',
+    'src/quant/paths.py':'3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282',
+    'environments/v8/uv.lock':'97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6',
+    'protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json':'d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f',
+    'reports/fast_research/FUNDING_INCOME_DIAGNOSTIC_122D_ACTUAL_20261003_V1.json':'8dc6eb125dfdb5358ba64b4600dfc38025bb08eae40b80469e6247e34442b5e2',
+    'tests/test_basis_risk_diagnostic.py':'dbcde34c25100eca0fe3535108707849f4adf0e96359e57582ef8b1e714cb156'}
+assert not OUT.exists() and Path(__file__).read_bytes()==(ROOT/ARCHIVE).read_bytes()
+for name,digest in fixed.items():assert sha(ROOT/name)==digest,name
+for name in ('scripts/investment/basis_risk_diagnostic.py',ARCHIVE):fixed[name]=sha(ROOT/name)
+spec=dict(contract_id='BASIS_RISK_DIAGNOSTIC_V1',created_utc=datetime.now(UTC).isoformat(),
+    git_commit_at_freeze=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+    period_start='2025-08-01',period_end_exclusive='2025-12-01',symbols=['BTCUSDT','ETHUSDT'],
+    source_calendar=['2025-08','2025-09','2025-10','2025-11'],source_options_path=options_name,
+    source_options_sha256=sha(ROOT/options_name),expected_files=24,expected_minutes_per_symbol=175680,
+    math=dict(quantity_per_leg=1,basis='MARK_MINUS_SPOT',normalization='WINDOW_FIRST_SPOT_CLOSE',
+        adverse='POSITIVE_BASIS_CHANGE',valuation='NEGATIVE_BASIS_CHANGE',
+        drawdown='PREFIX_RUNNING_PEAK_WITH_INITIAL_ZERO',month_scope='ALL_FOUR_LOCAL_BASELINES_DESCRIPTIVE_ONLY'),
+    coupon_headroom_context_bp={'BTCUSDT':116.6165,'ETHUSDT':90.6858},
+    coupon_context_scope='DIFFERENT_FIXED_EVENT_NOMINAL_UNIT_ONLY_NOT_ADDED_TO_FIXED_QUANTITY_VALUATION',
+    maximum_new_owned_bytes=10000000,maximum_wall_seconds=600,frozen_sources=fixed,
+    required_smoke_receipt='reports/fast_research/BASIS_RISK_DIAGNOSTIC_TINY_20261003_V1.json',
+    required_smoke_proof_scope='ACTUAL_CLOSED_TASK_EXIT0_SAME_PROTOCOL_SOURCE_HASHES_BEFORE_PRICE_ARRAYS',
+    independent_absolute_tolerance_bp=1e-7,polars_decomposition_absolute_tolerance_bp=1e-8,
+    data_role='SEEN_DEVELOPMENT_DESCRIPTIVE_RISK_DIAGNOSTIC_NOT_UNSEEN_PREDICTION',
+    market='BINANCE_SPOT_AND_USD_M_OFFICIAL_CLOSE_PROXIES_NOT_BYBIT_EXECUTION',
+    fee_profile_reference_only='protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json',
+    fees_applied=False,account_cash_NAV_APR_or_funding_computed=False,
+    automatic_investment_or_STOP_threshold=False,decision='D028',
+    RAM_shared_max_bytes=5000000000,swap=0,GPU=0,disk_combined_max_bytes=40000000000,
+    capacity_check='EXISTING_UNMODIFIED_DISK_GUARD_WITH_ACTUAL_SCAN_TIME_EACH_STARTED_MODE',
+    output_scope='SMALL_JSON_SUMMARY_AND_EXTREMA_WITNESSES_NO_LARGE_JOINED_ARRAY',
+    next_step='ONE_FIXED_CONDITIONAL_CONTINUOUS_CARRY_ACCOUNT_SEPARATE_PROTOCOL_NOT_FURTHER_FRAGMENT_GATES',
+    forbidden=['new_API','locked_market_IO','repeated_source_CRC_ZIP_QA','old_green_tests','model_fit_or_HPO',
+        'interpolation_or_badrow_drop','monthly_strategy_selection','coupon_plus_basis_fake_net','claim_real_PNL_NAV_APR'])
+with OUT.open('x') as w:json.dump(spec,w,indent=2,ensure_ascii=False);w.write('\n')
+print(json.dumps({'protocol':str(OUT),'sha256':sha(OUT),'frozen_files':len(fixed)}))

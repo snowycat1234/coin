@@ -479,3 +479,50 @@
   `BASIS_RISK_SOURCE_OPTIONS_20261003_V1.json`（`fd1b4c56…aaee7de7`）列明8Spot＋8mark＋
   8index准确路径及既有SHA；open timestamp join、proxy inclusive close+1ms与Spot逻辑bar end
   对齐。只是元数据，不读／hash价数组、重QA或算basis；尚无basis经济证据。
+
+### D028：固定全期基差风险定义，纠正单项自动STOP（价数组／新数学运行前，2026-10-03）
+
+- HEAD `1fdfd7d6ef23610ee7d1202646a6eb0fab4ad75d`、24价源接线只读已核；当前无盈利候选、
+  净APR NE。采用现成Polars／PyArrow／Decimal，不建carry framework或重做原source QA。
+- 固定同币q=1：B=M−S，change=(B_t−B0)/S0×10000；正change是longSpot／shortMark的不利
+  变化，valuation=−change只是标记价诊断。全期及四个全部月各自取首Spot close S0；
+  报告终点变化、最大不利／有利、valuation含initial0的prefix峰谷回撤与极值见证。
+  分解M−I及I−S使用同S0和各自初值。月rebase仅描述，不能相加、拼月或每月扣完整成本。
+- open严格Aug1..<Dec1，共同逻辑bar end，175680分钟／币、351360总分钟，不填补／删缺。
+  原price SHA只核本次绑定；旧CRC／ZIP／24档QA／绿测试／coupon数学不重做。
+  仅close／对齐列、0新API／fit／HPO／joined大工件；独占新STATE≤10MB／600s，
+  当前共享5GBRAM／swap0／GPU0，D盘40GB保持。独立Decimal容差事前1e−7bp。
+- 修正D027的粗暂停判断：max adverse是中途资本／保证金需求，不能仅因接近coupon就自动
+  STOP。旧coupon为固定事件名义∑r；本次为固定q／S0价格变化，只比粗尺度，不能相加成净收益。
+- 本次之后直接进行一版固定、明确假设的连续条件carry账本，避免更多碎片诊断。
+  统一总资本、净qty、Spot received-asset费／Perp quote费、全部正负funding q×M_e×r_e、
+  cash／margin reserve、期初期末及dust。Aug1首事件早于首共同闭合价，合法开仓前事件
+  不能收，不能未来close回填收费mark。事前固定过去close proxy／成本／风险，不择月或HPO。
+  该后续需另冻结协议再跑；Binance价格／条件rate＋Bybit当前费用只作CONDITIONAL_PROXY，
+  不解锁历史、不产生原生交易／真钱候选或长期APR证明。若完整固定账本净负，暂停该配方；
+  若净正而资本／成交未知，下一步验证真实可成交basis与保证金，不以杠杆／低成本放大APR。
+
+### D029：条件carry固定账户口径（新carry合成／市场回放前，2026-10-03）
+
+- basis主体全122日完成，尚待独立审计；终点变化BTC3.0661／ETH2.1805bp与中途回撤
+  114.5151／344.1374bp不同，不能把风险直接扣旧coupon。原生输入仍未取得、候选NONE。
+  下一项只跑一个全期连续条件账户，不追加更多单项hurdle或参数搜索。
+- C0=10000USDT；首次共同闭合价产生订单，下一分钟闭合价代理fill，每币事前定额
+  q=1250/首signal Spotclose。Spot买gross=q/(1−0.001)，复用received-asset结算，
+  perp short精确匹配净base；fractional qty、真实filters／capacity未知，dust0仅条件假设。
+  每币预存1250USDT独立保证金，其余freecash；short卖出名义金额不进入cash。
+  单成本：每腿RTspread8bp、每side slip4bp，即fill相对mid±8bp；Spot10／perp5.5bp
+  taker每side。保持最高既有成本假设，不降费用、不加杠杆或期末择窗。
+- 全账户实际NAV=sum freecash＋两isolated权益＋Spot库存；funding全部signed，
+  q×严格过去closed mark×未认证fraction rate，只归属entry<event<exit；首开仓前事件不收。
+  复核官方Bybit文档：funding先available cash，不足才减isolated余额；fee以USDT结算。
+  开平fundtime±5秒实际归属不保证，报告近边界见证而不声称真实平台到账。
+  所有事件现金前后进入峰谷／DD，转账与realized/unrealized不双算。
+- 复用原更严gross≤0.6／每underlier两腿≤0.3；任一触顶或isolated权益≤初始50%
+  触发一次下一分钟全平，之后永久CASH，不再入场／重平衡／事后调门槛。被动漂移和
+  下一fill gap的实际超限如实报告；这是自设保守guard，不是Bybit维护保证金或清算模型。
+  固定最终端点只做模拟平仓，结清两边费和资金，不按月重开账户。
+- 同C／费用／exposure caps可对照旧Spot研究，旧30d covariance/10%vol、真实perp容量、
+  MMR／ADL／venue历史及实际收费mark均NE，不能称完整风险等价／原生投资回测。
+  新独占STATE≤50MB／900s，共享5GB／swap0／GPU0／D40GB；来源继续固定既有
+  Aug1..<Dec1全部24价档＋8funding档，无新API／locked／HPO／旧绿重跑。
