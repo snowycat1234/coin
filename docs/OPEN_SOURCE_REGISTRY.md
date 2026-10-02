@@ -10,7 +10,8 @@
 本轮参数在收益运行前固定，不根据上游展示收益或本轮结果选择。
 共同策略72个实际账本与独立资金/风险复核已通过，状态为 **ADOPTED_PROXY_SCREENING_ONLY**。
 根验收 `INVESTMENT_COMPARISON_ROOT_MODULE_ACCEPTANCE_20261002_V1.json`；
-下一阶段作为连续122日研究主力。原Jesse字节无本地改动，COIN adapter显式移植；
+随后连续122日已完成，原30/32/36bp情景均净负；1h保留为防御研究参照，
+不再作为盈利主力。下一仅预登记一个2h换手诊断。原Jesse字节无本地改动，COIN adapter显式移植；
 不表示长期盈利、真实BBO可成交或可用真钱。
 
 ## 当前集成增量（FR66/FR67/FR68）

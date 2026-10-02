@@ -129,15 +129,14 @@ def test_bulk_exact_fixed_intents_and_canonical_reasons():
 
 def test_public_null_guard_valid_snapshot_equivalence(history):
     import importlib.util
-    from quant.paths import STATE
     from scripts.research_v8 import public_donchian_adapter as public
     minutes, start, _ = history
     invalid = minutes.with_columns(pl.when(pl.col("open_us") == start)
         .then(None).otherwise(pl.col("available_us")).alias("available_us"))
     with pytest.raises(ValueError, match="Unknown minute availability"):
         public.closed_hours(invalid)
-    # Previous frozen implementation bytes come from the actual prebound run.
-    path = STATE / "simple-strategy-comparison-actual-20261002-v1/source-snapshot/scripts/research_v8/public_donchian_adapter.py"
+    # Exact small frozen upstream-port fixture is available from a fresh clone.
+    path = common.ROOT / "docs/archive/PUBLIC_DONCHIAN_BEFORE_NULL_GUARD_20261002_V1.py"
     assert common.file_sha(path) == "0cbd141f3ef60280826013137e67dfcdd59756f51b29ad77a46e7ca15d46c344"
     spec = importlib.util.spec_from_file_location("scripts.research_v8.public_donchian_before_null_guard", path)
     old = importlib.util.module_from_spec(spec)
@@ -145,3 +144,25 @@ def test_public_null_guard_valid_snapshot_equivalence(history):
     calendar = np.arange(start, start + 61 * common.MINUTE_US, common.MINUTE_US, dtype=np.int64)
     a, b = old.fixed_targets(minutes, calendar), public.fixed_targets(minutes, calendar)
     assert a.targets.equals(b.targets) and a.calendar_ledger.equals(b.calendar_ledger)
+
+
+def test_continuous_protocol_subset_generic_reports():
+    spec = common.read_json(common.ROOT / "protocols/SIMPLE_STRATEGY_CONTINUOUS_122D_V1.json")
+    strategies, windows, planned = common.comparison_plan(spec)
+    assert len(strategies) == 4 and planned == 12 and len(windows) == 1
+    assert (windows[0][3] - windows[0][2]) // common.DAY_US == 122
+    assert windows[0][1] == common.day_us(common.date(2025, 7, 1))
+    # Existing four7day configuration remains an accepted input; no replay.
+    _, old_windows, old_planned = common.comparison_plan(common.read_json(common.ROOT / "protocols/SIMPLE_STRATEGY_COMPARISON_V3.json"))
+    assert old_planned == 72 and all((end - start) // common.DAY_US == 7 for _, _, start, end in old_windows)
+    invalid = {**spec, "planned_ledgers": 72}
+    with pytest.raises(ValueError, match="Planned ledger count"):
+        common.comparison_plan(invalid)
+    with pytest.raises(ValueError, match="Unique subset"):
+        common.comparison_plan({**spec, "strategy_ids": ["CURRENT_XGB"]})
+    value = {"total_return": .05, "max_drawdown": .03, "max_observed_minute_MDD": .04,
+        "fees": 10., "execution_costs": 5., "trade_count": 8}
+    rows = common.period_aggregate([{"days":122,"results":[{"strategy":"CASH","spread_bps":2,"summary":value}]}], ("CASH",))
+    assert rows[0]["period_net_return"] == .05 and rows[0]["period_lengths_days"] == [122]
+    assert rows[0]["max_observed_minute_MDD"] == .04 and rows[0]["complete_periods"] == 1
+    assert not any("7day" in field for row in rows for field in row)

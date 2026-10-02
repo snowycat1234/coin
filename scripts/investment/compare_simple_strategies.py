@@ -91,6 +91,48 @@ def complete_fold(minutes, lower, start, end):
         minutes.filter(pl.col("symbol") == symbol)["open_us"].to_numpy(), expected) for symbol in SYMBOLS))
 
 
+def comparison_plan(spec):
+    """Protocol-selected sleeves and whole UTC periods; no outcome selection."""
+    strategies = tuple(spec.get("strategy_ids", STRATEGIES))
+    require(strategies and len(set(strategies)) == len(strategies) and set(strategies) <= set(STRATEGIES),
+        "Unique subset of the six already fixed strategies required")
+    windows = []
+    for period in spec["folds"]:
+        identifier = period["id"]
+        require(isinstance(identifier, str) and identifier.replace("_", "").isalnum(), "Safe unique period identifier")
+        start = day_us(date.fromisoformat(period.get("period_start", period.get("test_start"))))
+        end = day_us(date.fromisoformat(period.get("period_end_exclusive", period.get("test_end_exclusive"))))
+        lower = start - 31 * DAY_US
+        require(day_us(START) <= lower < start < end < day_us(LOCKED) and (end - start) % DAY_US == 0,
+            "Complete positive development UTC periods with31day past warmup; no locked IO")
+        windows.append((identifier, lower, start, end))
+    require(windows and len({row[0] for row in windows}) == len(windows), "Unique nonempty period IDs")
+    planned = len(windows) * len(strategies) * 3
+    require(spec.get("planned_ledgers", planned) == planned, "Planned ledger count must match fixed periods/sleeves/costs")
+    return strategies, windows, planned
+
+
+def period_aggregate(folds, strategies):
+    aggregate = []
+    for strategy in strategies:
+        for spread in (2, 4, 8):
+            selected = [(period["days"], result["summary"]) for period in folds for result in period["results"]
+                if result.get("strategy") == strategy and result.get("spread_bps") == spread]
+            values = [value for _, value in selected]
+            aggregate.append({"strategy": strategy, "spread_bps": spread, "complete_periods": len(values),
+                "period_lengths_days": [days for days, _ in selected],
+                "period_net_return": values[0]["total_return"] if len(values) == 1 else None,
+                "mean_period_net_return": float(np.mean([item["total_return"] for item in values])) if values else None,
+                "worst_period_net_return": min(item["total_return"] for item in values) if values else None,
+                "max_observed_daily_MDD": max(item["max_drawdown"] for item in values) if values else None,
+                "max_observed_minute_MDD": max(item["max_observed_minute_MDD"] for item in values) if values else None,
+                "fees_USDT_across_period_accounts": sum(item["fees"] for item in values),
+                "execution_cost_USDT_across_period_accounts": sum(item["execution_costs"] for item in values),
+                "trade_count": sum(item["trade_count"] for item in values),
+                "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"})
+    return aggregate
+
+
 def reference_daily_returns(minutes):
     """Fixed .3/.3 gross reference basket, not a recursively simulated VM book."""
     daily = minutes.with_columns((pl.col("open_us") // DAY_US).alias("day")).group_by(["symbol", "day"]).agg(
@@ -180,6 +222,8 @@ def write_ledger(directory, result, minutes):
     positive = np.maximum(result.daily_nav["nav"].to_numpy() - np.r_[10_000., result.daily_nav["nav"].to_numpy()[:-1]]
         + result.daily_nav["fees"].to_numpy() + result.daily_nav["execution_costs"].to_numpy(), 0)
     summary.update(net_cash_PnL=qty_net, gross_cash_PnL_same_quantities=qty_net + fee + execution_cost,
+        period_days=summary["days"], period_net_return=summary["total_return"],
+        period_descriptive_net_CAGR=summary["annual_return"], annualized_return_is_descriptive_only=True,
         max_observed_minute_MDD=float(-np.min(inventory["nav"].to_numpy() / np.maximum.accumulate(np.r_[result.config.initial_cash, inventory["nav"].to_numpy()])[1:] - 1)),
         spread_cost=execution_cost * result.config.half_spread_bps / (result.config.half_spread_bps + 4),
         slippage_cost=execution_cost * 4 / (result.config.half_spread_bps + 4),
@@ -217,16 +261,9 @@ def verify_sources(spec):
 
 
 def research(spec, source, work, progress, report):
-    windows, wanted = [], set()
-    for fold in spec["folds"]:
-        start, end = [day_us(date.fromisoformat(fold[key])) for key in ("test_start", "test_end_exclusive")]
-        lower = start - 31 * DAY_US
-        require(day_us(START) <= lower < start < end < day_us(LOCKED) and end - start == 7 * DAY_US, "Frozen development-only7day periods")
-        cursor = datetime.fromtimestamp(lower // 1_000_000, UTC).date()
-        while day_us(cursor) < end:
-            wanted.add(cursor)
-            cursor += timedelta(days=1)
-        windows.append((fold["id"], lower, start, end))
+    strategies, windows, planned = comparison_plan(spec)
+    report.update(planned_ledgers=planned, account_continuity="SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST" if len(windows) == 1
+        else "INDEPENDENT_PERIOD_ACCOUNTS_NOT_STITCHED")
     progress.update("复用原验收现货分钟来源", 0, 10, "文件")
     report.update(source_receipt_sha256=spec["source_receipt_sha256"], source_days_per_symbol=153, source_month_files=10)
     parts = []
@@ -247,7 +284,7 @@ def research(spec, source, work, progress, report):
     for fold, lower, start, end in windows:
         fold_minutes = minutes.filter(pl.col("open_us").is_between(lower, end, closed="left"))
         calendar = np.arange(start, end, MINUTE_US, dtype=np.int64)
-        fold_record = {"fold": fold, "start_us": start, "end_us": end, "days": 7, "results": [],
+        fold_record = {"fold": fold, "start_us": start, "end_us": end, "days": (end - start) // DAY_US, "results": [],
             "minute_input_sha256": hashlib.sha256(fold_minutes.write_ipc(None).getvalue()).hexdigest()}
         report["folds"].append(fold_record)
         if not complete_fold(fold_minutes, lower, start, end):
@@ -256,8 +293,8 @@ def research(spec, source, work, progress, report):
         bars = fold_minutes.select("symbol", "close_us", "available_us")
         closes = fold_minutes.select("symbol", "close_us", "available_us", "close")
         daily_reference = reference_daily_returns(fold_minutes)
-        for strategy in STRATEGIES:
-            progress.update("生成固定策略意图；内部分钟轮次未知", completed, 72, "收益账本", fold=fold, strategy=strategy)
+        for strategy in strategies:
+            progress.update("生成固定策略意图；内部分钟轮次未知", completed, planned, "收益账本", fold=fold, strategy=strategy)
             generation_started = time.monotonic()
             plan = public_strategy.fixed_targets(fold_minutes, calendar) if strategy == public_strategy.STRATEGY_ID else bulk_fixed_targets.fixed_targets(
                 strategy, closes, calendar, daily_returns=daily_reference if strategy == "VOL_MANAGED_BUY_AND_HOLD" else None)
@@ -278,23 +315,10 @@ def research(spec, source, work, progress, report):
                 ledger = write_ledger(target_dir / ("spread" + str(spread)), result, fold_minutes)
                 fold_record["results"].append({"strategy": strategy, "spread_bps": spread, "nominal_roundtrip_bps": 28 + spread, **ledger})
                 completed += 1
-                progress.update("固定策略共同成本资金账本", completed, 72, "收益账本", fold=fold, strategy=strategy, roundtrip_bps=28 + spread)
-        fold_record["status"] = "COMPLETE_PROXY_COMPARISON" if len(fold_record["results"]) == 18 else "PARTIAL_INPUT_COVERAGE"
-    report.update(completed_ledgers=completed, all_planned_ledgers_complete=completed == 72)
-    aggregate = []
-    for strategy in STRATEGIES:
-        for spread in (2, 4, 8):
-            values = [result["summary"] for fold in report["folds"] for result in fold["results"]
-                if result.get("strategy") == strategy and result.get("spread_bps") == spread]
-            aggregate.append({"strategy": strategy, "spread_bps": spread, "complete7day_folds": len(values),
-                "mean7day_net_return": float(np.mean([item["total_return"] for item in values])) if values else None,
-                "worst7day_net_return": min(item["total_return"] for item in values) if values else None,
-                "max_observed_daily_MDD": max(item["max_drawdown"] for item in values) if values else None,
-                "fees_USDT_across_independent_accounts": sum(item["fees"] for item in values),
-                "execution_cost_USDT_across_independent_accounts": sum(item["execution_costs"] for item in values),
-                "trade_count": sum(item["trade_count"] for item in values),
-                "annualization": "NONE_FOUR_INDEPENDENT7DAY_ACCOUNTS_NOT_CONTINUOUS_CAGR"})
-    report["aggregate"] = aggregate
+                progress.update("固定策略共同成本资金账本", completed, planned, "收益账本", fold=fold, strategy=strategy, roundtrip_bps=28 + spread)
+        fold_record["status"] = "COMPLETE_PROXY_COMPARISON" if len(fold_record["results"]) == len(strategies) * 3 else "PARTIAL_INPUT_COVERAGE"
+    report.update(completed_ledgers=completed, all_planned_ledgers_complete=completed == planned)
+    report["aggregate"] = period_aggregate(report["folds"], strategies)
     require(sum(path.stat().st_size for path in work.rglob("*") if path.is_file()) <= spec["maximum_new_owned_bytes"], "Owned output disk budget exceeded")
 
 
@@ -315,6 +339,7 @@ def main():
     resources.status()
     protocol_path = args.protocol.resolve()
     spec = read_json(protocol_path)
+    strategies, windows, planned = comparison_plan(spec)
     hashes = {path: file_sha(ROOT / path) for path in spec["frozen_sources"]}
     hashes.update({str(protocol_path.relative_to(ROOT)): file_sha(protocol_path), str(Path(__file__).resolve().relative_to(ROOT)): file_sha(Path(__file__)),
         "tests/test_simple_strategy_comparison.py": file_sha(ROOT / "tests/test_simple_strategy_comparison.py")})
@@ -326,8 +351,8 @@ def main():
     binding = {"git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_hashes": hashes, "protocol_sha256": file_sha(protocol_path), "exact_command": shlex.join(command),
         "exact_test_command": shlex.join(test_command) if args.smoke else None, "environment_lock_sha256": hashes["environments/v8/uv.lock"],
-        "sys_prefix": sys.prefix, "python": sys.executable, "all_folds": spec["folds"], "strategies": list(STRATEGIES),
-        "data_scope": "SYNTHETIC_ONLY" if args.smoke else "ACCEPTED_DEVELOPMENT_DATES_ALREADY_INSPECTED_MECHANISM_SCREENING",
+        "sys_prefix": sys.prefix, "python": sys.executable, "all_folds": spec["folds"], "strategies": list(strategies), "planned_ledgers": planned,
+        "data_scope": "SYNTHETIC_ONLY" if args.smoke else "ACCEPTED_DEVELOPMENT_HISTORICAL_SCREENING_NOT_UNSEEN",
         "task_id": os.environ["COIN_TASK_ID"], "fits": 0, "seed": 20261002 if args.smoke else "NOT_APPLICABLE_DETERMINISTIC"}
     work.mkdir()
     save_json(work / "RUN_BINDING.json", binding)
