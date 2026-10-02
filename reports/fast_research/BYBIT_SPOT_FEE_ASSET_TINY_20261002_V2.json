@@ -1,0 +1,204 @@
+{
+  "status": "PASS_BYBIT_RECEIVED_ASSET_SYNTHETIC_NOT_MARKET_QUALIFICATION",
+  "binding": {
+    "git_commit": "d7aaeb4b1ec5e04908c341a8ab6a569ff81bfde1",
+    "source_hashes": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+      "protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+      "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+      "tests/test_bybit_spot_adapter.py": "a786332e6780a24a12db4fa970261bc3265bd61c565f1d64a6ed6be636fa9998",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+    },
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "sys_prefix": "/home/xflops/coin-state/v8-clean-env-20261002-v2",
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/bybit_spot_adapter.py --smoke --run-dir /home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2 --output /mnt/d/codex/coin/reports/fast_research/BYBIT_SPOT_FEE_ASSET_TINY_20261002_V2.json --pytest-expression 'test_partial_capacity_and_real_positive_sublot_terminal_dust or (test_received_asset_cash_net_quantity_caps_and_fees_once and 2)'",
+    "exact_test_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -m pytest tests/test_bybit_spot_adapter.py -q --basetemp=/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2/pytest -o cache_dir=/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2/pytest-cache --junitxml=/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2/junit.xml -k 'test_partial_capacity_and_real_positive_sublot_terminal_dust or (test_received_asset_cash_net_quantity_caps_and_fees_once and 2)'",
+    "task_id": "7a1b64de0f08489eb728f9063c66eef4",
+    "data_scope": "SYNTHETIC_ONLY_NO_MARKET_PRICE_IO",
+    "models_fit": 0,
+    "GPU": 0,
+    "seed": "NOT_APPLICABLE_DETERMINISTIC"
+  },
+  "run_dir": "/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2",
+  "run_binding_sha256": "9f1e073e75004fe3ed90c86c8403984111e3359b2fdfb09586765a7a982673aa",
+  "market_inputs_read": false,
+  "market_models_fit": 0,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "derivation": {
+    "fee_settlement_version": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+    "adapter_source_sha256": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+    "dependency_source_sha256": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f"
+    },
+    "adapter_protocol_sha256": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+    "original_function_ast_sha256": "086cfcec28a4baceba0efd91ea75334afef33a321aaac454547e08b34d3bfb5a",
+    "derived_AST_SHA256": "39ffd9142be81285b3a6b460c73b1c7799c7621a1c34a2f1faa845d290608b73",
+    "allowed_ast_changes": [
+      {
+        "change": "BUY_NET_UNIT_AND_COST",
+        "matches": 1,
+        "old_ast_sha256": "ac73cebe9857ccb5cbb8ec0815dd00ec8f0ca9f79ac2bb0df956d9062ccd18a1",
+        "new_ast_sha256": "f367d7e42a59b89d90b37c7f6dad5693a4458384cb497d8874fca52d5eaa129b",
+        "old_statement": "cost_per_quantity = abs(fill - mid) + fill * config.fee_rate",
+        "new_statement": "received_mid = mid * (1 - config.fee_rate) if side == 'buy' else mid\ncost_per_quantity = fill - received_mid if side == 'buy' else abs(fill - mid) + fill * config.fee_rate"
+      },
+      {
+        "change": "NET_TARGET_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "eccdcf8a76bc694e35a31b93daa0580b0b89310bda0883d4f90bdc193d26e94b",
+        "new_ast_sha256": "278e892ecd6e351056a357244d66d068d093a85de66347dffee32f9299feb35b",
+        "old_statement": "desired_quantity = abs(desired_dollars) / (mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)",
+        "new_statement": "desired_quantity = abs(desired_dollars) / (received_mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)"
+      },
+      {
+        "change": "NET_ASSET_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ecdd9a22cce3544884ecc721088b313b7a0bcc1d507f76a81cbc22f18365cd3a",
+        "new_ast_sha256": "c88346eda900260c56ec10f057691d8eb178bc1237ed3b692fb9377330395976",
+        "old_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (mid + config.max_weight * cost_per_quantity))",
+        "new_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (received_mid + config.max_weight * cost_per_quantity))"
+      },
+      {
+        "change": "NET_GROSS_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ad9f5b51e07fca33b7b606fa2dcb547850df44a9e980b89249a85ba826582aa6",
+        "new_ast_sha256": "c3685f057812f29088eb828ac64419a2d3b375acc1ae021da41700a0d0e9da4a",
+        "old_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (mid + config.max_gross * cost_per_quantity))",
+        "new_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (received_mid + config.max_gross * cost_per_quantity))"
+      },
+      {
+        "change": "BUY_CASH_FILL_ONLY",
+        "matches": 1,
+        "old_ast_sha256": "1784f3b427468d37b090e02f5dca64c2a80688623f4d7ec1f7ccc48645559e0a",
+        "new_ast_sha256": "278a4ea50732dc1601002ca95292bf4fbe6f2184c6c73fcd72c4d4b10cda305d",
+        "old_statement": "quantity = min(quantity, cash / (fill * (1 + config.fee_rate)), asset_limit, gross_limit)",
+        "new_statement": "quantity = min(quantity, cash / fill, asset_limit, gross_limit)"
+      },
+      {
+        "change": "NO_GROSS_LOT_OVERSELL_NET_HOLDINGS",
+        "matches": 1,
+        "old_ast_sha256": "83c7414c16c0ffed4f9495b089541f1dfc183bd6da477d8d99113a424c4d09ee",
+        "new_ast_sha256": "76eb649d4946f8596586b7ea4952f81cf5db73c742928c5b58343f859a8fc6f4",
+        "old_statement": "quantity = math.floor(quantity / step + 1e-09) * step",
+        "new_statement": "quantity = math.floor(quantity / step + 1e-09) * step\nif side == 'sell' and quantity > positions[symbol]:\n    quantity = max(0.0, quantity - step)"
+      },
+      {
+        "change": "RECEIVED_ASSET_COMMISSION",
+        "matches": 1,
+        "old_ast_sha256": "5b992c639ee7a180b5bfac25828ecd322d2780798c32d0576db4799b6cc58393",
+        "new_ast_sha256": "972ee920cfd6324003fe4bae0d16825df69f9f8dda977840266e1779e0d40e7f",
+        "old_statement": "fee = notional * config.fee_rate",
+        "new_statement": "cash_delta, position_delta, fee_asset, fee_amount, fee_USDT_mid = _received_asset_fill(symbol, side, quantity, fill, mid, config.fee_rate)\nfee = fee_USDT_mid"
+      },
+      {
+        "change": "NATIVE_CASH_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "4ab9c020aeeb76d0aef74436ea730b524a2e44144a0cec2fbddfdf5b54f09ea3",
+        "new_ast_sha256": "3278718b9d02f3547784b5272aa5aec5ea7bb785b9c495643e555f552bd7ab7f",
+        "old_statement": "cash -= direction * notional + fee",
+        "new_statement": "cash += cash_delta"
+      },
+      {
+        "change": "NET_RECEIVED_POSITION_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "e66bb596011bd061cd81e009761bb410177cac3905b8cf88e8e1744caa9668eb",
+        "new_ast_sha256": "e6391c6dabcfb7a796a81a691958013c55ea26f77acce2d8c3949c5a5eff9442",
+        "old_statement": "positions[symbol] += direction * quantity",
+        "new_statement": "positions[symbol] += position_delta"
+      },
+      {
+        "change": "PRESERVE_POSITIVE_SUBLOT_DUST",
+        "matches": 1,
+        "old_ast_sha256": "e7a31445e32f817d5e0049c713afd90a3bb58f8191c032281ed315edaa9dc570",
+        "new_ast_sha256": "228648015525d65e5ae179311ad9ebc2e96c3e52ce57758bc373f25c65fee3c6",
+        "old_statement": "if abs(positions[symbol]) < 1e-10:\n    positions[symbol] = 0.0",
+        "new_statement": "if positions[symbol] < 0:\n    raise AssertionError('Received-asset settlement cannot oversell net spot inventory')"
+      },
+      {
+        "change": "BUY_CYCLE_NO_QUOTE_FEE_DOUBLE_CHARGE",
+        "matches": 1,
+        "old_ast_sha256": "a06d8e3e847440f280cf7f2c06693159357abfeb4997b6196e56eafb5b668527",
+        "new_ast_sha256": "f6bdab22da0f58a8fb43cc1c0cfc7fda7e9d250489c27823a87e6ef1b8e4f9d4",
+        "old_statement": "cycle['cost'] += notional + fee",
+        "new_statement": "cycle['cost'] += notional"
+      },
+      {
+        "change": "ORDER_GROSS_FILLED_QUANTITY",
+        "matches": 1,
+        "old_ast_sha256": "06836908b9dd7d1d503793d46901c4f88778945dd9830a21d25f6a124d585852",
+        "new_ast_sha256": "863522f8e0d5157c68a1617afb2fb5eae334a64624f936fe253bbe4a80013fb1",
+        "old_statement": "order['filled_notional'] = notional",
+        "new_statement": "order['filled_notional'] = notional\norder['quantity'] = quantity"
+      },
+      {
+        "change": "ORDER_QUANTITY_INITIAL_ZERO",
+        "matches": 1,
+        "old_ast_sha256": "947ea5416bb122d12981d706722b931a7413e4d5d6e5e96c1a4bcc992e7535c0",
+        "new_ast_sha256": "419fa59f500d3bd9bdb43443a9ade6ebed4d77c2ca45ccb245d44bdd27a779f1",
+        "old_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': ''}",
+        "new_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': '', 'quantity': 0.0}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_FIELDS",
+        "matches": 1,
+        "old_ast_sha256": "66fcf26916a521b6b887fdf063f487ecc41fd8b7600bbf6f29e567af58bee211",
+        "new_ast_sha256": "b4e2eb8d4328a8c6ddeaaced2a68fed0e60310dab054bb0b47a7695b6c1f347e",
+        "old_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity']}",
+        "new_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity'], 'gross_quantity': quantity, 'position_delta': position_delta, 'cash_delta': cash_delta, 'fee_asset': fee_asset, 'fee_amount': fee_amount, 'fee_USDT_mid': fee_USDT_mid}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "12f4f17ea3e896a9ff22788aeb21f756737f6f2118e72eae5feb81c6549ca97b",
+        "new_ast_sha256": "c2b29e4c7ecd21ff3dc99f4e8d20c45390cf348af0eb6b036f3d1a5fd10c3de9",
+        "old_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64}",
+        "new_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64, 'gross_quantity': pl.Float64, 'position_delta': pl.Float64, 'cash_delta': pl.Float64, 'fee_asset': pl.String, 'fee_amount': pl.Float64, 'fee_USDT_mid': pl.Float64}"
+      },
+      {
+        "change": "ORDER_GROSS_QUANTITY_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "a67e3eba597339403d37d571141aa5ab34a79c40ed2c0c8db7a7e9b876dfb3c5",
+        "new_ast_sha256": "7cb24460855476ac06d32e176298a5c6878815e2c95ac7bb91cdf6138926fca3",
+        "old_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String}",
+        "new_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String, 'quantity': pl.Float64}"
+      }
+    ],
+    "original_globals_mutated": false,
+    "fee_asset_semantics": "REUSED_PINNED_EXECUTION_COMMISSION_ASSET_BALANCE_UPDATES",
+    "native_bybit_market_execution_proven": false,
+    "derived_source_file_sha256": "a33c4f392c033d44224be5f64a42456b529e973d9af0925c8a454043f2762a8f",
+    "derived_source_path": "/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2/derivation/derived_engine_ast.py",
+    "receipt_path": "/home/xflops/coin-state/bybit-spots-fee-asset-tiny-20261002-v2/derivation/derivation.json",
+    "receipt_sha256": "44d9e5b4f4178a0e002615fbc3b2c792610a15ed42473420543615c8d9c5bf63"
+  },
+  "test_exit_code": 0,
+  "junit_counts": {
+    "tests": 2,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "junit_sha256": "2b79b44ca6f94e9a515defedc331afe5bd90dd2baa1734175ddedeaebea480f8",
+  "source_bytes_unchanged": true,
+  "created_utc": "2026-10-02T14:28:45.396758+00:00",
+  "elapsed_seconds": 21.465442954999162,
+  "peak_RSS_bytes": 65007616,
+  "owned_bytes": 213076,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 396820480,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

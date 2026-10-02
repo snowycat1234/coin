@@ -37,7 +37,8 @@ from scripts.research_v7.oracle_flow_ceiling import Progress
 
 PROTOCOL = ROOT / "protocols/SIMPLE_STRATEGY_COMPARISON_V1.json"
 SYMBOLS = ("BTCUSDT", "ETHUSDT")
-STRATEGIES = ("CASH", "SPOT_BUY_AND_HOLD", "VOL_MANAGED_BUY_AND_HOLD", "FIXED_TREND", "FIXED_MEAN_REVERSION", public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID)
+STRATEGIES = ("CASH", "SPOT_BUY_AND_HOLD", "VOL_MANAGED_BUY_AND_HOLD", "FIXED_TREND", "FIXED_MEAN_REVERSION", public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID,
+    "COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER")
 file_sha = benchmarks.file_sha
 START, LOCKED = date(2025, 7, 1), date(2026, 3, 1)
 SOURCE_SCOPES = {
@@ -191,19 +192,22 @@ def account_inventory(result, minutes):
     execution = fills["execution_us"].to_numpy()
     direction = np.where(fills["side"].to_numpy() == "buy", 1., -1.)
     notional, fees, extra = (fills[name].to_numpy() for name in ("notional", "fee", "execution_cost"))
-    cash_steps = cfg.initial_cash - np.cumsum(direction * notional + fees)
+    received_asset_fee = result.summary.get("fee_settlement_version") == "BYBIT_SPOT_RECEIVED_ASSET_V1"
+    position_delta = fills["position_delta"].to_numpy() if received_asset_fee else direction * fills["quantity"].to_numpy()
+    cash_delta = fills["cash_delta"].to_numpy() if received_asset_fee else -direction * notional - fees
+    cash_steps = cfg.initial_cash + np.cumsum(cash_delta)
     require(np.allclose(cash_steps, fills["cash_after"].to_numpy(), rtol=0, atol=1e-7), "Cash ledger does not reconcile actual fills")
     counts = np.searchsorted(execution, stamps, side="right")
     def at_steps(values):
         return np.r_[0., np.cumsum(values)][counts]
-    cash = cfg.initial_cash - at_steps(direction * notional + fees)
-    gross_cash = cfg.initial_cash - at_steps(direction * fills["quantity"].to_numpy() * fills["mid_price"].to_numpy())
+    cash = cfg.initial_cash + at_steps(cash_delta)
+    gross_cash = cfg.initial_cash - at_steps(position_delta * fills["mid_price"].to_numpy())
     nav, gross_nav = cash.copy(), gross_cash.copy()
     output = {"close_us": stamps, "cash": cash}
     symbol_notionals = []
     for symbol in SYMBOLS:
         is_symbol = fills["symbol"].to_numpy() == symbol
-        quantity = at_steps(direction * fills["quantity"].to_numpy() * is_symbol)
+        quantity = at_steps(position_delta * is_symbol)
         values = quantity * per[symbol]["close"].to_numpy()
         nav += values
         gross_nav += values
@@ -223,7 +227,20 @@ def account_inventory(result, minutes):
             "Fill precedes registered complete-minute latency")
         require(fill["capacity_open_us"] == fill["execution_us"] // MINUTE_US * MINUTE_US - MINUTE_US,
             "Capacity uses future/current rather than previous complete minute")
-        require(abs(fill["fee"] - fill["notional"] * cfg.fee_rate) < 1e-8
+        expected_fee = fill["notional"] * cfg.fee_rate
+        if received_asset_fee:
+            buy = fill["side"] == "buy"
+            fee_units = fill["quantity"] * cfg.fee_rate if buy else expected_fee
+            fee_asset = fill["symbol"][:-4] if buy else "USDT"
+            expected_fee = fee_units * fill["mid_price"] if buy else fee_units
+            expected_position = fill["quantity"] * (1 - cfg.fee_rate) if buy else -fill["quantity"]
+            expected_cash = -fill["notional"] if buy else fill["notional"] - expected_fee
+            require(fill["fee_asset"] == fee_asset and abs(fill["fee_amount"] - fee_units) < 1e-10
+                and abs(fill["position_delta"] - expected_position) < 1e-10
+                and abs(fill["cash_delta"] - expected_cash) < 1e-8
+                and abs(fill["fee_USDT_mid"] - expected_fee) < 1e-8,
+                "Received-asset fee or cash/inventory allocation is wrong")
+        require(abs(fill["fee"] - expected_fee) < 1e-8
             and abs(fill["execution_cost"] - fill["quantity"] * abs(fill["fill_price"] - fill["mid_price"])) < 1e-8,
             "Actual costs not charged exactly once")
         require(fill["notional"] <= fill["capacity"] + 1e-7 and fill["execution_us"] < cfg.end_us, "Capacity/period exceeded")
@@ -263,6 +280,11 @@ def write_ledger(directory, result, minutes):
         evaluation_status="MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS", real_BBO=False, capacity_proven=False,
         net_long_term_CAGR_proven=False, short_window_annualization_is_descriptive_only=True,
         same_quantity_gross_minus_cost_equals_net=True, candidate_qualification_allowed=False)
+    if result.summary.get("fee_settlement_version") == "BYBIT_SPOT_RECEIVED_ASSET_V1":
+        summary.update(gross_reference_quantity_semantics="NET_RECEIVED_BUYS_AND_GROSS_SELLS_MATCH_ACTUAL_INVENTORY",
+            fee_valuation="BASE_FEE_MARKED_AT_FILL_MID;_QUOTE_SELL_FEE_ALREADY_USDT",
+            fee_cash_and_inventory_changes_native_rule=True, data_venue="Binance", fee_reference_venue="Bybit",
+            native_Bybit_market_or_filters_proven=False)
     return {"summary": summary, "directory": str(directory), "artifacts": {
         path.name: {"sha256": file_sha(path), "bytes": path.stat().st_size} for path in directory.iterdir() if path.is_file()}}
 
@@ -308,7 +330,71 @@ def verify_sources(spec):
     require(Path(sys.prefix).resolve() == Path(spec["environment"]["sys_prefix"]).resolve()
         and file_sha(ROOT / "environments/v8/uv.lock") == spec["environment"]["lock_sha256"], "Accepted clean native CPU environment")
     require(pl.thread_pool_size() <= 2, "At most2 Polars threads")
+    require(spec.get("fee_settlement", "LEGACY_QUOTE") in ("LEGACY_QUOTE", "BYBIT_SPOT_RECEIVED_ASSET_V1"),
+        "Only explicit existing quote or Bybit Spot received-asset fees")
+    if spec.get("fee_settlement") == "BYBIT_SPOT_RECEIVED_ASSET_V1":
+        from scripts.investment import bybit_spot_adapter
+        require(spec["fee_profile_path"] == "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json"
+            and file_sha(ROOT / spec["fee_profile_path"]) == spec["fee_profile_sha256"], "Fixed ordinary Bybit Spot fee reference")
+        require(spec["costs"]["fee_bps_per_side"] == 10 and spec["market_type"] == "CRYPTO_SPOT_NO_BORROW_OR_LEVERAGE",
+            "Bybit Spot tenbp; no perpetual fee or margin substitution")
+        bybit_spot_adapter.derivation_receipt()
     return source
+
+
+def reused_minute_input(spec):
+    """Exact accepted derivative input; no raw source QA or signal regeneration."""
+    reference = spec["reused_minute_input"]
+    parent = read_json(ROOT / reference["report_path"])
+    require(file_sha(ROOT / reference["report_path"]) == reference["report_sha256"]
+        and parent["status"] == "COMPLETE_ACTUAL_PROXY_STRATEGY_SCREENING"
+        and parent["source_bytes_unchanged"] and parent["all_planned_ledgers_complete"], "Completed unchanged parent input report required")
+    require(parent["source_receipt_sha256"] == spec["source_receipt_sha256"], "Parent minute source receipt differs")
+    path = Path(reference["path"]).resolve()
+    require(path.is_relative_to(STATE.resolve()) and path == Path(parent["minute_source"]["path"]).resolve()
+        and reference["sha256"] == parent["minute_source"]["sha256"] and file_sha(path) == reference["sha256"],
+        "Exact accepted nativeSTATE derivative Parquet required")
+    frame = pl.read_parquet(path)
+    require(frame.height == parent["minute_source"]["rows"] and
+        {"symbol", "open_us", "available_us", "close_us", "open", "high", "low", "close", "quote_volume", "minute_valid", "valid_day", "missing_reason"} <= set(frame.columns),
+        "Exact accepted derivative row count and marking/availability schema required")
+    return frame
+
+
+def reused_public_target(spec, strategy, fold, calendar):
+    """Reuse one exact accepted2h signal plan when only settlement changes."""
+    require(strategy == public_strategy.STRATEGY_2H_ID, "Only unchanged public2h targets may be reused")
+    reference = spec["reused_target_inputs"][fold + ':' + strategy]
+    audit_reference = reference['accepted_audit']
+    audit = read_json(ROOT / audit_reference['path'])
+    require(file_sha(ROOT / audit_reference['path']) == audit_reference['sha256'] and audit['status'] in
+        ('PASS_ACTUAL_PROXY_LEDGER_ACCOUNTING_AND_SCOPE', 'PASS_ACTUAL_PROXY_LEDGER_ACCOUNTING_AND_SCOPE_WITH_NONPORTABLE_IPC_LIMIT'),
+        "Existing accepted target audit binding required")
+    prior = [row for row in audit['ledgers'] if row['fold'] == fold and row['strategy'] == strategy]
+    require(len(prior) == 3 and {row['spread_bps'] for row in prior} == {2, 4, 8} and all(
+        row['target_bindings'] == {key: reference[name]['sha256'] for key, name in
+            (('target_sha256', 'targets.parquet'), ('intent_sha256', 'intent_calendar.parquet'), ('receipt_sha256', 'target_receipt.json'))}
+        for row in prior), "Target bytes must match the previously accepted three-account audit")
+    frames = {}
+    for name in ('targets.parquet', 'intent_calendar.parquet', 'target_receipt.json'):
+        item = reference[name]
+        path = Path(item['path']).resolve()
+        require(path.is_relative_to(STATE.resolve()) and path.is_file()
+            and file_sha(path) == item['sha256'], "Exact accepted nativeSTATE target artifact required")
+        frames[name] = json.loads(path.read_text()) if name.endswith('.json') else pl.read_parquet(path)
+    receipt, targets, intent = frames['target_receipt.json'], frames['targets.parquet'], frames['intent_calendar.parquet']
+    require(receipt['strategy_id'] == strategy and receipt['paired_comparison_allowed']
+        and not receipt['warmup_failed'] and receipt['timeframe_minutes'] == 120
+        and receipt['public_upstream_sha256'] == public_strategy.PINNED_HASHES
+        and receipt['calendar_sha256'] == hashlib.sha256(calendar.tobytes()).hexdigest()
+        and receipt['decision_count'] == len(calendar)
+        and public_strategy.original.frame_sha(targets) == receipt['targets_sha256'], "Exact accepted causal public2h plan required")
+    require(intent.height == len(calendar) * 2 and
+        all(np.array_equal(intent.filter(pl.col('symbol') == symbol)['decision_us'].to_numpy(), calendar) for symbol in SYMBOLS),
+        "Same complete target decision calendar required")
+    original_intent = intent.drop('comparison_order_eligible_us').rename(
+        {'preserved_v8_intent_earliest_order_us': 'earliest_permissible_order_us'})
+    return public_strategy.original.TargetPlan(strategy, targets, original_intent, receipt)
 
 
 def bind_reused_reference(spec, minute_source, report):
@@ -332,34 +418,84 @@ def bind_reused_reference(spec, minute_source, report):
         "same_common_config_and_period": True, "historical_screening_not_unseen": True}
 
 
+def accept_synthetic_receipt(accepted, spec, hashes):
+    """Native settlement tests cover shared code, independent of market period.
+
+    Date/source receipts still pass verify_sources and exact derivative/target
+    binding before economic execution. A different period does not repeat the
+    same synthetic account. Legacy protocols retain the full exact binding.
+    """
+    require(accepted['status'] == 'PASS_SIMPLE_COMPARISON_SYNTHETIC_NOT_MARKET_RESULT',
+        'Accepted synthetic integration required')
+    previous = accepted['binding']['source_hashes']
+    if spec.get('fee_settlement') != 'BYBIT_SPOT_RECEIVED_ASSET_V1':
+        require(previous == hashes, 'Exact source must pass smoke before actual economics')
+        return 'EXACT_FULL_BINDING'
+    def shared(binding):
+        return {name: digest for name, digest in binding.items()
+            if name.startswith(('src/', 'scripts/', 'tests/', 'environments/', 'third_party/'))
+            or name in ('protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json',
+                'protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json')}
+    require(shared(previous) == shared(hashes) and
+        'scripts/investment/bybit_spot_adapter.py' in shared(hashes) and
+        'tests/test_investment_bybit_pipeline.py' in shared(hashes) and
+        accepted['registration_start']['hyperparameters'] == spec['common_config'] and
+        accepted['registration_start']['cost_assumptions'] == spec['costs'] and
+        accepted['registration_start']['thresholds'] == spec['strategy_rules'],
+        'All shared code, environment, fee contract and economic assumptions must match synthetic acceptance')
+    return 'EXACT_SHARED_CODE_AND_ECONOMIC_RULES_PERIOD_AND_INPUTS_VERIFIED_SEPARATELY'
+
+
 def research(spec, source, work, progress, report):
     strategies, windows, planned = comparison_plan(spec)
     report.update(planned_ledgers=planned, account_continuity="SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST" if len(windows) == 1
         else "INDEPENDENT_PERIOD_ACCOUNTS_NOT_STITCHED")
-    progress.update("复用原验收现货分钟来源", 0, 10, "文件")
     report.update(source_receipt_sha256=spec["source_receipt_sha256"], source_days_per_symbol=source_scope(spec)[2],
         source_scope=source_scope(spec)[0], source_calendar=list(source_scope(spec)[1]), source_month_files=10)
-    parts = []
-    for index, record in enumerate(source["sources"]):
-        path = allowed_source_path(record, spec)
-        require(file_sha(path) == record["normalized_sha256"], "Original accepted minute source bytes changed")
-        frame = pl.read_parquet(path)
-        require(frame.height == record["rows"] and frame["symbol"].eq(record["symbol"]).all(), "Accepted symbol/rows changed")
-        parts.append(minute_view(frame))
-        progress.update("复用原验收现货分钟来源", index + 1, 10, "文件")
-    minutes = pl.concat(parts).sort(["open_us", "symbol"])
+    if spec.get("reused_minute_input"):
+        progress.update("复用已验收分钟Parquet；不重复来源QA", 0, 1, "文件")
+        minutes = reused_minute_input(spec)
+        report.update(reused_minute_input=spec["reused_minute_input"], raw_normalized_market_files_read=False)
+        progress.update("复用已验收分钟Parquet；不重复来源QA", 1, 1, "文件")
+    else:
+        progress.update("复用原验收现货分钟来源", 0, 10, "文件")
+        parts = []
+        for index, record in enumerate(source["sources"]):
+            path = allowed_source_path(record, spec)
+            require(file_sha(path) == record["normalized_sha256"], "Original accepted minute source bytes changed")
+            frame = pl.read_parquet(path)
+            require(frame.height == record["rows"] and frame["symbol"].eq(record["symbol"]).all(), "Accepted symbol/rows changed")
+            parts.append(minute_view(frame))
+            progress.update("复用原验收现货分钟来源", index + 1, 10, "文件")
+        minutes = pl.concat(parts).sort(["open_us", "symbol"])
     lower_bound, upper_bound = min(row[1] for row in windows), max(row[3] for row in windows)
     minutes = minutes.filter(pl.col("open_us").is_between(lower_bound, upper_bound, closed="left"))
     minutes.write_parquet(work / "shared_source_minutes.parquet", compression="zstd")
     report["minute_source"] = {"path": str(work / "shared_source_minutes.parquet"), "sha256": file_sha(work / "shared_source_minutes.parquet"),
         "rows": minutes.height, "invalid_minutes": minutes.filter(~pl.col("minute_valid")).height}
+    if spec.get("fee_settlement") == "BYBIT_SPOT_RECEIVED_ASSET_V1":
+        from scripts.investment import bybit_spot_adapter
+        report["fee_derivation"] = bybit_spot_adapter.export_derivation(work / "fee-derivation")
+        report["fee_settlement"] = spec["fee_settlement"]
+        report["fee_profile_sha256"] = spec["fee_profile_sha256"]
+        execute = bybit_spot_adapter.run_backtest
+    else:
+        execute = run_backtest
     bind_reused_reference(spec, report["minute_source"], report)
     completed = 0
     for fold, lower, start, end in windows:
         fold_minutes = minutes.filter(pl.col("open_us").is_between(lower, end, closed="left"))
+        if spec.get("fee_settlement") == "BYBIT_SPOT_RECEIVED_ASSET_V1":
+            input_path = work / (fold + '-minute-input.arrow')
+            fold_minutes.write_ipc(input_path)
+            fold_minutes = pl.read_ipc(input_path, memory_map=False)
+            input_binding = dict(minute_input_path=str(input_path), minute_input_sha256=file_sha(input_path),
+                minute_input_format='IMMUTABLE_ARROW_IPC_FILE_READ_BEFORE_SIGNALS_AND_EXECUTION')
+        else:
+            input_binding = dict(minute_input_sha256=hashlib.sha256(fold_minutes.write_ipc(None).getvalue()).hexdigest())
         calendar = np.arange(start, end, MINUTE_US, dtype=np.int64)
         fold_record = {"fold": fold, "start_us": start, "end_us": end, "days": (end - start) // DAY_US, "results": [],
-            "minute_input_sha256": hashlib.sha256(fold_minutes.write_ipc(None).getvalue()).hexdigest()}
+            **input_binding}
         report["folds"].append(fold_record)
         if not complete_fold(fold_minutes, lower, start, end):
             fold_record.update(status="NOT_EVALUABLE_COMPLETE_MINUTE_SOURCE_MISSING", missing_minutes=fold_minutes.filter(~pl.col("minute_valid")).height)
@@ -370,8 +506,17 @@ def research(spec, source, work, progress, report):
         for strategy in strategies:
             progress.update("生成固定策略意图；内部分钟轮次未知", completed, planned, "收益账本", fold=fold, strategy=strategy)
             generation_started = time.monotonic()
-            plan = public_strategy.fixed_targets(fold_minutes, calendar, timeframe_minutes=120 if strategy == public_strategy.STRATEGY_2H_ID else 60) if strategy in (public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID) else bulk_fixed_targets.fixed_targets(
-                strategy, closes, calendar, daily_returns=daily_reference if strategy == "VOL_MANAGED_BUY_AND_HOLD" else None)
+            if fold + ':' + strategy in spec.get('reused_target_inputs', {}):
+                plan = reused_public_target(spec, strategy, fold, calendar)
+                report.setdefault('reused_target_inputs', {})[fold + ':' + strategy] = spec['reused_target_inputs'][fold + ':' + strategy]
+            elif strategy == "COIN_JESSE_DONCHIAN_2H_ENTRY_1H_EXIT_SPOT_ADAPTER":
+                from scripts.investment import public_donchian_hybrid
+                plan = public_donchian_hybrid.fixed_targets(fold_minutes, calendar)
+            elif strategy in (public_strategy.STRATEGY_ID, public_strategy.STRATEGY_2H_ID):
+                plan = public_strategy.fixed_targets(fold_minutes, calendar, timeframe_minutes=120 if strategy == public_strategy.STRATEGY_2H_ID else 60)
+            else:
+                plan = bulk_fixed_targets.fixed_targets(strategy, closes, calendar,
+                    daily_returns=daily_reference if strategy == "VOL_MANAGED_BUY_AND_HOLD" else None)
             target_dir = work / (fold + "-" + strategy)
             target_dir.mkdir()
             plan.targets.write_parquet(target_dir / "targets.parquet")
@@ -385,7 +530,7 @@ def research(spec, source, work, progress, report):
                 continue
             for spread in (2, 4, 8):
                 require(time.monotonic() - report["started_monotonic"] < spec["maximum_wall_seconds"], "Fixed CPU screening time budget reached; preserve partial ledgers")
-                result = run_backtest(bars, fold_minutes, plan.targets, comparison_config(start, end, spread))
+                result = execute(bars, fold_minutes, plan.targets, comparison_config(start, end, spread))
                 ledger = write_ledger(target_dir / ("spread" + str(spread)), result, fold_minutes)
                 fold_record["results"].append({"strategy": strategy, "spread_bps": spread, "nominal_roundtrip_bps": 28 + spread, **ledger})
                 completed += 1
@@ -470,8 +615,7 @@ def main():
             report["status"] = "PASS_SIMPLE_COMPARISON_SYNTHETIC_NOT_MARKET_RESULT"
         else:
             accepted = read_json(ROOT / spec["required_smoke_receipt"])
-            require(accepted["status"] == "PASS_SIMPLE_COMPARISON_SYNTHETIC_NOT_MARKET_RESULT"
-                and accepted["binding"]["source_hashes"] == hashes, "Exact source must pass smoke before actual economics")
+            report['synthetic_acceptance_scope'] = accept_synthetic_receipt(accepted, spec, hashes)
             report["accepted_smoke_sha256"] = file_sha(ROOT / spec["required_smoke_receipt"])
             report["market_inputs_read"] = True
             research(spec, source, work, progress, report)

@@ -1,0 +1,37 @@
+import hashlib
+import json
+import subprocess
+from datetime import UTC, datetime
+from pathlib import Path
+
+root = Path('/mnt/d/codex/coin')
+sha = lambda path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+local = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+remote = json.loads(subprocess.check_output([str(root / '.tools/bin/gh'), 'api',
+    'repos/snowycat1234/coin/git/ref/heads/main'], cwd=root, timeout=45))['object']['sha']
+assert local == remote == 'd7aaeb4b1ec5e04908c341a8ab6a569ff81bfde1'
+title = '连续90日比较与Bybit费用标准 · GitHub同步'
+tasks = []
+for path in Path('/home/xflops/coin-state/task-progress').glob('task-*.json'):
+    value = json.loads(path.read_text())
+    if value.get('title') == title:
+        tasks.append(dict(path=str(path), sha256=sha(path), task=value))
+assert len(tasks) == 1 and tasks[0]['task']['status'] == 'completed' and tasks[0]['task']['exit_code'] == 0
+receipt = dict(status='ACKNOWLEDGED_PUSH_AND_EXACT_REMOTE_MAIN_VERIFIED', created_utc=datetime.now(UTC).isoformat(),
+    local_commit=local, remote_main=remote, module='Fixed90day shared strategy comparison and Bybit nonVIP fee reference',
+    actual_commit_session=88456, actual_commit_exit=0, actual_push_session=2390, actual_host_exit=0, actual_git_exit=0,
+    task_bindings=tasks, force=False,
+    existing_transport_archive='docs/archive/GITHUB_EXISTING_WINDOWS_TRANSPORT_20261002_V1.ps1',
+    transport_source_sha256=sha(root / 'docs/archive/GITHUB_EXISTING_WINDOWS_TRANSPORT_20261002_V1.ps1'),
+    credential_scope='Existing bounded WSL GitHub CLI authorization only; no credential values or new credentials',
+    scientific_runtime='All Python/test/market work remains bounded hpc_linux; no market rerun for sync',
+    root_acceptance_path='reports/fast_research/PUBLIC_STRATEGY_90D_ROOT_MODULE_ACCEPTANCE_20261002_V1.json',
+    root_acceptance_sha256=sha(root / 'reports/fast_research/PUBLIC_STRATEGY_90D_ROOT_MODULE_ACCEPTANCE_20261002_V1.json'),
+    fee_reference_adoption='reports/fast_research/BYBIT_NONVIP_STANDARD_ADOPTION_20261002_V1.json',
+    preflight='reports/GITHUB_PUBLIC_STRATEGY_90D_MODULE_STAGED_PREFLIGHT_20261002_V1.json',
+    no_global_git_or_proxy_settings_changed=True)
+out = root / 'reports/GITHUB_PUBLIC_STRATEGY_90D_SYNC_VERIFIED_20261002_V1.json'
+with out.open('x') as writer:
+    json.dump(receipt, writer, indent=2, ensure_ascii=False)
+    writer.write('\n')
+print(json.dumps(dict(status=receipt['status'], local=local, remote=remote, sha256=sha(out))))
