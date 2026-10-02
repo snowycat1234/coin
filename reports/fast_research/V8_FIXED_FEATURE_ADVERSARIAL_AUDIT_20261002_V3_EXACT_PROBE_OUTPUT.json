@@ -1,0 +1,372 @@
+{
+  "verified_source_hashes": {
+    "protocols/FEATURE_CONTRACT_V8.json": "1567496fd28bff5d0d4659c819ccb92f27de56ab94469c87de49a933b702c823",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V2.json": "375f3dc63b23f49b8145450a2790a5a1e0441d7075279b08e0846ebbbac2027a",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V3.json": "dd9df28b0cbcc0dc0f592d8cd5885574859b4eb16121e13e860796102eb86f52",
+    "scripts/research_v8/features.py": "45d4738822699ee7599a59c8e73bb7e7649bc13230cec31a25d2a647690229ed",
+    "scripts/research_v8/features_v2.py": "e16c6678721d40431559d8c1bca482cc60abfebbf56ab4d0871185a11b1a866e",
+    "scripts/research_v8/features_v3.py": "74d5e7280b6167d3a1c73a9fa316fc96fd32766539a3bb10460b6500f0137d6f",
+    "tests/test_v8_features.py": "442d51d6ac740053d5b3eed37474823858a590c70b645d8304761941b7e079ba",
+    "tests/test_v8_features_v2.py": "2819bff482c1d9dfd81c17d13f03f2f67a685eba89ba3dc225144ea390c9801a",
+    "tests/test_v8_features_v3.py": "dcbbbf62146b7819dab562f2e0377ed3c526b16324fba3a69bb0d6fc4fd06032",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V4.json": "8fc0970493c34822b64a0d5e9d98203ce91ad4e79a0b70b1d0533c0a6e264ef7",
+    "scripts/research_v8/features_v4.py": "8fd570cee6452488ce01ca451868c9641f9f81757b7ea12bedd66237996a7359",
+    "tests/test_v8_features_v4.py": "ce1ec36fdcdca1c1afd7baedb85b300a47a87c63b5e1d7a037c493537db93601",
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952"
+  },
+  "prior_counterexamples": [
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_historical_close",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded price primitive missing/invalid; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_current_vwap",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded price primitive missing/invalid; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_traded_mean_size",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded size primitive missing/negative; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "negative_traded_mean_size",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded size primitive missing/negative; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-03",
+      "probe": "false_empty_positive_activity",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Empty flag, trade and aggregate counts disagree"
+    },
+    {
+      "prior_finding": "V8F-04",
+      "probe": "integer_empty_mask",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Known Boolean empty-bin state required; no coercion"
+    }
+  ],
+  "probes": [
+    {
+      "id": "healthy_common_definition_and_resource",
+      "feature_count": 478,
+      "names_equal_contract": true,
+      "definitions_equal_frozen_adapter": true,
+      "available_us": 1751418300000000,
+      "output_bytes": 3824,
+      "values_finite": true,
+      "values_immutable": true,
+      "rss_high_water_before_bytes": 166232064,
+      "rss_high_water_after_bytes": 184983552,
+      "python_traced_peak_bytes": 458672,
+      "nominal_canonical_input_shape": [
+        720,
+        68
+      ],
+      "resource_limit": "RSS includes imported libraries; tracemalloc does not fully count native allocation; endpoint API produces a 478-value summary without a sample-window cube."
+    },
+    {
+      "id": "future_perturbation_all_primitives",
+      "values_exactly_unchanged": true,
+      "availability_unchanged": true,
+      "extra_future_label_columns_ignored": true
+    },
+    {
+      "id": "legitimate_undefined_return_impact_interarrival",
+      "accepted": true,
+      "equals_preserved_adapter": true,
+      "observed_return_fraction_3600s": 0.9986111111111111,
+      "mean_has_return_256": 0.99609375,
+      "mean_has_interarrival_256": 0.99609375
+    },
+    {
+      "id": "legitimate_no_trade_bin_masks",
+      "accepted": true,
+      "equals_preserved_adapter": true,
+      "mean_has_trade_256": 0.99609375
+    }
+  ],
+  "additional_checks": [
+    {
+      "id": "V4_478_unchanged_names_units_and_endpoint_resources",
+      "passed": true,
+      "evidence": {
+        "id": "healthy_common_definition_and_resource",
+        "feature_count": 478,
+        "names_equal_contract": true,
+        "definitions_equal_frozen_adapter": true,
+        "available_us": 1751418300000000,
+        "output_bytes": 3824,
+        "values_finite": true,
+        "values_immutable": true,
+        "rss_high_water_before_bytes": 166232064,
+        "rss_high_water_after_bytes": 184983552,
+        "python_traced_peak_bytes": 458672,
+        "nominal_canonical_input_shape": [
+          720,
+          68
+        ],
+        "resource_limit": "RSS includes imported libraries; tracemalloc does not fully count native allocation; endpoint API produces a 478-value summary without a sample-window cube."
+      }
+    },
+    {
+      "id": "V4_all_stream_future_perturbation",
+      "passed": true,
+      "evidence": {
+        "id": "future_perturbation_all_primitives",
+        "values_exactly_unchanged": true,
+        "availability_unchanged": true,
+        "extra_future_label_columns_ignored": true
+      }
+    },
+    {
+      "id": "V4_legitimate_undefined_return_impact_interarrival",
+      "passed": true,
+      "evidence": {
+        "id": "legitimate_undefined_return_impact_interarrival",
+        "accepted": true,
+        "equals_preserved_adapter": true,
+        "observed_return_fraction_3600s": 0.9986111111111111,
+        "mean_has_return_256": 0.99609375,
+        "mean_has_interarrival_256": 0.99609375
+      }
+    },
+    {
+      "id": "V4_legitimate_no_trade_bin_masks",
+      "passed": true,
+      "evidence": {
+        "id": "legitimate_no_trade_bin_masks",
+        "accepted": true,
+        "equals_preserved_adapter": true,
+        "mean_has_trade_256": 0.99609375
+      }
+    },
+    {
+      "id": "V4_repeat_V8F-03",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_repeat_V8F-04",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_false_empty_at_1751414700000000",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_false_empty_at_1751418295000000",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_input_unknown_bool_mask",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_input_float_mask",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_input_fractional_trade_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known nonnegative integral activity count required"
+      }
+    },
+    {
+      "id": "V4_input_disagree_aggregate_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_input_negative_interarrival_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known nonnegative integral activity count required"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_quote",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot conceal positive or unknown activity"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_base",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot conceal positive or unknown activity"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_interarrival",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot contain interarrival observations"
+      }
+    },
+    {
+      "id": "V4_input_unknown_traded_vwap",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded price primitive missing/invalid; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_unknown_traded_size",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded size primitive missing/negative; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_negative_traded_size",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded size primitive missing/negative; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_invalid_traded_flow_units",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Observed dimensionless flow must lie in [-1,1]"
+      }
+    },
+    {
+      "id": "V4_boundary_past_late",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Unavailable or future inputs must abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_quality_unknown",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Invalid past quality must abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_grid_missing",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_grid_duplicate",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_fractional_decision",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Original integer decision required"
+      }
+    },
+    {
+      "id": "V4_boundary_boolean_decision",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Original integer decision required"
+      }
+    },
+    {
+      "id": "V4_boundary_locked_decision_metadata_only",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Causal development hour required; locked access forbidden"
+      }
+    }
+  ],
+  "findings": []
+}

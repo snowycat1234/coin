@@ -1,0 +1,469 @@
+{
+  "report_id": "V8_FIXED_FEATURE_ADVERSARIAL_AUDIT_20261002_V3",
+  "audited_active_adapter": "scripts/research_v8/features_v4.py",
+  "created_at_utc": "2026-10-02T10:06:57.281650+00:00",
+  "status": "PASS_FEATURE_CONTRACT_IMPLEMENTATION",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "actual_HEAD_at_probe_start": "3a9515c788cf985bd2e92d37ba8dbee18675f8e1",
+  "actual_HEAD_at_report": "3a9515c788cf985bd2e92d37ba8dbee18675f8e1",
+  "verified_source_hashes": {
+    "protocols/FEATURE_CONTRACT_V8.json": "1567496fd28bff5d0d4659c819ccb92f27de56ab94469c87de49a933b702c823",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V2.json": "375f3dc63b23f49b8145450a2790a5a1e0441d7075279b08e0846ebbbac2027a",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V3.json": "dd9df28b0cbcc0dc0f592d8cd5885574859b4eb16121e13e860796102eb86f52",
+    "scripts/research_v8/features.py": "45d4738822699ee7599a59c8e73bb7e7649bc13230cec31a25d2a647690229ed",
+    "scripts/research_v8/features_v2.py": "e16c6678721d40431559d8c1bca482cc60abfebbf56ab4d0871185a11b1a866e",
+    "scripts/research_v8/features_v3.py": "74d5e7280b6167d3a1c73a9fa316fc96fd32766539a3bb10460b6500f0137d6f",
+    "tests/test_v8_features.py": "442d51d6ac740053d5b3eed37474823858a590c70b645d8304761941b7e079ba",
+    "tests/test_v8_features_v2.py": "2819bff482c1d9dfd81c17d13f03f2f67a685eba89ba3dc225144ea390c9801a",
+    "tests/test_v8_features_v3.py": "dcbbbf62146b7819dab562f2e0377ed3c526b16324fba3a69bb0d6fc4fd06032",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V4.json": "8fc0970493c34822b64a0d5e9d98203ce91ad4e79a0b70b1d0533c0a6e264ef7",
+    "scripts/research_v8/features_v4.py": "8fd570cee6452488ce01ca451868c9641f9f81757b7ea12bedd66237996a7359",
+    "tests/test_v8_features_v4.py": "ce1ec36fdcdca1c1afd7baedb85b300a47a87c63b5e1d7a037c493537db93601",
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952"
+  },
+  "source_unchanged_during_probe": true,
+  "definition_and_active_manifest_bindings": {
+    "original_definition_contract_unchanged": true,
+    "definition_contract_binding": true,
+    "active_adapter_binding": true,
+    "preserved_adapter_binding": true,
+    "previous_active_manifest_binding": true
+  },
+  "preserved_prior_independent_audits": [
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_ADVERSARIAL_AUDIT_20261002_V1.json",
+      "sha256": "5997a1b021a541cd40df78ff03539ec9a541035ddb819b0bed56aa35363c8495"
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_ADVERSARIAL_AUDIT_20261002_V2.json",
+      "sha256": "ad9c4e48b741a3c29f5e8b2f599571222e32b1621f16a2be32f903e8e03cdf02"
+    }
+  ],
+  "prior_counterexamples_all_fixed_in_this_probe": true,
+  "prior_counterexample_results": [
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_historical_close",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded price primitive missing/invalid; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_current_vwap",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded price primitive missing/invalid; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "missing_traded_mean_size",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded size primitive missing/negative; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-02",
+      "probe": "negative_traded_mean_size",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Traded size primitive missing/negative; no silent zero"
+    },
+    {
+      "prior_finding": "V8F-03",
+      "probe": "false_empty_positive_activity",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Empty flag, trade and aggregate counts disagree"
+    },
+    {
+      "prior_finding": "V8F-04",
+      "probe": "integer_empty_mask",
+      "status": "FIXED_IN_THIS_PROBE",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Known Boolean empty-bin state required; no coercion"
+    }
+  ],
+  "probes": [
+    {
+      "id": "healthy_common_definition_and_resource",
+      "feature_count": 478,
+      "names_equal_contract": true,
+      "definitions_equal_frozen_adapter": true,
+      "available_us": 1751418300000000,
+      "output_bytes": 3824,
+      "values_finite": true,
+      "values_immutable": true,
+      "rss_high_water_before_bytes": 166232064,
+      "rss_high_water_after_bytes": 184983552,
+      "python_traced_peak_bytes": 458672,
+      "nominal_canonical_input_shape": [
+        720,
+        68
+      ],
+      "resource_limit": "RSS includes imported libraries; tracemalloc does not fully count native allocation; endpoint API produces a 478-value summary without a sample-window cube."
+    },
+    {
+      "id": "future_perturbation_all_primitives",
+      "values_exactly_unchanged": true,
+      "availability_unchanged": true,
+      "extra_future_label_columns_ignored": true
+    },
+    {
+      "id": "legitimate_undefined_return_impact_interarrival",
+      "accepted": true,
+      "equals_preserved_adapter": true,
+      "observed_return_fraction_3600s": 0.9986111111111111,
+      "mean_has_return_256": 0.99609375,
+      "mean_has_interarrival_256": 0.99609375
+    },
+    {
+      "id": "legitimate_no_trade_bin_masks",
+      "accepted": true,
+      "equals_preserved_adapter": true,
+      "mean_has_trade_256": 0.99609375
+    }
+  ],
+  "additional_checks": [
+    {
+      "id": "V4_478_unchanged_names_units_and_endpoint_resources",
+      "passed": true,
+      "evidence": {
+        "id": "healthy_common_definition_and_resource",
+        "feature_count": 478,
+        "names_equal_contract": true,
+        "definitions_equal_frozen_adapter": true,
+        "available_us": 1751418300000000,
+        "output_bytes": 3824,
+        "values_finite": true,
+        "values_immutable": true,
+        "rss_high_water_before_bytes": 166232064,
+        "rss_high_water_after_bytes": 184983552,
+        "python_traced_peak_bytes": 458672,
+        "nominal_canonical_input_shape": [
+          720,
+          68
+        ],
+        "resource_limit": "RSS includes imported libraries; tracemalloc does not fully count native allocation; endpoint API produces a 478-value summary without a sample-window cube."
+      }
+    },
+    {
+      "id": "V4_all_stream_future_perturbation",
+      "passed": true,
+      "evidence": {
+        "id": "future_perturbation_all_primitives",
+        "values_exactly_unchanged": true,
+        "availability_unchanged": true,
+        "extra_future_label_columns_ignored": true
+      }
+    },
+    {
+      "id": "V4_legitimate_undefined_return_impact_interarrival",
+      "passed": true,
+      "evidence": {
+        "id": "legitimate_undefined_return_impact_interarrival",
+        "accepted": true,
+        "equals_preserved_adapter": true,
+        "observed_return_fraction_3600s": 0.9986111111111111,
+        "mean_has_return_256": 0.99609375,
+        "mean_has_interarrival_256": 0.99609375
+      }
+    },
+    {
+      "id": "V4_legitimate_no_trade_bin_masks",
+      "passed": true,
+      "evidence": {
+        "id": "legitimate_no_trade_bin_masks",
+        "accepted": true,
+        "equals_preserved_adapter": true,
+        "mean_has_trade_256": 0.99609375
+      }
+    },
+    {
+      "id": "V4_repeat_V8F-03",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_repeat_V8F-04",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_false_empty_at_1751414700000000",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_false_empty_at_1751418295000000",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_input_unknown_bool_mask",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_input_float_mask",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known Boolean empty-bin state required; no coercion"
+      }
+    },
+    {
+      "id": "V4_input_fractional_trade_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known nonnegative integral activity count required"
+      }
+    },
+    {
+      "id": "V4_input_disagree_aggregate_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty flag, trade and aggregate counts disagree"
+      }
+    },
+    {
+      "id": "V4_input_negative_interarrival_count",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Known nonnegative integral activity count required"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_quote",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot conceal positive or unknown activity"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_base",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot conceal positive or unknown activity"
+      }
+    },
+    {
+      "id": "V4_input_empty_positive_interarrival",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Empty bins cannot contain interarrival observations"
+      }
+    },
+    {
+      "id": "V4_input_unknown_traded_vwap",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded price primitive missing/invalid; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_unknown_traded_size",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded size primitive missing/negative; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_negative_traded_size",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Traded size primitive missing/negative; no silent zero"
+      }
+    },
+    {
+      "id": "V4_input_invalid_traded_flow_units",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Observed dimensionless flow must lie in [-1,1]"
+      }
+    },
+    {
+      "id": "V4_boundary_past_late",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Unavailable or future inputs must abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_quality_unknown",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Invalid past quality must abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_grid_missing",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_past_grid_duplicate",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+      }
+    },
+    {
+      "id": "V4_boundary_fractional_decision",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Original integer decision required"
+      }
+    },
+    {
+      "id": "V4_boundary_boolean_decision",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Original integer decision required"
+      }
+    },
+    {
+      "id": "V4_boundary_locked_decision_metadata_only",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Causal development hour required; locked access forbidden"
+      }
+    }
+  ],
+  "findings": [],
+  "acceptance_blocker_ids": [],
+  "scope": {
+    "read_market_data": false,
+    "read_real_locked_or_model_artifacts": false,
+    "fit_market_model": false,
+    "GPU_used": false,
+    "read_builder_explanations_or_root_state_documents": false,
+    "source_modified": false,
+    "top_level_docs_modified": false,
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "PYTHONPATH": "/mnt/d/codex/coin/src",
+    "resource_policy": "hpc_linux with_task_progress/bounded.sh shared 5GB RAM, swap0, GPU0",
+    "experiment_registry_writer": "root agent; auditor did not append shared registry"
+  },
+  "execution": {
+    "exit_code": 0,
+    "argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--",
+      "bash",
+      "-lc",
+      "cd /mnt/d/codex/coin && scripts/with_task_progress.sh --title V8\u5171\u540c\u7279\u5f81\u7b2c\u56db\u7248\u72ec\u7acb\u53cd\u4f8b\u5ba1\u8ba1 -- env PYTHONPATH=/mnt/d/codex/coin/src /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v3/probe.py"
+    ]
+  },
+  "independent_probe": {
+    "directory": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v3",
+    "script": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v3/probe.py",
+    "script_sha256": "5942e19f3be8d85dc25888bbd55b22c692909c21c24385623ba1b221125ab97b",
+    "output": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v3/probes.json",
+    "output_sha256": "e36c2d8e75b03556d8d3aca750e7dbc719fbff5aae1f937ff86cd6cf34256141"
+  },
+  "provided_actual_outputs": {
+    "start_receipt": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_START_20261002_V4.json",
+    "start_receipt_sha256": "340aa73ee0504c3ba14c3b651cada2c7a579772f8df66a0aaee2fe2101c1039a",
+    "execution_receipt": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_CHECK_RECEIPT_20261002_V4.json",
+    "execution_receipt_sha256": "72a515dcc7f4ca673971417399e542f49c4f643c696be5f549575ca9b102cda6",
+    "junit": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_TESTS_20261002_V4.xml",
+    "junit_sha256": "caf5b65bca97e027120678eae6e0bfdff17857573ecedc78b904b848549d339c",
+    "junit_counts": {
+      "tests": 16,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "actual_session": 68984,
+    "actual_exit_code": 0,
+    "verified_bindings": {
+      "all_provided_feature_source_hashes_equal": true,
+      "protocol_equals_active_manifest": true,
+      "definition_original_dependency": true,
+      "lock_equals_current": true,
+      "command_equal": true,
+      "start_receipt_digest_equal": true,
+      "junit_digest_equal": true,
+      "junit_counts_equal": true,
+      "actual_session_exit_zero": true
+    }
+  },
+  "ten_model_actual_caller_routing": "NOT_AUDITED",
+  "limits": [
+    "Conclusion covers the specified fixed 478-feature definitions and V4 adapter guards, measured single-endpoint outputs and synthetic past-only/mask boundaries.",
+    "All ten model actual caller routing, shared calendar ledger and train-only normalization wiring remain NOT_AUDITED.",
+    "No full market source semantic derivation, market fit, OOS performance, P1 economic/statistical gate, fills/costs or alpha qualification was evaluated.",
+    "Resource observations include imported/native library limitations; no sample-window cube was materialized by the single-endpoint API.",
+    "Registered unknown return/interarrival and genuine zero-activity empty masks are preserved exactly; old source and negative evidence remain unchanged."
+  ],
+  "decision": "PASS_FEATURE_CONTRACT_IMPLEMENTATION for verified V4 adapter/manifest hashes in this scope only. Keep ten-model actual caller routing NOT_AUDITED, NO_QUALIFIED_CANDIDATE, and P1 statistical/economic gate NOT_EVALUATED."
+}

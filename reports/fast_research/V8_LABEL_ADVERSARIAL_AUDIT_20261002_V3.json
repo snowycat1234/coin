@@ -1,0 +1,555 @@
+{
+  "report_id": "V8_LABEL_ADVERSARIAL_AUDIT_20261002_V3",
+  "created_at_utc": "2026-10-02T09:29:45.722548+00:00",
+  "status": "FAIL_CONTRACT_IMPLEMENTATION",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "actual_HEAD_at_probe_start": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+  "actual_HEAD_at_report": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+  "sources_sha256": {
+    "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+    "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+    "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+    "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+    "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+    "tests/test_v8_label_contract_v2.py": "534ef6fa127e9c3f108dd5ac2bb0734dade93217e83e7ab1164d153e7536c5af",
+    "tests/test_v8_label_contract_v3.py": "d4708430040ea68fba07d75ff051f0fa23c34ecf48c37b4bfc282a005775cbc4",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+  },
+  "source_unchanged_during_probe": true,
+  "original_contract_unchanged": true,
+  "diff_note": "labels_v3.py and test_v8_label_contract_v3.py are reviewed as full new-file bytes; prior V1/V2 sources and test artifacts preserved.",
+  "scope": {
+    "read_market_data": false,
+    "read_real_locked_observations": false,
+    "fit_market_model": false,
+    "GPU_used": false,
+    "read_builder_explanations_or_root_state_documents": false,
+    "modified_audited_sources": false,
+    "modified_top_level_docs": false,
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "PYTHONPATH": "/mnt/d/codex/coin/src",
+    "resource_policy": "hpc_linux with_task_progress/bounded.sh shared 5GB RAM, swap0, GPU0",
+    "experiment_registry_writer": "root agent; auditor did not concurrently append shared registry"
+  },
+  "execution": {
+    "exit_code": 0,
+    "argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--cd",
+      "/mnt/d/codex/coin",
+      "--",
+      "bash",
+      "scripts/with_task_progress.sh",
+      "--title",
+      "V8 \u6807\u7b7e\u7b2c\u4e09\u7248\u72ec\u7acb\u53cd\u4f8b\u5ba1\u8ba1",
+      "--",
+      "env",
+      "PYTHONPATH=/mnt/d/codex/coin/src",
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "/home/xflops/coin-state/test-v8-adversarial-20261002-v3/probe.py"
+    ]
+  },
+  "independent_probe": {
+    "directory": "/home/xflops/coin-state/test-v8-adversarial-20261002-v3",
+    "script": "/home/xflops/coin-state/test-v8-adversarial-20261002-v3/probe.py",
+    "script_sha256": "56094d3a3d16cc08f21df329cfc7408b8746c3f3eb97699e8befa9c1cd385302",
+    "output": "/home/xflops/coin-state/test-v8-adversarial-20261002-v3/probes.json",
+    "output_sha256": "7f7ad6c3c6319b034291bec6fce71c9a05bf1b93d5f2bd8dbdbc54748eecf575"
+  },
+  "provided_actual_outputs": [
+    {
+      "path": "/home/xflops/coin-state/test-v8-label-contract-v3-20261002-v1.xml",
+      "sha256": "875c6bcc232d14f5f1eb37115ed9c2cf0ca2ff334c05bd9728b5226b903a06fb",
+      "actual_exit_code": 0,
+      "junit_counts": {
+        "tests": 18,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_CLEAN_CI_20261002_V2.xml",
+      "sha256": "89fe3d7836443204f7e691074cefd73809498e90451c0078e06977fabae136b8",
+      "actual_exit_code": 0,
+      "junit_counts": {
+        "tests": 72,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "CI_evidence": {
+    "start_receipt": "/mnt/d/codex/coin/reports/fast_research/V8_CLEAN_CI_START_20261002_V2.json",
+    "start_receipt_sha256": "85104b38eae0c20df65ca541ec1534ad60ed42846fdc03eb1d87f8a9940bfa45",
+    "execution_receipt": "/mnt/d/codex/coin/reports/fast_research/V8_CLEAN_CI_EXECUTION_RECEIPT_20261002_V2.json",
+    "execution_receipt_sha256": "e29ed14c735caa924e0ee17038b138243fcfd9dbdc8b68f204874eff8bf6cd4f",
+    "bindings": {
+      "audited_label_source_hashes_equal_start_and_execution": true,
+      "protocol_equal_current": true,
+      "environment_lock_equal_current": true,
+      "exact_command_equal": true,
+      "start_record_binding_equal": true,
+      "junit_digest_equal": true,
+      "actual_exit_zero": true,
+      "source_bytes_equal_before_after_claimed": true
+    },
+    "audited_source_keys_checked": [
+      "scripts/research_v8/labels.py",
+      "scripts/research_v8/labels_v2.py",
+      "scripts/research_v8/labels_v3.py",
+      "tests/test_v8_label_contract.py",
+      "tests/test_v8_label_contract_v2.py",
+      "tests/test_v8_label_contract_v3.py"
+    ],
+    "interpretation": "Prebound actual execution and output bindings verified for allowed label sources; this does not turn existing unit coverage into contract or economic acceptance."
+  },
+  "previous_V1_V2_counterexamples_all_fixed_in_this_probe": true,
+  "previous_regression_results": [
+    {
+      "original_finding_id": "V8A-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_gap10_quality_maturity",
+        "label_valid": true,
+        "maturity_us": 1751331800000000,
+        "required_minimum_us": 1751331800000000
+      }
+    },
+    {
+      "original_finding_id": "V8A-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_gap10_contraction",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-03",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_observed_signal_early",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-04",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_missing_future_notional",
+        "valid": [
+          false,
+          true
+        ],
+        "first_all_targets_nan": true,
+        "second_targets_exactly_unchanged": true
+      }
+    },
+    {
+      "original_finding_id": "V8A-05",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_full_split_boundaries",
+        "control_receipt": {
+          "implementation_version": "V8_LABELS_V3_20261002",
+          "actual_observed_max_label_lag_us": 600000000,
+          "registered_max_label_lag_us": 600000000,
+          "fit_cutoff_us": 1751330100000000,
+          "max_train_label_mature_us": 1751329920000000,
+          "max_validation_label_mature_us": 1751331600000000,
+          "max_test_label_mature_us": 1751332800000000,
+          "counts": {
+            "train": 1,
+            "validation": 1,
+            "test": 1
+          },
+          "integer_development_domain_and_row_alignment_verified": true
+        },
+        "lag_below_actual": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Declared lag smaller than actual observed maximum across splits"
+        },
+        "validation_maturity_at_boundary": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Validation label maturity must precede test minus embargo"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_locked_export_and_split",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "split_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "synthetic_metadata_only": true
+      }
+    },
+    {
+      "original_finding_id": "V8B-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_standalone_lag_broadcast",
+        "guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Timestamp row metadata must have equal shape; broadcasting forbidden"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-03",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_fractional_decision_coercion",
+        "guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision: one-dimensional original integer metadata required; no float coercion/broadcast"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-04",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_flow_unit_corruption",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+        },
+        "split_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+        }
+      }
+    }
+  ],
+  "probes": [
+    {
+      "id": "control_exact_LEAD_LAG_5M_5M",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        600000000,
+        600000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP5",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        305000000,
+        305000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP10",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        310000000,
+        310000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "repeat_gap10_quality_maturity",
+      "label_valid": true,
+      "maturity_us": 1751331800000000,
+      "required_minimum_us": 1751331800000000
+    },
+    {
+      "id": "repeat_gap10_contraction",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      }
+    },
+    {
+      "id": "repeat_observed_signal_early",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      }
+    },
+    {
+      "id": "repeat_missing_future_notional",
+      "valid": [
+        false,
+        true
+      ],
+      "first_all_targets_nan": true,
+      "second_targets_exactly_unchanged": true
+    },
+    {
+      "id": "repeat_full_split_boundaries",
+      "control_receipt": {
+        "implementation_version": "V8_LABELS_V3_20261002",
+        "actual_observed_max_label_lag_us": 600000000,
+        "registered_max_label_lag_us": 600000000,
+        "fit_cutoff_us": 1751330100000000,
+        "max_train_label_mature_us": 1751329920000000,
+        "max_validation_label_mature_us": 1751331600000000,
+        "max_test_label_mature_us": 1751332800000000,
+        "counts": {
+          "train": 1,
+          "validation": 1,
+          "test": 1
+        },
+        "integer_development_domain_and_row_alignment_verified": true
+      },
+      "lag_below_actual": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Declared lag smaller than actual observed maximum across splits"
+      },
+      "validation_maturity_at_boundary": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Validation label maturity must precede test minus embargo"
+      }
+    },
+    {
+      "id": "repeat_locked_export_and_split",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "split_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "synthetic_metadata_only": true
+    },
+    {
+      "id": "repeat_standalone_lag_broadcast",
+      "guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Timestamp row metadata must have equal shape; broadcasting forbidden"
+      }
+    },
+    {
+      "id": "repeat_fractional_decision_coercion",
+      "guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision: one-dimensional original integer metadata required; no float coercion/broadcast"
+      }
+    },
+    {
+      "id": "repeat_flow_unit_corruption",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+      },
+      "split_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+      }
+    },
+    {
+      "id": "control_oof_scaler_new_domain",
+      "oof_rejections": [
+        {
+          "case": "fit_forecast_id",
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "OOF forecast row was fitted by this model"
+        },
+        {
+          "case": "future_forecast_feature",
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "OOF prediction uses future features"
+        },
+        {
+          "case": "immature_fit_label",
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "OOF labels immature at fit"
+        },
+        {
+          "case": "locked_fit_maturity",
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "OOF labels immature at fit"
+        }
+      ],
+      "future_scaler_input": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Future/nonfinite scaler fitting inputs"
+      }
+    },
+    {
+      "id": "nan_entry_trade_control",
+      "field": "last_trade_us",
+      "nonfinite_kind": "NaN",
+      "accepted": true,
+      "row_retained": true,
+      "label_valid": false,
+      "all_targets_nan": true
+    },
+    {
+      "id": "inf_entry_trade",
+      "field": "last_trade_us",
+      "nonfinite_kind": "Infinity",
+      "accepted": false,
+      "exception_type": "InvalidOperationError",
+      "exception": "conversion from `f64` to `i64` failed in column 'literal' for 1 out of 1 values: [inf]\n\nThis error occurred in the following expression:\n\t.when(col(\"spot_BTCUSDT__entry_price_trade_us\").is_nan()).then(null.cast(Float64)).otherwise(col(\"spot_BTCUSDT__entry_price_trade_us\")).strict_cast(Int64)\n"
+    },
+    {
+      "id": "inf_exit_availability",
+      "field": "available_us",
+      "nonfinite_kind": "Infinity",
+      "accepted": false,
+      "exception_type": "InvalidOperationError",
+      "exception": "conversion from `f64` to `i64` failed in column 'literal' for 1 out of 1 values: [inf]\n\nThis error occurred in the following expression:\n\t.when(col(\"spot_BTCUSDT__exit_price_available_us\").is_nan()).then(null.cast(Float64)).otherwise(col(\"spot_BTCUSDT__exit_price_available_us\")).strict_cast(Int64)\n"
+    },
+    {
+      "id": "finite_source_tail_missing_future_anchor",
+      "exact_past_feature_shape": [
+        256,
+        68
+      ],
+      "past_feature_available_us": 1751332440000000,
+      "tail_decision_us": 1751332440000000,
+      "source_close_end_us": 1751333000000000,
+      "nominal_tail_return_end_us": 1751333040000000,
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Required label anchor outside explicit source"
+    }
+  ],
+  "findings": [
+    {
+      "id": "V8C-01",
+      "priority": "P2",
+      "status": "CONFIRMED_CONTRACT_IMPLEMENTATION_GAP",
+      "title": "Nonfinite price-anchor timestamps abort instead of retaining invalid labels",
+      "source": "scripts/research_v8/labels_v3.py",
+      "source_lines": [
+        77,
+        86,
+        93,
+        101
+      ],
+      "contract_fields": [
+        "missing_policy",
+        "timestamps_per_row"
+      ],
+      "evidence_probes": [
+        "inf_entry_trade",
+        "inf_exit_availability"
+      ],
+      "impact": "Infinity in a future entry trade timestamp or exit availability is admitted by the finite-only source metadata check as unknown. The V2 builder invalidates the row, but V3 converts only NaN to nullable integers and attempts to cast Infinity to Int64, raising an exception. The same NaN anchor control retains a label_valid=false row and NaN targets. This is failclosed operational rejection, not demonstrated causal leakage.",
+      "required_fix": "Treat every nonfinite emitted timestamp consistently as explicit unknown nullable metadata after per-row invalidation; reject invalid fitting/scored rows without aborting unaffected label rows or inventing timestamps."
+    },
+    {
+      "id": "V8C-02",
+      "priority": "P2",
+      "status": "CONFIRMED_CONTRACT_IMPLEMENTATION_GAP",
+      "title": "Finite source tail loses per-row missing-future label behavior",
+      "source": "scripts/research_v8/labels_v3.py, labels_v2.py and preserved labels.py",
+      "source_lines": {
+        "labels_v3.py": [
+          101
+        ],
+        "labels_v2.py": [
+          62,
+          63,
+          64,
+          65
+        ],
+        "labels.py": [
+          64,
+          66
+        ]
+      },
+      "contract_fields": [
+        "missing_policy"
+      ],
+      "evidence_probe": "finite_source_tail_missing_future_anchor",
+      "impact": "A valid dense source with a complete past256 and available past features for the 4440s minute lacks the future return-end anchor at 5040s because the explicit source ends at 5000s. Passing this decision beside a fully valid earlier decision aborts the whole batch with Required label anchor outside explicit source. The contract requires unavailable future/price anchors to retain label_valid=false and NaN target rows, and future label validity must not become an online feature/calendar filter.",
+      "required_fix": "Retain every explicitly supplied legal decision row. Mark windows/anchors outside the explicit finite future source as invalid with unknown maturity and NaN labels, while preserving known nominal registered endpoints and unaffected rows; never interpolate or fabricate source bars."
+    }
+  ],
+  "acceptance_blocker_ids": [
+    "V8C-01",
+    "V8C-02"
+  ],
+  "causal_P1_blocker_ids": [],
+  "limits": [
+    "Only label contract implementation and synthetic chronology/source boundaries were audited.",
+    "No market labels, forecasts, OOS metrics, fees/fills, model-selection behavior, P1 economic/statistical gates or ten-family common caller wiring were evaluated.",
+    "The two new missing-policy gaps reject operationally and do not demonstrate acceptance of a future-leaking or locked scored row.",
+    "Feature adapter acceptance remains a separate report and is not implied by this label or clean-CI output."
+  ],
+  "decision": "All nine prior label counterexamples are fixed, but two existing missing-policy requirements remain unimplemented. Preserve V1/V2/V3 evidence, repair per-row invalid-future/anchor behavior in a new immutable version and independently retest. Keep NO_QUALIFIED_CANDIDATE and P1 statistical/economic gate NOT_EVALUATED."
+}

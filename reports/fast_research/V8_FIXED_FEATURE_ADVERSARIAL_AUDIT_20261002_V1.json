@@ -1,0 +1,543 @@
+{
+  "report_id": "V8_FIXED_FEATURE_ADVERSARIAL_AUDIT_20261002_V1",
+  "created_at_utc": "2026-10-02T09:14:02.285270+00:00",
+  "status": "FAIL_FEATURE_CONTRACT_IMPLEMENTATION",
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "P1_statistical_economic_gate": "NOT_EVALUATED",
+  "qualification_claim": false,
+  "actual_HEAD_at_probe_start": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+  "actual_HEAD_at_report": "d46e2ad5545773b5c3735ba237fd2fce14349f21",
+  "diff_note": "Both feature adapters, contracts and tests were untracked new files relative to the observed starting HEAD; full current bytes reviewed.",
+  "source_sha256": {
+    "protocols/FEATURE_CONTRACT_V8.json": "1567496fd28bff5d0d4659c819ccb92f27de56ab94469c87de49a933b702c823",
+    "protocols/FEATURE_V8_ACTIVE_IMPLEMENTATION_V2.json": "375f3dc63b23f49b8145450a2790a5a1e0441d7075279b08e0846ebbbac2027a",
+    "scripts/research_v8/features.py": "45d4738822699ee7599a59c8e73bb7e7649bc13230cec31a25d2a647690229ed",
+    "scripts/research_v8/features_v2.py": "e16c6678721d40431559d8c1bca482cc60abfebbf56ab4d0871185a11b1a866e",
+    "tests/test_v8_features.py": "442d51d6ac740053d5b3eed37474823858a590c70b645d8304761941b7e079ba",
+    "tests/test_v8_features_v2.py": "2819bff482c1d9dfd81c17d13f03f2f67a685eba89ba3dc225144ea390c9801a",
+    "src/quant/research_fast/dataset.py": "2a58867a032c8e448ab6bac35a0d1525bb35a25d5115bb81a5299f64a1895952",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+  },
+  "source_unchanged_during_probe": true,
+  "contract_source_bindings": {
+    "original_source": true,
+    "preserved_adapter": true,
+    "definition_contract": true,
+    "active_adapter": true,
+    "manifest_preserved_adapter": true
+  },
+  "scope": {
+    "read_market_data": false,
+    "read_locked_or_model_artifacts": false,
+    "read_builder_explanations_or_root_status_documents": false,
+    "fit_market_model": false,
+    "GPU_used": false,
+    "source_modified": false,
+    "top_level_docs_modified": false,
+    "synthetic_locked_decision_value_only": true,
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "PYTHONPATH": "/mnt/d/codex/coin/src",
+    "resource_policy": "hpc_linux with_task_progress/bounded.sh shared 5GB RAM, swap0, GPU0",
+    "experiment_registry_writer": "root agent; auditor did not concurrently append shared registry"
+  },
+  "execution": {
+    "exit_code": 0,
+    "argv": [
+      "wsl",
+      "-d",
+      "hpc_linux",
+      "--cd",
+      "/mnt/d/codex/coin",
+      "--",
+      "bash",
+      "scripts/with_task_progress.sh",
+      "--title",
+      "V8 \u56fa\u5b9a\u7279\u5f81\u72ec\u7acb\u53cd\u4f8b\u5ba1\u8ba1",
+      "--",
+      "env",
+      "PYTHONPATH=/mnt/d/codex/coin/src",
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v1/probe.py"
+    ]
+  },
+  "provided_actual_test_outputs": [
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_TESTS_20261002_V1.xml",
+      "sha256": "7182481837e688a7992c677d511c2a48fb2ab2e8d73c9b42b49abdfc5470f806",
+      "junit_counts": {
+        "tests": 9,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "provided_actual_exit_code": 0,
+      "prior_run_source_receipt_intrinsic_to_junit": "UNKNOWN"
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/V8_FIXED_FEATURE_TESTS_20261002_V2.xml",
+      "sha256": "aea4fe4332ffef4dbc7482771b0a0a77f97faf0b3fb77a2baf485b51e5bbd29a",
+      "junit_counts": {
+        "tests": 12,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "provided_actual_exit_code": 0,
+      "prior_run_source_receipt_intrinsic_to_junit": "UNKNOWN"
+    }
+  ],
+  "independent_probe": {
+    "directory": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v1",
+    "script": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v1/probe.py",
+    "script_sha256": "a47a5bff013990ff94858d1058b3032db349afffaeec8257bc13695b69b59ed4",
+    "output": "/home/xflops/coin-state/test-v8-fixed-feature-adversarial-20261002-v1/probes.json",
+    "output_sha256": "717cc27b1cb72d935c4577700346ba67e77f0c14f1b3a925ca9ba2858f88ad0b"
+  },
+  "shared_feature_verification": {
+    "contract_declares_shared_exact_adapter": true,
+    "feature_count": 478,
+    "names_and_units_checked": true,
+    "ten_registered_model_caller_wiring": "NOT_AUDITED: no model-family routing/caller source is among the allowed contract/diff/output artifacts; common adapter definitions only are verified."
+  },
+  "probes": [
+    {
+      "id": "single_endpoint_control",
+      "available_us": 1751418300000000,
+      "decision_us": 1751418300000000,
+      "feature_count": 478,
+      "names_equal_contract": true,
+      "same_definitions_as_preserved_adapter": true,
+      "values_finite": true,
+      "values_immutable": true,
+      "output_bytes": 3824,
+      "main_canonical_matrix_shape": [
+        720,
+        68
+      ],
+      "main_canonical_matrix_float32_bytes": 195840,
+      "rss_high_water_before_single_call_bytes": 165613568,
+      "rss_high_water_after_single_call_bytes": 184176640,
+      "python_traced_peak_during_single_call_bytes": 454677,
+      "resource_limit": "RSS includes imported libraries; tracemalloc does not fully count native Polars allocation; no sample-window cube is produced by this API."
+    },
+    {
+      "id": "original_unit_fixed_window_references",
+      "all_match": true,
+      "checks": [
+        {
+          "name": "spot_BTCUSDT__lag_return__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_flow__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_log_volume__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_return__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_flow__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_slope_per_minute__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q10__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q50__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q90__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__return_rms__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__burst_log_volume__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volatility_interaction__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volume_interaction__60s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_return__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_flow__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_log_volume__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_return__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_flow__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_slope_per_minute__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q10__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q50__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q90__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__return_rms__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__burst_log_volume__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volatility_interaction__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volume_interaction__300s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_return__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_flow__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_log_volume__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_return__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_flow__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_slope_per_minute__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q10__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q50__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q90__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__return_rms__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__burst_log_volume__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volatility_interaction__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volume_interaction__900s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_return__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_flow__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__lag_log_volume__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_return__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__ewma_flow__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_slope_per_minute__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q10__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q50__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_q90__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__return_rms__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__burst_log_volume__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volatility_interaction__3600s",
+          "matches_reference": true
+        },
+        {
+          "name": "spot_BTCUSDT__flow_volume_interaction__3600s",
+          "matches_reference": true
+        }
+      ],
+      "scope": "No annualization, normalization, cross-asset notional sum or future observations in these reference checks."
+    },
+    {
+      "id": "future_perturbation_and_extra_future_columns",
+      "future_content_exactly_unchanged": true,
+      "future_label_columns_ignored": true,
+      "availability_unchanged": true
+    },
+    {
+      "id": "reject_late_past",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Unavailable or future inputs must abstain"
+    },
+    {
+      "id": "reject_fractional_available",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Input timestamps must contain known integer microseconds"
+    },
+    {
+      "id": "reject_null_quality",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Invalid past quality must abstain"
+    },
+    {
+      "id": "reject_missing_quote",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Missing or negative past activity must abstain"
+    },
+    {
+      "id": "reject_negative_quote",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Missing or negative past activity must abstain"
+    },
+    {
+      "id": "reject_invalid_flow",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Observed dimensionless flow must lie in [-1,1]"
+    },
+    {
+      "id": "reject_missing_bar",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+    },
+    {
+      "id": "reject_duplicate_bar",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Exact ordered past720 required; missing/duplicate bars abstain"
+    },
+    {
+      "id": "reject_float_decision",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Decision timestamp must be an explicit integer microsecond"
+    },
+    {
+      "id": "reject_bool_decision",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Decision timestamp must be an explicit integer microsecond"
+    },
+    {
+      "id": "reject_locked_decision_synthetic_value_only",
+      "accepted": false,
+      "exception_type": "ValueError",
+      "exception": "Causal development hour required; locked access forbidden"
+    },
+    {
+      "id": "allowed_undefined_return_interarrival_masks",
+      "accepted": true,
+      "returned_available_us": 1751418300000000,
+      "shape": [
+        478
+      ],
+      "observed_return_fraction_3600s": 0.9986111111111111,
+      "mean_has_return_256": 0.99609375,
+      "mean_has_interarrival_256": 0.99609375
+    },
+    {
+      "id": "missing_historical_close",
+      "mutation_timestamp_us": 1751418250000000,
+      "source_empty_bin": false,
+      "source_trade_count": 10.0,
+      "source_quality": 0,
+      "field": "close",
+      "value": null,
+      "accepted": true,
+      "returned_available_us": 1751418300000000,
+      "shape": [
+        478
+      ],
+      "affected_feature": "mean__spot_BTCUSDT__vwap_close_offset_bps",
+      "control_feature_value": 0.1987055391073227,
+      "accepted_feature_value": 0.1979302614927292,
+      "last_has_trade": 1.0
+    },
+    {
+      "id": "missing_current_vwap",
+      "mutation_timestamp_us": 1751418295000000,
+      "source_empty_bin": false,
+      "source_trade_count": 10.0,
+      "source_quality": 0,
+      "field": "vwap",
+      "value": null,
+      "accepted": true,
+      "returned_available_us": 1751418300000000,
+      "shape": [
+        478
+      ],
+      "affected_feature": "last__spot_BTCUSDT__vwap_close_offset_bps",
+      "control_feature_value": 0.19845403730869293,
+      "accepted_feature_value": 0.0,
+      "last_has_trade": 1.0
+    },
+    {
+      "id": "missing_traded_mean_size",
+      "mutation_timestamp_us": 1751418295000000,
+      "source_empty_bin": false,
+      "source_trade_count": 10.0,
+      "source_quality": 0,
+      "field": "mean_trade_size",
+      "value": null,
+      "accepted": true,
+      "returned_available_us": 1751418300000000,
+      "shape": [
+        478
+      ],
+      "affected_feature": "last__spot_BTCUSDT__log_mean_trade_size",
+      "control_feature_value": 2.397895336151123,
+      "accepted_feature_value": 0.0,
+      "last_has_trade": 1.0
+    },
+    {
+      "id": "negative_traded_mean_size",
+      "mutation_timestamp_us": 1751418295000000,
+      "source_empty_bin": false,
+      "source_trade_count": 10.0,
+      "source_quality": 0,
+      "field": "mean_trade_size",
+      "value": -0.5,
+      "accepted": true,
+      "returned_available_us": 1751418300000000,
+      "shape": [
+        478
+      ],
+      "affected_feature": "last__spot_BTCUSDT__log_mean_trade_size",
+      "control_feature_value": 2.397895336151123,
+      "accepted_feature_value": -0.6931471824645996,
+      "last_has_trade": 1.0
+    }
+  ],
+  "findings": [
+    {
+      "id": "V8F-02",
+      "priority": "P1",
+      "status": "CONFIRMED",
+      "title": "Active fixed-feature guard accepts invalid unmasked price/activity primitives",
+      "source": "scripts/research_v8/features.py and scripts/research_v8/features_v2.py",
+      "source_lines": {
+        "features.py": [
+          79,
+          83,
+          87
+        ],
+        "features_v2.py": [
+          20,
+          24,
+          29
+        ],
+        "dataset.py": [
+          264,
+          268
+        ]
+      },
+      "contract_fields": [
+        "missing_policy",
+        "activity_units",
+        "base"
+      ],
+      "evidence_probes": [
+        "missing_historical_close",
+        "missing_current_vwap",
+        "missing_traded_mean_size",
+        "negative_traded_mean_size"
+      ],
+      "impact": "Historical used close=None, current vwap=None, and traded mean_trade_size=None or -0.5 are accepted with quality=0, empty_bin=false and positive trade count. The frozen feature_matrix.fill_null(0) silently substitutes missing unmasked price/activity features with zero; negative mean size produces finite log1p(-0.5). The active guard validates four aggregate activity fields and only the last close, leaving these inputs outside failclosed enforcement.",
+      "required_fix": "Add complete contract-consistent primitive validation before calling frozen feature_matrix. Reject missing/nonpositive used price inputs and missing/negative observed activity statistics on traded bars, while retaining only the original explicitly undefined return/interarrival masks. Preserve frozen dataset.py and definitions; repair guard in a new adapter version."
+    }
+  ],
+  "blocker_ids": [
+    "V8F-02"
+  ],
+  "limits": [
+    "No feature selection, fitting, market data, alpha metrics or P1 statistical/economic evaluation occurred.",
+    "Source availability and future perturbation isolation are verified on invented bars; authenticity of real source timestamps is outside this synthetic audit.",
+    "Individual model-family input wiring and caller calendar/streaming ledger enforcement are outside the supplied adapter scope.",
+    "RSS includes imports and tracemalloc cannot fully account for native allocations; structural endpoint memory shape/output and observed single-call values are recorded.",
+    "Existing green tests omit the confirmed invalid primitive cases; their success does not imply full failclosed compliance."
+  ],
+  "decision": "Preserve existing feature definitions/tests/outputs. Repair primitive failclosed validation in a new immutable active guard, then independently retest. Keep P1 NOT_EVALUATED and NO_QUALIFIED_CANDIDATE."
+}

@@ -1,0 +1,1535 @@
+{
+  "previous_regressions": [
+    {
+      "original_finding_id": "V8A-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_gap10_quality_maturity",
+        "label_valid": true,
+        "maturity_us": 1751331800000000,
+        "required_minimum_us": 1751331800000000
+      }
+    },
+    {
+      "original_finding_id": "V8A-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_gap10_contraction",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Registered variant exact return_label_start_us changed"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-03",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_observed_signal_early",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Signal kind does not match actual observed/predicted availability"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8A-04",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_missing_future_notional",
+        "valid": [
+          false,
+          true
+        ],
+        "first_all_targets_nan": true,
+        "second_targets_exactly_unchanged": true
+      }
+    },
+    {
+      "original_finding_id": "V8A-05",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_full_split_boundaries",
+        "control_receipt": {
+          "implementation_version": "V8_LABELS_V5_20261002",
+          "actual_observed_max_label_lag_us": 600000000,
+          "registered_max_label_lag_us": 600000000,
+          "fit_cutoff_us": 1751330100000000,
+          "max_train_label_mature_us": 1751329920000000,
+          "max_validation_label_mature_us": 1751331600000000,
+          "max_test_label_mature_us": 1751332800000000,
+          "counts": {
+            "train": 1,
+            "validation": 1,
+            "test": 1
+          },
+          "integer_development_domain_and_row_alignment_verified": true
+        },
+        "lag_below_actual": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Declared lag smaller than actual observed maximum across splits"
+        },
+        "validation_maturity_at_boundary": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Validation label maturity must precede test minus embargo"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_locked_export_and_split",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "split_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "direct_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision_us: development dates only; locked timestamps forbidden"
+        },
+        "synthetic_metadata_only": true
+      }
+    },
+    {
+      "original_finding_id": "V8B-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_standalone_lag_broadcast",
+        "guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Timestamp row metadata must have equal shape; broadcasting forbidden"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-03",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_fractional_decision_coercion",
+        "guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "decision: one-dimensional original integer metadata required; no float coercion/broadcast"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8B-04",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "id": "repeat_flow_unit_corruption",
+        "frame_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+        },
+        "split_guard": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+        }
+      }
+    },
+    {
+      "original_finding_id": "V8C-01",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "cases": 24,
+        "all_passed": true
+      }
+    },
+    {
+      "original_finding_id": "V8C-02",
+      "status": "FIXED_IN_THIS_PROBE",
+      "evidence": {
+        "cases": 6,
+        "all_passed": true
+      }
+    }
+  ],
+  "probes": [
+    {
+      "id": "control_exact_LEAD_LAG_5M_5M",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        600000000,
+        600000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP5",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        305000000,
+        305000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "control_exact_EARLY_LATE_150S_GAP10",
+      "all_valid": true,
+      "integer_export_schema": true,
+      "maturity_lag_us": [
+        310000000,
+        310000000
+      ],
+      "direct_targets_identical": true
+    },
+    {
+      "id": "repeat_gap10_quality_maturity",
+      "label_valid": true,
+      "maturity_us": 1751331800000000,
+      "required_minimum_us": 1751331800000000
+    },
+    {
+      "id": "repeat_gap10_contraction",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Registered variant exact return_label_start_us changed"
+      }
+    },
+    {
+      "id": "repeat_observed_signal_early",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Signal kind does not match actual observed/predicted availability"
+      }
+    },
+    {
+      "id": "repeat_missing_future_notional",
+      "valid": [
+        false,
+        true
+      ],
+      "first_all_targets_nan": true,
+      "second_targets_exactly_unchanged": true
+    },
+    {
+      "id": "repeat_full_split_boundaries",
+      "control_receipt": {
+        "implementation_version": "V8_LABELS_V5_20261002",
+        "actual_observed_max_label_lag_us": 600000000,
+        "registered_max_label_lag_us": 600000000,
+        "fit_cutoff_us": 1751330100000000,
+        "max_train_label_mature_us": 1751329920000000,
+        "max_validation_label_mature_us": 1751331600000000,
+        "max_test_label_mature_us": 1751332800000000,
+        "counts": {
+          "train": 1,
+          "validation": 1,
+          "test": 1
+        },
+        "integer_development_domain_and_row_alignment_verified": true
+      },
+      "lag_below_actual": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Declared lag smaller than actual observed maximum across splits"
+      },
+      "validation_maturity_at_boundary": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Validation label maturity must precede test minus embargo"
+      }
+    },
+    {
+      "id": "repeat_locked_export_and_split",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "split_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "direct_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision_us: development dates only; locked timestamps forbidden"
+      },
+      "synthetic_metadata_only": true
+    },
+    {
+      "id": "repeat_standalone_lag_broadcast",
+      "guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Timestamp row metadata must have equal shape; broadcasting forbidden"
+      }
+    },
+    {
+      "id": "repeat_fractional_decision_coercion",
+      "guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "decision: one-dimensional original integer metadata required; no float coercion/broadcast"
+      }
+    },
+    {
+      "id": "repeat_flow_unit_corruption",
+      "frame_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+      },
+      "split_guard": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Valid future-flow ratio must stay in [-1,1]; no bps-unit corruption"
+      }
+    }
+  ],
+  "additional_checks": [
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_PAST_ONLY_PREDICTED_FLOW_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_PAST_ONLY_PREDICTED_FLOW_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_PAST_ONLY_PREDICTED_FLOW_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_PAST_ONLY_PREDICTED_FLOW_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_LEAD_LAG_5M_5M_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_PAST_ONLY_PREDICTED_FLOW_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_PAST_ONLY_PREDICTED_FLOW_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_PAST_ONLY_PREDICTED_FLOW_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_PAST_ONLY_PREDICTED_FLOW_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP5_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_PAST_ONLY_PREDICTED_FLOW_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_PAST_ONLY_PREDICTED_FLOW_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_PAST_ONLY_PREDICTED_FLOW_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_PAST_ONLY_PREDICTED_FLOW_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_last_trade_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "last_trade_us",
+        "side": "entry",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_mixed",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "mixed",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          true,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_anchor_EARLY_LATE_150S_GAP10_OBSERVED_FUTURE_FLOW_DIAGNOSTIC_available_us_all_invalid",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "field": "available_us",
+        "side": "exit",
+        "mode": "all_invalid",
+        "accepted": true,
+        "decision_grid_retained": true,
+        "valid": [
+          false,
+          false
+        ],
+        "invalid_targets_nan": true,
+        "invalid_total_and_return_maturity_unknown": true,
+        "anchor_metadata_unknown": true,
+        "valid_rows_unchanged": true,
+        "direct_targets_identical": true,
+        "canonical_layout": true,
+        "integer_schema": true
+      }
+    },
+    {
+      "id": "V5_tail_LEAD_LAG_5M_5M_PAST_ONLY_PREDICTED_FLOW",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "tail_decision_us": 1751332440000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_tail_LEAD_LAG_5M_5M_OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+      "passed": true,
+      "evidence": {
+        "variant": "LEAD_LAG_5M_5M",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "tail_decision_us": 1751332440000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_tail_EARLY_LATE_150S_GAP5_PAST_ONLY_PREDICTED_FLOW",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "tail_decision_us": 1751332740000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_tail_EARLY_LATE_150S_GAP5_OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP5",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "tail_decision_us": 1751332740000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_tail_EARLY_LATE_150S_GAP10_PAST_ONLY_PREDICTED_FLOW",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "PAST_ONLY_PREDICTED_FLOW",
+        "tail_decision_us": 1751332740000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_tail_EARLY_LATE_150S_GAP10_OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+      "passed": true,
+      "evidence": {
+        "variant": "EARLY_LATE_150S_GAP10",
+        "signal_kind": "OBSERVED_FUTURE_FLOW_DIAGNOSTIC",
+        "tail_decision_us": 1751332740000000,
+        "source_closed_end_us": 1751333000000000,
+        "accepted": true,
+        "valid": [
+          true,
+          false
+        ],
+        "earlier_row_unchanged": true,
+        "all_invalid_equals_mixed_tail": true,
+        "decision_grid_retained": true,
+        "known_nominal_end_preserved": true,
+        "unknown_maturity": true,
+        "unknown_missing_exit_anchor": true,
+        "invalid_targets_nan": true,
+        "entirely_missing_future_kept_invalid": true,
+        "direct_targets_identical": true
+      }
+    },
+    {
+      "id": "V5_unknown_future_flow_availability",
+      "passed": true,
+      "evidence": {
+        "accepted": true,
+        "invalid_retained": true,
+        "flow_signal_and_order_unknown": true
+      }
+    },
+    {
+      "id": "V5_unknown_past_availability",
+      "passed": true,
+      "evidence": {
+        "labels": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Feature availability after decision or unknown past source"
+        },
+        "features": {
+          "accepted": false,
+          "exception_type": "ValueError",
+          "exception": "Source availability cannot precede close"
+        }
+      }
+    },
+    {
+      "id": "V5_delayed_flow_signal_maturity",
+      "passed": true,
+      "evidence": {
+        "past_signal_valid": true,
+        "observed_diagnostic_valid": false,
+        "flow_mature_us": 1751330500000000,
+        "earliest_order_us": 1751330505000000,
+        "required_actual_availability_us": 1751330500000000
+      }
+    },
+    {
+      "id": "V5_future_perturbation_no_past_change",
+      "passed": true,
+      "evidence": {
+        "feature_shape": [
+          256,
+          68
+        ],
+        "bit_exact": true,
+        "same_availability": true
+      }
+    },
+    {
+      "id": "V5_active_version_V8_LABELS_V1_20261002",
+      "passed": true,
+      "evidence": {
+        "tag": "V8_LABELS_V1_20261002",
+        "guards": [
+          {
+            "guard": "frame",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "direct",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "split",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V5_active_version_V8_LABELS_V2_20261002",
+      "passed": true,
+      "evidence": {
+        "tag": "V8_LABELS_V2_20261002",
+        "guards": [
+          {
+            "guard": "frame",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "direct",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "split",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V5_active_version_V8_LABELS_V3_20261002",
+      "passed": true,
+      "evidence": {
+        "tag": "V8_LABELS_V3_20261002",
+        "guards": [
+          {
+            "guard": "frame",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "direct",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "split",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V5_active_version_V8_LABELS_V4_20261002",
+      "passed": true,
+      "evidence": {
+        "tag": "V8_LABELS_V4_20261002",
+        "guards": [
+          {
+            "guard": "frame",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "direct",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "split",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V5_active_version_UNKNOWN",
+      "passed": true,
+      "evidence": {
+        "tag": "UNKNOWN",
+        "guards": [
+          {
+            "guard": "frame",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "direct",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          },
+          {
+            "guard": "split",
+            "accepted": false,
+            "exception_type": "ValueError",
+            "exception": "Active V5 implementation required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V5_matched_direct_active_control",
+      "passed": true,
+      "evidence": {
+        "accepted": true
+      }
+    },
+    {
+      "id": "V5_matched_direct_version_V8_LABELS_V3_20261002",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Matched comparison must bind active V5 implementation"
+      }
+    },
+    {
+      "id": "V5_matched_direct_version_V8_LABELS_V4_20261002",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Matched comparison must bind active V5 implementation"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_endpoint_ids",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: endpoint_ids"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_train_ids",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: train_ids"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_validation_ids",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: validation_ids"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_test_ids",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: test_ids"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_dataset_sha256",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: dataset_sha256"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_feature_set_sha256",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: feature_set_sha256"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_protocol_sha256",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: protocol_sha256"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_cost_model_sha256",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: cost_model_sha256"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_position_constraints_sha256",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: position_constraints_sha256"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_decision_frequency_seconds",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: decision_frequency_seconds"
+      }
+    },
+    {
+      "id": "V5_matched_direct_mismatch_label_variant",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Direct baseline mismatch: label_variant"
+      }
+    },
+    {
+      "id": "V5_missing_future_split_rejected",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Unknown or invalid label cannot enter fitting/scored split"
+      }
+    },
+    {
+      "id": "V5_oof_original_units_positive_control",
+      "passed": true,
+      "evidence": {
+        "accepted": true
+      }
+    },
+    {
+      "id": "V5_oof_fit_forecast_id",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF forecast row was fitted by this model"
+      }
+    },
+    {
+      "id": "V5_oof_duplicate_forecast_id",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Duplicate row ID in OOF receipt"
+      }
+    },
+    {
+      "id": "V5_oof_future_forecast_feature",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF prediction uses future features"
+      }
+    },
+    {
+      "id": "V5_oof_immature_fit_label",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF labels immature at fit"
+      }
+    },
+    {
+      "id": "V5_oof_locked_fit_maturity",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF labels immature at fit"
+      }
+    },
+    {
+      "id": "V5_oof_metadata_broadcast",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Aligned nonbroadcast OOF metadata"
+      }
+    },
+    {
+      "id": "V5_oof_fractional_metadata",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF fit cutoff: original integer timestamp required"
+      }
+    },
+    {
+      "id": "V5_oof_cutoff_at_embargo_boundary",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "OOF fit must precede forecast with embargo"
+      }
+    },
+    {
+      "id": "V5_scaler_future_input",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Future/nonfinite scaler fitting inputs"
+      }
+    },
+    {
+      "id": "V5_scaler_validation_id",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Scaler rows must equal declared train IDs"
+      }
+    },
+    {
+      "id": "V5_scaler_broadcast",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Aligned two-dimensional scaler values and one-dimensional row metadata"
+      }
+    },
+    {
+      "id": "V5_scaler_locked",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "scaler fitting availability: development dates only; locked timestamps forbidden"
+      }
+    },
+    {
+      "id": "V5_expectation_immature_target",
+      "passed": true,
+      "evidence": {
+        "accepted": false,
+        "exception_type": "ValueError",
+        "exception": "Expectation target immature at cutoff"
+      }
+    },
+    {
+      "id": "V5_provided_actual_output_bindings",
+      "passed": true,
+      "evidence": {
+        "current_source_hashes_equal_prebound": true,
+        "same_binding_object": true,
+        "RUN_BINDING_sha256": true,
+        "JUnit_sha256": true,
+        "actual_exit_zero": true,
+        "source_unchanged_receipt": true,
+        "lock_sha256": true,
+        "29_actual_testcases": true,
+        "V4_failure_preserved": true,
+        "all_testsuite_binding_properties_exact": true
+      }
+    },
+    {
+      "id": "V5_source_bytes_unchanged",
+      "passed": true,
+      "evidence": {
+        "start": {
+          "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+          "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+          "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+          "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+          "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+          "tests/test_v8_label_contract_v2.py": "534ef6fa127e9c3f108dd5ac2bb0734dade93217e83e7ab1164d153e7536c5af",
+          "tests/test_v8_label_contract_v3.py": "d4708430040ea68fba07d75ff051f0fa23c34ecf48c37b4bfc282a005775cbc4",
+          "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+          "scripts/research_v8/labels_v4.py": "e7ab19a2052bc5ccc63de8c40eac63e8e7a0dacd6c5e7a0c3514a59536e1a3ea",
+          "scripts/research_v8/labels_v5.py": "64772439fa00aa3919799386883fdf38fa05b7675f228a6519775a3009ab7eed",
+          "tests/test_v8_label_contract_v4.py": "062ff4fc242486b9ab6fef6d6b13ef2acb450ee3904f15ffb3c0bd4bcfb3f5a2",
+          "tests/test_v8_label_contract_v5.py": "ca9bf611463a3adbe16a43fdf3002df06de50dcd2ee3bd6b1f5512252817b6a8"
+        },
+        "end": {
+          "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+          "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+          "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+          "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+          "tests/test_v8_label_contract.py": "d6fce2d2ea8c25c43b0e8274a701f4723865d592e43cc0a4ecc81b531e495e4d",
+          "tests/test_v8_label_contract_v2.py": "534ef6fa127e9c3f108dd5ac2bb0734dade93217e83e7ab1164d153e7536c5af",
+          "tests/test_v8_label_contract_v3.py": "d4708430040ea68fba07d75ff051f0fa23c34ecf48c37b4bfc282a005775cbc4",
+          "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+          "scripts/research_v8/labels_v4.py": "e7ab19a2052bc5ccc63de8c40eac63e8e7a0dacd6c5e7a0c3514a59536e1a3ea",
+          "scripts/research_v8/labels_v5.py": "64772439fa00aa3919799386883fdf38fa05b7675f228a6519775a3009ab7eed",
+          "tests/test_v8_label_contract_v4.py": "062ff4fc242486b9ab6fef6d6b13ef2acb450ee3904f15ffb3c0bd4bcfb3f5a2",
+          "tests/test_v8_label_contract_v5.py": "ca9bf611463a3adbe16a43fdf3002df06de50dcd2ee3bd6b1f5512252817b6a8"
+        }
+      }
+    }
+  ],
+  "findings": []
+}
