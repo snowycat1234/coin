@@ -1,0 +1,103 @@
+{
+  "status": "PASS_D037_PRIVATE_DAILY_DOWNLOAD_PARSE_AST_SELECTORS_NO_NETWORK_NO_ROWS",
+  "binding": {
+    "task_id": "0f82852a650d41618c60a2aa917efd90",
+    "source_path": "/mnt/d/codex/coin/scripts/investment/public_daily_official_source_v2.py",
+    "source_sha256": "079bc2ec5cf635afdc9b277aa3dbbc8f2cdaad520537a04b8275d16e49bfa83d",
+    "helper_path": "/mnt/d/codex/coin/.cache/d037_daily_source_selector_smoke_20261003_v2.py",
+    "helper_sha256": "23b7f8f8cb0faabebf93b8cddefba7827a994d091a2e8c0bfcf9d0bd82b23be6"
+  },
+  "resources_before": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 422572032,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "network_requests": 0,
+  "archives_downloaded": 0,
+  "data_rows_read": 0,
+  "old_DB_writes": 0,
+  "models_fit": 0,
+  "orders_sent": 0,
+  "GPU": 0,
+  "locked_consumed": false,
+  "anchors": [
+    {
+      "change": "Spot1d exact URL guard",
+      "matches": 1,
+      "old_ast_sha256": "e1a2ede2d1ce1137ffae59070eca189fc492e1a94cc9a342fdf3407b96d2cf1b",
+      "new_ast_sha256": "235855b0f501cf1b28bd54d406d8f95c412165d2ac2839e059d958f7ae8f642c",
+      "old_statement": "require(url.startswith('https://data.binance.vision/data/futures/um/monthly/'), 'Unexpected upstream URL')",
+      "new_statement": "require(url.startswith('https://data.binance.vision/data/spot/monthly/klines/'), 'Unexpected upstream URL')"
+    },
+    {
+      "change": "Small1d archive bound",
+      "matches": 1,
+      "old_ast_sha256": "3a879c647c5a35c366cfd49138d96a921f87e09b126ea59962876de636694249",
+      "new_ast_sha256": "ad4c0a793f63e81ad87d1371a6fc4471fac37e776bff71ab5d08d14bbc8eb72c",
+      "old_statement": "require(entry['metadata_object_available'] and 0 < entry['announced_zip_bytes'] <= 2000000, 'Required small archive metadata unavailable')",
+      "new_statement": "require(entry['metadata_object_available'] and 0 < entry['announced_zip_bytes'] <= 32768, 'Required small archive metadata unavailable')"
+    },
+    {
+      "change": "Small1d OS write bound",
+      "matches": 1,
+      "old_ast_sha256": "ad397dd78ac766ef06d93cd92cf76c799b89f2760c67b1cfaf7fe1b9665913f7",
+      "new_ast_sha256": "6b2da8d48406b09776339df2b705b1eb02ec712929b581726861c344aaa00fb9",
+      "old_statement": "resource.setrlimit(resource.RLIMIT_FSIZE, (4000000, prior_limit[1]))",
+      "new_statement": "resource.setrlimit(resource.RLIMIT_FSIZE, (32768, prior_limit[1]))"
+    },
+    {
+      "change": "One complete UTC day per daily source row",
+      "matches": 1,
+      "old_ast_sha256": "52fa028ed038680bc457854338d568aa2212ce35a1176de0382d29976584462d",
+      "new_ast_sha256": "44d1e961491cb29586cfe7cb23bf94c475614fdc7f2efbb8c84bbad69a0450b2",
+      "old_statement": "dates = frame.with_columns((pl.col('open_us') // (MINUTE_US * 1440)).alias('day')).group_by('day').len().sort('day')",
+      "new_statement": "dates = frame.with_columns((pl.col('open_us') // MINUTE_US).alias('day')).group_by('day').len().sort('day')"
+    },
+    {
+      "change": "Daily one-row calendar check",
+      "matches": 1,
+      "old_ast_sha256": "334d383dfe7be176974838bdc0b0baf4abc09c3f9bdc44a2eb995c99530e395a",
+      "new_ast_sha256": "967c0d00c7ad3b81410b6bc3ce8de5c08ededb43021cff704c50fe7b3d425c40",
+      "old_statement": "bad_days = [{'date': datetime.fromtimestamp(row[0] * 86400, UTC).date().isoformat(), 'rows': row[1]} for row in dates.iter_rows() if row[1] != 1440]",
+      "new_statement": "bad_days = [{'date': datetime.fromtimestamp(row[0] * 86400, UTC).date().isoformat(), 'rows': row[1]} for row in dates.iter_rows() if row[1] != 1]"
+    },
+    {
+      "change": "Daily interval label only",
+      "matches": 1,
+      "old_ast_sha256": "0e77fa4ad8c12a539577c45cfb76bf0174cec20b3c1d6c7aa3042cb04546a88f",
+      "new_ast_sha256": "3031a6f80946377839589e8920c3a8506e61c804f01e6a3e3ee5de56f307dcac",
+      "old_statement": "frame = frame.sort('open_us').with_columns((pl.col('open_us') + MINUTE_US).alias('close_us'), (pl.col('open_us') + MINUTE_US).alias('available_us'), pl.lit(symbol).alias('symbol'), pl.lit('1m').alias('interval'), pl.lit(ingested_us).alias('ingested_us'), (pl.col('raw_close') * scale).alias('source_close_us'))",
+      "new_statement": "frame = frame.sort('open_us').with_columns((pl.col('open_us') + MINUTE_US).alias('close_us'), (pl.col('open_us') + MINUTE_US).alias('available_us'), pl.lit(symbol).alias('symbol'), pl.lit('1d').alias('interval'), pl.lit(ingested_us).alias('ingested_us'), (pl.col('raw_close') * scale).alias('source_close_us'))"
+    }
+  ],
+  "private_function_names": [
+    "download_archive",
+    "parse_csv"
+  ],
+  "original_minute_globals_unchanged": true,
+  "selected_source_files": {
+    "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+    "scripts/research_v8/funding_price_source_v2.py": "2f39c9803051373654094ee990474b3ebe9b241ef85fa9eb586b9bde92bb4cdb",
+    "scripts/investment/official_carry_chronology_source.py": "889954bb2a6b12d480742cfdde2b01bbdaaf26e28250c8f4eac506acf8380e64",
+    "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+    "docs/archive/V8_OFFICIAL_INPUT_METADATA_SOURCE_20261002_V1.py": "d2e419dcbc05c3a1f71ee147a2ec5307ee49918106a206bc72cb3d19ea15aa5c",
+    "reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json": "8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96",
+    "scripts/investment/public_daily_official_source.py": "2d6a06f1e935ff3c39d39c725c9acfc7304a35eda3023810398972a795b6d650"
+  },
+  "source_bytes_unchanged": true,
+  "elapsed_seconds": 9.402611255005468,
+  "peak_RSS_bytes": 94261248,
+  "resources_after": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 463568896,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

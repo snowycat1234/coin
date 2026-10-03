@@ -1,0 +1,1327 @@
+{
+  "status": "COMPLETE_ACTUAL_PROXY_STRATEGY_SCREENING",
+  "registration_start": {
+    "experiment_id": "D037_PUBLIC_DAILY_547D_20261003_V1",
+    "git_commit": "d8f6c3fbc6df919f1a68e30415df09e0e666b3c5",
+    "data_manifest_hash": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+    "protocol_hash": "dc90c0522df9eecdd0c06810bd767efa158c327bfc8d41945365d97153cd604b",
+    "feature_set": "CLOSED_SPOT_MINUTE_PRICES_AND_31D_PAST_HISTORY_NO_478_CACHE",
+    "labels": "NONE_STRATEGY_LEDGER_COMPARISON",
+    "model_family": "NONE",
+    "hyperparameters": {
+      "per_symbol_cap": 0.3,
+      "max_order_wait_minutes": 5,
+      "participation_rate": 0.001,
+      "min_notional": 10,
+      "latency_minutes": 1,
+      "gross_cap": 0.6,
+      "liquidate_at_end": true,
+      "ETH_lot": 0.0001,
+      "min_vol_days": 20,
+      "execution_timestamp": "exclusive complete-minute signal +1minute +1microsecond",
+      "terminal_inventory": "Residual quantities remain marked at final available close; no assumed free liquidation",
+      "vol_window_days": 30,
+      "initial_cash": 10000,
+      "BTC_lot": 1e-05,
+      "capacity": "previous completed minute quote_volume",
+      "target_annual_vol": 0.1
+    },
+    "seed": "NOT_APPLICABLE_DETERMINISTIC",
+    "thresholds": {
+      "timeframe_minutes": 1440,
+      "channel_period": 20,
+      "SMA_period": 200,
+      "channel_excludes_current": true,
+      "SMA_includes_current_completed_day": true,
+      "long_only": true,
+      "per_symbol_target": 0.3,
+      "fresh_flat_each_scoring_period": true,
+      "warmup_positions": false,
+      "day_close_equals_decision_permitted": true,
+      "daily_availability": "EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED",
+      "missing_policy": "WHOLE_PAIRED_PERIOD_NOT_EVALUABLE_NO_RETROACTIVE_TARGET_ZEROING"
+    },
+    "cost_assumptions": {
+      "spread_bps": [
+        8
+      ],
+      "cost_booking": "Once per fill; buy base fee net receipt at fillmid, sell quote fee; gross order spread/slippage; no fee discount",
+      "slippage_bps_per_side": 4,
+      "fee_bps_per_side": 10,
+      "nominal_roundtrip_bps": [
+        36
+      ]
+    },
+    "all_folds": [
+      {
+        "period_start": "2024-01-01",
+        "id": "CONT547",
+        "period_end_exclusive": "2025-07-01"
+      }
+    ],
+    "success_failure": "START",
+    "reason_for_next_experiment": "Create actual fair simple-strategy net-return/risk/cost comparison before new model research",
+    "result_influenced_later_choice": false,
+    "event_id": "D037_PUBLIC_DAILY_547D_20261003_V1:START",
+    "event_type": "OPERATIONAL_START",
+    "source_hashes": {
+      "docs/archive/PUBLIC_DAILY_SOURCE_PROTOCOL_FREEZER_20261003_V3.ps1": "bfea78d0867eecd948f64dcbfb494fb8938f867b03c535d2dc5b06c8ad192a24",
+      "docs/archive/PUBLIC_DONCHIAN_DAILY_RESEARCH_FREEZER_20261003_V1.py": "729abf18b4817cd34c7e42b39f79930ac364d50c20fe8caf20efab195cad22bd",
+      "docs/archive/V8_OFFICIAL_INPUT_METADATA_SOURCE_20261002_V1.py": "d2e419dcbc05c3a1f71ee147a2ec5307ee49918106a206bc72cb3d19ea15aa5c",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+      "protocols/BYBIT_SPOT_2H_122D_V2.json": "11a667b18ec6c3f779214c28fc0bcfe805319ee8b89e62097f6ee3aa52659192",
+      "protocols/BYBIT_SPOT_2H_90D_V2.json": "8505eec0f6406d7725962856455e3dfdbefda6139503f5e2d7856443383ca457",
+      "protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V1.json": "d263b3c88f9c3a436d758ce3031034845748f61c9e56d9f29899fd133328cc4c",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V2.json": "f3abd4269968eece1b98ab07b57fb0124d2a5a91c1b352246a29a76807f77eb9",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V3.json": "2a6858c6d53176106135e10ef5396ffb06a0dd4b9e2901f949bf203bf8239e24",
+      "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d",
+      "reports/fast_research/BYBIT_SPOT_2H_122D_ACTUAL_20261002_V2.json": "53447ac3722829cb5c4db12f5b469b100edb20c05bbb6e9c83f29bce5138bee3",
+      "reports/fast_research/BYBIT_SPOT_2H_90D_ACTUAL_20261002_V2.json": "329f9f923ed4fd8223e2e267a200c2e67036c8ce4f82a7fef0027efdd3b7960a",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V1.json": "466370ceae3cd5386e75779c8ff510c86c639bbb40b25178cb289fc1fbe88de2",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V2.json": "46f7966a9b79b15f02fad5dabcf5b62511c2423f9e35405203bb45fb33516c1f",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V3.json": "2b233c0776d7040bbcd6b6055c17e83c8b13845ffb5d126e8fe21c89278b2c2e",
+      "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ACTUAL_20261003_V2.json": "3fb29968d533e90c2d1764d15b3bce3873ef2ad9784330fe838512824dd95167",
+      "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ROOT_BINDING_20261003_V1.json": "58c0f265c6d22ca7dc9d85f8c3047ecd989e9fdc23a95ff58af2a08f363c1a62",
+      "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+      "reports/fast_research/PUBLIC_STRATEGY_CHRONOLOGY_SOURCE_REUSE_20261002_V1.json": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json": "8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+      "scripts/investment/compare_simple_strategies.py": "3dfa0e3176791980de51e5bc990b1998f93eb24c02bdc1261a074eab92fb52f1",
+      "scripts/investment/official_carry_chronology_source.py": "889954bb2a6b12d480742cfdde2b01bbdaaf26e28250c8f4eac506acf8380e64",
+      "scripts/investment/public_daily_official_source.py": "2d6a06f1e935ff3c39d39c725c9acfc7304a35eda3023810398972a795b6d650",
+      "scripts/investment/public_daily_official_source_v2.py": "079bc2ec5cf635afdc9b277aa3dbbc8f2cdaad520537a04b8275d16e49bfa83d",
+      "scripts/investment/public_daily_official_source_v3.py": "dd058c092a4cee20b25e31650a1429dda78fdbf76e298cab3f45fba22ef81099",
+      "scripts/investment/public_donchian_daily.py": "82796e9dac68089a24a6d4bd61c561672043e446c806cbe87a6737a459d35c4a",
+      "scripts/investment/public_donchian_daily_runner.py": "5459b231c340a705c4c136cd3923ecc0b510205f7f81c8c36a4ea021b97b41d9",
+      "scripts/investment/public_donchian_daily_runner_v2.py": "7b3ad9c67e993f9065ec83b9bcfab3aeb2c23af88c497d2f3328146f97b784c6",
+      "scripts/investment/public_donchian_hybrid.py": "80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68",
+      "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/funding_price_source_v2.py": "2f39c9803051373654094ee990474b3ebe9b241ef85fa9eb586b9bde92bb4cdb",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "src/quant/__init__.py": "4fd9812a88d3a52864934777a9ce06f4a17d0486149a399df5fed41443b11273",
+      "src/quant/__main__.py": "87b769cbd4da2c68c8681691cf8251364f9a65d5d14589af9949afbee4f42f37",
+      "src/quant/acceptance.py": "429cd31970d9b237772fc0c6faadf112f3cc815621560a2f93c2f48aebc73ef6",
+      "src/quant/alpha_rules_v2.py": "2c0ef2a4827ca5539e1aef07e406badc19f6645c89416612961e865e3355e2c9",
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/baselines_v2.py": "289ff658380ab0f15d8ad8cb259ef88a04f59b1c704c4a464e3430ef5d0df1fb",
+      "src/quant/candidate_paper.py": "dee9bde3671a20bf23112a4c9955db9417abad172534b4c1508714d1955daff7",
+      "src/quant/candidate_storage.py": "d3a105f5c8ccaee26f074e223fcf7dd9ff7dbdc317091204dfe1dbfc9011b27a",
+      "src/quant/candidate_strategy.py": "0fa4a516e83b95deec4e10e3c7ff04052ec843e36df30f23c5a96112c15ff717",
+      "src/quant/cli_candidate.py": "169f3aee75bb1c68e6a3e937ac7dfcdaaf8ded73a536ecf19bc27491d2477143",
+      "src/quant/cli_research_v2.py": "93e97fd30f0db5d0a22a0245b811e9d14c2f45b8933ce6c3eeb1c1c23995ded8",
+      "src/quant/cli_testnet.py": "38709b0e04c0b782d5c4830c87de9d1490992d46b64ff9d51ef4efd699b7cd3e",
+      "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+      "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+      "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution_parity.py": "cb4b0bc2f64775153113d79eb14b04f0af2359f438d7655970e24d822b9337ed",
+      "src/quant/features_v2.py": "797c5b1513fb5bdafa7282bf6b4f78bb3479f395ef9ba3d93de0f950cf80d6e2",
+      "src/quant/forward_report.py": "3797f38b2bcc165c9ab615521307aec4b3a7037d2d0d3e3502daf761abebc32f",
+      "src/quant/hold_acceptance.py": "70a8b785cfa42f49e6bb9e7c1e318b7041580d8ffb7412bea6596cbcfe366b61",
+      "src/quant/holdout.py": "f6687d0fee70cb7d33446ec0e54e07aed48aa5a934f916de65a6bd97bce19c6c",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/micro_features_v2.py": "d48909161fad4e4d46789081998d88deecb3f0abcfa48052d07f98a09af6fa28",
+      "src/quant/microstructure.py": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "src/quant/microstructure_acceptance.py": "0f62cc7cac7a30fe6c05d45cdc4f3a97f8a27384f7e1d8b80f2ca905fd154a48",
+      "src/quant/microstructure_v2.py": "553e96bb59fd0bc121c91a6df477eafe4cdc08186a0bd683ee29a124472adddf",
+      "src/quant/operations.py": "d416119b05913d657702e113f9535cc1970431fa82c09c915c164a4f4e426d7c",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/policy_acceptance.py": "176ac160b52487298a6ab2e33df1eb7b6b76ecd1be1d3de720fe5c25369cf24c",
+      "src/quant/predictor.py": "50497620d5d649d7eb0ebe0a424f93053f5c4574a5c846e20ac51c9f4e3c7ff1",
+      "src/quant/replay.py": "bb83d8236ff7fa4c5a8790570f1cac119e8ee6f4cb1324902d46a613b64d2c72",
+      "src/quant/research.py": "cc4db6356d0340882086d32e570e1be678dd059c8a93c45f1a882f85ad9b5e42",
+      "src/quant/research_v2.py": "a1a60e7beb9fe49647760f1bad53440c88b2e0280b10e2af3a23e9d85ed959e8",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/runtime.py": "3b3348963a89b5526574e30b3e5452442ef25ac2d1fc3dcb9a32ba916185137d",
+      "src/quant/runtime_v2.py": "425436765bb5cb5277630aca994dc6ebe12b93bc82b9621555e36359bdd2cb74",
+      "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+      "src/quant/shadow_v2.py": "59d100e725f78e001ded8f51114a464b650d6a5499749004f7d4c1f59ef82eb8",
+      "src/quant/testnet.py": "f1adf9ace7c67d203e403f0af87e6f1d4a5c81d58ceee1a2569ace25706f8044",
+      "src/quant/testnet_runtime.py": "30c9e1a5f67d539565bc1394c2070d98551d7ba9b07841278459b01d6a325c6f",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "tests/test_investment_bybit_pipeline.py": "412d0638a48673fc1d0209a9e70cbbcf50d6b2d1252f0f813ff7465c0f90418c",
+      "tests/test_public_donchian_daily.py": "d0e6c99770ac106b65284280bff1e4bc9f06dfbf7080dc7f115e67c7df2ec497",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "protocols/PUBLIC_DONCHIAN_DAILY_CONT547_20261003_V1.json": "dc90c0522df9eecdd0c06810bd767efa158c327bfc8d41945365d97153cd604b"
+    },
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/public_donchian_daily_runner_v2.py --protocol /mnt/d/codex/coin/protocols/PUBLIC_DONCHIAN_DAILY_CONT547_20261003_V1.json --research --experiment-id D037_PUBLIC_DAILY_547D_20261003_V1 --run-dir /home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1 --output /mnt/d/codex/coin/reports/fast_research/PUBLIC_DONCHIAN_DAILY_547D_ACTUAL_20261003_V1.json",
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "run_binding_sha256": "c26283d15df62ea03d9cc5f0632a35d83b16f4afb257df2eac73e7cefe56424b",
+    "market_models_fit": 0,
+    "created_utc": "2026-10-03T00:02:14.233690+00:00",
+    "previous_record_sha256": "281943c6886b8982e620d8aa8a44cfb935436acef35dbc563d4f783b50064641",
+    "record_sha256": "4bc4abeae932b43e4664376a9958745e8888ee9175e6e43857dde425e86c695a"
+  },
+  "binding": {
+    "git_commit": "d8f6c3fbc6df919f1a68e30415df09e0e666b3c5",
+    "source_hashes": {
+      "docs/archive/PUBLIC_DAILY_SOURCE_PROTOCOL_FREEZER_20261003_V3.ps1": "bfea78d0867eecd948f64dcbfb494fb8938f867b03c535d2dc5b06c8ad192a24",
+      "docs/archive/PUBLIC_DONCHIAN_DAILY_RESEARCH_FREEZER_20261003_V1.py": "729abf18b4817cd34c7e42b39f79930ac364d50c20fe8caf20efab195cad22bd",
+      "docs/archive/V8_OFFICIAL_INPUT_METADATA_SOURCE_20261002_V1.py": "d2e419dcbc05c3a1f71ee147a2ec5307ee49918106a206bc72cb3d19ea15aa5c",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "protocols/BENCHMARK_CONTRACT_V1.json": "67b393247410420324f9382d9838f51050c0affde8a13b1f13d1e062ccd9ac9d",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+      "protocols/BYBIT_SPOT_2H_122D_V2.json": "11a667b18ec6c3f779214c28fc0bcfe805319ee8b89e62097f6ee3aa52659192",
+      "protocols/BYBIT_SPOT_2H_90D_V2.json": "8505eec0f6406d7725962856455e3dfdbefda6139503f5e2d7856443383ca457",
+      "protocols/BYBIT_SPOT_RECEIVED_ASSET_ADAPTER_V1.json": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+      "protocols/EXECUTION_COST_SCENARIOS_V8.json": "f0c0ba5d154ceca1c1f9f4bd209679e4866c1ed36e874fcd6656ea1d0177c678",
+      "protocols/LABEL_CONTRACT_V8.json": "4de017bc8528f0b264318f309c83acc0267eb8b5de2ca894746da0965e474d47",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V1.json": "d263b3c88f9c3a436d758ce3031034845748f61c9e56d9f29899fd133328cc4c",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V2.json": "f3abd4269968eece1b98ab07b57fb0124d2a5a91c1b352246a29a76807f77eb9",
+      "protocols/PUBLIC_DONCHIAN_DAILY_SOURCE_20261003_V3.json": "2a6858c6d53176106135e10ef5396ffb06a0dd4b9e2901f949bf203bf8239e24",
+      "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d",
+      "reports/fast_research/BYBIT_SPOT_2H_122D_ACTUAL_20261002_V2.json": "53447ac3722829cb5c4db12f5b469b100edb20c05bbb6e9c83f29bce5138bee3",
+      "reports/fast_research/BYBIT_SPOT_2H_90D_ACTUAL_20261002_V2.json": "329f9f923ed4fd8223e2e267a200c2e67036c8ce4f82a7fef0027efdd3b7960a",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V1.json": "466370ceae3cd5386e75779c8ff510c86c639bbb40b25178cb289fc1fbe88de2",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V2.json": "46f7966a9b79b15f02fad5dabcf5b62511c2423f9e35405203bb45fb33516c1f",
+      "reports/fast_research/PUBLIC_DAILY_OFFICIAL_SOURCE_SELECTOR_SMOKE_20261003_V3.json": "2b233c0776d7040bbcd6b6055c17e83c8b13845ffb5d126e8fe21c89278b2c2e",
+      "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ACTUAL_20261003_V2.json": "3fb29968d533e90c2d1764d15b3bce3873ef2ad9784330fe838512824dd95167",
+      "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ROOT_BINDING_20261003_V1.json": "58c0f265c6d22ca7dc9d85f8c3047ecd989e9fdc23a95ff58af2a08f363c1a62",
+      "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+      "reports/fast_research/PUBLIC_STRATEGY_CHRONOLOGY_SOURCE_REUSE_20261002_V1.json": "388d3be0611c038df2f955a88c5be822e17d6cbda5f265fdef101f6abe23d8a2",
+      "reports/fast_research/V8_EXISTING_FROZEN_SPOT_MINUTE_SOURCE_REUSE_20261002_V1.json": "a8b5389eced2ae4d9742d3e212e88562ca7bcc879990f3fa2b9632ebfdf1552e",
+      "reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json": "8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96",
+      "scripts/investment/bulk_fixed_targets.py": "d750b99449cba479544a6003d455bedba2776959c48c09342252828ef413d58f",
+      "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+      "scripts/investment/compare_simple_strategies.py": "3dfa0e3176791980de51e5bc990b1998f93eb24c02bdc1261a074eab92fb52f1",
+      "scripts/investment/official_carry_chronology_source.py": "889954bb2a6b12d480742cfdde2b01bbdaaf26e28250c8f4eac506acf8380e64",
+      "scripts/investment/public_daily_official_source.py": "2d6a06f1e935ff3c39d39c725c9acfc7304a35eda3023810398972a795b6d650",
+      "scripts/investment/public_daily_official_source_v2.py": "079bc2ec5cf635afdc9b277aa3dbbc8f2cdaad520537a04b8275d16e49bfa83d",
+      "scripts/investment/public_daily_official_source_v3.py": "dd058c092a4cee20b25e31650a1429dda78fdbf76e298cab3f45fba22ef81099",
+      "scripts/investment/public_donchian_daily.py": "82796e9dac68089a24a6d4bd61c561672043e446c806cbe87a6737a459d35c4a",
+      "scripts/investment/public_donchian_daily_runner.py": "5459b231c340a705c4c136cd3923ecc0b510205f7f81c8c36a4ea021b97b41d9",
+      "scripts/investment/public_donchian_daily_runner_v2.py": "7b3ad9c67e993f9065ec83b9bcfab3aeb2c23af88c497d2f3328146f97b784c6",
+      "scripts/investment/public_donchian_hybrid.py": "80e4b24319becacefb0d6c9551473e3d4214cf3167ae45f5ac8ff7f559c27d68",
+      "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+      "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+      "scripts/research_v8/benchmark_targets.py": "cb3158116494c41b6649f80dc4013b3c1ff9e495773b3ae298d9d5b6e9d46652",
+      "scripts/research_v8/benchmark_targets_v2.py": "72235137633847101af57e658f8a50ea50494e1a63de663784754d72fef81a82",
+      "scripts/research_v8/funding_price_source_v2.py": "2f39c9803051373654094ee990474b3ebe9b241ef85fa9eb586b9bde92bb4cdb",
+      "scripts/research_v8/labels.py": "8adf08149a7c5cb4a4f9e9732c4ce74ad99d3bc2cf990f2c41f0ff9c8c275cde",
+      "scripts/research_v8/labels_v2.py": "5cefddec4a5c4e7508139a59a539d7aa3fdfc802eb7dfe67f20ecd2b35fc0c78",
+      "scripts/research_v8/labels_v3.py": "cedc8fff7cca288bb318b272e3718ac9cb1df6edc6be924e6112d1af9cb5d078",
+      "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+      "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+      "src/quant/__init__.py": "4fd9812a88d3a52864934777a9ce06f4a17d0486149a399df5fed41443b11273",
+      "src/quant/__main__.py": "87b769cbd4da2c68c8681691cf8251364f9a65d5d14589af9949afbee4f42f37",
+      "src/quant/acceptance.py": "429cd31970d9b237772fc0c6faadf112f3cc815621560a2f93c2f48aebc73ef6",
+      "src/quant/alpha_rules_v2.py": "2c0ef2a4827ca5539e1aef07e406badc19f6645c89416612961e865e3355e2c9",
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/baselines_v2.py": "289ff658380ab0f15d8ad8cb259ef88a04f59b1c704c4a464e3430ef5d0df1fb",
+      "src/quant/candidate_paper.py": "dee9bde3671a20bf23112a4c9955db9417abad172534b4c1508714d1955daff7",
+      "src/quant/candidate_storage.py": "d3a105f5c8ccaee26f074e223fcf7dd9ff7dbdc317091204dfe1dbfc9011b27a",
+      "src/quant/candidate_strategy.py": "0fa4a516e83b95deec4e10e3c7ff04052ec843e36df30f23c5a96112c15ff717",
+      "src/quant/cli_candidate.py": "169f3aee75bb1c68e6a3e937ac7dfcdaaf8ded73a536ecf19bc27491d2477143",
+      "src/quant/cli_research_v2.py": "93e97fd30f0db5d0a22a0245b811e9d14c2f45b8933ce6c3eeb1c1c23995ded8",
+      "src/quant/cli_testnet.py": "38709b0e04c0b782d5c4830c87de9d1490992d46b64ff9d51ef4efd699b7cd3e",
+      "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+      "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+      "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+      "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+      "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+      "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution_parity.py": "cb4b0bc2f64775153113d79eb14b04f0af2359f438d7655970e24d822b9337ed",
+      "src/quant/features_v2.py": "797c5b1513fb5bdafa7282bf6b4f78bb3479f395ef9ba3d93de0f950cf80d6e2",
+      "src/quant/forward_report.py": "3797f38b2bcc165c9ab615521307aec4b3a7037d2d0d3e3502daf761abebc32f",
+      "src/quant/hold_acceptance.py": "70a8b785cfa42f49e6bb9e7c1e318b7041580d8ffb7412bea6596cbcfe366b61",
+      "src/quant/holdout.py": "f6687d0fee70cb7d33446ec0e54e07aed48aa5a934f916de65a6bd97bce19c6c",
+      "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+      "src/quant/micro_features_v2.py": "d48909161fad4e4d46789081998d88deecb3f0abcfa48052d07f98a09af6fa28",
+      "src/quant/microstructure.py": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "src/quant/microstructure_acceptance.py": "0f62cc7cac7a30fe6c05d45cdc4f3a97f8a27384f7e1d8b80f2ca905fd154a48",
+      "src/quant/microstructure_v2.py": "553e96bb59fd0bc121c91a6df477eafe4cdc08186a0bd683ee29a124472adddf",
+      "src/quant/operations.py": "d416119b05913d657702e113f9535cc1970431fa82c09c915c164a4f4e426d7c",
+      "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+      "src/quant/policy_acceptance.py": "176ac160b52487298a6ab2e33df1eb7b6b76ecd1be1d3de720fe5c25369cf24c",
+      "src/quant/predictor.py": "50497620d5d649d7eb0ebe0a424f93053f5c4574a5c846e20ac51c9f4e3c7ff1",
+      "src/quant/replay.py": "bb83d8236ff7fa4c5a8790570f1cac119e8ee6f4cb1324902d46a613b64d2c72",
+      "src/quant/research.py": "cc4db6356d0340882086d32e570e1be678dd059c8a93c45f1a882f85ad9b5e42",
+      "src/quant/research_v2.py": "a1a60e7beb9fe49647760f1bad53440c88b2e0280b10e2af3a23e9d85ed959e8",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "src/quant/runtime.py": "3b3348963a89b5526574e30b3e5452442ef25ac2d1fc3dcb9a32ba916185137d",
+      "src/quant/runtime_v2.py": "425436765bb5cb5277630aca994dc6ebe12b93bc82b9621555e36359bdd2cb74",
+      "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+      "src/quant/shadow_v2.py": "59d100e725f78e001ded8f51114a464b650d6a5499749004f7d4c1f59ef82eb8",
+      "src/quant/testnet.py": "f1adf9ace7c67d203e403f0af87e6f1d4a5c81d58ceee1a2569ace25706f8044",
+      "src/quant/testnet_runtime.py": "30c9e1a5f67d539565bc1394c2070d98551d7ba9b07841278459b01d6a325c6f",
+      "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+      "tests/test_investment_bybit_pipeline.py": "412d0638a48673fc1d0209a9e70cbbcf50d6b2d1252f0f813ff7465c0f90418c",
+      "tests/test_public_donchian_daily.py": "d0e6c99770ac106b65284280bff1e4bc9f06dfbf7080dc7f115e67c7df2ec497",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "protocols/PUBLIC_DONCHIAN_DAILY_CONT547_20261003_V1.json": "dc90c0522df9eecdd0c06810bd767efa158c327bfc8d41945365d97153cd604b"
+    },
+    "protocol_sha256": "dc90c0522df9eecdd0c06810bd767efa158c327bfc8d41945365d97153cd604b",
+    "exact_command": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python /mnt/d/codex/coin/scripts/investment/public_donchian_daily_runner_v2.py --protocol /mnt/d/codex/coin/protocols/PUBLIC_DONCHIAN_DAILY_CONT547_20261003_V1.json --research --experiment-id D037_PUBLIC_DAILY_547D_20261003_V1 --run-dir /home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1 --output /mnt/d/codex/coin/reports/fast_research/PUBLIC_DONCHIAN_DAILY_547D_ACTUAL_20261003_V1.json",
+    "exact_test_command": null,
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "sys_prefix": "/home/xflops/coin-state/v8-clean-env-20261002-v2",
+    "python": "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+    "all_folds": [
+      {
+        "period_start": "2024-01-01",
+        "id": "CONT547",
+        "period_end_exclusive": "2025-07-01"
+      }
+    ],
+    "strategies": [
+      "COIN_JESSE_DONCHIAN_1D_SPOT_ADAPTER"
+    ],
+    "planned_ledgers": 1,
+    "data_scope": "ACCEPTED_DEVELOPMENT_HISTORICAL_SCREENING_NOT_UNSEEN",
+    "task_id": "6b3d5481cd204d9898ef4a1b769badc0",
+    "fits": 0,
+    "seed": "NOT_APPLICABLE_DETERMINISTIC"
+  },
+  "run_dir": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1",
+  "run_binding_sha256": "c26283d15df62ea03d9cc5f0632a35d83b16f4afb257df2eac73e7cefe56424b",
+  "folds": [
+    {
+      "fold": "CONT547",
+      "start_us": 1704067200000000,
+      "end_us": 1751328000000000,
+      "days": 547,
+      "results": [
+        {
+          "strategy": "COIN_JESSE_DONCHIAN_1D_SPOT_ADAPTER",
+          "spread_bps": 8,
+          "nominal_roundtrip_bps": 36,
+          "summary": {
+            "days": 547,
+            "initial_nav": 10000.0,
+            "final_nav": 10577.024119921525,
+            "total_return": 0.057702411992152536,
+            "annual_return": 0.03814299189680792,
+            "annual_volatility": 0.08678012360699583,
+            "sharpe": 0.4746633119895764,
+            "max_drawdown": 0.12593020733781402,
+            "fees": 45.30874757468912,
+            "execution_costs": 36.261705971278346,
+            "turnover": 4.333523810350439,
+            "start_utc": "2024-01-01T00:00:00+00:00",
+            "end_utc": "2025-07-01T00:00:00+00:00",
+            "execution_contract_version": "execution_v2",
+            "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+            "canonical_latency": true,
+            "trade_count": 48,
+            "round_trip_count": 0,
+            "open_positions": {
+              "BTCUSDT": 8.909999999996525e-06,
+              "ETHUSDT": 8.1600000000015e-05
+            },
+            "gap_blocks": 0,
+            "capacity_limits": 14,
+            "expired_orders": 0,
+            "dust_orders": 49,
+            "valuation_gap_days": 0,
+            "exposed_valuation_gap_days": 0,
+            "daily_risk_observable": true,
+            "drawdown_basis": "UTC_daily_observed_NAV",
+            "warmup_signals": 0,
+            "max_observed_weight": 0.24639096423354329,
+            "max_observed_gross": 0.2668892445480583,
+            "cost_rate_one_way_bps": 18.0,
+            "gross_pnl_before_costs": 658.5945734674928,
+            "fee_settlement_version": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+            "bybit_fee_profile_sha256": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+            "derived_AST_SHA256": "39ffd9142be81285b3a6b460c73b1c7799c7621a1c34a2f1faa845d290608b73",
+            "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+            "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+            "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+            "fill_time_cost_addback_pnl_diagnostic": 658.5945734674928,
+            "old_execution_contract_binding_scope": "TIMING_AND_ORIGINAL_RISK_SOURCE_NEW_FEE_SETTLEMENT_ID_SEPARATE",
+            "native_bybit_market_execution_proven": false,
+            "candidate_qualification_allowed": false,
+            "net_cash_PnL": 577.0241199215252,
+            "gross_cash_PnL_same_quantities": 658.5945734674928,
+            "period_days": 547,
+            "period_net_return": 0.057702411992152536,
+            "period_descriptive_net_CAGR": 0.03814299189680792,
+            "annualized_return_is_descriptive_only": true,
+            "max_observed_minute_MDD": 0.13378820193737484,
+            "spread_cost": 18.130852985639173,
+            "slippage_cost": 18.130852985639173,
+            "actual_two_sided_mid_notional": 45327.1324641,
+            "break_even_roundtrip_cost_bps": 290.5961783437824,
+            "max_minute_marked_gross_weight": 0.3206607172738683,
+            "minimum_marked_cash": 7570.046431247431,
+            "terminal_marked_notional": 1.1574896669996648,
+            "terminal_positions_flat": false,
+            "max_minute_BTC_weight": 0.27945137264354,
+            "max_minute_ETH_weight": 0.16597497118671287,
+            "top1_day_positive_gross_PnL_share": 0.029384689992994702,
+            "evaluation_status": "MINUTE_PROXY_SCREENING_MARKED_TERMINAL_RESIDUALS",
+            "real_BBO": false,
+            "capacity_proven": false,
+            "net_long_term_CAGR_proven": false,
+            "short_window_annualization_is_descriptive_only": true,
+            "same_quantity_gross_minus_cost_equals_net": true,
+            "gross_reference_quantity_semantics": "NET_RECEIVED_BUYS_AND_GROSS_SELLS_MATCH_ACTUAL_INVENTORY",
+            "fee_valuation": "BASE_FEE_MARKED_AT_FILL_MID;_QUOTE_SELL_FEE_ALREADY_USDT",
+            "fee_cash_and_inventory_changes_native_rule": true,
+            "data_venue": "Binance",
+            "fee_reference_venue": "Bybit",
+            "native_Bybit_market_or_filters_proven": false
+          },
+          "directory": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1/CONT547-COIN_JESSE_DONCHIAN_1D_SPOT_ADAPTER/spread8",
+          "artifacts": {
+            "config_and_summary.json": {
+              "sha256": "f499dcd9c5b2ba06902fe56ac599a8da0bd5a7332442732da528fa1f0eac5887",
+              "bytes": 2698
+            },
+            "orders.parquet": {
+              "sha256": "e5a92de9f660bf3a742e532b951b540058ebd95871777871a18b4e15e77e1647",
+              "bytes": 7277
+            },
+            "trades.parquet": {
+              "sha256": "79abd2faec6fa4b51bdb1223dd61e51b237abc54d4a7f1c464a96dc41ba11560",
+              "bytes": 14899
+            },
+            "daily_nav.parquet": {
+              "sha256": "84ecdb285e0ab602f2f632e6d53310ce9de3f4ea802dd994d098884647b108cc",
+              "bytes": 17273
+            },
+            "round_trips.parquet": {
+              "sha256": "451928ecb8f08eb6c3b5e91683408f24a7761d784dee9144901a69e286059f21",
+              "bytes": 588
+            },
+            "minute_nav_inventory.parquet": {
+              "sha256": "be89a16c7e0d2e94ffa570c6a25af54fe5bb6267843de76991642c320733742a",
+              "bytes": 26643563
+            }
+          }
+        }
+      ],
+      "minute_input_path": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1/CONT547-minute-input.arrow",
+      "minute_input_sha256": "10f2d8a5524e6e807693418a7b34643bb38a1b8bf7cfaa3af860eeca60c71628",
+      "minute_input_format": "IMMUTABLE_ARROW_IPC_FILE_READ_BEFORE_SIGNALS_AND_EXECUTION",
+      "daily_signal_source": {
+        "source_receipt": {
+          "path": "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ACTUAL_20261003_V2.json",
+          "sha256": "3fb29968d533e90c2d1764d15b3bce3873ef2ad9784330fe838512824dd95167",
+          "required_status": "PASS_D037_OFFICIAL_SPOT_DAILY_SOURCE_FORMAT_AND_CALENDAR_ONLY"
+        },
+        "selected_sources": [
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-06/source.parquet",
+            "normalized_sha256": "881c0b2a2768e86731f265beca18c2e27689aad7fb13aadd22481e002dbe0b42",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-06/source.parquet",
+            "normalized_sha256": "830caba861004d2ec84041e680835796d98634219326e18193216ad58d6b1da6",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-07",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-07/source.parquet",
+            "normalized_sha256": "b8d32b2774a0d1b39d75df0c0ebaa0fc00bb5bcb4b2bf03890dd0bfb22479346",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-07",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-07/source.parquet",
+            "normalized_sha256": "310bc4909848e76e7ee025fd56c446a63f4ef065433b13e1057afa5663fd17b2",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-08",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-08/source.parquet",
+            "normalized_sha256": "f81ac5e46812ec6692c33521ee27cf41b0192452d189aebb098e1ffb328d1243",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-08",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-08/source.parquet",
+            "normalized_sha256": "0271894a3ec7ccd122912c35437855766857f77543f63585f05bb1177fc7e49c",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-09",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-09/source.parquet",
+            "normalized_sha256": "ac86d458e0e132821efbd40ba3c417954268d9a7116dd07dbb3f53acc1c07493",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-09",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-09/source.parquet",
+            "normalized_sha256": "66be2949d8c2ce9b665e9df2e9362e8bfa0dd70f30a4a91f0a04e53d589f0563",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-10",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-10/source.parquet",
+            "normalized_sha256": "3ffd82298925e751695031fbcfa924173275ffc1c6eaf136a3bc9c109ed3e7c4",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-10",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-10/source.parquet",
+            "normalized_sha256": "123ca1bd62de38bc94b4c666537b5b0f7345de0bed898eb9a10adcbaab3ec255",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-11",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-11/source.parquet",
+            "normalized_sha256": "546dbd7e9a946e90f4ac7d9a14a2e51c9525419476dc7f0dcb879b830660d439",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-11",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-11/source.parquet",
+            "normalized_sha256": "28c32f157eb6c1a1144d0798b36116bba0b0aa4e7c8b779ee65b4f68572a7562",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2023-12",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2023-12/source.parquet",
+            "normalized_sha256": "76319c34f5ea402d2ee0c158617356229f6e2b72dcc176cc07bf69dae7ff6a68",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2023-12",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2023-12/source.parquet",
+            "normalized_sha256": "1678abafd0650d4a6945bb38b039a17d0a721edf201a20b7fa985640a70a8bc4",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-01",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-01/source.parquet",
+            "normalized_sha256": "ae09363ecabb4550e23f11c0c319f40b9e2eb886e7616b416dff295cfd76d192",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-01",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-01/source.parquet",
+            "normalized_sha256": "ca4613df60aff2a8d6dc23dde9d5d30c42883804cd787ee9d944fb57f48ae074",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-02",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-02/source.parquet",
+            "normalized_sha256": "1eac270e2421f514cfd038f3b7ce74461e3e4a12a47b37d6e3cf490b562535db",
+            "rows": 29
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-02",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-02/source.parquet",
+            "normalized_sha256": "e15890bc3e6e814a77c56ecd9037c0d775e5cfd27bf115ce1bffe6696efdb3ff",
+            "rows": 29
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-03",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-03/source.parquet",
+            "normalized_sha256": "cc5f9d9dc670c0c22aec1f9116aa22b5c596b8100b01676967d8ccdc8b043ed0",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-03",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-03/source.parquet",
+            "normalized_sha256": "786cff16d0dda328642b2ba094e91d8062ff070dfa60ff85b484be231a7a9fd9",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-04",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-04/source.parquet",
+            "normalized_sha256": "979c110de61180a26c5a33c0ce4481b4204409ccc198894024c9666d9c61b402",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-04",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-04/source.parquet",
+            "normalized_sha256": "0efa818307048b754e1a1bae3abd222fb57553776155a638e59f7db091aff035",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-05",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-05/source.parquet",
+            "normalized_sha256": "15f23e5db16f97a1f8403622e35614d10d8339d50974a259d259f443daced3d6",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-05",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-05/source.parquet",
+            "normalized_sha256": "e6ce137e467eb41258cf214ecddbc7f7ad4829f52001d30f185ca8971e4f3eca",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-06/source.parquet",
+            "normalized_sha256": "9c2c4be9e3a72178873768b3ac2178995c30796adda3e1a684a21bcf33c9508f",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-06/source.parquet",
+            "normalized_sha256": "fe067733a3d83f0b8b76448407de0c27d752dac518969e493b1b3cbf58d06a7b",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-07",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-07/source.parquet",
+            "normalized_sha256": "dfca7e47ddc699fd14c366e074af893d760d5fdc0a60336fd9ca1d61923b7e20",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-07",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-07/source.parquet",
+            "normalized_sha256": "c1ad22a3fe65a742c0c29e859c7cdf8be06c959319721571abe98a74907c5e9c",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-08",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-08/source.parquet",
+            "normalized_sha256": "0fd9495968230f59001e3281e8eaecbc4af84d124df85fcbf675669ccfb4c23b",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-08",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-08/source.parquet",
+            "normalized_sha256": "7d2ee2ff855dc74f3512b089fedc630b35e3d031aaf2ea03e24d2df89330d71b",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-09",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-09/source.parquet",
+            "normalized_sha256": "716857f78c15cf52d94073764c513e49878ea47374529e9612b86ee2b0fc3b5b",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-09",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-09/source.parquet",
+            "normalized_sha256": "83433dc0f50a85ef20cd973280b4ca1115ad2dbab52bb5baf35c5c9fbca5c835",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-10",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-10/source.parquet",
+            "normalized_sha256": "03a45f2c1630717bdfa7b5e4a3c19387fc663729ef7ece713168bd1f5add1530",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-10",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-10/source.parquet",
+            "normalized_sha256": "bf311e379bddef0d9541004769e9c49fc08b2b6e15b156366da836a5bc064dc6",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-11",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-11/source.parquet",
+            "normalized_sha256": "279b5ab147471d8bf6c5481c1b17d6d3f263f3219b82d43ee44f37c20b572eb1",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-11",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-11/source.parquet",
+            "normalized_sha256": "05d8eb95fc5145733433dfe297620911b291362afee7d0323de42da016d521e7",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2024-12",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2024-12/source.parquet",
+            "normalized_sha256": "fff8d94a3bd9adc3bf7d7d630f01be6d34300a1232d6c9986e989905e7797256",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2024-12",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2024-12/source.parquet",
+            "normalized_sha256": "12604446a732d0ce5a6eeedfb80cc68b5286f545db6f3874156340e3640f9d38",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-01",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-01/source.parquet",
+            "normalized_sha256": "c9656942da905a2c777a2b9adb2f6063a06d51e8857b1c8addaaab9e01519d58",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-01",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-01/source.parquet",
+            "normalized_sha256": "64036b0e0a90ad58926d5f67522d8c49f49fd656687855eb5983ecf7bace7be2",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-02",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-02/source.parquet",
+            "normalized_sha256": "184cd919b0d8d839ee9862a22c46b612291ca0e9f5da25c4f9bb631bbbb51b02",
+            "rows": 28
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-02",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-02/source.parquet",
+            "normalized_sha256": "5909031f6ae50dccf035cf900c51bf5dced0a25ea8ee3af21a05b2ac2e588201",
+            "rows": 28
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-03",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-03/source.parquet",
+            "normalized_sha256": "d1e285ed5bbf8ee3ba1ecfd3bb6df8152f11849ed82b954d4faba2fdfec50ae7",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-03",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-03/source.parquet",
+            "normalized_sha256": "f965b4fa3d8a51ec308e358ccfd78f311ea2fcf320baa6189385c2bd6105a8c8",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-04",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-04/source.parquet",
+            "normalized_sha256": "1a2581e74624f6116e3f95af089b24578c4248ebea0d1e0762258ebc5542cbf6",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-04",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-04/source.parquet",
+            "normalized_sha256": "257a89dea31c61576e9f495ba49320e3824d50a7c344fe8a275b997f9ac1d3d0",
+            "rows": 30
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-05",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-05/source.parquet",
+            "normalized_sha256": "8287e09d2067706384cf90b2795ce1dd7b4eeb948b0fa53312e5ae7455e0b78d",
+            "rows": 31
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-05",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-05/source.parquet",
+            "normalized_sha256": "b1cb841e36e434dab93416b74ffdbef3c34da0da88852c32fc8966bd8b0dbd0e",
+            "rows": 31
+          },
+          {
+            "symbol": "BTCUSDT",
+            "month": "2025-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/BTCUSDT-2025-06/source.parquet",
+            "normalized_sha256": "f0bd16c5fce09aac54dda21dfd194911799b4451f3eac3553bde7ebe73235cab",
+            "rows": 30
+          },
+          {
+            "symbol": "ETHUSDT",
+            "month": "2025-06",
+            "normalized_path": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2/ETHUSDT-2025-06/source.parquet",
+            "normalized_sha256": "d2ad45902f47956a5c906854428ae2a0544ff6bc46df26a597d2fe77b7058fac",
+            "rows": 30
+          }
+        ],
+        "rows": 1494,
+        "warmup_start": "2023-06-15",
+        "period_end_exclusive": "2025-07-01",
+        "complete_UTC_daily_calendar": true,
+        "publication_availability_certified": false,
+        "daily_prices_used_for_execution_or_risk": false
+      },
+      "status": "COMPLETE_PROXY_COMPARISON"
+    }
+  ],
+  "market_inputs_read": true,
+  "market_models_fit": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "candidate_status": "NO_QUALIFIED_CANDIDATE",
+  "classification": "MINUTE_PROXY_SCREENING",
+  "limitations": [
+    "Previously used training/test historical span, development SCREENING only; not new OOS or native Bybit execution",
+    "Binance normalized minute OHLC/previous-minute quote-volume capacity proxies; actual BBO/depth/filters/account fee not proven",
+    "Current fixed Bybit VIP0 fees are counterfactual on history; buy base/sell quote settlement reused",
+    "Common caps and volatility mechanism are equal rules, not equal realized risk; original compressed intent risk scaling and passive cap drift retained",
+    "Minute close/daily MDD reported separately; all-event MDD is not established by minute observations alone",
+    "Gross same-net-received-quantity diagnostic plus fees/spread/slippage bridge is not a fee-free re-simulated account",
+    "Original forced terminal target/latency/lot/capacity can leave marked positive dust",
+    "547day descriptive CAGR and Sharpe do not establish sustainable long-term APR; locked and future eligibility remain untouched",
+    "Official daily close availability is an exclusive-close proxy; no actual publication certification.",
+    "Daily signal data never supplies execution prices or minute risk; existing native-fee minute proxy account is reused.",
+    "Three accounts begin fresh-flat and are not stitched into a common CAGR or an unseen validation."
+  ],
+  "primary_reference": "COIN_JESSE_DONCHIAN_1D_SPOT_ADAPTER",
+  "period_namespace_derivation": {
+    "classification": "D037_THREE_SEPARATE_SEEN_DAILY_PUBLIC_SCREENING_NOT_UNSEEN",
+    "period": "CONT547",
+    "accounts": 1,
+    "timeframe_minutes": 1440,
+    "warmup_daily_bars": 200,
+    "risk_warmup_minutes_days": 31,
+    "native_financial_kernel_AST_unchanged": true,
+    "original_public_hooks_unchanged": true,
+    "original_modules_or_globals_mutated": false,
+    "new_engine_or_account_loop_written": false,
+    "context_market_arrays_or_market_bytes_read": false,
+    "parent_protocol": {
+      "path": "protocols/PUBLIC_LONG_547D_FIXED_THREE_ACCOUNTS_20261003_V1.json",
+      "sha256": "5366363196157c1629e2e00a00301956e61b2c295b476520359bc0bd55ac746d"
+    },
+    "reused_minute_input": {
+      "report_path": "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json",
+      "report_sha256": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+      "path": "/home/xflops/coin-state/public-long-547d-actual-20261003-v1/shared_source_minutes.parquet",
+      "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2"
+    },
+    "daily_source_receipt": {
+      "path": "reports/fast_research/PUBLIC_DONCHIAN_DAILY_SOURCE_ACTUAL_20261003_V2.json",
+      "sha256": "3fb29968d533e90c2d1764d15b3bce3873ef2ad9784330fe838512824dd95167",
+      "required_status": "PASS_D037_OFFICIAL_SPOT_DAILY_SOURCE_FORMAT_AND_CALENDAR_ONLY"
+    },
+    "functions": [
+      {
+        "module": "scripts/research_v8/labels_v3.py",
+        "function": "_integer_array",
+        "original_AST_sha256": "8f55ae7ab3d5306f8d65a4c5d22576bca0ff7db7457b7836937f12699bbde77b",
+        "derived_AST_sha256": "8f55ae7ab3d5306f8d65a4c5d22576bca0ff7db7457b7836937f12699bbde77b",
+        "changes": []
+      },
+      {
+        "module": "scripts/research_v8/labels_v3.py",
+        "function": "_timestamps",
+        "original_AST_sha256": "c9fc5b91cbf81c37ed7b75cbae67d6e71c2e3c5ffc38de2525945c9d77d0f9ff",
+        "derived_AST_sha256": "c9fc5b91cbf81c37ed7b75cbae67d6e71c2e3c5ffc38de2525945c9d77d0f9ff",
+        "changes": []
+      },
+      {
+        "module": "scripts/research_v8/labels_v3.py",
+        "function": "_stamp",
+        "original_AST_sha256": "3d8975d9217844aff3a4a036b999fdee1bafbd86db7f66d322d0fc189792fe42",
+        "derived_AST_sha256": "3d8975d9217844aff3a4a036b999fdee1bafbd86db7f66d322d0fc189792fe42",
+        "changes": []
+      },
+      {
+        "module": "scripts/research_v8/labels_v3.py",
+        "function": "_minute_decisions",
+        "original_AST_sha256": "ded7d6e566f070e5b62ff0efdae201c19e51be7e5b32db03251561a8ac59d5ad",
+        "derived_AST_sha256": "ded7d6e566f070e5b62ff0efdae201c19e51be7e5b32db03251561a8ac59d5ad",
+        "changes": []
+      },
+      {
+        "module": "scripts/research_v8/benchmark_targets_v2.py",
+        "function": "calendar_array",
+        "original_AST_sha256": "70d065db0c5971643e030b77670453dee250a9ffb6c755c55134380abc4aab8d",
+        "derived_AST_sha256": "70d065db0c5971643e030b77670453dee250a9ffb6c755c55134380abc4aab8d",
+        "changes": []
+      },
+      {
+        "module": "scripts/research_v8/benchmark_targets_v2.py",
+        "function": "_integer_timestamp_columns",
+        "original_AST_sha256": "530315ced639aa3faba70944ed7d7f6d71f5fe6afd005c0649dc34e1a3f00b19",
+        "derived_AST_sha256": "530315ced639aa3faba70944ed7d7f6d71f5fe6afd005c0649dc34e1a3f00b19",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/bybit_spot_adapter.py",
+        "function": "run_backtest",
+        "original_AST_sha256": "0adf448b31cddb8b71f29c0edbcfb7853b46e0c2b65a62990faff96ff983eb02",
+        "derived_AST_sha256": "0adf448b31cddb8b71f29c0edbcfb7853b46e0c2b65a62990faff96ff983eb02",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "source_scope",
+        "original_AST_sha256": "178770e16b7efa92205887a205158a492fb4b93f837462c91551d8b59e110d7d",
+        "derived_AST_sha256": "178770e16b7efa92205887a205158a492fb4b93f837462c91551d8b59e110d7d",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "allowed_source_path",
+        "original_AST_sha256": "8c8fda6c8c8bd5def2bb682315017466abb4f38c327c25c2e07b1deffac9df30",
+        "derived_AST_sha256": "8c8fda6c8c8bd5def2bb682315017466abb4f38c327c25c2e07b1deffac9df30",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "minute_view",
+        "original_AST_sha256": "900427b77ac2f2864abbc3ac2b3d1da491505f84371b0c887c5d79b8e16eddb2",
+        "derived_AST_sha256": "900427b77ac2f2864abbc3ac2b3d1da491505f84371b0c887c5d79b8e16eddb2",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "signal_close_view",
+        "original_AST_sha256": "83024abe17e23ef3ede65971b16ae92bc304918e7bed82a604dc8ce8e9c8123e",
+        "derived_AST_sha256": "83024abe17e23ef3ede65971b16ae92bc304918e7bed82a604dc8ce8e9c8123e",
+        "changes": []
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "comparison_plan",
+        "original_AST_sha256": "cef1e4975b568962e5cb07ff68e8d7c781129d336a341b6621ce566e13877f95",
+        "derived_AST_sha256": "7bfee47b521cc60fbcd9ba5b5d3e1818a21424149d3b5bf874aa3377435e2bf2",
+        "changes": [
+          {
+            "change": "D037_ONE_COST_COUNT",
+            "matches": 1,
+            "old_ast_sha256": "dcac670698c76bfc6771a05b7e544e797f75a40a324fe3a1cc1312495926718c",
+            "new_ast_sha256": "e1466ae64281d0b6c41386b101586998dc58be4d756d3fbd6259267f6152bc7d",
+            "old_statement": "planned = len(windows) * len(strategies) * 3",
+            "new_statement": "planned = len(windows) * len(strategies)"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "period_aggregate",
+        "original_AST_sha256": "fe632ccc25c2f3f9559ea3e95f43dbc9ce7f70e344c46a6a42ee93c5c6a69556",
+        "derived_AST_sha256": "12b694871b2ebd6d0837897d4980a569e19848cd63cd94eba58899cfa631b0c4",
+        "changes": [
+          {
+            "change": "D037_SPREAD8_AGGREGATE",
+            "matches": 1,
+            "old_ast_sha256": "ebbdef485b1419caffd0c041923aeef3a4eeb9217e6ba7aab42ef670eb903b79",
+            "new_ast_sha256": "edc20a4ed7ab6ec5b6b0a6020005124b44966c4b2aa494c085c95b6578c49787"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "verify_source_calendar",
+        "original_AST_sha256": "5110834d77d36511d75e46c4d517b38c44828cdf7b9d97d9ca26f4d515e1768f",
+        "derived_AST_sha256": "24f207a2a023bf63bfc3ff01a420dab8c02ebf28eb06cb015286ba2fa7f3024e",
+        "changes": [
+          {
+            "change": "D037_ACCEPTED_SOURCE_FILE_COUNT",
+            "matches": 2,
+            "old_ast_sha256": "a2838193f927321540fb9a36355934a87e15ba202009114f32bc7e4a1f2ec794",
+            "new_ast_sha256": "8c350a91e47326bd2f5a5ca561a533316b02c35a675b60fe5a4ba80dbd10f20d"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "verify_sources",
+        "original_AST_sha256": "0ed2fc321bf929103d4bbca67a37eaa8512430650329434b9281ee3fac247748",
+        "derived_AST_sha256": "05180744afde7bb863d4215b0b0fb699ae1126417b296afb0ba9c29c812740d2",
+        "changes": [
+          {
+            "change": "D037_PRIVATE_NATIVE_DATE_ROUTE",
+            "matches": 1,
+            "old_ast_sha256": "782a5f23d9c4754a43a87ae06f41fb6844b1972c3581bca2fc825a4bef1e24a8",
+            "new_ast_sha256": "337ef9cd61cdd4d549f272e108475315528eb9903eeeedac4a1eee22df5dc3f5",
+            "old_statement": "from scripts.investment import bybit_spot_adapter",
+            "new_statement": "bybit_spot_adapter = PERIOD_NATIVE"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "research",
+        "original_AST_sha256": "a676eb0efe30b818429c0ff07435bc49db68065e414e76d18f6e5e88cad9e026",
+        "derived_AST_sha256": "265b88392a4201494fd6a771dd6da0566fea647012a7f77c7a4ef3668826ca46",
+        "changes": [
+          {
+            "change": "D037_PRIVATE_NATIVE_DATE_ROUTE",
+            "matches": 1,
+            "old_ast_sha256": "782a5f23d9c4754a43a87ae06f41fb6844b1972c3581bca2fc825a4bef1e24a8",
+            "new_ast_sha256": "337ef9cd61cdd4d549f272e108475315528eb9903eeeedac4a1eee22df5dc3f5",
+            "old_statement": "from scripts.investment import bybit_spot_adapter",
+            "new_statement": "bybit_spot_adapter = PERIOD_NATIVE"
+          },
+          {
+            "change": "D037_SOURCE_FILE_PROGRESS",
+            "matches": 3,
+            "old_ast_sha256": "a2838193f927321540fb9a36355934a87e15ba202009114f32bc7e4a1f2ec794",
+            "new_ast_sha256": "8c350a91e47326bd2f5a5ca561a533316b02c35a675b60fe5a4ba80dbd10f20d"
+          },
+          {
+            "change": "D037_SPREAD8_ACCOUNT",
+            "matches": 1,
+            "old_ast_sha256": "ebbdef485b1419caffd0c041923aeef3a4eeb9217e6ba7aab42ef670eb903b79",
+            "new_ast_sha256": "edc20a4ed7ab6ec5b6b0a6020005124b44966c4b2aa494c085c95b6578c49787"
+          },
+          {
+            "change": "D037_READ_DAILY_SIGNAL_SOURCE_AFTER_EXISTING_GUARDS",
+            "matches": 1,
+            "old_ast_sha256": "a731f4fdca873cd5bab1818b0019581c103326da2ddafd4f0214dd91a1d259d4",
+            "new_ast_sha256": "be464cef94e111dbbfc5f0bf4bf42bb75cf9f796dce5e8188d13928f2349fb98",
+            "old_statement": "daily_reference = reference_daily_returns(fold_minutes)",
+            "new_statement": "daily_reference = reference_daily_returns(fold_minutes)\ndaily_bars, daily_binding = load_daily(spec)\nfold_record['daily_signal_source'] = daily_binding"
+          },
+          {
+            "change": "D037_ORIGINAL_HOOK_DAILY_TARGET_DISPATCH",
+            "matches": 1,
+            "old_ast_sha256": "e9bf0f25467875b42968d290fb80848eb3973f318a0a36e46b332fc1f0be3155",
+            "new_ast_sha256": "49fd55e74a59d56e1ef1c90baf79015bdbe875b8fb48b9bde2df891f90334aab",
+            "old_statement": "plan = bulk_fixed_targets.fixed_targets(strategy, closes, calendar, daily_returns=daily_reference if strategy == 'VOL_MANAGED_BUY_AND_HOLD' else None)",
+            "new_statement": "require(strategy == PERIOD_DAILY.STRATEGY_ID, 'Only fixed daily strategy dispatch')\nplan = PERIOD_DAILY.fixed_targets(daily_bars, calendar)\nplan.receipt['daily_source_input_binding'] = daily_binding"
+          },
+          {
+            "change": "D037_ONE_COST_COMPLETION",
+            "matches": 1,
+            "old_ast_sha256": "8e294428daec1de394989fafcc97aeda46fd18fde6caa881e3e172cd88508b3a",
+            "new_ast_sha256": "59f6c82390830332f788dda7f4e17ca1debe7aefee07d26f3af46402b65f796d",
+            "old_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) * 3 else 'PARTIAL_INPUT_COVERAGE'",
+            "new_statement": "fold_record['status'] = 'COMPLETE_PROXY_COMPARISON' if len(fold_record['results']) == len(strategies) else 'PARTIAL_INPUT_COVERAGE'"
+          }
+        ]
+      },
+      {
+        "module": "scripts/investment/compare_simple_strategies.py",
+        "function": "main",
+        "original_AST_sha256": "ceda7ccf04c37da40b45c2a0c8d8e185913cf55e9298fd53401925fc64aea5c6",
+        "derived_AST_sha256": "71a33d2760761bc12455d26333defb198cf976a47da564121f6ad5d9526b446f",
+        "changes": [
+          {
+            "change": "D037_PRIVATE_NAMESPACE_RECEIPT",
+            "matches": 1,
+            "old_ast_sha256": "6b711a333abe26604ce110c383643058ec99da7a1cf4f211ebf12fb144018c86",
+            "new_ast_sha256": "f0a00b19fd27c5183e0c537eeb46f3164b9596c797a734fada69fc6759ab9f2f",
+            "old_statement": "progress = Progress()",
+            "new_statement": "report['period_namespace_derivation'] = PERIOD_DERIVATION\nprogress = Progress()"
+          }
+        ]
+      }
+    ],
+    "daily_source_directory_adaptation": {
+      "preserved_runner_path": "scripts/investment/public_donchian_daily_runner.py",
+      "preserved_runner_sha256": "5459b231c340a705c4c136cd3923ecc0b510205f7f81c8c36a4ea021b97b41d9",
+      "daily_source_directory": "/home/xflops/coin-state/d037-official-spot-daily-source-20261003-v2",
+      "function_ASTs": [
+        {
+          "module": "scripts/investment/public_donchian_daily_runner.py",
+          "function": "daily_metadata",
+          "original_AST_sha256": "6430836e66d3a4c602c4437bb6819fed5a0324944da51a5a783532753e401f17",
+          "derived_AST_sha256": "6430836e66d3a4c602c4437bb6819fed5a0324944da51a5a783532753e401f17",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/public_donchian_daily_runner.py",
+          "function": "load_daily",
+          "original_AST_sha256": "77097f443320ee231a79e7e4970018d6efa41c7716c3bb6bc92e7eccbf720b99",
+          "derived_AST_sha256": "77097f443320ee231a79e7e4970018d6efa41c7716c3bb6bc92e7eccbf720b99",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/public_donchian_daily_runner.py",
+          "function": "context",
+          "original_AST_sha256": "427d4ead8ee27e399bbb6158efe163aa9204c3d9a57b898a9fffceb57f1214ea",
+          "derived_AST_sha256": "427d4ead8ee27e399bbb6158efe163aa9204c3d9a57b898a9fffceb57f1214ea",
+          "changes": []
+        },
+        {
+          "module": "scripts/investment/public_donchian_daily_runner.py",
+          "function": "main",
+          "original_AST_sha256": "4dfd718f6864e63eb7818902551741acf4b44f8781550751a28cdfa7c71ae43e",
+          "derived_AST_sha256": "4dfd718f6864e63eb7818902551741acf4b44f8781550751a28cdfa7c71ae43e",
+          "changes": []
+        }
+      ],
+      "original_function_ASTs_unchanged": true,
+      "target_and_account_algorithms_unchanged": true
+    }
+  },
+  "disk": {
+    "scan_started_utc": "2026-10-03T00:02:18.584925+00:00",
+    "project_bytes": 4413711138,
+    "wsl_vhd_bytes": 15833497600,
+    "total_bytes": 20247208738,
+    "reserved_bytes": 280000000,
+    "d_free_bytes": 359568547840,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "scan_finished_utc": "2026-10-03T00:03:25.189572+00:00"
+  },
+  "synthetic_acceptance_scope": "EXACT_SHARED_CODE_AND_ECONOMIC_RULES_PERIOD_AND_INPUTS_VERIFIED_SEPARATELY",
+  "accepted_smoke_sha256": "4ccd151019c3942b846c89e1d4e2ad06ac2ccd28d483672e265fe0acbcfbc1bf",
+  "planned_ledgers": 1,
+  "account_continuity": "SINGLE_CONTINUOUS_PERIOD_BY_STRATEGY_AND_COST",
+  "source_receipt_sha256": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+  "source_days_per_symbol": 578,
+  "source_scope": "DEC2023_JUN2025",
+  "source_calendar": [
+    "2023-12",
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2024-11",
+    "2024-12",
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06"
+  ],
+  "source_month_files": 38,
+  "reused_minute_input": {
+    "report_path": "reports/fast_research/PUBLIC_LONG_547D_ACTUAL_20261003_V1.json",
+    "report_sha256": "c70e3011f74ddbbbf250316bb2cad9a02d2bd6945b266a1a96a1083b9fcbc6e8",
+    "path": "/home/xflops/coin-state/public-long-547d-actual-20261003-v1/shared_source_minutes.parquet",
+    "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2"
+  },
+  "raw_normalized_market_files_read": false,
+  "minute_source": {
+    "path": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1/shared_source_minutes.parquet",
+    "sha256": "69ee7e5b8bee31f1cc28cbfbee4c99176060959a0e7d831683a3fddc796a06d2",
+    "rows": 1664640,
+    "invalid_minutes": 0
+  },
+  "fee_derivation": {
+    "fee_settlement_version": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+    "adapter_source_sha256": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+    "dependency_source_sha256": {
+      "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "src/quant/execution.py": "8d886164668f3ae4b0be47f9cc04c99a78ce85e8f96fe10d6a04d6bd89addd3b",
+      "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f"
+    },
+    "adapter_protocol_sha256": "c8441169d3b42a651c4ae37e11d5eb53943f9b0e0172e2596644fd7cb2fa4912",
+    "original_function_ast_sha256": "086cfcec28a4baceba0efd91ea75334afef33a321aaac454547e08b34d3bfb5a",
+    "derived_AST_SHA256": "39ffd9142be81285b3a6b460c73b1c7799c7621a1c34a2f1faa845d290608b73",
+    "allowed_ast_changes": [
+      {
+        "change": "BUY_NET_UNIT_AND_COST",
+        "matches": 1,
+        "old_ast_sha256": "ac73cebe9857ccb5cbb8ec0815dd00ec8f0ca9f79ac2bb0df956d9062ccd18a1",
+        "new_ast_sha256": "f367d7e42a59b89d90b37c7f6dad5693a4458384cb497d8874fca52d5eaa129b",
+        "old_statement": "cost_per_quantity = abs(fill - mid) + fill * config.fee_rate",
+        "new_statement": "received_mid = mid * (1 - config.fee_rate) if side == 'buy' else mid\ncost_per_quantity = fill - received_mid if side == 'buy' else abs(fill - mid) + fill * config.fee_rate"
+      },
+      {
+        "change": "NET_TARGET_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "eccdcf8a76bc694e35a31b93daa0580b0b89310bda0883d4f90bdc193d26e94b",
+        "new_ast_sha256": "278e892ecd6e351056a357244d66d068d093a85de66347dffee32f9299feb35b",
+        "old_statement": "desired_quantity = abs(desired_dollars) / (mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)",
+        "new_statement": "desired_quantity = abs(desired_dollars) / (received_mid + weight * cost_per_quantity if side == 'buy' else mid - weight * cost_per_quantity)"
+      },
+      {
+        "change": "NET_ASSET_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ecdd9a22cce3544884ecc721088b313b7a0bcc1d507f76a81cbc22f18365cd3a",
+        "new_ast_sha256": "c88346eda900260c56ec10f057691d8eb178bc1237ed3b692fb9377330395976",
+        "old_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (mid + config.max_weight * cost_per_quantity))",
+        "new_statement": "asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid) / (received_mid + config.max_weight * cost_per_quantity))"
+      },
+      {
+        "change": "NET_GROSS_CAP_DENOMINATOR",
+        "matches": 1,
+        "old_ast_sha256": "ad9f5b51e07fca33b7b606fa2dcb547850df44a9e980b89249a85ba826582aa6",
+        "new_ast_sha256": "c3685f057812f29088eb828ac64419a2d3b375acc1ae021da41700a0d0e9da4a",
+        "old_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (mid + config.max_gross * cost_per_quantity))",
+        "new_statement": "gross_limit = max(0.0, (config.max_gross * nav - gross) / (received_mid + config.max_gross * cost_per_quantity))"
+      },
+      {
+        "change": "BUY_CASH_FILL_ONLY",
+        "matches": 1,
+        "old_ast_sha256": "1784f3b427468d37b090e02f5dca64c2a80688623f4d7ec1f7ccc48645559e0a",
+        "new_ast_sha256": "278a4ea50732dc1601002ca95292bf4fbe6f2184c6c73fcd72c4d4b10cda305d",
+        "old_statement": "quantity = min(quantity, cash / (fill * (1 + config.fee_rate)), asset_limit, gross_limit)",
+        "new_statement": "quantity = min(quantity, cash / fill, asset_limit, gross_limit)"
+      },
+      {
+        "change": "NO_GROSS_LOT_OVERSELL_NET_HOLDINGS",
+        "matches": 1,
+        "old_ast_sha256": "83c7414c16c0ffed4f9495b089541f1dfc183bd6da477d8d99113a424c4d09ee",
+        "new_ast_sha256": "76eb649d4946f8596586b7ea4952f81cf5db73c742928c5b58343f859a8fc6f4",
+        "old_statement": "quantity = math.floor(quantity / step + 1e-09) * step",
+        "new_statement": "quantity = math.floor(quantity / step + 1e-09) * step\nif side == 'sell' and quantity > positions[symbol]:\n    quantity = max(0.0, quantity - step)"
+      },
+      {
+        "change": "RECEIVED_ASSET_COMMISSION",
+        "matches": 1,
+        "old_ast_sha256": "5b992c639ee7a180b5bfac25828ecd322d2780798c32d0576db4799b6cc58393",
+        "new_ast_sha256": "972ee920cfd6324003fe4bae0d16825df69f9f8dda977840266e1779e0d40e7f",
+        "old_statement": "fee = notional * config.fee_rate",
+        "new_statement": "cash_delta, position_delta, fee_asset, fee_amount, fee_USDT_mid = _received_asset_fill(symbol, side, quantity, fill, mid, config.fee_rate)\nfee = fee_USDT_mid"
+      },
+      {
+        "change": "NATIVE_CASH_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "4ab9c020aeeb76d0aef74436ea730b524a2e44144a0cec2fbddfdf5b54f09ea3",
+        "new_ast_sha256": "3278718b9d02f3547784b5272aa5aec5ea7bb785b9c495643e555f552bd7ab7f",
+        "old_statement": "cash -= direction * notional + fee",
+        "new_statement": "cash += cash_delta"
+      },
+      {
+        "change": "NET_RECEIVED_POSITION_UPDATE",
+        "matches": 1,
+        "old_ast_sha256": "e66bb596011bd061cd81e009761bb410177cac3905b8cf88e8e1744caa9668eb",
+        "new_ast_sha256": "e6391c6dabcfb7a796a81a691958013c55ea26f77acce2d8c3949c5a5eff9442",
+        "old_statement": "positions[symbol] += direction * quantity",
+        "new_statement": "positions[symbol] += position_delta"
+      },
+      {
+        "change": "PRESERVE_POSITIVE_SUBLOT_DUST",
+        "matches": 1,
+        "old_ast_sha256": "e7a31445e32f817d5e0049c713afd90a3bb58f8191c032281ed315edaa9dc570",
+        "new_ast_sha256": "228648015525d65e5ae179311ad9ebc2e96c3e52ce57758bc373f25c65fee3c6",
+        "old_statement": "if abs(positions[symbol]) < 1e-10:\n    positions[symbol] = 0.0",
+        "new_statement": "if positions[symbol] < 0:\n    raise AssertionError('Received-asset settlement cannot oversell net spot inventory')"
+      },
+      {
+        "change": "BUY_CYCLE_NO_QUOTE_FEE_DOUBLE_CHARGE",
+        "matches": 1,
+        "old_ast_sha256": "a06d8e3e847440f280cf7f2c06693159357abfeb4997b6196e56eafb5b668527",
+        "new_ast_sha256": "f6bdab22da0f58a8fb43cc1c0cfc7fda7e9d250489c27823a87e6ef1b8e4f9d4",
+        "old_statement": "cycle['cost'] += notional + fee",
+        "new_statement": "cycle['cost'] += notional"
+      },
+      {
+        "change": "ORDER_GROSS_FILLED_QUANTITY",
+        "matches": 1,
+        "old_ast_sha256": "06836908b9dd7d1d503793d46901c4f88778945dd9830a21d25f6a124d585852",
+        "new_ast_sha256": "863522f8e0d5157c68a1617afb2fb5eae334a64624f936fe253bbe4a80013fb1",
+        "old_statement": "order['filled_notional'] = notional",
+        "new_statement": "order['filled_notional'] = notional\norder['quantity'] = quantity"
+      },
+      {
+        "change": "ORDER_QUANTITY_INITIAL_ZERO",
+        "matches": 1,
+        "old_ast_sha256": "947ea5416bb122d12981d706722b931a7413e4d5d6e5e96c1a4bcc992e7535c0",
+        "new_ast_sha256": "419fa59f500d3bd9bdb43443a9ade6ebed4d77c2ca45ccb245d44bdd27a779f1",
+        "old_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': ''}",
+        "new_statement": "{'open_us': timestamp, 'signal_us': goal['signal_us'], 'capacity_open_us': ExecutionContractV2().capacity_minute_us(timestamp), 'symbol': symbol, 'side': side, 'requested_notional': abs(desired_dollars), 'capacity': liquidity[symbol] * config.participation_rate, 'filled_notional': 0.0, 'status': '', 'quantity': 0.0}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_FIELDS",
+        "matches": 1,
+        "old_ast_sha256": "66fcf26916a521b6b887fdf063f487ecc41fd8b7600bbf6f29e567af58bee211",
+        "new_ast_sha256": "b4e2eb8d4328a8c6ddeaaced2a68fed0e60310dab054bb0b47a7695b6c1f347e",
+        "old_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity']}",
+        "new_statement": "{'execution_us': timestamp + 1, 'signal_us': goal['signal_us'], 'capacity_open_us': order['capacity_open_us'], 'target_weight': weight, 'symbol': symbol, 'side': side, 'quantity': quantity, 'mid_price': mid, 'fill_price': fill, 'notional': notional, 'fee': fee, 'execution_cost': execution_cost, 'cash_after': cash, 'nav_after': nav_after, 'asset_weight_after': asset_weight, 'gross_weight_after': gross_weight, 'capacity': order['capacity'], 'gross_quantity': quantity, 'position_delta': position_delta, 'cash_delta': cash_delta, 'fee_asset': fee_asset, 'fee_amount': fee_amount, 'fee_USDT_mid': fee_USDT_mid}"
+      },
+      {
+        "change": "TRADE_NET_SETTLEMENT_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "12f4f17ea3e896a9ff22788aeb21f756737f6f2118e72eae5feb81c6549ca97b",
+        "new_ast_sha256": "c2b29e4c7ecd21ff3dc99f4e8d20c45390cf348af0eb6b036f3d1a5fd10c3de9",
+        "old_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64}",
+        "new_statement": "{'execution_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'target_weight': pl.Float64, 'symbol': pl.String, 'side': pl.String, 'quantity': pl.Float64, 'mid_price': pl.Float64, 'fill_price': pl.Float64, 'notional': pl.Float64, 'fee': pl.Float64, 'execution_cost': pl.Float64, 'cash_after': pl.Float64, 'nav_after': pl.Float64, 'asset_weight_after': pl.Float64, 'gross_weight_after': pl.Float64, 'capacity': pl.Float64, 'gross_quantity': pl.Float64, 'position_delta': pl.Float64, 'cash_delta': pl.Float64, 'fee_asset': pl.String, 'fee_amount': pl.Float64, 'fee_USDT_mid': pl.Float64}"
+      },
+      {
+        "change": "ORDER_GROSS_QUANTITY_SCHEMA",
+        "matches": 1,
+        "old_ast_sha256": "a67e3eba597339403d37d571141aa5ab34a79c40ed2c0c8db7a7e9b876dfb3c5",
+        "new_ast_sha256": "7cb24460855476ac06d32e176298a5c6878815e2c95ac7bb91cdf6138926fca3",
+        "old_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String}",
+        "new_statement": "{'open_us': pl.Int64, 'signal_us': pl.Int64, 'capacity_open_us': pl.Int64, 'symbol': pl.String, 'side': pl.String, 'requested_notional': pl.Float64, 'capacity': pl.Float64, 'filled_notional': pl.Float64, 'status': pl.String, 'quantity': pl.Float64}"
+      }
+    ],
+    "original_globals_mutated": false,
+    "fee_asset_semantics": "REUSED_PINNED_EXECUTION_COMMISSION_ASSET_BALANCE_UPDATES",
+    "native_bybit_market_execution_proven": false,
+    "derived_source_file_sha256": "a33c4f392c033d44224be5f64a42456b529e973d9af0925c8a454043f2762a8f",
+    "derived_source_path": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1/fee-derivation/derived_engine_ast.py",
+    "receipt_path": "/home/xflops/coin-state/d037-public-daily-547d-actual-20261003-v1/fee-derivation/derivation.json",
+    "receipt_sha256": "44d9e5b4f4178a0e002615fbc3b2c792610a15ed42473420543615c8d9c5bf63"
+  },
+  "fee_settlement": "BYBIT_SPOT_RECEIVED_ASSET_V1",
+  "fee_profile_sha256": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+  "completed_ledgers": 1,
+  "all_planned_ledgers_complete": true,
+  "aggregate": [
+    {
+      "strategy": "COIN_JESSE_DONCHIAN_1D_SPOT_ADAPTER",
+      "spread_bps": 8,
+      "complete_periods": 1,
+      "period_lengths_days": [
+        547
+      ],
+      "period_net_return": 0.057702411992152536,
+      "mean_period_net_return": 0.057702411992152536,
+      "worst_period_net_return": 0.057702411992152536,
+      "max_observed_daily_MDD": 0.12593020733781402,
+      "max_observed_minute_MDD": 0.13378820193737484,
+      "fees_USDT_across_period_accounts": 45.30874757468912,
+      "execution_cost_USDT_across_period_accounts": 36.261705971278346,
+      "trade_count": 48,
+      "annualization": "NO_POOLED_CAGR_PERIOD_ACCOUNTS_NOT_STITCHED;_ENGINE_PERIOD_CAGR_DESCRIPTIVE_ONLY"
+    }
+  ],
+  "source_bytes_unchanged": true,
+  "created_utc": "2026-10-03T00:03:34.451558+00:00",
+  "elapsed_seconds": 80.21143535500596,
+  "orchestrator_peak_RSS_bytes": 2019340288,
+  "owned_bytes": 261617010,
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1370914816,
+    "ram_peak_bytes": 3236868096,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  }
+}

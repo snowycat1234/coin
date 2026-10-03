@@ -683,3 +683,20 @@ actualV2 888f230b（session48238/chunk53589f）、独立4964e6f3（session7464/c
 下一D037最高信息选择：固定一个原开源Donchian日线（不新增信号公式／HPO），用不同物理入场期限与更低换手检验当前同质和成本瓶颈。原SMA200／20日channel需要>=200个已完成日的因果warmup，先解决来源／数据角色和同评分区间，不消费locked。统一risk/capital/36bp，不做事后vol匹配，真正共享账户能力与旧所有负结果保留；现在未冻结该日线研究、未下载或运行。
 
 D036科学启动V1因Progress AST visitor扫到动态update.total，在STATE／registry／array前真实18ecbb…exit1。原7cac/source124c协议保留，新3084088薄入口只限定__init__显示字面量；科学循环未改。原PS H别名首行失败保存原factory；新命名替换造成说明P/TaskHash误字，以5a76f9独立erratum解释结构化P/H（一直正确），不覆盖协议或改变筛选。二目录1,064,080B≤5MB，5GB／swap0／GPU0。预算暂停reopen=不同过去可得入场信息或合法未来同成本尾部分散。投资NONE／长期APR NE。
+### D037实际运行前选择（2026-10-03）
+
+HEAD=d8f6c3fbc6df919f1a68e30415df09e0e666b3c5，实际8765无遗留研究运行；原两采集进程仅存活，不补健康资格。日线公开Donchian采用同一MIT原hook（prior20 channel/current-inclusive SMA200），固定UTC1d，不搜索参数。问题：不同物理入场期限能否降低同类亏损和成本、在三个既有评分窗增加净损益。对照引用已验收2h/hybrid/VM保存结果，旧账户不重放；547/122/90日均SCREENING，独立10k，统一原风险和36bp代理成本，BybitSpot收到资产扣费10bp/side，不混永续5.5bp。
+
+新增来源固定官方Spot monthly1d，2023-06-01..<2026-03-01，33月×BTC/ETH共66ZIP及CHECKSUM，每币1004日；首次评分前214完整UTC日预热。只预热指标，不带仓位／交易，每窗fresh flat；200连续已完成日、available<=decision、缺日/延迟拒绝，原下一分钟close+1us成交。分钟执行/风险来源复用既有绑定Parquet，日线收盘从官方1d档输入，不下载额外1m、不消费locked。
+
+运行前分别冻结source/新薄adapter/唯一新增边界验收/3窗口经济协议。新增source硬10MB，三经济及独立工件合计预期<=400MB（各角色协议单列硬预算），共享原5GB RAM/swap0/GPU0；actualscan记录时间，未知进度不造百分比。采用或暂停根据同成本净损益、实际风险／成本贡献及后窗稳定性；不以历史最高APR挑参数，失败保留与reopen，长期APR和真钱资格仍NE/NONE。
+
+D037经济协议冻结前预算修正：只读原547日VM实际receipt，旧单账户STATE264,486,229B，原240MB单角色估计不足。新547硬280MB／122硬70MB／90硬60MB，来源10MB／唯一case10MB／独立10MB，合计硬450MB；预期仍<400MB。现已实际source62/66元数据，无新经济数组读入，预算在经济运行前修正。D盘40GB／32GB预警／36GB停新增与1GB临时总预算不变，不改科学、成本、评分、原账户或资源守卫。
+
+### D037经济验收与D038选择（2026-10-03）
+
+3固定daily账户实际closed0，独立f49cc375（session81108/chunkdc1406）759日/1092960分钟/25月与原金融AST39ffd914实际PASS，保存比较cd128eeb真实closed0；rootV2闭合，无市场/旧QA重放。net547+577.024120/122−598.097288/90现金0；122同净收到数量gross−558.338202、成本39.759086，gross机制是当前最高瓶颈。547被hybrid、122被2h/hybrid在net/实现vol/分钟DD描述性支配；90零成交不能当盈利信号或未来资格。
+
+采用官方daily源/因果薄adapter/核算能力，暂停本固定Donchian投资采用和参数重复；不同过去可得、事前固定机制或真正未来同成本风险有效证据可reopen。两source startup失败与rootV1内部pytest alias误拒绝留存；V2只接受精确同owned测试链接，不改金融或磁盘guard，原文件/实际exit1不覆盖。
+
+下一D038固定 Jesse原SMA50/200日线long-only（同MITrepo/commit7c91e0a）：fast>slow可入场、fast<slow退出、相等维持；不限恰当日交叉。此为不同慢趋势状态，信息价值高于Donchian20/200/exit再搜索；同时改变入场退出，不能声称纯入场消融，亦未证明低相关alpha。复用66日档/分钟parquet/共同10k/风险/36bp，零HPO；三独立seenSCREENING只作新机制筛选，不拼NAV/碰locked，源码和单新case/协议将在新数组前固定。未来原生/稳定性若仍不成立继续现金候选NONE；长期APR NE，普通自主研究无需逐项批准。
