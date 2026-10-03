@@ -186,3 +186,50 @@ bash scripts/with_task_progress.sh --title '两币与十币保存账本比较' -
 ```
 
 同样只在新运行身份/新输出下重做；本命令说明已实际发生的调用，不能覆盖原报告。
+
+## D052：同池过去30日逆波动定权实际对照
+
+本轮仅改变raw定权，原固定July十币顺序、已接受来源、两个月日期、完整10k资本、absolute.3/gross.6/逐仓1x、过去协方差10%目标、27/43bp成本和F/P两种未知资金费单位均不变。N资产入口取消“协议必须恰有两个池”的路由假设；本轮协议仍保留原两币控制配置，实际只跑LIQUIDITY_TEN，原控制和等权账本只读复用。两个新的独立月份账户不拼接NAV，不代表长期APR或unseen证据。
+
+新normal目标以当时30个完成日simple returns的sample std(ddof1)定权：`.6*(1/σ)/sum(1/σ)`，逐币clip.3且不重分配截断资金，再原signed covariance风险只缩小。使用等比例`min(σ)/σ`避免倒数溢出，没有波动floor、拟合、ERC或收益优化。任一当前成员无200连续可用日或σ异常，整组合UNKNOWN空仓；退出/持仓缺口仍按原账户处理。金额和数量继续Decimal40，未降低账本精度。
+
+|开发月 / 方案|完整资本净损益 USDT（四成本/单位条件）|实际年化描述性波动|分钟最大回撤|清仓范围|
+|---|---:|---:|---:|---|
+|9月30日 / 两币原控制|136.30–145.74|7.81–7.84%|2.009–2.016%|4/4|
+|9月 / 十币等权|282.05–290.70|8.14–8.17%|1.425–1.428%|4/4|
+|9月 / 十币逆波动|281.54–291.17|8.28–8.31%|1.549–1.553%|4/4|
+|10月31日 / 两币原控制|95.31–118.47|10.71–10.76%|2.436–2.471%|4/4|
+|10月 / 十币等权|0.64–13.85 **marked**|10.46–10.48%|2.932–2.939%|0/4；旧残仓保持|
+|10月 / 十币逆波动|22.09–37.72|10.40–10.43%|2.915–2.923%|4/4|
+
+CASH各月净0/风险0/换手0。原两币与十币扩大池的贡献见D050/D051；本轮同一十币池配对隔离定权变化，所有同条件配对明确`actual_risk_matched=false`，无事后缩放，也不按每月赢家切换。
+
+9月inverse减equal的净增量依次(BASE/F,BASE/P,STRESS/F,STRESS/P)：+0.066385/+0.474763/−0.506332/−0.098434USDT。gross+1.418..1.432，新增成本+0.953..1.517、资金费增负担0.004..0.408抵消；turnover约.383→.454，BASE/F平均/峰gross12.683/16.276%→14.431/18.516%，平均/峰抵押/full初始资本12.059/13.831%→13.835/15.871%。风险没有改善。
+
+10月同顺序净增量+22.120251/+23.867274/+21.444139/+23.189480；gross+24.953..25.009，成本多1.122..1.790、资金费增负担0.017..1.722。turnover约.379→.462、平均gross14.20%→16.58%、平均抵押/full资本约14.3%→16.70%，实际风险不等同。BASE/F净贡献BTC+32.23、DOGE+59.73、SOL+21.79，被XRP−44.96/SATS−24.75/PEPE−12.84等抵消；低过去波动不预测未来方向。top5正收益日占比约60.5–60.9%，仍较集中。
+
+新10月配置在**原五次/0.1%前分钟quote容量**退出政策下真实完成清仓，是仓位配置降低某些资产容量负担的结果；旧等权8.65..8.79USDT残仓与未实现损益完整保留。配对比较使用完整NAV；不能把旧marked净增量说成两条均已变现收益或将旧NE改通过。无免费退出或未来成交补造。
+
+### 实际工件、必要复核和资源
+
+- 新主体：[9月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json)（task c0764ed0...、session1341/chunk09f0a6、SHAfeba60d9...），[10月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_OCTOBER_20261004_V1.json)（77be1bf5...、session24040/chunk6043d2、SHA1330d580...），均真实completed0/各四完整账户。
+- 独立：[9月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_INDEPENDENT_20261004_V1.json)44c2ae38.../a9823db5...，[10月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_OCTOBER_INDEPENDENT_20261004_V1.json)00b2d9db.../20e38a6c...，原1e−7USDT/1e−10ratio容差，最大7.28e−12/1.10e−11USDT与5.07e−14/3.62e−14。新8个目标、成交腿、钱包、资金费、未实现、保证金与分钟/日/月净值实际复核，full intent/order sizing仍未独立全重建；100/110必要来源是原接受文件金融读取，不重复QA。
+- 保存配对：[9月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_COMPARISON_20261004_V1.json)12c75542.../a9a4ba0f...，[10月](../reports/fast_research/MULTI_ASSET_INVERSE_VOL_OCTOBER_COMPARISON_20261004_V1.json)f8edc115.../99a1bd9a...，均真实exit0。账户/engine/closing/resource/contract/env六源强核相等，两个target源明确变化，reader/CLI日期与元数据维护变化单列provenance，exact原输入manifest与池顺序/风险/成本/资本保持。
+- 唯一新目标手算：[V2](../reports/fast_research/INVERSE_VOL_PORTFOLIO_TARGET_SYNTHETIC_20261004_V2.json)d94a6436.../41e1cd39...真实exit0，σ1:2:4截断不重分配、协方差缩小、顺序/未来扰动、缺失/zero/nonfinite与default equal原语义；首e92b106...真实collection语法失败与原源/报告保留，只修正常字典语法，不放宽容差/重绿测。根协议冻结曾因synthetic状态名称少后缀拒绝，0行情/0新协议，修正确标签后冻结。
+- 主体9月/10月总耗时148.858/142.846秒，组合阶段约70秒；RSS322.093/321.188MB、共享组本轮实采峰1.188/1.246GB、输出50.979/52.502MB。独立RSS334.045/350.077MB分别运行；共享硬4,999,999,488B/swap0/GPU0。新主体输出合计103,480,536B，连必要测试/独立小工件远低于300MB预算。原两币/十币规模资源对照已在D050验收，实际瓶颈是经济信号与容量，而非内存。
+- 最近真实磁盘扫描为23,707,872,320B@2026-10-03T21:14:12.550066Z，项目4,284,050,496B+VHD19,423,821,824B；先于10月新增输出和随后metadata/Git，不冒充结束扫描。8765沿用原窗口显示该实际时刻及真实任务完成数。
+
+采用可配置N资产链路和normal定权能力；保留等权/逆波动挑战者，逆波动不升级投资或研究主力。资金费单位、历史数量/MMR规则和Bybit原生/独立未来证据仍未获认证，投资NONE/CASH。暂停更多定权/扩池/逐币模型搜索，reopen需预先固定更多窗口的净/实际risk/cost/退出增量或明确的信息假设。下一唯一主任务选择已登记固定公开日线趋势的同池多头/空仓vsHOLD，检验是否避开主要负价格暴露；不以降低成本挽救微小配置增量，不强制做空。
+
+### 已实际执行的可复现入口
+
+以下以9月为例，10月仅使用OCTOBER协议和独立目录；8账户预算已包含两月全部四条件。后来重跑必须在该版本检出、新experiment_id/协议身份、新STATE与新结果下登记，不能覆盖原文件或重复原事件。
+
+```bash
+cd /mnt/d/codex/coin
+bash scripts/with_task_progress.sh --title 'D052九月十币：逆波动定权四条件实际账本' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json --run-dir /home/xflops/coin-state/d052-inverse-vol-september-20261004-v1 --output reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json --pool-id LIQUIDITY_TEN
+bash scripts/with_task_progress.sh --title 'D052九月独立核账' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_financial_audit.py --protocol protocols/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json --actual reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json --run-dir /home/xflops/coin-state/d052-inverse-vol-september-financial-20261004-v1 --output reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_INDEPENDENT_20261004_V1.json
+bash scripts/with_task_progress.sh --title 'D052九月保存账本配对' -- env PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/compare_multi_asset_portfolios.py --control reports/fast_research/MULTI_ASSET_TEN_PORTFOLIO_REPAIRED_20261004.json --pool reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_20261004_V1.json --output reports/fast_research/MULTI_ASSET_INVERSE_VOL_SEPTEMBER_COMPARISON_20261004_V1.json --experiment-id D052-SEPTEMBER-ALLOCATION-COMPARISON-20261004 --contrast allocation
+```
+
+独立run须先用已归档薄binder绑定新actual真实closed0与小元数据；原ACTUAL_BINDING/RUN_BINDING/COMPLETED_TASK逐字节归档在两个`MULTI_ASSET_INVERSE_VOL_*_INDEPENDENT_USED_METADATA_20261004_V1`目录，原输出实际exit凭证分别在对应`INDEPENDENT_ACTUAL_EXIT`报告。未启动下一趋势实验，不虚报后台运行。模块Git同步见独立后验`GITHUB_MULTI_ASSET_INVERSE_VOL_SYNC_VERIFIED_20261004_V1.json`，原D051后验凭证随本版入库。

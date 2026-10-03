@@ -1,0 +1,97 @@
+{
+  "experiment_id": "D052-INVERSE-VOL-SEPTEMBER-20261004",
+  "initial_capital_USDT": 10000,
+  "strategy": "COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+  "pools": [
+    {
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "id": "TWO_ASSET"
+    },
+    {
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "id": "LIQUIDITY_TEN"
+    }
+  ],
+  "start": "2024-09-01T00:00:00+00:00",
+  "end_exclusive": "2024-10-01T00:00:00+00:00",
+  "data_manifest": {
+    "sha256": "48ff8dcd72cc247a1c341dffb0d683d1fcedd27ade639fd935dbfdcd8de78f93",
+    "path": "/home/xflops/coin-state/d050-multiasset-source-acceptance-20261004-v2/INPUT_MANIFEST.json"
+  },
+  "source_hashes": {
+    "scripts/investment/public_sma_perpetual.py": "37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "scripts/investment/multi_asset_portfolio.py": "55ab0c4c5d52c2bfdd04adb13aec61bb6d8de867dffd4dc63eeb7ff916a8b9c3",
+    "src/quant/perpetual_account.py": "9a4223d1115add6ed2cce5b695cf6dcd89459daa6918eb61091b188e5ec05754",
+    "scripts/investment/multi_asset_data.py": "ac92354bd4237c70a823bea9a6ead3ff76b4b4e84b43e340ddb7c5199cbee9d7",
+    "scripts/investment/perpetual_directional.py": "570524281b80109b9a1d07b737831d3f768f308ac465c86e2e403a2415ec02ae",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "scripts/investment/vol_managed_perpetual_target.py": "a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b",
+    "scripts/investment/perpetual_closing_exempt_account.py": "30e0b41f094e01360aa9415011f2b27b4f49256819b2685c21d2da754f1d1b60",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1"
+  },
+  "budget": {
+    "owned_bytes": 100000000,
+    "wall_seconds": 1800,
+    "peak_RSS_bytes": 3000000000
+  },
+  "question": "One allocation factor: same fixed July pool, past30 inverse sample volatility vs saved equal; full capital, costs, signed covariance and execution unchanged",
+  "selection_proof": {
+    "actual_exit_code": 0,
+    "pre_score_task": "34b895e76e5b4ef188587a4f1b346af3",
+    "sha256": "9b8df895197e888bfb4a4dd2dec08915c5c3425659925408b289483e55e0acf7",
+    "path": "reports/fast_research/MULTI_ASSET_POINT_IN_TIME_POOL_20261004_V2.json"
+  },
+  "source_acceptance": {
+    "task": "f5e4c3aaeae44ff6bb0943f83fafa57f",
+    "actual_exit_code": 0,
+    "sha256": "86d44507c3ef0c88675c989961ab820594dc405cbfb0ce359dbcf84a37914549",
+    "path": "reports/fast_research/MULTI_ASSET_SOURCE_ACCEPTANCE_20261004_V2.json"
+  },
+  "saved_control": {
+    "independent_sha256": "955cd50658f17200eeda9519b1990f271f5f50e39e675fb86d1b6d61278f1b76",
+    "producer_sha256": "39eb56fe6f7edf77073ebf7228073ac18492fa9178167466a382a995fa398626",
+    "rerun_old_control": false
+  },
+  "limits": "D40GB/shared5GB/swap0/GPU0/full10k/assetabs.3/gross.6/isolated1x; no keys/orders/locked",
+  "stopping_rule": "Preserve missing/insolvency/budget/ledger failures; calendar marked NAV is distinct from cash-realized return; original five exit attempts unchanged",
+  "success_rule": "Eight new accounts across two separate months; correct causal targets, shared-wallet evidence and saved allocation contrasts; no requirement of positive return",
+  "allocation": "INVERSE_VOL_30D",
+  "models_fit": 0,
+  "data_role_note": "Only LIQUIDITY_TEN actually executed; original two-asset and equal accounts reused from saved evidence, no new data or old QA replay",
+  "baseline": {
+    "sha256": "301fa1f0242c123b0f125d3c0aff2dffbef9a4c2c607162564aaa37bd59f2c45",
+    "path": "reports/fast_research/MULTI_ASSET_TEN_PORTFOLIO_REPAIRED_20261004.json",
+    "replayed": false
+  },
+  "target_validation": {
+    "task_id": "d94a6436fad543b681c95b70f11cc3e1",
+    "sha256": "41e1cd397c7a1712c651549153c4396721be8bc4d9bd6873e615404dea9cb374",
+    "path": "reports/fast_research/INVERSE_VOL_PORTFOLIO_TARGET_SYNTHETIC_20261004_V2.json",
+    "actual_exit_code": 0
+  },
+  "research_budget": {
+    "GPU": 0,
+    "shared_RAM_hard_bytes": 4999999488,
+    "HPO": 0,
+    "actual_account_calls": 8,
+    "new_recipes": 1,
+    "models_fit": 0,
+    "total_new_STATE_bytes": 300000000
+  },
+  "data_role": "SEEN_DEVELOPMENT_SAME_ACCEPTED_INPUT"
+}

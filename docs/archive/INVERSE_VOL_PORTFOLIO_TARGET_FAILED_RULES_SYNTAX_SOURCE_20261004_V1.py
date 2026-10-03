@@ -13,7 +13,7 @@ RULES=dict(timeframe_minutes=1440,completed_daily_eligibility_bars=200,
     absolute_target_per_asset=.3,gross_target_cap=.6,direction_is_constant=True,
     raw_allocation='EQUAL_SHARE_OF_0.6_GROSS_TO_CONFIGURED_ELIGIBLE_MEMBERS',
     SMA_alpha_or_original_Jesse_hooks_used=False)
-INVERSE_VOL_RULES=dict(RULES,
+INVERSE_VOL_RULES={**RULES,
     raw_allocation='0.6_TIMES_NORMALIZED_INVERSE_PAST30_SAMPLE_DAILY_VOLATILITY_THEN_ASSET_CLIP_0.3',
     allocation='INVERSE_VOL_30D',allocation_sample_std_ddof=1,
     allocation_returns='PAST30_COMPLETED_SIMPLE_DAILY_RETURNS_NOT_ANNUALIZED',

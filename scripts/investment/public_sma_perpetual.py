@@ -11,6 +11,7 @@ from scripts.investment import public_sma_daily as public
 MODES = ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH')
 SYMBOLS = ('BTCUSDT', 'ETHUSDT')
 DAY_US = 86_400_000_000
+ALLOCATIONS = ('EQUAL', 'INVERSE_VOL_30D')
 
 
 def require(ok, message):
@@ -50,7 +51,7 @@ def signed_risk_weights(raw, past_returns, annual_vol_target=.10):
 
 
 def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
-                  direction_factory=None, eligible_by_decision=None):
+                  direction_factory=None, eligible_by_decision=None, allocation='EQUAL'):
     """Daily original hooks, 200 closed-bar warmup, explicit ordered membership.
 
     Missing/warming/exited assets have zero targets and retain their identity
@@ -58,6 +59,7 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
     the account runner, never by deleting scoring dates or zeroing PnL.
     """
     require(mode in MODES, 'Preselected direction required')
+    require(allocation in ALLOCATIONS, 'Preselected allocation required')
     symbols = symbol_order(symbols)
     supplied = np.asarray(decisions)
     require(supplied.dtype.kind in ('i', 'u') and supplied.ndim == 1
@@ -126,8 +128,41 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
             returns.append(np.diff(close) / close[:-1])
             covariance_symbols.append(symbol)
             reasons[symbol] = 'ELIGIBLE'
+        allocation_details = {}
+        if allocation == 'INVERSE_VOL_30D':
+            # Reuse exactly the completed past-return/eligibility pipeline.
+            # Any invalid member makes this allocation unknown and flat;
+            # its budget is never reassigned to the remaining members.
+            volatility = dict.fromkeys((s for s in symbols if s in membership), None)
+            failures = {s:reasons[s] for s in symbols
+                        if s in membership and s not in covariance_symbols}
+            if covariance_symbols:
+                with np.errstate(over='ignore', invalid='ignore', divide='ignore'):
+                    sample = np.std(np.column_stack(returns)[-30:], axis=0, ddof=1)
+                for s, sigma in zip(covariance_symbols, sample, strict=True):
+                    volatility[s] = float(sigma) if np.isfinite(sigma) else None
+                    if not np.isfinite(sigma) or sigma <= 0:
+                        failures[s] = 'NONFINITE_OR_ZERO_PAST30_SAMPLE_VOLATILITY'
+            if failures or not covariance_symbols:
+                raw = dict.fromkeys(symbols, 0.)
+                for s in covariance_symbols:
+                    reasons[s] = 'INVERSE_VOLATILITY_UNKNOWN_FLAT'
+                status = 'UNKNOWN_FLAT_NO_BUDGET_REDISTRIBUTION'
+            else:
+                # min(sigma)/sigma is proportional to 1/sigma and avoids
+                # reciprocal overflow without a floor, band or fitted epsilon.
+                inverse = sample.min() / sample
+                sizes = np.minimum(.3, .6 * inverse / inverse.sum())
+                raw.update((s, float(size) * context[s]['state'])
+                           for s, size in zip(covariance_symbols, sizes, strict=True))
+                status = 'COMPLETE_PAST30_INVERSE_VOLATILITY'
+            allocation_details = dict(allocation=allocation, allocation_status=status,
+                allocation_sample_daily_volatility=volatility,
+                allocation_invalid_symbols=failures, allocation_std_ddof=1,
+                clipped_budget_not_redistributed=True)
         weights = dict.fromkeys(symbols, 0.)
-        if covariance_symbols:
+        if covariance_symbols and not (allocation_details and
+                allocation_details['allocation_status'].startswith('UNKNOWN')):
             values, details = signed_risk_weights([raw[s] for s in covariance_symbols],
                                                   np.column_stack(returns))
             weights.update(zip(covariance_symbols, values, strict=True))
@@ -139,7 +174,8 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
                 target_weight=float(weights[symbol]), raw_signed_target=float(raw[symbol]),
                 mode=mode, eligibility_reason=reasons[symbol]))
         risk.append(dict(decision_us=int(decision), symbol_order=list(symbols),
-            covariance_symbol_order=covariance_symbols, eligibility=reasons, **details))
+            covariance_symbol_order=covariance_symbols, eligibility=reasons,
+            **details, **allocation_details))
     return pl.DataFrame(targets), dict(mode=mode, symbols=list(symbols), risk=risk,
         original_long_and_short_and_exit_hooks_reused=direction_factory is None,
         whole_balance_sizing_replaced_by_capped_COINSizing=True,

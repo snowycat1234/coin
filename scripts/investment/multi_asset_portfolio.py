@@ -71,10 +71,14 @@ def main():
                 'New small result artifact required')
     engine.need(os.environ.get('COIN_TASK_ID') and
         sys.prefix == str(STATE/'v8-clean-env-20261002-v2'), 'Bounded accepted WSL runtime required')
-    engine.need(protocol['initial_capital_USDT'] == 10000 and protocol['strategy'] == hold.STRATEGY_ID,
+    allocation = protocol.get('allocation', 'EQUAL')
+    strategies = {'EQUAL': hold.STRATEGY_ID, 'INVERSE_VOL_30D': hold.INVERSE_STRATEGY_ID}
+    engine.need(allocation in strategies and protocol['initial_capital_USDT'] == 10000 and
+                protocol['strategy'] == strategies[allocation],
                 'Same full capital and one fixed rule, no search')
-    engine.need(len(protocol['pools']) == 2 and protocol['pools'][0]['symbols'] == ['BTCUSDT','ETHUSDT'],
-                'Original two-asset control retained')
+    engine.need(bool(protocol['pools']) and
+                len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
+                'Nonempty configurable unique pools; saved controls need not be replayed')
     pools=[p for p in protocol['pools'] if args.pool_id is None or p['id']==args.pool_id]
     engine.need(bool(pools) and len({p['id'] for p in pools})==len(pools), 'Unique predeclared pool ID')
     experiment_id=protocol['experiment_id']+(':'+args.pool_id if args.pool_id else '')
@@ -102,18 +106,21 @@ def main():
     event.update(event_id=experiment_id+':START', event_type='OPERATIONAL_RESEARCH_START',
         experiment_id=experiment_id, git_commit=binding['git_commit'],
         data_manifest_hash=sha(manifest), protocol_hash=sha(args.protocol),
-        feature_set='CLOSED_DAILY_CONSTANT_LONG_AND_PAST30_SIGNED_COVARIANCE', labels='NONE',
+        feature_set='CLOSED_DAILY_CONSTANT_LONG_AND_PAST30_SIGNED_COVARIANCE_' + allocation, labels='NONE',
         model_family='NONE', hyperparameters=protocol, seed=None, thresholds='FIXED_NO_SEARCH',
         cost_assumptions=dict(costs=engine.COSTS, funding_units=engine.UNITS),
         all_folds='SEEN_DEVELOPMENT_SAME_FULL_WINDOW', success_failure='START_BEFORE_NEW_ACCOUNTS',
-        reason_for_next_experiment='Does an ex ante liquidity pool improve net return or diversification?',
+        reason_for_next_experiment=protocol.get('question',
+            'Does an ex ante liquidity pool improve net return or diversification?'),
         result_influenced_later_choice='NONE_BEFORE_RESULTS', fits=0)
     append_event(ROOT/'reports/experiment_registry.jsonl', event)
     result = dict(status='FAILED_MULTI_ASSET_DEVELOPMENT_COMPARISON', binding=binding,
         run_dir=str(run), cases=[], completed_cases=0, required_cases=required_cases,
         actual_calendar_days=(end-start)//engine.DAY, initial_capital_per_comparison_account_USDT=10000,
         capital_inside_each_portfolio='ONE_SHARED_ACCOUNT_NOT_SUMMED_ASSET_ACCOUNTS',
-        pool_changes_only=True, strategy_changed_between_pools=False,
+        pool_changes_only=allocation == 'EQUAL', strategy_changed_between_pools=False,
+        allocation=allocation, strategy_id=strategies[allocation],
+        directional_signal='CONSTANT_LONG_NOT_SMA_ALPHA',
         target_exchange='Bybit_VIP0', price_funding_source='Binance_USDM_CROSS_VENUE_PROXY',
         funding_unit_certified=False, native_filters_certified=False, candidate='NONE', investment='CASH',
         long_term_APR='NOT_EVALUABLE', model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
@@ -131,6 +138,9 @@ def main():
         owned = sum(p.stat().st_size for p in run.rglob('*') if p.is_file())
         engine.need(owned <= reserve and time.monotonic()-began <= protocol['budget']['wall_seconds'],
                     'Finite output/wall research budget reached')
+        engine.need(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
+                    protocol['budget'].get('peak_RSS_bytes', 5_000_000_000),
+                    'Finite process RSS research budget reached')
 
     try:
         progress.update('磁盘容量守卫；总扫描量未知', None, None, '扫描')
@@ -149,7 +159,8 @@ def main():
                 window = load_portfolio_window(manifest, symbols, start, end)
             engine.need(window['start'] == start and window['end'] == end,
                         'Reader dates differ from predeclared evaluation window')
-            factory = lambda bars, decisions, mode: hold.fixed_targets(bars,decisions,mode,symbols=symbols)
+            factory = lambda bars, decisions, mode: hold.fixed_targets(
+                bars,decisions,mode,symbols=symbols,allocation=allocation)
             for cost in engine.COSTS:
                 for unit in engine.UNITS:
                     case_id = pool['id']+'_'+cost['id']+'_'+unit['id']
