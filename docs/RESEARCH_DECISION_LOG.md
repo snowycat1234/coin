@@ -700,3 +700,21 @@ D037经济协议冻结前预算修正：只读原547日VM实际receipt，旧单�
 采用官方daily源/因果薄adapter/核算能力，暂停本固定Donchian投资采用和参数重复；不同过去可得、事前固定机制或真正未来同成本风险有效证据可reopen。两source startup失败与rootV1内部pytest alias误拒绝留存；V2只接受精确同owned测试链接，不改金融或磁盘guard，原文件/实际exit1不覆盖。
 
 下一D038固定 Jesse原SMA50/200日线long-only（同MITrepo/commit7c91e0a）：fast>slow可入场、fast<slow退出、相等维持；不限恰当日交叉。此为不同慢趋势状态，信息价值高于Donchian20/200/exit再搜索；同时改变入场退出，不能声称纯入场消融，亦未证明低相关alpha。复用66日档/分钟parquet/共同10k/风险/36bp，零HPO；三独立seenSCREENING只作新机制筛选，不拼NAV/碰locked，源码和单新case/协议将在新数组前固定。未来原生/稳定性若仍不成立继续现金候选NONE；长期APR NE，普通自主研究无需逐项批准。
+
+### D038运行前：固定公开SMA50/200趋势状态（2026-10-03）
+
+当前HEAD7da8e0202874d50a6c00651312c261e65811772b，D037实际/独立/根/远程一致已核，8765无遗留研究任务。投资候选NONE、长期APR NE。122日日线Donchian gross−558.338202而成本39.759086，最高信息问题是不同慢趋势入场/持有机制能否改善价格收益稳定性；不继续同Donchian参数/退出搜索。
+
+固定Jesse example-strategies MIT commit7c91e0a37bf62165790120d730442e4f6eb00364的SMACrossover50/200，UTC1d long-only移植：fast>slow可入场、fast<slow退出、相等保持，不限当日交叉；原short/wholebalance不移植。一次改变入场和退出，不称纯入场消融，未证明独立alpha。只一配置/零HPO/零fit，用三个独立10k账号547/122/90完整评分窗，全部已见SCREENING，不拼净值、不以其证明未来资格。
+
+复用D037封存66官方日档/2008行/每币1004日、每窗200完成日仅warmup/fresh flat；复用原已接受分钟Parquet与下一分钟+1us执行/容量/风险，旧行情QA/账本不重放。BybitVIP0Spot收到资产费10bp/side、spread8bpRT、slip4bp/side，固定36bp往返；仍Binance行情代理，不放宽成本或杠杆。新原hookvendor/license预绑定与registry归档登记、薄adapter/唯一新增贯穿1case/三个经济协议将在市场数组前冻结。
+
+预期专属STATE<400MB，硬450MB：547账户280M、122账户70M、90账户60M、新case10M、独立10M、vendor/provenance与元数据20M；不再下载市场数据或安装环境。共享5GB/swap0/GPU0和D总40GB、32预警/36停新增/1GB临时预算不变；各长任务在8765显示真实状态，缺内部总量不造百分比。独立核验只核新增SMA targets和三新账户；金融AST/费用/执行守卫原字节保持。净收益、gross与成本贡献/实际vol和分钟DD共同描述筛选，零交易只记现金，无长期APR/真钱认证。
+
+### D038经济闭合与下一研究选择（2026-10-03）
+
+固定SMA50/200三实际closed0：547日net+940.611246/gross979.538133/成本38.926887，122日net−531.707290/gross−521.729329/成本9.977961，90日零成交现金0。实现vol13.174393%/14.749935%/0与分钟DD13.765712%/11.339604%/0；547末1662.260412USDT实质MTM库存、BTC被动漂移34.491194%披露，不当dust或已变现，不从利润扣库存本金。独立V2/保存比較/根实际验收闭合，原caseV1错误补买断言与独立V1新registry路径兼容失败留存，V2只新断言/精确路径bridge，原金融/target/容差不变。
+
+采用开源hook/因果日线/核算能力，暂停固定SMA投资采用和周期HPO；不同事前固定过去可得信息/机制，或真正未来同原生成本合理风险净稳定证据可reopen。候选NONE/长期APR NE；已见独立账户不拼接，相同caps非同实际风险，费用不放宽。
+
+下一最高信息研究选择：固定三窗保存SMA、VM、2h账本的分币gross、实际持有时长与权重、被动超cap时段、成本和terminal桥。检验SMA正收益是否主要来自更集中/更长BTC beta与漂移，从该证据决定风险控制或signal方向；只新归因、不新账户/旧QA/挑月/择赢家组合或参数搜索。尚未读取本项数组/实现归因，运行前另冻结精确输入与小预算，不写大规划；D40GB/共享5GB/swap0/GPU0与locked/真钱/keys边界不变。

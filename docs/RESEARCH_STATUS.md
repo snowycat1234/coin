@@ -4,12 +4,16 @@
 
 ## 当前选择与证据
 
-1. **当前APR候选**：投资主力/真钱候选仍 **NONE**。D037固定日线Donchian来源、因果adapter、三实际账户和独立核算采用；其投资采用及同配方扩展暂停。
-2. **净APR证据**：独立10k账户547日净+577.024120、122日净−598.097288、90日零交易0 USDT；分钟MDD13.378820%/9.345781%/0，实现年vol8.678012%/10.371579%/0。长期净APR **NE**，账户不拼接，已见历史SCREENING；547日描述性CAGR不当长期APR。
-3. **最大阻碍**：gross稳定性和入场/持有规则。122日同净收到数量gross−558.338202而总成本39.759086；降换手不足修复。D036共同亏损诊断保留，不能因排名反转机械组合。
-4. **本轮发现**：547日hybrid、122日2h/hybrid在net/实现vol/分钟DD描述性Pareto支配daily；90日现金避损不构成盈利alpha。BybitVIP0 Spot收到资产10bp/side＋spread8bpRT＋slip4bp/side=36bp nominalRT，仍Binance价格代理，非Bybit原生成交认证。
-5. **下一步及理由**：D038固定官方SMA50/200日线long-only，以不同慢趋势状态检验gross机制，复用现有日线/分钟输入和原共同风险/36bp；不改变参数，不放宽费用，不重放旧QA。原官方fast>slow可入场、fast<slow退出、相等保持状态，未要求恰当日交叉；同时改变入场/退出，不称纯消融。尚未实施或运行。
-6. **暂停及reopen**：固定日线Donchian暂停投资采用和重复调参，不同过去可得、事前固定的机制或真正未来同成本风险有效证据可重开；D036固定50/50组合暂停，独立因果信号或后续尾部避损证据可重开。VM/2h/hybrid投资升级需未来/原生净稳定优势。静态carry、过去7日资金费退出配方、maker/深度声明能力及各自reopen保持；locked/真钱/keys/D40GB/共享5GB边界不变。
+1. **当前APR候选**：投资主力/真钱候选 **NONE**，长期净APR **NE**。D038公开SMA50/200日线来源、因果薄适配与账户核算能力采用；固定配方投资采用及均线参数搜索暂停。
+2. **净APR证据**：三个独立10k已见SCREENING账户547日net+940.611246（+9.406112%）、122日−531.707290（−5.317073%）、90日全现金零成交。实现年vol13.174393%/14.749935%/0，分钟MDD13.765712%/11.339604%/0；不拼NAV，不将描述性年化当长期APR。
+3. **最大阻碍**：gross机制和实际风险。122日gross−521.729329而总成本9.977961，低换手已不足修复；547日期末1662.260412USDT为实质marked库存，BTC被动漂移到34.491194%，.3为订单目标而非每分钟硬上限，共同风险规则不等实现风险相同。
+4. **本轮发现**：固定慢趋势依然没有跨窗口稳定优势；90日现金避损不能算交易alpha。BybitVIP0Spot收到资产10bp/side＋spread8bpRT＋slip4bp/side=36bp nominalRT，仍Binance价格代理；原生成交、全部事件MDD和未来盈利资格未认证。
+5. **下一步及理由**：固定三窗已保存SMA、VM、2h账本的分币gross与实际持有暴露归因，先检验集中BTC beta/被动漂移与signal贡献，再选择风险或入退场实验。只新归因，不新账户/HPO/旧QA/择月份或拼段；此项尚未执行。降低费用无法解释已发生的主要gross亏损。
+6. **暂停及reopen**：固定SMA/日线Donchian投资采用及参数重复暂停；新的事前固定过去可得信息/机制，或真正未来、同原生成本与合理风险的稳定净证据可重开。D036固定50/50组合暂停，独立因果信号/未来尾部避损可重开。VM/2h/hybrid仍需未来/原生净优势才可投资升级；静态carry、资金费退出配方及maker/深度能力的原reopen保持。locked/真钱/keys/D40GB/共享5GB不变。
+
+**D038完整证据**：[模块](PUBLIC_SMA_DAILY_20261003.md)、[547日实际](../reports/fast_research/PUBLIC_SMA_DAILY_547D_ACTUAL_20261003_V1.json)、[122日实际](../reports/fast_research/PUBLIC_SMA_DAILY_122D_ACTUAL_20261003_V1.json)、[90日实际](../reports/fast_research/PUBLIC_SMA_DAILY_90D_ACTUAL_20261003_V1.json)、[独立V2](../reports/fast_research/PUBLIC_SMA_DAILY_THREE_PERIOD_INDEPENDENT_AUDIT_20261003_V2.json)、[保存比较](../reports/fast_research/PUBLIC_SMA_DAILY_ECONOMIC_COMPARISON_20261003_V1.json)、[根V3薄入口实际报告](../reports/fast_research/PUBLIC_SMA_DAILY_ROOT_ACCEPTANCE_20261003_V1.json)。原MIT hook未改；复用66日档与原分钟输入、每窗200完成日warmup/fresh flat，0 fit/HPO/locked/orders。唯一caseV1错误约束合法补买以及独立V1拒绝新registry路径的真实失败保留，V2只修首次BUY断言/精确metadata路径，源/金融/费用/target/容差未改。独立核759日/1092960分钟/25月，根七closed0角色与失败/专属目录/冻结字节闭合，旧金融/QA不重放。实际独立target保留生成时UNRUN注释，以实际调用PASS为准。
+
+描述性Pareto支配关系（net≥、实现vol≤、分钟MDD≤且至少一项严格，非显著性或未来资格）：547天：波动管理持有；122天：波动管理持有、2小时Donchian及混合周期Donchian；90天：无参照支配SMA现金，但现金也不产生正交易alpha。
 
 **D037完整证据**：[固定日线模块](PUBLIC_DONCHIAN_DAILY_20261003.md)、[547日实际](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_547D_ACTUAL_20261003_V1.json)、[122日实际](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_122D_ACTUAL_20261003_V1.json)、[90日实际](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_90D_ACTUAL_20261003_V1.json)、[独立](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_THREE_PERIOD_INDEPENDENT_AUDIT_20261003_V1.json)、[保存经济比较](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_ECONOMIC_COMPARISON_20261003_V1.json)、[根V2](../reports/fast_research/PUBLIC_DONCHIAN_DAILY_ROOT_ACCEPTANCE_20261003_V2.json)。66官方CHECKSUM日档完整2008行、每币1004日；每窗恰好200完成日仅预热/fresh flat，下一分钟+1us原成交代理。独立759日/1092960分钟/25月、金额误差≤1.7648563e−11USDT；全事件MDD/原生publication/成交未认证。两个来源初始化失败及根V1内部pytest链接误拒绝保持原字节，新薄版本仅metadata修正，不改原金融/费用/资源守卫。源/唯一1case/三实际/独立/保存比较均真实closed0；根V2后验最终退出在Git同步凭证绑定。
 **D036完整证据**：[公开策略互补诊断](PUBLIC_PAIR_COMPLEMENTARITY_20261003.md)、[实际V2](../reports/fast_research/PUBLIC_PAIR_COMPLEMENTARITY_ACTUAL_20261003_V2.json)、[独立](../reports/fast_research/PUBLIC_PAIR_COMPLEMENTARITY_INDEPENDENT_AUDIT_20261003_V1.json)、[根验收](../reports/fast_research/PUBLIC_PAIR_COMPLEMENTARITY_ROOT_ACCEPTANCE_20261003_V1.json)。实际session48238/chunk53589f、独立session7464/chunkf1f6cf、根chunk949fc5均exit0；逐窗759日／1518个账户日／2185920分钟投影，12文件，仅新统计，无原账户／QA重放。独立最大金额误差1.136868e−13／比率误差1.745271e−13。源码与输入SHA冻结；第一次PowerShell别名／Progress显示初始化失败在数组前，原字节和实际失败任务保留，V2薄适配只改显示初始化，科学数学保持。协议显示文字P/TaskHash误字以独立erratum解释为P/H，门槛和原协议未改。两专属STATE1,064,080B≤5MB；实际RAM峰406,355,968B、独立401,903,616B，共享5GB／swap0／GPU0。实际盘扫描20,178,767,678B于2026-10-03 07:18:58.237603+08完成，后续工件不在该扫描；已发布至8765。模块Git提交与远程一致核验真实完成，d8f6c3fbc6df919f1a68e30415df09e0e666b3c5；[后验同步凭证](../reports/GITHUB_PUBLIC_PAIR_COMPLEMENTARITY_SYNC_VERIFIED_20261003_V1.json) SHAa0468bcf…将在下一正常模块入库。
@@ -79,11 +83,13 @@ Bybit标准登记见 [费用口径](BYBIT_NONVIP_COST_STANDARD_20261002.md)。
 
 ## 资源、进度与同步
 
-- 最新已完成实际扫描20,515,858,910B，2026-10-03 00:05:06.540887UTC/08:05:06.540887+08结束，project4,413,925,854B＋VHD16,101,933,056B；其后工件不在旧扫描内。该实际值/时刻已发布8765，非新扫描；D总40GB/32预警/36停新增不变。
-- D037市场RSS2,019,340,288/644,255,744/540,950,528B，独立983,588,864B；七个专属STATE由根V2核算，硬450MB。共享硬4,999,999,488B、历史峰3,236,868,096B，swap0/GPU0，无资源限额变更。
-- [本机窗口](http://localhost:8765/)API健康errors[]，任务实际completed/0；内部未知轮次不造百分比。公开采集继续旧来源，未修改或拼健康资格。
-- 上一已核模块D036=d8f6c3fbc6df919f1a68e30415df09e0e666b3c5，其后验同步凭证a0468bcf…本轮入库。D037科学/独立/经济比较/根V2完成，文档已修缮；最终源码字节门槛/模块Git推送/精确远程一致待收尾。
-- 完整项目目标继续，当前步骤D037模块提交；下步固定D038不同公开SMA入场/退出规则，尚未运行。locked/真钱须用户另行授权。
+- 最新已完成实际扫描20,886,214,070B于2026-10-03 00:54:32.790511UTC/08:54:32.790511+08结束；project4,415,182,262B＋VHD16,471,031,808B，后续工件不在旧扫描内。该实际值/时刻已发布8765，非新扫描；D40GB/32预警/36停新增不变。
+- 新三市场RSS2,015,547,392/642,916,352/542,232,576B；共享硬4,999,999,488B、历史峰3,263,008,768B、swap0/GPU0，内核资源限制未变。
+- [本机窗口](http://localhost:8765/)API健康errors[]，任务使用真实状态；未知内部总量不造百分比。既有公开采集来源未改、不拼接健康资格。
+- 上一模块D037远程一致7da8e0202874d50a6c00651312c261e65811772b，后验同步凭证c0af3204…本轮入库。D038实际/独立V2/保存比较/根验收已完成，文档与标准Git字节门槛/正常提交推送待本轮最后闭合。
+- 完整项目目标继续，当前步骤D038模块Git同步，下一固定保存账本分币gross/暴露归因；长期APR NE/候选NONE。locked/真钱须用户另行授权。
+- 根核八个明确独占STATE合计388013693B≤450MB；独立V2RSS1051361280B。
+
 **NO_QUALIFIED_CANDIDATE。** 不消费 locked historical test、不使用真钱/账户密钥/付费服务、不启用 GPU。已见窗口和当前历史 proxy 不产生未来竞争资格。
 
 原状态的完整字节保存在 [本版之前的状态](archive/RESEARCH_STATUS_PRE_INVESTMENT_COMPARISON_20261002.md)；科研选择只追加 [决策日志](RESEARCH_DECISION_LOG.md)，实际运行只追加 `reports/experiment_registry.jsonl`。

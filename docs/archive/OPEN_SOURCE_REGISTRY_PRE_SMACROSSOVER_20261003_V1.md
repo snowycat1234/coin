@@ -233,12 +233,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 11:36:11 的旧 `.venv` 包元数据快照：pytorch-tcn/River/tsai/Torch/pandas 未安装；本快照不描述主代理之后新 `.venv-research` 的安装状态。没有 `third_party` 目录。已使用的底层依赖沿用原 pyproject/uv.lock 与旧凭证；本次不改它们。
 
 后续每次实际安装/vendor 按 FR66/67/68/69 独立更新集成凭证，将该项目从 PINNED 升为 ADOPTED，并登记许可证、upstream SHA、实际本地文件 SHA、所有修改和四项 smoke。FR61 不提供模型训练效果、容量、alpha 或未来实盘授权；RAM≤5GB、项目加整个 D 盘 VHD≤40GB、无 GPU 约束继续执行。
-
-
-### 固定公开 SMA50/200 日线来源（D038，收益运行前登记）
-
-| repo | commit／license | 用途与本地修改 |
-|---|---|---|
-| https://github.com/jesse-ai/example-strategies | `7c91e0a37bf62165790120d730442e4f6eb00364`／MIT | 原 `SMACrossover/__init__.py` 置 `third_party/jesse_example_smacrossover/smacrossover_original.py`，SHA `453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae`；原策略及同commit MIT许可字节零修改。COIN将仅移植长仓/退出hook，固定50/200闭合UTC日线，原short及whole-balance不移植；风险、10k资本、36bp费用与既有proxy账本复用。不安装新环境，不称原策略回测复现或投资资格。 |
-
-追加前原登记字节保存 `docs/archive/OPEN_SOURCE_REGISTRY_PRE_SMACROSSOVER_20261003_V1.md`，SHA `b3143326fd24f534c501a5f2a5ed81ae2ad5bba19d3106af261fe9e62acad3bb`；旧记录及原冻结来源不改写。
