@@ -4,13 +4,14 @@
 
 ## 当前选择与证据
 
-1. **当前APR候选**：投资主力/真钱候选 **NONE**，长期净APR **NE**。D038公开SMA50/200日线来源、因果薄适配与账户核算能力采用；固定配方投资采用及均线参数搜索暂停。
-2. **净APR证据**：三个独立10k已见SCREENING账户547日net+940.611246（+9.406112%）、122日−531.707290（−5.317073%）、90日全现金零成交。实现年vol13.174393%/14.749935%/0，分钟MDD13.765712%/11.339604%/0；不拼NAV，不将描述性年化当长期APR。
-3. **最大阻碍**：gross机制和实际风险。122日gross−521.729329而总成本9.977961，低换手已不足修复；547日期末1662.260412USDT为实质marked库存，BTC被动漂移到34.491194%，.3为订单目标而非每分钟硬上限，共同风险规则不等实现风险相同。
-4. **本轮发现**：固定慢趋势依然没有跨窗口稳定优势；90日现金避损不能算交易alpha。BybitVIP0Spot收到资产10bp/side＋spread8bpRT＋slip4bp/side=36bp nominalRT，仍Binance价格代理；原生成交、全部事件MDD和未来盈利资格未认证。
-5. **下一步及理由**：固定三窗已保存SMA、VM、2h账本的分币gross与实际持有暴露归因，先检验集中BTC beta/被动漂移与signal贡献，再选择风险或入退场实验。只新归因，不新账户/HPO/旧QA/择月份或拼段；此项尚未执行。降低费用无法解释已发生的主要gross亏损。
-6. **暂停及reopen**：固定SMA/日线Donchian投资采用及参数重复暂停；新的事前固定过去可得信息/机制，或真正未来、同原生成本与合理风险的稳定净证据可重开。D036固定50/50组合暂停，独立因果信号/未来尾部避损可重开。VM/2h/hybrid仍需未来/原生净优势才可投资升级；静态carry、资金费退出配方及maker/深度能力的原reopen保持。locked/真钱/keys/D40GB/共享5GB不变。
+1. **当前APR候选**：投资/真钱候选NONE，长期净APR NE。D040真实USDT永续多空会计与统一方向比较已验收采用；固定SMA仅为研究挑战者，不根据已见窗口采用SHORT_ONLY或选择资金费胜出单位。
+2. **当前净收益证据**：完整10k，每窗独立；122日base/rawfraction long−331.535281、short+91.674267、LS−302.486646、cash0。90日base/rawfraction short/LS+641.540294；rawpercent纠错新完整账户+623.779740；两成本两单位下90日均正、122日LS均负。32情景资格来自原30完整与新2完整的独立引用，原2错误前缀保留，不拼NAV/年化成稳定APR。
+3. **最大阻碍**：固定SMA多头gross负及跨窗差异，实际风险并未匹配。90日新账户vol12.164324%超过10%目标，最大绝对gross35.194046%体现价格漂移/容量降仓延迟；绝对.3/.6配置未提高但不保证瞬时上限。Bybit原生价格/历史MMR/filters、资金费单位和真正未来证据仍缺。
+4. **本轮发现**：122日LS比long改善29.048635=空头42.323889+多头路径改变−13.275254，不能全归空头；LS仍亏。90日新gross636.984987/fee5.447471/spread3.962001/slip3.962001/funding0.166226，主要价格PnL。原两误停为full-close Decimal数值残差1e−37造债，不是经济爆仓；数学恒等修复后独立原前缀金额/比例误差0，真实不足仍停机。
+5. **下一项及理由**：同永续账户复用原公开2h Donchian LONG_ONLY作为强基准，只新8账户（两窗×两成本×两单位），SMA32结果保存复用不再重跑。先补July2025 BTC/ETH官方USD-M 2h两小档作400小时同产品预热；不可替用Spot/日线或截短评分。回答SMA空头改善是否只是弱多头基线，无HPO/镜像原策略空头，不把共同caps说成匹配实现风险。下一项尚未启动，不虚报后台运行。
+6. **暂停及reopen**：固定SMA投资采用/HPO暂停，保留多空/空仓能力。reopen为事前固定新信息/机制，并在同产品强基准与合理实际风险下获得跨窗净增量，随后真正未来独立证据；单窗失败不永久删方向。D039归因暂停，确需时精确复制原JSON修UTC串后重开。locked/真钱/keys/paid/GPU/D40GB/共享5GB边界保持。
 
+**D040完整证据**：[多空模块](PERPETUAL_LONG_SHORT_20261003.md)、[原32实际](../reports/fast_research/PERPETUAL_DIRECTIONAL_ACTUAL_20261003_V1.json)、[原独立](../reports/fast_research/PERPETUAL_DIRECTIONAL_INDEPENDENT_AUDIT_20261003_V1.json)、[新两正确性复测](../reports/fast_research/PERPETUAL_SETTLEMENT_REPLAY_ACTUAL_20261003_V1.json)、[新两独立](../reports/fast_research/PERPETUAL_SETTLEMENT_TWO_CASE_INDEPENDENT_AUDIT_20261003_V1.json)、[根验收](../reports/fast_research/PERPETUAL_DIRECTIONAL_ROOT_ACCEPTANCE_20261003_V1.json)。根session78036/chunkec583c/task1b11a04998844f838174bc73af22df73实际exit0，10个先决角色真实closed0；源/账户/信号/controller/原32/新两金融与必要失败按源码哈希闭合，private lock仅本地核不入portable。原30金融/旧QA/绿测不重放。新的完整两case各129600分钟/90天/3月，独立最大金额3.64e−12、比例2.22e−15，原stop前129legs/540资金费/180targets/129595分钟政策数量价格时序完全相同，prefix金额误差0。ROOT+VHD最近实际扫描21,256,028,075B于2026-10-03 11:31:35.351906+08结束，后来新两输出不在该扫描；8765已发布准确时间。共享硬5GB/swap0/GPU0保持；主体RSS382.8MB、新两336.6MB、独立312.1/267.3MB，未超预算。Git同步待当前模块最终文档/预检完成。
 **D038完整证据**：[模块](PUBLIC_SMA_DAILY_20261003.md)、[547日实际](../reports/fast_research/PUBLIC_SMA_DAILY_547D_ACTUAL_20261003_V1.json)、[122日实际](../reports/fast_research/PUBLIC_SMA_DAILY_122D_ACTUAL_20261003_V1.json)、[90日实际](../reports/fast_research/PUBLIC_SMA_DAILY_90D_ACTUAL_20261003_V1.json)、[独立V2](../reports/fast_research/PUBLIC_SMA_DAILY_THREE_PERIOD_INDEPENDENT_AUDIT_20261003_V2.json)、[保存比较](../reports/fast_research/PUBLIC_SMA_DAILY_ECONOMIC_COMPARISON_20261003_V1.json)、[根V3薄入口实际报告](../reports/fast_research/PUBLIC_SMA_DAILY_ROOT_ACCEPTANCE_20261003_V1.json)。原MIT hook未改；复用66日档与原分钟输入、每窗200完成日warmup/fresh flat，0 fit/HPO/locked/orders。唯一caseV1错误约束合法补买以及独立V1拒绝新registry路径的真实失败保留，V2只修首次BUY断言/精确metadata路径，源/金融/费用/target/容差未改。独立核759日/1092960分钟/25月，根七closed0角色与失败/专属目录/冻结字节闭合，旧金融/QA不重放。实际独立target保留生成时UNRUN注释，以实际调用PASS为准。
 
 描述性Pareto支配关系（net≥、实现vol≤、分钟MDD≤且至少一项严格，非显著性或未来资格）：547天：波动管理持有；122天：波动管理持有、2小时Donchian及混合周期Donchian；90天：无参照支配SMA现金，但现金也不产生正交易alpha。
@@ -86,8 +87,8 @@ Bybit标准登记见 [费用口径](BYBIT_NONVIP_COST_STANDARD_20261002.md)。
 - 最新已完成实际扫描20,886,214,070B于2026-10-03 00:54:32.790511UTC/08:54:32.790511+08结束；project4,415,182,262B＋VHD16,471,031,808B，后续工件不在旧扫描内。该实际值/时刻已发布8765，非新扫描；D40GB/32预警/36停新增不变。
 - 新三市场RSS2,015,547,392/642,916,352/542,232,576B；共享硬4,999,999,488B、历史峰3,263,008,768B、swap0/GPU0，内核资源限制未变。
 - [本机窗口](http://localhost:8765/)API健康errors[]，任务使用真实状态；未知内部总量不造百分比。既有公开采集来源未改、不拼接健康资格。
-- 上一模块D037远程一致7da8e0202874d50a6c00651312c261e65811772b，后验同步凭证c0af3204…本轮入库。D038实际/独立V2/保存比较/根验收已完成，文档与标准Git字节门槛/正常提交推送待本轮最后闭合。
-- 完整项目目标继续，当前步骤D038模块Git同步，下一固定保存账本分币gross/暴露归因；长期APR NE/候选NONE。locked/真钱须用户另行授权。
+- 上一模块D037远程一致7da8e0202874d50a6c00651312c261e65811772b，后验同步凭证c0af3204…本轮入库。D038实际/独立V2/保存比较/根验收/文档/231冻结blob门槛/正常提交推送/远程精确一致均已完成：4bf2bc1c521835c22598482900329c96a0564d4f。后验同步凭证d90af8745d03f537a8628599456be9c5457650b5aec6f1754251fc7499ada04d在下一正常模块入库，根最终closed0已核。
+- 完整项目目标继续，D038模块验收与同步完成，下一固定保存账本分币gross/暴露归因已选定尚未运行；长期APR NE/候选NONE。locked/真钱须用户另行授权。
 - 根核八个明确独占STATE合计388013693B≤450MB；独立V2RSS1051361280B。
 
 **NO_QUALIFIED_CANDIDATE。** 不消费 locked historical test、不使用真钱/账户密钥/付费服务、不启用 GPU。已见窗口和当前历史 proxy 不产生未来竞争资格。

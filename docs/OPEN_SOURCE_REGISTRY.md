@@ -242,3 +242,13 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 | https://github.com/jesse-ai/example-strategies | `7c91e0a37bf62165790120d730442e4f6eb00364`／MIT | 原 `SMACrossover/__init__.py` 置 `third_party/jesse_example_smacrossover/smacrossover_original.py`，SHA `453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae`；原策略及同commit MIT许可字节零修改。COIN将仅移植长仓/退出hook，固定50/200闭合UTC日线，原short及whole-balance不移植；风险、10k资本、36bp费用与既有proxy账本复用。不安装新环境，不称原策略回测复现或投资资格。 |
 
 追加前原登记字节保存 `docs/archive/OPEN_SOURCE_REGISTRY_PRE_SMACROSSOVER_20261003_V1.md`，SHA `b3143326fd24f534c501a5f2a5ed81ae2ad5bba19d3106af261fe9e62acad3bb`；旧记录及原冻结来源不改写。
+
+### USDT线性永续双向研究增量（D040）
+
+| repo | 固定commit／license | 用途及本地修改 |
+|---|---|---|
+| https://github.com/jesse-ai/example-strategies | `7c91e0a37bf62165790120d730442e4f6eb00364`／MIT | 原SMA50/200源码与许可零修改；新增COIN永续adapter接入原short entry/exit及long hook。固定daily、闭合200日、过去30日有符号协方差、绝对.3/.6和统一.99 sizing buffer。四方向分别只许可指定方向，空仓独立；原全仓、Jesse执行不复现，退出后下个daily决定才可新入场。旧D038 Spot long-only结果不改名完整复现。 |
+| https://github.com/binance/binance-public-data | `f446ce3812bd4e5521f21faecd4ae3c6460e49fc`／README软件MIT声明；数据另受原登记条款 | 复用原`download_file`及已有薄包装，官方USD-M monthly klines URL、CHECKSUM和ZIP CRC。新增28个1d、14个1m档；仅资源兼容扩展单ZIP16MB/解压CSV128MB边界，真实最大ZIP约2.02MB，原2MB限制不足。保持成交OHLCV、quote/taker量与count，不用mark/index冒充成交，不重写下载框架。 |
+| https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 既有锁定`1.44.2`／MIT、`2.5.3`／BSD-3-Clause | 共用来源接线、目标、过去协方差及评价；库零修改/零新安装。标准库Decimal独立参考会计；原ExecutionContractV2只复用时钟与成本算术，不将其Spot费用/风险身份赋予永续。 |
+
+新账户为最小逐仓单向线性合约研究适配，无交易所连接。旧carry固定hedge不能承担一般方向及反手；不安装新平台或复制第三方交易引擎。原Spot库存保护保持，资金费单位/Bybit原生成交/历史MMR与filters尚未认证，只能明确假设下筛选。新增前登记表原字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_20261003_V1.md`，旧凭证按该字节核对；不覆盖历史登记。

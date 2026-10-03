@@ -718,3 +718,50 @@ D037经济协议冻结前预算修正：只读原547日VM实际receipt，旧单�
 采用开源hook/因果日线/核算能力，暂停固定SMA投资采用和周期HPO；不同事前固定过去可得信息/机制，或真正未来同原生成本合理风险净稳定证据可reopen。候选NONE/长期APR NE；已见独立账户不拼接，相同caps非同实际风险，费用不放宽。
 
 下一最高信息研究选择：固定三窗保存SMA、VM、2h账本的分币gross、实际持有时长与权重、被动超cap时段、成本和terminal桥。检验SMA正收益是否主要来自更集中/更长BTC beta与漂移，从该证据决定风险控制或signal方向；只新归因、不新账户/旧QA/挑月/择赢家组合或参数搜索。尚未读取本项数组/实现归因，运行前另冻结精确输入与小预算，不写大规划；D40GB/共享5GB/swap0/GPU0与locked/真钱/keys边界不变。
+
+### D039运行前：固定保存账本的分币资金贡献与暴露归因（2026-10-03）
+
+HEAD4bf2bc1c521835c22598482900329c96a0564d4f，D038已验收/推送/远程一致；无遗留研究任务，candidateNONE/APRNE。SMA122成本9.98而gross−521.73，547风险更高且实质terminal1662.26USDT；下一最高信息问题是按币资金贡献和实际暴露能否解释价格收益、集中风险与策略差异，从证据再决定signal或风险控制。
+
+只取固定SMA50/200、VOL_MANAGED_BUY_AND_HOLD、公开2h Donchian三族，在原547/122/90三个独立seenSCREENING窗口保存的9账户18工件（trades/minute_nav_inventory）。每币gross=−Σ(position_delta×mid_price)+terminalmarked；net=gross−fee_USDT_mid−execution_cost，共同36bp固定分解4bp/side spread与4bp/side slip；basefee不再扣第二次。独立用cash_delta总和+terminal核net桥，复用旧accepted结算来源，不重新模拟旧交易或原QA。
+
+暴露按完整分钟快照统一计平均/最大权重、weight>.3样本数与≥10USDT material活动样本/最长连续样本（>0含dust辅助）。这是分钟投影描述，不冒称精确事件持有时长；.3是目标，不称硬分钟cap或新增违规。终端库存保留MTM，不当已清仓/不从净利润扣其本金；贡献与暴露不足识别可交易alpha或因果beta。不挑币赢家、不筛月份、不组合NAV、不新账户/HPO、fees/杠杆/locked/真钱不变。
+
+先固定recon/源/新薄数学/唯一合成case/协议再读真实18 arrays；一次仅1case，成熟Polars/Numpy/Decimal与原registry/resources/Progress优先复用，不建framework。主体STATE≤5MB/峰RSS≤1GB/600s、独立≤5MB，合计≤10MB，市场复制0；共享5GB/swap0/GPU0、D40GB/32预警/36停新增/1GB总临时预算保持。验收后依据全窗gross与实际暴露差异决定唯一下一研究，不以最高历史APR择参，固定SMA投资暂停与原reopen保持。
+
+## D039 实际停止与主任务切换（2026-10-03）
+
+V1合成新归因数学真实PASS，task fdf7588dde7a4d0d88465707511cd476／exit0、receipt803485fd1b9bd38f3e578889ffc9939c31bdea161eadf6b2e8d18cbe8db79a42；actual V1 task d53db01b68e2404088f12ce7f54eaf52／exit1、receiptf84d1699d6486c930f9db625144411078efd4b76a2c418ce34342356f3ef4964，0账本数组。metadata诊断33346464c9aa4c4497c9c22e83e872b9／exit0，仅9原summary的start_utc/end_utc共18字符串被PowerShell自动转换至+08:00，其余金融字段/目录精确相等。不是亏损归因结果，也不放宽guard；原recon/协议/源码/失败保留。用户最新多空指令切换主任务，D039实际归因暂停；reopen为今后确需分币诊断时精确复制原JSON摘要修复时区序列化，依赖未变的新数学不重复绿色测试。未运行V2草案保留，不作为已完成能力。
+
+## D040 运行前：最小线性永续多空链路与方向对照（2026-10-03）
+
+HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生效：Spot clip/库存保护是真实产品限制，旧SMA明确为long-only适配；carry短腿不是通用方向引擎。问题是同一固定双向SMA50/200信号在同一USDT永续价格/资金费/费用/完整资本/绝对风险下，做空有无净增量。主任务为新产品最小会计与真正负目标成交，不改变Spot/旧carry或冻结证据；公共MIT hook与已有金融语义优先复用，禁止再造平台。
+
+默认10k共享钱包、逐仓单向1倍、每币绝对名义<=.3NAV/全部腿gross<=.6NAV，无自动补margin；BybitVIP0永续taker5.5bp/side，执行代理固定4bp halfspread+4bp slip/side及明确成本压力，不把Spot费用换算成合约回测。新手算/独立账本先核signed持仓、现金/抵押、cost basis、反手两腿、部分成交/reduce-only、资金费符号/归属和保证金/跳空halt；风险降仓优先持有约束。缺原生历史MMR/filters只能条件筛选，不认证安全清算或可执行APR。
+
+先核已有完整未封存合约来源，固定已见122日及90日可行性，不挑跌日。缺trade-price/资金费单位或事件覆盖时，先最薄官方来源补足，不拿mark/index假装成交或unknown funding补零。四方向账户独立不拼NAV；信号不用未来最终rate、因果可得时间和旧locked边界不变。first capability新代码/合成/独立工件工作预算<=20MB；既有来源metadata仅读、后续增量行情最多2GB且联合<32GB含1GBtemp预留；共享RAM5GB/swap0/GPU0。数据输入不满足则保留能力和明确缺口，不制造经济PASS。完成有意义版本后依据净贡献/风险/成本瓶颈自主选择下一项。
+
+### D040 条件方向对照运行前补充（2026-10-03）
+
+官方USD-M trade source42档已真实closed0，新56,817,312B，仅读原mark/index/funding接线metadata；新source独立待闭合。账户恢复request/实际legs绑定的静态blocker修正后，唯一账户10项手算真实通过；没有把旧测试当新入口。仍没有原始funding CSV单位到官方API字段的认证桥，不能形成无条件经济主结论。
+
+因此固定条件敏感性，而非unknown补零：同一真实有符号funding事件分别按原值是fraction（scale1）及原值是percent（scale.01），两者全部完整保留，不根据胜负挑单位。两个独立已见122/90窗口，各四方向、两成本、两单位共32名义case；每窗完整10k共享BTC/ETH钱包，账户间不共享或拼接资本。base往返27bp，压力仅spread/slippage各翻倍，费用仍5.5bp/side，往返43bp。先固定所有选择再读新经济数组，零HPO/fit；单位/原生场所输入未证时，只采用有限条件方向诊断能力，APR与投资候选仍NE/NONE。
+
+原SMA50/200双向hook复用，统一daily/past30 signed covariance/.10年度vol目标；目标乘一致.99保守buffer以满足成交后NAV绝对.3/.6，不调高风险或容差。trade.open为明确K线成交代理，下一分钟+1us、前一完整分钟quote_volume*.001容量、最多5分钟、减仓先于增仓；风险漂移优先于alpha持有。首settlement缺过去mark但fresh-flat真实零持仓事件保留原time/rate/quantity0及不适用原因，其他owned事件缺价格硬失败，不伪造mark/资金费。所有清算/破产假设触发即停止并保留，不在其后拼现金或删除日期；终端不免费清仓，残仓仅MTM。
+
+经济与独立工作目录合计预期<=250MB、硬400MB，单任务RSS<=1.5GB，共享5GB/swap0/GPU0；不重新下载或重复旧QA。验收关注short真实净增量、long/short贡献、费用/funding、gross/net暴露、保证金占用、实现vol/分钟MDD/收益集中度及窗口/成本/单位一致性。相同caps不当相同实际风险；有限已见筛选不声称unseen/稳定APR或原生Bybit回测。
+
+### D040 实际结果与数值正确性修复前（2026-10-03）
+
+原32选择器actual ffc696e06eb249d893552aad42e9a8d6真exit0，报告c643c6ae5542dc049595a8c2e21b7281ef5ce46ac7f026a3c845126f05bfb445；独立030a2b570edb40eb98a1b1ea56bdac70真exit0，报告876fce2558757f797e1d0f9d5b923c5858427ecfd721926afe4926355ffef53d。30全窗、2误停前缀严格区分。122日base/rawfraction：long−331.535281、short+91.674267、LS−302.486646；LS增量29.048635=短腿42.323889+多腿改变−13.275254。90日base/rawfraction短/LS+641.540294、long/cash0，实现vol12.157697%高于10%事前目标。单位、原生MMR/成交未认证；相同caps非相同实现风险，不选胜单位、不拼NAV、不称稳定APR/投资资格。
+
+两90日BASE27/rawpercent SHORT_ONLY/LS在末5分钟中 false BANKRUPT_HALT：仍NAV10624.590897、free9639.837525、ETH equity984.753372>MM2.917803，但exact unpaid liability=1.000E−37。独立Decimal50债0，而producer40精度full-close的 margin×qty/abs(q) 数学恒等链有舍入，暂负margin传入_debit min并造债。先修 correctness blocker，非放宽风险规则；原source2bae/报告/2prefix/独立审核原字节保留。
+
+下一唯一本轮工作：完整平仓直接释放原保证金的数学恒等值，_debit防止负抵押物被当债务抵扣；不引入epsilon/债豁免。只新增可重现旧失败+手算partial/full/debit真实不足的必要case，然后原547 controller函数不改，由薄wrapper新跑同90日BASE27/rawpercent两受影响账户，再独立逐腿/全部129600分钟和原停止前prefix。其余30金融/旧QA/绿测不重跑，参数/日期/成本/资金费单位/风险/信号不改。新市场STATE≤60MB/RSS≤1.5GB/1200s；新独立≤5MB/RSS≤1.5GB/1200s；共享5GB/GPU0/swap0/锁/资金权限保持。复测后决定保留双向能力，固定SMA是否投资采用仍取决于跨窗净结果和独立证据。
+### D040 结果决策：采用有符号能力，暂停固定SMA投资采用（2026-10-03）
+
+原actual32/独立32、数学恒等修复新1case、新2完整90日实际/独立、来源与10roles薄根验收已真closed0。原30全窗+新2全窗是独立证据引用，原2 false-halt前缀保留不覆盖；无NAV拼接/旧30金融重放。新source cf47ae9b889eab4506be2b22929322976a6833235eaab6459399bdec53de2261只改_debit/_leg，旧2bae原额archive；不用epsilon/提高精度/债务豁免，真实微债和资金费不足仍HALT。唯一新case dcd321c3/session99073/chunkf386b9，修复新actual4a9dbcef/session5906/chunkda7439，独立0132514a/session13722/chunk675328，根5b6fa633/session78036/chunkec583c都实际exit0。新两独立prefix129legs/540funding/180targets/129595分钟政策/量/价/时序exact且金额误差0，全90日/129600分钟/3月flat/no-debt，各net623.779740。
+
+投资判断不变：122日两成本/两单位LS始终负，虽比只做多改善但空头和多头路径改变须分开；90日short/LS净615.473077..641.540294主要pricePnL，不能事后择方向/单位成为主力。新90实现年vol12.164324%、allobsDD4.831646%、minute峰gross35.194046%，与10%目标/30%资产cap之间的漂移和延迟公开；不把配置cap当瞬时保证或实现风险相同。完整10k作分母，无杠杆/自动补margin提升。单位、Bybit原生price/funding/MMR/filters/可成交与未来独立证据未认证。能力采用，固定SMA投资采用/HPO暂停；reopen为新事前因果信息/机制、同产品强基准和合理实现风险下跨窗净增量，然后真正未来验证，不永久删short能力。
+
+下一唯一主任务选择同永续产品的原公开2h Donchian LONG_ONLY强基准，复用SMA保存结果。理由：目前改善相对于负gross的弱多头基线，尚不知是否胜过已有强公开参照；直接复用已验收MIT策略比新模型/HPO信息价值更高。保持两独立窗口/完整10k/绝对.3/.6/1x、27/43bp成本、两个资金费单位条件、时钟和past-only风险。先仅补July2025 BTC/ETH官方USD-M 2h两档保证SMA200需400h同产品预热，不能用Spot/daily或截短评分；原should_short=False保持，不镜像称官方完整双向。之后新8case对原32保存摘要比较，不重跑SMA；共同风险约束但实际vol/DD/gross应另报，不能预称匹配风险。停止条件为来源/完整日历/因果/成本/资本/风险出现blocker或事前资源上限，无大型搜参/锁/真钱。该下一项尚未启动，执行窗口结束交接点是已验收cf47账户、现perp来源、原2hMIT hooks与最小July预热缺口；无虚报后台研究。
