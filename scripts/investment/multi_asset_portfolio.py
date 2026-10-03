@@ -20,6 +20,7 @@ from quant import disk, resources
 from quant.paths import ROOT, STATE
 from scripts.investment import perpetual_directional as engine
 from scripts.investment import vol_managed_perpetual_target as hold
+from scripts.investment import public_sma_pool_target as sma_pool
 from scripts.investment.perpetual_closing_exempt_account import USDTLinearPerpetualAccount
 from scripts.research_v8.registry import FIELDS, append_event
 
@@ -72,10 +73,16 @@ def main():
     engine.need(os.environ.get('COIN_TASK_ID') and
         sys.prefix == str(STATE/'v8-clean-env-20261002-v2'), 'Bounded accepted WSL runtime required')
     allocation = protocol.get('allocation', 'EQUAL')
-    strategies = {'EQUAL': hold.STRATEGY_ID, 'INVERSE_VOL_30D': hold.INVERSE_STRATEGY_ID}
-    engine.need(allocation in strategies and protocol['initial_capital_USDT'] == 10000 and
-                protocol['strategy'] == strategies[allocation],
+    strategies = {hold.STRATEGY_ID: ('EQUAL', hold),
+                  hold.INVERSE_STRATEGY_ID: ('INVERSE_VOL_30D', hold),
+                  sma_pool.STRATEGY_ID: ('EQUAL', sma_pool)}
+    identity = protocol['strategy']
+    engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
+                allocation == strategies[identity][0],
                 'Same full capital and one fixed rule, no search')
+    target_module = strategies[identity][1]
+    signal = ('CONSTANT_LONG_NOT_SMA_ALPHA' if target_module is hold else
+              'PUBLIC_SMA50_200_LONG_OR_FLAT')
     engine.need(bool(protocol['pools']) and
                 len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
                 'Nonempty configurable unique pools; saved controls need not be replayed')
@@ -106,7 +113,7 @@ def main():
     event.update(event_id=experiment_id+':START', event_type='OPERATIONAL_RESEARCH_START',
         experiment_id=experiment_id, git_commit=binding['git_commit'],
         data_manifest_hash=sha(manifest), protocol_hash=sha(args.protocol),
-        feature_set='CLOSED_DAILY_CONSTANT_LONG_AND_PAST30_SIGNED_COVARIANCE_' + allocation, labels='NONE',
+        feature_set='CLOSED_DAILY_' + signal + '_PAST30_SIGNED_COVARIANCE_' + allocation, labels='NONE',
         model_family='NONE', hyperparameters=protocol, seed=None, thresholds='FIXED_NO_SEARCH',
         cost_assumptions=dict(costs=engine.COSTS, funding_units=engine.UNITS),
         all_folds='SEEN_DEVELOPMENT_SAME_FULL_WINDOW', success_failure='START_BEFORE_NEW_ACCOUNTS',
@@ -118,9 +125,9 @@ def main():
         run_dir=str(run), cases=[], completed_cases=0, required_cases=required_cases,
         actual_calendar_days=(end-start)//engine.DAY, initial_capital_per_comparison_account_USDT=10000,
         capital_inside_each_portfolio='ONE_SHARED_ACCOUNT_NOT_SUMMED_ASSET_ACCOUNTS',
-        pool_changes_only=allocation == 'EQUAL', strategy_changed_between_pools=False,
-        allocation=allocation, strategy_id=strategies[allocation],
-        directional_signal='CONSTANT_LONG_NOT_SMA_ALPHA',
+        pool_changes_only=target_module is hold and allocation == 'EQUAL',
+        strategy_changed_between_pools=False,
+        allocation=allocation, strategy_id=identity, directional_signal=signal,
         target_exchange='Bybit_VIP0', price_funding_source='Binance_USDM_CROSS_VENUE_PROXY',
         funding_unit_certified=False, native_filters_certified=False, candidate='NONE', investment='CASH',
         long_term_APR='NOT_EVALUABLE', model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
@@ -159,7 +166,7 @@ def main():
                 window = load_portfolio_window(manifest, symbols, start, end)
             engine.need(window['start'] == start and window['end'] == end,
                         'Reader dates differ from predeclared evaluation window')
-            factory = lambda bars, decisions, mode: hold.fixed_targets(
+            factory = lambda bars, decisions, mode: target_module.fixed_targets(
                 bars,decisions,mode,symbols=symbols,allocation=allocation)
             for cost in engine.COSTS:
                 for unit in engine.UNITS:

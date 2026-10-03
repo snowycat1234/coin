@@ -1,4 +1,61 @@
-# 可配置多币共享资本组合：D050与D051
+# 可配置多币共享资本组合：D050–D053
+
+## D053：固定公开日线方向对照（实际完成，配方暂停）
+
+只改变方向信号：复用已登记MIT Jesse SMACrossover固定50/200日线原hook，>入多/<退出/=保持，退出当日不重入，fresh flat独立窗口；normal薄adapter接入同有序July十币池。等权raw .6/N、未active预算不重分配、过去30日有符号cov×365/10%只降风险、单币abs30%/共享gross60%、完整10k与1x逐仓、BASE27/STRESS43、两未认证资金费单位、分钟/mark/容量/五次退出均保持。风险路径会随信号变化；不是同数量纯择时效应，也不宣称实际风险已匹配。第三方原类/许可零修改，0新依赖/模型/下载/HPO。
+
+| 条件 | 9月HOLD已清仓净USDT | 9月SMA已清仓净USDT | 10月HOLD marked净USDT | 10月SMA marked净USDT |
+|---|---:|---:|---:|---:|
+| BASE27 / fraction | 285.154136 | −70.331040 | 3.690456 | −242.529153 |
+| BASE27 / percent | 290.695018 | −67.405795 | 13.848643 | −233.614602 |
+| STRESS43 / fraction | 282.046036 | −74.068785 | 0.642906 | −246.441035 |
+| STRESS43 / percent | 287.585729 | −71.145852 | 10.798959 | −237.529345 |
+
+9月30日、10月31日独立满资本账户，不拼61日NAV。两保存HOLD及原BTC/ETH/逆波动报告未重跑；全部已见开发筛选。10月两侧marked都有真实末持仓，不能把上表称清仓已变现收益。
+
+### 经济解释与独立复核
+
+9月SMA gross约−61.05..−61.06，较HOLD少356.88..356.99；额外fee+执行1.14..1.81，funding反改善0.026..2.580。BASE/F只SOL/PEPE/SATS/XRP成交，前三净−29.73/−40.36/−62.07、XRP+61.83；六个未成交币在HOLD均正毛贡献，包括WIF/ORDI/WLD。不是降费可补救的差距，不把不同实际数量的差额归为纯signal alpha。
+
+10月SMA gross−226.88..−226.77，较HOLD少245.82..245.94；额外成本1.53..2.44、资金费改善0.012..1.177。BASE/F净BTC+6.27、SOL−27.71、XRP−103.25、SATS−117.84，其余六币0成交。原HOLD的DOGE主要正贡献未捕捉；不能按此事后删XRP/SATS或换入赢家。SMA五最大正日占正收益9月约59.9%、10月约67.4%，贡献仍集中；精确持仓时长未测，不编造覆盖。
+
+SMA realized vol9月5.72..5.74%/10月8.40..8.43%，mean gross7.60%/12.37%，低于HOLD8.14..8.17%/10.46..10.48%与12.68%/14.20%；DD反为1.737..1.743%/3.312..3.382%，高于HOLD约1.43%/2.93..2.94%。gross=net（仅多），9月峰gross12.67%、10月18.965..18.967%；9月保证金/NAV均值7.486..7.492%、峰13.121..13.132%，10月均值13.621..13.632%、峰19.938..19.956%。完整现金竞争与明细保存在每case.summary.realized_exposure，不将低net视为无风险。
+
+10月原容量下SMA残仓XRP与1000SATS，合计308.89..309.87USDT；BASE/F SATS297.94/XRP11.19，浮亏分别−58.14/−1.81，共约−60；四条件末浮亏−59.95..−60.33已计入NAV。所有31日分钟完整，0完成现金清仓，liquidated return NOT_EVALUABLE。原5次尝试/期限不改，不免费成交、删日期/库存、追加风险预算或事后延长退出。本结果同时确认原生/真实可退出性仍是晋级边界。
+
+8新账户、8新独立金融调用与两个保存配对均真实closed0。独立参考用scalar fsum50/200、严格因果连续200日/fresh state/相等保持/下一日重入及独立中心cov，未调用生产策略/hook做预期值；300/310个日线状态严格匹配。独立金额最大7.28e−12USDT/比例8.58e−14，原1e−7/1e−10容差；记录钱包/保证金/费用/资金费/库存/marked NAV已核。原完整订单数量意图和历史Bybit过滤未完全独立认证。另一agent只读小JSON复核经济解释，未另跑模型/数组/QA。
+
+### 资源、进度与决定
+
+| 四条件，十币同账户 | 9月SMA | 10月SMA |
+|---|---:|---:|
+| 组合阶段 | 55.26秒 | 57.96秒 |
+| 含实际磁盘守卫 | 135.95秒 | 138.30秒 |
+| 进程RSS峰值 | 317.33MB | 319.66MB |
+| 共享组实采峰值 | 1.262GB | 1.281GB |
+| 新账户输出 | 15.600MB | 19.264MB |
+
+原小规模/十币资源对照仍见D050/D051，不重跑旧实验；扩币内存不是瓶颈。本轮时间主要含D盘全项目守卫扫描与分钟账本，未提高RAM/GPU。独立两月RSS338.90/347.23MB、耗时21.98/23.32秒、合计18.12KB元数据；内核累计3.263GB是共享历史峰值，不能当本轮峰。最新真实扫描23,774,981,508B在2026-10-03T22:10:14.584686Z完成，先于10月输出/后续metadata/Git。
+
+九月发布线程和只读stack sampler共用sample-PID.tmp导致实际FileNotFoundError，研究任务仍exit0。正常仅改sampler独有.stack-sampler.tmp及6秒内同PID/start_ticks/task明确阶段保留，原时间戳不续期、过期转UNKNOWN；唯一确定性不利交错case真0，原研究Progress源码959/服务/采集未改。本轮root发布磁盘记录漏原ledger外层导致API KeyError旧快照，纠正metadata后实际API已无错误，不重启服务或重跑研究；两事件及凭证完整保留，不叫市场失败。
+
+采用可配置多币/共享资金/公开hook能力；暂停固定50/200配方和调参，投资NONE/CASH。它否定实际测试的两月/池/费用条件，非永久删除趋势/多空能力。当前最大的净收益差距是价格方向/状态而非费用，短开发证据与真实容量退出仍限制投资结论。下一优先固定2024年11月整月、同July池，保留BTCETH HOLD/十币equal/十币inverse三既有recipe，核跨月净/实际风险/可退出性；不挑月份、改池/参数或拼NAV，尚未启动。SMA reopen须新事前机制或跨状态净增量，扩池/ML reopen须具体信息或分散缺陷，原生/资金费单位认证保持UNKNOWN与独立投资边界。
+
+### 本轮实际工件与命令
+
+协议与实际报告名为PUBLIC_SMA_POOL_SEPTEMBER/OCTOBER_20261004_V1.json；独立报告追加_INDEPENDENT，保存对照追加_COMPARISON。原data_manifest48ff/cbd、pool9b8与原Git0a61/abc901f/b00183d保留。正常活动源码直接维护，本版producer d6678c3f…、独立82f461e8…、comparer e3fec405…；账户与费用/执行源码保持。手算来源/顺序/未来扰动病例报告PUBLIC_SMA_POOL_TARGET_SYNTHETIC_20261004_V1与进度病例TASK_PROGRESS_STACK_SAMPLER_PUBLISHERS_SYNTHETIC_20261004_V1。原资产名包括1000PEPE/1000SATS，base为合约报价单位，不偷换为单币单位。
+
+在D-backed WSL中，本轮实际命令如下（复做另取exclusive STATE、输出与研究身份，不覆盖现有工件；独立plan绑定新的真实producer任务）：
+
+```bash
+bash scripts/with_task_progress.sh --title 'D053九月十币' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/PUBLIC_SMA_POOL_SEPTEMBER_20261004_V1.json --run-dir /home/xflops/coin-state/d053-public-sma-pool-september-20261004-v1 --output reports/fast_research/PUBLIC_SMA_POOL_SEPTEMBER_20261004_V1.json --pool-id LIQUIDITY_TEN
+bash scripts/with_task_progress.sh --title 'D053十月十币' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/PUBLIC_SMA_POOL_OCTOBER_20261004_V1.json --run-dir /home/xflops/coin-state/d053-public-sma-pool-october-20261004-v1 --output reports/fast_research/PUBLIC_SMA_POOL_OCTOBER_20261004_V1.json --pool-id LIQUIDITY_TEN
+bash scripts/with_task_progress.sh --title 'D053九月独立' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_financial_audit.py --protocol protocols/PUBLIC_SMA_POOL_SEPTEMBER_20261004_V1.json --actual reports/fast_research/PUBLIC_SMA_POOL_SEPTEMBER_20261004_V1.json --run-dir /home/xflops/coin-state/d053-public-sma-pool-september-financial-20261004-v1 --output reports/fast_research/PUBLIC_SMA_POOL_SEPTEMBER_INDEPENDENT_20261004_V1.json
+bash scripts/with_task_progress.sh --title 'D053九月保存对照' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/compare_multi_asset_portfolios.py --contrast signal --control reports/fast_research/MULTI_ASSET_TEN_PORTFOLIO_REPAIRED_20261004.json --pool reports/fast_research/PUBLIC_SMA_POOL_SEPTEMBER_20261004_V1.json --output reports/fast_research/PUBLIC_SMA_POOL_SEPTEMBER_COMPARISON_20261004_V1.json --experiment-id D053-SMA-SEPTEMBER-SAVED-PAIR-20261004
+```
+
+十月独立/保存对照同命令将SEPTEMBER与september换OCTOBER与october，HOLD控制换MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_20261004_V1.json。实测日期/资源/命令全文另见每个RUN_BINDING。历史证据不覆盖；源码/协议/小验收报告入库，大行情/真实账本/env/log仍D盘。下面是原D051/D050/D052历史时点，不能把其“下一步”当作当前未完成任务。
+
 
 ## D051：同一固定池的10月开发检验（实际完成，清仓收益NE）
 

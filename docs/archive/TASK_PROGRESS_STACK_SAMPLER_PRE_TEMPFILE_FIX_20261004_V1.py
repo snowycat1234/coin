@@ -1,6 +1,5 @@
 """Sample existing loop counters; never trace, refit, or change algorithm state."""
 import json
-import math
 import os
 from pathlib import Path
 import sys
@@ -10,34 +9,15 @@ import time
 STATE = Path("/home/xflops/coin-state/task-progress")
 ROOT = Path("/mnt/d/codex/coin")
 START_TICKS = int(Path("/proc/self/stat").read_text().split(") ", 1)[1].split()[19])
-UNKNOWN_PHASE = "运行中 / 阶段待识别"
 
 
 def write_snapshot(value):
     STATE.mkdir(exist_ok=True)
     target = STATE / f"sample-{os.getpid()}.json"
-    # The explicit stage publisher owns sample-PID.tmp in this same process.
-    temporary = target.with_suffix(".stack-sampler.tmp")
+    temporary = target.with_suffix(".tmp")
     value["start_ticks"] = START_TICKS
     temporary.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False))
     os.replace(temporary, target)
-
-
-def fresh_published_phase(now):
-    """Leave a current explicit publisher sample intact, including its clock."""
-    try:
-        sample = json.loads((STATE / f"sample-{os.getpid()}.json").read_text())
-        updated = sample.get("updated_at")
-        phase = sample.get("phase")
-        return (sample.get("pid") == os.getpid()
-                and sample.get("start_ticks") == START_TICKS
-                and sample.get("task_id") == os.environ.get("COIN_TASK_ID")
-                and isinstance(updated, (int, float)) and not isinstance(updated, bool)
-                and math.isfinite(updated) and 0 <= now - updated <= 6
-                and isinstance(phase, str) and bool(phase.strip())
-                and phase != UNKNOWN_PHASE)
-    except (OSError, ValueError, TypeError, AttributeError):
-        return False
 
 
 def inspect_frame(frame):
@@ -99,9 +79,9 @@ def sample_loop(main_id):
             if result:
                 write_snapshot({**result, "pid": os.getpid(), "updated_at": time.time(),
                                 "task_id": os.environ.get("COIN_TASK_ID")})
-            elif not fresh_published_phase(time.time()):
-                # An expired or different process's phase is never kept live.
-                write_snapshot({"phase": UNKNOWN_PHASE, "completed": None,
+            else:
+                # Clear an earlier phase rather than presenting stale counters as live.
+                write_snapshot({"phase": "运行中 / 阶段待识别", "completed": None,
                                 "total": None, "unit": "", "metrics": {},
                                 "pid": os.getpid(), "updated_at": time.time(),
                                 "task_id": os.environ.get("COIN_TASK_ID")})

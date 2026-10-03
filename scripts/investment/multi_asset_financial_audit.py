@@ -39,6 +39,7 @@ ALLOCATION_STRATEGIES = {
     'EQUAL': 'COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE',
     'INVERSE_VOL_30D': 'COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE',
 }
+SMA_POOL_STRATEGY = 'COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 
 
 def need(ok, message):
@@ -282,8 +283,76 @@ def inverse_target_reference(window, symbols):
     return pl.DataFrame(rows)
 
 
-def target_reference(window, symbols, allocation='EQUAL'):
+def sma_pool_target_reference(window, symbols):
+    """Scalar past200 SMA state plus independently centered past30 covariance.
+
+    Start flat at this scoring window; no warmup inventory or crossing-event
+    requirement. Inactive signals retain their membership budget share.
+    """
+    states = dict.fromkeys(symbols, 0)
+    rows, witnesses = [], []
+    for decision in range(window['start'], window['end'], DAY):
+        memberships = window.get('eligible_by_decision')
+        members = set(symbols) if memberships is None else set(memberships.get(decision, ()))
+        need(members <= set(symbols), 'Independent SMA membership outside configured identity')
+        live, returns, reasons = [], [], {}
+        raw, weights = dict.fromkeys(symbols, 0.), dict.fromkeys(symbols, 0.)
+        for symbol in symbols:
+            bars = window['bars'][symbol]
+            i = int(np.searchsorted(bars['close_us'].to_numpy(), decision, side='right') - 1)
+            valid = (i >= 199 and bars['close_us'][i] == decision and
+                np.all(np.diff(bars['close_us'][i-199:i+1].to_numpy()) == DAY) and
+                np.all(bars['available_us'][i-199:i+1].to_numpy() <= decision))
+            before = states[symbol]
+            if symbol not in members or not valid:
+                states[symbol] = 0
+                reasons[symbol] = 'POOL_EXIT' if symbol not in members else 'WARMUP_OR_DATA_GAP'
+                witnesses.append(dict(decision_us=decision, symbol=symbol, old_state=before,
+                    new_state=0, reason=reasons[symbol]))
+                continue
+            closes = bars['close'][i-199:i+1].to_numpy()
+            need(np.isfinite(closes).all() and np.all(closes > 0), 'Finite completed SMA/covariance closes')
+            fast = math.fsum(map(float, closes[-50:])) / 50
+            slow = math.fsum(map(float, closes)) / 200
+            if before:
+                states[symbol] = 0 if fast < slow else 1
+            elif fast > slow:
+                states[symbol] = 1
+            # Equality holds the current state; a close cannot reenter this day.
+            raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
+            past = closes[-31:]
+            returns.append(np.diff(past) / past[:-1])
+            live.append(symbol)
+            reasons[symbol] = 'ELIGIBLE'
+            witnesses.append(dict(decision_us=decision, symbol=symbol, fast_SMA50=fast,
+                slow_SMA200=slow, old_state=before, new_state=states[symbol], reason='ELIGIBLE'))
+        if live:
+            x = np.column_stack(returns)
+            need(np.isfinite(x).all(), 'Finite complete independent past30 returns')
+            centered = x - x.mean(axis=0)
+            covariance = centered.T @ centered / 29 * 365
+            scaled = np.asarray([raw[s] for s in live], dtype=np.float64)
+            gross = float(np.abs(scaled).sum())
+            if gross > .6:
+                scaled *= .6 / gross
+            sigma = math.sqrt(max(float(scaled @ covariance @ scaled), 0.))
+            if sigma > .10:
+                scaled *= .10 / sigma
+            weights.update(zip(live, map(float, scaled), strict=True))
+        for symbol in symbols:
+            rows.append(dict(available_us=decision, symbol=symbol,
+                target_weight=weights[symbol], raw_signed_target=raw[symbol],
+                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+    window['independent_SMA_state_witnesses'] = witnesses
+    return pl.DataFrame(rows)
+
+
+def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
     need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
+    if strategy_id == SMA_POOL_STRATEGY:
+        need(allocation == 'EQUAL', 'Predeclared SMA uses original equal member shares only')
+        return sma_pool_target_reference(window, symbols)
+    need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
     rows = []
@@ -338,7 +407,7 @@ def main():
         independent_source_sha256=own, run_dir=str(args.run_dir), run_binding_sha256=sha(args.run_dir / 'RUN_BINDING.json'),
         tolerances=plan['tolerances'], maximum_errors=errors, cases=[], completed_cases_verified=0,
         full_market_frozen_order_quantity_sizing_independently_rebuilt=False,
-        financial_scope='RECORDED_SIGNED_LEGS_CONDITIONAL_FUNDING_SHARED_WALLET_MINUTE_DAY_MONTH_AND_HOLD_TARGETS',
+        financial_scope='RECORDED_SIGNED_LEGS_CONDITIONAL_FUNDING_SHARED_WALLET_MINUTE_DAY_MONTH_AND_CONFIGURED_TARGETS',
         funding_unit_certified=False, native_filters_certified=False, publication_certified=False,
         candidate='NO_QUALIFIED_CANDIDATE', long_term_APR='NOT_EVALUABLE', locked_consumed=False,
         models_fit=0, orders_sent=0, GPU=0, old_QA_or_accounts_replayed=False, resources_before=before)
@@ -376,9 +445,12 @@ def main():
         need(rb == actual['binding'], 'Actual producer RUN_BINDING exact')
         need(rb['source_hashes'] == spec['source_hashes'], 'Source map bound before producer execution')
         allocation = spec.get('allocation', 'EQUAL')
+        strategy_id = spec['strategy']
+        sma_strategy = strategy_id == SMA_POOL_STRATEGY
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
-             spec['strategy'] == ALLOCATION_STRATEGIES[allocation], 'Same fixed capital and explicit HOLD allocation policy')
-        report.update(allocation=allocation, strategy_id=ALLOCATION_STRATEGIES[allocation],
+             (strategy_id == ALLOCATION_STRATEGIES[allocation] or sma_strategy and allocation == 'EQUAL'),
+             'Same fixed capital and explicit independent strategy/allocation policy')
+        report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
             path = guard.project(plan.get('source_archives', {}).get(name, name))
@@ -394,7 +466,11 @@ def main():
         report['financial_derivation'] = proof
         reference = base.module(base.REFERENCE, 'd050_independent_decimal_hand', base.REFERENCE_SHA)
         window = input_reader(spec, symbols, base, guard)
-        expected_targets = target_reference(window, symbols, allocation)
+        expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id)
+        if sma_strategy:
+            report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
+                independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
+                equality_tolerance_band_used=False)
         report['financial_input_bindings'] = window['proofs']
         need({(c['cost_id'], c['unit_id']) for c in actual['cases']} ==
              {(cost, unit) for cost in base.COSTS for unit in base.UNITS}, 'All predeclared cost/unit scenarios, no selection')
@@ -410,7 +486,7 @@ def main():
             paths = {k: base.payload(v, Path(actual['run_dir'])) for k, v in case['artifacts'].items()}
             targets = pl.read_parquet(paths['targets.parquet'])
             need(targets.columns == expected_targets.columns and targets.height == expected_targets.height,
-                 'Complete independent HOLD target schema/calendar')
+                 'Complete independent configured target schema/calendar')
             exact_keys = ('available_us', 'symbol', 'mode', 'eligibility_reason')
             if allocation == 'EQUAL':
                 exact_keys += ('raw_signed_target',)
@@ -428,7 +504,9 @@ def main():
                 cost=case['cost_id'], funding_unit=case['unit_id'])
             result = financial(window, canonical, guard, reference, Path(actual['run_dir']), None, [], errors)
             report['cases'].append(dict(result, pool=pool_id, symbols=list(symbols),
-                independent_HOLD_targets_verified=True, independent_HOLD_allocation=allocation))
+                independent_HOLD_targets_verified=not sma_strategy, independent_HOLD_allocation=allocation if not sma_strategy else None,
+                independent_SMA50_200_targets_verified=sma_strategy, independent_strategy_targets_verified=True,
+                independent_strategy_id=strategy_id))
             report['completed_cases_verified'] = len(report['cases'])
             gc.collect(); bounded()
         report.update(status=STATUS, required_cases=4, financial_case_calls=4,

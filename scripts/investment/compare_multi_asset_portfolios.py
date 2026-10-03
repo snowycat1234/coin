@@ -18,6 +18,17 @@ FINANCE_SOURCES=('src/quant/perpetual_account.py','scripts/investment/perpetual_
     'src/quant/execution_contract.py','environments/v8/uv.lock')
 EQUAL_ID='COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 INVERSE_ID='COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
+SMA_SIGNAL_ID='COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
+SIGNAL_SOURCE_PINS={
+    'scripts/investment/public_sma_pool_target.py':'0d8eca6fe244630e77bbd0bd8592bbcbd70c10463f4a211588f6ee3c8595b485',
+    'scripts/investment/public_sma_perpetual.py':'37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
+    'scripts/investment/public_sma_daily.py':'a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3',
+    'scripts/investment/vol_managed_perpetual_target.py':'a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b',
+    'third_party/jesse_example_smacrossover/smacrossover_original.py':'453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae',
+    'third_party/jesse_example_smacrossover/LICENSE':'80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d'}
+LEGACY_EQUAL_TARGET_PINS={
+    'scripts/investment/public_sma_perpetual.py':'ba9fdacc5856324a16c858c99bc9346efc1be51c2d990af7c28069cf9671e079',
+    'scripts/investment/vol_managed_perpetual_target.py':'e9544541d6e749704f9ea828c98f4c345e95f8c04227548913b5bf87043cc3c0'}
 
 
 def require(ok, message):
@@ -223,13 +234,109 @@ def allocation_case(left,right,scope,days):
         allocation_changed=True,realized_risk_matched=False)
 
 
+def signal_scope(left,right):
+    """Bind a known equal-HOLD control to one fixed original SMA signal port."""
+    a,ap=saved_protocol(left);b,bp=saved_protocol(right)
+    require(a['strategy']==EQUAL_ID and b['strategy']==SMA_SIGNAL_ID and
+        a.get('allocation','EQUAL')==b.get('allocation','EQUAL')=='EQUAL', 'Only constant-long versus fixed SMA long-flat, equal allocation')
+    windows=[]
+    for p in (a,b):
+        stamps=[datetime.fromisoformat(p[k]) for k in ('start','end_exclusive')]
+        require(all(t.tzinfo is not None and t.utcoffset().total_seconds()==0 for t in stamps), 'Explicit UTC period')
+        windows.append(tuple(int(t.timestamp()*1_000_000) for t in stamps))
+    require(windows[0]==windows[1] and windows[0][1]-windows[0][0]==left['actual_calendar_days']*86_400_000_000, 'Same complete signal scoring period')
+    proofs=[saved_pool_proof(p) for p in (a,b)]
+    require(a['initial_capital_USDT']==b['initial_capital_USDT']==10000 and a['pools']==b['pools'] and
+        proofs[0]['path']==proofs[1]['path'] and proofs[0]['sha256']==proofs[1]['sha256'], 'Same frozen ordered pool and full capital')
+    require(a['data_manifest']['sha256']==b['data_manifest']['sha256']==left['binding']['manifest_sha256']==right['binding']['manifest_sha256'] and
+        Path(a['data_manifest']['path']).resolve()==Path(b['data_manifest']['path']).resolve(), 'Identical accepted signal and execution input identity')
+    hashes=[p['binding']['source_hashes'] for p in (left,right)]
+    require(all(p['source_hashes']==h for p,h in zip((a,b),hashes,strict=True)), 'Actual sources match their saved signal protocols')
+    for key in FINANCE_SOURCES:
+        require(hashes[0][key]==hashes[1][key], 'Unchanged signal account, engine, resource or environment '+key)
+    require(left['binding']['environment_lock_sha256']==right['binding']['environment_lock_sha256']==
+        hashes[0]['environments/v8/uv.lock'], 'Identical signal comparison runtime lock')
+    require(all(hashes[0].get(k)==v for k,v in LEGACY_EQUAL_TARGET_PINS.items()) and
+        all(hashes[1].get(k)==v for k,v in SIGNAL_SOURCE_PINS.items()), 'Known accepted equal targets and explicit original SMA port source pins')
+    changes={k:dict(baseline=v,current=hashes[1][k]) for k,v in hashes[0].items()
+             if k in hashes[1] and v!=hashes[1][k]}
+    compatibility={'scripts/investment/multi_asset_data.py','scripts/investment/multi_asset_portfolio.py'}
+    require(set(changes)<=set(TARGET_SOURCES)|compatibility and set(hashes[0])<=set(hashes[1]) and
+        set(hashes[1])-set(hashes[0])<=set(SIGNAL_SOURCE_PINS), 'No unrelated source dropped, changed or introduced')
+    # D052 added an optional inverse branch; this exact handcase also checked
+    # the preserved default equal targets. Only that known source pair is used.
+    proof_path='reports/fast_research/INVERSE_VOL_PORTFOLIO_TARGET_SYNTHETIC_20261004_V2.json'
+    proof_sha='41e1cd397c7a1712c651549153c4396721be8bc4d9bd6873e615404dea9cb374'
+    accepted=read(ROOT/proof_path,proof_sha)
+    require(accepted['status']=='PASS_BOUNDED_RESEARCH_TESTS_SYNTHETIC_NOT_MARKET_RESULT' and
+        accepted['test_exit_code']==0 and accepted['source_bytes_unchanged'] is True and
+        accepted['junit_counts']==dict(tests=1,errors=0,failures=0,skipped=0) and
+        all(accepted['binding']['source_hashes'][k]==SIGNAL_SOURCE_PINS[k] for k in TARGET_SOURCES), 'Known default equal-target compatibility proof')
+    return dict(baseline_protocol=ap,current_protocol=bp,start_us=windows[0][0],end_us=windows[0][1],
+        predeclared_pools=a['pools'],frozen_pool_receipt=proofs[0],current_pool_receipt=proofs[1],
+        identical_data_manifest_sha256=a['data_manifest']['sha256'],source_changes=changes,
+        unchanged_finance_source_hashes={k:hashes[0][k] for k in FINANCE_SOURCES},
+        explicit_signal_source_pins=SIGNAL_SOURCE_PINS,
+        reader_and_cli_compatibility_source_changes={k:v for k,v in changes.items() if k in compatibility},
+        known_equal_target_compatibility=dict(baseline_pins=LEGACY_EQUAL_TARGET_PINS,
+            current_pins={k:SIGNAL_SOURCE_PINS[k] for k in TARGET_SOURCES},proof_path=proof_path,proof_sha256=proof_sha),
+        baseline_strategy_id=EQUAL_ID,current_strategy_id=SMA_SIGNAL_ID,baseline_signal='CONSTANT_LONG',
+        current_signal='ORIGINAL_SMA50_200_LONG_FLAT',allocation='EQUAL',allocation_changed=False,
+        directional_signal_changed=True,realized_risk_matched=False)
+
+
+def signal_case(left,right,scope,days):
+    require(left['pool']==right['pool']=='LIQUIDITY_TEN' and left['symbols']==right['symbols'] and
+        len(left['symbols'])==len(set(left['symbols']))==10 and
+        any(p['id']==left['pool'] and p['symbols']==left['symbols'] for p in scope['predeclared_pools']) and
+        left['summary']['contract']==right['summary']['contract'] and
+        left['summary']['cost_scenario']==right['summary']['cost_scenario'] and
+        left['summary']['unit_scenario']==right['summary']['unit_scenario'] and
+        left['summary']['mode']==right['summary']['mode']=='LONG_ONLY', 'Same ordered N10, risk contract, costs, units and long-only mode')
+    equal_rules=dict(timeframe_minutes=1440,completed_daily_eligibility_bars=200,
+        past_covariance_daily_returns=30,annual_volatility_target=.10,absolute_target_per_asset=.3,
+        gross_target_cap=.6,direction_is_constant=True,
+        raw_allocation='EQUAL_SHARE_OF_0.6_GROSS_TO_CONFIGURED_ELIGIBLE_MEMBERS',SMA_alpha_or_original_Jesse_hooks_used=False)
+    sma_rules=dict(equal_rules,direction_is_constant=False,SMA_alpha_or_original_Jesse_hooks_used=True,
+        fast_SMA_period=50,slow_SMA_period=200,SMA_includes_current_completed_day=True,
+        entry_predicate='FAST_GT_SLOW_NOT_CROSS_EVENT',exit_predicate='HELD_LONG_AND_FAST_LT_SLOW',
+        equal_policy='HOLD_CURRENT_STATE',close_then_wait_next_daily_decision_to_reenter=True,
+        inactive_signal_budget_redistributed=False,allocation='EQUAL',fresh_flat_each_window=True,
+        native_Jesse_or_Bybit_execution_replicated=False,funding_rates_used_for_signal=False,
+        daily_availability='EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED')
+    metadata=[];proofs=[]
+    for case,identity,rules,uses_hooks in ((left,EQUAL_ID,equal_rules,False),(right,SMA_SIGNAL_ID,sma_rules,True)):
+        artifact=case['artifacts']['target_meta.json'];path=Path(artifact['path'])
+        require(path.stat().st_size==artifact['bytes']<=2_000_000, 'Small saved signal target metadata')
+        meta=read(path,artifact['sha256']);risk=meta['risk']
+        require(meta['strategy_id']==identity and meta.get('allocation','EQUAL')=='EQUAL' and
+            meta['symbols']==case['symbols'] and meta['mode']=='LONG_ONLY' and meta['rules']==rules and
+            meta['original_SMA_alpha_used'] is uses_hooks and
+            meta['original_long_and_short_and_exit_hooks_reused'] is uses_hooks and
+            meta['direction_context_is_Jesse_strategy'] is uses_hooks, 'Actual fixed signal port and unchanged equal risk rules')
+        require(meta['fresh_flat_each_window'] is True and meta['funding_rates_used_for_signal'] is False and
+            meta['native_Jesse_or_Bybit_execution_replicated'] is False and meta['complete_daily_warmup']==200,
+            'Fresh-flat completed-day research signal, no funding or native execution claim')
+        require([r['decision_us'] for r in risk]==list(range(scope['start_us'],scope['end_us'],86_400_000_000)) and
+            len(risk)==days and all(r['symbol_order']==case['symbols'] and r['past_only'] is True for r in risk), 'Same complete daily signal decision clock')
+        metadata.append(meta);proofs.append(dict(path=str(path),sha256=artifact['sha256'],bytes=artifact['bytes'],
+            strategy_id=identity,allocation='EQUAL',rules=rules))
+    require([r['covariance_symbol_order'] for r in metadata[0]['risk']]==
+        [r['covariance_symbol_order'] for r in metadata[1]['risk']], 'Same eligible covariance input members for signal contrast')
+    require(metadata[1]['fast_period']==50 and metadata[1]['slow_period']==200 and
+        metadata[1]['close_then_wait_next_daily_decision_to_reenter'] is True and
+        metadata[1]['equality_holds_current_position'] is True, 'Original strict SMA predicates and close-then-wait state semantics')
+    return dict(baseline=proofs[0],current=proofs[1],allocation_changed=False,directional_signal_changed=True,
+        realized_risk_matched=False,alpha_identified=False)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--control',type=Path,required=True)
     parser.add_argument('--pool',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--experiment-id',required=True)
-    parser.add_argument('--contrast',choices=('pool','allocation'),default='pool')
+    parser.add_argument('--contrast',choices=('pool','allocation','signal'),default='pool')
     args=parser.parse_args()
     require(os.environ.get('COIN_TASK_ID') and not args.output.exists()
         and args.output.resolve().is_relative_to(ROOT/'reports'), 'Bounded new comparison')
@@ -242,6 +349,7 @@ def main():
     require(isinstance(actual_days,int) and 28 <= actual_days <= 31 and
             actual_days==right['actual_calendar_days'], 'Same complete predeclared calendar month')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
+    signal_context=signal_scope(left,right) if args.contrast=='signal' else None
     if args.contrast=='pool':
         for name in ('public_sma_perpetual.py','vol_managed_perpetual_target.py',
                      'perpetual_directional.py','perpetual_closing_exempt_account.py'):
@@ -257,6 +365,8 @@ def main():
     for key in a:
         require(a[key]['summary']['clock_us']==b[key]['summary']['clock_us'], 'Same complete end clock')
         target_contrast=allocation_case(a[key],b[key],contrast_scope,actual_days) if contrast_scope else None
+        if signal_context:
+            target_contrast=signal_case(a[key],b[key],signal_context,actual_days)
         x,y=measures(a[key]),measures(b[key])
         pairs.append(dict(cost=key[0],funding_unit_scenario=key[1],control=x,pool=y,
             pool_minus_control_net_USDT=y['net_USDT']-x['net_USDT'],
@@ -282,6 +392,12 @@ def main():
                   'equal versus predeclared past30 inverse-volatility allocation. Actual exposures and realized risk may differ. '
                   'Saved marked-NAV pairing retains terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
                   'No new directional alpha, free liquidation, post-hoc risk rescaling, account replay or native Bybit claim.')
+    if signal_context:
+        result.update(contrast='signal',signal_contrast=signal_context,
+            scope='Same ordered July N10 pool, full capital, accepted inputs, equal raw allocation, costs and financial risk rules; '
+                  'constant-long HOLD versus fixed original SMA50/200 long-flat signal. Actual exposure and realized risk are not matched. '
+                  'Saved marked-NAV pairing retains terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
+                  'No post-hoc risk scaling, account replay, identified alpha, native Bybit or long-term APR claim.')
     with args.output.open('x',encoding='utf-8') as stream:
         json.dump(result,stream,indent=2,ensure_ascii=False,allow_nan=False)
         stream.write('\n')
@@ -289,6 +405,7 @@ def main():
     event.update(event_id=args.experiment_id+':RESULT',event_type='SAVED_RESEARCH_COMPARISON',
         experiment_id=args.experiment_id,data_manifest_hash=result['control']['sha256'],
         success_failure=result['status'],reason_for_next_experiment=(
+            'Saved single-factor original SMA signal contribution and unequal actual risk' if signal_context else
             'Saved single-factor allocation contribution and unequal actual risk' if contrast_scope else 'Economic pool contribution and actual risk'),
         artifact_path=str(args.output.resolve().relative_to(ROOT)),artifact_sha256=sha(args.output))
     append_event(ROOT/'reports/experiment_registry.jsonl',event)

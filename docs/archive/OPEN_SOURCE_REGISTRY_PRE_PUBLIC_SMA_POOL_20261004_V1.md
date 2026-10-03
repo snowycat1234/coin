@@ -311,8 +311,3 @@ D047实际闭合：Turtle原类SHA35e4c3cd.../ATR原wrapper398a1225.../MIT80d873
 同一binance/binance-public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc/软件MIT声明、官方URL/CSV/.CHECKSUM及原行情条款。仅正常薄编排扩至已授权完整2024年10月；24新档首次独立QA，6旧October与80已接受暖源只metadata/hash复用。Windows System.Net.Http仍默认同一官方HTTPS/原限制，无新代理/重试/规避；初环境入口失败发生在网络与行情前，原记录保持。
 
 Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause、标准库Decimal/原环境无安装或第三方代码修改。正常日期/closed-September日线聚合及source catalog集合guard、完成分类和保存marked末未实现归因为本地适配；金融、费用、0.1%容量/5次退出政策不改。旧D050通过Git b00183d复现；本版旧7c0/45fa/5d21实际入口归档，非继续堆版本运行包装。十币marked独立核算通过但清仓收益NE，无原生或投资认证。
-
-### D053：固定公开SMA50/200与同池HOLD的方向机制对照（运行前登记）
-
-直接复用 jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364/MIT 原SMACrossover hooks与已登记Polars1.44.2/MIT日线均值实现，原第三方源码及LICENSE零修改，无安装或新依赖。新public_sma_pool_target.py仅调用现有配置化目标接口，接入同July十币池、固定50/200多头/空仓状态、原过去协方差风险与共享10k账户；未active等权预算不重分配。原公开教学信号作为机制对照，不称完整Jesse执行或市场强bot。两个完整已见开发月复用既有来源、资金费条件与成本，不下载/训练/搜参。当前登记追加前精确字节见archive/OPEN_SOURCE_REGISTRY_PRE_PUBLIC_SMA_POOL_20261004_V1.md，SHA12563be0047e2b09a43c44eeb0a957cdbeaa15d3ec27bc63b5f72f933d492283；旧登记和负结果保留。
-D053实际闭合：同原Jesse7c91e0.../MIT与原SMA/Polars均值，第三方零修改；薄adapter0d8eca...、正常组合d6678c...、独立scalar参考82f461...、保存对照e3fec4...。两月8新实际/8独立账户与两对照真实exit0，固定方向gross明显弱于同池HOLD，配方暂停/能力保留，投资NONE。无新库/模型/数据/搜参；进度正常sampler c90仅修双writer临时路径与明确阶段新鲜度，不改研究Progress/金融源码。原registry snapshot12563be...及原负结果/残仓/单位UNKNOWN继续保留。
