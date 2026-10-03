@@ -126,3 +126,15 @@ smoke a13d8363bd204a22a1917d2fc7319151、market 72d233d63f4241b7ab3c8c04de64746c
 
 模块根验收与Git同步正在完成；实际完成后只追加后验状态。
 D047根最终核对真实exit0：ROOT SHA7f7ff27b85a465fb76fe88e17da37438b02f824dc96a21f58bd526779384b5aa，119源／工件pins、7实际完成角色和5真实失败保留；金融仅记录账本范围。模块源码与小工件精选Git验收／推送待完成。
+
+D047已正常提交／推送并核远端main精确一致0038210bab084708e278b825f8dc50b2d6665b92（7cb2d3b→3a69ac6→0038210，未强推）。2636个staged文件52,973,817B、两字节门槛0差异/0敏感模式/0runtime改变；原始第三方两文件空白保留，所有本地新增源码空白检查通过。后验小同步凭证随下一正常模块入库。D048公开产品规格已启动，V1实际网络不可达/0参数，兼容传输V2尚待实际结果。
+
+### D048当前实际运行
+
+公开spec两attempt结束：V1网络不可达，V2同官方URL真403/0参数，停止重试。唯一新closing-proxy手算case task e0aae5fa04c445849e61fadf54bd57ae已completed0，report09a5d8bc...；原Spot/account/source不改，qty/historical/native未认证。metadata接线固定proto31bb9b13...已实际exit0；八账户Turtle LS/HOLD LO的303日经济控制正在运行task0b0337c02d1b4967b61e555fbcdc4a42，8765只显示真实阶段/完成数。HOLD同时复用已验D046两risk量化锚，与旧D045 HOLD不声称纯filter单变化。尚无新市场或独立完成结论；投资CASH/NONE/APRNE。
+### 最终实际验收
+
+独立V2真实completed/exit0 task2d0e5a22788c438da1d3b34214501e5d，report0cc4c9db0b068a04c7c7b0ac48925036b2496cbc7ec106de1a77964b7a4424fb：8金融调用/8完整日历，金额误差3.2741809263825417e-11USDT、比率2.2537527399890678e-14，原1e-7/1e-10容差。23.268s/RSS547,794,944B。V1失败保持，V2独立journal仅一个closing谓词不同，完整其他AST一致；记录财务通过不扩大为完整策略/native/稳定APR。
+
+保存比较真实exit0 task0630cd295bbf4fd38cf68ba9ec2f5458，reportef992eb11d764d0571da5733584051e0aadebb8a52a74cff8d9f97e59b6776e6：4条件新Turtle-HOLD完整配对，旧Turtle3prefix均NE/null，BASE/PERCENT完整before-after净差0；无旧市场/QA重放或曲线拼接。采用账户修正及对照能力，研究强基准HOLD，投资仍现金。ROOT与精选Git验收/同步另绑定真实后验，未自证caller完成。
+D048 ROOT真实completed0 taskf3d08d7e759c4f7ba8597c073bfa0c1f，reporta197a434.../100冻结pins，五成功科学角色与三个实际failed1闭合，旧registry3998265B前缀完全保留，当前4017780B，collector540读验存活/未干扰。ROOT只metadata/source/task绑定，不旧QA/账本重放。正常模块Git字节门槛及同步正在执行，只有实际远端一致后宣布完成。

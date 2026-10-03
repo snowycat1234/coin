@@ -4,13 +4,14 @@
 
 ## 当前选择与证据
 
-1. **当前APR候选**：投资／真钱NONE、资金现金、长期净几何APR不可评估。受控持有是研究强基准，固定SMA保留为失败对照；多空、空仓和原Spot能力保持。D046四个新LS账户已真实成交、完整303日并独立核算；采用风险减仓纠错，固定SMA投资应用暂停。
-2. **净收益证据**：同2024-09-01..<2025-07-01、10k完整资本、两成本×两未认证资金费单位：新LS−9.76..−9.32%、原LO−2.20..−1.18%、SO−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0。四个新LS各436320分钟、506成交legs、终端实际清仓；16旧完整选择器只保存引用。原D045四停机前缀永存，不替换成新曲线或拼NAV。
-3. **最大阻碍**：固定SMA的gross信号不足。四LS gross约−859..−857USDT，成本约74..118USDT，降低费用解决不了主要亏损。资金费单位／真实charge mark／发布时间及Bybit原生风险执行仍未认证；相同caps不视为匹配实现风险，未证明稳定长期APR。
-4. **关键发现**：BASE/F新LS净−934.06、long贡献−150.00／short−784.07USDT；对原LO增量−733.60=short−784.07+long路径改善50.47，不能把全部差额称纯short因果效应。LS实际年化vol10.45%、分钟MDD14.40%，HOLD10.50%／11.24%；新LS收益更低且回撤更高。修复合法减仓解除了停机，未改变信号或制造正收益。
-5. **下一项及理由**：已核MIT固定公开TurtleRules原源码具备真实双向20-bar突破／10-bar退出／ATR止损／加仓／成交回调。D047选固定4h（本地事前选择、非原作者默认），先最小兼容性检验，再决定同产品比较；不能删stop/pyramid后称完整复现。它检验更快突破和止损是否改善日线SMA负gross，比SMA搜参价值高；兼容性不成立保存失败并暂停，不硬套sign框架。当前只官方primary-source核查，市场尚未运行。
-6. **暂停及reopen**：固定SMA/Donchian投资及HPO需跨状态强基准净增量、合理风险及真正未来证据；DUAL_THRUST需厘清实际low-column／高周期anchor/cache语义和兼容性；资金费桥需合法官方archive语义／历史响应（原451不绕过）；完整547需合法真实缺记录或事前验证缺失方法；新模型需基准之外明确信息价值；D039只具体决策需要再开。所有能力保留，共享5GB/swap0/GPU0/D40GB/locked/真钱/keys/paid边界保持。
+1. **当前APR候选**：投资CASH/NONE、长期净几何APR不可评估。HOLD为研究强基准，SMA与Turtle保留负结果/能力，未采用为投资主力。
+2. **净收益证据**：D048同303已见日、10k完整资本、两成本×两未认证资金费条件，8账户全部完整并独立核算。Turtle LS净−11.18..−5.55%，HOLD+6.53..+7.86%，CASH0；不选有利单位/窗口，不称unseen或长期APR。
+3. **最大阻碍**：Turtle换手68..70倍，毛+366.93..393.44USDT小于手续费374.89..386.46与点差/滑点559.53..1095.32；short毛−72.48..−64.48，信号与成本均有问题。原生数量/清算/资金费单位未认证，403/451不绕过。
+4. **关键发现**：官方当前平仓豁免minimum notional；原小额BTC残仓停机已由独立新profile修正，8/8完成但盈利仍负。原account/Spot/旧证据未改。实际Turtle vol9.01..9.08%/分钟MDD11.12..14.27%，HOLD10.49..10.50%/10.95..11.27%，同caps非同风险。BASE/PERCENT long−77.07/short−478.27仅归因，非纯short因果增量。
+5. **下一项及理由**：选择同固定Turtle的LONG_ONLY/SHORT_ONLY方向消融，对照已存LS/HOLD/CASH；检验long+cash能否减少空头损失与换手。方向归因不能替代配对账户，保持费用/风险/资本/日期，不HPO。完成后再依据净增量与实现风险决定采用/暂停，不能强行做空。
+6. **暂停与reopen**：Turtle/SMA投资与HPO需强基准外净增量及独立证据；Bybit原生profile与资金费bridge需合法官方参数/历史响应或archive语义；DUAL_THRUST需厘清作者实际column/cache；547缺口需真实记录；复杂模型需额外信息价值。保留能力与全部负结果，D40GB/共享5GB/swap0/GPU0/locked/资金边界继续。
 
+**D048证据**：[平仓修正与完整经济比较](CLOSING_EXEMPT_RESEARCH_20261003.md)、[8账户实际](../reports/fast_research/CLOSING_EXEMPT_RESEARCH_ACTUAL_20261003_V1.json)、[独立V2](../reports/fast_research/CLOSING_EXEMPT_FINANCIAL_INDEPENDENT_20261003_V2.json)、[保存条件比较](../reports/fast_research/CLOSING_EXEMPT_SAVED_COMPARISON_20261003_V1.json)。synthetic e0aae5fa、market0b0337c0、finance2d0e5a22及comparison真实exit0；金额3.27e−11/ratio2.25e−14原容差。V1独立旧min10误拒CLOSE的真实失败保持，V2只一个filter谓词。8完整303/0halt，旧D047三prefix保留NE。数量1e-8/MMR.005/open min10仍代理，当前closing规则不是历史Bybit原生资格。最近实扫22,938,409,109B@2026-10-03T12:31:19.709266Z先于306.16MB输出，8765保留真实时刻。ROOT/正常模块Git同步待实证。以下旧时点交接保留，当前下一步以上方为准。
 **D046实际证据**：[减仓纠错与方向贡献](PERPETUAL_RISK_REDUCTION_20261003.md)、[四LS实际](../reports/fast_research/PERPETUAL_RISK_REDUCTION_RESEARCH_ACTUAL_20261003_V2.json)、[独立账本](../reports/fast_research/PERPETUAL_RISK_REDUCTION_INDEPENDENT_20261003_V1.json)、[保存20选择器／最终根](../reports/fast_research/PERPETUAL_RISK_REDUCTION_ROOT_ACCEPTANCE_20261003_V1.json)。测试a13d／市场72d2／独立d537／根053f真实closed0；初freeze f0a8真1/0arrays原字节保留，V2仅expression精确锚修正。原账户/controller/Spot源码保持；独立4金融调用／0旧重放，maxcash2.18e−11／ratio8.44e−15，原容差。主体227.05s/RSS622.76MB/owned161.72MB；最近实际scan22,649,980,545B@09:50:41.507780Z已发布8765，其后输出未计。共享硬5GB/swap0/GPU0。模块Git同步待完成。
 
 **D045实际证据**：[完整报告](PERPETUAL_303_COMPARISON_20261003.md)、[20选择器实际](../reports/fast_research/PERPETUAL_303_RESEARCH_ACTUAL_20261003_V1.json)、[独立账本](../reports/fast_research/PERPETUAL_303_RESEARCH_INDEPENDENT_20261003_V1.json)、[80保存摘要／20新配对](../reports/fast_research/PERPETUAL_303_ECONOMIC_COMPARISON_20261003_V1.json)、[最终根验收](../reports/fast_research/PERPETUAL_303_RESEARCH_ROOT_ACCEPTANCE_20261003_V1.json)。七先决角色及根e25cdf0803a74facb5f5f9676d3811f0均真实closed0；94来源=54旧producer+40新，QA70首次+24接受复用，无旧账户／旧QA重放。16物理交易账户+1恒定CASH工件／3别名，16全期选择器+4停止前缀；独立17金融调用、cash误差3.27e−11／ratio1.92e−14，原容差保持。主任务573.73s/RSS614.35MB/owned394.82MB。最近真实扫描22,250,374,621B@2026-10-03T08:59:03.491955Z已发布8765，后续工件不在该时刻；根接收能力／证据而非投资资格。模块正常提交/push/远端精确一致已完成23a48cd，后验8d6bd30f下个正常模块入库。
@@ -122,3 +123,10 @@ collector540真实仍Sl+、elapsed1-01:20:22，未改采集；8765健康且原�
 
 模块根验收与Git同步正在完成；实际完成后只追加后验状态。
 D047根最终核对真实exit0：ROOT SHA7f7ff27b85a465fb76fe88e17da37438b02f824dc96a21f58bd526779384b5aa，119源／工件pins、7实际完成角色和5真实失败保留；金融仅记录账本范围。模块源码与小工件精选Git验收／推送待完成。
+
+D047已正常提交／推送并核远端main精确一致0038210bab084708e278b825f8dc50b2d6665b92（7cb2d3b→3a69ac6→0038210，未强推）。2636个staged文件52,973,817B、两字节门槛0差异/0敏感模式/0runtime改变；原始第三方两文件空白保留，所有本地新增源码空白检查通过。后验小同步凭证随下一正常模块入库。D048公开产品规格已启动，V1实际网络不可达/0参数，兼容传输V2尚待实际结果。
+
+### D048当前实际运行
+
+公开spec两attempt结束：V1网络不可达，V2同官方URL真403/0参数，停止重试。唯一新closing-proxy手算case task e0aae5fa04c445849e61fadf54bd57ae已completed0，report09a5d8bc...；原Spot/account/source不改，qty/historical/native未认证。metadata接线固定proto31bb9b13...已实际exit0；八账户Turtle LS/HOLD LO的303日经济控制正在运行task0b0337c02d1b4967b61e555fbcdc4a42，8765只显示真实阶段/完成数。HOLD同时复用已验D046两risk量化锚，与旧D045 HOLD不声称纯filter单变化。尚无新市场或独立完成结论；投资CASH/NONE/APRNE。
+D048 ROOT真实completed0 taskf3d08d7e759c4f7ba8597c073bfa0c1f，reporta197a434.../100冻结pins，五成功科学角色与三个实际failed1闭合，旧registry3998265B前缀完全保留，当前4017780B，collector540读验存活/未干扰。ROOT只metadata/source/task绑定，不旧QA/账本重放。正常模块Git字节门槛及同步正在执行，只有实际远端一致后宣布完成。
