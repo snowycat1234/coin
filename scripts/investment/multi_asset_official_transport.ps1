@@ -4,7 +4,7 @@ param([Parameter(Mandatory=$true)][string]$Url,
 $ErrorActionPreference='Stop'
 # Default Windows HTTPS is the minimal replacement for WSL Errno101. JSON/CSV,
 # CHECKSUM verification and scientific parsing are exclusively bounded WSL.
-if ($Url -cnotmatch '^https://data\.binance\.vision/data/futures/um/monthly/(?:klines/[A-Z0-9]{2,24}USDT/(?:1d|1m)/[A-Z0-9]{2,24}USDT-(?:1d|1m)-2024-(?:0[2-9]|10)|markPriceKlines/[A-Z0-9]{2,24}USDT/1m/[A-Z0-9]{2,24}USDT-1m-2024-(?:09|10)|fundingRate/[A-Z0-9]{2,24}USDT/[A-Z0-9]{2,24}USDT-fundingRate-2024-(?:09|10))\.zip(?:\.CHECKSUM)?$') {
+if ($Url -cnotmatch '^https://data\.binance\.vision/data/futures/um/monthly/(?:klines/[A-Z0-9]{2,24}USDT/(?:1d|1m)/[A-Z0-9]{2,24}USDT-(?:1d|1m)-2024-(?:0[2-9]|10)|klines/[A-Z0-9]{2,24}USDT/1m/[A-Z0-9]{2,24}USDT-1m-2024-11|markPriceKlines/[A-Z0-9]{2,24}USDT/1m/[A-Z0-9]{2,24}USDT-1m-2024-(?:09|10|11)|fundingRate/[A-Z0-9]{2,24}USDT/[A-Z0-9]{2,24}USDT-fundingRate-2024-(?:09|10|11))\.zip(?:\.CHECKSUM)?$') {
     throw 'Only fixed official first-period USD-M archives/checksums'
 }
 if ($MaximumBytes -notin @(4096,64000,16000000)) {throw 'Registered per-response byte bound'}
@@ -12,7 +12,7 @@ $root='\\wsl.localhost\hpc_linux\home\xflops\coin-state\'
 $fullPath=[IO.Path]::GetFullPath($OutputPath)
 $suffix=$fullPath.Substring($root.Length)
 if (!$fullPath.StartsWith($root,[StringComparison]::OrdinalIgnoreCase) -or
-    $suffix -cnotmatch '^(?:d050-multiasset-(?:pool|market-source)|d051-multiasset-october-source)-20261004-v[1-9][0-9]*\\' -or
+    $suffix -cnotmatch '^(?:d050-multiasset-(?:pool|market-source)|d051-multiasset-october-source|d054-multiasset-november-source)-20261004-v[1-9][0-9]*\\' -or
     [IO.File]::Exists($fullPath) -or [IO.Path]::GetFileName($fullPath) -cne ([Uri]$Url).Segments[-1]) {
     throw 'Exclusive D-backed own first-period source file'
 }

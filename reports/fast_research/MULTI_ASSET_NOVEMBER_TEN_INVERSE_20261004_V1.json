@@ -1,0 +1,2428 @@
+{
+  "status": "COMPLETE_PREDECLARED_PORTFOLIO_CASES_NOT_CROSS_POOL_COMPARISON_OR_APR",
+  "binding": {
+    "task_id": "ac807ce1240143e499f6b4d153d01565",
+    "command": [
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "/mnt/d/codex/coin/scripts/investment/multi_asset_portfolio.py",
+      "--protocol",
+      "/mnt/d/codex/coin/protocols/MULTI_ASSET_NOVEMBER_TEN_INVERSE_20261004_V1.json",
+      "--run-dir",
+      "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1",
+      "--output",
+      "/mnt/d/codex/coin/reports/fast_research/MULTI_ASSET_NOVEMBER_TEN_INVERSE_20261004_V1.json",
+      "--pool-id",
+      "LIQUIDITY_TEN"
+    ],
+    "git_commit": "354967542958004c59a7f8e4b3d2fececf036b63",
+    "protocol_sha256": "841e67c498bfe850bbbc033049cfac7737e81b68291d6bdf60896aaa4c06b7ad",
+    "source_hashes": {
+      "scripts/investment/vol_managed_perpetual_target.py": "a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b",
+      "scripts/investment/multi_asset_data.py": "663b6dd3b59711da32a44a71a771b7d8f3195f4b36a59d3761baa3e7f54db7d8",
+      "scripts/investment/public_sma_perpetual.py": "37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47",
+      "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+      "scripts/investment/multi_asset_portfolio.py": "d6678c3f6086979219be32154a1095041e81e24eee77efcb90b5a3b8d54bf09c",
+      "src/quant/perpetual_account.py": "9a4223d1115add6ed2cce5b695cf6dcd89459daa6918eb61091b188e5ec05754",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "scripts/investment/perpetual_directional.py": "570524281b80109b9a1d07b737831d3f768f308ac465c86e2e403a2415ec02ae",
+      "scripts/investment/perpetual_closing_exempt_account.py": "30e0b41f094e01360aa9415011f2b27b4f49256819b2685c21d2da754f1d1b60",
+      "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "scripts/investment/public_sma_pool_target.py": "0d8eca6fe244630e77bbd0bd8592bbcbd70c10463f4a211588f6ee3c8595b485",
+      "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+      "third_party/jesse_example_smacrossover/smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+      "third_party/jesse_example_smacrossover/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d"
+    },
+    "manifest_sha256": "77881c6e61aaf9d23a8e369493bc58e51c5846034e5171b0f0ea1c06d78bc87d",
+    "environment_lock_sha256": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+  },
+  "run_dir": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1",
+  "cases": [
+    {
+      "id": "LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION",
+      "pool": "LIQUIDITY_TEN",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "cost_id": "BASE27",
+      "unit_id": "RAW_AS_FRACTION",
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 27,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1733011200000000,
+        "NAV": 10833.834009583148,
+        "free_cash": 10833.834009583148,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 833.834009583148,
+        "gross_PnL_same_quantities": 862.9430691330696,
+        "realized_PnL": 858.5620454309479,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 3.0115741002581413,
+        "execution_cost_USDT": 4.381023702121542,
+        "funding_USDT": -21.716461747541786,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": -4e-37,
+        "gross_fill_turnover_USDT": 5475.5892731966205,
+        "configured_nominal_roundtrip_bps": 27.0,
+        "trade_legs": 169,
+        "funding_events": 1160,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "10833.83400958314804476438151400000000000",
+          "free_cash": "10833.83400958314804476438151400000000000",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "833.83400958314804476438151400000000000",
+          "gross_PnL_same_quantities": "862.9430691330695150000000000000000000004",
+          "realized_PnL": "858.5620454309479730584000000000000000004",
+          "unrealized_PnL": "0",
+          "fees_USDT": "3.011574100258141534263400",
+          "execution_cost_USDT": "4.3810237021215419416",
+          "funding_USDT": "-21.7164617475417867597550860",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "-4E-37",
+          "gross_fill_turnover_USDT": "5475.5892731966209713880",
+          "configured_nominal_roundtrip_bps": "27.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_ONLY",
+        "cost_scenario": {
+          "id": "BASE27",
+          "half_spread_bps": 4,
+          "slippage_bps": 4,
+          "roundtrip_bps": 27
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_FRACTION",
+          "scale": 1.0
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 43200,
+        "required_minutes": 43200,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.020470769552345836,
+        "maximum_actual_gross_weight": 0.19535409061368392,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.032440204577561214,
+          "ETHUSDT": 0.02677813325095536,
+          "SOLUSDT": 0.021173571274370966,
+          "1000PEPEUSDT": 0.015020643868120877,
+          "XRPUSDT": 0.03575011266907298,
+          "WIFUSDT": 0.013099217968116977,
+          "WLDUSDT": 0.013029566347667072,
+          "DOGEUSDT": 0.01644721519596644,
+          "1000SATSUSDT": 0.015088420820233464,
+          "ORDIUSDT": 0.014402002250942954
+        },
+        "funding_original_events": 1170,
+        "funding_observed_events": 1170,
+        "funding_account_applied_events": 1160,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 1160,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1730419260000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 96462.19087234,
+          "ETHUSDT": 3705.41968182,
+          "SOLUSDT": 237.73423691,
+          "1000PEPEUSDT": 0.0202024,
+          "XRPUSDT": 1.95274898,
+          "WIFUSDT": 3.17951979,
+          "WLDUSDT": 3.63051995,
+          "DOGEUSDT": 0.42179652,
+          "1000SATSUSDT": 0.0002941,
+          "ORDIUSDT": 43.267
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 8108.295929663325,
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 30,
+          "initial_nav": 10000.0,
+          "final_nav": 10833.834009583148,
+          "total_return": 0.08338340095831476,
+          "annual_return": 1.649617336658185,
+          "annual_volatility": 0.11089763129861685,
+          "sharpe": 8.8516077573097,
+          "max_drawdown": 0.013229464557077741,
+          "fees": 3.0115741002581413,
+          "execution_costs": 4.381023702121542,
+          "turnover": 5475.5892731966205
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.020470769552345836,
+        "normalized_total_turnover": 0.547558927319662,
+        "net_return_on_full_initial_capital_percent": 8.33834009583148,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.13595109507417513,
+          "minute_max_gross_weight": 0.19535409061368395,
+          "minute_mean_net_signed_weight": 0.13595109507417513,
+          "minute_min_net_signed_weight": 0.0,
+          "minute_max_net_signed_weight": 0.19535409061368395,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.11815637164810457,
+          "minute_max_isolated_collateral_over_initial_capital": 0.18882686071457228,
+          "minute_mean_isolated_collateral_over_NAV": 0.11409672718025347,
+          "minute_max_isolated_collateral_over_NAV": 0.19135689307104456,
+          "minimum_recorded_minute_free_cash_USDT": 8108.295929663325,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 19,
+          "total_days": 30,
+          "top5_positive_day_share": 0.5328899317958967,
+          "largest_absolute_day_share": 0.1386215371868074,
+          "positive_gain_USDT": 1153.2705139712125,
+          "absolute_daily_net_delta_USDT": 1472.7070183592768
+        },
+        "months": [
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 833.8340095831481,
+            "fees": 3.0115741002581413,
+            "spread_cost": 2.190511851060771,
+            "slippage_cost": 2.190511851060771,
+            "funding_USDT": -21.716461747541786,
+            "gross_PnL": 862.9430691330696,
+            "ending_NAV": 10833.834009583148,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 1,
+        "total_month_count": 1,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 862.9430691330693,
+            "fees": 3.0115741002581426,
+            "execution_cost": 4.38102370212154,
+            "funding": -21.7164617475418,
+            "net_contribution": 833.8340095831479
+          },
+          "SHORT": {
+            "gross": 0.0,
+            "fees": 0.0,
+            "execution_cost": 0.0,
+            "funding": 0.0,
+            "net_contribution": 0.0
+          }
+        },
+        "spread_cost_USDT": 2.190511851060771,
+        "slippage_cost_USDT": 2.190511851060771
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/minute_nav_inventory.parquet",
+          "sha256": "3cb9eace3e6a76e1e25f72817edc9a3c9f7091ba261d4e78726564ab4d95788f",
+          "bytes": 10497457,
+          "rows": 43200
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/daily_nav.parquet",
+          "sha256": "f67c6f976d99d4b4b7dd432a6912997a32150180f62b292b1cfeb13fafd2e134",
+          "bytes": 2938,
+          "rows": 30
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/targets.parquet",
+          "sha256": "e564d0c8d407bfa3f16d1c700965850aae4f32016e6b3d13830b44eb97cc0488",
+          "bytes": 7290,
+          "rows": 300
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/trades.json",
+          "sha256": "e82d1c465e79b95946279d49cc5d1aa616d04b5d7bc4511bccd74760da448540",
+          "bytes": 329717
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/funding.json",
+          "sha256": "feb4fce5d7e7b5047718db15cf57c04e34aff0659a17998be1e9f3dc8ee70f36",
+          "bytes": 1043554
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/rejections.json",
+          "sha256": "7d637ff1effb78ce08fde13f3206f65cb1b642f5685e5c8b9151eb3ad7036bb6",
+          "bytes": 1007199
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/extrema.json",
+          "sha256": "8c55abd5ed9076f4c094adc8f1a70c5dc6463538a2e9436b9003496294268780",
+          "bytes": 709
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/target_meta.json",
+          "sha256": "b28884c88850aef19e1e53b21089ecbb3aef20d4fa7e076a3f966df9a0b7649a",
+          "bytes": 57011
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/trades.parquet",
+          "sha256": "25e51c674dea7dcd31507aab1d6f7c8a7565e7afe250adade4cb3255b9bb0293",
+          "bytes": 15923,
+          "rows": 169
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_FRACTION/funding.parquet",
+          "sha256": "7f0c26ab386354770518473020a1fd099944226921d50ca5bdcac3684b1dcdb9",
+          "bytes": 29435,
+          "rows": 1170
+        }
+      }
+    },
+    {
+      "id": "LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT",
+      "pool": "LIQUIDITY_TEN",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "cost_id": "BASE27",
+      "unit_id": "RAW_AS_PERCENT",
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 27,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1733011200000000,
+        "NAV": 10855.985529353433,
+        "free_cash": 10855.985529353433,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 855.9855293534332,
+        "gross_PnL_same_quantities": 863.600125434976,
+        "realized_PnL": 859.2163566401894,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 3.0134610623606415,
+        "execution_cost_USDT": 4.383768794786666,
+        "funding_USDT": -0.21736622439555,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": 0.0,
+        "gross_fill_turnover_USDT": 5479.020113382984,
+        "configured_nominal_roundtrip_bps": 27.0,
+        "trade_legs": 169,
+        "funding_events": 1160,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "10855.98552935343317159967625564000000000",
+          "free_cash": "10855.98552935343317159967625564000000000",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "855.98552935343317159967625564000000000",
+          "gross_PnL_same_quantities": "863.6001254349760290000000000000000000000",
+          "realized_PnL": "859.2163566401893630520000000000000000000",
+          "unrealized_PnL": "0",
+          "fees_USDT": "3.013461062360641449797240",
+          "execution_cost_USDT": "4.3837687947866659480",
+          "funding_USDT": "-0.21736622439555000252650436",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "0E-37",
+          "gross_fill_turnover_USDT": "5479.0201133829844541768",
+          "configured_nominal_roundtrip_bps": "27.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_ONLY",
+        "cost_scenario": {
+          "id": "BASE27",
+          "half_spread_bps": 4,
+          "slippage_bps": 4,
+          "roundtrip_bps": 27
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_PERCENT",
+          "scale": 0.01
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 43200,
+        "required_minutes": 43200,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.020327760447584442,
+        "maximum_actual_gross_weight": 0.19534491705558066,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.03243895555324684,
+          "ETHUSDT": 0.026777090830423768,
+          "SOLUSDT": 0.02117274545550229,
+          "1000PEPEUSDT": 0.015019894707797236,
+          "XRPUSDT": 0.035748113682732965,
+          "WIFUSDT": 0.013095926816412074,
+          "WLDUSDT": 0.013028980039283678,
+          "DOGEUSDT": 0.016447218202459916,
+          "1000SATSUSDT": 0.015087834785697335,
+          "ORDIUSDT": 0.014400830916216707
+        },
+        "funding_original_events": 1170,
+        "funding_observed_events": 1170,
+        "funding_account_applied_events": 1160,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 1160,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1730419260000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 96462.19087234,
+          "ETHUSDT": 3705.41968182,
+          "SOLUSDT": 237.73423691,
+          "1000PEPEUSDT": 0.0202024,
+          "XRPUSDT": 1.95274898,
+          "WIFUSDT": 3.17951979,
+          "WLDUSDT": 3.63051995,
+          "DOGEUSDT": 0.42179652,
+          "1000SATSUSDT": 0.0002941,
+          "ORDIUSDT": 43.267
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 8110.212450230386,
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 30,
+          "initial_nav": 10000.0,
+          "final_nav": 10855.985529353433,
+          "total_return": 0.08559855293534335,
+          "annual_return": 1.7162888129617224,
+          "annual_volatility": 0.11093169832398217,
+          "sharpe": 9.073549371483658,
+          "max_drawdown": 0.013056285073793306,
+          "fees": 3.0134610623606415,
+          "execution_costs": 4.383768794786666,
+          "turnover": 5479.020113382984
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.020327760447584442,
+        "normalized_total_turnover": 0.5479020113382984,
+        "net_return_on_full_initial_capital_percent": 8.559855293534332,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.1359394783178029,
+          "minute_max_gross_weight": 0.19534491705558063,
+          "minute_mean_net_signed_weight": 0.1359394783178029,
+          "minute_min_net_signed_weight": 0.0,
+          "minute_max_net_signed_weight": 0.19534491705558063,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.11824675039769188,
+          "minute_max_isolated_collateral_over_initial_capital": 0.18885143769523363,
+          "minute_mean_isolated_collateral_over_NAV": 0.11409148335334214,
+          "minute_max_isolated_collateral_over_NAV": 0.19134821692757165,
+          "minimum_recorded_minute_free_cash_USDT": 8110.212450230386,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 19,
+          "total_days": 30,
+          "top5_positive_day_share": 0.5294675024578656,
+          "largest_absolute_day_share": 0.13820016011265063,
+          "positive_gain_USDT": 1168.8121817546817,
+          "absolute_daily_net_delta_USDT": 1481.6388341559305
+        },
+        "months": [
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 855.9855293534329,
+            "fees": 3.0134610623606415,
+            "spread_cost": 2.191884397393333,
+            "slippage_cost": 2.191884397393333,
+            "funding_USDT": -0.21736622439555,
+            "gross_PnL": 863.6001254349757,
+            "ending_NAV": 10855.985529353433,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 1,
+        "total_month_count": 1,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 863.6001254349761,
+            "fees": 3.0134610623606424,
+            "execution_cost": 4.383768794786669,
+            "funding": -0.21736622439554995,
+            "net_contribution": 855.9855293534333
+          },
+          "SHORT": {
+            "gross": 0.0,
+            "fees": 0.0,
+            "execution_cost": 0.0,
+            "funding": 0.0,
+            "net_contribution": 0.0
+          }
+        },
+        "spread_cost_USDT": 2.191884397393333,
+        "slippage_cost_USDT": 2.191884397393333
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/minute_nav_inventory.parquet",
+          "sha256": "128a2ee28e8275c4cc28956db5a71ddcf09521c4e32beb77eadd5f1bbccd8b1e",
+          "bytes": 10497037,
+          "rows": 43200
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/daily_nav.parquet",
+          "sha256": "e068c40e362b9fd12551d8cdf9a0bff28e76d00895b127a3be5c311a788aea32",
+          "bytes": 2938,
+          "rows": 30
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/targets.parquet",
+          "sha256": "e564d0c8d407bfa3f16d1c700965850aae4f32016e6b3d13830b44eb97cc0488",
+          "bytes": 7290,
+          "rows": 300
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/trades.json",
+          "sha256": "c1bb0f86c6d7b4f3e71b4b4239a86d3d2508fd270cdab8e297ebf180f1066f4d",
+          "bytes": 329631
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/funding.json",
+          "sha256": "f9b16801d653eda9d68d24087a8ee1a20c9eaf3dc86c0115798ec6711336e491",
+          "bytes": 1046469
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/rejections.json",
+          "sha256": "1ea2021a41cb25ab366bfda67a3ade4621becc8c2d6036ed9d1063d59beef09f",
+          "bytes": 1003794
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/extrema.json",
+          "sha256": "f254fbb30d73ed34c3c808206e1411759d4b2bebeae12b4fe0412b884cfe7dcb",
+          "bytes": 707
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/target_meta.json",
+          "sha256": "b28884c88850aef19e1e53b21089ecbb3aef20d4fa7e076a3f966df9a0b7649a",
+          "bytes": 57011
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/trades.parquet",
+          "sha256": "46ad0c6d4594bcf40c68f69938674f5c18d6f6e88c23e8275adce92c58cf6392",
+          "bytes": 15920,
+          "rows": 169
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_BASE27_RAW_AS_PERCENT/funding.parquet",
+          "sha256": "2dbba347a8c64669028ad452837c81500441431db46780ee423e2658de62ae8b",
+          "bytes": 29436,
+          "rows": 1170
+        }
+      }
+    },
+    {
+      "id": "LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION",
+      "pool": "LIQUIDITY_TEN",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "cost_id": "STRESS43",
+      "unit_id": "RAW_AS_FRACTION",
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 27,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1733011200000000,
+        "NAV": 10829.253475135867,
+        "free_cash": 10829.253475135867,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 829.253475135867,
+        "gross_PnL_same_quantities": 862.7359069708159,
+        "realized_PnL": 853.9753993006926,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 3.010665304006718,
+        "execution_cost_USDT": 8.760507670123205,
+        "funding_USDT": -21.711258860819,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": 2e-37,
+        "gross_fill_turnover_USDT": 5473.93691637585,
+        "configured_nominal_roundtrip_bps": 43.0,
+        "trade_legs": 169,
+        "funding_events": 1160,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "10829.25347513586696329184388900000000000",
+          "free_cash": "10829.25347513586696329184388900000000000",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "829.25347513586696329184388900000000000",
+          "gross_PnL_same_quantities": "862.7359069708158869999999999999999999998",
+          "realized_PnL": "853.9753993006926810431999999999999999998",
+          "unrealized_PnL": "0",
+          "fees_USDT": "3.010665304006717729669440",
+          "execution_cost_USDT": "8.7605076701232059568",
+          "funding_USDT": "-21.7112588608190000216866710",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "2E-37",
+          "gross_fill_turnover_USDT": "5473.9369163758504175808",
+          "configured_nominal_roundtrip_bps": "43.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_ONLY",
+        "cost_scenario": {
+          "id": "STRESS43",
+          "half_spread_bps": 8,
+          "slippage_bps": 8,
+          "roundtrip_bps": 43
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_FRACTION",
+          "scale": 1.0
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 43200,
+        "required_minutes": 43200,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.020487938684565332,
+        "maximum_actual_gross_weight": 0.19535536518988933,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.03244041008670182,
+          "ETHUSDT": 0.026778284248130717,
+          "SOLUSDT": 0.0211736921154839,
+          "1000PEPEUSDT": 0.015020794178959575,
+          "XRPUSDT": 0.03575045144367989,
+          "WIFUSDT": 0.013099597788376726,
+          "WLDUSDT": 0.013029639636833889,
+          "DOGEUSDT": 0.016447309235408866,
+          "1000SATSUSDT": 0.015088506656552007,
+          "ORDIUSDT": 0.014402115593616175
+        },
+        "funding_original_events": 1170,
+        "funding_observed_events": 1170,
+        "funding_account_applied_events": 1160,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 1160,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1730419260000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 96462.19087234,
+          "ETHUSDT": 3705.41968182,
+          "SOLUSDT": 237.73423691,
+          "1000PEPEUSDT": 0.0202024,
+          "XRPUSDT": 1.95274898,
+          "WIFUSDT": 3.17951979,
+          "WLDUSDT": 3.63051995,
+          "DOGEUSDT": 0.42179652,
+          "1000SATSUSDT": 0.0002941,
+          "ORDIUSDT": 43.267
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 8107.031528031543,
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 30,
+          "initial_nav": 10000.0,
+          "final_nav": 10829.253475135867,
+          "total_return": 0.08292534751358671,
+          "annual_return": 1.636019688670098,
+          "annual_volatility": 0.11096715468737188,
+          "sharpe": 8.7996394532397,
+          "max_drawdown": 0.013379330172162418,
+          "fees": 3.010665304006718,
+          "execution_costs": 8.760507670123205,
+          "turnover": 5473.93691637585
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.020487938684565332,
+        "normalized_total_turnover": 0.547393691637585,
+        "net_return_on_full_initial_capital_percent": 8.292534751358671,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.13595451245142828,
+          "minute_max_gross_weight": 0.19535536518988933,
+          "minute_mean_net_signed_weight": 0.13595451245142828,
+          "minute_min_net_signed_weight": 0.0,
+          "minute_max_net_signed_weight": 0.19535536518988933,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.1182266242470295,
+          "minute_max_isolated_collateral_over_initial_capital": 0.1889514628792068,
+          "minute_mean_isolated_collateral_over_NAV": 0.11419124684368925,
+          "minute_max_isolated_collateral_over_NAV": 0.19151267919809833,
+          "minimum_recorded_minute_free_cash_USDT": 8107.031528031543,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 19,
+          "total_days": 30,
+          "top5_positive_day_share": 0.5338176863607218,
+          "largest_absolute_day_share": 0.13864265117240493,
+          "positive_gain_USDT": 1150.5460235642968,
+          "absolute_daily_net_delta_USDT": 1471.8385719927264
+        },
+        "months": [
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 829.2534751358671,
+            "fees": 3.010665304006718,
+            "spread_cost": 4.380253835061603,
+            "slippage_cost": 4.380253835061603,
+            "funding_USDT": -21.711258860819,
+            "gross_PnL": 862.735906970816,
+            "ending_NAV": 10829.253475135867,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 1,
+        "total_month_count": 1,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 862.7359069708161,
+            "fees": 3.0106653040067175,
+            "execution_cost": 8.76050767012321,
+            "funding": -21.711258860818994,
+            "net_contribution": 829.2534751358672
+          },
+          "SHORT": {
+            "gross": 0.0,
+            "fees": 0.0,
+            "execution_cost": 0.0,
+            "funding": 0.0,
+            "net_contribution": 0.0
+          }
+        },
+        "spread_cost_USDT": 4.380253835061603,
+        "slippage_cost_USDT": 4.380253835061603
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/minute_nav_inventory.parquet",
+          "sha256": "6b8f9b53310598129d5c52380ac70ab7d89bef50e95a29a91fb2cc9cdc9d0869",
+          "bytes": 10497159,
+          "rows": 43200
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/daily_nav.parquet",
+          "sha256": "41c985929792e099a748f524e41c42b4dd027d8949d4b33ed61e54ce800ef305",
+          "bytes": 2938,
+          "rows": 30
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/targets.parquet",
+          "sha256": "e564d0c8d407bfa3f16d1c700965850aae4f32016e6b3d13830b44eb97cc0488",
+          "bytes": 7290,
+          "rows": 300
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/trades.json",
+          "sha256": "1b7e53fb88de05c1014311d924f41105e531211408bb95baf3449bf6203015d9",
+          "bytes": 330005
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/funding.json",
+          "sha256": "bd9f8cdf92efe2b4ead67f73e554fdb720a409a81b28821bbbd799978beaa7c4",
+          "bytes": 1043524
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/rejections.json",
+          "sha256": "d15bfd94df398941703b186bb984365a96a44a895318452472f649afd8dc3f48",
+          "bytes": 1013946
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/extrema.json",
+          "sha256": "7e4fd41b5b2e724be53e1737bac3d4dd02531cc4d1034afa95d2b2950fd312bb",
+          "bytes": 705
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/target_meta.json",
+          "sha256": "b28884c88850aef19e1e53b21089ecbb3aef20d4fa7e076a3f966df9a0b7649a",
+          "bytes": 57011
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/trades.parquet",
+          "sha256": "8677a16f2900ccfa91ba51d42313ae89be76e4a94ab4500b86ecef0634d8a747",
+          "bytes": 15918,
+          "rows": 169
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_FRACTION/funding.parquet",
+          "sha256": "840fd8f47f8374c248859ff8da59c72f8131c92e519f99e481e41b621e53671b",
+          "bytes": 29416,
+          "rows": 1170
+        }
+      }
+    },
+    {
+      "id": "LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT",
+      "pool": "LIQUIDITY_TEN",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "cost_id": "STRESS43",
+      "unit_id": "RAW_AS_PERCENT",
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 27,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1733011200000000,
+        "NAV": 10851.396947855907,
+        "free_cash": 10851.396947855907,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 851.3969478559061,
+        "gross_PnL_same_quantities": 863.3928036204231,
+        "realized_PnL": 854.6268118914245,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 3.0125498711761107,
+        "execution_cost_USDT": 8.765991728998682,
+        "funding_USDT": -0.21731416434225034,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": 3e-37,
+        "gross_fill_turnover_USDT": 5477.363402138383,
+        "configured_nominal_roundtrip_bps": 43.0,
+        "trade_legs": 169,
+        "funding_events": 1160,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "10851.39694785590612049454965025000000000",
+          "free_cash": "10851.39694785590612049454965025000000000",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "851.39694785590612049454965025000000000",
+          "gross_PnL_same_quantities": "863.3928036204231629999999999999999999997",
+          "realized_PnL": "854.6268118914244816031999999999999999997",
+          "unrealized_PnL": "0",
+          "fees_USDT": "3.012549871176110757766560",
+          "execution_cost_USDT": "8.7659917289986813968",
+          "funding_USDT": "-0.21731416434225035088378975",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "3E-37",
+          "gross_fill_turnover_USDT": "5477.3634021383831959392",
+          "configured_nominal_roundtrip_bps": "43.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_ONLY",
+        "cost_scenario": {
+          "id": "STRESS43",
+          "half_spread_bps": 8,
+          "slippage_bps": 8,
+          "roundtrip_bps": 43
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_PERCENT",
+          "scale": 0.01
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 43200,
+        "required_minutes": 43200,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.020344927941166047,
+        "maximum_actual_gross_weight": 0.19534619385873558,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.03243916159908269,
+          "ETHUSDT": 0.02677724497070174,
+          "SOLUSDT": 0.021172866086724872,
+          "1000PEPEUSDT": 0.015020045056931988,
+          "XRPUSDT": 0.0357484527856739,
+          "WIFUSDT": 0.013096306381099682,
+          "WLDUSDT": 0.013029053201505915,
+          "DOGEUSDT": 0.016447312060535277,
+          "1000SATSUSDT": 0.015087920446478218,
+          "ORDIUSDT": 0.014400944106697792
+        },
+        "funding_original_events": 1170,
+        "funding_observed_events": 1170,
+        "funding_account_applied_events": 1160,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 1160,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1730419260000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 96462.19087234,
+          "ETHUSDT": 3705.41968182,
+          "SOLUSDT": 237.73423691,
+          "1000PEPEUSDT": 0.0202024,
+          "XRPUSDT": 1.95274898,
+          "WIFUSDT": 3.17951979,
+          "WLDUSDT": 3.63051995,
+          "DOGEUSDT": 0.42179652,
+          "1000SATSUSDT": 0.0002941,
+          "ORDIUSDT": 43.267
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 8108.947778577472,
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 30,
+          "initial_nav": 10000.0,
+          "final_nav": 10851.396947855907,
+          "total_return": 0.08513969478559069,
+          "annual_return": 1.7023530068853394,
+          "annual_volatility": 0.11100153170613385,
+          "sharpe": 9.021443321087652,
+          "max_drawdown": 0.013206170333966316,
+          "fees": 3.0125498711761107,
+          "execution_costs": 8.765991728998682,
+          "turnover": 5477.363402138383
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.020344927941166047,
+        "normalized_total_turnover": 0.5477363402138383,
+        "net_return_on_full_initial_capital_percent": 8.51396947855906,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.13594290182744767,
+          "minute_max_gross_weight": 0.19534619385873558,
+          "minute_mean_net_signed_weight": 0.13594290182744767,
+          "minute_min_net_signed_weight": 0.0,
+          "minute_max_net_signed_weight": 0.19534619385873558,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.11831705024119477,
+          "minute_max_isolated_collateral_over_initial_capital": 0.18897605847277693,
+          "minute_mean_isolated_collateral_over_NAV": 0.114185992807877,
+          "minute_max_isolated_collateral_over_NAV": 0.19150399747500715,
+          "minimum_recorded_minute_free_cash_USDT": 8108.947778577472,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 19,
+          "total_days": 30,
+          "top5_positive_day_share": 0.5303768730492588,
+          "largest_absolute_day_share": 0.13822125691785558,
+          "positive_gain_USDT": 1166.0817811437992,
+          "absolute_daily_net_delta_USDT": 1480.7666144316918
+        },
+        "months": [
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 851.3969478559065,
+            "fees": 3.0125498711761107,
+            "spread_cost": 4.382995864499341,
+            "slippage_cost": 4.382995864499341,
+            "funding_USDT": -0.21731416434225034,
+            "gross_PnL": 863.3928036204236,
+            "ending_NAV": 10851.396947855907,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 1,
+        "total_month_count": 1,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 863.3928036204234,
+            "fees": 3.012549871176111,
+            "execution_cost": 8.76599172899868,
+            "funding": -0.21731416434225037,
+            "net_contribution": 851.3969478559063
+          },
+          "SHORT": {
+            "gross": 0.0,
+            "fees": 0.0,
+            "execution_cost": 0.0,
+            "funding": 0.0,
+            "net_contribution": 0.0
+          }
+        },
+        "spread_cost_USDT": 4.382995864499341,
+        "slippage_cost_USDT": 4.382995864499341
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/minute_nav_inventory.parquet",
+          "sha256": "713da4a77a3b91752761d8a816381e1a790ac8fa89e3b3b3832cc318fd8bae41",
+          "bytes": 10498968,
+          "rows": 43200
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/daily_nav.parquet",
+          "sha256": "28443d17562c6aaa2df0d7ff0edd626b5b9e1d71feaafe35e81dfe5d84dc8424",
+          "bytes": 2938,
+          "rows": 30
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/targets.parquet",
+          "sha256": "e564d0c8d407bfa3f16d1c700965850aae4f32016e6b3d13830b44eb97cc0488",
+          "bytes": 7290,
+          "rows": 300
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/trades.json",
+          "sha256": "d6d73bd75c3de77f83cae66acb0ea30a1219b62738f20a6cac9f3c4bf34f042f",
+          "bytes": 329939
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/funding.json",
+          "sha256": "5264cee9555b3bcdbed472a24dc5a1524c11dc229acdbe29b0e922703a098189",
+          "bytes": 1046375
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/rejections.json",
+          "sha256": "c3475d0117fef11a596191ad5a1cacdd9e743d8c0c42c99955aaa71e393ee117",
+          "bytes": 1010415
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/extrema.json",
+          "sha256": "1724a3f18c06dbd0998b2ff41aad2acbb7b8b529a36f14b834c84bab66368222",
+          "bytes": 709
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/target_meta.json",
+          "sha256": "b28884c88850aef19e1e53b21089ecbb3aef20d4fa7e076a3f966df9a0b7649a",
+          "bytes": 57011
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/trades.parquet",
+          "sha256": "0400eb78ebf070348ace4486d913ba6f77ebef9c27a5b40d5a57354385b4acb4",
+          "bytes": 15922,
+          "rows": 169
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d054-november-ten-inverse-20261004-v1/LIQUIDITY_TEN_STRESS43_RAW_AS_PERCENT/funding.parquet",
+          "sha256": "811e55c53ab3981d9f18c0278e78d65951566c872f22ca15d0db8130a9a05580",
+          "bytes": 29434,
+          "rows": 1170
+        }
+      }
+    }
+  ],
+  "completed_cases": 4,
+  "required_cases": 4,
+  "actual_calendar_days": 30,
+  "initial_capital_per_comparison_account_USDT": 10000,
+  "capital_inside_each_portfolio": "ONE_SHARED_ACCOUNT_NOT_SUMMED_ASSET_ACCOUNTS",
+  "pool_changes_only": false,
+  "strategy_changed_between_pools": false,
+  "allocation": "INVERSE_VOL_30D",
+  "strategy_id": "COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+  "directional_signal": "CONSTANT_LONG_NOT_SMA_ALPHA",
+  "target_exchange": "Bybit_VIP0",
+  "price_funding_source": "Binance_USDM_CROSS_VENUE_PROXY",
+  "funding_unit_certified": false,
+  "native_filters_certified": false,
+  "candidate": "NONE",
+  "investment": "CASH",
+  "long_term_APR": "NOT_EVALUABLE",
+  "model_fits": 0,
+  "orders_sent": 0,
+  "GPU": 0,
+  "locked_consumed": false,
+  "resources_before": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1305341952,
+    "ram_peak_bytes": 3263008768,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "resources_by_pool": [
+    {
+      "pool": "LIQUIDITY_TEN",
+      "symbols": 10,
+      "elapsed_seconds": 66.25430015401798,
+      "output_growth_bytes": 51978391,
+      "process_RSS_peak_so_far_bytes": 321470464,
+      "shared_RAM_sampled_peak_so_far_bytes": 1448800256,
+      "shared_kernel_lifetime_peak_bytes": 3263008768
+    }
+  ],
+  "disk_before": {
+    "project_bytes": 4284540215,
+    "wsl_vhd_bytes": 19658702848,
+    "total_bytes": 23943243063,
+    "reserved_bytes": 100000000,
+    "d_free_bytes": 357092909056,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-03T23:12:44.803992+00:00"
+  },
+  "complete_calendar_cases": 4,
+  "calendar_complete_cases": 4,
+  "terminal_cash_realized_cases": 4,
+  "liquidated_portfolio_return": "COMPLETE_CONDITIONAL_CASH_RETURN_NOT_NATIVE_OR_APR",
+  "marked_NAV_includes_unrealized": true,
+  "elapsed_seconds": 143.95677343799616,
+  "peak_RSS_bytes": 321470464,
+  "shared_RAM_sampled_peak_bytes": 1448800256,
+  "shared_peak_scope": "SAMPLED_PER_RUN_PLUS_SEPARATE_KERNEL_LIFETIME_PEAK_NOT_RESET",
+  "owned_bytes": 51980929,
+  "resources_after": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1448800256,
+    "ram_peak_bytes": 3263008768,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "created_utc": "2026-10-03T23:13:51.107216+00:00"
+}

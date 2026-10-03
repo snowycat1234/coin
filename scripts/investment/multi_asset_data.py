@@ -2,7 +2,7 @@
 
 The existing pinned official downloader and format parsers do the source work.
 Inventory includes historical folders; current exchangeInfo is never a pool.
-Pool prices precede September. Explicit September/October source windows use
+Pool prices precede September. Explicit September/October/November source windows use
 the same frozen July pool. Missing assets stay missing, not zero.
 """
 from __future__ import annotations
@@ -40,6 +40,7 @@ MINUTE = 60_000_000
 START = int(datetime(2024, 9, 1, tzinfo=UTC).timestamp()) * 1_000_000
 END = int(datetime(2024, 10, 1, tzinfo=UTC).timestamp()) * 1_000_000
 OCT_END = int(datetime(2024, 11, 1, tzinfo=UTC).timestamp()) * 1_000_000
+NOV_END = int(datetime(2024, 12, 1, tzinfo=UTC).timestamp()) * 1_000_000
 COMPONENT = 'reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json'
 COMPONENT_SHA = '8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96'
 # This is the bucket configured by the official public-data index. The metadata
@@ -72,6 +73,12 @@ OCTOBER_RULES = dict(RULES, score_start='2024-10-01', score_end_exclusive='2024-
 OCTOBER_BUDGETS = dict(DEFAULT_BUDGETS, market_owned_bytes=300_000_000,
     input_owned_bytes=200_000_000, temporary_owned_bytes=100_000_000,
     source_wall_seconds=1800)
+NOVEMBER_RULES = dict(OCTOBER_RULES, score_start='2024-11-01', score_end_exclusive='2024-12-01',
+    warmup='ACCEPTED_FEB_AUG_1D_PLUS_ACCEPTED_SEPTEMBER_OCTOBER_1M_CAUSAL_DAILY_REDUCTION')
+NOVEMBER_BUDGETS = dict(OCTOBER_BUDGETS, peak_RSS_bytes=1_000_000_000)
+NOVEMBER_CONTRACT = 'D054_FIXED_JULY_POOL_NOVEMBER_SOURCE_V1'
+NOVEMBER_SOURCE_STATUS = 'COMPLETE_D054_FIXED_POOL_NOVEMBER_SOURCE_FORMAT_PENDING_ACCEPTANCE'
+NOVEMBER_MANIFEST_STATUS = 'PASS_D054_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS'
 
 
 def require(ok, message):
@@ -101,8 +108,9 @@ def symbol_ok(symbol):
 
 def period_scope(start_us, end_us):
     require(type(start_us) is int and type(end_us) is int and
-        (start_us, end_us) in ((START, END), (END, OCT_END)), 'Explicit complete September/October window only')
-    return '2024-09' if start_us == START else '2024-10'
+        (start_us, end_us) in ((START, END), (END, OCT_END), (OCT_END, NOV_END)),
+        'Explicit complete September/October/November window only')
+    return {START: '2024-09', END: '2024-10', OCT_END: '2024-11'}[start_us]
 
 
 def entry(symbol, kind, interval, month):
@@ -111,7 +119,8 @@ def entry(symbol, kind, interval, month):
         (kind == 'markPriceKlines' and interval == '1m') or
         (kind == 'fundingRate' and interval is None), 'Required USD-M product')
     require(month in ('2024-02', '2024-03', '2024-04', '2024-05',
-        '2024-06', '2024-07', '2024-08', '2024-09', '2024-10'), 'Explicit unlocked source months')
+        '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11') and
+        not (month == '2024-11' and interval == '1d'), 'Explicit unlocked source months; no new November daily source')
     suffix = (f'{symbol}-fundingRate-{month}.zip' if interval is None else
         f'{interval}/{symbol}-{interval}-{month}.zip')
     url = f'https://data.binance.vision/data/futures/um/monthly/{kind}/{symbol}/{suffix}'
@@ -329,7 +338,8 @@ def acquire(item, run, client, *, authorization, reuse_catalog=None, budgets=DEF
         require(selected_pool['status'] == 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS' and
             len(selected_pool['symbols']) == 10 and authorization['symbols'] ==
             sorted(set(selected_pool['symbols']) | {'BTCUSDT', 'ETHUSDT'}), 'Selected symbols and controls match pool')
-        month = {'SEPTEMBER_SOURCE': '2024-09', 'OCTOBER_SOURCE': '2024-10'}.get(phase)
+        month = {'SEPTEMBER_SOURCE': '2024-09', 'OCTOBER_SOURCE': '2024-10',
+                 'NOVEMBER_SOURCE': '2024-11'}.get(phase)
         require(month is not None and item['month'] == month and
             item['interval'] != '1d' and item['symbol'] in authorization['symbols'] and
             proof['sha256'] == authorization['pool_receipt_sha256'], 'Frozen July pool bound before explicit score-month IO')
@@ -447,7 +457,7 @@ def daily_frame(records):
 
 def qualify_daily(symbol, daily, *, start_us=START):
     """Pure eligibility using only real daily bars completed by entry."""
-    require(type(start_us) is int and start_us in (START, END), 'Explicit entry boundary')
+    require(type(start_us) is int and start_us in (START, END, OCT_END), 'Explicit entry boundary')
     require(symbol_ok(symbol) and daily['symbol'].unique().to_list() == [symbol], 'One candidate')
     one = daily.sort('open_us')
     require(one.null_count().select(pl.sum_horizontal(pl.all())).item() == 0, 'Unknown daily values')
@@ -577,6 +587,14 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
             'One accepted September trade source per pool/control asset')
         september = [daily_from_minutes(warm_table[s], START, END) for s in symbols]
         daily = pl.concat([daily.select(september[0].columns), *september]).sort(['symbol', 'open_us'])
+    elif month == '2024-11':
+        warm_table = {(r['symbol'], r['month']): r for r in warmup_minute_records}
+        require(len(warm_table) == len(warmup_minute_records) and set(warm_table) ==
+            {(s, m) for s in all_symbols for m in ('2024-09', '2024-10')},
+            'Two already accepted trade-minute months per pool/control asset')
+        reductions = [daily_from_minutes(warm_table[(s, m)], a, b)
+            for m, a, b in (('2024-09', START, END), ('2024-10', END, OCT_END)) for s in symbols]
+        daily = pl.concat([daily.select(reductions[0].columns), *reductions]).sort(['symbol', 'open_us'])
     else:
         require(not warmup_minute_records, 'No extra warmup price scope for September')
     for symbol in symbols:
@@ -627,6 +645,55 @@ def small_proof(proof, required_status=None):
     return value
 
 
+def november_warmup_metadata(proofs, pool):
+    """Reuse Oct10 and its accepted Sep10/daily70 chain; no payload QA here."""
+    prior = small_proof(proofs['warmup_source_acceptance'], 'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY')
+    manifest = small_proof(proofs['warmup_manifest'], 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS')
+    pool_sha = proofs['pool_receipt']['sha256']
+    require(prior['source_only'] is True and prior['pool_receipt_sha256'] == pool_sha and
+        manifest['pool_receipt']['sha256'] == pool_sha and
+        manifest['source_acceptance']['sha256'] == proofs['warmup_source_acceptance']['sha256'] and
+        (manifest['start_us'], manifest['end_us']) == (END, OCT_END) and
+        (prior['start_us'], prior['end_us']) == (END, OCT_END) and
+        (ROOT/Path(manifest['source_acceptance']['path'])).resolve() ==
+        (ROOT/Path(proofs['warmup_source_acceptance']['path'])).resolve(),
+        'Same accepted July pool/October warmup metadata')
+    base = small_proof(manifest['warmup_source_acceptance'], 'PASS_D050_SELECTED_MARKET_AND_DAILY_SOURCE_FORMAT_ONLY')
+    base_manifest = small_proof(manifest['warmup_manifest'], 'PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS')
+    require(base['source_only'] is True and base['pool_receipt_sha256'] == pool_sha and
+        base_manifest['pool_receipt']['sha256'] == pool_sha and
+        base_manifest['source_acceptance']['sha256'] == manifest['warmup_source_acceptance']['sha256'] and
+        prior['prior_acceptance']['sha256'] == manifest['warmup_source_acceptance']['sha256'] and
+        prior['prior_manifest']['sha256'] == manifest['warmup_manifest']['sha256'] and
+        (ROOT/Path(prior['prior_acceptance']['path'])).resolve() ==
+        (ROOT/Path(manifest['warmup_source_acceptance']['path'])).resolve() and
+        (ROOT/Path(prior['prior_manifest']['path'])).resolve() ==
+        (ROOT/Path(manifest['warmup_manifest']['path'])).resolve() and
+        (base_manifest['start_us'], base_manifest['end_us']) == (START, END),
+        'Original accepted September and February-August proof chain remains explicit')
+    identity = lambda r: (r['symbol'], r['kind'], r['interval'], r['month'], r['normalized_path'],
+                          r['normalized_sha256'], r['normalized_bytes'], r['rows'])
+    september = manifest['warmup_minute_records']
+    expected = [r for r in base_manifest['market_records'] if r['kind'] == 'klines']
+    require(sorted(map(identity, september)) == sorted(map(identity, expected)), 'Exact accepted September ten identities')
+    october = [r for r in manifest['market_records'] if r['kind'] == 'klines']
+    members = set(pool['symbols']) | {'BTCUSDT', 'ETHUSDT'}
+    for month, records, pins in (('2024-09', september, base['normalized_source_hashes']),
+                                 ('2024-10', october, prior['normalized_source_hashes'])):
+        require(len(records) == len(members) and {r['symbol'] for r in records} == members and
+            all(r['kind'] == 'klines' and r['interval'] == '1m' and r['month'] == month and
+                pins.get(r['normalized_path']) == r['normalized_sha256'] for r in records),
+            'Each accepted warmup month retains source identity and byte SHA')
+    daily = [*manifest['control_daily_records'],
+        *(r for r in pool['source_records'] if r['symbol'] in members)]
+    require({(r['symbol'], r['month']) for r in daily} ==
+        {(s, '2024-'+m) for s in members for m in ('02', '03', '04', '05', '06', '07', '08')} and
+        all(r['kind'] == 'klines' and r['interval'] == '1d' and
+            base['normalized_source_hashes'].get(r['normalized_path']) == r['normalized_sha256']
+            for r in daily), 'Selected daily70 warmup remains bound to original acceptance; not new QA')
+    return [*september, *october], base['normalized_source_hashes']
+
+
 def load_portfolio_window(manifest_path, symbols, start_us, end_us):
     """Public runner API; manifest SHA is bound by the portfolio protocol.
 
@@ -640,8 +707,9 @@ def load_portfolio_window(manifest_path, symbols, start_us, end_us):
     require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
         path.stat().st_size <= 2_000_000, 'Small accepted STATE manifest, no general loader')
     manifest = json.loads(path.read_bytes())
-    status = ('PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS' if month == '2024-09'
-              else 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS')
+    status = {'2024-09': 'PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS',
+        '2024-10': 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS',
+        '2024-11': NOVEMBER_MANIFEST_STATUS}[month]
     require(manifest['status'] == status and manifest['checksummed_source_format_verified'] is True and
         manifest['start_us'] == start_us and manifest['end_us'] == end_us, 'Accepted checksummed explicit-window source role')
     pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
@@ -666,6 +734,13 @@ def load_portfolio_window(manifest_path, symbols, start_us, end_us):
         require(sorted(map(identity, warm)) == sorted(map(identity, expected)) and
             all(prior['normalized_source_hashes'].get(r['normalized_path']) == r['normalized_sha256']
                 for r in [*prior_daily, *warm]), 'Each pre-entry daily/minute row keeps accepted identity')
+    elif month == '2024-11':
+        expected, base_pins = november_warmup_metadata(manifest, pool)
+        identity = lambda r: (r['symbol'], r['kind'], r['interval'], r['month'], r['normalized_path'],
+                              r['normalized_sha256'], r['normalized_bytes'], r['rows'])
+        require(sorted(map(identity, warm)) == sorted(map(identity, expected)) and
+            all(base_pins.get(r['normalized_path']) == r['normalized_sha256'] for r in prior_daily),
+            'Twenty accepted minute warmups and original daily inputs retain exact identity')
     else:
         require(all(pins.get(r['normalized_path']) == r['normalized_sha256'] for r in prior_daily), 'Each prior daily row bound in accepted source proof')
     result = window(pool, market_records, pool_receipt_sha256=manifest['pool_receipt']['sha256'],
@@ -689,6 +764,8 @@ def load_accepted_two_asset_control(symbols=('BTCUSDT', 'ETHUSDT'), start_us=STA
             market.append(catalog[(kind, symbol, interval, month)])
         if month == '2024-10':
             warm.append(catalog[('klines', symbol, '1m', '2024-09')])
+        elif month == '2024-11':
+            warm.extend(catalog[('klines', symbol, '1m', m)] for m in ('2024-09', '2024-10'))
         for control_month in ('2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08'):
             daily.append(catalog[('klines', symbol, '1d', control_month)])
     result = window(None, market, pool_receipt_sha256=None, control_daily_records=daily, requested_symbols=symbols,
@@ -706,17 +783,21 @@ def source_stage(args):
     spec_path = args.protocol.resolve(); spec = json.loads(spec_path.read_bytes())
     run, output = Path(args.run_dir).resolve(), Path(args.output).resolve()
     phase = 'POOL_DAILY' if args.mode == 'pool' else spec['phase']
-    require(phase in ('POOL_DAILY', 'SEPTEMBER_SOURCE', 'OCTOBER_SOURCE'), 'Explicit source phase')
+    require(phase in ('POOL_DAILY', 'SEPTEMBER_SOURCE', 'OCTOBER_SOURCE', 'NOVEMBER_SOURCE'), 'Explicit source phase')
     require((args.mode == 'pool') == (phase == 'POOL_DAILY'), 'Separate pool/source execution mode')
     october = phase == 'OCTOBER_SOURCE'
-    rules = OCTOBER_RULES if october else RULES
-    budgets = OCTOBER_BUDGETS if october else DEFAULT_BUDGETS
-    start_us, end_us = (END, OCT_END) if october else (START, END)
+    november = phase == 'NOVEMBER_SOURCE'
+    followup = october or november
+    rules = NOVEMBER_RULES if november else OCTOBER_RULES if october else RULES
+    budgets = NOVEMBER_BUDGETS if november else OCTOBER_BUDGETS if october else DEFAULT_BUDGETS
+    start_us, end_us = (OCT_END, NOV_END) if november else (END, OCT_END) if october else (START, END)
     month = period_scope(start_us, end_us)
     require(spec['phase'] == phase and spec['ready_for_execution'] is True and
         spec['capacity_registered'] is True and spec['rules'] == rules and
-        spec['budgets'] == budgets and (not october or
+        spec['budgets'] == budgets and (not followup or
         (spec['start_us'], spec['end_us']) == (start_us, end_us)), 'Exact prospective phase/rules/budget')
+    require(not november or (spec['contract_id'] == NOVEMBER_CONTRACT and spec['days'] == 30),
+        'One prospective complete November source contract')
     require(run == Path(spec['run_dir']).resolve() and not run.exists() and run.is_relative_to(STATE.resolve()) and
         output == (ROOT/spec['output_path']).resolve() and not output.exists(), 'New exclusive source phase')
     require(os.environ.get('COIN_TASK_ID') and sys.prefix == str(STATE/'v8-clean-env-20261002-v2'), 'Bounded clean/progress invocation')
@@ -740,6 +821,9 @@ def source_stage(args):
             all(r['month'] == '2024-09' and r['interval'] == '1m' and
                 prior['normalized_source_hashes'].get(r['normalized_path']) == r['normalized_sha256'] for r in warm),
             'Ten already accepted September trade-minute warmup records; no payload IO')
+    elif november:
+        pool = small_proof(spec['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+        warm, _ = november_warmup_metadata(spec, pool)
     if spec.get('partial_source_reuse'):
         prior = small_proof(spec['partial_source_reuse'], 'FAIL_D050_SOURCE_STAGE')
         require(phase == 'SEPTEMBER_SOURCE' and prior['actual_exit_code'] == 1 and
@@ -774,7 +858,7 @@ def source_stage(args):
         success_failure='START_BEFORE_NEW_PRICE_IO', reason_for_next_experiment='Historical shared-account pool comparison',
         result_influenced_later_choice='NO_SCORE_RESULTS', task_id=binding['task_id'], fits=0)
     registration = append_event(ROOT/'reports/experiment_registry.jsonl', event)
-    failure_status = 'FAIL_D051_SOURCE_STAGE' if october else 'FAIL_D050_SOURCE_STAGE'
+    failure_status = 'FAIL_D054_SOURCE_STAGE' if november else 'FAIL_D051_SOURCE_STAGE' if october else 'FAIL_D050_SOURCE_STAGE'
     report = dict(status=failure_status, binding=binding, run_dir=str(run), source_only=True,
         registration_start=registration, run_binding_sha256=sha(run/'RUN_BINDING.json'),
         source_records=[], score_payloads_read=0, model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
@@ -783,10 +867,11 @@ def source_stage(args):
     reserve = budgets['pool_owned_bytes' if args.mode == 'pool' else 'market_owned_bytes']
     try:
         progress.update('实际磁盘扫描，扫描总量未知', None, None, '扫描')
-        before = datetime.now(UTC).isoformat(); measured = disk.check(700_000_000)
+        capacity_reserve = 1_000_000_000 if november else 700_000_000
+        before = datetime.now(UTC).isoformat(); measured = disk.check(capacity_reserve)
         measured.update(scan_started_utc=before, scan_finished_utc=datetime.now(UTC).isoformat())
         report['disk_before'] = measured
-        require(measured['total_bytes']+700_000_000 < 32_000_000_000, 'Expected source plus research warning budget')
+        require(measured['total_bytes']+capacity_reserve < 32_000_000_000, 'Expected source plus research warning budget')
         last_disk = STATE/'task-progress'/'last-disk.json'; temporary = last_disk.with_suffix('.source.tmp')
         temporary.write_text(json.dumps(dict(ledger=measured, measured_at=time.time()), allow_nan=False), encoding='utf-8')
         os.replace(temporary, last_disk)
@@ -818,26 +903,29 @@ def source_stage(args):
                         item = acquire(entry(symbol, kind, interval, month), run, client,
                             authorization=spec, reuse_catalog=catalog, budgets=budgets)
                         market.append(item); completed.append(item)
-                        if october:
+                        if followup:
                             normalized = sum(r['normalized_bytes'] for r in market)
                             owned_normalized = sum(r['normalized_bytes'] for r in market if Path(r['normalized_path']).is_relative_to(run))
                             require(normalized <= budgets['input_owned_bytes'] and
                                 owned(run)-owned_normalized <= budgets['temporary_owned_bytes'], 'Actual input and temporary byte subbudgets')
                         progress.update('选中币来源，选池已冻结', len(market), 3*len(spec['symbols']), '档', symbol=symbol)
-                report.update(status=('COMPLETE_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_PENDING_ACCEPTANCE' if october
+                report.update(status=(NOVEMBER_SOURCE_STATUS if november else 'COMPLETE_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_PENDING_ACCEPTANCE' if october
                     else 'COMPLETE_D050_SELECTED_MARKET_SOURCE_FORMAT_PENDING_ACCEPTANCE'), market_records=market,
                     control_daily_records=controls, pool_receipt=spec['pool_receipt'], symbols=spec['symbols'],
                     start_us=start_us, end_us=end_us, score_payloads_read=len(market), checksummed_source_format_verified=True)
-                if october:
+                if followup:
                     require(sum(r['acquisition'] == 'NEW_OFFICIAL_BYTES_FORMAT_QA_PENDING_INDEPENDENT_ACCEPTANCE' for r in market) == 24 and
                         sum(r['acquisition'] == 'REUSED_ACCEPTED_BYTES_NO_REPEAT_QA_OR_DOWNLOAD' for r in market) == 6,
-                        'Exactly 24 new and six already accepted October market sources')
+                        'Exactly 24 new and six already accepted followup market sources')
                     report.update(warmup_minute_records=warm, warmup_manifest=spec['warmup_manifest'],
                         warmup_source_acceptance=spec['warmup_source_acceptance'],
                         prior_source_format_reused_without_QA=True, selected_pool_unchanged=True,
                         normalized_input_bytes=sum(r['normalized_bytes'] for r in market),
                         temporary_owned_bytes=owned(run)-sum(r['normalized_bytes'] for r in market if Path(r['normalized_path']).is_relative_to(run)))
-        require(owned(run) <= reserve, 'Actual owned source budget'); code = 0
+        require(owned(run) <= reserve, 'Actual owned source budget')
+        require(not november or resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
+            budgets['peak_RSS_bytes'], 'Actual November source RSS budget')
+        code = 0
     except Exception as error:
         report.update(status=failure_status, error_type=type(error).__name__, reason=str(error))
     finally:

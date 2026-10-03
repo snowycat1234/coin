@@ -84,12 +84,6 @@ def root_path(name):
     return p
 
 
-def project_source(name, guard):
-    if name == 'tools/task_progress/task_progress_sample.py':
-        return guard.ordinary(ROOT/name)
-    return guard.project(name)
-
-
 def source_report(proof):
     """The pool retains UNKNOWN candidate evidence, so it may exceed 2MB.
 
@@ -323,7 +317,7 @@ def main():
     own = Path(__file__).resolve().relative_to(ROOT).as_posix()
     pins = spec['frozen_sources']
     for name, digest in pins.items():
-        need(name != 'state/dataset_lock.json' and sha(project_source(name, g)) == digest, 'Frozen source '+name)
+        need(name != 'state/dataset_lock.json' and sha(g.project(name)) == digest, 'Frozen source '+name)
     need(pins.get(own) == sha(__file__) and pins.get(GUARD) == GUARD_SHA
          and pins.get(FORMAT) == FORMAT_SHA and pins.get(TRADE) == TRADE_SHA,
          'Own and original independent functions pinned')
@@ -465,7 +459,7 @@ def main():
             progress.update('24新增'+month+'核验/6旧接受档复用', index+1, 30, '档', newly_verified=fresh, accepted_reused=reused)
             need(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <= budgets['peak_RSS_bytes'], 'RSS bound')
         need(fresh == 24 and reused == 6 and len(report['normalized_source_hashes']) == 30
-             and all(sha(project_source(n, g)) == d for n, d in pins.items()), 'Final 24new/6old and accepted warmup binding')
+             and all(sha(g.project(n)) == d for n, d in pins.items()), 'Final 24new/6old and accepted warmup binding')
         report.update(status=scope['status'], symbols=symbols, selected_symbols=selected,
             pool_receipt_sha256=spec['pool_receipt']['sha256'], start_us=start_us, end_us=end_us,
             completed_files=30, newly_verified_files=fresh, reused_accepted_files=reused,

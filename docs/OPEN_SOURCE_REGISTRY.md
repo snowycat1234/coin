@@ -1,5 +1,9 @@
 # FR61 开源复用登记表
 
+### D054实际复用
+
+固定November官方URL/CHECKSUM增量和原已接受两层暖源桥已完成；只新增24分钟价格/mark/资金费档，6旧档与90暖源元数据复用。既有Polars/NumPy、官方`binance/binance-public-data`与原许可证/commit不变；无依赖安装/自行Transformer/下载框架。normal calendar/QA路径薄适配及共享pool比较修正不复制第三方代码。三固定HOLD配置真实同资金账户，第三方原SMA/许可不变且本轮未重跑SMA。结果为跨场所条件开发证据，不能由开源许可证推断服务数据/native资格。
+
 ## 2026-10-03 Bybit原生公开资金费小窗口（D026）
 
 复用已锁定Python标准JSON／Decimal及项目来源凭证、progress／registry；不增加依赖。
@@ -316,3 +320,6 @@ Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause、标准库Decimal/原环境无安装
 
 直接复用 jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364/MIT 原SMACrossover hooks与已登记Polars1.44.2/MIT日线均值实现，原第三方源码及LICENSE零修改，无安装或新依赖。新public_sma_pool_target.py仅调用现有配置化目标接口，接入同July十币池、固定50/200多头/空仓状态、原过去协方差风险与共享10k账户；未active等权预算不重分配。原公开教学信号作为机制对照，不称完整Jesse执行或市场强bot。两个完整已见开发月复用既有来源、资金费条件与成本，不下载/训练/搜参。当前登记追加前精确字节见archive/OPEN_SOURCE_REGISTRY_PRE_PUBLIC_SMA_POOL_20261004_V1.md，SHA12563be0047e2b09a43c44eeb0a957cdbeaa15d3ec27bc63b5f72f933d492283；旧登记和负结果保留。
 D053实际闭合：同原Jesse7c91e0.../MIT与原SMA/Polars均值，第三方零修改；薄adapter0d8eca...、正常组合d6678c...、独立scalar参考82f461...、保存对照e3fec4...。两月8新实际/8独立账户与两对照真实exit0，固定方向gross明显弱于同池HOLD，配方暂停/能力保留，投资NONE。无新库/模型/数据/搜参；进度正常sampler c90仅修双writer临时路径与明确阶段新鲜度，不改研究Progress/金融源码。原registry snapshot12563be...及原负结果/残仓/单位UNKNOWN继续保留。
+### D054：固定November来源增量（运行前登记）
+
+沿用binance/binance-public-data固定f446ce3812bd4e5521f21faecd4ae3c6460e49fc/原软件MIT与行情条款、官方USD-M URL/.CHECKSUM/CSV格式与已登记成熟parser，正常薄wrapper只有限添加已授权2024Nov和完整Sep/Oct暖源。24首次新QA、6BTCETH303旧meta与90暖源复用，不新增aggTrades/LOB/daily下载或库安装。WSL无route仍原Windows System.Net.Http默认同一official HTTPS、字节/耗时限制，无重试/新代理。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause/Decimal原环境不改；账户/执行/费用保持，不认证Bybit原生/资金费单位或长期APR。正常日历/metadata接线是本地修改，原代码由Git3549675复现，失败/旧证据不覆盖。

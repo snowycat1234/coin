@@ -1,4 +1,84 @@
-# 可配置多币共享资本组合：D050–D053
+# 可配置多币共享资本组合：D050–D054
+
+## D054：固定十一月的共同来源、完整资本对照
+
+原July历史流动性/200日连续预热十币池保持；没有按九月、十月收益改币。三份协议在新账户之前固定，评价2024-11-01至2024-12-01前的30个真实UTC日。BTC/ETH控制组从同一已接受十币manifest取子集；每个配方是一个独立完整10,000 USDT共享钱包，不相加满资金账户。配置成员、目标、协方差、账户、成交与NAV沿同一有序映射；信号按日、成交/mark按分钟日块、资金费按事件。0模型/逐币训练/HPO/LOB/aggTrades下载。
+
+三配方保持原HOLD方向、过去30完成日协方差/10%预测波动只缩小、单币abs30%/总gross60%/逐仓1x/no topup、BASE27/STRESS43及F/P两未认证资金费解释、上一分钟0.1%报价容量、原五次退出。只比较池与配置，实际风险没有事后缩放。
+
+| 30日条件 | 两币等权净USDT | 十币等权净USDT | 十币逆波动净USDT |
+|---|---:|---:|---:|
+| BASE27 / 原值fraction | 683.624594 | 743.108118 | 833.834010 |
+| BASE27 / 原值percent | 709.669096 | 763.020275 | 855.985529 |
+| STRESS43 / 原值fraction | 678.344734 | 739.461466 | 829.253475 |
+| STRESS43 / 原值percent | 704.377971 | 759.368299 | 851.396948 |
+
+十二账户按原容量/退出规则全部清仓，末数量、未实现及标记名义均0；本月条件现金收益可评价。旧十月marked残仓与NE保持，不能用本月清仓追认旧清仓。以上为实际30日收益，不是长期APR；三个独立月份不拼成连续NAV。
+
+### 钱与风险
+
+| BASE27/fraction，完整资本 | 两币等权 | 十币等权 | 十币逆波动 |
+|---|---:|---:|---:|
+| 毛价格损益USDT | 717.883 | 768.625 | 862.943 |
+| 手续费USDT | 3.501 | 2.412 | 3.012 |
+| spread/slippage合计USDT | 5.093 | 3.509 | 4.381 |
+| 资金费现金流USDT | −25.664 | −19.596 | −21.716 |
+| 该月日收益波动年化 | 12.659% | 10.942% | 11.090% |
+| 分钟最大回撤 | 1.956% | 2.075% | 2.047% |
+| 总成交名义/完整初始资本 | 0.6365 | 0.4385 | 0.5476 |
+| 平均净敞口=平均gross（本轮仅多） | 18.147% | 11.850% | 13.595% |
+| 峰值gross | 26.510% | 16.384% | 19.535% |
+| 平均/峰值保证金占NAV | 15.519% / 25.822% | 9.660% / 15.837% | 11.410% / 19.136% |
+
+波动数字是短开发窗口的描述，预测10%不是已实现风险保证；共同caps也不是风险匹配。CASH净/波动/DD/换手均0。所有成本/单位条件及有符号gross/net/保证金明细保存在实际summary，不按更盈利单位选择主结果。
+
+十币等权较两币净多53.35..61.12 USDT：毛增50.61..50.80、成本节省2.67..4.26、资金费少付0.061..6.068。波动较低、回撤反略高，不能称风险全面占优。BASE/F十币十项净贡献均正，XRP166.25、DOGE132.64、PEPE111.59居前；不是新增预测模型发现行为alpha。前五正日占正收益两币68.53%、等权54.15%，本月分散改善不保证跨状态稳定。
+
+逆波动较等权净多89.79..92.97：毛增94.25..94.46，成本反多1.47..2.35、资金费反多0.021..2.121。平均gross11.85%→13.60%，实际波动10.94%→11.09%，DD仅小降；收益不是零风险增量或降低费用造成。BASE/F XRP净238.84，较等权多72.59；BTC/ETH净77.59/74.75，DOGE/PEPE反较等权少24.69/16.78。权重/风险/成交路径共同改变，分币桥是经济归因，不是纯权重因果证明。逆波动前五正日占53.29%。
+
+已保存八配对差额均满足Δnet=Δgross−Δcost+Δfunding，另一agent仅小JSON独立复核最大桥误差9.95e−14 USDT，无额外行情/模型调用。记录账本/目标的独立复核与完整订单意图重建、原生规则认证分别验收，不扩大scope。
+
+十二新账户的十二独立金融调用均真实closed0，四×30日/配置有序目标、记录的已成交钱包/保证金/资金费/未实现/NAV按原1e−7USDT/1e−10比例容差核对；最大金额1.46e−11USDT/比例9.24e−14。三个checker任务实际22.23/22.92/26.47秒，RSS255.91/344.99/345.84MB，新STATE合计18.94KB。部分inverse账户原Decimal unpaid_liability尾差1e−48保留，没有改成精确债0；库存、标记名义和未实现为0，原条件现金范围与容差保持。计数120case-days是4×30情景调用，不是120个独立真实日期；本月只有30个UTC日。
+
+### 来源、资源和真实失败
+
+官方Binance USD-M十一月30个档，24首次新增、6已接受BTCETH精确复用；70 Feb–Aug日线与Sep/Oct各10成交分钟档组成连续90暖源，只复用原接受身份/hash，不重复旧CRC/rows。新QA校核官方CHECKSUM、CSV/CRC和时间网格；1170真实资金费事件不补零，单位/结算发布/native Bybit仍未认证。新来源owned50.357MB，QA STATE224KB。
+
+| 四条件实跑 | 两币 | 十币等权 | 十币逆波动 |
+|---|---:|---:|---:|
+| 组合阶段 | 24.93秒 | 68.15秒 | 66.25秒 |
+| 含原磁盘守卫 | 106.72秒 | 147.91秒 | 143.96秒 |
+| 进程RSS峰值 | 271.80MB | 320.59MB | 321.47MB |
+| 共享组实采峰值 | 1.287GB | 1.395GB | 1.449GB |
+| 新账户输出 | 16.324MB | 51.965MB | 51.981MB |
+
+十币主要增加分钟账本时间/输出，RAM不是当前瓶颈；主体合计120.270MB、source+QA+主体约171MB，远低新STATE1GB预算。共享内核历史峰值3.263GB不是本轮峰值。最后实际磁盘扫描23,943,243,063B@2026-10-03T23:12:44.803992Z，先于逆波动输出/后续元数据/Git；8765保留此真实时刻，不能称末扫描。共享硬限4,999,999,488B、swap0/GPU0、40GB/32警告/36停新增保持，collector540仍运行，0发单/keys/locked/付费。
+
+新QA首任务98e4/host33711真实exit1：旧公开路径守卫未准入已绑定的进度sampler源码，发生于run/registry/新数据rows之前，0市场数组。原协议216前的8c7386、源码9fe818、任务和失败报告完整保留。活动QA只新增唯一已pin `tools/task_progress/task_progress_sample.py` 的正常小文件路径适配，其余原守卫仍不变；CSV/CRC/资金费/数学不改。V2为首次新24格式QA，trueexit0；不是重跑已接受旧源。正常pool比较还要求两侧真实成员集合不同，防同池/仅顺序变化被误标扩池，不改策略或账本。
+
+首失败在事前registry调用之前退出，后由既有append_event追加真实POST_RESULT，保留原无START事实，不伪造事前登记或账户调用。实际登记host1be9c1/exit0、链record f70d4bd6…，源码/失败/任务小凭证保存。
+
+### 决定与下一项
+
+采用可配置多币与共同来源/共享资本能力；BTCETH HOLD保持稳定控制，等权10保留基准，inverse10保留优先挑战者，投资NONE/CASH。九月扩池改善、十月显著落后、十一月再改善，不能把币种数当长期优势；inverse十月/十一月有净增量，九月近零且DD较差，尚无跨状态统一占优或独立市场证据。
+
+本模块到固定12新账户/12独立核账及两个配对结束，不追加币池/阈值/模型。下一唯一研究选择是用已接受9–11月91日行情，真正连续运行同一完整10k钱包/风险/库存轨迹，对比三固定配方；不每月reset、相加独立账户或拼历史收益，不增加数据/模型/HPO。这能检验持续资本与容量风险，信息价值高于第四个fresh月或扩大币池。下一轮尚未启动，预算将在实际运行前简记。扩范围/投资晋级暂停；reopen需要连续路径、实际风险与净/容量增量，SMA或ML需要新的明确信息假设与有限对照，能力不永久删除。资金费单位、Bybit原生和独立未来证据仍限制声明。
+
+### 工件与复现
+
+Source协议/报告 `MULTI_ASSET_NOVEMBER_MARKET_SOURCE_20261004_V1.json`；QA协议/报告 `MULTI_ASSET_NOVEMBER_SOURCE_ACCEPTANCE_20261004_V2.json`，原V1失败保留。共同manifest77881c6e…、QA877a5352…、原pool9b8df895…均SHA绑定。三个新协议/报告为 `MULTI_ASSET_NOVEMBER_TWO_CONTROL/TEN_EQUAL/TEN_INVERSE_20261004_V1.json`；独立报告在recipe后加`_INDEPENDENT`，配对为`MULTI_ASSET_NOVEMBER_POOL/ALLOCATION_COMPARISON_20261004_V1.json`。
+
+实际WSL命令模板（复做取新exclusive目录/输出/身份，不覆盖证据；独立plan绑定新producer真closed0）：
+
+```bash
+P=/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python
+RECIPE=TEN_EQUAL # TWO_CONTROL / TEN_EQUAL / TEN_INVERSE
+POOL=LIQUIDITY_TEN # TWO_CONTROL用TWO_ASSET
+bash scripts/with_task_progress.sh --title 'D054 November共享组合' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin "$P" scripts/investment/multi_asset_portfolio.py --protocol "protocols/MULTI_ASSET_NOVEMBER_${RECIPE}_20261004_V1.json" --run-dir /home/xflops/coin-state/d054-november-ten-equal-20261004-v1 --output "reports/fast_research/MULTI_ASSET_NOVEMBER_${RECIPE}_20261004_V1.json" --pool-id "$POOL"
+bash scripts/with_task_progress.sh --title 'D054记录金融独立核账' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin "$P" scripts/investment/multi_asset_financial_audit.py --protocol "protocols/MULTI_ASSET_NOVEMBER_${RECIPE}_20261004_V1.json" --actual "reports/fast_research/MULTI_ASSET_NOVEMBER_${RECIPE}_20261004_V1.json" --run-dir /home/xflops/coin-state/d054-november-ten-equal-financial-20261004-v1 --output "reports/fast_research/MULTI_ASSET_NOVEMBER_${RECIPE}_INDEPENDENT_20261004_V1.json"
+```
+
+数据、真实账本/env/log仍D盘，源码、配置、小验收与真实任务元数据入Git。旧D053及以前按原Git提交复现，正常活动代码有限维护，旧负结果不覆盖。下面是此前历史时点，不能将其“下一步”当当前任务。
 
 ## D053：固定公开日线方向对照（实际完成，配方暂停）
 

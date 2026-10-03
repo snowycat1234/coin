@@ -83,15 +83,15 @@ def prepare_financial(symbols):
 
 
 def calendar_scope(spec):
-    """Only the two explicitly authorized, complete seen UTC month windows."""
+    """Only the explicitly authorized September-November seen UTC months."""
     first = datetime.fromisoformat(spec['start'])
     last = datetime.fromisoformat(spec['end_exclusive'])
     need(first.tzinfo is not None and last.tzinfo is not None and
          first.utcoffset().total_seconds() == last.utcoffset().total_seconds() == 0 and
          (first.day, first.hour, first.minute, first.second, first.microsecond) == (1, 0, 0, 0, 0),
          'Complete UTC month starts; no truncated or shifted decision clock')
-    need(first.year == 2024 and first.month in (9, 10) and
-         last == first.replace(month=first.month + 1), 'Only predeclared September/October seen scopes')
+    need(first.year == 2024 and first.month in (9, 10, 11) and
+         last == first.replace(month=first.month + 1), 'Only predeclared September-November seen scopes')
     days = (last - first).days
     return dict(start=first.isoformat(), end_exclusive=last.isoformat(),
         start_us=int(first.timestamp()) * 1_000_000, end_us=int(last.timestamp()) * 1_000_000,
@@ -108,14 +108,17 @@ def input_reader(spec, symbols, base, guard):
     month = scope['score_month']
     times = np.arange(start, end, MINUTE, dtype=np.int64)
     if spec.get('data_role') == 'EXISTING_ACCEPTED_TWO_ASSET_CONTROL':
-        need(tuple(symbols) == ('BTCUSDT', 'ETHUSDT') and
+        need(month in ('2024-09', '2024-10') and tuple(symbols) == ('BTCUSDT', 'ETHUSDT') and
              manifest['sha256'] == '8b665b2829eafd192871fe4a3bc418dac1c202ed54f7d2d5494545fa6636fbfa' and
              value['status'] == 'PASS_D045_FIXED_303D_USDM_INPUT_SOURCE_BINDING_NOT_ECONOMICS',
              'Existing accepted two-asset source scope')
         records = list(value['source_files'].values())
     else:
-        manifest_status = ('PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS' if month == '2024-09'
-            else 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS')
+        manifest_status = {
+            '2024-09': 'PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS',
+            '2024-10': 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS',
+            '2024-11': 'PASS_D054_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS',
+        }[month]
         need(value['status'] == manifest_status and
              value['checksummed_source_format_verified'] is True and
              (value['start_us'], value['end_us']) == (start, end), 'Accepted selected source scope')
@@ -127,8 +130,11 @@ def input_reader(spec, symbols, base, guard):
             return str(path if path.is_absolute() else ROOT / path), reference['sha256']
         pool = metadata(value['pool_receipt'])
         acceptance = metadata(value['source_acceptance'])
-        acceptance_status = ('PASS_D050_SELECTED_MARKET_AND_DAILY_SOURCE_FORMAT_ONLY' if month == '2024-09'
-            else 'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY')
+        acceptance_status = {
+            '2024-09': 'PASS_D050_SELECTED_MARKET_AND_DAILY_SOURCE_FORMAT_ONLY',
+            '2024-10': 'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY',
+            '2024-11': 'PASS_D054_FIXED_POOL_NOVEMBER_SOURCE_FORMAT_ONLY',
+        }[month]
         need(pool['status'] == 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS' and
              (list(symbols) == pool['symbols'] or tuple(symbols) == ('BTCUSDT', 'ETHUSDT')) and
              len(value['symbols']) == len(set(value['symbols'])) == len(pool['symbols']) and
@@ -160,6 +166,50 @@ def input_reader(spec, symbols, base, guard):
                  'Only all ten accepted September trade sources supply October causal warmup')
             warm_records += minute_warm
             accepted_warm = prior['normalized_source_hashes']
+        elif month == '2024-11':
+            prior_manifest = metadata(value['warmup_manifest'])
+            prior = metadata(value['warmup_source_acceptance'])
+            october_start = int(datetime(2024, 10, 1, tzinfo=UTC).timestamp()) * 1_000_000
+            september_start = int(datetime(2024, 9, 1, tzinfo=UTC).timestamp()) * 1_000_000
+            need(prior_manifest['status'] == 'PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS' and
+                 prior_manifest['checksummed_source_format_verified'] is True and
+                 (prior_manifest['start_us'], prior_manifest['end_us']) == (october_start, start) and
+                 reference_identity(prior_manifest['pool_receipt']) == reference_identity(value['pool_receipt']) and
+                 reference_identity(prior_manifest['source_acceptance']) == reference_identity(value['warmup_source_acceptance']) and
+                 prior_manifest['control_daily_records'] == value['control_daily_records'] and
+                 prior['status'] == 'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY' and
+                 prior['source_only'] is True and prior['pool_receipt_sha256'] == value['pool_receipt']['sha256'],
+                 'November retains the exact accepted October manifest/capability and July pool')
+            earlier_manifest = metadata(prior_manifest['warmup_manifest'])
+            earlier = metadata(prior_manifest['warmup_source_acceptance'])
+            need(earlier_manifest['status'] == 'PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS' and
+                 earlier_manifest['checksummed_source_format_verified'] is True and
+                 (earlier_manifest['start_us'], earlier_manifest['end_us']) == (september_start, october_start) and
+                 reference_identity(earlier_manifest['pool_receipt']) == reference_identity(value['pool_receipt']) and
+                 reference_identity(earlier_manifest['source_acceptance']) == reference_identity(prior_manifest['warmup_source_acceptance']) and
+                 earlier_manifest['control_daily_records'] == value['control_daily_records'] and
+                 earlier['status'] == 'PASS_D050_SELECTED_MARKET_AND_DAILY_SOURCE_FORMAT_ONLY' and
+                 earlier['source_only'] is True and earlier['pool_receipt_sha256'] == value['pool_receipt']['sha256'],
+                 'October explicitly retains the accepted daily/September warmup capability')
+            september_trade = [r for r in earlier_manifest['market_records'] if r['kind'] == 'klines']
+            need(len(prior_manifest['warmup_minute_records']) == len(pool['symbols']) and
+                 {r['symbol']: r for r in prior_manifest['warmup_minute_records']} ==
+                 {r['symbol']: r for r in september_trade}, 'Unchanged original September minute warmup aliases')
+            expected_warm = [*september_trade,
+                *(r for r in prior_manifest['market_records'] if r['kind'] == 'klines')]
+            minute_warm = value['warmup_minute_records']
+            need(len(minute_warm) == 2 * len(pool['symbols']) and
+                 {(r['kind'], r['symbol'], r.get('interval'), r['month']) for r in minute_warm} ==
+                 {('klines', s, '1m', m) for s in pool['symbols'] for m in ('2024-09', '2024-10')} and
+                 {(r['symbol'], r['month']): r for r in minute_warm} ==
+                 {(r['symbol'], r['month']): r for r in expected_warm},
+                 'Only all ten accepted September/October trade sources supply November warmup')
+            warm_records += minute_warm
+            accepted_warm = dict(earlier['normalized_source_hashes'])
+            need(all(path not in accepted_warm or accepted_warm[path] == digest
+                     for path, digest in prior['normalized_source_hashes'].items()),
+                 'Earlier and October capability aliases cannot disagree')
+            accepted_warm.update(prior['normalized_source_hashes'])
         else:
             accepted_warm = acceptance['normalized_source_hashes']
         need(all(accepted_warm.get(r['normalized_path']) == r['normalized_sha256']
@@ -197,10 +247,13 @@ def input_reader(spec, symbols, base, guard):
         warm = pl.concat([read(('klines', symbol, '1d', '2024-' + m),
                 ['open_us', 'close_us', 'available_us', 'close'])
             for m in ('02', '03', '04', '05', '06', '07', '08')]).sort('close_us')
-        if month == '2024-10':
-            prior_trade = read(('klines', symbol, '1m', '2024-09'), ['open_us', 'available_us', 'close']).sort('open_us')
-            prior_start = int(datetime(2024, 9, 1, tzinfo=UTC).timestamp()) * 1_000_000
-            warm = pl.concat([warm, daily_close(prior_trade, prior_start, start)]).sort('close_us')
+        prior_months = ('2024-09', '2024-10') if month == '2024-11' else ('2024-09',) if month == '2024-10' else ()
+        for prior_month in prior_months:
+            prior_trade = read(('klines', symbol, '1m', prior_month), ['open_us', 'available_us', 'close']).sort('open_us')
+            first = datetime.fromisoformat(prior_month + '-01T00:00:00+00:00')
+            prior_start = int(first.timestamp()) * 1_000_000
+            prior_end = int(first.replace(month=first.month + 1).timestamp()) * 1_000_000
+            warm = pl.concat([warm, daily_close(prior_trade, prior_start, prior_end)]).sort('close_us')
             del prior_trade
         need(np.array_equal(trade['open_us'].to_numpy(), times) and
              np.array_equal(mark['timestamp_ms'].to_numpy() * 1000, times), 'Full synchronous asset execution/mark clock')

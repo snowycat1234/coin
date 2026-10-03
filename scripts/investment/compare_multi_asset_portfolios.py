@@ -330,6 +330,42 @@ def signal_case(left,right,scope,days):
         realized_risk_matched=False,alpha_identified=False)
 
 
+def pool_scope(left, right):
+    """New pool comparisons share one accepted source, including control subsets.
+
+    Prior comparisons with separately accepted sources remain reproducible at
+    their original Git commit. Their saved results are never rewritten here.
+    """
+    a, ap = saved_protocol(left); b, bp = saved_protocol(right)
+    require(a['strategy'] == b['strategy'] == EQUAL_ID and
+        a.get('allocation', 'EQUAL') == b.get('allocation', 'EQUAL') == 'EQUAL' and
+        a['initial_capital_USDT'] == b['initial_capital_USDT'] == 10000 and
+        a['pools'] == b['pools'], 'Fixed equal HOLD and identical predeclared pools/capital')
+    require(a['start'] == b['start'] and a['end_exclusive'] == b['end_exclusive'],
+        'Identical full scoring window')
+    members = [{frozenset(c['symbols']) for c in report['cases']} for report in (left, right)]
+    require(all(len(pools) == 1 for pools in members) and members[0] != members[1],
+        'Each report contains one pool and the pool comparison changes asset membership')
+    proofs = [saved_pool_proof(p) for p in (a, b)]
+    require(proofs[0]['path'] == proofs[1]['path'] and proofs[0]['sha256'] == proofs[1]['sha256'],
+        'Same historical liquidity pool receipt')
+    require(a['data_manifest']['sha256'] == b['data_manifest']['sha256'] ==
+        left['binding']['manifest_sha256'] == right['binding']['manifest_sha256'] and
+        Path(a['data_manifest']['path']).resolve() == Path(b['data_manifest']['path']).resolve(),
+        'Pool/control subsets of the same accepted price, mark and funding manifest')
+    for report, spec in ((left, a), (right, b)):
+        require(report['binding']['source_hashes'] == spec['source_hashes'],
+            'Actual sources match their prospective protocol')
+    hashes = [p['binding']['source_hashes'] for p in (left, right)]
+    require(hashes[0] == hashes[1], 'Same active loader, targets, finance and runtime sources')
+    return dict(baseline_protocol=ap, current_protocol=bp,
+        predeclared_pools=a['pools'], common_data_manifest=a['data_manifest'],
+        frozen_pool_receipt=proofs[0], strategy_id=EQUAL_ID, allocation='EQUAL',
+        asset_pool_changed=True, directional_signal_changed=False,
+        unchanged_finance_source_hashes={k:hashes[0][k] for k in FINANCE_SOURCES},
+        realized_risk_matched=False)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--control',type=Path,required=True)
@@ -350,6 +386,7 @@ def main():
             actual_days==right['actual_calendar_days'], 'Same complete predeclared calendar month')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
     signal_context=signal_scope(left,right) if args.contrast=='signal' else None
+    pool_context=pool_scope(left,right) if args.contrast=='pool' else None
     if args.contrast=='pool':
         for name in ('public_sma_perpetual.py','vol_managed_perpetual_target.py',
                      'perpetual_directional.py','perpetual_closing_exempt_account.py'):
@@ -364,6 +401,12 @@ def main():
     pairs=[]
     for key in a:
         require(a[key]['summary']['clock_us']==b[key]['summary']['clock_us'], 'Same complete end clock')
+        if pool_context:
+            require(a[key]['summary']['cost_scenario'] == b[key]['summary']['cost_scenario'] and
+                a[key]['summary']['unit_scenario'] == b[key]['summary']['unit_scenario'] and
+                all(any(p['id'] == c['pool'] and p['symbols'] == c['symbols']
+                    for p in pool_context['predeclared_pools']) for c in (a[key], b[key])),
+                'Actual ordered identities and complete cost/unit scenarios')
         target_contrast=allocation_case(a[key],b[key],contrast_scope,actual_days) if contrast_scope else None
         if signal_context:
             target_contrast=signal_case(a[key],b[key],signal_context,actual_days)
@@ -392,6 +435,8 @@ def main():
                   'equal versus predeclared past30 inverse-volatility allocation. Actual exposures and realized risk may differ. '
                   'Saved marked-NAV pairing retains terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
                   'No new directional alpha, free liquidation, post-hoc risk rescaling, account replay or native Bybit claim.')
+    if pool_context:
+        result.update(contrast='pool', pool_contrast=pool_context)
     if signal_context:
         result.update(contrast='signal',signal_contrast=signal_context,
             scope='Same ordered July N10 pool, full capital, accepted inputs, equal raw allocation, costs and financial risk rules; '
