@@ -1,23 +1,18 @@
 # Coin Quant
 
-**当前最高优先级：用户直接指定开源复用科研v6**，见
-`OPEN_SOURCE_REUSE_OVERRIDE_v6_2026-10-01.md`与`docs/OPEN_SOURCE_REUSE_OVERRIDE_v6.md`。
-官方Binance历史数据→统一5s Spot/Perp数据→Ridge/XGB→pytorch-tcn→MLPLOB/TLOB→TS2Vec
-→River→统一排行榜。第一轮最多10配置/1seed，所有模型共用数据与评价。
-新execution/Testnet/mainnet/resource-observer工程冻结；下述v4结果保留，不再是当前主线。
-长清单`docs/FAST_RESEARCH_TASK_CHECKLIST.md`，当前23/40项具阶段证据。
-官方四路两日、共同dataset、全部10配置真实预测与统一经济评价工程模拟已完成。
-180历史日批次运行中，正式六fold/10configs与leaderboard仍待完成。
+当前原则为用户2026-10-04的“从功能验收到投资改进”：解释实际损益与成本，选择一项有依据的改进，完成共同经济对照。历史实验由Git提交、配置、环境、数据清单和结果保留；当前源码可以正常维护。REUSE FIRST继续，旧固定模型顺序和永久代码冻结不再是当前路线。
 
-以下为v6覆盖前的v4历史快照：`CODEX_AUDIT_AND_NEXT_PLAN_2026-10-01.md`。
-A09独立L1 v2正确性/schema已通过79项及真实90秒短测验收，A10最终验收中；随后A11重启版本独立资格，
-按真实14/30/60天分阶段推进。新长清单`docs/V4_TASK_CHECKLIST.md`，
-旧v3来源/数据/研究STOP及其验收保留；无GPU、无锁定历史消费、无真钱。
+- **投资候选：NONE，投资选择：CASH。** 研究强基准为过去风险估计控制的HOLD；代理历史正收益不代表长期APR或真钱资格。
+- 已实现现货库存保护，以及单向逐仓USDT线性永续多头、空头、空仓、部分成交、资金费、保证金与恢复。D049八账户/303天、独立核账及12保存账本原因诊断均真实完成；仅多毛收益被成本抵消，仅空毛收益本身为负。
+- 下一任务为可配置约10币的来源核查与同一共享资本组合研究，尚未运行多币市场；总资本10k和风险/资源权限保持，不平均旧独立账户净值制造组合收益。
+- 目标费用为Bybit VIP0。当前历史输入仍是Binance代理；数量过滤/历史清算和资金费单位尚有限条件，不叫Bybit原生回测。固定Turtle仅多仍亏0.83%–4.25%，仅空亏4.70%–7.34%，不采用为投资主力。
+- 当前权威经济状态：[RESEARCH_STATUS](docs/RESEARCH_STATUS.md)，进度：[GOALS](docs/GOALS.md) / [PROGRESS](docs/PROGRESS.md)，实验记录：[registry](reports/experiment_registry.jsonl)。普通研究自主，不按固定旧清单重复验收。
+- 长任务进度窗口：[localhost:8765](http://localhost:8765/)。只展示实际状态，未知总量不造百分比，磁盘值保留扫描时刻。
+- D盘项目＋整个WSL VHD≤40GB（32GB预警/36GB停止新增），共享RAM≤5GB、swap0、GPU0。无锁定集、密钥、真钱、测试网或主网发单；单币绝对名义30%/共享gross60%、1倍逐仓、不追加保证金。
 
-A09容量测量的180d高熵合成投影9.077GB超过8GB特征子预算，失败保留，
-真实24h容量资格尚未通过。最新实测整个项目＋整个D盘WSL VHD为9.105GB，
-共享RAM历史峰2.083GB、swap0/OOM0；未开始盈利候选180天实测。
+## 历史阶段说明
 
+此前v3/v4/v6等结果保留，仅为历史证据；当前选择见上述状态页。以下旧阶段数值和门槛不代表当前运行任务或最近资源测量。
 以下保留v3纠偏阶段结果：`CODEX_AUDIT_AND_NEXT_PLAN_2026-09-30.md`。
 已验收工单A01–A08见`docs/GOALS.md`，当前优先级由v4增量覆盖。
 G47/G50执行层扩张停止，旧Logistic STOP和原始报告保留。资源仍40GB/5GB，不用GPU。

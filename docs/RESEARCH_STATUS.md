@@ -1,16 +1,17 @@
-# COIN — 当前科研状态（2026-10-03）
+# COIN — 当前科研状态（2026-10-04）
 
-当前长期原则：[自主迭代、开源对标、投资质量优先](archive/COIN_AUTONOMOUS_INVESTMENT_PROMPT_USER_20261002.md)。目标是相同资本和明确风险约束下，扣除真实成本的长期净几何 APR。普通研发由研究负责人依据证据自主决定；旧固定模型顺序、P1 全方向禁令及大清单不是当前命令。
+当前原则为用户明确采纳的[从功能验收到投资改进](archive/COIN_INVESTMENT_QUALITY_AUTONOMOUS_PROMPT_USER_20261004.md)。普通研究依据经济机制自主选择，活动代码正常维护；历史证据由Git提交、环境/数据/配置/结果保留。旧固定顺序和永久源码冻结不再是当前路线。
 
 ## 当前选择与证据
 
-1. **当前APR候选**：投资CASH/NONE、长期净几何APR不可评估。HOLD为研究强基准，SMA与Turtle保留负结果/能力，未采用为投资主力。
-2. **净收益证据**：D048同303已见日、10k完整资本、两成本×两未认证资金费条件，8账户全部完整并独立核算。Turtle LS净−11.18..−5.55%，HOLD+6.53..+7.86%，CASH0；不选有利单位/窗口，不称unseen或长期APR。
-3. **最大阻碍**：Turtle换手68..70倍，毛+366.93..393.44USDT小于手续费374.89..386.46与点差/滑点559.53..1095.32；short毛−72.48..−64.48，信号与成本均有问题。原生数量/清算/资金费单位未认证，403/451不绕过。
-4. **关键发现**：官方当前平仓豁免minimum notional；原小额BTC残仓停机已由独立新profile修正，8/8完成但盈利仍负。原account/Spot/旧证据未改。实际Turtle vol9.01..9.08%/分钟MDD11.12..14.27%，HOLD10.49..10.50%/10.95..11.27%，同caps非同风险。BASE/PERCENT long−77.07/short−478.27仅归因，非纯short因果增量。
-5. **下一项及理由**：选择同固定Turtle的LONG_ONLY/SHORT_ONLY方向消融，对照已存LS/HOLD/CASH；检验long+cash能否减少空头损失与换手。方向归因不能替代配对账户，保持费用/风险/资本/日期，不HPO。完成后再依据净增量与实现风险决定采用/暂停，不能强行做空。
-6. **暂停与reopen**：Turtle/SMA投资与HPO需强基准外净增量及独立证据；Bybit原生profile与资金费bridge需合法官方参数/历史响应或archive语义；DUAL_THRUST需厘清作者实际column/cache；547缺口需真实记录；复杂模型需额外信息价值。保留能力与全部负结果，D40GB/共享5GB/swap0/GPU0/locked/资金边界继续。
+1. **当前最佳研究方案**：past-risk HOLD是强基准；投资候选NONE，投资CASH，长期净几何APR不可评估。
+2. **实际净收益**：D049新LO/SO共8独立账户全部303日并独立核账，完整资本10k。LO净−4.25..−.83%、SO−7.34..−4.70%；同条件保存D048 LS−11.18..−5.55%、HOLD+6.53..+7.86%，CASH0。全部仍已见开发筛选，不选择有利资金费单位。
+3. **最大差距与瓶颈**：LO毛价格+443.89..457.17USDT，但费+点差/滑点528.35..830.72USDT，资金费负；SO毛−128.67..−114.09USDT，成本再恶化。LO换手38.55..39.24倍/SO28.19..28.67倍/HOLD2.2倍；不是仅费用或不能做空的问题。
+4. **已确认发现与风险**：同原Turtle仅屏蔽新方向，空头关联增量LS−LO在四条件−448.06..−712.40USDT；减少空头降低亏损及实际vol/DD，但LO仍亏。LOvol7.37%/MDD6.45..8.02%、SO5.43..5.45%/7.99..9.57%、LS9.01..9.08%/11.12..14.27%、HOLD10.49..10.50%/10.95..11.27%；同caps非同风险，未事后缩放。价格漂移/延迟会出现已记录SO瞬时单币约30.06%超目标，风控减仓仍执行，不声称全时从未超限或目标vol为实际硬保证。
+5. **成交原因已查明**：12保存账本/36JSON全部映射，无UNKNOWN。BASE/F LS手续费与执行成本共944.20USDT，其中ENTRY362.33、ADD109.44、EXIT100.21、STOP142.10、RISK_REDUCTION228.77、末平1.36；必要减仓不能关闭。LO BTC净+297.66/ETH−426.30，SO BTC−134.03/ETH−335.58；分币贡献使用同一完整10k分母，资金费独立列示，reason费用不是该原因的因果收益。
+6. **下一主任务与边界**：按用户最新要求，先只读核查可配置约10币的来源和兼容性，再预登记同一组合账户研究；不是将独立10k账户平均成可交易组合。资本10k、单币abs30%/共享gross60%、1x与资源/权限不扩。未运行多币市场；旧禁ADD/日线RSI2建议让位此任务。Turtle/SMA投资暂停，HOLD保留强基准，投资CASH/NONE；reopen须完整成本下的增量和跨状态证据。数量/资金费/历史Bybit规则仍未知，403不绕过，D40GB/共享5GB/swap0/GPU0、locked/资金边界继续。
 
+**D049已完成证据**：[方向对照与损益](TURTLE_DIRECTION_ABLATION_20261003.md)、[8完整账户](../reports/fast_research/TURTLE_DIRECTION_ABLATION_ACTUAL_20261003_V1.json)、[独立金融](../reports/fast_research/TURTLE_DIRECTION_FINANCIAL_INDEPENDENT_20261003_V1.json)、[同条件比较](../reports/fast_research/TURTLE_DIRECTION_SAVED_COMPARISON_20261003_V1.json)、[原因/分币诊断](../reports/fast_research/TURTLE_TURNOVER_DIAGNOSTIC_20261004.json)、[最终ROOT](../reports/fast_research/TURTLE_DIRECTION_ROOT_ACCEPTANCE_20261003_V1.json)。market dcd81f/finance c23e20/comparison e17859/diagnostic74615d/ROOT08b0ba均真实completed0。金融误差cash2.18e-11/ratio1.61e-14，诊断桥3.41e-12USDT；0旧账户/QA重跑。syntheticV1语法失败与ROOT首次pytest退出码元数据误判保留，canonical测试正常修复，旧失败不追认通过。诊断只真实完成后追记RESULT，无伪造事前START。模块Git同步见独立后验凭证。以下旧时点文字保留，当前选择以上方为准。
 **D048证据**：[平仓修正与完整经济比较](CLOSING_EXEMPT_RESEARCH_20261003.md)、[8账户实际](../reports/fast_research/CLOSING_EXEMPT_RESEARCH_ACTUAL_20261003_V1.json)、[独立V2](../reports/fast_research/CLOSING_EXEMPT_FINANCIAL_INDEPENDENT_20261003_V2.json)、[保存条件比较](../reports/fast_research/CLOSING_EXEMPT_SAVED_COMPARISON_20261003_V1.json)。synthetic e0aae5fa、market0b0337c0、finance2d0e5a22及comparison真实exit0；金额3.27e−11/ratio2.25e−14原容差。V1独立旧min10误拒CLOSE的真实失败保持，V2只一个filter谓词。8完整303/0halt，旧D047三prefix保留NE。数量1e-8/MMR.005/open min10仍代理，当前closing规则不是历史Bybit原生资格。最近实扫22,938,409,109B@2026-10-03T12:31:19.709266Z先于306.16MB输出，8765保留真实时刻。ROOT/正常模块Git同步待实证。以下旧时点交接保留，当前下一步以上方为准。
 **D046实际证据**：[减仓纠错与方向贡献](PERPETUAL_RISK_REDUCTION_20261003.md)、[四LS实际](../reports/fast_research/PERPETUAL_RISK_REDUCTION_RESEARCH_ACTUAL_20261003_V2.json)、[独立账本](../reports/fast_research/PERPETUAL_RISK_REDUCTION_INDEPENDENT_20261003_V1.json)、[保存20选择器／最终根](../reports/fast_research/PERPETUAL_RISK_REDUCTION_ROOT_ACCEPTANCE_20261003_V1.json)。测试a13d／市场72d2／独立d537／根053f真实closed0；初freeze f0a8真1/0arrays原字节保留，V2仅expression精确锚修正。原账户/controller/Spot源码保持；独立4金融调用／0旧重放，maxcash2.18e−11／ratio8.44e−15，原容差。主体227.05s/RSS622.76MB/owned161.72MB；最近实际scan22,649,980,545B@09:50:41.507780Z已发布8765，其后输出未计。共享硬5GB/swap0/GPU0。模块Git同步待完成。
 
@@ -130,3 +131,4 @@ D047已正常提交／推送并核远端main精确一致0038210bab084708e278b825
 
 公开spec两attempt结束：V1网络不可达，V2同官方URL真403/0参数，停止重试。唯一新closing-proxy手算case task e0aae5fa04c445849e61fadf54bd57ae已completed0，report09a5d8bc...；原Spot/account/source不改，qty/historical/native未认证。metadata接线固定proto31bb9b13...已实际exit0；八账户Turtle LS/HOLD LO的303日经济控制正在运行task0b0337c02d1b4967b61e555fbcdc4a42，8765只显示真实阶段/完成数。HOLD同时复用已验D046两risk量化锚，与旧D045 HOLD不声称纯filter单变化。尚无新市场或独立完成结论；投资CASH/NONE/APRNE。
 D048 ROOT真实completed0 taskf3d08d7e759c4f7ba8597c073bfa0c1f，reporta197a434.../100冻结pins，五成功科学角色与三个实际failed1闭合，旧registry3998265B前缀完全保留，当前4017780B，collector540读验存活/未干扰。ROOT只metadata/source/task绑定，不旧QA/账本重放。正常模块Git字节门槛及同步正在执行，只有实际远端一致后宣布完成。
+D048正常模块Git同步已真闭合：commit286bdc/0、push5b7056/0、remote63bc00/0，local与remote main同35c41a245d1005eadbbb586d49e50f9cae04dfc7。preflight25c5ee/0：2682files/53,860,123B/0源字节差异或敏感模式，registry专属≤8MB/其余4MB，原前缀保存；ROOT100pins在push后仍完全相同。第一次host commit因作者未配置实际d199d4/1，第二次仅命令级沿用原仓库作者，不改全局配置；未强推/新auth/资金操作。后验小同步凭证随下一正常模块入库。下一Turtle方向mask/唯一兼容case由两个子agent准备UNRUN草稿；尚未冻结或运行D049市场，当前没有训练或回放在后台。旧公开collector540保持。

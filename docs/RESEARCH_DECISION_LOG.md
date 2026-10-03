@@ -877,3 +877,11 @@ D048独立V1实际19e3a3f...failed1：原financial_journals旧所有leg≥10 gua
 
 ### D048实际结果后的选择：方向消融，非参数搜索
 8全303/market0、独立V2原容差全部8/true0，净Turtle−11.18..−5.55%、HOLD+6.53..+7.86%，CASH0。closing正确性修复解除原小额停机，未改变成本或制造正收益；V1 independent all-leg min10失败保留，V2唯一closing谓词。Turtle turnover68..70倍/HOLD2.2，long毛431..466而short毛−72..−64，成本压过总gross；LS方向归因不能决定long-only是否实际改善。下一唯一主任务选择同Turtle固定signal/callback的LO/SO薄mode mask（对照已存LS/HOLD/CASH），原303/caps/past-risk/full10k/fee两条件资金费保持，先唯一方向隔离/partial/callback/未来因果兼容再8新账户；预算500MB/RSS3GB/3600s，缺源/不对账/不可执行立即保留NE；结果不升级future/native/APR。真实投资CASH，研究强基准HOLD；HPO/复杂模型/资金费与nativeprofiles各reopen沿当前状态。先闭合本版ROOT/Git再消费新协议，不等待用户工单。
+
+### D049结果、原因与用户新任务（2026-10-04）
+
+八新LO/SO全部303日、财务和ROOT真实completed0，四成本/资金费条件完整保留：LO净−4.25..−.83%、SO−7.34..−4.70%，保存LS−11.18..−5.55%、HOLD+6.53..+7.86%。同caps不匹配实际vol/DD，LS−LO不能全部归为空头纯因果作用。12保存账本36JSON原因诊断与唯一手算病例真0：UNKNOWN0/费用与exec不重复、桥3.41e-12USDT；BASE/F LS ENTRY362.33、ADD109.44、EXIT100.21、STOP142.10、RISK228.77USDT。LO BTC净+297.66/ETH−426.30，SO两币均负。LO正gross被换手成本抵消，SO负gross另有信号问题；不因此事后删币/停止必要风控或宣称禁ADD已测试盈利。
+
+最新用户指令将下一主任务改为可配置约10币、同一共享资本组合。先只读核来源、许可与现有资产/交易链硬编码，再预登记最薄完整组合研究；本条无已运行多币收益。总资本10k、单币abs30%/共享gross60%、逐仓1x、真实成本、D40GB/共享5GB/swap0/GPU0与locked/资金/keys/付费/限制边界保持；不将独立10k账户净值均值当组合。旧禁ADD/日线RSI2建议让位此任务，Turtle/SMA投资暂停、HOLD强基准、CASH/NONE/长期APR不可评估。
+
+失败与维护：solecase V1缺括号/collection失败原字节保留，canonical活动测试修正并与已验V2同SHA；ROOT首次把pytest code2要求1的metadata失败保留，只精确元数据修正，未重复市场/金融/QA。原因诊断未登记事前START，完成后追记真实RESULT并标明时序，不补造科研前登记。普通源码正常维护，历史结果依Git与来源/配置/工件复现。

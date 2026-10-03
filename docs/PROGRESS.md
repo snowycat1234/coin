@@ -138,3 +138,12 @@ D047已正常提交／推送并核远端main精确一致0038210bab084708e278b825
 
 保存比较真实exit0 task0630cd295bbf4fd38cf68ba9ec2f5458，reportef992eb11d764d0571da5733584051e0aadebb8a52a74cff8d9f97e59b6776e6：4条件新Turtle-HOLD完整配对，旧Turtle3prefix均NE/null，BASE/PERCENT完整before-after净差0；无旧市场/QA重放或曲线拼接。采用账户修正及对照能力，研究强基准HOLD，投资仍现金。ROOT与精选Git验收/同步另绑定真实后验，未自证caller完成。
 D048 ROOT真实completed0 taskf3d08d7e759c4f7ba8597c073bfa0c1f，reporta197a434.../100冻结pins，五成功科学角色与三个实际failed1闭合，旧registry3998265B前缀完全保留，当前4017780B，collector540读验存活/未干扰。ROOT只metadata/source/task绑定，不旧QA/账本重放。正常模块Git字节门槛及同步正在执行，只有实际远端一致后宣布完成。
+D048正常模块Git同步已真闭合：commit286bdc/0、push5b7056/0、remote63bc00/0，local与remote main同35c41a245d1005eadbbb586d49e50f9cae04dfc7。preflight25c5ee/0：2682files/53,860,123B/0源字节差异或敏感模式，registry专属≤8MB/其余4MB，原前缀保存；ROOT100pins在push后仍完全相同。第一次host commit因作者未配置实际d199d4/1，第二次仅命令级沿用原仓库作者，不改全局配置；未强推/新auth/资金操作。后验小同步凭证随下一正常模块入库。下一Turtle方向mask/唯一兼容case由两个子agent准备UNRUN草稿；尚未冻结或运行D049市场，当前没有训练或回放在后台。旧公开collector540保持。
+## D049 direction ablation：实际验收中
+当前HEAD35c41a2/collector540真实存活、8765可响应。新mask748033f2与controller ec41304b原financial __code__不改，固定LO/SO八账户；旧LS/HOLD/CASH结果保存复用，不重放。syntheticV1实际task46166b49396546139230ddac7c9465c9/37373d exit1/report4ea046c032e2d63f2413001bb96ce9fe4a93c022fede748459d6373679adeb34，测试collection line131缺括号，0用例执行/0市场账户；原测试/协议/报告保留，V2仅语法修复等待实际复测。新金融checker28a4e4f5只方向metadata加已加载OPENleg禁止侧检查，HandLedger/closing journal/math/原容差复用；尚未独立运行。投资CASH/NONE，研究HOLD，APRNE。已有D048已完成，不因测试收集失败重复账户。
+
+### D049最终闭合（2026-10-04；上段为当时记录）
+
+新八LO/SO账户全部303日/独立八金融调用真0，market dcd81f/finance c23e20/comparison e17859；原误差2.18e-11USDT/1.61e-14保持。12保存Turtle账本/36JSON原因与分币诊断task74615d真0，0.986597s/RSS49.51MB/UNKNOWN0，最大桥3.41e-12USDT；唯一手算病例739def真0。ROOT08b0ba/chunk6f9c8f真0/124pins，首metadata任务d16ddeca failed1仅pytest collection code2与外层code1混淆，原源/任务/失败证据保留。诊断只完成后追记RESULT，无虚构事前START；0旧市场/QA回放。
+
+LO毛价格正而费/执行抵消，SO毛负；BASE/F LO BTC+297.66/ETH−426.30、SO BTC−134.03/ETH−335.58。原因成本不能当删单后的反事实利润，必要风险/止损保持。下一用户任务为可配置约10币同一共享10k账户，先只读来源与兼容性/预登记，尚未多币市场运行；原资本/caps/资源权限不扩。Git正常模块同步另由后验小凭证核远端，投资CASH/NONE/APRNE。
