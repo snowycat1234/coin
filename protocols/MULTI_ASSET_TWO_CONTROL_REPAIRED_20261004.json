@@ -1,0 +1,58 @@
+{
+  "experiment_id": "D050-TWO-ASSET-PORTFOLIO-CONTROL-REPAIRED-20261004",
+  "initial_capital_USDT": 10000,
+  "strategy": "COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+  "pools": [
+    {
+      "id": "TWO_ASSET",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ]
+    },
+    {
+      "selection": "POOL_V2_PRE_SCORE_JULY_QUOTE_VOLUME_NO_SEPTEMBER_RETURN_SELECTION",
+      "symbols": [],
+      "id": "HISTORICAL_POOL_PENDING"
+    }
+  ],
+  "start": "2024-09-01T00:00:00+00:00",
+  "end_exclusive": "2024-10-01T00:00:00+00:00",
+  "data_role": "EXISTING_ACCEPTED_TWO_ASSET_CONTROL",
+  "data_manifest": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/PERPETUAL_303D_INPUT_BINDING_20261003_V1.json",
+    "sha256": "8b665b2829eafd192871fe4a3bc418dac1c202ed54f7d2d5494545fa6636fbfa"
+  },
+  "data_role_note": "Already viewed development control; other pool NOT executed by this invocation",
+  "source_hashes": {
+    "scripts/investment/vol_managed_perpetual_target.py": "e9544541d6e749704f9ea828c98f4c345e95f8c04227548913b5bf87043cc3c0",
+    "scripts/investment/multi_asset_data.py": "6f10671cfe419c29e72627d1ab3acad9062c83df2d38b96245cec70980f5cb31",
+    "scripts/investment/public_sma_perpetual.py": "ba9fdacc5856324a16c858c99bc9346efc1be51c2d990af7c28069cf9671e079",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "scripts/investment/multi_asset_portfolio.py": "ca9a5faf9be69abe7ad1f306b2e7c8484afd8120512b68549af3bed67e4a76f6",
+    "src/quant/perpetual_account.py": "9a4223d1115add6ed2cce5b695cf6dcd89459daa6918eb61091b188e5ec05754",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "scripts/investment/perpetual_directional.py": "570524281b80109b9a1d07b737831d3f768f308ac465c86e2e403a2415ec02ae",
+    "scripts/investment/perpetual_closing_exempt_account.py": "30e0b41f094e01360aa9415011f2b27b4f49256819b2685c21d2da754f1d1b60",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1"
+  },
+  "budget": {
+    "wall_seconds": 1800,
+    "owned_bytes": 200000000
+  },
+  "question": "Does expanding an ex ante liquid universe improve risk or net results under one shared capital account?",
+  "success_rule": "All four original-control scenarios complete; this stage alone cannot answer cross-pool question",
+  "prior_new_entry_validation": {
+    "target": "5adf5dcfa4747b81c11ea9ae198591afe3f77b144795d75f3a5e1cf4168f72ff",
+    "account_and_replay": "44decf6bcfdb983563379b875a1611dae0afca0e7beb8457f95ce72ab6689f28"
+  },
+  "stopping_rule": "Fail on held-asset gaps, unexecutable exit, accounting insolvency, finite budgets; preserve partial evidence",
+  "prior_failure": {
+    "report_sha256": "c1b86627b6aa6d3eae810a00f3a55c03784f27f5ff6f30680e8f115f0e83b42c",
+    "task_id": "b827c074b39b4251bdfbc3a284c8ed13",
+    "completed_accounts": 0,
+    "protocol": "64bedd6bcb3159ac280b8b4c57b9268a072d9a105a7c7b802082f73eac977857",
+    "repairs": "Progress.update funding_unit keyword; reader date identity guard. No financial model/risk/cost/window change.",
+    "exit_code": 1
+  }
+}

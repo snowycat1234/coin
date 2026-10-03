@@ -1,6 +1,6 @@
 """Conditional USDT linear perpetual accounting; no exchange or order transport.
 
-One-way, isolated, 1x BTC/ETH perpetuals share a free USDT wallet. Marks value
+Configured one-way, isolated, 1x perpetuals share one free USDT wallet. Marks value
 inventory; a separately supplied trade midpoint prices fills. MMR, quantity
 step, liquidity and fees are declared research assumptions, not native filters.
 Only the frozen ExecutionContractV2 clock and cost arithmetic are reused.
@@ -10,6 +10,7 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass, fields
 from decimal import Decimal, ROUND_DOWN, localcontext
+from types import MappingProxyType
 from typing import Any, Mapping
 
 from .execution_contract import ExecutionContractV2
@@ -17,7 +18,7 @@ from .execution_contract import ExecutionContractV2
 D = Decimal
 ZERO = D("0")
 SYMBOLS = ("BTCUSDT", "ETHUSDT")
-VERSION = "usdt_linear_perpetual_account_v1"
+VERSION = "usdt_linear_perpetual_account_v2"
 HALTS = {"BANKRUPT_HALT", "LIQUIDATION_REQUIRED_HALT"}
 
 
@@ -76,6 +77,66 @@ class PerpetualConfig:
             raise ValueError("unsupported or less conservative perpetual scenario")
 
 
+@dataclass(frozen=True)
+class InstrumentProfile:
+    """Declared research filters; no native or historical certification."""
+    quantity_step: Decimal = D("0.00000001")
+    min_notional: Decimal = D("10")
+    quantity_asset: str = "BASE"
+    contract_multiplier: Decimal = D("1")
+    settlement_asset: str = "USDT"
+    market_type: str = "LINEAR_USDT_PERPETUAL"
+    quantity_profile_status: str = "UNCERTIFIED_PROXY_NOT_API_PROFILE"
+    native_filters_certified: bool = False
+
+    def __post_init__(self) -> None:
+        for key in ("quantity_step", "min_notional", "contract_multiplier"):
+            object.__setattr__(self, key, decimal(getattr(self, key)))
+        if (self.quantity_step <= 0 or self.min_notional <= 0
+                or self.quantity_asset != "BASE" or self.contract_multiplier != 1
+                or self.settlement_asset != "USDT" or self.market_type != "LINEAR_USDT_PERPETUAL"
+                or self.quantity_profile_status != "UNCERTIFIED_PROXY_NOT_API_PROFILE"
+                or self.native_filters_certified is not False):
+            raise ValueError("unsupported instrument product or uncertified filter profile")
+
+    def metadata(self) -> dict[str, Any]:
+        return {field.name: (str(getattr(self, field.name))
+                if isinstance(getattr(self, field.name), Decimal) else getattr(self, field.name))
+                for field in fields(self)}
+
+
+def _symbols(value: Any) -> tuple[str, ...]:
+    if not isinstance(value, (tuple, list)) or not value:
+        raise ValueError("symbols must be a nonempty ordered tuple or list")
+    result = tuple(value)
+    if (any(type(symbol) is not str or not symbol.isascii() or not symbol.isalnum()
+            or symbol != symbol.upper() or not symbol.endswith("USDT") or len(symbol) <= 4
+            for symbol in result) or len(result) != len(set(result))):
+        raise ValueError("symbols must be unique uppercase USDT instrument identities")
+    return result
+
+
+def _profiles(symbols: tuple[str, ...], value: Any,
+              config: PerpetualConfig) -> Mapping[str, InstrumentProfile]:
+    if value is None:
+        value = {symbol: InstrumentProfile(quantity_step=config.quantity_step,
+                                          min_notional=config.min_notional) for symbol in symbols}
+    if not isinstance(value, Mapping) or set(value) != set(symbols):
+        raise ValueError("instrument profile keys must exactly match configured symbols")
+    result = {}
+    for symbol in symbols:
+        profile = value[symbol]
+        if isinstance(profile, Mapping):
+            try:
+                profile = InstrumentProfile(**dict(profile))
+            except TypeError as error:
+                raise ValueError("invalid instrument profile fields") from error
+        if not isinstance(profile, InstrumentProfile):
+            raise ValueError("an InstrumentProfile or profile mapping is required")
+        result[symbol] = profile
+    return MappingProxyType(result)
+
+
 @dataclass
 class Position:
     quantity: Decimal = ZERO
@@ -93,16 +154,28 @@ class USDTLinearPerpetualAccount:
     an explicit liability and a permanent bankruptcy halt. No margin top-up,
     liquidation fill, insurance payment or credit is invented.
     """
+    VERSION = VERSION
+
     def __init__(self, config: PerpetualConfig | None = None, *,
+                 symbols: tuple[str, ...] = SYMBOLS,
+                 instrument_profiles: Mapping[str, InstrumentProfile | Mapping[str, Any]] | None = None,
+                 closing_min_notional_exempt: bool = False,
                  market_type: str = "LINEAR_USDT_PERPETUAL",
                  external_gross_notional: Any = 0) -> None:
         if market_type != "LINEAR_USDT_PERPETUAL" or decimal(external_gross_notional) != 0:
             raise ValueError("mixed Spot/perpetual or external capital is unsupported")
+        if config is not None and not isinstance(config, PerpetualConfig):
+            raise ValueError("PerpetualConfig required")
+        if type(closing_min_notional_exempt) is not bool:
+            raise ValueError("closing minimum-notional policy must be an explicit bool")
         self.config = config or PerpetualConfig()
+        self._symbols = _symbols(symbols)
+        self.instrument_profiles = _profiles(self.symbols, instrument_profiles, self.config)
+        self.closing_min_notional_exempt = closing_min_notional_exempt
         self.free_cash = self.config.initial_cash
         self.unpaid_liability = ZERO
-        self.positions = {symbol: Position() for symbol in SYMBOLS}
-        self.marks: dict[str, list[dict[str, Any]]] = {symbol: [] for symbol in SYMBOLS}
+        self.positions = {symbol: Position() for symbol in self.symbols}
+        self.marks: dict[str, list[dict[str, Any]]] = {symbol: [] for symbol in self.symbols}
         self.clock_us = 0
         self.last_fill_us: int | None = None
         self.status = "ACTIVE"
@@ -115,15 +188,27 @@ class USDTLinearPerpetualAccount:
         self.fees = self.execution_cost = self.funding_cash = self.realized_PnL = ZERO
         self.gross_fill_turnover = ZERO
 
-    @staticmethod
-    def contract_metadata() -> dict[str, Any]:
+    @property
+    def symbols(self) -> tuple[str, ...]:
+        return self._symbols
+
+    def contract_metadata(self) -> dict[str, Any]:
+        steps = {profile.quantity_step for profile in self.instrument_profiles.values()}
+        minimums = {profile.min_notional for profile in self.instrument_profiles.values()}
         return {
-            "version": VERSION, "target_exchange": "Bybit", "market_type": "LINEAR_USDT_PERPETUAL",
+            "version": self.VERSION, "target_exchange": "Bybit", "market_type": "LINEAR_USDT_PERPETUAL",
+            "symbols": list(self.symbols), "symbol_order_is_account_identity": True,
+            "instrument_profiles": {symbol: self.instrument_profiles[symbol].metadata() for symbol in self.symbols},
             "settlement_asset": "USDT", "quantity_asset": "BASE", "contract_multiplier": 1,
             "position_mode": "ONE_WAY", "margin_mode": "ISOLATED", "leverage": 1,
             "fee_asset": "USDT", "taker_fee_bps_per_side": 5.5,
             "nominal_roundtrip_bps": 27, "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
-            "quantity_step_assumption": "1e-8", "min_notional_assumption_USDT": 10,
+            "quantity_step_assumption": str(next(iter(steps))) if len(steps) == 1 else "PER_INSTRUMENT_PROFILE",
+            "min_notional_assumption_USDT": float(next(iter(minimums))) if len(minimums) == 1 else "PER_INSTRUMENT_PROFILE",
+            "closing_min_notional_exempt": self.closing_min_notional_exempt,
+            "min_notional_scope": "OPENING_LEGS_ONLY" if self.closing_min_notional_exempt else "OPENING_AND_CLOSING_REQUESTS",
+            "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+            "historical_filters_certified": False,
             "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
             "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
             "native_filters_certified": False, "native_liquidation_certified": False,
@@ -131,8 +216,8 @@ class USDTLinearPerpetualAccount:
         }
 
     def _symbol(self, symbol: str) -> None:
-        if symbol not in SYMBOLS:
-            raise ValueError("only BTCUSDT/ETHUSDT perpetuals are supported")
+        if symbol not in self.symbols:
+            raise ValueError("symbol is not configured in this perpetual account")
 
     def _clock(self, event_us: int) -> None:
         if timestamp(event_us) < self.clock_us:
@@ -230,8 +315,10 @@ class USDTLinearPerpetualAccount:
             self.positions[symbol].isolated_balance -= own
             self.unpaid_liability += remaining - own
 
-    def _floor(self, quantity: Decimal) -> Decimal:
-        return (quantity / self.config.quantity_step).to_integral_value(rounding=ROUND_DOWN) * self.config.quantity_step
+    def _floor(self, symbol: str, quantity: Decimal) -> Decimal:
+        self._symbol(symbol)
+        step = self.instrument_profiles[symbol].quantity_step
+        return (quantity / step).to_integral_value(rounding=ROUND_DOWN) * step
 
     def _leg(self, symbol: str, side: str, quantity: Decimal, mid: Decimal, fill: Decimal,
              event_us: int, signal_us: int, fill_id: str, leg: str) -> dict[str, Any] | str:
@@ -338,7 +425,7 @@ class USDTLinearPerpetualAccount:
                 raise RuntimeError(self.status)
             began_breached = self.status == "BOUND_BREACH_REDUCTION_REQUIRED"
             self.clock_us = event_us
-            executable = self._floor(min(requested, available))
+            executable = self._floor(symbol, min(requested, available))
             position = self.positions[symbol]
             direction = D(1) if side == "BUY" else D(-1)
             reducing = bool(position.quantity and position.quantity * direction < 0)
@@ -351,7 +438,9 @@ class USDTLinearPerpetualAccount:
             rate = decimal(ExecutionContractV2.execution_rate(float(self.config.half_spread_bps),
                                                             float(self.config.slippage_bps)))
             fill = mid * (1 + direction * rate)
-            if executable * fill < self.config.min_notional:
+            minimum = self.instrument_profiles[symbol].min_notional
+            if executable == ZERO or (executable * fill < minimum
+                    and not (reducing and self.closing_min_notional_exempt)):
                 executable, reason = ZERO, reason or "BELOW_MIN_NOTIONAL_OR_CAPACITY"
             closing = min(executable, abs(position.quantity)) if reducing else ZERO
             opening = executable - closing
@@ -360,7 +449,7 @@ class USDTLinearPerpetualAccount:
                 result = self._leg(symbol, side, closing, mid, fill, event_us, signal_us, fill_id, "CLOSE")
                 receipts.append(result)
             if opening and self.status not in HALTS:
-                if opening * fill < self.config.min_notional:
+                if opening * fill < minimum:
                     reason = "OPENING_LEG_BELOW_MIN_NOTIONAL"
                 elif began_breached:
                     reason = "BOUND_BREACH_REDUCTION_REQUIRED"
@@ -434,7 +523,8 @@ class USDTLinearPerpetualAccount:
             gross_mid = self.realized_PnL + unrealized + self.execution_cost
             net = nav - self.config.initial_cash
             bridge = net - (gross_mid - self.execution_cost - self.fees + self.funding_cash)
-            return _numbers({"version": VERSION, "contract": self.contract_metadata(),
+            return _numbers({"version": self.VERSION, "contract": self.contract_metadata(),
+                "symbols": list(self.symbols),
                 "account_status": self.status, "clock_us": self.clock_us, "NAV": nav,
                 "free_cash": self.free_cash, "isolated_balance": sum((p.isolated_balance for p in self.positions.values()), ZERO),
                 "unpaid_liability": self.unpaid_liability, "net_PnL": net,
@@ -456,7 +546,10 @@ class USDTLinearPerpetualAccount:
                 "long_term_APR": "NOT_EVALUABLE"})
 
     def snapshot(self) -> dict[str, Any]:
-        return {"version": VERSION, "contract": self.contract_metadata(),
+        return {"version": self.VERSION, "contract": self.contract_metadata(),
+            "symbols": list(self.symbols),
+            "instrument_profiles": {symbol: self.instrument_profiles[symbol].metadata() for symbol in self.symbols},
+            "closing_min_notional_exempt": self.closing_min_notional_exempt,
             "config": {field.name: str(getattr(self.config, field.name)) for field in fields(self.config)},
             "free_cash": str(self.free_cash), "unpaid_liability": str(self.unpaid_liability),
             "positions": {sym: {"quantity": str(pos.quantity), "entry_price": str(pos.entry_price),
@@ -471,12 +564,29 @@ class USDTLinearPerpetualAccount:
                        ("fees", "execution_cost", "funding_cash", "realized_PnL", "gross_fill_turnover")}}
 
     @classmethod
-    def from_snapshot(cls, snapshot: Mapping[str, Any]) -> "USDTLinearPerpetualAccount":
-        if snapshot.get("version") != VERSION or snapshot.get("contract") != cls.contract_metadata():
+    def from_snapshot(cls, snapshot: Mapping[str, Any], *, expected_symbols=None,
+                      expected_instrument_profiles=None) -> "USDTLinearPerpetualAccount":
+        if snapshot.get("version") != cls.VERSION:
             raise ValueError("snapshot product/version mismatch")
-        result = cls(PerpetualConfig(**snapshot["config"]))
-        if set(snapshot["positions"]) != set(SYMBOLS) or set(snapshot["marks"]) != set(SYMBOLS):
-            raise ValueError("snapshot inventory must be perpetual-only BTC/ETH")
+        symbols = _symbols(snapshot["symbols"])
+        config = PerpetualConfig(**snapshot["config"])
+        profiles = snapshot["instrument_profiles"]
+        if (not isinstance(profiles, Mapping) or set(profiles) != set(symbols)
+                or any(not isinstance(profile, Mapping) or set(profile) != {field.name for field in fields(InstrumentProfile)}
+                       for profile in profiles.values())):
+            raise ValueError("snapshot instrument profile identity is incomplete")
+        result = cls(config, symbols=symbols, instrument_profiles=profiles,
+                     closing_min_notional_exempt=snapshot["closing_min_notional_exempt"])
+        if snapshot.get("contract") != result.contract_metadata():
+            raise ValueError("snapshot product/symbol/profile/closing identity mismatch")
+        if expected_symbols is not None and _symbols(expected_symbols) != symbols:
+            raise ValueError("snapshot configured symbol order mismatch")
+        if expected_instrument_profiles is not None:
+            expected = _profiles(symbols, expected_instrument_profiles, config)
+            if any(expected[symbol] != result.instrument_profiles[symbol] for symbol in symbols):
+                raise ValueError("snapshot configured instrument profile mismatch")
+        if set(snapshot["positions"]) != set(symbols) or set(snapshot["marks"]) != set(symbols):
+            raise ValueError("snapshot inventory must exactly match configured symbols")
         result.free_cash = decimal(snapshot["free_cash"])
         result.unpaid_liability = decimal(snapshot["unpaid_liability"])
         if result.free_cash < 0 or result.unpaid_liability < 0:
@@ -487,14 +597,14 @@ class USDTLinearPerpetualAccount:
             raise ValueError("snapshot future fill")
         if snapshot["status"] not in {"ACTIVE", "BOUND_BREACH_REDUCTION_REQUIRED"} | HALTS:
             raise ValueError("unknown snapshot status")
-        for sym in SYMBOLS:
+        for sym in result.symbols:
             row = snapshot["positions"][sym]
             pos = Position(decimal(row["quantity"]), decimal(row["entry_price"]),
                            decimal(row["isolated_balance"]), row["opened_us"])
             if (pos.isolated_balance < 0 or pos.quantity and (pos.entry_price <= 0 or pos.opened_us is None)
                     or not pos.quantity and (pos.entry_price != 0 or pos.isolated_balance != 0 or pos.opened_us is not None)):
                 raise ValueError("inconsistent snapshot position")
-            if abs(pos.quantity) % result.config.quantity_step != 0:
+            if abs(pos.quantity) % result.instrument_profiles[sym].quantity_step != 0:
                 raise ValueError("snapshot quantity is not aligned to declared step")
             if pos.opened_us is not None and timestamp(pos.opened_us) > result.clock_us:
                 raise ValueError("snapshot future entry")
@@ -524,7 +634,9 @@ class USDTLinearPerpetualAccount:
             ctx.prec = 40
             # Recovery must preserve actual accounting and event identities, not
             # merely produce an internally plausible free-wallet balance.
-            for sym in SYMBOLS:
+            if any(row["symbol"] not in result.symbols for row in result.trades + result.funding):
+                raise ValueError("snapshot journal contains an unconfigured symbol")
+            for sym in result.symbols:
                 quantity = sum((decimal(row["decimal_strings"]["position_delta"])
                                 for row in result.trades if row["symbol"] == sym), ZERO)
                 if quantity != result.positions[sym].quantity:
@@ -571,7 +683,7 @@ class USDTLinearPerpetualAccount:
                 executed = sum((decimal(row["decimal_strings"]["quantity"]) for row in legs), ZERO)
                 expected = {"requested_quantity": requested, "executed_quantity": executed,
                             "remaining_quantity": requested - executed}
-                if (executed > result._floor(min(requested, available_q))
+                if (executed > result._floor(identity["symbol"], min(requested, available_q))
                         or any(decimal(receipt["decimal_strings"][key]) != amount
                                or receipt[key] != float(amount) for key, amount in expected.items())
                         or receipt["status"] != ("FILLED" if executed == requested else "PARTIAL" if executed else "REJECTED")):
@@ -583,7 +695,7 @@ class USDTLinearPerpetualAccount:
                     if (row["symbol"] != identity["symbol"] or row["side"] != identity["side"]
                             or row["event_us"] != event or row["signal_us"] != signal
                             or decimal(exact["execution_mid_price"]) != mid
-                            or quantity <= 0 or quantity % result.config.quantity_step != 0
+                            or quantity <= 0 or quantity % result.instrument_profiles[identity["symbol"]].quantity_step != 0
                             or decimal(exact["position_delta"]) != direction * quantity
                             or row["leg"] not in {"OPEN", "CLOSE"}
                             or identity["reduce_only"] and row["leg"] != "CLOSE"):

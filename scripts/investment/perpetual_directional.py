@@ -82,8 +82,9 @@ def load_window(manifest,window):
     start=int(datetime.fromisoformat(window['start']).timestamp()*1_000_000)
     end=int(datetime.fromisoformat(window['end_exclusive']).timestamp()*1_000_000)
     need(end<=int(datetime(2026,3,1,tzinfo=UTC).timestamp()*1_000_000),'Locked boundary')
+    symbols=strategy.symbol_order(tuple(window['symbols']))
     market={};daily=[];funding=[];proofs=[]
-    for symbol in SYMBOLS:
+    for symbol in symbols:
         ids=window['symbols'][symbol]['source_ids']
         traded,p=source_frame(manifest,ids['trade_1m']);proofs+=p
         marks,p=source_frame(manifest,ids['mark_1m']);proofs+=p
@@ -113,9 +114,9 @@ def load_window(manifest,window):
         del traded,marks,bars,rates
     funding.sort(key=lambda r:(r['event_us'],r['symbol']))
     need(len({(r['symbol'],r['event_us']) for r in funding})==len(funding),'Funding event exact-once identities')
-    need(len(funding)==sum(window['symbols'][s]['rows_inherited_from_receipts']['funding'] for s in SYMBOLS),
+    need(len(funding)==sum(window['symbols'][s]['rows_inherited_from_receipts']['funding'] for s in symbols),
          'All accepted signed events included once; unknown never filled with zero')
-    return dict(start=start,end=end,times=np.arange(start,end,MINUTE,dtype=np.int64),
+    return dict(symbols=symbols,start=start,end=end,times=np.arange(start,end,MINUTE,dtype=np.int64),
         market=market,daily=pl.concat(daily).sort(['symbol','close_us']),events=funding,input_proofs=proofs)
 
 def empty_frame(schema):return pl.DataFrame(schema=schema)
@@ -125,24 +126,40 @@ def journals_frame(rows,schema):
     # Exact Decimal strings remain in the JSON journal, simple columns in Parquet.
     return pl.DataFrame([{k:r.get(k) for k in schema} for r in rows],schema=schema)
 
-def simulate(window,mode,cost,unit,progress=None,guard=None):
+def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None):
     """Only event scheduling and output bookkeeping; finances belong to account."""
-    start,end,times=window['start'],window['end'],window['times'];n=len(times)
+    symbols=strategy.symbol_order(window.get('symbols',SYMBOLS))
+    start,end=window['start'],window['end']
+    times=np.arange(start,end,MINUTE,dtype=np.int64);n=len(times)
+    target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
+    account_factory=account_factory or USDTLinearPerpetualAccount
     decisions=np.arange(start,end,DAY,dtype=np.int64)
-    targets,meta=strategy.fixed_targets(window['daily'],decisions,mode)
-    need(targets.height==2*len(decisions),'Complete same daily target calendar')
-    weights={int(t):dict(zip(SYMBOLS,targets.filter(pl.col('available_us')==t)
-            .sort('symbol')['target_weight'].to_list(),strict=True)) for t in decisions}
+    targets,meta=target_factory(window['daily'],decisions,mode)
+    need(targets.height==len(symbols)*len(decisions),'Complete ordered portfolio target calendar')
+    weights={}
+    decision_kinds={}
+    for t in decisions:
+        rows=targets.filter(pl.col('available_us')==t)
+        need(rows.height==len(symbols) and set(rows['symbol'].to_list())==set(symbols),
+             'Every decision has each configured symbol exactly once')
+        weights[int(t)]={row['symbol']:row['target_weight'] for row in rows.iter_rows(named=True)}
+        decision_kinds[int(t)]={}
+        for row in rows.iter_rows(named=True):
+            reason=row.get('eligibility_reason','ELIGIBLE')
+            kind=('POOL_EXIT' if reason=='POOL_EXIT' else
+                  'DATA_GAP_EXIT' if reason=='WARMUP_OR_DATA_GAP' else 'DAILY_TARGET')
+            need(kind=='DAILY_TARGET' or row['target_weight']==0,'Exit targets cannot add risk')
+            decision_kinds[int(t)][row['symbol']]=kind
     daily_prices={s:dict(zip(window['daily'].filter(pl.col('symbol')==s)['close_us'].to_list(),
-        window['daily'].filter(pl.col('symbol')==s)['close'].to_list(),strict=True)) for s in SYMBOLS}
+        window['daily'].filter(pl.col('symbol')==s)['close'].to_list(),strict=True)) for s in symbols}
     config=PerpetualConfig(half_spread_bps=D(str(cost['half_spread_bps'])),slippage_bps=D(str(cost['slippage_bps'])))
-    account=USDTLinearPerpetualAccount(config)
+    account=account_factory(config,symbols=symbols)
     # Array columns: NAV/free/margin/gross/net, cumulative fees/cost/funding/turnover,
-    # two signed quantities/marks/isolated balances/equities and asset weights.
-    values=np.empty((n,21),dtype=np.float64)
+    # N signed quantities/marks/isolated balances/equities and asset weights.
+    values=np.empty((n,11+5*len(symbols)),dtype=np.float64)
     rows_written=0;event_cursor=0;pending={};sequence=0;terminal=False
     funding_journal=[];rejections=[];breaches=[];extrema=[]
-    peak=10000.;mdd=0.;min_nav=10000.;min_free=10000.;max_gross=0.;max_asset={s:0. for s in SYMBOLS}
+    peak=10000.;mdd=0.;min_nav=10000.;min_free=10000.;max_gross=0.;max_asset={s:0. for s in symbols}
     completion='COMPLETE_CONDITIONAL_ACCOUNT';stop=None
     first_entry=None;nearest_funding_ties=[]
 
@@ -153,11 +170,11 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
         before=(peak,min_nav,mdd);peak=max(peak,nav);min_nav=min(min_nav,nav)
         if peak>0:mdd=max(mdd,1-nav/peak)
         signed={s:float(account.positions[s].quantity)*float(account.marks[s][-1]['price'])
-                if account.positions[s].quantity else 0. for s in SYMBOLS}
+                if account.positions[s].quantity else 0. for s in symbols}
         gross=sum(abs(x) for x in signed.values())/nav if nav>0 else None
         if gross is not None:
             max_gross=max(max_gross,gross)
-            for s in SYMBOLS:max_asset[s]=max(max_asset[s],abs(signed[s])/nav)
+            for s in symbols:max_asset[s]=max(max_asset[s],abs(signed[s])/nav)
         if before!=(peak,min_nav,mdd):
             # Only final extrema witnesses, not a second unbounded minute ledger.
             for label,changed in [('MAX_PEAK',before[0]!=peak),('MIN_NAV',before[1]!=min_nav),('MAX_DRAWDOWN',before[2]!=mdd)]:
@@ -169,24 +186,25 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
 
     def schedule(target,signal,kind):
         nonlocal sequence
-        for s in SYMBOLS:
+        for s in symbols:
+            order_kind=kind[s] if isinstance(kind,dict) else kind
             if s in pending:rejections.append(dict(symbol=s,event_us=int(signal),
-                reason='SUPERSEDED_BY_'+kind,old_signal_us=pending[s]['signal_us']))
+                reason='SUPERSEDED_BY_'+order_kind,old_signal_us=pending[s]['signal_us']))
             sequence+=1
-            pending[s]=dict(target=D(str(target[s])),signal_us=int(signal),kind=kind,attempts=0,
+            pending[s]=dict(target=D(str(target[s])),signal_us=int(signal),kind=order_kind,attempts=0,
                 order_id=f'{mode}-{cost["id"]}-{unit["id"]}-{sequence}')
 
     def risk_schedule(stamp):
         if account.status!='BOUND_BREACH_REDUCTION_REQUIRED' or terminal:return
         if any(o['kind']=='RISK_REDUCTION' for o in pending.values()):return
         nav=account.nav();notionals=[abs(account.positions[s].quantity)*account.marks[s][-1]['price']
-                                   if account.positions[s].quantity else ZERO for s in SYMBOLS]
+                                   if account.positions[s].quantity else ZERO for s in symbols]
         scale=min(D(1),D('.297')*nav/max(notionals) if max(notionals)>0 else D(1),
                   D('.594')*nav/sum(notionals,ZERO) if sum(notionals,ZERO)>0 else D(1))
         breaches.append(dict(signal_us=int(stamp),gross_weight=float(sum(notionals,ZERO)/nav),
-            asset_weights={s:float(v/nav) for s,v in zip(SYMBOLS,notionals,strict=True)},
+            asset_weights={s:float(v/nav) for s,v in zip(symbols,notionals,strict=True)},
             phase='ACTUAL_DRIFT_BEFORE_CAPACITY_LIMITED_REDUCTION',scale=float(scale)))
-        schedule({s:account.positions[s].quantity*scale for s in SYMBOLS},stamp,'RISK_REDUCTION')
+        schedule({s:account.positions[s].quantity*scale for s in symbols},stamp,'RISK_REDUCTION')
 
     def funding_through(limit,inclusive):
         nonlocal event_cursor,completion,stop
@@ -197,8 +215,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
             rate=D(str(raw['raw_rate']))*D(str(unit['scale']))
             observe(e,'BEFORE_FUNDING')
             if not account.marks[s]:
-                need(quantity==0 and first_entry is None and not account.trades,
-                     'Missing past mark permitted only for verified fresh-flat ownership')
+                need(quantity==0,
+                     'No past mark permits only this instrument\'s verified zero ownership')
                 receipt=dict(symbol=s,event_us=e,event_id=f'{s}:{e}',owned=False,quantity=0.,
                     signed_funding_USDT=0.,mark_price=None,mark_close_us=None,
                     status='NO_POSITION_NO_PAST_MARK',account_status=account.status)
@@ -212,24 +230,28 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
                 completion='NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED';stop=e;return
             risk_schedule(e)
 
-    def attempt(open_us,index):
+    def attempt(open_us,market_row,previous_quote):
         nonlocal first_entry,completion,stop
         event=int(open_us)+1;due={s:o for s,o in pending.items()
             if event>=ExecutionContractV2().earliest_execution_us(o['signal_us'])+1}
-        capacity={s:D(str(window['market'][s]['quote_volume'][index-1]))*D('.001')/
-                  D(str(window['market'][s]['open'][index])) if index else ZERO for s in SYMBOLS}
+        capacity={s:D(str(previous_quote[s]))*D('.001')/D(str(market_row[s]['open']))
+                  if previous_quote is not None and s in market_row else ZERO for s in symbols}
         # Every symbol gets at most one attempt-minute; reductions precede every increase.
         for phase in ('REDUCE','INCREASE'):
-            for s in SYMBOLS:
-                if s not in due:continue
+            for s in symbols:
+                if s not in due or s not in market_row:continue
                 order=due[s];position=account.positions[s].quantity;target=order['target'];delta=target-position
                 if delta==0:continue
                 reducing=position!=0 and position*delta<0
                 if phase=='REDUCE':
                     if not reducing:continue
                     requested=min(abs(delta),abs(position));reduce_only=True
+                    if order['kind']=='RISK_REDUCTION':
+                        from decimal import ROUND_CEILING
+                        step=account.instrument_profiles[s].quantity_step
+                        requested=min(abs(position),(requested/step).to_integral_value(rounding=ROUND_CEILING)*step)
                 else:
-                    if reducing or order['kind'] in ('RISK_REDUCTION','TERMINAL'):continue
+                    if reducing or order['kind'] in ('RISK_REDUCTION','TERMINAL','POOL_EXIT','DATA_GAP_EXIT'):continue
                     if account.status!='ACTIVE':
                         rejections.append(dict(symbol=s,event_us=event,reason='RISK_PRIORITY_NO_INCREASE',order_id=order['order_id']));continue
                     requested=abs(delta);reduce_only=False
@@ -238,7 +260,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
                 fill_id=f'{order["order_id"]}:{order["attempts"]}:{phase}'
                 before=len(account.trades)
                 receipt=account.execute_fill(s,side,requested,event,order['signal_us'],fill_id,
-                    execution_mid_price=D(str(window['market'][s]['open'][index])),quote_available_us=int(open_us),
+                    execution_mid_price=D(str(market_row[s]['open'])),quote_available_us=int(open_us),
                     available_quantity=capacity[s],reduce_only=reduce_only)
                 used=sum((D(r['decimal_strings']['quantity']) for r in account.trades[before:]),ZERO)
                 capacity[s]=max(ZERO,capacity[s]-used)
@@ -255,49 +277,92 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
         for s,order in due.items():
             order['attempts']+=1
             remaining=order['target']-account.positions[s].quantity
-            if remaining==0:pending.pop(s,None)
+            reached=(remaining==0 or order['kind'] in ('RISK_REDUCTION','TERMINAL','POOL_EXIT','DATA_GAP_EXIT')
+                and (account.positions[s].quantity==0 or order['target']*account.positions[s].quantity>0
+                     and abs(account.positions[s].quantity)<=abs(order['target'])))
+            if reached:pending.pop(s,None)
             elif order['attempts']>=5:
                 rejections.append(dict(symbol=s,event_us=event,order_id=order['order_id'],reason='FIVE_ATTEMPTS_EXPIRED',
                     remaining_signed_quantity=float(remaining),kind=order['kind']))
                 pending.pop(s,None)
                 if order['kind']=='RISK_REDUCTION' and account.status=='BOUND_BREACH_REDUCTION_REQUIRED':
                     completion='NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION';stop=event;return
+                if order['kind'] in ('POOL_EXIT','DATA_GAP_EXIT') and account.positions[s].quantity:
+                    completion='NOT_EVALUABLE_UNEXECUTABLE_ASSET_EXIT';stop=event;return
 
-    for i,t in enumerate(times):
+    def market_rows():
+        if 'minute_blocks' not in window:
+            for i,t in enumerate(times):
+                yield int(t),{s:{k:window['market'][s][k][i] for k in
+                    ('open','close','quote_volume','mark')} for s in symbols}
+            return
+        expected=start
+        for block in window['minute_blocks']():
+            stamps=np.asarray(block['times'])
+            need(stamps.dtype.kind in ('i','u') and len(stamps)>0 and len(stamps)<=1440,
+                'One UTC day or smaller real execution block')
+            need(np.array_equal(stamps,np.arange(expected,expected+len(stamps)*MINUTE,MINUTE)),
+                'Execution blocks cover scoring dates without deletions or imputation')
+            need(set(block['market'])<=set(symbols),'Block symbol outside configured account')
+            for s,values_for_asset in block['market'].items():
+                need(set(values_for_asset)=={'open','close','quote_volume','mark'}
+                    and all(len(v)==len(stamps) for v in values_for_asset.values()),
+                    'Actual execution block schema and lengths')
+            for j,t in enumerate(stamps):
+                row={s:{k:v[j] for k,v in values_for_asset.items()}
+                     for s,values_for_asset in block['market'].items()}
+                yield int(t),row
+            expected+=len(stamps)*MINUTE
+        need(expected==end,'All required minutes, no hidden truncated calendar')
+
+    previous_quote=None
+    for i,(t,market_row) in enumerate(market_rows()):
+        need(i<n and t==int(times[i]),'Complete synchronous portfolio clock')
+        absent=set(symbols)-set(market_row)
+        if any(account.positions[s].quantity for s in absent):
+            completion='NOT_EVALUABLE_MISSING_HELD_ASSET_EXECUTION_OR_MARK';stop=t
+            rejections.append(dict(event_us=t,reason='MISSING_HELD_MARK_OR_EXECUTION',symbols=sorted(absent)))
+            break
+        need(all(math.isfinite(float(v)) and (v>=0 if k=='quote_volume' else v>0)
+                 for row in market_row.values() for k,v in row.items()),'Finite actual block values')
         t=int(t);close=t+MINUTE
         if t in weights and not terminal:
             # All signal quantities freeze before rates later than this decision and future opens.
             nav=account.nav()
-            desired={s:D(str(weights[t][s]))*D('.99')*nav/D(str(daily_prices[s][t])) for s in SYMBOLS}
-            if account.status=='ACTIVE':schedule(desired,t,'DAILY_TARGET')
+            desired={s:D(str(weights[t][s]))*D('.99')*nav/D(str(daily_prices[s][t]))
+                     if weights[t][s]!=0 else ZERO for s in symbols}
+            if account.status=='ACTIVE':schedule(desired,t,decision_kinds[t])
         if t==end-6*MINUTE:
-            terminal=True;schedule(dict.fromkeys(SYMBOLS,ZERO),t,'TERMINAL')
+            terminal=True;schedule(dict.fromkeys(symbols,ZERO),t,'TERMINAL')
         funding_through(t+1,True)
         if stop is not None:break
-        attempt(t,i)
+        attempt(t,market_row,previous_quote)
         if stop is not None:break
         funding_through(close,False)
         if stop is not None:break
-        account.update_marks(close,{s:dict(price=D(str(window['market'][s]['mark'][i])),
-            close_us=close,available_us=close) for s in SYMBOLS})
+        account.update_marks(close,{s:dict(price=D(str(market_row[s]['mark'])),
+            close_us=close,available_us=close) for s in market_row})
         observe(close,'MINUTE_MARK')
         if account.status in HALTS:
             completion='NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED';stop=close;break
         funding_through(close,True)
         if stop is not None:break
         risk_schedule(close)
-        nav=account.nav();signed={s:account.positions[s].quantity*account.marks[s][-1]['price'] for s in SYMBOLS}
+        nav=account.nav();signed={s:account.positions[s].quantity*account.marks[s][-1]['price']
+                                 if account.positions[s].quantity else ZERO for s in symbols}
         equities={s:account.positions[s].isolated_balance+account.positions[s].quantity*
-            (account.marks[s][-1]['price']-account.positions[s].entry_price) for s in SYMBOLS}
+            (account.marks[s][-1]['price']-account.positions[s].entry_price)
+            if account.positions[s].quantity else account.positions[s].isolated_balance for s in symbols}
         values[i]=[float(nav),float(account.free_cash),float(sum((p.isolated_balance for p in account.positions.values()),ZERO)),
             float(sum((abs(v) for v in signed.values()),ZERO)),float(sum(signed.values(),ZERO)),float(account.fees),
             float(account.execution_cost),float(account.funding_cash),float(account.gross_fill_turnover),
-            *[float(account.positions[s].quantity) for s in SYMBOLS],*[float(signed[s]) for s in SYMBOLS],
-            *[float(account.positions[s].isolated_balance) for s in SYMBOLS],*[float(equities[s]) for s in SYMBOLS],
-            *[float(signed[s]/nav) if nav>0 else 0. for s in SYMBOLS],
+            *[float(account.positions[s].quantity) for s in symbols],*[float(signed[s]) for s in symbols],
+            *[float(account.positions[s].isolated_balance) for s in symbols],*[float(equities[s]) for s in symbols],
+            *[float(signed[s]/nav) if nav>0 else 0. for s in symbols],
             float(sum((abs(v) for v in signed.values()),ZERO)/nav) if nav>0 else 0.,
             float(sum(signed.values(),ZERO)/nav) if nav>0 else 0.]
         rows_written=i+1
+        previous_quote={s:market_row[s]['quote_volume'] if s in market_row else 0. for s in symbols}
         if i%1440==0 and progress:
             progress.update('实际逐分钟独立账户',i+1,n,'分钟',direction=mode,cost=cost['id'],funding_unit=unit['id'])
             if guard:guard()
@@ -308,16 +373,16 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
             ownership_native_certified=False))
     columns=['nav','free_cash','isolated_balance','gross_notional','net_signed_notional','cumulative_fees',
         'cumulative_execution_costs','cumulative_funding','cumulative_turnover',
-        *[s+'_quantity' for s in SYMBOLS],*[s+'_signed_marked_notional' for s in SYMBOLS],
-        *[s+'_isolated_balance' for s in SYMBOLS],*[s+'_isolated_equity' for s in SYMBOLS],
-        *[s+'_signed_weight' for s in SYMBOLS],'gross_weight','net_signed_weight']
+        *[s+'_quantity' for s in symbols],*[s+'_signed_marked_notional' for s in symbols],
+        *[s+'_isolated_balance' for s in symbols],*[s+'_isolated_equity' for s in symbols],
+        *[s+'_signed_weight' for s in symbols],'gross_weight','net_signed_weight']
     minute=pl.DataFrame(values[:rows_written],schema=columns,orient='row').with_columns(
         pl.Series('close_us',times[:rows_written]+MINUTE))
     summary=account.summary()
-    terminal_prices={s:float(account.marks[s][-1]['price']) if account.marks[s] else None for s in SYMBOLS}
+    terminal_prices={s:float(account.marks[s][-1]['price']) if account.marks[s] else None for s in symbols}
     terminal_signed={s:float(account.positions[s].quantity)*terminal_prices[s]
-                     if account.positions[s].quantity else 0. for s in SYMBOLS}
-    summary.update(completion=completion,mode=mode,cost_scenario=cost,unit_scenario=unit,
+                     if account.positions[s].quantity else 0. for s in symbols}
+    summary.update(symbols=list(symbols),completion=completion,mode=mode,cost_scenario=cost,unit_scenario=unit,
         funding_rate_unit='UNCONFIRMED',unit_certified=False,publication_certified=False,
         completed_minutes=rows_written,required_minutes=n,stop_us=stop,all_observation_max_drawdown=mdd,
         maximum_actual_gross_weight=max_gross,maximum_actual_asset_weights=max_asset,
@@ -342,6 +407,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None):
 
 def save_case(case,directory):
     directory.mkdir();artifacts={}
+    symbols=strategy.symbol_order(case['summary'].get('symbols',tuple(case['summary']['positions'])))
     minute=case['minute'];summary=case['summary'];complete=summary['completed_minutes']==summary['required_minutes']
     daily=empty_frame({'day_end_us':pl.Int64,'nav':pl.Float64,'fees':pl.Float64,'execution_costs':pl.Float64,'turnover':pl.Float64})
     if minute.height:
@@ -381,7 +447,7 @@ def save_case(case,directory):
         funding=row['cumulative_funding']-previous_fund
         month_rows.append(dict(month=month[0],days=frame.height,net_PnL=net,fees=fee,
             spread_cost=cost/2,slippage_cost=cost/2,funding_USDT=funding,gross_PnL=net+fee+cost-funding,
-            ending_NAV=row['nav'],ending_signed_quantities={s:row[s+'_quantity'] for s in SYMBOLS}))
+            ending_NAV=row['nav'],ending_signed_quantities={s:row[s+'_quantity'] for s in symbols}))
         previous_nav=row['nav'];previous_fee=row['cumulative_fees'];previous_cost=row['cumulative_execution_costs'];previous_fund=row['cumulative_funding']
     summary['months']=month_rows
     summary['monthly_table_scope']='COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION'
