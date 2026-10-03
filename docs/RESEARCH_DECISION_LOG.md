@@ -765,3 +765,17 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 投资判断不变：122日两成本/两单位LS始终负，虽比只做多改善但空头和多头路径改变须分开；90日short/LS净615.473077..641.540294主要pricePnL，不能事后择方向/单位成为主力。新90实现年vol12.164324%、allobsDD4.831646%、minute峰gross35.194046%，与10%目标/30%资产cap之间的漂移和延迟公开；不把配置cap当瞬时保证或实现风险相同。完整10k作分母，无杠杆/自动补margin提升。单位、Bybit原生price/funding/MMR/filters/可成交与未来独立证据未认证。能力采用，固定SMA投资采用/HPO暂停；reopen为新事前因果信息/机制、同产品强基准和合理实现风险下跨窗净增量，然后真正未来验证，不永久删short能力。
 
 下一唯一主任务选择同永续产品的原公开2h Donchian LONG_ONLY强基准，复用SMA保存结果。理由：目前改善相对于负gross的弱多头基线，尚不知是否胜过已有强公开参照；直接复用已验收MIT策略比新模型/HPO信息价值更高。保持两独立窗口/完整10k/绝对.3/.6/1x、27/43bp成本、两个资金费单位条件、时钟和past-only风险。先仅补July2025 BTC/ETH官方USD-M 2h两档保证SMA200需400h同产品预热，不能用Spot/daily或截短评分；原should_short=False保持，不镜像称官方完整双向。之后新8case对原32保存摘要比较，不重跑SMA；共同风险约束但实际vol/DD/gross应另报，不能预称匹配风险。停止条件为来源/完整日历/因果/成本/资本/风险出现blocker或事前资源上限，无大型搜参/锁/真钱。该下一项尚未启动，执行窗口结束交接点是已验收cf47账户、现perp来源、原2hMIT hooks与最小July预热缺口；无虚报后台研究。
+## D041 运行前：同产品公开2h参照（2026-10-03）
+
+当前HEAD09d6a7a278710a799228148b77a9b661c4b5161a已验收多空；只保留4份post-push状态文档待下一模块入库，无遗留市场研究在跑。现在实际启动D041，三agent并行最小July暖源、原MIT hook适配与独立参考，根负责私有接线/统一新入口验收和经济对照。问题：SMA多空相对自身多头的改善，是否也超过具体公开2h Donchian同产品强参照？这不是宣称公开市场完整最强策略。
+
+固定原should_short=False/LONG_ONLY，通道prior20+SMA200只用于entry，held仅lowerbreak exit；不镜像假冒双向。补July2025 BTC/ETH官方USD-M2h两档372根各，SMA200预热不借Spot/daily、不截评分；其余沿accepted AugFeb分钟合成2h，90日需要AugNov过去暖源，但freshflat不继承暖仓。30日协方差继续真正completed UTCdaily；同已见122/90各完整10k共享BTCETH，绝对.3/.6、单向逐仓1x/.99buffer，无自动补margin。新增8账户=2窗×27/43bp×F/P资金费单位条件，只复用保存SMA结果，旧30/修2/CASH不重放，不选择获利单位。
+
+新wrapper仅原547 simulate私有AST四锚：signal clock2h、signal/daily-risk双输入、冻结quantity分母已闭合2hclose、诊断orderkind；原金融/容量/mark/资金费/终端/日月评价不改。成熟public.closed_hours/Polars/Numpy/Decimal/pytest复用，无下载框架/模型搜参/新dashboard。先统一2个新causal+接线合成case、July2档真实source+独立必要QA，冻结协议后才读经济数组。8账户新STATE硬200MB/RSS1.5GB/1800s，source20MB/512MB/300s，独立5MB/1.5GB/1200s；共享5GB、swap0/GPU0、D40GB/32warn/36stop+1GB临时继续。
+
+停止条件是源/完整日历/因果/真实资本/成本/资金费归属/金融/风险或资源blocker，不为正收益调阈值/删日期。共同caps不称实现风险匹配，独立报vol/DD/gross/net/margin/收益集中度；有限两个seen窗口只筛选，funding单位/Bybit原生MMR/filters/成交和长期APR仍NE。验收后依据真正净差和实际风险决定保留主力或下步；不把实验数量作成果。
+## D041 结果决策（2026-10-03）
+
+源bca7/独立2754、新2case90c45、八金融bc89/独立bf13、根b50b全真closed0。能力采用，固定Donchian投资暂停：122日gross约90，但base fee+spread+slip约93，fund另外负；90 gross约−85，不能只归成本。两cost×两unit八净均负。完整10k各独立，122净−75.4066..−3.5811，90净−212.8846..−159.7839；旧32只引用原30+纠错新2，不重演/拼NAV。实现vol约6.1%/6.5%，gross均值约7.74%/7.72%、峰30.07%/32.99%，与SMA不同；共同caps不能消除实现风险差别。source已独立raw12/normalized16完整744行新两档，无旧42QA。独立max cash1.09e−11/ratio3.51e−14；order intent sizing scope仍pinned controller+新causal case。基金单位/原生venue/清算未证、候选NONE/APRNE；audit真实后登记明确，不伪装START。
+
+下一唯一主任务：核现有授权USD-M输入并补上涨/震荡完整共同窗，以固定SMA方向对照+公开参照检查空头跨状态净增量。近期两个窗口short均正，但122集中November、90更高实际风险；比围绕近零毛edge调参数更能排除“跌市收益即长期alpha”错误。不将已见/相关旧Spot历史改称unseen，不换手续费假装合约，不放宽成本/caps/锁/资金资源。Donchian投资/HPO暂停，reopen为预固定机制或新共同窗经济增量＋未来验证；SMA投资/HPO暂停而方向能力/研究挑战保留，reopen跨状态/合理风险/真正未来证据。此下一项未启动；模块验收/document/blob/Git闭合后继续。

@@ -1,0 +1,251 @@
+{
+  "scope": "SYNTHETIC_2H_PUBLIC_HOOK_CAUSALITY_NOT_MARKET_OR_ACCOUNT_RESULT",
+  "targets": [
+    {
+      "available_us": 1754006400000000,
+      "symbol": "BTCUSDT",
+      "target_weight": 0.3,
+      "raw_signed_target": 0.3,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754006400000000,
+      "symbol": "ETHUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754013600000000,
+      "symbol": "BTCUSDT",
+      "target_weight": 0.3,
+      "raw_signed_target": 0.3,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754013600000000,
+      "symbol": "ETHUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754020800000000,
+      "symbol": "BTCUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754020800000000,
+      "symbol": "ETHUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754028000000000,
+      "symbol": "BTCUSDT",
+      "target_weight": 0.3,
+      "raw_signed_target": 0.3,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754028000000000,
+      "symbol": "ETHUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    }
+  ],
+  "target_receipt": {
+    "strategy_id": "COIN_JESSE_DONCHIAN_2H_USDT_PERPETUAL_ADAPTER",
+    "mode": "LONG_ONLY",
+    "strategy_rules": {
+      "timeframe_minutes": 120,
+      "donchian_period": 20,
+      "trend_SMA_period": 200,
+      "channel_excludes_current": true,
+      "SMA_includes_current_completed_bar": true,
+      "entry": "CLOSE_GT_PREVIOUS20_UPPER_AND_CLOSE_GT_SMA200",
+      "held_exit": "CLOSE_LT_PREVIOUS20_LOWER",
+      "SMA_filter_applies_only_to_entry": true,
+      "can_short": false,
+      "additional_percentage_stop_loss": false,
+      "fresh_flat_each_window": true,
+      "warmup_positions": false,
+      "exit_then_wait_next_2h_decision_to_reenter": true,
+      "past_covariance_completed_days": 30,
+      "annual_vol_target": 0.1,
+      "asset_abs_cap": 0.3,
+      "gross_cap": 0.6,
+      "controller_sizing_buffer": 0.99,
+      "availability": "COMPLETED_TRADE_BAR_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED",
+      "funding_rates_used_for_signal": false,
+      "whole_balance_sizing_transplanted": false
+    },
+    "risk": [
+      {
+        "decision_us": 1754006400000000,
+        "unscaled_signed_covariance_annual_vol": 0.0,
+        "net_target_weight": 0.3,
+        "gross_target_weight": 0.3,
+        "covariance_observations": 30,
+        "past_only": true,
+        "signal_witnesses": [
+          {
+            "symbol": "BTCUSDT",
+            "signal_close_us": 1754006400000000,
+            "maximum_signal_available_us": 1754006400000000,
+            "signal_warmup_first_close_us": 1752573600000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": true,
+            "channel_exit": false
+          },
+          {
+            "symbol": "ETHUSDT",
+            "signal_close_us": 1754006400000000,
+            "maximum_signal_available_us": 1754006400000000,
+            "signal_warmup_first_close_us": 1752573600000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": false,
+            "channel_exit": false
+          }
+        ]
+      },
+      {
+        "decision_us": 1754013600000000,
+        "unscaled_signed_covariance_annual_vol": 0.0,
+        "net_target_weight": 0.3,
+        "gross_target_weight": 0.3,
+        "covariance_observations": 30,
+        "past_only": true,
+        "signal_witnesses": [
+          {
+            "symbol": "BTCUSDT",
+            "signal_close_us": 1754013600000000,
+            "maximum_signal_available_us": 1754013600000000,
+            "signal_warmup_first_close_us": 1752580800000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": true,
+            "held_after": true,
+            "channel_exit": false
+          },
+          {
+            "symbol": "ETHUSDT",
+            "signal_close_us": 1754013600000000,
+            "maximum_signal_available_us": 1754013600000000,
+            "signal_warmup_first_close_us": 1752580800000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": false,
+            "channel_exit": false
+          }
+        ]
+      },
+      {
+        "decision_us": 1754020800000000,
+        "unscaled_signed_covariance_annual_vol": 0.0,
+        "net_target_weight": 0.0,
+        "gross_target_weight": 0.0,
+        "covariance_observations": 30,
+        "past_only": true,
+        "signal_witnesses": [
+          {
+            "symbol": "BTCUSDT",
+            "signal_close_us": 1754020800000000,
+            "maximum_signal_available_us": 1754020800000000,
+            "signal_warmup_first_close_us": 1752588000000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": true,
+            "held_after": false,
+            "channel_exit": true
+          },
+          {
+            "symbol": "ETHUSDT",
+            "signal_close_us": 1754020800000000,
+            "maximum_signal_available_us": 1754020800000000,
+            "signal_warmup_first_close_us": 1752588000000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": false,
+            "channel_exit": false
+          }
+        ]
+      },
+      {
+        "decision_us": 1754028000000000,
+        "unscaled_signed_covariance_annual_vol": 0.0,
+        "net_target_weight": 0.3,
+        "gross_target_weight": 0.3,
+        "covariance_observations": 30,
+        "past_only": true,
+        "signal_witnesses": [
+          {
+            "symbol": "BTCUSDT",
+            "signal_close_us": 1754028000000000,
+            "maximum_signal_available_us": 1754028000000000,
+            "signal_warmup_first_close_us": 1752595200000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": true,
+            "channel_exit": false
+          },
+          {
+            "symbol": "ETHUSDT",
+            "signal_close_us": 1754028000000000,
+            "maximum_signal_available_us": 1754028000000000,
+            "signal_warmup_first_close_us": 1752595200000000,
+            "risk_last_day_close_us": 1754006400000000,
+            "maximum_risk_available_us": 1754006400000000,
+            "held_before": false,
+            "held_after": false,
+            "channel_exit": false
+          }
+        ]
+      }
+    ],
+    "source": {
+      "donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4"
+    },
+    "original_entry_filters_and_held_channel_exit_hooks_reused": true,
+    "native_Jesse_or_Bybit_execution_replicated": false,
+    "price_source": "BINANCE_USDM_TRADE_BARS_EXECUTION_IS_SEPARATE",
+    "model_fits": 0,
+    "candidate_status": "NO_QUALIFIED_CANDIDATE"
+  },
+  "scalar_original_hook_states": [
+    0.3,
+    0.3,
+    0.0,
+    0.3
+  ],
+  "fresh_flat_targets": [
+    {
+      "available_us": 1754006400000000,
+      "symbol": "BTCUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    },
+    {
+      "available_us": 1754006400000000,
+      "symbol": "ETHUSDT",
+      "target_weight": 0.0,
+      "raw_signed_target": 0.0,
+      "mode": "LONG_ONLY"
+    }
+  ]
+}

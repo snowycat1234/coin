@@ -252,12 +252,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 | https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 既有锁定`1.44.2`／MIT、`2.5.3`／BSD-3-Clause | 共用来源接线、目标、过去协方差及评价；库零修改/零新安装。标准库Decimal独立参考会计；原ExecutionContractV2只复用时钟与成本算术，不将其Spot费用/风险身份赋予永续。 |
 
 新账户为最小逐仓单向线性合约研究适配，无交易所连接。旧carry固定hedge不能承担一般方向及反手；不安装新平台或复制第三方交易引擎。原Spot库存保护保持，资金费单位/Bybit原生成交/历史MMR与filters尚未认证，只能明确假设下筛选。新增前登记表原字节保存在`docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_20261003_V1.md`，旧凭证按该字节核对；不覆盖历史登记。
-
-### 同产品公开2小时永续参照（D041）
-
-| repo | commit/version及license | 本地用途与修改 |
-|---|---|---|
-| https://github.com/jesse-ai/example-strategies | 7c91e0a37bf62165790120d730442e4f6eb00364／MIT；Jesse指标417f8765225e3bfc12043d4b712f19fe15a3c078／MIT | 原Donchian strategy/indicator零修改，复用原prior20通道/SMA200 entry filter及held lowerbreak exit；原should_short=False保持。仅COIN产品适配、UTC2h闭合时钟、past30日风险和原逐仓账户，whole-balance/Jesse执行不复现。该策略是具体公开参照，不代表完整开源市场。 |
-| https://github.com/binance/binance-public-data | f446ce3812bd4e5521f21faecd4ae3c6460e49fc；原软件MIT声明/数据条款继续 | 两个July2025 USD-M官方2h monthly ZIP，复用download_file/CHECKSUM/CRC和原薄格式转换，仅私有AST改interval/duration与12bar/UTCday，无新downloader；20MB/512MB预算。其余已验收USD-M分钟用原closed_hours与Polars first-open/sum-volume合成2h，不混Spot预热、不截短评分。 |
-| https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 既有1.44.2 MIT/2.5.3 BSD-3-Clause | 原库零修改/无新安装；统一账户、过去30UTC日风险、同两窗口/10k/成本/完整资金费事件/日月评价。私有原controller仅四signal接点，金融语义与旧Spot保护保持。 |
-追加前当前登记原字节保存 docs/archive/OPEN_SOURCE_REGISTRY_PRE_DONCHIAN_PERPETUAL_20261003_V1.md，SHA b9965d36cd017e7c0df9d3550ffa1a5903e7551af2d14e209a766c3f8f9d8293；实际source/金融经济尚待本轮运行验收，不提前宣称PASS。

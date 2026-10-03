@@ -1,0 +1,174 @@
+{
+  "contract_id": "D041_PUBLIC_DONCHIAN_TWO_HOUR_PERPETUAL_BENCHMARK_20261003_V1",
+  "created_utc": "2026-10-03T04:38:19.6921337Z",
+  "classification": "SEEN_DEVELOPMENT_CONDITIONAL_SAME_PERPETUAL_PRODUCT_PUBLIC_BENCHMARK",
+  "period_ids": [
+    "122D",
+    "90D"
+  ],
+  "rules": {
+    "initial_capital_USDT": 10000.0,
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "modes": [
+      "LONG_ONLY"
+    ],
+    "annual_vol_target": 0.1,
+    "past_covariance_completed_days": 30,
+    "asset_abs_cap": 0.3,
+    "gross_cap": 0.6,
+    "leverage": 1,
+    "margin_mode": "ISOLATED",
+    "MMR": 0.005,
+    "MMR_native_certified": false,
+    "sizing_buffer": 0.99,
+    "quantity_step_assumption": 1E-08,
+    "min_notional_assumption_USDT": 10.0,
+    "taker_fee_bps_per_side": 5.5,
+    "signal": "ORIGINAL_PUBLIC_DONCHIAN20_SMA200_UTC2H_HOOKS",
+    "sizing": "FROZEN_SIGNAL_NAV_AND_CLOSED_2H_TRADE_PRICE",
+    "fill": "FIRST_TRADE_OPEN_AT_OR_AFTER_EXECUTION_V2_ONE_MINUTE_LATENCY_PLUS_1US",
+    "capacity": "PREVIOUS_COMPLETED_MINUTE_QUOTE_VOLUME_TIMES_0.001_DIVIDED_BY_FILL_MID",
+    "maximum_attempts": 5,
+    "participation_rate": 0.001,
+    "order_sequence": "FUNDING_THEN_ALL_REDUCTIONS_THEN_INCREASES_AT_OPEN_PLUS_1US",
+    "risk": "NEXT_ELIGIBLE_OPEN_REDUCE_EXISTING_GROSS_TO_BUFFERED_CAPS_NO_TOP_UP",
+    "risk_unfilled": "STOP_INCOMPLETE_CASE_AFTER_FIVE_UNEXECUTABLE_RISK_ATTEMPTS",
+    "terminal": "SIGNAL_END_MINUS_6_MINUTES_FIVE_CAPACITY_LIMITED_ATTEMPTS_NO_FREE_CLOSE",
+    "funding": "SIGNED_ACTUAL_OWNED_QUANTITY_TIMES_STRICTLY_PAST_MARK_NEG_RATE",
+    "funding_unit": "UNCONFIRMED_TWO_PREDECLARED_CONDITIONAL_SCALES",
+    "fresh_flat_missing_mark": "NO_POSITION_NO_PAST_MARK_KNOWN_ZERO_OWNERSHIP",
+    "halt": "STOP_NOT_SIMULATED_LIQUIDATION_NO_RESCUE_OR_COMPLETED_NAV_CLAIM",
+    "windows_independent": true,
+    "monthly_reset": false,
+    "locked_consumed": false,
+    "native_market_certified": false,
+    "signal_interval_us": 7200000000,
+    "warmup": "JULY2025_OFFICIAL_USDM_2H_PLUS_ACCEPTED_AUGUST_ONWARD_USDM_1M",
+    "risk_inputs": "UNCHANGED_PAST30_COMPLETED_UTC_DAILY_RETURNS",
+    "public_strategy_has_short_entry": false
+  },
+  "cost_scenarios": [
+    {
+      "id": "BASE27",
+      "half_spread_bps": 4,
+      "slippage_bps": 4,
+      "roundtrip_bps": 27
+    },
+    {
+      "id": "STRESS43",
+      "half_spread_bps": 8,
+      "slippage_bps": 8,
+      "roundtrip_bps": 43
+    }
+  ],
+  "unit_scenarios": [
+    {
+      "id": "RAW_AS_FRACTION",
+      "scale": 1.0
+    },
+    {
+      "id": "RAW_AS_PERCENT",
+      "scale": 0.01
+    }
+  ],
+  "frozen_sources": {
+    "docs/archive/BOUNDED_RESEARCH_TEST_RUNNER_SOURCE_20261003_V1.py": "b19023de82a411d0d634d5d81693a40a57db7986983c240b17502556af1b9f3d",
+    "docs/archive/PERPETUAL_ACCOUNT_PRE_SETTLEMENT_FIX_SOURCE_20261003_V1.py": "2bae17b6351dec5c632e3af42fed2a6a5cf91293dba0a08c06a7aa81f4df58fb",
+    "docs/archive/PERPETUAL_INDEPENDENT_REFERENCE_20261003_V1.py": "3600a29fe6d4fac13e7b34fd1d2a31f922b8bb4f9e2c1649950ebe6029b5e81a",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "protocols/BYBIT_NONVIP_FEE_REFERENCE_20261002.json": "d6c1e2f5b25dabf4d088edfbccbc35d7154684287ff477c2fc16a14ee5f96b3f",
+    "scripts/bounded.sh": "93f6ef9767fa67cc14c6a4a0495c7b2c4e7753c52b1f945988898f45c91843aa",
+    "scripts/investment/perpetual_directional.py": "547a1ca2d8e4b9278f599a1972f099bfe449910e34791e5a0e16873ce67d5ef3",
+    "scripts/investment/public_donchian_daily.py": "82796e9dac68089a24a6d4bd61c561672043e446c806cbe87a6737a459d35c4a",
+    "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+    "scripts/investment/public_pair_diagnostics.py": "7cac018b7d98b428211b8bee7e6b012df24854b5fa84c7e312b96540da7cce6b",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "scripts/investment/public_sma_perpetual.py": "c90a9d383fe3365681bfdd5772c0f8a9a8977d57e423627b9159098ce25f30df",
+    "scripts/investment/research_tests.py": "b19023de82a411d0d634d5d81693a40a57db7986983c240b17502556af1b9f3d",
+    "scripts/research_v8/funding_price_source_v2.py": "2f39c9803051373654094ee990474b3ebe9b241ef85fa9eb586b9bde92bb4cdb",
+    "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+    "scripts/task_progress_run.py": "6836ae5891b273fb95febe5cc84636aacc6c7224ed7d03aaa139c293d6484a93",
+    "scripts/with_task_progress.sh": "9f89519cc3131014213079e9262666aa0e36e4d6f6e4f4e281220bcb181e9491",
+    "src/quant/backtest.py": "ee333d4e5cbadb489e5d467619d0872f78ccb2d86d8b5f46eacc69cb63f9829a",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "src/quant/perpetual_account.py": "cf47ae9b889eab4506be2b22929322976a6833235eaab6459399bdec53de2261",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "tests/test_perpetual_directional_controller.py": "c87d79cdc18e9a29595b1d746e4d8e7f00c55748ce18a0c29529ace086e2ac51",
+    "third_party/jesse_example_smacrossover/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_smacrossover/smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+    "scripts/investment/public_donchian_perpetual.py": "33bf4b12ab70619097aa139b844a06205b5bf00ca15594afc5abdfabd15f9cc1",
+    "tests/test_public_donchian_perpetual.py": "0a5d7d620840fd68e286933b6937352414ea5d74ababe0ee31160b2e6a12ee8d",
+    "scripts/investment/perpetual_public_benchmark.py": "322178db8d8001833460b1ed01fc53ae2f4f86b494410c1407605de6e97db4b6",
+    "tests/test_perpetual_public_benchmark.py": "705a37759facb6e78ed814a0e2abc7c23872d5d92d83121e2f5542d504f88ef2",
+    "scripts/research_v8/public_donchian_adapter.py": "169d7ba6ebde24be5ce4730c5e741ed281a0155e4cadc22f1bb2bedccb4093c2",
+    "scripts/investment/bybit_spot_adapter.py": "8c8852bf70813ada5720c210f50c9038a5ecaadee1b4f38b77a71aa9e8b038ca",
+    "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+    "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+    "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+    "src/quant/data.py": "d6574aa1964b03f9d9a2a110365d47f8210eccfadb1ac11c391b4c8fb3f7862e",
+    "scripts/investment/official_carry_chronology_source.py": "889954bb2a6b12d480742cfdde2b01bbdaaf26e28250c8f4eac506acf8380e64",
+    "docs/archive/V8_OFFICIAL_INPUT_METADATA_SOURCE_20261002_V1.py": "d2e419dcbc05c3a1f71ee147a2ec5307ee49918106a206bc72cb3d19ea15aa5c",
+    "reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json": "8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96",
+    "scripts/investment/public_daily_official_source.py": "2d6a06f1e935ff3c39d39c725c9acfc7304a35eda3023810398972a795b6d650",
+    "scripts/investment/public_daily_official_source_v2.py": "079bc2ec5cf635afdc9b277aa3dbbc8f2cdaad520537a04b8275d16e49bfa83d",
+    "scripts/investment/public_daily_official_source_v3.py": "dd058c092a4cee20b25e31650a1429dda78fdbf76e298cab3f45fba22ef81099",
+    "scripts/investment/perpetual_trade_source.py": "8c569bb1add310c230230cc9e2cd923adba7f4ac37776e48c1fdfc1ed0e9240c",
+    "state/dataset_lock.json": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+    "scripts/research_v7/oracle_flow_ceiling.py": "959f63f40c3294b6b2b75267b9138202df79223a7e7723397cf06b8d45a1477e",
+    "scripts/investment/perpetual_2h_warmup_source.py": "a41accdebc6ce84186d32a5f6c84e51bcb727b844706a63b1ebe37b664ac3b4c",
+    "protocols/PERPETUAL_2H_WARMUP_SOURCE_20261003_V1.json": "209ce068d681b6b69e951d65f30f1d597d1b5e48a6d47176943bcd5d205c3327",
+    "reports/fast_research/PERPETUAL_2H_WARMUP_SOURCE_ACTUAL_20261003_V1.json": "bca7be979b1548583a31138b49732cc6fcdccb692ea340c585e85038b33dadfd",
+    "scripts/investment/audit_perpetual_2h_warmup_source.py": "37509d2d539ccd6cb07c7e56c76a66d1c1008ad8bc35e78e5f0f6e694db1fb7b",
+    "docs/archive/PERPETUAL_TRADE_SOURCE_INDEPENDENT_AUDITOR_20261003_V1.py": "7770342534d216b121d42da3c541874bb7c175fcd3b10c9939337417760e8e92",
+    "docs/archive/VOL_MANAGED_HOLD_547D_ROOT_CLOSE_SOURCE_20261003_V2.py": "278c9117283b88eb73b50276f37a4cd86449ffd87e747556db301dc146ce905a",
+    "docs/OPEN_SOURCE_REGISTRY.md": "1c33a5a19063cd4a4331892c1f2490d80a4fa30ad2ee138d39a20090b92b503d",
+    "docs/archive/OPEN_SOURCE_REGISTRY_PRE_DONCHIAN_PERPETUAL_20261003_V1.md": "b9965d36cd017e7c0df9d3550ffa1a5903e7551af2d14e209a766c3f8f9d8293"
+  },
+  "required_new_tests": {
+    "sha256": "90c45cd3772309325b910f0ece0757317215e49951775710363f66548ca75741",
+    "path": "reports/fast_research/PERPETUAL_PUBLIC_BENCHMARK_TEST_ACTUAL_20261003_V1.json",
+    "required_status": "PASS_BOUNDED_RESEARCH_TESTS_SYNTHETIC_NOT_MARKET_RESULT"
+  },
+  "july_signal_source_receipt": {
+    "sha256": "bca7be979b1548583a31138b49732cc6fcdccb692ea340c585e85038b33dadfd",
+    "path": "reports/fast_research/PERPETUAL_2H_WARMUP_SOURCE_ACTUAL_20261003_V1.json",
+    "required_status": "PASS_D041_OFFICIAL_PERPETUAL_2H_JULY_FORMAT_CALENDAR_PENDING_INDEPENDENT_QA"
+  },
+  "july_signal_independent_receipt": {
+    "sha256": "2754e68b272152c380a04ecb05e76565b4340062a440ef4dc75ccaafc30e53b3",
+    "path": "reports/fast_research/PERPETUAL_2H_WARMUP_SOURCE_INDEPENDENT_20261003_V1.json",
+    "required_status": "PASS_D041_JULY_2H_RAW_NORMALIZED_CALENDAR_AND_VOLUME_ONLY"
+  },
+  "original_root": {
+    "sha256": "5b6fa633f14e976e75babb1405bedb97dfb91af9ed7cc25ae0363fa62ca5e89c",
+    "path": "reports/fast_research/PERPETUAL_DIRECTIONAL_ROOT_ACCEPTANCE_20261003_V1.json",
+    "required_status": "PASS_ROOT_PERPETUAL_DIRECTIONAL_CONDITIONAL_METADATA_NOT_NATIVE_OR_LONG_TERM_APR"
+  },
+  "input_manifest": {
+    "path": "reports/fast_research/LONG_SHORT_USDM_INPUT_BINDING_20261003_V1.json",
+    "sha256": "f7b3e8eb724b8196280ef872454b36297171b5f487bea94410dc547eb846d045",
+    "required_status": "BOUND_LONG_SHORT_USDM_INPUT_METADATA_ONLY_NOT_SOURCE_OR_ECONOMIC_ACCEPTANCE"
+  },
+  "run_dir": "/home/xflops/coin-state/d041-public-perpetual-benchmark-20261003-v1",
+  "output_path": "reports/fast_research/PERPETUAL_PUBLIC_BENCHMARK_ACTUAL_20261003_V1.json",
+  "budgets": {
+    "peak_RSS_bytes": 1500000000,
+    "wall_seconds": 1800,
+    "new_owned_bytes": 200000000
+  },
+  "comparison_uses_saved_SMA_only": true,
+  "SMA_financial_replay": false,
+  "models_fit": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "funding_unit_certified": false,
+  "native_market_certified": false,
+  "realized_risk_matched": false
+}

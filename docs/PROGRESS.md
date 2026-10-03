@@ -30,3 +30,17 @@ D036文档／模块Git提交与远程一致核验真实完成，d8f6c3f；后验
 本模块文档／提交门槛／GitHub推送及远程一致核验已完成，提交89a305d；后验小凭证在下个正常模块入库。
 D035之后D036已完成，其固定组合预算false并已推送；上段记录真实闭合，不拼旧净值/按月择赢家。
 用户新增Bybit普通费率及收到资产语义继续绑定；历史文件旧roadmap／完成率不是当前命令。完整项目目标继续，locked／真钱权限边界保留。
+### D040 Git模块同步后验（2026-10-03）
+
+研究源码/文档/实际与失败证据经315个冻结blob字节门槛、敏感文件/尺寸检查后正常提交并推送，提交和远程main精确一致：`09d6a7a278710a799228148b77a9b661c4b5161a`。本地WSL提交session90620/chunkc26387、推送session7039/chunkd4a302、远程核验session77299/chunk08b705均真实exit0；最初Windows缺作者身份未提交，随后沿用既有WSL身份，未改全局身份或凭据。后验凭证 [GITHUB_PERPETUAL_DIRECTIONAL_SYNC_VERIFIED_20261003_V1.json](../reports/GITHUB_PERPETUAL_DIRECTIONAL_SYNC_VERIFIED_20261003_V1.json) SHA `ca6c3446a7fa5f571ed543a546e1525041a029e3a2f20306d83e233bdc723933` 按既有流程下个正常模块入库；此后验记录不覆写已冻结报告。本轮科研/验收/推送任务结束，下一同产品2h强基准尚未启动；无虚报后台研究。
+
+D041实际启动：source task0fb929692f5741d39e2b670e588178fa/session50121/chunk747393真exit0，各372/total744，reportbca7be97；新2h target/controller case task47491998849d411c8ba0a1d7387b3ffb/session93489/chunk03d18e真exit0，receipt90c45、2PASS/0oldtest。最小July源独立待闭合，八金融尚未启动；没有新收益结论。source实际scan21,295,668,555B于2026-10-03 12:24:20.806567+08结束，+1.225GB预留22.521GB低于32GB，后来输出不在此scan；共享5GB/swap0/GPU0。
+
+
+## D041：共同永续公开参照实际完成（2026-10-03）
+
+投资NONE/APRNE/现金；原2h Donchian两窗八条件全负（122 −75.4066..−3.5811 /90 −212.8846..−159.7839），122约90 gross不足抵base约93cost，90 gross自身约−85。SMA short正收益不能事后采为主力：122集中Nov、90vol更高。能力采用、固定Donchian投资/HPO暂停、SMA方向挑战保留；下一核上涨/震荡同产品输入并固定方向对照，排除近期跌市假设，未启动。
+
+sourcebca7/sourceQA2754/test90c45/8actualbc89/indepbf13/rootb50b均真closed0；market session19436/chunk546e15/0（181.39s/RSS598.5MB/new70.983MB），indep45167/a9646d/0（11.015s/RSS333.2MB/maxmoney1.09e−11），根39950/6c198b/0（12.552s/RSS25.1MB）。原30+修2保存引用，无旧金融/旧42QA/绿测重做、无NAV拼接。完整10k/成本27与43/F与P全部保留、unit/native/APR未证、0GPU/locked/orders。较低Donchian实现vol不称同风险；原风险caps/Spot保护不改。audit registry后登记真实说明，不伪造beforeSTART。
+
+文档见 docs/PERPETUAL_PUBLIC_BENCHMARK_20261003.md；最近实扫21,296,913,232B于12:40:08+08，随后输出不在此scan；共享5GB/swap0/GPU0和D40GB边界。模块文档、源码blob门槛及Git闭合正在完成。
