@@ -85,3 +85,17 @@ source task75a60d.../bc0970/0（121.95s/RSS119.97MB/new18.019MB），首72 QA6c1
 官方primary文档说明REST fundingTime/fundingRate与charge关联markPrice，未给archive last_funding_rate/calc_time倍率桥；FAQ当前日期和结算偏差不能追认历史。已有FUNDING_SEMANTICS_PROBE_20261003_V2.json SHA54febc06b7815e521715c8d70c3e930929a489c7e2a84d1ddae9507a03e4da4d、task94a04f7ca7a3407e9905109fea9feb4c真实451/exit1、0matched/0retry，沿D024禁绕限制；无环境变化证据，不浪费无差别API重试。单位桥暂停/reopen官方archive语义或合法原历史响应；保持两条件、不凭收益选倍率/不漏负资金费。
 
 因此下一唯一主任务选择固定2024-09-01..<2025-07-01 303日完整独立USD-M窗口source边界，再原SMA four方向/cash与HOLD强基准。这在新PnL前确定，已见开发筛选，独立10k不补缺Aug/不拼547NAV；优先检查转折/持续增量，优于新模型HPO。精确来源清单/现有逐文件复用/预算将在新任务前短冻结，不将本选择当已运行。共享5GB/swap0/GPU0/D40GB/caps/费用/locked/资金权限保持。
+
+### D044模块Git实际闭合（后验，不改冻结报告）
+
+源码/冻结562blob验收taskfd6ee20f… session92615/chunkbc379b/0、preflight a6e3583c…（Git tree46,033,287B/2444小files，0worktree/index差异、0高置信敏感匹配、0runtime/private新增；并非所有秘密类型完备保证）。唯一新targetcase/12完整新账户/12金融调用/保存比较/根V2全部真closed0，指标与范围独立静态复核一致。
+
+正常commit session49713/chunk09ce76/0，push session96792/chunk77779a/0，无force/全局proxy/auth更改；远端核验ffcc9e/0、本地/remote main同8ca03a099faa74a28a785fc77bf21fa7afdfabc2。后验reports/GITHUB_PERPETUAL_HOLD_SYNC_VERIFIED_20261003_V1.json SHAc399955ca600ad864fb322569194cb3f7b5613a6b0eef3ecb03cfbcdc9bc501e，留下一正常模块；本已冻结D044报告/协议/usedbinding原字节不改、不做额外状态提交。
+
+collector540真实仍Sl+、elapsed1-01:20:22，未改采集；8765健康且原扫描时刻正确。D044研究任务全部退出，303新来源/账户尚未启动，不虚报后台研究。下一明确交接：在新合约PnL前冻结2024-09-01..<2025-07-01独立303日源清单/旧逐文件复用/预算，再source完整性与SMA四方向/HOLD固定比较；原547缺口/451/单位条件/现金候选继续。
+
+## D045：303日实际方向筛选闭合（2026-10-03）
+
+投资现金/NONE、长期APR NE。固定2024-09-01..<2025-07-01独立303日，94真实来源54复用/40新；QA70首次/24接受复用。20选择器=16物理交易账户+1恒定现金工件/3严格别名，16完整日历、4个LONG_SHORT真实停止。完整条件LO−2.20..−1.18%、SO−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0；资金费两个单位/两个成本不择优。LS只95229/436320分钟，前缀−302.93..−271.41USDT不是全期收益。独立17金融调用/3现金等价/误差3.27e−11USDT；七角色与根e25cdf0803a74facb5f5f9676d3811f0均真实0，报告841a525d，source绑定e353a69e。下一只risk减仓minstep/minnotional和向零完成修复，原费用/caps/时序/容量不动，新四LS复测；不新HPO或强行采用空头。来源/独立/保存比较/最终根与必要文档见PERPETUAL_303_COMPARISON_20261003.md。
+
+actual aa44 source /6858 QA /9dc3 sourceROOT /4bc9 smoke /4224 market /aad8 independent /caeb comparison /e25c finalROOT真实closed0；市场session6141/chunk375695、独立31383/153c66、比较60963/3be3bb、根52813/fd3a7f均真0。市场573.73s/RSS614.35MB/owned394.82MB，共享硬5GB/swap0/GPU0。实际scan22,250,374,621B结束于08:59:03.491955Z，已以原测量时刻发布8765（task helper真exit0/chunk0e2788）；随后工件未计入，浏览器打开queued不称已显示。旧547失败、旧账户/QA/文档保持。当前源码/文档实际闭合，Git模块同步待完成。

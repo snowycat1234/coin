@@ -286,8 +286,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 | https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 1.44.2 MIT / 2.5.3 BSD-3-Clause，原uv.lock | 库零修改/无新安装；原金融simulate AST、Decimal独立账本/audit_case体与指标不改，只一个新目标及元数据adapter。三窗口12新真实账户、独立12金融调用；单位/原生/长期APR不认证。 |
 
 追加前精确当前登记见OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_HOLD_20261003_V1.md（b43b2464…），旧所有SHA继续按原archive/凭证核验。原v1/v2失败metadata和新修复版本均保存，不通过放宽金融容差/成本/风险制造通过。采用研究基准/比较能力，投资现金/NONE。
-
-### D045：固定303日来源增量（运行前登记）
-
-沿用 binance/binance-public-data 固定 f446ce3812bd4e5521f21faecd4ae3c6460e49fc、原README软件MIT声明/行情条款；原 download_file、CSV/parser、CHECKSUM/CRC 和94固定官方URL无重写，无新依赖或host。薄编排仅原D042 main私有选择94：54旧完整工件原owner与receipt不变，40新mark/funding；原148与42 HEAD/CHECKSUM任务仅投影，不伪称新元数据任务。70首次独立QA、24原验收日档只流式哈希和凭证复用，不重复旧行/CRC。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause及原锁定环境零修改。303已见筛选输入，不升级原547失败或Bybit原生/资金费单位/投资资格。本条实际source验收尚未执行，完成凭证另存。
-D045实际复用闭合：SMA原jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364/MIT hook零改；D044固定多头风险适配、原simulate/Decimal账本/指标直接调用，只有303日期、五选择器和metadata接线。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause及原环境无新安装/库修改。source/70首次+24QA复用/一个新增病例/20选择器/独立17调用/保存比较/最终ROOT均真实closed0，四LS停止前缀保持NE；无旧QA/旧账户重复。当前登记追加前原字节见OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_303_20261003_V1.md，所有旧来源SHA/许可证继续。协议继承字段reused_daily_archives=12仅原D040日档子集，实际producer复用daily34（另外22为原H42）；完整实际94=54旧/40新、QA70/24为本版权威数量，不覆盖冻结协议。采用对照和复用能力，不认证投资/单位/Bybit原生成交。

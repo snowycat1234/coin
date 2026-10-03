@@ -1,0 +1,20 @@
+$ErrorActionPreference='Stop';$root='D:/codex/coin';$enc=[Text.UTF8Encoding]::new($false)
+function Digest([string]$p){(Get-FileHash -LiteralPath (Join-Path $root $p) -Algorithm SHA256).Hash.ToLowerInvariant()}
+function ReadJson([string]$p){Get-Content (Join-Path $root $p) -Raw|ConvertFrom-Json -AsHashtable -DateKind String}
+$fp='protocols/PERPETUAL_303_FINANCIAL_INDEPENDENT_BINDING_20261003_V1.json';$f=ReadJson $fp;$hashes=[ordered]@{}
+foreach($p in $f.source_hashes.Keys){if((Digest $p) -ne $f.source_hashes[$p]){throw "Frozen source $p"};$hashes[$p]=$f.source_hashes[$p]}
+$roles=[ordered]@{};$definitions=@(
+ @('SOURCE','PERPETUAL_303_SOURCE_ACTUAL_20261003_V1.json','PASS_D045_94_HISTORY_FORMAT_54_REUSED_40_NEW_PENDING_INDEPENDENT_QA'),
+ @('QA','PERPETUAL_303_SOURCE_INDEPENDENT_20261003_V1.json','PASS_D045_94_SOURCE_COVERAGE_70_FIRST_QA_24_ACCEPTED_REUSE_NOT_UNIT_OR_ECONOMICS'),
+ @('ROOT','PERPETUAL_303_SOURCE_ROOT_ACCEPTANCE_20261003_V1.json','PASS_ROOT_D045_COMPLETE_303_USDM_SOURCE_NOT_UNIT_OR_ECONOMICS'),
+ @('SMOKE','PERPETUAL_303_WIRING_SMOKE_20261003_V1.json','PASS_BOUNDED_RESEARCH_TESTS_SYNTHETIC_NOT_MARKET_RESULT'),
+ @('MARKET','PERPETUAL_303_RESEARCH_ACTUAL_20261003_V1.json','COMPLETE_D045_FIXED303D_PERPETUAL_SCREENING_NOT_NATIVE_OR_LONG_TERM_APR'),
+ @('FINANCE','PERPETUAL_303_RESEARCH_INDEPENDENT_20261003_V1.json','PASS_D045_TWENTY_FIXED303D_SMA_HOLD_PERPETUAL_NUMERICAL_ACCOUNTING_AND_CAUSAL_SCOPE_NOT_NATIVE_OR_LONG_TERM_APR'),
+ @('COMPARISON','PERPETUAL_303_ECONOMIC_COMPARISON_20261003_V1.json','COMPLETE_D045_303D_SAVED_SUMMARY_COMPARISON_NOT_NATIVE_OR_LONG_TERM_APR'))
+foreach($r in $definitions){$p='reports/fast_research/'+$r[1];$v=ReadJson $p;if($v.status -ne $r[2]){throw "Real role not accepted $($r[0])"};$roles[$r[0]]=@{path=$p;sha256=(Digest $p);task_id=$v.binding.task_id;required_status=$r[2]};$hashes[$p]=Digest $p}
+foreach($p in @($fp,'protocols/PERPETUAL_303_ECONOMIC_COMPARISON_BINDING_20261003_V1.json','scripts/investment/compare_perpetual_303_results.py','docs/archive/PERPETUAL_303_ECONOMIC_COMPARISON_SOURCE_20261003_V1.py','scripts/investment/compare_perpetual_213_results.py','scripts/investment/accept_perpetual_303_research.py','docs/archive/PERPETUAL_303_RESEARCH_ROOT_ACCEPTANCE_SOURCE_20261003_V1.py','docs/archive/PERPETUAL_303_RESEARCH_ROOT_FREEZER_20261003_V1.ps1','reports/fast_research/PERPETUAL_HOLD_ECONOMIC_COMPARISON_20261003_V1.json','reports/fast_research/PERPETUAL_HOLD_ROOT_ACCEPTANCE_20261003_V2.json','reports/GITHUB_PERPETUAL_HOLD_SYNC_VERIFIED_20261003_V1.json','reports/GITHUB_PERPETUAL_HOLD_SOURCE_BINDING_20261003_V2.json','reports/GITHUB_PERPETUAL_HOLD_USED_RECEIPTS_BINDING_20261003_V1.json','docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_303_20261003_V1.md')){$hashes[$p]=Digest $p}
+$aliases=@((ReadJson 'reports/GITHUB_PERPETUAL_HOLD_SOURCE_BINDING_20261003_V2.json').historical_source_aliases)+@(@{original_path='docs/OPEN_SOURCE_REGISTRY.md';original_sha256=(Digest 'docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_303_20261003_V1.md');archive_path='docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_303_20261003_V1.md'})
+$proto='protocols/PERPETUAL_303_RESEARCH_20261003_V1.json'
+$plan=[ordered]@{ready_to_execute=$true;contract_id='D045_FIXED_303D_RESEARCH_METADATA_CLOSE_V1';helper_sha256=(Digest 'scripts/investment/accept_perpetual_303_research.py');source_hashes=$hashes;market_protocol=@{path=$proto;sha256=(Digest $proto)};roles=$roles;source_aliases=$aliases;preserved_failed_tasks=@{ORIGINAL547_SOURCE='c1f09725d84349068d0cfff9327c3033'};budgets=@{new_owned_bytes=5000000;peak_RSS_bytes=1000000000;wall_seconds=120};run_dir='/home/xflops/coin-state/d045-perpetual-303-research-root-20261003-v1';created_utc=[datetime]::UtcNow.ToString('o')}
+$p=Join-Path $root 'protocols/PERPETUAL_303_RESEARCH_ROOT_BINDING_20261003_V1.json';if(Test-Path -LiteralPath $p){throw 'Exclusive final ROOT plan'};[IO.File]::WriteAllText($p,($plan|ConvertTo-Json -Depth 50)+"`n",$enc)
+[pscustomobject]@{path=$p;sha256=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant()}|ConvertTo-Json

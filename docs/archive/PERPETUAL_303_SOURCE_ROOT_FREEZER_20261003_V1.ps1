@@ -1,0 +1,11 @@
+$ErrorActionPreference='Stop';$root='D:/codex/coin';$enc=[Text.UTF8Encoding]::new($false)
+function Digest([string]$Name){(Get-FileHash -LiteralPath (Join-Path $root $Name) -Algorithm SHA256).Hash.ToLowerInvariant()}
+function ReadJson([string]$Name){Get-Content (Join-Path $root $Name) -Raw|ConvertFrom-Json -AsHashtable -DateKind String}
+$auditPlan=ReadJson 'protocols/PERPETUAL_303_SOURCE_INDEPENDENT_BINDING_20261003_V1.json';$hashes=[ordered]@{}
+foreach($p in $auditPlan.frozen_sources.Keys){if((Digest $p) -ne $auditPlan.frozen_sources[$p]){throw "Frozen dependency $p"};$hashes[$p]=$auditPlan.frozen_sources[$p]}
+$sp='protocols/PERPETUAL_303_SOURCE_20261003_V1.json';$spec=ReadJson $sp;$roles=[ordered]@{}
+foreach($row in @(@('SOURCE','reports/fast_research/PERPETUAL_303_SOURCE_ACTUAL_20261003_V1.json','PASS_D045_94_HISTORY_FORMAT_54_REUSED_40_NEW_PENDING_INDEPENDENT_QA'),@('INDEPENDENT','reports/fast_research/PERPETUAL_303_SOURCE_INDEPENDENT_20261003_V1.json','PASS_D045_94_SOURCE_COVERAGE_70_FIRST_QA_24_ACCEPTED_REUSE_NOT_UNIT_OR_ECONOMICS'))){$v=ReadJson $row[1];if($v.status -ne $row[2]){throw "Not accepted $($row[0])"};$roles[$row[0]]=@{path=$row[1];sha256=(Digest $row[1]);status=$v.status;task_id=$v.binding.task_id};$hashes[$row[1]]=Digest $row[1]}
+foreach($p in @('protocols/PERPETUAL_303_SOURCE_INDEPENDENT_BINDING_20261003_V1.json','scripts/investment/accept_perpetual_303_source.py','docs/archive/PERPETUAL_303_SOURCE_ROOT_ACCEPTANCE_SOURCE_20261003_V1.py','docs/archive/PERPETUAL_303_SOURCE_ROOT_FREEZER_20261003_V1.ps1')){$hashes[$p]=Digest $p}
+$plan=[ordered]@{ready_to_execute=$true;checker_sha256=(Digest 'scripts/investment/accept_perpetual_303_source.py');source_hashes=$hashes;source_protocol=@{path=$sp;sha256=(Digest $sp);required_contract=$spec.contract_id};roles=$roles;run_dir='/home/xflops/coin-state/d045-perpetual-303-source-root-20261003-v1';budgets=@{wall_seconds=120;peak_RSS_bytes=1000000000;new_owned_bytes=5000000};created_utc=[datetime]::UtcNow.ToString('o')}
+$p=Join-Path $root 'protocols/PERPETUAL_303_SOURCE_ROOT_BINDING_20261003_V1.json';if(Test-Path -LiteralPath $p){throw 'Exclusive ROOT plan'};[IO.File]::WriteAllText($p,($plan|ConvertTo-Json -Depth 50)+"`n",$enc)
+[pscustomobject]@{sha256=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant();roles=$roles.Keys}|ConvertTo-Json

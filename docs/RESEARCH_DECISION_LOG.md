@@ -835,3 +835,15 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 官方primary文档说明REST fundingTime/fundingRate与charge关联markPrice，未给archive last_funding_rate/calc_time倍率桥；FAQ当前日期和结算偏差不能追认历史。已有FUNDING_SEMANTICS_PROBE_20261003_V2.json SHA54febc06b7815e521715c8d70c3e930929a489c7e2a84d1ddae9507a03e4da4d、task94a04f7ca7a3407e9905109fea9feb4c真实451/exit1、0matched/0retry，沿D024禁绕限制；无环境变化证据，不浪费无差别API重试。单位桥暂停/reopen官方archive语义或合法原历史响应；保持两条件、不凭收益选倍率/不漏负资金费。
 
 因此下一唯一主任务选择固定2024-09-01..<2025-07-01 303日完整独立USD-M窗口source边界，再原SMA four方向/cash与HOLD强基准。这在新PnL前确定，已见开发筛选，独立10k不补缺Aug/不拼547NAV；优先检查转折/持续增量，优于新模型HPO。精确来源清单/现有逐文件复用/预算将在新任务前短冻结，不将本选择当已运行。共享5GB/swap0/GPU0/D40GB/caps/费用/locked/资金权限保持。
+
+### D045运行前固定：303日来源闭环
+
+问题：原SMA短窗净增量是否能跨转折状态延续；先完成已预定2024-09-01..<2025-07-01 303日完整USD-M输入，后固定四方向/CASH与HOLD经济比较。原547缺August分钟仍FAILED，不补齐、不删该缺口日期后改称547，不消费locked；303为SEEN开发筛选、独立10k账户不拼接旧NAV。来源94：trade1m20、daily34（Feb2024..<Jul2025，213日预热+303评分）、mark1m20、fund20；原54完整producer工件中24已有独立QA，30首次QA，新增40首次QA。旧metadata148+42只凭证投影。source预算1GB新工件/RSS1GB/1800s，2GB联合容量含1GB临时；QA5MB/RSS1GB/1200s，共享5GB/swap0/GPU0。真实新扫描+2GB≤32GB、单月行历/CHECKSUM/CRC/跨月完整与真实任务closed0才接受；任何缺口/限制/预算立即停止且保存失败，无收益前日期或单位改动。经济协议仍需来源接受后另冻结，当前仅source，0模型/订单/资金权限。
+### D045来源实际闭合后，运行前经济对照固定
+
+303来源真实94完成/40下载exit0；独立70首次+24复用exit0；ROOT已closed0，INPUT8b665b28…、ROOT3df702c3…。现在固定原SMA50/200四方向+CASH与D044恒定多头HOLD，20成本/单位选择器、16真实交易账户+1恒定CASH工件/3别名，全部独立10k/1x/.3单币abs/.6组合gross/过去30日signedcov目标10%/原200闭合daily。Bybit VIP0 taker5.5bp单边，RT27/43两固定成本、F1/P.01两未认证单位条件；不基于新PnL选成本/方向/倍率，统一原账户/容量/.99sizing/资金费事件和terminal成本平仓。source-only通过不证明会计或盈利；一个新合成因果接线用例后原financial body实跑，独立原Decimal/audit_case/容差、新303日期和独立HOLD目标。预算1GB工件/RSS3GB/3600s，共享5GB/swap0/GPU0，固定全303不删亏损日；缺日/无法完成/不对账停止、保存原失败新版本修复，不伪造稳定APR。以gross/net、方向贡献、fund/fee/execution、turnover/实际risk/MDD与月集中度筛选；不同窗口账户只并列不拼接，研究采用不改变现金/NONE投资。Donchian与HPO暂停：重开需现基准以外的新信息价值；资金费单位桥reopen须合法官方语义/历史响应。
+### D045实际结果后的选择：先修风险减仓正确性（2026-10-03）
+
+303完整LO−2.20..−1.18%、SO−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0；SMA单独short在这窗拖累，不能将之前90日跌市赢家拼接成主力。HOLD实际波动较高，相同caps不视为风险相同。4个LS都在95229/436320分钟以NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION停止，独立账本正确但全期收益NE。目标q*scale未量化，向下取整留下<1e−8尾差，pending阻止重新risk_schedule，5次仍真实超限；负债0、非清算/资金耗尽。保留原停止前缀及全部旧结果，不据缺损303报告淘汰整个多空能力。
+
+下一唯一主任务D046 correctness blocker：仅RISK_REDUCTION在实际合法attempt时点按原方向fill价、step和10USDT最小量向减仓方向取整，clip现有abs(q)，reduce_only及原核心capacity/minnotional/fee/时序/caps不变；pending完成以向零达到原目标而非要求不可表示尾差精确相等。不放宽容差、不把真实超限当合格、不动DAILY_TARGET；无法满足真实最小量/容量仍停止。先对称手算、真实不足/未来扰动新病例，再四LS同303价格/资金费/两成本/两单位/10k复测，其他16只保存引用。预算新输出500MB/RSS3GB/3600s，若合法成交后仍停或独立不对账/资源缺口，保存失败并按机制重新判断，不改成功标准。它直接恢复可信方向增量比较，比新模型HPO信息价值高。投资现金/NONE、长期APRNE；资金费桥/Bybit原生/独立未来不足仍保留，暂停路线与reopen沿当前状态。

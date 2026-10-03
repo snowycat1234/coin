@@ -4,14 +4,16 @@
 
 ## 当前选择与证据
 
-1. **当前APR候选**：投资／真钱NONE、资金现金、长期净几何APR不可评估；研究主力固定公开SMA50/200完整多空，新增同perp受控持有强基准，Donchian为少量挑战者。真实空头成交早已D040验收，本版新12账户是多头参考，不伪报新short。
-2. **净收益证据**：D044三完整独立窗口／12新账户＋60接受摘要。213日HOLD逐经济／风险字段＝SMA LO/LS，条件净10.11..12.25%；122日HOLD−3.61..−3.18%、LS−3.21..−2.70%；90日HOLD−6.68..−6.46%、LS+6.15..6.42%。资金费两个单位条件未选优，窗口不拼NAV或长期APR。
-3. **最大阻碍**：独立跨状态增量与funding单位／真实charge mark／发布时间、Bybit原生风险执行。三窗均SEEN开发筛选；旧547分钟缺口/source失败不改。不以caps相同宣称实现风险相同。
-4. **关键发现**：213利润为受控beta，未证明择时增量；122 LS－HOLD+38.98..49.18USDT，但仍净亏且gross／margin／turnover更高；90增量+1268.32..1302.98、BASE/fraction vol12.16 vs12.17%、MDD4.70 vs11.09%，支持方向能力却不认证长期alpha。122增量全在Nov，90 LS Jan/Feb约95.67%净额。
-5. **下一项及理由**：官方文档已静态核查，既有同历史REST实际451／0匹配／0retry且无合法新访问条件，单位桥暂停（官方archive字段说明或合法历史响应可得才reopen）。下一唯一主任务事前固定2024-09-01..<2025-07-01（303日）独立完整USD-M源边界，再固定SMA方向／现金／HOLD对照，检验转折状态增量；不补August、不拼547、不新HPO。303尚未运行。
-6. **暂停及reopen**：SMA/Donchian投资和搜索需强基准跨状态增量、实际风险及真正未来证据；完整547需合法真实缺记录或事前独立验证缺失方法；新模型需基准无法解释与明确信息价值；D039只具体决策需要再开。做空／空仓能力保留，共享5GB/swap0/GPU0/D40GB/locked/真钱/keys/paid边界保持。
+1. **当前APR候选**：投资／真钱NONE、资金现金、长期净几何APR不可评估；固定公开SMA50/200为研究对照，受控持有为强基准。D045新增真实SHORT_ONLY成交及流水；LONG_SHORT四账户因减仓正确性问题停止，不能宣称完整303天能力验收。
+2. **净收益证据**：D045固定2024-09-01..<2025-07-01完整303日。两成本×两未认证资金费单位条件：LONG_ONLY−2.20..−1.18%、SHORT_ONLY−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0；均完整10k资本。LONG_SHORT仅95229/436320分钟，前缀−302.93..−271.41USDT，全期收益／波动／回撤NE。旧213／122／90日账户独立并列、不拼NAV或择月赢家。
+3. **最大阻碍**：未量化风险目标留下低于数量步长的尾差，pending阻止新风险排程，5次后仍真实超限而停机；非清算、非假债，原停止如实保留。资金费单位／真实charge mark／发布时间及Bybit原生风险执行仍未认证。相同caps不等于相同实现风险。
+4. **关键发现**：BASE/fraction完整303日：LO净−200.46、SO−1170.65、HOLD+672.12USDT；实际年化波动8.89／8.94／10.50%，分钟MDD11.98／15.19／11.24%。单独做空在此窗明显拖累；HOLD承担更高实际波动，不能据同caps直接断言同风险支配。四LS账本独立核对通过不代表完成评分期。
+5. **下一项及理由**：仅新版本修RISK_REDUCTION的合法最小量与向零完成判定，保留费用、容量、时序、reduce-only、原caps与DAILY_TARGET；先手算和新增合成病例，再同303日四LS条件复测。它消除阻止可信方向比较的正确性问题，优先于新模型／阈值搜索。D045原账户不覆盖，D046尚未运行。
+6. **暂停及reopen**：SMA/Donchian投资和HPO需强基准跨状态净增量、合理实际风险及真正未来证据；资金费单位桥需合法官方archive语义／历史响应（原451不绕过）；完整547需合法真实缺记录或事前验证缺失方法；新模型需基准之外的明确信息价值；D039只具体决策需要再开。能力保留，共享5GB/swap0/GPU0/D40GB/locked/真钱/keys/paid边界保持。
 
-**D044实际证据**：[完整比较](PERPETUAL_HOLD_COMPARISON_20261003.md)、[12账户主体](../reports/fast_research/PERPETUAL_HOLD_RESEARCH_ACTUAL_20261003_V1.json)、[独立V3](../reports/fast_research/PERPETUAL_CONSTANT_LONG_REFERENCE_INDEPENDENT_20261003_V3.json)、[72摘要／60配对](../reports/fast_research/PERPETUAL_HOLD_ECONOMIC_COMPARISON_20261003_V1.json)、[根V2](../reports/fast_research/PERPETUAL_HOLD_ROOT_ACCEPTANCE_20261003_V2.json)。全部新账户完整、0halt，独立12真实金融调用，maxcash1.82e−11／ratio3.11e−14，原容差保持，full sizing独立scope不扩大。source156仅复用原接受元数据，不旧QA／旧账户重跑；唯一新因果case。3真实失败任务＋1host metadata失败原字节保留，只修元数据／排他版本／旧文档精确pin，不改变经济算法／成本／caps。主体303.97s/RSS499.22MB/owned225.728MB；实际扫描21,953,852,770B@2026-10-03T07:49:30.744251Z（随后工件未计入），原时刻已发布8765。研究采用、投资现金，模块Git同步待实际闭合。
+**D045实际证据**：[完整报告](PERPETUAL_303_COMPARISON_20261003.md)、[20选择器实际](../reports/fast_research/PERPETUAL_303_RESEARCH_ACTUAL_20261003_V1.json)、[独立账本](../reports/fast_research/PERPETUAL_303_RESEARCH_INDEPENDENT_20261003_V1.json)、[80保存摘要／20新配对](../reports/fast_research/PERPETUAL_303_ECONOMIC_COMPARISON_20261003_V1.json)、[最终根验收](../reports/fast_research/PERPETUAL_303_RESEARCH_ROOT_ACCEPTANCE_20261003_V1.json)。七先决角色及根e25cdf0803a74facb5f5f9676d3811f0均真实closed0；94来源=54旧producer+40新，QA70首次+24接受复用，无旧账户／旧QA重放。16物理交易账户+1恒定CASH工件／3别名，16全期选择器+4停止前缀；独立17金融调用、cash误差3.27e−11／ratio1.92e−14，原容差保持。主任务573.73s/RSS614.35MB/owned394.82MB。最近真实扫描22,250,374,621B@2026-10-03T08:59:03.491955Z已发布8765，后续工件不在该时刻；根接收能力／证据而非投资资格。模块Git同步待完成。
+
+**D044实际证据**：[完整比较](PERPETUAL_HOLD_COMPARISON_20261003.md)、[12账户主体](../reports/fast_research/PERPETUAL_HOLD_RESEARCH_ACTUAL_20261003_V1.json)、[独立V3](../reports/fast_research/PERPETUAL_CONSTANT_LONG_REFERENCE_INDEPENDENT_20261003_V3.json)、[72摘要／60配对](../reports/fast_research/PERPETUAL_HOLD_ECONOMIC_COMPARISON_20261003_V1.json)、[根V2](../reports/fast_research/PERPETUAL_HOLD_ROOT_ACCEPTANCE_20261003_V2.json)。全部新账户完整、0halt，独立12真实金融调用，maxcash1.82e−11／ratio3.11e−14，原容差保持，full sizing独立scope不扩大。source156仅复用原接受元数据，不旧QA／旧账户重跑；唯一新因果case。3真实失败任务＋1host metadata失败原字节保留，只修元数据／排他版本／旧文档精确pin，不改变经济算法／成本／caps。主体303.97s/RSS499.22MB/owned225.728MB；实际扫描21,953,852,770B@2026-10-03T07:49:30.744251Z（随后工件未计入），原时刻已发布8765。研究采用、投资现金；模块正常提交/push/远端精确一致已完成8ca03a0，后验c399955c下一正常模块入库。
 **D043实际证据**：[完整比较与采用](PERPETUAL_213_COMPARISON_20261003.md)、[主体](../reports/fast_research/PERPETUAL_213_RESEARCH_ACTUAL_20261003_V1.json)、[独立V3](../reports/fast_research/PERPETUAL_213_RESEARCH_INDEPENDENT_20261003_V3.json)、[保存经济比较](../reports/fast_research/PERPETUAL_213_ECONOMIC_COMPARISON_20261003_V1.json)、[根接受](../reports/fast_research/PERPETUAL_213_RESEARCH_ROOT_ACCEPTANCE_20261003_V1.json)。全72首次QA、唯一新因果接线case、主体/独立/比较/根均真实closed0。16交易＋1恒定cash工件，独立17金融调用＋3现金严格等价；无旧账户/QA重放。独立误差≤1.82e−11USDT/2.03e−14，原full-sizing和future-poison未独立全重建，scope不扩大。三个显示/metadata真实失败保留，V3金融数学不改。新源18.019MB/主体336.294MB/RSS503.87MB；实扫21,609,669,564B@2026-10-03 14:53:37.111144+08，后续工件不在scan，8765已原时刻发布。采用研究能力，投资仍现金；模块Git正常提交/推送/远端精确一致a9a4996已完成；后验凭证805b925f下个正常模块入库。
 **D042实际证据**：[数据缺口与决策](PERPETUAL_HISTORY_GAP_20261003.md)、[source真实失败](../reports/fast_research/PERPETUAL_HISTORY_SOURCE_ACTUAL_20261003_V1.json)、[唯一单月独立](../reports/fast_research/PERPETUAL_HISTORY_MARK_GAP_DIAGNOSTIC_20261003_V1.json)、[官方日档实测](../reports/fast_research/PERPETUAL_HISTORY_OFFICIAL_DAY_PROBE_20261003_V1.json)、[根诊断接受](../reports/fast_research/PERPETUAL_HISTORY_GAP_ROOT_ACCEPTANCE_20261003_V1.json)。任务META0/SOURCE1/GAP0/DAY0/ROOT0真实闭合；full148QA/source根/547经济未执行。source新工件165,967,471B/RSS170.44MB，原失败/partialPQ保留。实际ROOT+VHD21,402,704,833B于2026-10-03 13:41:59.842960+08结束，后续输出未计，8765已显示真实时刻；GPU0/共享5GB/collector540保持。模块文档/字节门槛及Git同步已完成并核远端一致792c6b1；后验凭证a47823a7下个正常模块入库。此为D042当时交接；213现已按上方D043实际完成，不改原547失败。
 
@@ -100,3 +102,11 @@ Bybit标准登记见 [费用口径](BYBIT_NONVIP_COST_STANDARD_20261002.md)。
 **NO_QUALIFIED_CANDIDATE。** 不消费 locked historical test、不使用真钱/账户密钥/付费服务、不启用 GPU。已见窗口和当前历史 proxy 不产生未来竞争资格。
 
 原状态的完整字节保存在 [本版之前的状态](archive/RESEARCH_STATUS_PRE_INVESTMENT_COMPARISON_20261002.md)；科研选择只追加 [决策日志](RESEARCH_DECISION_LOG.md)，实际运行只追加 `reports/experiment_registry.jsonl`。
+
+### D044模块Git实际闭合（后验，不改冻结报告）
+
+源码/冻结562blob验收taskfd6ee20f… session92615/chunkbc379b/0、preflight a6e3583c…（Git tree46,033,287B/2444小files，0worktree/index差异、0高置信敏感匹配、0runtime/private新增；并非所有秘密类型完备保证）。唯一新targetcase/12完整新账户/12金融调用/保存比较/根V2全部真closed0，指标与范围独立静态复核一致。
+
+正常commit session49713/chunk09ce76/0，push session96792/chunk77779a/0，无force/全局proxy/auth更改；远端核验ffcc9e/0、本地/remote main同8ca03a099faa74a28a785fc77bf21fa7afdfabc2。后验reports/GITHUB_PERPETUAL_HOLD_SYNC_VERIFIED_20261003_V1.json SHAc399955ca600ad864fb322569194cb3f7b5613a6b0eef3ecb03cfbcdc9bc501e，留下一正常模块；本已冻结D044报告/协议/usedbinding原字节不改、不做额外状态提交。
+
+collector540真实仍Sl+、elapsed1-01:20:22，未改采集；8765健康且原扫描时刻正确。D044研究任务全部退出，303新来源/账户尚未启动，不虚报后台研究。下一明确交接：在新合约PnL前冻结2024-09-01..<2025-07-01独立303日源清单/旧逐文件复用/预算，再source完整性与SMA四方向/HOLD固定比较；原547缺口/451/单位条件/现金候选继续。
