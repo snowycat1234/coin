@@ -8,7 +8,14 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 
 历史文件中的下一步、等待时间和完成率不代表当前科研指令。
 
-当前阶段：[D050可配置组合](MULTI_ASSET_PORTFOLIO_20261004.md)。D049方向/原因诊断及Git同步已完成d5f17f1；原Turtle暂停、HOLD作强基准，投资CASH/NONE/APR未评估。以下D048等是历史过程。
+当前阶段：D051固定July币池的October持续性对照。[D050可配置组合](MULTI_ASSET_PORTFOLIO_20261004.md)已实际验收/推送并核远端b00183d；原Turtle暂停、HOLD作强基准，投资CASH/NONE/APR未评估。以下D048等是历史过程。
+
+- [x] D051：核当前HEAD/WIP/实际任务、collector540和8765；固定31日/原池/同规则/完整资本/风险成本，0拟合/HPO。
+- [x] D051：正常日期参数与官方October来源；24新档、6旧接受复用，完整September暖启不补零，source c5c0a6...实际exit0。
+- [x] D051：24新源首次独立QA、6旧meta复用及80暖源接受桥，共同manifest cbd4d751...；QA1516c724...实际exit0，不重做旧行情QA。
+- [x] D051：两币/十币各四31日共享资本账本、原容差独立核账；两币现金完整，十币残仓/未实现完整保留，清仓收益NE。
+- [x] D051：保存marked配对、风险/集中度逆转、唯一残仓手算、完成分类修正与短决策；不重市场/旧QA。
+- D051 Git同步：本版独立后验凭证为`reports/GITHUB_MULTI_ASSET_OCTOBER_SYNC_VERIFIED_20261004_V1.json`；最终提交/远端一致据该凭证，避免在自身提交中伪造尚未发生的push结果。
 
 - [x] D050：正常N资产目标、符号协方差与共享账户，逐币规格身份、成交/净值和恢复接入。
 - [x] D050：新目标/账户/日块及独立账本必要病例实际通过，旧兼容相关10病例通过；真实失败保留。
@@ -21,7 +28,7 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 - [x] D050：两池各四实际共享资本账本独立复核，原容差保持；采用能力/保留HOLD基准，投资CASH/NONE，下一同规模跨月份。
 - [x] D050：最终源码/小工件及D049历史Git来源闭合，真实ROOT任务0547eae1.../exit0；首次测试链接统计失败保持。
 
-D050模块Git同步作为本轮最后步骤执行，最终状态以`reports/GITHUB_MULTI_ASSET_PORTFOLIO_SYNC_VERIFIED_20261004_V1.json`独立后验凭证为准，不在清单中预填远程结果。下一主任务为固定本次池与规则的完整2024年10月控制，尚未启动。
+D050模块Git同步已真实完成b00183d，见`reports/GITHUB_MULTI_ASSET_PORTFOLIO_SYNC_VERIFIED_20261004_V1.json`独立后验凭证。D051两池新31日账本、原容差独立金融、保存marked配对和必要手算均actual0；十币0完成清仓，marked净0.64..13.85USDT较两币95.31..118.47弱，投资CASH/NONE。下一逆波动定权挑战者尚未启动。
 
 - [x] D045：94源（54已有／40新增）、70首次QA／24接受复用，303完整日历及根输入绑定。
 - [x] D045：唯一新增接线病例，固定SMA四方向／HOLD，16实际交易账户＋1现金工件，20选择器真实执行。

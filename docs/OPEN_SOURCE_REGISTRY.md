@@ -305,3 +305,9 @@ D047实际闭合：Turtle原类SHA35e4c3cd.../ATR原wrapper398a1225.../MIT80d873
 无新第三方库安装或修改。沿用binance/binance-public-data固定f446ce.../MIT的官方历史URL、CSV格式与.CHECKSUM定义及已登记格式解析；当前WSL无路由Errno101，网络环节的明确兼容例外为正常Windows System.Net.Http默认HTTPS访问同一官方主机，固定范围、字节/耗时上限、无重试/新代理/限制绕行。薄包装为scripts/investment/multi_asset_data.py与multi_asset_official_transport.ps1；本轮过去July流动性/200日资格选池先于September读取，UNKNOWN完整保留。
 
 目标/协方差与账户正常参数化N，复用Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause、Python标准Decimal和原ExecutionContractV2，原环境uv.lock97335...不改。HOLD是本项目过去风险控制常量多头基准，不冒称原创alpha或完整公开bot；SMA原MIT hook仍可通过同一N目标接口使用。第三方无本地改动，本地改动为有序身份、逐币profile、共享账本、按日分钟读取和正常关闭规则。历史旧实现以其Git复现，不要求保持旧金融源码为当前依赖。
+
+### D051：固定池跨月份与残仓标记净值
+
+同一binance/binance-public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc/软件MIT声明、官方URL/CSV/.CHECKSUM及原行情条款。仅正常薄编排扩至已授权完整2024年10月；24新档首次独立QA，6旧October与80已接受暖源只metadata/hash复用。Windows System.Net.Http仍默认同一官方HTTPS/原限制，无新代理/重试/规避；初环境入口失败发生在网络与行情前，原记录保持。
+
+Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause、标准库Decimal/原环境无安装或第三方代码修改。正常日期/closed-September日线聚合及source catalog集合guard、完成分类和保存marked末未实现归因为本地适配；金融、费用、0.1%容量/5次退出政策不改。旧D050通过Git b00183d复现；本版旧7c0/45fa/5d21实际入口归档，非继续堆版本运行包装。十币marked独立核算通过但清仓收益NE，无原生或投资认证。

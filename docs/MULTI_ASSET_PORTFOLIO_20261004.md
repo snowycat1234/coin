@@ -1,4 +1,69 @@
-# D050：可配置多币共享资本组合
+# 可配置多币共享资本组合：D050与D051
+
+## D051：同一固定池的10月开发检验（实际完成，清仓收益NE）
+
+D050已正常推送并核远端`b00183d550fde638978ab476f319af8f8ce1fef2`。D051只改变评价月份，使用同一July预选十币、有序标的映射、HOLD规则、完整10,000 USDT共享账户、过去30日协方差/10%波动目标、单币abs30%/组合gross60%与1x逐仓。BASE27与STRESS43以及两种未认证资金费单位解释全部保留，不按9月收益改币或权重。
+
+评价2024-10-01至2024-11-01前，31个真实UTC日。Feb–Aug已接受70日线档和September已接受10个成交分钟档生成完整已完成日预热；不从8月跳到10月，也不下载各币aggTrades/LOB。October新增24个成交/mark/funding月档，6个BTC/ETH已接受档复用；新档首次独立格式核验，旧档和80暖源只复用接受元数据/哈希。资金费真实1209事件，不补零；单位仍UNKNOWN条件，非Bybit原生回测。
+
+| 完整资本/条件 | BTC/ETH 10月净USDT | 十币10月marked净USDT | 十币已变现收益 |
+|---|---:|---:|---|
+| BASE27 / 原值按fraction | 100.658237 | 3.690456 | 未完成清仓，NE |
+| BASE27 / 原值按percent | 118.465032 | 13.848643 | 未完成清仓，NE |
+| STRESS43 / 原值按fraction | 95.306589 | 0.642906 | 未完成清仓，NE |
+| STRESS43 / 原值按percent | 113.104563 | 10.798959 | 未完成清仓，NE |
+
+上表是实际账本结果，两池独立金融及保存marked配对均真实完成，不声明投资采用。两币金额最大误差7.28e−12 USDT/比例6.95e−14；十币1.46e−11/4.99e−14，在原1e−7/1e−10容差内。十币金融核验验证钱包、保证金、末数量/成本基础、未实现及NAV；4日历完整与0完成清仓分别报告，不认证完整订单数量生成或原生执行。
+
+### 原始末持仓与证据限制
+
+十币虽然四条件均跑满44,640分钟，但1000SATSUSDT末5次容量限制下的真实部分减仓未清空：各剩约8.65–8.79 USDT名义持仓及约−1.93至−1.96 USDT未实现损益，原NAV已计入。订单过期不是minimum-notional错误。原producer按日历计数的COMPLETE不认证清仓；不能丢掉剩余持仓、免费平仓或回填执行价。
+
+原保存比较真实exit1，因其仅允许现金已实现账户；原代码/任务与首次输出都保留。本轮新诊断将末未实现明确加到每币gross/net桥，报告marked NAV及liquidated_return=NOT_EVALUABLE。原事前无法退出的投资收益门槛没有变成通过。账户数学、费用、容量和5次退出政策保持；下一退出政策改变只能是新事前实验。
+
+独立N10 V1随后实际exit1/0金融调用/0行情数组：来源catalog按字母排序，原守卫要求与pool流动性rank列表逐字相同。失败前已创建固定时间网格，不把“0行情数组”说成没有任何NumPy对象。成员、实际账户及目标顺序正确；正常仅修catalog唯一成员集合守卫，actual/spec/pool有序身份仍精确相同，原金融/容差不变。失败及45fa原源码保留；V2 task fef347aa...真实exit0，4完整marked金融核验/0现金清仓。唯一残仓手算255cdcf3...actual0覆盖精确数量优先、毛/净/未实现/末名义桥及producer完成分类；无重复市场或旧测试。新保存配对200b6f10...actual0，不覆盖原失败。
+
+### 钱赚亏在哪、采用什么
+
+10月十币gross约19.04–19.07 USDT，原两币127.41–127.59，池变化少108.36–108.53毛价格收益；十币手续费+执行少3.83–6.10、资金费负担少0.076–7.607仍无法弥补，marked净增量为−104.62至−94.66。不是成本上涨造成失败。
+
+BASE/F十币DOGE净+50.34 USDT、SATS−31.46/XRP−26.53/PEPE−15.47；9月前三WIF/PEPE/ORDI净173.23，10月同三币合计−25.25。它说明该固定等权配方的资产与市场状态敏感，不证明按事后盈亏删币有效。十币实际vol10.46–10.48%稍低于两币10.71–10.76%，但分钟DD2.93–2.94%更高于2.44–2.47%，平均gross14.20% vs24.11%；名义caps相同不等于实际风险匹配。十币五个最大正日占正日收益63.1–63.4%，9月约46.7%，仍高集中。
+
+采用可配置N资产/日块/共享资金与正确marked归因能力，BTC/ETH HOLD作稳定研究控制，固定十币保持挑战者而暂停投资晋级；投资CASH/NONE/APR未评估。下一唯一研究选同一池、过去30日逆波动定权 vs等权，在相同两个完整开发月份/资本/caps/费用/单位下检验风险分配，不事后删币/换成本/扩大gross。不增加币数或模型搜索；reopen为跨月份真实风险与成本改善，清仓/原生/单位资格仍分别评价。下一实验未启动，不虚报后台研究。
+
+关键工件：[来源](../reports/fast_research/MULTI_ASSET_OCTOBER_MARKET_SOURCE_20261004_V2.json)、[新源QA](../reports/fast_research/MULTI_ASSET_OCTOBER_SOURCE_ACCEPTANCE_20261004_V1.json)、[两币实际](../reports/fast_research/MULTI_ASSET_OCTOBER_TWO_CONTROL_20261004_V1.json)、[十币实际](../reports/fast_research/MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_20261004_V1.json)、[独立十币V2](../reports/fast_research/MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_INDEPENDENT_20261004_V2.json)、[真实marked配对](../reports/fast_research/MULTI_ASSET_OCTOBER_MARKED_PAIRED_COMPARISON_20261004_V1.json)、[scope更正](../reports/fast_research/MULTI_ASSET_OCTOBER_TERMINAL_SCOPE_CORRECTION_20261004_V1.json)。
+
+### 实际资源
+
+| 各自新进程，4条件 | 两币 | 十币 |
+|---|---:|---:|
+| 组合回放阶段 | 24.67秒 | 68.03秒 |
+| 含必要磁盘守卫全任务内阶段 | 97.75秒 | 146.03秒 |
+| 进程RSS峰值 | 269.94 MB | 321.64 MB |
+| 本轮共享组采样峰值 | 1.111 GB | 1.234 GB |
+| 实际账户输出新增 | 16.73 MB | 52.21 MB |
+
+共享组数字包含并发来源或独立核算进程，内核累计3.263 GB峰值不是本轮独占峰。源下载158.9秒、WSL RSS204.57 MB、Windows正常HTTPS helper峰92.93 MB，联合保守上界1.198 GB；新源STATE50.08 MB。无需增加RAM。实际磁盘守卫23,575,781,948字节完成于2026-10-03T20:12:10.468964Z，先于随后十币52.21 MB输出；不把旧测量标成当前末值。
+
+D050的9月与D051的10月均是已见历史开发检验，各为独立初始10k账户，不能拼接为61日连续NAV或稳定APR。原生Bybit过滤/清算与资金费单位仍未获认证。投资CASH/NONE，资源与资金权限不扩大。
+
+### D051已实际使用的入口
+
+```bash
+bash scripts/with_task_progress.sh --title 'D051 October十币组合：固定池同风险成本' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_20261004_V1.json --run-dir /home/xflops/coin-state/d051-october-ten-portfolio-20261004-v1 --output reports/fast_research/MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_20261004_V1.json --pool-id LIQUIDITY_TEN
+```
+
+原经济入口源7c0da266…逐字节保存`docs/archive/MULTI_ASSET_OCTOBER_V1_PORTFOLIO_USED_20261004.py`；后续完成分类正常修正不改旧结果。代码复现应使用相应Git及原绑定源，另用新运行身份/STATE/output，不覆盖原工件。下面D050是原已验收30日证据。
+
+已实际完成的保存marked比较（在WSL执行，不重放行情）：
+
+```bash
+bash scripts/with_task_progress.sh --title 'D051 October真实残仓与marked-NAV保存配对' -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/compare_multi_asset_portfolios.py --control reports/fast_research/MULTI_ASSET_OCTOBER_TWO_CONTROL_20261004_V1.json --pool reports/fast_research/MULTI_ASSET_OCTOBER_TEN_PORTFOLIO_20261004_V1.json --output reports/fast_research/MULTI_ASSET_OCTOBER_MARKED_PAIRED_COMPARISON_20261004_V1.json --experiment-id D051-OCTOBER-SAVED-MARKED-PAIRED-PORTFOLIO-20261004
+```
+
+输出SHA b5fcd6071e5c72e0301a53ad845ab77a445793d6902fa00b5d1fb307a2dfadab；复做须另用新输出和experiment_id。只重建保存账本的配对与末库存桥，既有原独立核账不重跑。
+
+## D050：原9月首轮
 
 ## 问题与当前状态
 

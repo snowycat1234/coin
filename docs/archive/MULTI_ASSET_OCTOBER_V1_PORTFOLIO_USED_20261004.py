@@ -35,25 +35,6 @@ def write(path, value):
         stream.write('\n')
 
 
-def terminal_evaluation_scope(cases):
-    """A complete marked calendar is distinct from a completed cash exit."""
-    from decimal import Decimal
-    calendar = liquidated = 0
-    for case in cases:
-        summary = case['summary']
-        calendar += summary['completed_minutes'] == summary['required_minutes']
-        flat = all(Decimal(summary['positions'][symbol].get('decimal_strings', {}).get(
-            'quantity', str(summary['positions'][symbol]['quantity']))) == 0
-            for symbol in case['symbols'])
-        engine.need(summary['terminal_cash_realized'] == flat,
-                    'Cash realization must agree with every configured signed quantity')
-        liquidated += flat
-    return dict(calendar_complete_cases=calendar, terminal_cash_realized_cases=liquidated,
-        liquidated_portfolio_return=('COMPLETE_CONDITIONAL_CASH_RETURN_NOT_NATIVE_OR_APR'
-            if cases and liquidated == calendar == len(cases) else 'NOT_EVALUABLE'),
-        marked_NAV_includes_unrealized=True)
-
-
 def main():
     from scripts.investment.multi_asset_data import load_portfolio_window, load_accepted_two_asset_control
     # Reuse the established local progress publisher. No second UI/service.
@@ -176,7 +157,6 @@ def main():
             c['summary']['completed_minutes']==c['summary']['required_minutes'] for c in result['cases'])
         engine.need(result['completed_cases']==required_cases and result['complete_calendar_cases']==required_cases,
                     'Incomplete accounts are not investment evidence')
-        result.update(terminal_evaluation_scope(result['cases']))
         result['status'] = ('COMPLETE_PREDECLARED_PORTFOLIO_CASES_NOT_CROSS_POOL_COMPARISON_OR_APR'
             if args.pool_id else 'COMPLETE_MULTI_ASSET_SHARED_CAPITAL_DEVELOPMENT_COMPARISON_NOT_APR')
     except Exception as error:
@@ -195,8 +175,7 @@ def main():
             success_failure=result['status'], artifact_path=str(args.output.relative_to(ROOT)),artifact_sha256=sha(args.output)))
         progress.stop.set()
         progress.thread.join(timeout=3)
-    print(json.dumps(dict(status=result['status'],cases=result['completed_cases'],
-        liquidated_portfolio_return=result['liquidated_portfolio_return'],output=str(args.output))))
+    print(json.dumps(dict(status=result['status'],cases=result['completed_cases'],output=str(args.output))))
 
 
 if __name__ == '__main__':

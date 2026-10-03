@@ -126,8 +126,7 @@ def input_reader(spec, symbols, base, guard):
             else 'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY')
         need(pool['status'] == 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS' and
              (list(symbols) == pool['symbols'] or tuple(symbols) == ('BTCUSDT', 'ETHUSDT')) and
-             len(value['symbols']) == len(set(value['symbols'])) == len(pool['symbols']) and
-             set(value['symbols']) == set(pool['symbols']) and pool['score_payloads_read'] == 0 and
+             value['symbols'] == pool['symbols'] and pool['score_payloads_read'] == 0 and
              acceptance['status'] == acceptance_status and acceptance['source_only'] is True and
              acceptance['pool_receipt_sha256'] == value['pool_receipt']['sha256'], 'Same pre-score pool/source acceptance')
         warm_records = [*value['control_daily_records'], *pool['source_records']]

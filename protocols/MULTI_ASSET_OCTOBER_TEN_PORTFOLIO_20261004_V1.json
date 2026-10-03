@@ -1,0 +1,83 @@
+{
+  "experiment_id": "D051-OCTOBER-TEN-ASSET-PORTFOLIO-20261004",
+  "initial_capital_USDT": 10000,
+  "strategy": "COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+  "pools": [
+    {
+      "id": "TWO_ASSET",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ]
+    },
+    {
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "1000PEPEUSDT",
+        "XRPUSDT",
+        "WIFUSDT",
+        "WLDUSDT",
+        "DOGEUSDT",
+        "1000SATSUSDT",
+        "ORDIUSDT"
+      ],
+      "selection": "UNCHANGED_JULY_QUOTE_VOLUME_AND_200_DAY_WARMUP_POOL_NO_SEPTEMBER_RETURN_SELECTION",
+      "id": "LIQUIDITY_TEN"
+    }
+  ],
+  "start": "2024-10-01T00:00:00+00:00",
+  "end_exclusive": "2024-11-01T00:00:00+00:00",
+  "data_manifest": {
+    "sha256": "cbd4d7517aa914c6de87885f94a38072b0af8c8d08daa3391efe7c3913929fd0",
+    "path": "/home/xflops/coin-state/d051-multiasset-october-source-acceptance-20261004-v1/INPUT_MANIFEST.json"
+  },
+  "data_role_note": "Only fixed LIQUIDITY_TEN executed; same October calendar as independently started BTCETH control, no stitching with September",
+  "source_hashes": {
+    "scripts/investment/vol_managed_perpetual_target.py": "e9544541d6e749704f9ea828c98f4c345e95f8c04227548913b5bf87043cc3c0",
+    "scripts/investment/multi_asset_data.py": "ac92354bd4237c70a823bea9a6ead3ff76b4b4e84b43e340ddb7c5199cbee9d7",
+    "scripts/investment/public_sma_perpetual.py": "ba9fdacc5856324a16c858c99bc9346efc1be51c2d990af7c28069cf9671e079",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "scripts/investment/multi_asset_portfolio.py": "7c0da266967459c4e97e1cdb074db3b67ca3f7e307ea3ab054383b8faacafdbd",
+    "src/quant/perpetual_account.py": "9a4223d1115add6ed2cce5b695cf6dcd89459daa6918eb61091b188e5ec05754",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "scripts/investment/perpetual_directional.py": "570524281b80109b9a1d07b737831d3f768f308ac465c86e2e403a2415ec02ae",
+    "scripts/investment/perpetual_closing_exempt_account.py": "30e0b41f094e01360aa9415011f2b27b4f49256819b2685c21d2da754f1d1b60",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1"
+  },
+  "budget": {
+    "owned_bytes": 100000000,
+    "wall_seconds": 1800
+  },
+  "question": "Fixed July ten-asset pool vs BTCETH: October same HOLD, complete31days, no September winner selection; independently started10k accounts not stitched",
+  "success_rule": "All four fixed-pool scenarios complete, original-tolerance independent account verification and saved paired October comparison",
+  "prior_new_entry_validation": {
+    "target": "5adf5dcfa4747b81c11ea9ae198591afe3f77b144795d75f3a5e1cf4168f72ff",
+    "account_and_replay": "44decf6bcfdb983563379b875a1611dae0afca0e7beb8457f95ce72ab6689f28"
+  },
+  "stopping_rule": "Fail on held-asset gaps, unexecutable exit, accounting insolvency, finite budgets; preserve partial evidence",
+  "precedent": {
+    "commit": "b00183d550fde638978ab476f319af8f8ce1fef2",
+    "september_control": "reports/fast_research/MULTI_ASSET_TWO_CONTROL_REPAIRED_20261004.json",
+    "september_control_sha256": "39eb56fe6f7edf77073ebf7228073ac18492fa9178167466a382a995fa398626",
+    "old_economic_accounts_replayed": false,
+    "september_pool": {
+      "sha256": "301fa1f0242c123b0f125d3c0aff2dffbef9a4c2c607162564aaa37bd59f2c45",
+      "path": "reports/fast_research/MULTI_ASSET_TEN_PORTFOLIO_REPAIRED_20261004.json"
+    }
+  },
+  "warmup": "Accepted February-August daily plus closed September accepted trade1m; no September gap or new daily download",
+  "period_days": 31,
+  "selection_rule": "Unchanged pre-score July pool and fixed HOLD; no fitting or threshold/asset selection from September returns",
+  "pool_receipt": {
+    "sha256": "9b8df895197e888bfb4a4dd2dec08915c5c3425659925408b289483e55e0acf7",
+    "path": "reports/fast_research/MULTI_ASSET_POINT_IN_TIME_POOL_20261004_V2.json"
+  },
+  "source_acceptance": {
+    "sha256": "89f9d2f376e6a810aa85404739c9ebdc5a0bc94841b463259a435adad3bbf778",
+    "path": "reports/fast_research/MULTI_ASSET_OCTOBER_SOURCE_ACCEPTANCE_20261004_V1.json",
+    "exit_code": 0,
+    "task_id": "1516c724a05d471eab6fed2c5ffe1294"
+  }
+}

@@ -34,15 +34,14 @@ def decimal(row, key):
     return Decimal(row.get('decimal_strings', {}).get(key, str(row[key])))
 
 
-def asset_contributions_from_rows(case, trades, funding, initial_capital=10000):
-    """Attribute saved realized and terminal marked PnL; never synthesize a close."""
+def asset_contributions(case):
+    """Closed accounts: actual realized PnL+execution costs is gross price PnL."""
     symbols=case['symbols']
-    capital=Decimal(str(initial_capital))
-    require(capital.is_finite() and capital>0, 'Positive full shared capital')
-    summary=case['summary']
     sums={s:dict(realized=Decimal(0),fees=Decimal(0),execution=Decimal(0),
                  funding=Decimal(0),filled_notional=Decimal(0),fills=0) for s in symbols}
-    for name, rows in (('trades.json',trades),('funding.json',funding)):
+    for name in ('trades.json','funding.json'):
+        artifact=case['artifacts'][name]
+        rows=read(artifact['path'],artifact['sha256'])
         for row in rows:
             require(row['symbol'] in sums, 'Asset outside portfolio')
             one=sums[row['symbol']]
@@ -55,52 +54,24 @@ def asset_contributions_from_rows(case, trades, funding, initial_capital=10000):
             else:
                 one['funding']+=decimal(row,'signed_funding_USDT')
     output={}
-    totals={key:Decimal(0) for key in ('net','gross','unrealized','terminal_notional')}
     for s, one in sums.items():
-        position=summary['positions'][s]
-        quantity, entry=decimal(position,'quantity'),decimal(position,'entry_price')
-        require(quantity.is_finite() and entry.is_finite(), 'Finite terminal quantity and entry')
-        mark=Decimal(str(summary['terminal_mark_prices'][s])) if quantity else None
-        require(not quantity or (mark.is_finite() and mark>0 and entry>0),
-                'Held quantity requires a saved positive causal terminal mark and entry')
-        unrealized=quantity*(mark-entry) if quantity else Decimal(0)
-        signed_notional=quantity*mark if quantity else Decimal(0)
-        gross=one['realized']+unrealized+one['execution']
-        net=one['realized']+unrealized-one['fees']+one['funding']
-        totals['net']+=net;totals['gross']+=gross;totals['unrealized']+=unrealized
-        totals['terminal_notional']+=abs(signed_notional)
+        gross=one['realized']+one['execution']
+        net=one['realized']-one['fees']+one['funding']
         output[s]=dict(gross_USDT=float(gross),fees_USDT=float(one['fees']),
             execution_USDT=float(one['execution']),funding_USDT=float(one['funding']),
-            net_USDT=float(net),net_contribution_full_capital_percent=float(net/capital*100),
-            realized_price_PnL_USDT=float(one['realized']),terminal_unrealized_PnL_USDT=float(unrealized),
-            terminal_quantity=float(quantity),terminal_entry_price=float(entry),
-            terminal_mark_price=float(mark) if mark is not None else None,
-            terminal_signed_marked_notional_USDT=float(signed_notional),
-            terminal_marked_notional_USDT=float(abs(signed_notional)),
-            terminal_decimal_strings=dict(quantity=str(quantity),entry_price=str(entry),
-                mark_price=str(mark) if mark is not None else None,unrealized_PnL=str(unrealized)),
+            net_USDT=float(net),net_contribution_full_capital_percent=float(net/100),
             fill_notional_USDT=float(one['filled_notional']),fill_legs=one['fills'])
-    require(abs(totals['net']-decimal(summary,'net_PnL'))<=Decimal('1e-7'),
+    require(abs(sum(v['net_USDT'] for v in output.values())-case['summary']['net_PnL'])<=1e-7,
             'Per-asset full account net bridge')
-    require(abs(totals['gross']-decimal(summary,'gross_PnL_same_quantities'))<=Decimal('1e-7'),
+    require(abs(sum(v['gross_USDT'] for v in output.values())-case['summary']['gross_PnL_same_quantities'])<=1e-7,
             'Per-asset gross bridge')
-    require(abs(totals['unrealized']-decimal(summary,'unrealized_PnL'))<=Decimal('1e-7'),
-            'Per-asset terminal unrealized bridge')
-    require(abs(totals['terminal_notional']-decimal(summary,'terminal_marked_notional'))<=Decimal('1e-7'),
-            'Per-asset terminal notional bridge')
-    require(summary['terminal_cash_realized']==all(decimal(summary['positions'][s],'quantity')==0 for s in symbols),
-            'Terminal cash identity agrees with every configured quantity')
     return output
-
-
-def asset_contributions(case):
-    rows={name:read(case['artifacts'][name]['path'],case['artifacts'][name]['sha256'])
-          for name in ('trades.json','funding.json')}
-    return asset_contributions_from_rows(case,rows['trades.json'],rows['funding.json'])
 
 
 def measures(case):
     s=case['summary']
+    require(s['terminal_cash_realized'] and all(s['positions'][a]['quantity']==0 for a in case['symbols']),
+            'Only actual fully closed portfolios; no dropped terminal inventory')
     return dict(net_USDT=s['net_PnL'],gross_USDT=s['gross_PnL_same_quantities'],
         return_full_capital_percent=s['net_return_on_full_initial_capital_percent'],
         fees_USDT=s['fees_USDT'],execution_USDT=s['execution_cost_USDT'],funding_USDT=s['funding_USDT'],
@@ -108,15 +79,6 @@ def measures(case):
         actual_daily_annualized_volatility=s['daily_metrics']['annual_volatility'],
         minute_MDD=s['minute_max_drawdown'],**s['realized_exposure'],
         asset_contributions=asset_contributions(case),
-        terminal_cash_realized=s['terminal_cash_realized'],
-        terminal_marked_notional_USDT=s['terminal_marked_notional'],
-        terminal_unrealized_PnL_USDT=s['unrealized_PnL'],
-        terminal_quantities={a:str(decimal(s['positions'][a],'quantity')) for a in case['symbols']},
-        liquidated_return_full_capital_percent=(s['net_return_on_full_initial_capital_percent']
-            if s['terminal_cash_realized'] else None),
-        liquidated_return=('EVALUABLE_SAVED_CLOSED_ACCOUNT' if s['terminal_cash_realized'] else 'NOT_EVALUABLE'),
-        return_scope=('SAVED_CLOSED_ACCOUNT_NET' if s['terminal_cash_realized']
-            else 'SAVED_MARKED_NAV_WITH_UNLIQUIDATED_INVENTORY_NOT_CASH_RETURN'),
         daily_gain_concentration=s['daily_net_gain_concentration'])
 
 
@@ -165,8 +127,7 @@ def main():
         actual_days=actual_days,initial_capital_USDT=10000,models_fit=0,orders_sent=0,
         locked_consumed=False,investment='CASH',candidate='NONE',long_term_APR='NOT_EVALUABLE',
         scope='Same fixed past-risk HOLD rule; liquidity pool changes weights/covariance and realized risk. '
-              'Saved marked-NAV pairing retains all terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
-              'No free liquidation, independent-account aggregation, post-hoc risk scaling or native Bybit claim.',
+              'No independent-account aggregation, no post-hoc risk scaling, no native Bybit claim.',
         peak_RSS_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
         created_utc=datetime.now(UTC).isoformat())
     with args.output.open('x',encoding='utf-8') as stream:
