@@ -1,0 +1,93 @@
+{
+  "status": "PASS_D044_FROZEN_THREE_PERIOD_CONTEXT_COMPILED_NO_MARKET_ARRAYS",
+  "protocol_sha256": "e11c3aeb44d9d7719db168bf38cb99144b11dadacb95ab0f9b4e7b5f540fa040",
+  "derivation": [
+    {
+      "module": "scripts/investment/perpetual_directional.py",
+      "function": "simulate",
+      "original_AST_sha256": "a4d899e2ebcb92a0085b769fea96d86d6c86b81e15abc1e66c180b6135f024cc",
+      "derived_AST_sha256": "a4d899e2ebcb92a0085b769fea96d86d6c86b81e15abc1e66c180b6135f024cc",
+      "changes": []
+    },
+    {
+      "module": "scripts/investment/perpetual_directional.py",
+      "function": "main",
+      "original_AST_sha256": "c0b34fc5304e8be89242b74591f9b058a4068d6754b7b13d41535d1623e00f1b",
+      "derived_AST_sha256": "be6f0d42334aee680dd3781ea3b9ffa42957be803be3644a638662e3e6216506",
+      "changes": [
+        {
+          "change": "THREE_FIXED_PERIOD_CLI",
+          "matches": 1,
+          "old_ast_sha256": "069a98e4f2569df18ad8b9ba463d062cccea16ecf446a2b51d078df16a812d2a",
+          "new_ast_sha256": "299154337496fa6168219a2954f8152b2377cd60b8635078d3b707164a63d644"
+        },
+        {
+          "change": "THREE_FIXED_PERIOD_METADATA",
+          "matches": 1,
+          "old_ast_sha256": "779ea153a6fd1e6d37b78fb254890c0352f353b9e9d20f1ef898739e00f9aa0f",
+          "new_ast_sha256": "d8d724b0251752b05cd535fbd9438054c226f7c1b8ac72b1a93a2a14d3686ab3"
+        },
+        {
+          "change": "FOUR_PHYSICAL_TRADING_ACCOUNTS_PER_WINDOW",
+          "matches": 1,
+          "old_ast_sha256": "de3e720e33ab630ef6b5599d85508d776f44ca40f3eaade4fdf7e08fd5c49552",
+          "new_ast_sha256": "768647e7b55f797324e45603362fdfa08621a04b3fd7fb46d0d0cbdc92156647"
+        },
+        {
+          "change": "ZERO_NEW_CONSTANT_CASH_ACCOUNTS",
+          "matches": 1,
+          "old_ast_sha256": "6cffeab71ae4a26e9ecfe94c9376752768532ad27eef027d55f7f17350e51a2f",
+          "new_ast_sha256": "3665a31e7cefc7e4d62b864a2de16f8ac2d46f669e7695b79bdeb398cebfcfae"
+        },
+        {
+          "change": "NO_SHARED_CASH_RESULT_COUNT",
+          "matches": 1,
+          "old_ast_sha256": "3136f1f31edbfe084bf2f906bf1ed5829b46949abdb1d5254ab9d2048d3e086f",
+          "new_ast_sha256": "04863af5dd6893136f3ea66bb897859ea7b512580021e825f885aed93d2c9ebf"
+        },
+        {
+          "change": "EXACT_PRIVATE_DERIVATION_METADATA",
+          "matches": 1,
+          "old_ast_sha256": "ac53dda7dce4e81bab72a5c738540efb4cc8d44b12d583715dee642cd76d5a1d",
+          "new_ast_sha256": "1147dbf7154fdae6a71042e68f18a6cd612c21339cdb58c3509c3fa4b5e970b4",
+          "old_statement": "write(run / 'RUN_BINDING.json', binding)",
+          "new_statement": "binding['private_derivation'] = PRIVATE_DERIVATION\nwrite(run / 'RUN_BINDING.json', binding)"
+        },
+        {
+          "change": "EXPLICIT_CONSTANT_HOLD_STRATEGY_ID",
+          "matches": 1,
+          "old_ast_sha256": "f344e93842159559b00858d507246ad978b7501c8558b7e4243fc684f5f1486d",
+          "new_ast_sha256": "c2f27adcbb6d4d76cd946004c0319322438a4a99a3d50941d0132d6e377617f7",
+          "old_statement": "result['cases'].append(dict(id=case_id, period=window_spec['id'], mode=mode, cost_id=cost['id'], unit_id=unit['id'], **saved))",
+          "new_statement": "saved['summary']['strategy_id'] = STRATEGY_ID\nresult['cases'].append(dict(id=case_id, period=window_spec['id'], mode=mode, strategy_id=STRATEGY_ID, cost_id=cost['id'], unit_id=unit['id'], **saved))"
+        },
+        {
+          "change": "HONEST_CONSTANT_REFERENCE_FEATURE_METADATA",
+          "matches": 1,
+          "old_ast_sha256": "385f560678cdfa0d49e1d759ae76c8224655cdcb114e00da946e58035a16962c",
+          "new_ast_sha256": "bf28585cf076b2673944e3473d21ebd2661d623e2f72a8caf73ca16383f11636"
+        },
+        {
+          "change": "PREDECLARED_BETA_QUESTION",
+          "matches": 1,
+          "old_ast_sha256": "735003cbd44a2961073fd7ed0d51f0446cfb51a9a79bb5b34f6bee48d4d41f74",
+          "new_ast_sha256": "882d7a13a8aeff07893ec7be9fe9478f49dae95d6f39206ea668d1ed910330a2"
+        },
+        {
+          "change": "REFERENCE_PROGRESS_DESCRIPTION",
+          "matches": 1,
+          "old_ast_sha256": "e40be0efaf659d3857d6e51a7514e866e2fa8fa6014054a3d9dfa94df3c6de36",
+          "new_ast_sha256": "1d5ecdeacc8c9ffca65282bfa0959587f406cc66dea4851eaf14d741d2c35d41"
+        }
+      ]
+    }
+  ],
+  "simulate_AST_unchanged": true,
+  "selected_periods": [
+    "213D",
+    "122D",
+    "90D"
+  ],
+  "planned_physical_accounts": 12,
+  "market_arrays_read": false
+}

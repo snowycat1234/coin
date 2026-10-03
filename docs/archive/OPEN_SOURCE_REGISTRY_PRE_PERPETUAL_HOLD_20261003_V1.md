@@ -276,13 +276,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 | https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 1.44.2 MIT / 2.5.3 BSD-3-Clause，原uv.lock | 原库零修改/无新安装，同输入/账户/指标；标准库Decimal原独立参考会计，17实际金融调用＋3恒定现金严格等价。显示unit冲突/独立路径用新V3修复，只metadata不改经济。 |
 
 追加前当前登记原字节见OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_213_20261003_V1.md；旧引用继续按历史SHA与对应archive校验。实际21新源、72 QA、20市场选择器/17实体工件、独立/保存比较/根均有真实exit0，详见D043模块；资金费单位/原生风险/发布/长期APR仍未认证。
-
-### D044：同产品受控持有强基准
-
-| repo | commit/version / license | 用途、本地修改 |
-|---|---|---|
-| https://github.com/binance/binance-public-data | f446ce3812bd4e5521f21faecd4ae3c6460e49fc / 软件MIT声明，行情沿原条款 | 原官方URL/CSV/CHECKSUM和已接受156档，只读合并原元数据；无下载/旧QA重跑，不扩数据资格；原547失败和缺口保留。 |
-| https://github.com/jesse-ai/example-strategies | 7c91e0a37bf62165790120d730442e4f6eb00364 / MIT；原Donchian版本沿D041 | 原SMA/Donchian hook零改，引用60已接受same-product摘要。新HOLD只复用原fixed_targets AST与signed风险函数，私有方向hook固定多头；非Jesse完整engine或原Spot EWMA复现。 |
-| https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 1.44.2 MIT / 2.5.3 BSD-3-Clause，原uv.lock | 库零修改/无新安装；原金融simulate AST、Decimal独立账本/audit_case体与指标不改，只一个新目标及元数据adapter。三窗口12新真实账户、独立12金融调用；单位/原生/长期APR不认证。 |
-
-追加前精确当前登记见OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_HOLD_20261003_V1.md（b43b2464…），旧所有SHA继续按原archive/凭证核验。原v1/v2失败metadata和新修复版本均保存，不通过放宽金融容差/成本/风险制造通过。采用研究基准/比较能力，投资现金/NONE。

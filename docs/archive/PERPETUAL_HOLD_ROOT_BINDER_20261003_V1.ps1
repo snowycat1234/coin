@@ -1,0 +1,22 @@
+$ErrorActionPreference='Stop';$root='D:/codex/coin';$enc=[Text.UTF8Encoding]::new($false)
+function Digest([string]$p){(Get-FileHash -LiteralPath (Join-Path $root $p) -Algorithm SHA256).Hash.ToLowerInvariant()}
+function ReadJson([string]$p){Get-Content (Join-Path $root $p) -Raw|ConvertFrom-Json -AsHashtable -DateKind String}
+$finance=ReadJson 'protocols/PERPETUAL_HOLD_FINANCIAL_INDEPENDENT_BINDING_20261003_V3.json';$hashes=[ordered]@{}
+foreach($p in $finance.source_hashes.Keys){if((Digest $p) -ne $finance.source_hashes[$p]){throw "Frozen byte changed $p"};$hashes[$p]=$finance.source_hashes[$p]}
+$names=@('scripts/investment/accept_perpetual_hold_research.py','docs/archive/PERPETUAL_HOLD_ROOT_ACCEPTANCE_SOURCE_20261003_V1.py','docs/archive/PERPETUAL_HOLD_ROOT_BINDER_20261003_V1.ps1','docs/archive/PERPETUAL_HOLD_CONTEXT_COMPILE_SOURCE_20261003_V1.py','docs/archive/PERPETUAL_HOLD_SAVED_SCAN_SOURCE_20261003_V1.py','reports/fast_research/PERPETUAL_HOLD_SAVED_SCAN_20261003_V1.json','scripts/investment/audit_perpetual_hold_research.py','scripts/investment/audit_perpetual_hold_research_v2.py','docs/archive/PERPETUAL_HOLD_FINANCIAL_INDEPENDENT_SOURCE_20261003_V1.py','docs/archive/PERPETUAL_HOLD_FINANCIAL_INDEPENDENT_SOURCE_20261003_V2.py','docs/archive/PERPETUAL_HOLD_ACCEPTANCE_FREEZER_20261003_V1.ps1','docs/archive/PERPETUAL_HOLD_ACCEPTANCE_FREEZER_20261003_V2.ps1','protocols/PERPETUAL_HOLD_FINANCIAL_INDEPENDENT_BINDING_20261003_V2.json','protocols/PERPETUAL_HOLD_FINANCIAL_INDEPENDENT_BINDING_20261003_V3.json','protocols/PERPETUAL_HOLD_COMPARISON_BINDING_20261003_V1.json','reports/fast_research/PERPETUAL_HOLD_STARTUP_FAILURE_20261003_V1.json','reports/fast_research/PERPETUAL_CONSTANT_LONG_REFERENCE_INDEPENDENT_20261003_V2.json','docs/archive/OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_HOLD_20261003_V1.md','reports/GITHUB_PERPETUAL_213_SYNC_VERIFIED_20261003_V1.json')
+$roles=[ordered]@{}
+$defs=@(
+ @('SOURCE_REUSE','PERPETUAL_HOLD_SOURCE_REUSE_20261003_V1.json','PASS_D044_EXISTING_ACCEPTED_SOURCE_ONLY_NO_REPEATED_QA',0),
+ @('SMOKE','PERPETUAL_HOLD_TARGET_SMOKE_20261003_V1.json','PASS_BOUNDED_RESEARCH_TESTS_SYNTHETIC_NOT_MARKET_RESULT',0),
+ @('CONTEXT','PERPETUAL_HOLD_CONTEXT_COMPILE_20261003_V1.json','PASS_D044_FROZEN_THREE_PERIOD_CONTEXT_COMPILED_NO_MARKET_ARRAYS',0),
+ @('MARKET','PERPETUAL_HOLD_RESEARCH_ACTUAL_20261003_V1.json','COMPLETE_D044_TWELVE_CONDITIONAL_PERPETUAL_HOLD_ACCOUNTS_NOT_NATIVE_OR_LONG_TERM_APR',0),
+ @('FINANCIAL','PERPETUAL_CONSTANT_LONG_REFERENCE_INDEPENDENT_20261003_V3.json','PASS_D044_TWELVE_CONSTANT_LONG_PERPETUAL_ACCOUNTS_NUMERICAL_ACCOUNTING_AND_CAUSAL_SCOPE_NOT_NATIVE_OR_LONG_TERM_APR',0),
+ @('COMPARISON','PERPETUAL_HOLD_ECONOMIC_COMPARISON_20261003_V1.json','COMPLETE_D044_ALWAYS_LONG_SAVED_SUMMARY_COMPARISON_NOT_NATIVE_OR_LONG_TERM_APR',0),
+ @('FULL547_FAILURE','PERPETUAL_HISTORY_SOURCE_ACTUAL_20261003_V1.json','FAIL_D042_HISTORY_SOURCE',1))
+foreach($d in $defs){$p='reports/fast_research/'+$d[1];$v=ReadJson $p;if($v.status -ne $d[2]){throw "Wrong saved role $($d[0])"};$id=if($d[0] -eq 'CONTEXT'){'4b7e5a0c864f4ab6a369d14700c6d012'}else{$v.binding.task_id};$roles[$d[0]]=@{path=$p;sha256=(Digest $p);status=$d[2];task_id=$id;exit_code=$d[3]};$names+=$p}
+foreach($p in $names){$hashes[$p]=Digest $p}
+$priors=@(foreach($p in @('reports/GITHUB_PERPETUAL_213_RESEARCH_SOURCE_BINDING_20261003_V1.json','reports/GITHUB_PERPETUAL_213_USED_RECEIPTS_BINDING_20261003_V1.json')){@{path=$p;sha256=(Digest $p)}})
+$plan=[ordered]@{ready_to_execute=$true;run_dir='/home/xflops/coin-state/d044-perpetual-hold-root-20261003-v1';source_hashes=$hashes;roles=$roles;market_protocol=@{path='protocols/PERPETUAL_HOLD_RESEARCH_20261003_V1.json';sha256=(Digest 'protocols/PERPETUAL_HOLD_RESEARCH_20261003_V1.json')};prior_portables=$priors;metadata_failed_tasks=@{FINANCIAL_STARTUP_V1='1beee6f50d494529b264a5e9bb3c5242';FINANCIAL_METADATA_V2='a5dab7ab8a2c4497818a9ff49cdb1981'};created_utc=[datetime]::UtcNow.ToString('o')}
+$dest='protocols/PERPETUAL_HOLD_ROOT_BINDING_20261003_V1.json';if(Test-Path (Join-Path $root $dest)){throw 'Exclusive root binding'}
+[IO.File]::WriteAllText((Join-Path $root $dest),($plan|ConvertTo-Json -Depth 50)+"`n",$enc)
+[pscustomobject]@{path=$dest;sha256=(Digest $dest)}|ConvertTo-Json

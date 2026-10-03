@@ -812,3 +812,26 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 下一主任务选择同USD-M固定波动管理持有强基准，复用原past30cov/账户/成本/资金费/风险层，在213/122/90独立完整窗口对保存SMA/Donchian比较；少量一个策略/4条件，无HPO或新栈。问题是是否存在受控beta之外的净增量，指标完整资本net、实际vol/MDD/暴露/成本与月集中；预算沿用1GB owned/3GB RSS/3600s/shared5GB，任何来源/因果/金融/资源错误停止保留、不填零。具体源/参数在新运行前冻结，不将本决定当已运行结果。
 
 本版接受能力与真实配对结果，不认证稳定APR、Bybit原生、单位或投资资格；原547缺口、三metadata失败和全部负结果保留。投资/HPO reopen须强基准跨状态增量及真正未来证据；完整547 reopen须真实合法缺记录或事前独立验证方法。原20%frontier原则保留，当前低成本强基准优先避免在错误alpha假设上花训练预算。
+
+## D044 — 同产品受控持有强基准：运行前简记
+
+问题：D043 SMA盈利是否只是上行beta，而非优于受控市场暴露？固定一个始终多头raw(.3,.3)参考，复用原日线calendar/200已完成可用warm guard、past30 signedcov/365、.10年波动缩放和原perp完整账户/时钟/capacity/部分成交/资金费/fees/terminal。此为同风险层的恒定alpha reference，不把D034旧Spot EWMA收益改产品或声称复制原EWMA。
+对照：213/122/90三个已见完整USD-M窗口，各独立10k；BASE27/STRESS43×RAW_AS_FRACTION/PERCENT，同四条件跨3日期共12新账户。只读取已接受输入，不重跑来源QA或旧金融；旧SMA四方向/现金/原Donchian用保存且已接受的canonical摘要，不拼NAV/择赢家月份。投资仍NONE/现金/APRNE，无新模型/HPO。
+指标：net/gross/funding/fee/spread/slippage、完整资本收益、signed/gross/保证金、实际vol和全观察MDD、换手与月集中，以及对同产品公开参照的配对增量；共同caps不称相同实现风险，不按事后vol放大。
+预算与停止：新账户owned≤1GB、RSS≤3GB、wall≤3600s，共享5GB/swap0/GPU0/D40GB；磁盘联合含1GB工作须≤32GB。唯一新目标因果/共享风险case、原数值容差、12新账户的独立金融后才比较。任何来源/时间/会计/实际资源错误保留失败并停止，真实halt仅完整实际前缀，不补后续零收益；不触及locked/keys/paid/orders。
+当前AGENTS中的用户自主投资原则覆盖旧固定frontier配额与模型清单；后续按实际信息价值决定主任务，保留能力及明确reopen，不把历史20%配额当执行门槛。
+### D044验收后自主判断
+
+三窗新12HOLD／独立12原金融体、72摘要60对／根V2真实closed0。213 HOLD=原SMA LO/LS全经济及风险字段，确认该窗利润是受控beta，未显示择时增量；122 LS－HOLD仅38.98..49.18且全期仍负、更高gross/margin/turnover；90增量1268.32..1302.98，vol近同、MDD更低，说明short方向有研究价值，但两月贡献95.67%、窗口SEEN不升级长期alpha。资金现金/NONE/APR NE；固定SMA研究主力保留，HOLD成为必要强基准，Donchian仅少量挑战，不拼SO/LO窗口赢家。
+
+比较单位桥、补更长独立窗口与模型/HPO三条路径：先核官方文档及可合法公开验证的funding archive↔历史API单位/事件身份；当前倍率100差不能凭PnL推断，真实charge mark／发布时间仍各自未知。若已有同endpoint451且无访问条件变化，不重复或替代host绕限制；保持conditional两scale，下一转预固定完整独立窗口source边界与强基准增量，而非换成本制造收益。仅必要小metadata/事件对照，预算/锁/资金边界不变；新研究前另短记范围/预算/停止条件。
+
+真实3任务失败和1host metadata失败保留：numeric PS keys／缺STATE启动、extra-unused index role metadata、旧exact pinned模块文档路径。只新版本metadata例外和独立路径，原金融数值体/费用/风险/容差保持；旧市场/QA和新12 market未重跑。122旧LS单币mark漂移30.0664%、4减仓/最大首次延迟60.000001秒如实记录，不宣称全时绝不越限或分钟内/native安全。
+
+投资/HPO reopen须强基准跨状态/合理风险/真正未来证据；完整547 reopen合法真实缺记录或事前验证缺失方法；新模型需已有基准之外的明确信息价值。固定frontier配额已被用户长期自主原则覆盖，按实际瓶颈自主决定，不新增大路线图。模块闭合后才普通Git提交/push，核真实远程HEAD。
+
+### D044官方语义核查后的下一选择（未新请求／未运行303）
+
+官方primary文档说明REST fundingTime/fundingRate与charge关联markPrice，未给archive last_funding_rate/calc_time倍率桥；FAQ当前日期和结算偏差不能追认历史。已有FUNDING_SEMANTICS_PROBE_20261003_V2.json SHA54febc06b7815e521715c8d70c3e930929a489c7e2a84d1ddae9507a03e4da4d、task94a04f7ca7a3407e9905109fea9feb4c真实451/exit1、0matched/0retry，沿D024禁绕限制；无环境变化证据，不浪费无差别API重试。单位桥暂停/reopen官方archive语义或合法原历史响应；保持两条件、不凭收益选倍率/不漏负资金费。
+
+因此下一唯一主任务选择固定2024-09-01..<2025-07-01 303日完整独立USD-M窗口source边界，再原SMA four方向/cash与HOLD强基准。这在新PnL前确定，已见开发筛选，独立10k不补缺Aug/不拼547NAV；优先检查转折/持续增量，优于新模型HPO。精确来源清单/现有逐文件复用/预算将在新任务前短冻结，不将本选择当已运行。共享5GB/swap0/GPU0/D40GB/caps/费用/locked/资金权限保持。

@@ -63,3 +63,25 @@ source task75a60d.../bc0970/0（121.95s/RSS119.97MB/new18.019MB），首72 QA6c1
 三个真实metadata失败分别freezer旧registry别名（86718.../1，V2修历史archive解析）、独立V1进度unit冲突（5b8.../1，输入/target已读、0金融调用）、V2独立路径仍旧常量（543266.../1，manifest前拒绝）。V3只新路径/显示/登记ID，原金融算法/容差/参数不改；主体不重放。原547失败83/148/8月缺口、旧来源/账户全部保留。
 
 实扫21,609,669,564B@2026-10-03T06:53:37.111144Z，后续336MB市场工件不在此值；8765原时刻已发布，共享4,999,999,488B/swap0/GPU0/D40GB和collector540保持。文档见PERPETUAL_213_COMPARISON_20261003.md；Git实际门槛与同步待闭合。
+
+### D043 GitHub模块真实闭合
+
+固定index V1 session2122/chunk31512c/0：2369文件、42,429,824B，冻结blob 488 全匹配，源码index mismatch/敏感签名/private-runtime变更均0。模块提交session79797/chunkaa876c/0，推送session15444/chunka51506/0，精确远端核验89d912/0：local/remote main同a9a4996e3363d56c3edf495503897053232392f3；无force/新auth/settings/raw行情/model/环境入库。后验805b925f6a9685a33708d869c08578c0beca09b3920db521cab9bebfd48968fa 保存reports/GITHUB_PERPETUAL_213_SYNC_VERIFIED_20261003_V1.json，随下一正常模块入库，不为状态另提交。原冻结模块说明保持提交时字节，以本条及后验凭证说明Git已闭合。当前市场/QA/金融均已结束，下一强基准尚未启动，不虚报后台运行。
+
+### D044：强基准揭示beta与做空增量（实际验收）
+
+本版新增一个同USD-M始终多头raw(.3,.3)、200过去可用日warm／past30cov／原30%/60%风险层基准，3独立10k／12物理账户。全12完成日历、0halt、终端flat／债务0；引用60条已接受摘要得到72行／60配对，旧账户/QA/绿测无重跑。
+
+213净10.11..12.25%与SMA LO/LS逐经济／风险相同，说明该段没有择时alpha；122 HOLD−3.61..−3.18%、LS−3.21..−2.70%，增量38.98..49.18仍负且增gross/margin；90 HOLD−6.68..−6.46%、LS+6.15..6.42%，增量1268.32..1302.98，BASE/fraction实际vol12.17/12.16、MDD11.09/4.70%。122增量集中Nov、90 Jan/Feb约95.67%，不拼赢家／NAV／稳定APR。已见筛选/Binance proxy/BybitVIP0/资金费单位条件不认证原生。
+
+来源复用4df249.../2529d1/0；新case21ebc65.../15c822/0；context4b7e5a.../f8649d/0。market6a41c703... session32063/b20743/0，SHA38928293.../303.97s/RSS499,220,480B/owned225,727,721B；独立V3 05c9786... session3865/2f518d/0，SHA291f8a6e.../24.60s/RSS452,460,544B/maxcash1.82e−11/ratio3.11e−14；compare65345f.../790e13/0，SHA7bacf7a2.../5.70s；rootV2 1ee73d... session23669/680079/0，SHAefc44e8a...。
+
+保留host freezer f9450e/1数值key失败、真实独立V1 1beee6f5.../6f8812/1（无数组/报告/RB）、V2 a5dab7.../e96025/1（未读数组，未使用index role metadata误拒绝，报告9ba980...）、根V1 ff0e4ec.../aade48/1（旧冻结module doc路径误拒绝）。V3只quote keys／新路径ID／原已接受unused index元数据；根V2只精确旧module doc SHA允许读取哈希。金融算法/容差/cost/risk无改，主体未重跑。
+
+资金仍现金，研究主力固定SMA、强基准HOLD、少量公开Donchian；下一根据官方资金费单位/事件验证可访问性决定最短高价值研究。实扫21,953,852,770B@2026-10-03T07:49:30.744251Z，后续225.728MB未计入，25af35...真0发布原时刻；共享4,999,999,488B/swap0/GPU0/D40GB保持。完整报告PERPETUAL_HOLD_COMPARISON_20261003.md。模块正常Git同步待实际闭合。
+
+### D044官方语义核查后的下一选择（未新请求／未运行303）
+
+官方primary文档说明REST fundingTime/fundingRate与charge关联markPrice，未给archive last_funding_rate/calc_time倍率桥；FAQ当前日期和结算偏差不能追认历史。已有FUNDING_SEMANTICS_PROBE_20261003_V2.json SHA54febc06b7815e521715c8d70c3e930929a489c7e2a84d1ddae9507a03e4da4d、task94a04f7ca7a3407e9905109fea9feb4c真实451/exit1、0matched/0retry，沿D024禁绕限制；无环境变化证据，不浪费无差别API重试。单位桥暂停/reopen官方archive语义或合法原历史响应；保持两条件、不凭收益选倍率/不漏负资金费。
+
+因此下一唯一主任务选择固定2024-09-01..<2025-07-01 303日完整独立USD-M窗口source边界，再原SMA four方向/cash与HOLD强基准。这在新PnL前确定，已见开发筛选，独立10k不补缺Aug/不拼547NAV；优先检查转折/持续增量，优于新模型HPO。精确来源清单/现有逐文件复用/预算将在新任务前短冻结，不将本选择当已运行。共享5GB/swap0/GPU0/D40GB/caps/费用/locked/资金权限保持。
