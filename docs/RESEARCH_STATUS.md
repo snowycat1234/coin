@@ -112,3 +112,13 @@ Bybit标准登记见 [费用口径](BYBIT_NONVIP_COST_STANDARD_20261002.md)。
 正常commit session49713/chunk09ce76/0，push session96792/chunk77779a/0，无force/全局proxy/auth更改；远端核验ffcc9e/0、本地/remote main同8ca03a099faa74a28a785fc77bf21fa7afdfabc2。后验reports/GITHUB_PERPETUAL_HOLD_SYNC_VERIFIED_20261003_V1.json SHAc399955ca600ad864fb322569194cb3f7b5613a6b0eef3ecb03cfbcdc9bc501e，留下一正常模块；本已冻结D044报告/协议/usedbinding原字节不改、不做额外状态提交。
 
 collector540真实仍Sl+、elapsed1-01:20:22，未改采集；8765健康且原扫描时刻正确。D044研究任务全部退出，303新来源/账户尚未启动，不虚报后台研究。下一明确交接：在新合约PnL前冻结2024-09-01..<2025-07-01独立303日源清单/旧逐文件复用/预算，再source完整性与SMA四方向/HOLD固定比较；原547缺口/451/单位条件/现金候选继续。
+
+**D046 Git实际闭合（后验，保留冻结模块字节）**：preflight真exit0/b45134，2565文件51,789,523B、231冻结blob、0字节不一致/0高置信敏感签名/0runtime新增，每blob≤4MB。commit session62352/chunk8a1b46/0；push session80220/chunk6f9beb/0；远端核验df965d/0，本地和remote main同7cb2d3bcd106204de301b81ae02dff8671e35e45。同步后验reports/GITHUB_PERPETUAL_RISK_REDUCTION_SYNC_VERIFIED_20261003_V1.json SHA0e3312e2395bbb8a49f93753fde4fd867a98870b532d172f5733fa2ab0884d0b，留下一正常模块入库；已冻结模块/registry/USED字节不改。四LS、独立及ROOT已退出；下一Turtle仅静态兼容准备，市场未跑、不虚报后台研究。
+## 最新D047：公开Turtle多空实际接线与可信条件对照（2026-10-03）
+
+投资CASH/NONE，长期净几何APR仍NE；past-vol HOLD为研究强基准。Turtle4h原MIT hook+原ATR/Rust，唯一新合成多空/partial/stop/恢复/因果case已PASS；四固定条件新账户actual0/独立金融4调用，1完整303、3停止前缀NE。完整BASE27/PERCENT：净−5.55%、gross+3.93%、short净−478.27、多头−77.07、turnover70.27倍、实际vol9.02%/分钟MDD11.16%；同条件SMA LS−9.32%/10.46%/14.30%，HOLD+7.88%/10.50%/10.95%，CASH0。资金费单位仍条件，不采用唯一完成条件作为单位/策略赢家，不比较其他前缀与全期。采用多空能力，不采用Turtle投资或HPO。
+
+最大阻碍为产品过滤：3case持BTC<10USDT无法risk减仓；core统一1e-8qty/开平仓min10仅原代理。官方Bybit平仓notional豁免仍qty约束，下一公开BTC/ETH规格核查/最小研究适配，不重建平台或改旧证据。原controller V1与comparisonV1及TLS/metadata失败保持；金融只认证记录legs/wallet/NAV，不完整独立重建策略/native执行。旧账户/QA未重放，无locked/GPU/账户发单。实际/独立/保存比较source哈希、限制/reopen/完整资本/净gross保证金与风险见[TURTLE_PERPETUAL_20261003.md](TURTLE_PERPETUAL_20261003.md)。最近实扫22,811,446,928B@2026-10-03T11:23:01.361833Z，后续121.99MB输出不包含；8765保存实际时刻、共享硬5GB/swap0。
+
+模块根验收与Git同步正在完成；实际完成后只追加后验状态。
+D047根最终核对真实exit0：ROOT SHA7f7ff27b85a465fb76fe88e17da37438b02f824dc96a21f58bd526779384b5aa，119源／工件pins、7实际完成角色和5真实失败保留；金融仅记录账本范围。模块源码与小工件精选Git验收／推送待完成。

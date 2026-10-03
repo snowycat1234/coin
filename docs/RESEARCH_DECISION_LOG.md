@@ -855,3 +855,14 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 只比较两官方primary源码：同jesse-ai/example-strategies/MIT已固定7c91e0a37bf62165790120d730442e4f6eb00364的TurtleRules与DUAL_THRUST。选唯一下一主任务TurtleRules固定4h：双向20-bar突破/10退出、ATR20×2止损、最多4层0.5ATR加仓、真实fill callback。原实现没有固定周期，4h是新实验事前选择；文字S1盈利过滤没有完整落实，不误称完整经典Turtle。先小型真实entry/partial/fill-recovery/stop/pyramid与共享abs caps/完整capital兼容性，只忠实薄复用原代码；无法保留则保存scope失败/暂停，reopen明确解决回调会计语义后再开。通过后才冻结同产品/价格/cost/unit/日期/HOLD比较，禁止改成本/事后阈值/HPO；它检验更快突破与止损能否改善SMA负gross，优于堆模型。DUAL_THRUST暂缓：down_max_high实际取candles[:,4] low，需厘清高周期anchor/cache与作者语义，不自行修成想要的收益。公开策略并不证明行业最高水平。
 
 原策略代码： https://raw.githubusercontent.com/jesse-ai/example-strategies/7c91e0a37bf62165790120d730442e4f6eb00364/TurtleRules/__init__.py 与同pin DUAL_THRUST/__init__.py，许可证同pin LICENSE；primary-source静态核查完成，当前没有Turtle市场运行或盈利证据。资金费/原生/未来证据边界及各暂停reopen保持，40GB/共享5GB/swap0/GPU0/locked/资金权限不变。
+
+## D047 prospective：一个固定公开Turtle4h双向挑战者（未看新PnL）
+
+问题：D046固定SMA303日负gross，公开breakout+stop+pyramid能否在同产品/资本/风险/成本下改善投资质量？选MIT TurtleRules7c91e0a37bf62165790120d730442e4f6eb00364唯一主任务；固定4h为本地事前选择，原20/10 channel含当前完成bar、ATR20/2、4层/0.5ATR、原branch/S1状态，成熟Jesse/Rust kernel复用不自写indicator。先实际order/callback/partial/恢复/stop优先兼容病例；通过才同2024-09-01..<2025-07-01独立303日四预固定费用×单位条件账户，与保存D046 SMA LS及D045 HOLD/CASH参考比较。10k共享资本、1x逐仓、abs30%/gross60%、过去30日cov10%target及.99/原成本/执行延迟/容量保持，不搜参或择优资金费倍率。
+
+303 score官方1m来源复用；4h只取完整分钟聚合。新增少量官方USD-M4h2024-07/08两币档案仅作240过去bar预热，独立CHECKSUM/日历/格式核验；不把日线插值或Spot作perp预热、不补原547缺口、缺资料即NE。stop按已可用分钟OHLC触发，下一eligible open+1us延迟成交代理，不回填理想stop价。原单位请求与cap/vol裁剪披露，partial每逻辑ADD首正fill一次原callback、fragment只补保护量；全零拒绝恢复提交副作用并记录，stop/exit/risk取消增加风险残单，恢复完整bridge状态。市场预算≤4配置/3600s/3GB RSS/500MB owned，共享5GB/swap0/GPU0/D40GB保持；vendor≤1MB180s、预热≤20MB300s。兼容失败先最小修复/独立新版本保留失败；不能保留核心语义则暂停并列明确reopen。无资金/locked/keys/paid/native或稳定APR资格；本条是前瞻选择，尚未运行新市场。
+### D047固定Turtle实际结果后的选择（2026-10-03）
+
+四固定cost/unit新账户与独立金融已真实exit0，但只有BASE27/PERCENT完整303：净−555.346、同量gross+393.442，交易手续费386.459/点差281.061/滑点281.061/fund−.2074/turnover70.265倍；long−77.075、short−478.271，9.0195%实际vol/11.1595%分钟DD。相同条件旧SMA LS−932.355、HOLD+788.240、CASH0；Turtle少亏不是正alpha，也不是做空单独因果增量。另3停在342005/342725分钟，holdingBTC<10USDT导致5次无法risk减仓；完整收益NE，不选唯一完成的资金费解释，不以停止前缀排名。V1controller接线与saved comparison CASH可选stop_us的失败均原字节保留，后者V2仅完整known-zero CASH可None，未填市场收益。采用填充/stop/恢复能力，投资仍现金/NONE/APRNE。
+
+下一唯一主任务选择公开Bybit产品过滤语义与最小适配，而非改Turtle参数或降成本。官方FuturesTradingRules（2026-07-03）明确平仓豁免minimum notional但仍受min qty；当前core10USDT适用于所有fills/统一1e-8qty只代理假设，实际三NE与极小持仓直接暴露场所映射瓶颈。先核BTC/ETH合法公开spec，当前snapshot只用于明示目标场所代理profile，不能追認2024历史native；文档example数值不当作live返回。公开只读probe≤两symbol/每URL一次/100KB/60s/128MB；限制即保存原失败、不换host/区域/proxy/keys。后续独立版本保持原fees/资本/caps/price source/资金费两条件与所有旧结果，通过必要手算/spot兼容后再固定经济对照。Turtle与SMA投资/HPO暂停/reopen为正确可执行过滤、完整成本压力对照及强基准之外独立增量；funding bridge仍等合法官方archive语义/原响应。研究强基准保持past-vol HOLD，真实投资CASH；没有永久删除空头或条件失败方向。

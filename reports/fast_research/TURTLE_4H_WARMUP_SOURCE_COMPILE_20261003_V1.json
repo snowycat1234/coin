@@ -1,0 +1,203 @@
+{
+  "status": "COMPILED_D047_FOUR_4H_WARMUP_SOURCE_ANCHORS_NO_ROWS_OR_NETWORK",
+  "binding": {
+    "task_id": "18dd34fc0c5d4a6cb07900499d852647",
+    "source_sha256": "f36f1e67eb32427de21f2c2fe2be42339a81a5fbd703878623dbf380b7e86ab5"
+  },
+  "market_arrays_read": false,
+  "network_requests": 0,
+  "changes": [
+    {
+      "change": "Per-file 4h month job",
+      "matches": 1,
+      "old_ast_sha256": "352bf97894f71e63f37a3484d17b7e3d9696d77ab6d5fe386e511bdb3e0c01f4",
+      "new_ast_sha256": "93b7b10d16e52e8a4e748646cd29efac5b95ddbc906bfab18d67998f71a827b8",
+      "old_statement": "job = run / f'{entry['symbol']}-2h-2025-07'",
+      "new_statement": "job = run / f'{entry['symbol']}-4h-{entry['month']}'"
+    },
+    {
+      "change": "4h rows per monthly archive",
+      "matches": 1,
+      "old_ast_sha256": "59d2b45cb1214cbddc48679ea96f593b79cc912b14471356ae2fe9a727df36f9",
+      "new_ast_sha256": "50f9fd8d6965094f430ee39a109067e838bb14afcda1929895e6059fdd48a772",
+      "old_statement": "require(frame.height == 372 and target.stat().st_size <= BOUNDS['file_write_limit_bytes'], '372 exact July2h bars and bounded normalized file')",
+      "new_statement": "require(frame.height == 186 and target.stat().st_size <= BOUNDS['file_write_limit_bytes'], '186 exact monthly4h bars and bounded normalized file')"
+    },
+    {
+      "change": "Four format files complete",
+      "matches": 1,
+      "old_ast_sha256": "9be59c308b23b2ca681129ca175808c49c2ea255433ffb86c328313b13b124b9",
+      "new_ast_sha256": "bc83219f2f51fb2aadf0241b2b15c5e6b33ee10d9210c3d936856a1543c3a1db",
+      "old_statement": "require(result['actual_files'] == 2 and result['actual_source_rows'] == 744 and all((sha(ROOT / p) == h for p, h in hashes.items())), 'Both sources complete and frozen bytes preserved')",
+      "new_statement": "require(result['actual_files'] == 4 and result['archive_bodies_downloaded'] == 4 and (result['actual_source_rows'] == 744) and all((sha(ROOT / p) == h for p, h in hashes.items())), 'Four sources complete and frozen bytes preserved')"
+    },
+    {
+      "change": "62-day 4h source scope",
+      "matches": 1,
+      "old_ast_sha256": "03d47137c3f0f42fee042d3481f3ba9284d7d77c31a4a871b5a6f5fb2dcce870",
+      "new_ast_sha256": "828d08034a00ae7852053f1b64f6245e3d183b5ba5623ecd47957d71a4029a2d",
+      "old_statement": "result.update(status=STATUS, rows_per_symbol=372, normalized_interval='2h', warmup_scope='31_FULL_UTC_DAYS_372_BARS_PER_ASSET')",
+      "new_statement": "result.update(status=STATUS, rows_per_symbol=372, normalized_interval='4h', warmup_scope='62_FULL_UTC_DAYS_372_BARS_PER_ASSET')"
+    },
+    {
+      "change": "Fail marker on any task failure",
+      "matches": 1,
+      "old_ast_sha256": "c5974f91b681f57240c7dac4d23c5c86bfd91c6acd70a7c63818f05f5f6777c4",
+      "new_ast_sha256": "3302b8c4156d1a9e1ced9c56c6a8fe348e4eeff694a648505b8acb471643c0e0",
+      "old_statement": "result.update(error_type=type(error).__name__, reason=str(error))",
+      "new_statement": "result.update(status=FAILURE, error_type=type(error).__name__, reason=str(error))"
+    },
+    {
+      "label": "D047 literal",
+      "old": "2h",
+      "new": "4h",
+      "matches": 2
+    },
+    {
+      "label": "D047 literal",
+      "old": "pl.lit(\"2h\")",
+      "new": "pl.lit(\"4h\")",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "2h UTC daily bucket",
+      "new": "4h UTC daily bucket",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "2h twelve bars per complete UTC day",
+      "new": "4h six bars per complete UTC day",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "2h interval label",
+      "new": "4h interval label",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "2h unchanged trade format calendar duration",
+      "new": "4h unchanged trade format calendar duration",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "duration=TWO_HOUR_US",
+      "new": "duration=FOUR_HOUR_US",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "<D041-private-original-download>",
+      "new": "<D047-private-original-download>",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "<D041-private-original-2h-parser>",
+      "new": "<D047-private-original-4h-parser>",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "<D041-private-original-trade-convert>",
+      "new": "<D047-private-original-trade-convert>",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "bad_days=[{\"date\":datetime.fromtimestamp(row[0] * 86400,UTC).date().isoformat(),\"rows\":row[1]} for row in dates.iter_rows() if row[1] != 12]",
+      "new": "bad_days=[{\"date\":datetime.fromtimestamp(row[0] * 86400,UTC).date().isoformat(),\"rows\":row[1]} for row in dates.iter_rows() if row[1] != 6]",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "FAIL_D041_2H_ARCHIVE",
+      "new": "FAIL_D047_4H_ARCHIVE",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "PASS_D041_2H_ARCHIVE_FORMAT_CALENDAR_ONLY",
+      "new": "PASS_D047_4H_ARCHIVE_FORMAT_CALENDAR_ONLY",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "FAIL_D041_PERPETUAL_2H_JULY_SOURCE",
+      "new": "FAIL_D047_PERPETUAL_4H_WARMUP_SOURCE",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "USD_M_TRADE_KLINE_2H_JULY_WARMUP_SOURCE",
+      "new": "USD_M_TRADE_KLINE_4H_JUL_AUG2024_WARMUP_SOURCE",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "JUL2025_SOURCE_ONLY",
+      "new": "JUL_AUG2024_SOURCE_ONLY",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "Original public2h benchmark needs400h warmup; source only",
+      "new": "Fixed Turtle4h benchmark needs official past240bar warmup; source only",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "D041 官方7月2小时成交预热；来源格式阶段，尚待独立验收",
+      "new": "D047 官方2024年7/8月4小时预热；来源格式阶段，尚待独立验收",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "coin-fixed-july-2h-source/1.0",
+      "new": "coin-fixed-jul-aug2024-4h-source/1.0",
+      "matches": 1
+    },
+    {
+      "label": "D047 literal",
+      "old": "官方两小时档下载/CRC/完整UTC格式",
+      "new": "官方4小时档下载/CRC/完整UTC格式",
+      "matches": 1
+    },
+    {
+      "change": "4h UTC daily bucket",
+      "matches": 1,
+      "old_ast_sha256": "52fa028ed038680bc457854338d568aa2212ce35a1176de0382d29976584462d",
+      "new_ast_sha256": "3bacad87199679bd1306d053158f34686b3df9764bf48267a34f3694d61f2a1f",
+      "old_statement": "dates = frame.with_columns((pl.col('open_us') // (MINUTE_US * 1440)).alias('day')).group_by('day').len().sort('day')",
+      "new_statement": "dates = frame.with_columns((pl.col('open_us') // DAY_US).alias('day')).group_by('day').len().sort('day')"
+    },
+    {
+      "change": "4h six bars per complete UTC day",
+      "matches": 1,
+      "old_ast_sha256": "334d383dfe7be176974838bdc0b0baf4abc09c3f9bdc44a2eb995c99530e395a",
+      "new_ast_sha256": "feca5f4ebae78080f32c55729b01b926f838559f00791c915a96189077cc4b5e",
+      "old_statement": "bad_days = [{'date': datetime.fromtimestamp(row[0] * 86400, UTC).date().isoformat(), 'rows': row[1]} for row in dates.iter_rows() if row[1] != 1440]",
+      "new_statement": "bad_days = [{'date': datetime.fromtimestamp(row[0] * 86400, UTC).date().isoformat(), 'rows': row[1]} for row in dates.iter_rows() if row[1] != 6]"
+    },
+    {
+      "change": "4h interval label",
+      "matches": 1,
+      "old_ast_sha256": "0e77fa4ad8c12a539577c45cfb76bf0174cec20b3c1d6c7aa3042cb04546a88f",
+      "new_ast_sha256": "78cdead7d16281a164c4f175358da081962d0aabbb0e3194300eee560d2058e1",
+      "old_statement": "frame = frame.sort('open_us').with_columns((pl.col('open_us') + MINUTE_US).alias('close_us'), (pl.col('open_us') + MINUTE_US).alias('available_us'), pl.lit(symbol).alias('symbol'), pl.lit('1m').alias('interval'), pl.lit(ingested_us).alias('ingested_us'), (pl.col('raw_close') * scale).alias('source_close_us'))",
+      "new_statement": "frame = frame.sort('open_us').with_columns((pl.col('open_us') + MINUTE_US).alias('close_us'), (pl.col('open_us') + MINUTE_US).alias('available_us'), pl.lit(symbol).alias('symbol'), pl.lit('4h').alias('interval'), pl.lit(ingested_us).alias('ingested_us'), (pl.col('raw_close') * scale).alias('source_close_us'))"
+    },
+    {
+      "change": "4h unchanged trade format calendar duration",
+      "matches": 1,
+      "old_ast_sha256": "5908fac018f0990dedcf2433f2a47919f6861b45c9065f8f97094a83428e9e7c",
+      "new_ast_sha256": "fed9d9c7662bc8964116e62e9834f2d32c80649b8e0e77337ef2b2df445df13c",
+      "old_statement": "duration = MINUTE if entry['interval'] == '1m' else DAY",
+      "new_statement": "duration = FOUR_HOUR_US"
+    }
+  ]
+}
