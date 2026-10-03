@@ -847,3 +847,11 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 303完整LO−2.20..−1.18%、SO−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0；SMA单独short在这窗拖累，不能将之前90日跌市赢家拼接成主力。HOLD实际波动较高，相同caps不视为风险相同。4个LS都在95229/436320分钟以NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION停止，独立账本正确但全期收益NE。目标q*scale未量化，向下取整留下<1e−8尾差，pending阻止重新risk_schedule，5次仍真实超限；负债0、非清算/资金耗尽。保留原停止前缀及全部旧结果，不据缺损303报告淘汰整个多空能力。
 
 下一唯一主任务D046 correctness blocker：仅RISK_REDUCTION在实际合法attempt时点按原方向fill价、step和10USDT最小量向减仓方向取整，clip现有abs(q)，reduce_only及原核心capacity/minnotional/fee/时序/caps不变；pending完成以向零达到原目标而非要求不可表示尾差精确相等。不放宽容差、不把真实超限当合格、不动DAILY_TARGET；无法满足真实最小量/容量仍停止。先对称手算、真实不足/未来扰动新病例，再四LS同303价格/资金费/两成本/两单位/10k复测，其他16只保存引用。预算新输出500MB/RSS3GB/3600s，若合法成交后仍停或独立不对账/资源缺口，保存失败并按机制重新判断，不改成功标准。它直接恢复可信方向增量比较，比新模型HPO信息价值高。投资现金/NONE、长期APRNE；资金费桥/Bybit原生/独立未来不足仍保留，暂停路线与reopen沿当前状态。
+
+### D046实际闭合后的选择：固定公开Turtle兼容性，非SMA搜索
+
+仅两私有风险AST锚：请求量按step/min10实际方向成交价向减仓方向量化、risk完成按向零达到目标；原DAILY_TARGET/TERMINAL/fee/capacity/mark/caps/时序/资金费/core源不变。首freeze f0a835c...真1/0arrays；V2保留原if/elif expiry、只表达式精确锚，solecase手算/partial/真实不足/future-prefix真PASS。四LS实际72d2真0、全部303/436320分钟/506legs；independent d537/ROOT053f真0。净−9.76..−9.32%，gross−859..−857USDT、成本约74..118；BASEF short−784.07/long−150.00，较LO−733.60中long路径+50.47，不声称纯short效应。当前正确性能力采用，SMA投资/HPO暂停，NONE/CASH/APRNE；原D045四prefix与16完整、旧窗口负结果保留，不拼曲线。
+
+只比较两官方primary源码：同jesse-ai/example-strategies/MIT已固定7c91e0a37bf62165790120d730442e4f6eb00364的TurtleRules与DUAL_THRUST。选唯一下一主任务TurtleRules固定4h：双向20-bar突破/10退出、ATR20×2止损、最多4层0.5ATR加仓、真实fill callback。原实现没有固定周期，4h是新实验事前选择；文字S1盈利过滤没有完整落实，不误称完整经典Turtle。先小型真实entry/partial/fill-recovery/stop/pyramid与共享abs caps/完整capital兼容性，只忠实薄复用原代码；无法保留则保存scope失败/暂停，reopen明确解决回调会计语义后再开。通过后才冻结同产品/价格/cost/unit/日期/HOLD比较，禁止改成本/事后阈值/HPO；它检验更快突破与止损能否改善SMA负gross，优于堆模型。DUAL_THRUST暂缓：down_max_high实际取candles[:,4] low，需厘清高周期anchor/cache与作者语义，不自行修成想要的收益。公开策略并不证明行业最高水平。
+
+原策略代码： https://raw.githubusercontent.com/jesse-ai/example-strategies/7c91e0a37bf62165790120d730442e4f6eb00364/TurtleRules/__init__.py 与同pin DUAL_THRUST/__init__.py，许可证同pin LICENSE；primary-source静态核查完成，当前没有Turtle市场运行或盈利证据。资金费/原生/未来证据边界及各暂停reopen保持，40GB/共享5GB/swap0/GPU0/locked/资金权限不变。

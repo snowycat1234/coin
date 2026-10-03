@@ -99,3 +99,17 @@ collector540真实仍Sl+、elapsed1-01:20:22，未改采集；8765健康且原�
 投资现金/NONE、长期APR NE。固定2024-09-01..<2025-07-01独立303日，94真实来源54复用/40新；QA70首次/24接受复用。20选择器=16物理交易账户+1恒定现金工件/3严格别名，16完整日历、4个LONG_SHORT真实停止。完整条件LO−2.20..−1.18%、SO−12.45..−11.71%、HOLD+6.55..+7.88%、CASH0；资金费两个单位/两个成本不择优。LS只95229/436320分钟，前缀−302.93..−271.41USDT不是全期收益。独立17金融调用/3现金等价/误差3.27e−11USDT；七角色与根e25cdf0803a74facb5f5f9676d3811f0均真实0，报告841a525d，source绑定e353a69e。下一只risk减仓minstep/minnotional和向零完成修复，原费用/caps/时序/容量不动，新四LS复测；不新HPO或强行采用空头。来源/独立/保存比较/最终根与必要文档见PERPETUAL_303_COMPARISON_20261003.md。
 
 actual aa44 source /6858 QA /9dc3 sourceROOT /4bc9 smoke /4224 market /aad8 independent /caeb comparison /e25c finalROOT真实closed0；市场session6141/chunk375695、独立31383/153c66、比较60963/3be3bb、根52813/fd3a7f均真0。市场573.73s/RSS614.35MB/owned394.82MB，共享硬5GB/swap0/GPU0。实际scan22,250,374,621B结束于08:59:03.491955Z，已以原测量时刻发布8765（task helper真exit0/chunk0e2788）；随后工件未计入，浏览器打开queued不称已显示。旧547失败、旧账户/QA/文档保持。当前源码/文档实际闭合，Git模块同步待完成。
+
+### D045 Git模块同步后验
+
+D045实际科学验收与模块源码/必要文档经630冻结blob验收（以实际preflight.frozen_blob_hashes为准）、0字节不一致/0敏感签名/0runtime新增和每blob≤4MB后正常提交，commit session64742/chunkb68809/0、push89436/36209b/0、远端核验8972/680e2b/0。提交和远程main精确一致23a48cd216c75501a64f1eaf6b8ff4684753e52c。后验reports/GITHUB_PERPETUAL_303_SYNC_VERIFIED_20261003_V1.json SHA8d6bd30f4513ed5f970c294e9569095ab2cb680bf6ee8956ce2529f80833c414下个正常模块入库，不作单独快照提交。本次研究没有后台剩余任务；D046正确性验证正启动，不虚报已通过。
+
+## D046：合法向零减仓与四个303日完整多空对照（2026-10-03）
+
+当前投资采用CASH/NO_QUALIFIED_CANDIDATE，长期APR NOT_EVALUABLE。本版发现并最小修复RISK减仓被step/minnotional尾差锁住以及越过目标向零后仍等精确零的问题；原Spot库存保护、perpetual账本/fees/caps/数量过滤/partial/reduce-only和资金费单位条件不变。只新跑原固定四LS，4/4完整303日、各506成交腿、终端flat且债务0；引用16个旧完整摘要作同产品比较，不重跑旧金融/QA、不拼接NAV。初始metadata freezer task f0a835c209784613b92cb043bb39f0e7真实exit1保留，0数组/0金融，V2只改唯一AST completion锚点。
+
+完整10k资本LS净−9.76..−9.32%，毛损益约−859..−857USDT，BASE/F净−934.06、实际年化波动10.45%、分钟MDD14.40%；HOLD同条件净+672.12、波动10.50%、MDD11.24%。LS较LO少733.60..837.09、较HOLD少1606.18..1745.23USDT；BASE/F差−733.60=空头净−784.07+多头路径改善50.47，路径/风险不同，不冒称纯做空因果效应。新四LS均4/10正月，不选月或资金费倍率。采用减仓修复/保留能力，暂停该固定SMA投资和HPO；下一选择固定4h公开MIT TurtleRules，先验证止损、4层加仓、partial/fill/recovery/caps兼容，再同产品经济比较，尚未市场运行。
+
+smoke a13d8363bd204a22a1917d2fc7319151、market 72d233d63f4241b7ab3c8c04de64746c、independent d5370e8769bb44b1ace2269cf44bd2e2、ROOT 053f42ed6c254a029a475dc1c0f1cafe均真实completed/exit0。ROOT SHA feb63187abafc1ae3b8a52c5a9404cd74aff6354abf0404812cc2242e276858c；4新金融调用max cash2.18e−11USDT/ratio8.44e−15，原容差不放宽；全市场intent sizing未独立重建、不宣称原生过滤器/清算已验证。Binance代理/BybitVIP0/资金费单位条件/已见开发筛选/locked边界继续。
+
+市场227.05s/峰值RSS622,755,840B/新增owned161,716,459B；独立12.78s/563,417,088B，共享硬4,999,999,488B、swap0/GPU0。实际扫描22,649,980,545B@2026-10-03T09:50:41.507780Z，先于上述新增工件；8765按原测量时刻发布，不称当前总量。完整报告docs/PERPETUAL_RISK_REDUCTION_20261003.md。科学链已闭合，Git模块同步待真实完成。
