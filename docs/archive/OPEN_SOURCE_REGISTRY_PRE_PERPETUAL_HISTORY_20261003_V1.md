@@ -261,9 +261,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 | https://github.com/binance/binance-public-data | f446ce3812bd4e5521f21faecd4ae3c6460e49fc；原软件MIT声明/数据条款继续 | 两个July2025 USD-M官方2h monthly ZIP，复用download_file/CHECKSUM/CRC和原薄格式转换，仅私有AST改interval/duration与12bar/UTCday，无新downloader；20MB/512MB预算。其余已验收USD-M分钟用原closed_hours与Polars first-open/sum-volume合成2h，不混Spot预热、不截短评分。 |
 | https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 既有1.44.2 MIT/2.5.3 BSD-3-Clause | 原库零修改/无新安装；统一账户、过去30UTC日风险、同两窗口/10k/成本/完整资金费事件/日月评价。私有原controller仅四signal接点，金融语义与旧Spot保护保持。 |
 追加前当前登记原字节保存 docs/archive/OPEN_SOURCE_REGISTRY_PRE_DONCHIAN_PERPETUAL_20261003_V1.md，SHA b9965d36cd017e7c0df9d3550ffa1a5903e7551af2d14e209a766c3f8f9d8293；实际source/金融经济尚待本轮运行验收，不提前宣称PASS。
-
-### 固定547日永续研究输入（D042）
-
-复用 https://github.com/binance/binance-public-data 固定 f446ce3812bd4e5521f21faecd4ae3c6460e49fc；README软件MIT声明和原数据条款边界沿用。没有修改官方download_file、换下载host或安装依赖。新增perpetual_history_source薄编排仅固定148个URL、两个阶段、资源预留与receipt；原trade/mark/funding转换和CHECKSUM/CRC复用。资源兼容只在私有原函数namespace调整ZIP16MB、file32MB和CSV128MB；2h原日历适配沿用。独立QA复用原audit_one，trade仅私有2h duration分支，全部原CSV值和UTC月历/跨月实际funding间隔核对。Polars1.44.2 MIT、NumPy2.5.3 BSD-3-Clause及锁定环境保持。
-
-固定研究日历2024-01-01..<2025-07-01；新trade1m36、mark1m36、funding36、daily38、2h2，旧12个USD-M日档仅凭证复用。已见开发筛选输入，不是Bybit原生数据/成交或未来证据；funding单位/charge/publication未认证。本条登记源编排用途，实际source接受与经济另见模块凭证，不提前宣称通过。追加前完整字节保存在OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_HISTORY_20261003_V1.md，SHA1c33a5a19063cd4a4331892c1f2490d80a4fa30ad2ee138d39a20090b92b503d。

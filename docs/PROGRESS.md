@@ -44,3 +44,10 @@ D041实际启动：source task0fb929692f5741d39e2b670e588178fa/session50121/chun
 sourcebca7/sourceQA2754/test90c45/8actualbc89/indepbf13/rootb50b均真closed0；market session19436/chunk546e15/0（181.39s/RSS598.5MB/new70.983MB），indep45167/a9646d/0（11.015s/RSS333.2MB/maxmoney1.09e−11），根39950/6c198b/0（12.552s/RSS25.1MB）。原30+修2保存引用，无旧金融/旧42QA/绿测重做、无NAV拼接。完整10k/成本27与43/F与P全部保留、unit/native/APR未证、0GPU/locked/orders。较低Donchian实现vol不称同风险；原风险caps/Spot保护不改。audit registry后登记真实说明，不伪造beforeSTART。
 
 文档见 docs/PERPETUAL_PUBLIC_BENCHMARK_20261003.md；最近实扫21,296,913,232B于12:40:08+08，随后输出不在此scan；共享5GB/swap0/GPU0和D40GB边界。模块文档、源码blob门槛及Git闭合正在完成。
+
+
+### D041 GitHub模块闭合
+
+正常提交session19416/chunke8dcf2/exit0，HEAD f1fafeaefac1703016a1d1876289b7865a93729b；推送session93769/chunk56ea3a/exit0；远程精确核验chunk48c712/exit0，local/remote同fullSHA。373既有/新冻结blob全部匹配、private_RUNTIME变更0、源字节index mismatch0、敏感匹配0；原2k源码仓库37355613B，无大行情/模型入库，无force/新auth/settings。reports/GITHUB_PERPETUAL_PUBLIC_BENCHMARK_SYNC_VERIFIED_20261003_V1.json SHAb26110e3575fb71e120944cebe19bf2fbd514234bbae446c4b7640f8cd19c5a9为实际push后的新小凭证，随下一正常模块入库，不为状态另造提交。新科研未启动，具体交接是核上涨/震荡合法USD-M金融输入再固定共同窗口方向检验。
+
+D042：148官方metadata完成，source83/148在实际缺分钟处失败；单月独立+官方同日档+根诊断全部真0，原547输入拒绝。保留83工件/失败/partialPQ，无新经济/空头成交。下一固定213日完整输入核验后同产品方向比较，候选NONE/APRNE；文档完成，Git门槛和同步待执行。见docs/PERPETUAL_HISTORY_GAP_20261003.md。

@@ -779,3 +779,20 @@ HEAD4bf2bc1；D039失败已终止，无后台研究在跑。用户新指令生�
 源bca7/独立2754、新2case90c45、八金融bc89/独立bf13、根b50b全真closed0。能力采用，固定Donchian投资暂停：122日gross约90，但base fee+spread+slip约93，fund另外负；90 gross约−85，不能只归成本。两cost×两unit八净均负。完整10k各独立，122净−75.4066..−3.5811，90净−212.8846..−159.7839；旧32只引用原30+纠错新2，不重演/拼NAV。实现vol约6.1%/6.5%，gross均值约7.74%/7.72%、峰30.07%/32.99%，与SMA不同；共同caps不能消除实现风险差别。source已独立raw12/normalized16完整744行新两档，无旧42QA。独立max cash1.09e−11/ratio3.51e−14；order intent sizing scope仍pinned controller+新causal case。基金单位/原生venue/清算未证、候选NONE/APRNE；audit真实后登记明确，不伪装START。
 
 下一唯一主任务：核现有授权USD-M输入并补上涨/震荡完整共同窗，以固定SMA方向对照+公开参照检查空头跨状态净增量。近期两个窗口short均正，但122集中November、90更高实际风险；比围绕近零毛edge调参数更能排除“跌市收益即长期alpha”错误。不将已见/相关旧Spot历史改称unseen，不换手续费假装合约，不放宽成本/caps/锁/资金资源。Donchian投资/HPO暂停，reopen为预固定机制或新共同窗经济增量＋未来验证；SMA投资/HPO暂停而方向能力/研究挑战保留，reopen跨状态/合理风险/真正未来证据。此下一项未启动；模块验收/document/blob/Git闭合后继续。
+### D042 运行前：固定完整547日合约输入（2026-10-03）
+
+当前HEAD f1fafea，D041八账户净负、SMA short近期正收益集中于下跌期，当前现金/候选NONE/长期APR NE。问题：同产品完整更长窗口是否推翻近期空头优势，而非追加模型/HPO。评分日期在新合约行情和PnL前固定2024-01-01..<2025-07-01（547日、每币787680分钟）；这个日历已有Spot参考，不标unseen，也不依据bull/bear收益挑日期。后续固定SMA四方向与原公开2h Donchian，使用同10k、1x、.3/.6绝对敞口与既有27/43bp成本/两funding单位条件，账户独立不拼NAV；本模块只解除实际合约输入阻塞，不计算收益。
+
+新官方月档固定148：trade1m36、mark1m36、funding36、2023-06..2024-12 daily38、2023-12 2h两档；已有2025-01..06 USD-M daily12档按旧接受凭证复用，旧QA/绿测不重跑。日档从June2023起足够200完成日，2h December372根足够200根；不借Spot/mark作成交暖源。仅复用已钉官方download_file、CHECKSUM及既有转换/独立audit_one，薄orchestration，没有新依赖。先实际HEAD/CHECKSUM，sizes/rows当前未知；封存源协议后下载，再独立逐原CSV/Parquet格式、全UTC日历及跨月实际funding间隔。资金费按真实有符号事件，不猜8h/补零/选单位，单位和charge/publication仍UNCONFIRMED。
+
+停止条件：任何缺档/限制/校验/完整月历/时间类型/来源字节/资源错误立即保留失败，不替代主机、规避限制、删日期或覆盖旧证据。新源owned≤1GB、单CSV≤128MB、RSS≤1GB、wall≤1800s；联合实际ROOT+VHD+1GB新源+1GB工作预算须≤32GB，D40GB/shared5GB/swap0/GPU0保持。独立只新148，≤5MB输出/≤1GB RSS/1200s；不发单/keys/paid/locked。达到source-only接受后下一入口是固定全547日同产品经济对照，source完成不能当净收益或投资资格。
+### D042 实际来源失败后的决定（2026-10-03）
+
+官方148对象HEAD/CHECKSUM真实完成（task8b31107bb5c847d3a2636968f9bba9d8、报告cbfde5a12c27613666ef5d45a71963000a6b0b0e5e6f3fcef6cf0227e70101bf、session47091/chunkc4cd9e/0）；compressed104,898,965B/maxZIP1,986,381B，不是格式/全月历或资金费单位接受。后续source taskc1f09725d84349068d0cfff9327c3033真实exit1（session99178/chunke73f5e），completed83/ZIP84，于BTC markPriceKlines2024-08 Missing/shifted minute守卫终止。165,967,471B原工件、失败receipt/partialPQ/原ZIP和源码c088完整保留，RSS170,442,752B/265.703s，未运行经济或宽松重试。
+
+此结果推翻“官方对象存在即可保证547日全分钟输入完整”的假设。先独立只读该raw月档时间/CRC/缺口，随后核相同官方host的日档是否提供缺失原记录；不是根据收益选日期，不能删坏日、补零funding/returns或降低缺口守卫。恢复路线只许可真实官方记录及明确新来源凭证，若日档同缺则保留缺失并自主选择下一有限可靠对照，原547承诺不伪报完成；这是data信息完整性瓶颈，不能靠新模型解决。148全源QA/根接受和新547经济仍未执行，未运行草稿不当进展或后台任务。
+### D042 根接受与研究决策（2026-10-03）
+
+独立单月c0be5f1e真实exit0，官方日档ce6bfef6真实exit0：月44638/44640与日1438/1440同缺2024-08-12 UTC10:02、10:03，SHA/CRC正确，没有恢复记录。根ed248a0b/chunk96d769真0只接受失败诊断，source仍拒绝；原83工件/84ZIP/partialPQ保持。未运行148全QA、source根或经济；已准备但未执行code不当进展。采纳严格日历守卫和负证据，暂停完整547分钟，reopen合法真实记录或独立验证缺失风险方法。
+
+下一主任务事前固定Jan1..<Aug1 2024（213日），依输入完整性边界决定，未看新PnL；ETH mark和14个funding月档须补和独立接受，不能先称来源完整。若后续Sep2024..<Jul2025的303日完整，另独立10k账户；August缺失和原547失败公开，不删日期拼NAV或伪造547长期记录。SMA四方向＋Donchian共同产品/资金/风险/27/43bp/两unit保持，优先排除近期short熊市依赖，零新模型/HPO。当前现金/候选NONE/长期APR NE。

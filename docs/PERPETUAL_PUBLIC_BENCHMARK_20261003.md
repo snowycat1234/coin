@@ -81,3 +81,8 @@ ROOT+整个D盘WSL VHD真实扫描21,296,913,232B，于2026-10-03 12:40:08.46572
 主要缺口是市场状态覆盖与独立投资证据：SMA短腿在两个相近已见窗口都正，122日收益却集中November，90日风险更高；不能据此事后采用固定SHORT_ONLY。下一唯一主任务是先核现有合法合约输入，补齐上涨/震荡的完整共同窗，再用固定SMA方向对照与公开参照检验空头增量是否跨状态存在。这比继续调Donchian或堆模型更能排除“最近跌市就是长期alpha”的错误假设。仍用完整资本/同成本/实际风险，旧Spot长窗只作产品参照，不偷换合约收益。
 
 Donchian固定投资采用/HPO暂停，保留hooks/同产品adapter；reopen为事前固定的经济机制（信号/必要换手/风险）改进或新共同窗口提供净增量，随后独立未来验证。SMA投资采用/HPO暂停，保留多空挑战与现金，reopen为跨状态净增量、合理实际风险与真正未来证据。D039仅确需分币解释时重开；原资金费单位/Bybit native失败继续保留。下一实验未启动，不虚报后台任务；本版完成文档、blob检查、正常模块提交推送后继续。
+
+
+### D041 GitHub模块闭合
+
+正常提交session19416/chunke8dcf2/exit0，HEAD f1fafeaefac1703016a1d1876289b7865a93729b；推送session93769/chunk56ea3a/exit0；远程精确核验chunk48c712/exit0，local/remote同fullSHA。373既有/新冻结blob全部匹配、private_RUNTIME变更0、源字节index mismatch0、敏感匹配0；原2k源码仓库37355613B，无大行情/模型入库，无force/新auth/settings。reports/GITHUB_PERPETUAL_PUBLIC_BENCHMARK_SYNC_VERIFIED_20261003_V1.json SHAb26110e3575fb71e120944cebe19bf2fbd514234bbae446c4b7640f8cd19c5a9为实际push后的新小凭证，随下一正常模块入库，不为状态另造提交。新科研未启动，具体交接是核上涨/震荡合法USD-M金融输入再固定共同窗口方向检验。
