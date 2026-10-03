@@ -267,12 +267,3 @@ TCN-S/M 配置由 v6 固定；padding/mask 只由共同 dataset 和 adapter 处�
 复用 https://github.com/binance/binance-public-data 固定 f446ce3812bd4e5521f21faecd4ae3c6460e49fc；README软件MIT声明和原数据条款边界沿用。没有修改官方download_file、换下载host或安装依赖。新增perpetual_history_source薄编排仅固定148个URL、两个阶段、资源预留与receipt；原trade/mark/funding转换和CHECKSUM/CRC复用。资源兼容只在私有原函数namespace调整ZIP16MB、file32MB和CSV128MB；2h原日历适配沿用。独立QA复用原audit_one，trade仅私有2h duration分支，全部原CSV值和UTC月历/跨月实际funding间隔核对。Polars1.44.2 MIT、NumPy2.5.3 BSD-3-Clause及锁定环境保持。
 
 固定研究日历2024-01-01..<2025-07-01；新trade1m36、mark1m36、funding36、daily38、2h2，旧12个USD-M日档仅凭证复用。已见开发筛选输入，不是Bybit原生数据/成交或未来证据；funding单位/charge/publication未认证。本条登记源编排用途，实际source接受与经济另见模块凭证，不提前宣称通过。追加前完整字节保存在OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_HISTORY_20261003_V1.md，SHA1c33a5a19063cd4a4331892c1f2490d80a4fa30ad2ee138d39a20090b92b503d。
-### D043：完整213日同产品对照复用
-
-| repo | commit/version / license | 用途和本地修改 |
-|---|---|---|
-| https://github.com/binance/binance-public-data | f446ce3812bd4e5521f21faecd4ae3c6460e49fc / 原README软件MIT声明，行情另沿原条款 | 同官方URL/CHECKSUM/CRC，51逐文件完整旧工件＋21新mark/funding档；原download_file/CSV转换不改，薄编排只固定72选择和显式两owner。全72第一次独立日历验收；原547 failed/source及8月缺口不改，不称恢复547或原生Bybit。 |
-| https://github.com/jesse-ai/example-strategies | 7c91e0a37bf62165790120d730442e4f6eb00364 / MIT；原Donchian indicator版本沿D041 | 原SMA50/200双向及Donchian2h prior20/current200 hook零修改，沿用D040/D041产品/风险/账户适配；只私有日期/metadata接线213，原金融体和容差不改。SMA four方向/cash和原Donchian仅多，非原Jesse执行复现、非整个公开市场水平。 |
-| https://github.com/pola-rs/polars / https://github.com/numpy/numpy | 1.44.2 MIT / 2.5.3 BSD-3-Clause，原uv.lock | 原库零修改/无新安装，同输入/账户/指标；标准库Decimal原独立参考会计，17实际金融调用＋3恒定现金严格等价。显示unit冲突/独立路径用新V3修复，只metadata不改经济。 |
-
-追加前当前登记原字节见OPEN_SOURCE_REGISTRY_PRE_PERPETUAL_213_20261003_V1.md；旧引用继续按历史SHA与对应archive校验。实际21新源、72 QA、20市场选择器/17实体工件、独立/保存比较/根均有真实exit0，详见D043模块；资金费单位/原生风险/发布/长期APR仍未认证。

@@ -40,7 +40,7 @@ scripts/investment/diagnose_perpetual_mark_gap.py --protocol protocols/PERPETUAL
 scripts/investment/probe_official_mark_day.py --protocol protocols/PERPETUAL_HISTORY_OFFICIAL_DAY_PROBE_20261003_V1.json --run-dir /home/xflops/coin-state/d042-official-mark-day-probe-20261003-v1 --output reports/fast_research/PERPETUAL_HISTORY_OFFICIAL_DAY_PROBE_20261003_V1.json
 ```
 
-主要实际凭证：METADATA cbfde5a1、SOURCE失败82cae26a、单月独立c0be5f1e、官方日ce6bfef6、根ed248a0b。代码/小型协议/失败和验收报告入Git；raw行情/PQ/STATE日志留D。无发单、真钱、密钥、付费、GPU或locked访问。本模块提交推送与远程一致尚待最后门槛。
+主要实际凭证：METADATA cbfde5a1、SOURCE失败82cae26a、单月独立c0be5f1e、官方日ce6bfef6、根ed248a0b。代码/小型协议/失败和验收报告入Git；raw行情/PQ/STATE日志留D。无发单、真钱、密钥、付费、GPU或locked访问。本模块已提交并推送，远程 main 与本地一致：792c6b19fefc7cd1d12d9ded2a5744f405ecbe3c。实际提交session59042/chunk0c07fc exit0，推送session24874/chunk0b11bc exit0，远端核验chunk91f0d0 exit0；后验同步凭证a47823a7将在下一正常模块入库。
 Git首次字节门槛真实失败（task1f345a7d751c4854a09bc989c734f7fd、session55686/chunke0f707/exit1），原因仅实际experiment_registry尚未加入index；补齐同一真实登记文件后用V2独立门槛，不覆盖旧失败、不重做来源/经济。
 
 V2已真0；其检查期间补充上述模块失败说明，故最终固定index另用V3验证，之后仅追加门槛本身小凭证。来源/诊断/经济不重跑。

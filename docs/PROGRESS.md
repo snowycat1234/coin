@@ -51,3 +51,15 @@ sourcebca7/sourceQA2754/test90c45/8actualbc89/indepbf13/rootb50b均真closed0；
 正常提交session19416/chunke8dcf2/exit0，HEAD f1fafeaefac1703016a1d1876289b7865a93729b；推送session93769/chunk56ea3a/exit0；远程精确核验chunk48c712/exit0，local/remote同fullSHA。373既有/新冻结blob全部匹配、private_RUNTIME变更0、源字节index mismatch0、敏感匹配0；原2k源码仓库37355613B，无大行情/模型入库，无force/新auth/settings。reports/GITHUB_PERPETUAL_PUBLIC_BENCHMARK_SYNC_VERIFIED_20261003_V1.json SHAb26110e3575fb71e120944cebe19bf2fbd514234bbae446c4b7640f8cd19c5a9为实际push后的新小凭证，随下一正常模块入库，不为状态另造提交。新科研未启动，具体交接是核上涨/震荡合法USD-M金融输入再固定共同窗口方向检验。
 
 D042：148官方metadata完成，source83/148在实际缺分钟处失败；单月独立+官方同日档+根诊断全部真0，原547输入拒绝。保留83工件/失败/partialPQ，无新经济/空头成交。下一固定213日完整输入核验后同产品方向比较，候选NONE/APRNE；文档完成，Git门槛和同步待执行。见docs/PERPETUAL_HISTORY_GAP_20261003.md。
+
+D042最终固定index V3真实exit0（session57525/chunkecdce4），随后正常提交／推送／远程main一致792c6b19fefc7cd1d12d9ded2a5744f405ecbe3c；后验同步凭证a47823a7保留到下一正常模块。没有新经济结果；213D source补齐尚未启动。
+
+### D043：213日完整同产品方向对照实际验收
+
+采用研究能力及固定公开SMA参照，投资NONE/现金/APRNE。SMA四条件LO/LS净+1011.35..1224.57；SO/CASH0，short信号/成交0、LS=LO，不伪报新增short。Donchian+604.29..856.57，但SMA BASE/F vol11.20/MDD7.75 vs8.80/6.36，两者4/7正月、Feb占全净约98/125%，不称同风险赢家或长期APR。D040真实short及旧负结果保留。下一同perp受控持有基准优先排除beta解释，无新HPO。
+
+source task75a60d.../bc0970/0（121.95s/RSS119.97MB/new18.019MB），首72 QA6c1e949f.../55d741/0（21.75s/RSS188.49MB），源根7e4847/0，新case5601512.../48d155/0。market805bb12... session21880/28b895/0（518.66s/RSS503.87MB/owned336.294MB，20全）；金融V3 119339... session31814/6a774e/0（33.42s/RSS459.38MB，17全金融调用+3现金严格等价，maxcash1.82e−11/ratio2.03e−14）；保存比较00a866.../e8e5e5/0；根eac9e4/0，SHA4edb2ceaa3e29995c30dd130f04ed290da2b779e66de22b0b3c1cf6ef86716ca。scope不扩大到full sizing/原生执行/未来unit。
+
+三个真实metadata失败分别freezer旧registry别名（86718.../1，V2修历史archive解析）、独立V1进度unit冲突（5b8.../1，输入/target已读、0金融调用）、V2独立路径仍旧常量（543266.../1，manifest前拒绝）。V3只新路径/显示/登记ID，原金融算法/容差/参数不改；主体不重放。原547失败83/148/8月缺口、旧来源/账户全部保留。
+
+实扫21,609,669,564B@2026-10-03T06:53:37.111144Z，后续336MB市场工件不在此值；8765原时刻已发布，共享4,999,999,488B/swap0/GPU0/D40GB和collector540保持。文档见PERPETUAL_213_COMPARISON_20261003.md；Git实际门槛与同步待闭合。
