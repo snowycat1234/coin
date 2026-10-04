@@ -94,6 +94,16 @@ def main():
     end = int(datetime.fromisoformat(protocol['end_exclusive']).timestamp()*1_000_000)
     engine.need(start < end <= int(datetime(2026,3,1,tzinfo=UTC).timestamp()*1_000_000),
                 'Development window, locked boundary preserved')
+    account_path = protocol.get('account_path', 'FRESH_SINGLE_WINDOW_SHARED_ACCOUNT')
+    continuous = account_path == 'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D'
+    engine.need(account_path in ('FRESH_SINGLE_WINDOW_SHARED_ACCOUNT',
+                'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D'), 'Explicit account capital path')
+    if continuous:
+        engine.need((start, end) == (
+            int(datetime(2024,9,1,tzinfo=UTC).timestamp()*1_000_000),
+            int(datetime(2024,12,1,tzinfo=UTC).timestamp()*1_000_000)) and
+            protocol.get('data_role') == 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST',
+            'Fixed accepted 91-day continuous path; no monthly account reset')
     for path, digest in protocol['source_hashes'].items():
         engine.need(path != 'state/dataset_lock.json' and sha(ROOT/path) == digest, 'Source changed: '+path)
     manifest = Path(protocol['data_manifest']['path'])
@@ -132,6 +142,9 @@ def main():
         funding_unit_certified=False, native_filters_certified=False, candidate='NONE', investment='CASH',
         long_term_APR='NOT_EVALUABLE', model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
         resources_before=resources.status(), resources_by_pool=[])
+    result['account_path'] = account_path
+    result['capital_path_scope'] = ('ONE_INITIAL_WALLET_ONE_SIMULATE_CALL_PER_SCENARIO_FINAL_EXIT_ONLY'
+        if continuous else 'FRESH_SINGLE_WINDOW_SHARED_ACCOUNT')
     progress = Progress()
     progress.value['detail'] = '多币共享资金规则回放；开发筛选，不是长期APR'
     began = time.monotonic()

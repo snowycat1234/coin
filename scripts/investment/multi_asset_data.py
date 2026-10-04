@@ -79,6 +79,19 @@ NOVEMBER_BUDGETS = dict(OCTOBER_BUDGETS, peak_RSS_bytes=1_000_000_000)
 NOVEMBER_CONTRACT = 'D054_FIXED_JULY_POOL_NOVEMBER_SOURCE_V1'
 NOVEMBER_SOURCE_STATUS = 'COMPLETE_D054_FIXED_POOL_NOVEMBER_SOURCE_FORMAT_PENDING_ACCEPTANCE'
 NOVEMBER_MANIFEST_STATUS = 'PASS_D054_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS'
+CONTINUOUS_MANIFEST_STATUS = 'PASS_D055_CONTINUOUS_91D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS'
+CONTINUOUS_SCOPES = (('2024-09', START, END), ('2024-10', END, OCT_END),
+                     ('2024-11', OCT_END, NOV_END))
+CONTINUOUS_MANIFEST_REFS = (
+    dict(path=str(STATE/'d050-multiasset-source-acceptance-20261004-v2/INPUT_MANIFEST.json'),
+         sha256='48ff8dcd72cc247a1c341dffb0d683d1fcedd27ade639fd935dbfdcd8de78f93',
+         required_status='PASS_D050_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS'),
+    dict(path=str(STATE/'d051-multiasset-october-source-acceptance-20261004-v1/INPUT_MANIFEST.json'),
+         sha256='cbd4d7517aa914c6de87885f94a38072b0af8c8d08daa3391efe7c3913929fd0',
+         required_status='PASS_D051_SELECTED_PORTFOLIO_SOURCE_BINDING_NOT_ECONOMICS'),
+    dict(path=str(STATE/'d054-multiasset-november-source-acceptance-20261004-v2/INPUT_MANIFEST.json'),
+         sha256='77881c6e61aaf9d23a8e369493bc58e51c5846034e5171b0f0ea1c06d78bc87d',
+         required_status=NOVEMBER_MANIFEST_STATUS))
 
 
 def require(ok, message):
@@ -562,7 +575,11 @@ def daily_from_minutes(item, start_us, end_us):
 def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(), requested_symbols=None,
            warmup_minute_records=(), start_us=START, end_us=END):
     """Metadata first; each call to minute_blocks yields one complete UTC day."""
-    month = period_scope(start_us, end_us)
+    require(type(start_us) is int and type(end_us) is int, 'Explicit integer scoring boundaries')
+    continuous = (start_us, end_us) == (START, NOV_END)
+    scopes = CONTINUOUS_SCOPES if continuous else ((period_scope(start_us, end_us), start_us, end_us),)
+    months = tuple(r[0] for r in scopes)
+    month = months[0]
     require(pool is None or (pool['status'] == 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS' and
         len(pool['symbols']) == 10 and bool(pool_receipt_sha256)), 'Actual selected pool binding')
     selected = pool['symbols'] if pool is not None else ['BTCUSDT', 'ETHUSDT']
@@ -570,11 +587,12 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
     symbols = all_symbols if requested_symbols is None else list(requested_symbols)
     require(symbols and len(symbols) == len(set(symbols)) and set(symbols) in
         (set(selected), {'BTCUSDT', 'ETHUSDT'}, set(all_symbols)), 'Frozen pool or original control only')
-    table = {(r['kind'], r['symbol']): r for r in market_records}
-    require(len(table) == len(market_records) and set(table) == {(k, s) for k in
-        ('klines', 'markPriceKlines', 'fundingRate') for s in all_symbols}, 'Selected assets and controls, three real roles')
+    table = {(r['kind'], r['symbol'], r['month']): r for r in market_records}
+    require(len(table) == len(market_records) and set(table) ==
+        {(k, s, m) for k in ('klines', 'markPriceKlines', 'fundingRate')
+        for s in all_symbols for m in months}, 'Selected assets and controls, three real roles per authorized month')
     for item in market_records:
-        require(item['month'] == month and item.get('interval') == (None if item['kind'] == 'fundingRate' else '1m'), 'Only explicit score-month source roles')
+        require(item['month'] in months and item.get('interval') == (None if item['kind'] == 'fundingRate' else '1m'), 'Only explicit score-month source roles')
         p = Path(item['normalized_path']); resolved = p.resolve()
         require(resolved.is_relative_to(STATE.resolve()) and not p.is_symlink() and
             p.stat().st_size == item['normalized_bytes'] and sha(p) == item['normalized_sha256'], 'Exact selected market bytes')
@@ -601,25 +619,28 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
         require(qualify_daily(symbol, daily.filter(pl.col('symbol') == symbol), start_us=start_us)['status'] ==
             'ELIGIBLE_PRE_SCORE_ONLY', 'Selected/control warmup remains complete')
     # Score minutes are reduced only after selection/acceptance, never ranked.
-    score_daily = [daily_from_minutes(table[('klines', s)], start_us, end_us) for s in symbols]
+    score_daily = [daily_from_minutes(table[('klines', s, m)], a, b)
+                   for m, a, b in scopes for s in symbols]
     daily = pl.concat([daily.select(score_daily[0].columns), *score_daily]).sort(['symbol', 'open_us'])
     events = []
-    for symbol in symbols:
-        item = table[('fundingRate', symbol)]; rates = pl.read_parquet(item['normalized_path'])
-        for row in rates.iter_rows(named=True):
-            event = int(row['calc_time_ms'])*1000; rate = float(row['last_funding_rate'])
-            require(start_us <= event < end_us and math.isfinite(rate), 'Actual event, no forward filling')
-            events.append(dict(symbol=symbol, event_us=event, raw_rate=rate,
-                reported_interval_hours=float(row['funding_interval_hours'])))
+    for m, a, b in scopes:
+        for symbol in symbols:
+            item = table[('fundingRate', symbol, m)]; rates = pl.read_parquet(item['normalized_path'])
+            for row in rates.iter_rows(named=True):
+                event = int(row['calc_time_ms'])*1000; rate = float(row['last_funding_rate'])
+                require(a <= event < b and math.isfinite(rate), 'Actual event, no forward filling')
+                events.append(dict(symbol=symbol, event_us=event, raw_rate=rate,
+                    reported_interval_hours=float(row['funding_interval_hours'])))
     events.sort(key=lambda r: (r['event_us'], r['symbol']))
     require(len(events) == len({(r['symbol'], r['event_us']) for r in events}), 'Funding identity exactly once')
     def minute_blocks():
         for day in range(start_us, end_us, DAY):
             times = np.arange(day, day+DAY, MINUTE, dtype=np.int64); market = {}
+            source_month = next(m for m, a, b in scopes if a <= day < b)
             for symbol in symbols:
-                t = pl.scan_parquet(table[('klines', symbol)]['normalized_path']).filter(
+                t = pl.scan_parquet(table[('klines', symbol, source_month)]['normalized_path']).filter(
                     (pl.col('open_us') >= day) & (pl.col('open_us') < day+DAY)).sort('open_us').collect(engine='streaming')
-                m = pl.scan_parquet(table[('markPriceKlines', symbol)]['normalized_path']).filter(
+                m = pl.scan_parquet(table[('markPriceKlines', symbol, source_month)]['normalized_path']).filter(
                     (pl.col('timestamp_ms')*1000 >= day) & (pl.col('timestamp_ms')*1000 < day+DAY)).sort('timestamp_ms').collect(engine='streaming')
                 require(np.array_equal(t['open_us'].to_numpy(), times) and
                     np.array_equal(m['timestamp_ms'].to_numpy()*1000, times), 'Complete independent asset day; never inner-join away gaps')
@@ -694,12 +715,138 @@ def november_warmup_metadata(proofs, pool):
     return [*september, *october], base['normalized_source_hashes']
 
 
+def compose_continuous_manifest(monthly_manifest_proofs):
+    """Bind three accepted calendars using small metadata, without source QA.
+
+    The three original manifest/acceptance files remain unchanged. Their source
+    descriptors are retained; normalized byte SHA values are prior capabilities,
+    not a claim that this composition reread prices, rows, archives or CRCs.
+    """
+    require(isinstance(monthly_manifest_proofs, (tuple, list)) and
+        len(monthly_manifest_proofs) == 3, 'Exactly three ordered accepted months')
+    same = lambda a, b: ((ROOT/Path(a['path'])).resolve(), a['sha256']) == (
+        (ROOT/Path(b['path'])).resolve(), b['sha256'])
+    identity = lambda r: tuple(r[k] for k in ('symbol', 'kind', 'interval', 'month',
+        'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows'))
+    statuses = ('PASS_D050_SELECTED_MARKET_AND_DAILY_SOURCE_FORMAT_ONLY',
+        'PASS_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_ONLY',
+        'PASS_D054_FIXED_POOL_NOVEMBER_SOURCE_FORMAT_ONLY')
+    manifests, acceptances, tasks, market = [], [], [], []
+    pins = {}; pool = None; pool_ref = None; source_symbols = None
+    for ref, expected, scope, status in zip(monthly_manifest_proofs,
+            CONTINUOUS_MANIFEST_REFS, CONTINUOUS_SCOPES, statuses, strict=True):
+        require(same(ref, expected), 'Exact accepted month and original manifest SHA/order')
+        manifest = small_proof(ref, expected['required_status'])
+        month, first, last = scope
+        require(manifest['checksummed_source_format_verified'] is True and
+            (manifest['start_us'], manifest['end_us']) == (first, last), 'Complete accepted calendar metadata')
+        current_pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+        acceptance_ref = manifest['source_acceptance']
+        cap = small_proof(acceptance_ref, status)
+        require(cap['source_only'] is True and cap['actual_exit_code'] == 0 and
+            cap['symbols'] == manifest['symbols'] and len(manifest['symbols']) == len(set(manifest['symbols'])) and
+            set(manifest['symbols']) == set(current_pool['symbols']) ==
+            (set(current_pool['symbols']) | {'BTCUSDT', 'ETHUSDT'}) and
+            cap['pool_receipt_sha256'] == manifest['pool_receipt']['sha256'] and
+            cap['funding_unit_certified'] is False and cap['native_Bybit_certified'] is False,
+            'Accepted fixed July pool and source-only unqualified capability')
+        task_id = cap['binding']['task_id']
+        require(isinstance(task_id, str) and re.fullmatch(r'[a-f0-9]{32}', task_id), 'Actual capability task identity')
+        task_path = STATE/'task-progress'/f'task-{task_id}.json'
+        require(not task_path.is_symlink() and task_path.stat().st_size <= 2_000_000, 'Small closed task metadata')
+        task = json.loads(task_path.read_bytes())
+        require(task['id'] == task_id and task['status'] == 'completed' and task['exit_code'] == 0,
+            'Every prior independent source capability actually closed0')
+        tasks.append(dict(path=str(task_path), sha256=sha(task_path), task_id=task_id,
+            status=task['status'], exit_code=task['exit_code'], pid=task['pid'], start_ticks=task['start_ticks']))
+        if pool is None:
+            pool, pool_ref, source_symbols = current_pool, manifest['pool_receipt'], manifest['symbols']
+        else:
+            require(same(manifest['pool_receipt'], pool_ref) and current_pool['symbols'] == pool['symbols'] and
+                manifest['symbols'] == source_symbols and
+                manifest['control_daily_records'] == manifests[0]['control_daily_records'],
+                'Unchanged ordered pool, source catalogue and original daily controls')
+        rows = manifest['market_records']
+        keys = [(r['kind'], r['symbol'], r.get('interval'), r['month']) for r in rows]
+        require(len(keys) == len(set(keys)) == 30 and set(keys) ==
+            {(k, s, None if k == 'fundingRate' else '1m', month) for s in source_symbols
+             for k in ('klines', 'markPriceKlines', 'fundingRate')}, 'Thirty exact roles in each accepted scoring month')
+        for row in rows:
+            require(cap['normalized_source_hashes'].get(row['normalized_path']) == row['normalized_sha256'],
+                'Every monthly role retains its accepted normalized SHA')
+            require(row['normalized_path'] not in pins, 'Distinct physical source ownership across months')
+            pins[row['normalized_path']] = row['normalized_sha256']
+        manifests.append(manifest); acceptances.append(acceptance_ref); market.extend(rows)
+    base, october, november = manifests
+    september_trade = [r for r in base['market_records'] if r['kind'] == 'klines']
+    october_trade = [r for r in october['market_records'] if r['kind'] == 'klines']
+    require(same(october['warmup_manifest'], CONTINUOUS_MANIFEST_REFS[0]) and
+        same(october['warmup_source_acceptance'], acceptances[0]) and
+        same(november['warmup_manifest'], CONTINUOUS_MANIFEST_REFS[1]) and
+        same(november['warmup_source_acceptance'], acceptances[1]) and
+        list(map(identity, october['warmup_minute_records'])) == list(map(identity, september_trade)) and
+        list(map(identity, november['warmup_minute_records'])) ==
+        list(map(identity, [*september_trade, *october_trade])), 'Exact original cross-month warmup aliases and order')
+    _, base_pins = november_warmup_metadata(november, pool)
+    daily = {}
+    for row in [*(r for r in pool['source_records'] if r['symbol'] in source_symbols),
+                *base['control_daily_records']]:
+        key = row['symbol'], row['month']
+        require(key not in daily or identity(daily[key]) == identity(row), 'Duplicate daily alias must retain exact identity')
+        require(row['kind'] == 'klines' and row['interval'] == '1d' and
+            base_pins.get(row['normalized_path']) == row['normalized_sha256'], 'Warm daily source bound to original independent capability')
+        daily[key] = row
+    require(len(daily) == 70 and set(daily) == {(s, '2024-'+m) for s in source_symbols
+        for m in ('02', '03', '04', '05', '06', '07', '08')}, 'Seventy unique February-August warmup sources read once')
+    for row in daily.values():
+        require(row['normalized_path'] not in pins, 'Warmup and scoring source identities cannot overlap')
+        pins[row['normalized_path']] = row['normalized_sha256']
+    return dict(status=CONTINUOUS_MANIFEST_STATUS, source_only=True, checksummed_source_format_verified=True,
+        start_us=START, end_us=NOV_END, days=91, score_months=[r[0] for r in CONTINUOUS_SCOPES],
+        symbols=list(source_symbols), selected_symbols=list(pool['symbols']), pool_receipt=pool_ref,
+        monthly_manifests=[dict(r) for r in CONTINUOUS_MANIFEST_REFS], monthly_acceptances=acceptances,
+        accepted_closed_tasks=tasks, market_records=market, daily_records=list(daily.values()),
+        control_daily_records=base['control_daily_records'], normalized_source_hashes=pins,
+        prior_format_QA_reused=True, new_source_QA_performed=False, price_payloads_read=0,
+        raw_archives_or_CRC_reread=False, monthly_account_reset=False, models_fit=0, orders_sent=0,
+        locked_consumed=False, funding_unit_certified=False, native_Bybit_certified=False,
+        publication_certified=False, boundary_events='PRESERVE_EVERY_RECORDED_EVENT_START_LE_EVENT_LT_END',
+        scope='ACCEPTED_SOURCE_METADATA_COMPOSITION_NOT_ROWS_QA_ACCOUNT_NAV_OR_INVESTMENT_QUALIFICATION')
+
+
+def load_continuous_portfolio_window(manifest_path, symbols, start_us=START, end_us=NOV_END):
+    """One 91-day market window; the caller creates and simulates one wallet."""
+    require(type(start_us) is int and type(end_us) is int and
+        (start_us, end_us) == (START, NOV_END), 'Only fixed September-November continuous91D')
+    require(isinstance(symbols, (tuple, list)) and symbols and len(symbols) == len(set(symbols)) and
+        all(symbol_ok(s) for s in symbols), 'Explicit configured account symbol order')
+    path = Path(manifest_path)
+    require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
+        path.stat().st_size <= 2_000_000, 'Small exclusive continuous source manifest')
+    manifest = json.loads(path.read_bytes())
+    require(manifest == compose_continuous_manifest(manifest['monthly_manifests']),
+        'Exact accepted metadata composition; no changed source or capability scope')
+    pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+    require(list(symbols) == pool['symbols'] or tuple(symbols) == ('BTCUSDT', 'ETHUSDT'),
+        'Original ordered July pool or original two-asset control')
+    result = window(pool, manifest['market_records'], pool_receipt_sha256=manifest['pool_receipt']['sha256'],
+        control_daily_records=manifest['control_daily_records'], requested_symbols=symbols,
+        start_us=start_us, end_us=end_us)
+    result.update(manifest_path=str(path), manifest_sha256=sha(path), continuous_wallet_required=True,
+        account_path='CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D', score_months=manifest['score_months'],
+        input_proofs=[*manifest['market_records'], *manifest['daily_records']],
+        daily_source_scope='FEB_AUG_DAILY_ONCE_PLUS_CONTINUOUS_SEP_NOV_SCORE_MINUTE_REDUCTIONS_NO_MONTHLY_RESET')
+    return result
+
+
 def load_portfolio_window(manifest_path, symbols, start_us, end_us):
     """Public runner API; manifest SHA is bound by the portfolio protocol.
 
     Root accepts checksums/format evidence into this manifest after pool and
     source finish separately. No manifest self-awards native or unit semantics.
     """
+    if (start_us, end_us) == (START, NOV_END):
+        return load_continuous_portfolio_window(manifest_path, symbols, start_us, end_us)
     month = period_scope(start_us, end_us)
     require(isinstance(symbols, (tuple, list)) and symbols and len(symbols) == len(set(symbols)) and
         all(symbol_ok(s) for s in symbols), 'Explicit unique selected assets')

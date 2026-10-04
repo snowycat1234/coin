@@ -382,8 +382,19 @@ def main():
         p['candidate']=='NONE' and not p['orders_sent'] and not p['locked_consumed']
         for p in (left,right)), 'Four complete scenarios per shared 10k portfolio')
     actual_days=left['actual_calendar_days']
-    require(isinstance(actual_days,int) and 28 <= actual_days <= 31 and
-            actual_days==right['actual_calendar_days'], 'Same complete predeclared calendar month')
+    require(isinstance(actual_days,int) and actual_days==right['actual_calendar_days'],
+            'Same actual full calendar length')
+    if actual_days == 91:
+        a_spec,_ = saved_protocol(left); b_spec,_ = saved_protocol(right)
+        require(all(r.get('account_path') == p.get('account_path') ==
+                'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D' and
+                p['start'] == '2024-09-01T00:00:00+00:00' and
+                p['end_exclusive'] == '2024-12-01T00:00:00+00:00' and
+                p.get('data_role') == 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'
+                for r,p in ((left,a_spec),(right,b_spec))),
+                'Fixed continuous capital path, not concatenated fresh monthly NAV')
+    else:
+        require(28 <= actual_days <= 31, 'Predeclared single month or accepted continuous 91D scope')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
     signal_context=signal_scope(left,right) if args.contrast=='signal' else None
     pool_context=pool_scope(left,right) if args.contrast=='pool' else None

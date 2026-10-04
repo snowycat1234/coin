@@ -999,3 +999,27 @@ D053实际完成并推送/远端核354967542958004c59a7f8e4b3d2fececf036b63，�
 下一唯一主任务：已接受9–11月91日真正连续一个wallet/每recipe完整10k、原三recipe四条件，只初始一次fresh flat，跨Oct/Nov不全平/清库存entry/margin/freewallet/funding计数，仅最终原5次有容量退出。月表只从连续账本分段，不能拼三个fresh NAV；与旧独立月的差异包含复利资本/连续仓位/边界funding和成本，非纯成本消融。信息价值高于第4fresh月/扩池/搜模型，因为当前最大证据缺口是持续资本与风险/容量路径，且复用已合法接受源无新下载。尚未启动，新运行前短记有限预算，不新增平台。
 
 暂停扩池/投资晋级，reopen为连续路径净/实际risk/可退出增量；inverse不按Nov赢家直接晋级。SMA/ML能力保留，reopen须明确信息/机制假设和有限对照，不要求在研究之前先证明强alpha。Bybit原生/单位/独立未来样本限制声明，不冻结无关研发。本模块通过实际验收修现有文档后正常Git闭合，推送只据独立后验凭证。
+
+### D055事前：三个月真正连续资本路径
+
+重新核HEAD90c60204ad9fcd86a3e90c8d318bda8cad7eb0c1/工作区/8765实际任务；tracked clean、37旧untracked保留、collector540 live、0活动研究。D054完成实际12账户/12核账与远端同步，上一turn为progress，不重算既有月度账户或源QA。当前投资NONE/CASH，BTCETH HOLD控制、equal10基准、inverse10挑战者。
+
+本轮唯一问题：在已接受Sep1至Dec1前91个真实UTC日，同一钱包跨月保留仓位/成本基础/保证金/现金/资金费归属后，三固定配方的净收益、实际风险和容量退出是否支持继续保留扩池/配置方向？三配方×四原成本/资金费情景共12新账户及12独立金融核账；一次初始化10k、一次simulate、只Nov最终原5次有容量退出，Oct1/Nov1真实持仓的事件资金费不得按fresh-flat排除。0下载/新QA/模型/训练/HPO/币池/信号/费用/风险额度改变；原July选择与70暖daily、90评分trade/mark/funding来自三个已接受manifest，metadata组合不自授新格式认证。
+
+新STATE总≤1GB；两币主体≤100MB、十币主体各≤250MB，各wall1800秒/RSS3GB；三个独立checker各≤100KB/wall1800秒/RSS1.5GB，合成验证/temp与meta占余量。共享5GB/swap0/GPU0与D40/32warn/36stop继续，预计D约24.7GB；所有长Python用原WSL progress wrapper，主体串行，不先要求资源增加。资料角色为已见开发筛选，91真实日不能以12调用变成1092独立日期，不能按case挑单位/方向/成本。
+
+指标完整资本净/gross/手续费/执行成本/资金费、逐月连续NAV贡献、逐币/方向、实际日波动/minuteDD、平均峰值net/gross/保证金、换手与集中度、末仓/未实现/可清仓性、边界资金费与真实资源。停止在12账户/12核账和两保存配对或实际缺失/破产/风险/容量/预算错误；原失败/停机/残仓完整保存，不放宽五次退出、补零或删日期。与旧独立月的差异含资本路径、持仓延续、边界资金费与成本，不能归为纯成本消融，也不拼接旧NAV。完成后依据连续结果决定保留/暂停；原生Bybit、资金费单位与独立证据仍限制投资声明。
+
+### D055实际决定：连续钱包验证完成，先增加跨状态证据，不增加币数
+
+三原配方×四条件在Sep1→Dec1前91个UTC日一次钱包初始化/一次simulate/仅最终原5次退出，12新账户/12新独立金融与两保存配对实际closed0。两币net953.42..1013.61、equal10 1059.77..1103.50、inverse10 1178.02..1227.60USDT；全部真实末quantity/notional/unreal0，原1e−47/1e−48债尾差保留，F/P单位两情景不选择。Oct1/Nov1逐币q与前月endpoint一致，所有原边界coupon owned、strictpastmark；月表按close−1us端点标签，不冒充UTC事件月汇总。1092case-days≠1092真实独立日期。
+
+最大cash2.55e−11/ratio3.11e−14原tols；独立核记录成交/金融与有序目标，完整frozen sizing未全市场独立重建。两个必要小病例真0：同engine跨月前mark/未来扰动与独立手钱包拒reset/漏coupon。首case只因自有temp父目录缺失fixture前true1，未变case只修启动后真0；首金融候选339行与冻结池70warm身份不匹配在市场数组/金融调用前true1，原源210975/报告1d676/planf5c5/task189保持。正常仅daily候选一行按frozen symbols筛选，当前db1332与原financial/target/HandLedger/tolsbody相同，V2计划原pre210+修正db13调用前绑定；三marketprotocol/source/账本不改、不重跑。根首次copy后的byte-proof因错误旧行literal断言true1，0金融/market，后正确exactliteral证明才继续绑定，不隐藏失败。
+
+扩池净+89.89..106.34，BASE/F毛+86.4087/成本省3.9896/fund省13.4517，日波动10.538→9.961%但minuteDD3.071→3.495%；inverse再净+118.26..124.10，BASE/F毛+126.4916/成本反+2.2804/fund反−4.4724，平均gross12.93→14.90%、日波动9.961→10.054%、DD3.495→3.503%。因此不是相同实际风险胜者或低费率制造改善。八摘要delta桥≤2.56e−13，逐币归因来自同一wallet；約72%..73%净利来自Nov，选择的主要瓶颈是独立/跨市场状态证据，非交易成本、算力或缺币数。
+
+采用N资产/共享资本/连续钱包能力，BTCETH HOLD稳定控制，equal10透明基准、inverse10优先挑战者，投资NONE/CASH/APR未建立。不按新胜者改池/阈值/模型。下一唯一研究选择：同原July十池与三固定配置在下个完整2024-12-01至2025-03-01前连续季度检验净/风险/可退出增量，先核合法已有源/补必要trade1m+mark1m+funding，按日块，无tick/LOB/逐币训练。选连续日历不是收益，已看过范围仍development，不拼两季度独立钱包；新任务尚未启动，运行前另记总预算/必要QA和停止条件。信息价值高于扩币/搜参，若增量不延续保留能力而暂停配置晋级，若延续仍须单位/native与真正独立样本才能晋级。
+
+暂停更多币与参数/模型搜索，reopen须已存在对照发现明确覆盖/信息机制瓶颈且有限对照；SMA本50/200配方暂停、能力保留，reopen具体新signal而非救活旧配方。INV/扩池投资晋级reopen须更长跨状态净/实际risk/容量证据、场所/单位语义与独立验证，不因本轮正净利放权。官方低成本≤4页探测确认−q×mark×rate/支付方向，未确认public-data last_funding_rate archive单位及2024publication；原API451/matched0和F/P UNKNOWN不改，不按利润选单位。
+
+来源847d composite仅meta组合既有三accepted/160身份，0下载/新格式QA/旧金融重放/模型/安装。主体RSS≤442.81MB、共享实采2.048GB、输出357.152MB；financialRSS≤585.74MB/共21.900KB，1GB新STATE边界保持；分钟账本时间/输出是真瓶颈，无需增加RAM。最新actual pre-inverse scan24,214,764,427B@2026-10-04T00:28:22.126279Z未含随后输出/metadata/Git，8765已发布准确ledger和原时间；collector540不中止，shared5GB/swap0/GPU0/D40与0keys/orders/locked/paid保持。正常模块小metadata/源码字节与敏感门槛后提交推送，实际远端一致仅由后验凭证确认。

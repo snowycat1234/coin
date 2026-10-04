@@ -1,0 +1,157 @@
+{
+  "status": "PASS_D055_ONE_WALLET_SYNTHETIC_MONTH_BOUNDARY_NOT_MARKET_OR_APR",
+  "binding": {
+    "actual_task_path": "/home/xflops/coin-state/task-progress/task-80b53ef2c7f64381b18a7cc54613f233.json",
+    "actual_task_sha256": "5041fbe8ef24ca74c9f2288a74daad73107e5c1931ed4d7f4ba1e21f387d05fe",
+    "task_id": "80b53ef2c7f64381b18a7cc54613f233",
+    "exact_command": "bash scripts/with_task_progress.sh --title '连续组合 · 月界钱包合成验证 V2' -- env PYTHONPATH=/mnt/d/codex/coin:/mnt/d/codex/coin/src:/mnt/d/codex/coin/tools/task_progress OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 POLARS_MAX_THREADS=2 timeout 120 /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -m pytest tests/test_multi_asset_continuous_20261004.py::test_one_wallet_owned_funding_crosses_month_without_intermediate_terminal -q --maxfail=1 --basetemp=/home/xflops/coin-state/d055-continuous-boundary-test-20261004-v2/pytest --junitxml=/mnt/d/codex/coin/reports/MULTI_ASSET_CONTINUOUS_BOUNDARY_TEST_20261004_V2.xml",
+    "source_hashes": {
+      "src/quant/perpetual_account.py": "9a4223d1115add6ed2cce5b695cf6dcd89459daa6918eb61091b188e5ec05754",
+      "scripts/investment/perpetual_closing_exempt_account.py": "30e0b41f094e01360aa9415011f2b27b4f49256819b2685c21d2da754f1d1b60",
+      "tests/test_multi_asset_continuous_20261004.py": "2d94711309cd1d0d20d75203e29b06affd4a560ead9d895996a87ccfbaa22341",
+      "scripts/investment/vol_managed_perpetual_target.py": "a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b",
+      "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+      "docs/archive/PERPETUAL_INDEPENDENT_REFERENCE_20261003_V1.py": "3600a29fe6d4fac13e7b34fd1d2a31f922b8bb4f9e2c1649950ebe6029b5e81a",
+      "scripts/investment/perpetual_directional.py": "570524281b80109b9a1d07b737831d3f768f308ac465c86e2e403a2415ec02ae",
+      "scripts/investment/public_sma_perpetual.py": "37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47"
+    },
+    "git_commit": "90c60204ad9fcd86a3e90c8d318bda8cad7eb0c1"
+  },
+  "host": {
+    "exit_code": 0,
+    "session_id": 36992,
+    "chunk_id": "6ecf75"
+  },
+  "actual_task": {
+    "id": "80b53ef2c7f64381b18a7cc54613f233",
+    "title": "连续组合 · 月界钱包合成验证 V2",
+    "status": "completed",
+    "started_at": 1791072257.7553241,
+    "phase": "完成",
+    "completed": null,
+    "total": null,
+    "unit": "",
+    "metrics": {},
+    "children": [],
+    "pid": 595680,
+    "last_activity_at": 1791072297.2736464,
+    "start_ticks": 14823908,
+    "exit_code": 0,
+    "detail": "实际退出码：0",
+    "ended_at": 1791072297.27365
+  },
+  "test_exit_code": 0,
+  "source_bytes_unchanged": true,
+  "junit_path": "reports/MULTI_ASSET_CONTINUOUS_BOUNDARY_TEST_20261004_V2.xml",
+  "junit_sha256": "320b985b150152c75ecd8094fa445aa28f3707fda381163bf24dc66bda82664d",
+  "junit_counts": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit_elapsed_seconds": 31.611,
+  "task_elapsed_seconds": 39.51832580566406,
+  "testcase_elapsed_seconds": 0.214,
+  "run_dir": "/home/xflops/coin-state/d055-continuous-boundary-test-20261004-v2",
+  "run_binding_produced": false,
+  "evidence_path": "/home/xflops/coin-state/d055-continuous-boundary-test-20261004-v2/pytest/test_one_wallet_owned_funding_0/continuous_boundary_evidence.json",
+  "evidence_sha256": "d0bc389ba1c111864e0979490af2ec467fde27a7540a94c4299c3361d5459527",
+  "synthetic_evidence": {
+    "scope": "ONE_SYNTHETIC_MONTH_BOUNDARY_NOT_MARKET_RETURN",
+    "account_constructions": 1,
+    "completed_minutes": 1452,
+    "boundary_owned_coupons": [
+      {
+        "symbol": "BTCUSDT",
+        "event_id": "BTCUSDT:1730419200000000",
+        "event_us": 1730419200000000,
+        "rate_available_us": 1730419200000000,
+        "rate_fraction": 0.001,
+        "mark_price": 99.0,
+        "mark_close_us": 1730419140000000,
+        "owned": true,
+        "quantity": 29.7,
+        "signed_funding_USDT": -2.9403,
+        "account_status": "ACTIVE",
+        "unit_and_publication_scope": "CALLER_DECLARED_CONDITIONAL",
+        "decimal_strings": {
+          "rate_fraction": "0.0010",
+          "mark_price": "99.0",
+          "quantity": "29.70",
+          "signed_funding_USDT": "-2.9403000"
+        },
+        "raw_rate": 0.001,
+        "reported_interval_hours": 8.0,
+        "conditional_rate_scale": 1.0,
+        "assumed_fraction_decimal": "0.0010",
+        "raw_rate_unit": "UNCONFIRMED",
+        "rate_publication_assumption": "EVENT_TIME_CONDITIONAL_NOT_CERTIFIED"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "event_id": "ETHUSDT:1730419200000000",
+        "event_us": 1730419200000000,
+        "rate_available_us": 1730419200000000,
+        "rate_fraction": -0.0002,
+        "mark_price": 100.0,
+        "mark_close_us": 1730419140000000,
+        "owned": true,
+        "quantity": 29.7,
+        "signed_funding_USDT": 0.594,
+        "account_status": "ACTIVE",
+        "unit_and_publication_scope": "CALLER_DECLARED_CONDITIONAL",
+        "decimal_strings": {
+          "rate_fraction": "-0.00020",
+          "mark_price": "100.0",
+          "quantity": "29.70",
+          "signed_funding_USDT": "0.59400000"
+        },
+        "raw_rate": -0.0002,
+        "reported_interval_hours": 8.0,
+        "conditional_rate_scale": 1.0,
+        "assumed_fraction_decimal": "-0.00020",
+        "raw_rate_unit": "UNCONFIRMED",
+        "rate_publication_assumption": "EVENT_TIME_CONDITIONAL_NOT_CERTIFIED"
+      }
+    ],
+    "final_terminal_signal_us": 1730419560000000,
+    "initial_capital_USDT": 10000,
+    "independent_expected_net_USDT": "-18.384300000000",
+    "funding_USDT": -2.3463,
+    "future_daily_target_prefix_unchanged": true
+  },
+  "verified": {
+    "financial_simulation_calls": 1,
+    "funding_strict_past_mark": true,
+    "final_terminal_exit": true,
+    "intermediate_terminal_exit": false,
+    "independent_wallet_reference": "EXACT_ARCHIVED_HAND_LEDGER",
+    "completed_minutes": 1452,
+    "future_daily_target_prefix_unchanged": true,
+    "account_constructions": 1,
+    "monthly_account_reset": false,
+    "first_zero_ownership_no_past_mark_events": 1,
+    "owned_boundary_funding_events": 2
+  },
+  "prior_failure": {
+    "sha256": "9a81b4ca850ed96ef10eecfe74eaa1f299630810be7bec82adb14bdbcad8f8c9",
+    "task_id": "de16ed27f72f4ddebb4f593c759a24f3",
+    "exit_code": 1,
+    "scope": "SETUP_ONLY_NO_TEST_BODY_MISSING_OWNED_BASETEMP_PARENT",
+    "path": "reports/fast_research/MULTI_ASSET_CONTINUOUS_BOUNDARY_TEST_20261004_V1.json"
+  },
+  "resource_scope": {
+    "CPU_threads": 2,
+    "peak_RSS_bytes": null,
+    "timeout_seconds": 120,
+    "runtime": "WSL_HPC_LINUX_CLEAN_ENV_WITH_TASK_PROGRESS_BOUNDED_SHARED_5GB",
+    "peak_RSS_qualification": "NOT_REPORTED_BY_PLAIN_PYTEST_TASK_RECEIPT"
+  },
+  "raw_market_source_arrays_read": false,
+  "old_QA_repeated": false,
+  "old_green_tests_repeated": false,
+  "candidate": "NO_QUALIFIED_CANDIDATE",
+  "long_term_APR": "NOT_EVALUABLE",
+  "native_account_certified": false
+}

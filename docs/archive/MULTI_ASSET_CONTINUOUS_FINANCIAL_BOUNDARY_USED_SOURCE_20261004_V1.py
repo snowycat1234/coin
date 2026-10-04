@@ -117,14 +117,12 @@ def continuous_source_records(value, symbols, guard, scope):
     def identity(reference):
         path = Path(reference['path'])
         return str(path if path.is_absolute() else ROOT / path), reference['sha256']
-    def keyed(records, financial_identity=False):
+    def keyed(records):
         result = {}
         for row in records:
             key = row['kind'], row['symbol'], row.get('interval'), row['month']
             need(key not in result, 'Unique accepted source aliases in each metadata list')
-            result[key] = ({k:row[k] for k in ('kind', 'symbol', 'interval', 'month',
-                'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows')}
-                if financial_identity else row)
+            result[key] = row
         return result
     need(value['status'] == 'PASS_D055_CONTINUOUS_91D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS' and
          value['source_only'] is True and value['checksummed_source_format_verified'] is True and
@@ -175,9 +173,9 @@ def continuous_source_records(value, symbols, guard, scope):
         expected_warm = [r for m in manifests[:i] for r in m['market_records'] if r['kind'] == 'klines']
         need(keyed(manifests[i]['warmup_minute_records']) == keyed(expected_warm),
              'Prior minute aliases remain the exact accepted months')
-    daily = [r for r in pool['source_records'] if r['symbol'] in value['symbols']]
+    daily = pool['source_records']
     need(len(value['control_daily_records']) == 14 and len(daily) == 70 and
-         keyed(value['daily_records'], True) == keyed(daily, True) and
+         keyed(value['daily_records']) == keyed(daily) and
          set(keyed(daily)) == {('klines', s, '1d', '2024-' + m) for s in pool['symbols']
                              for m in ('02', '03', '04', '05', '06', '07', '08')} and
          keyed(value['market_records']) == keyed(all_market), 'Exact February-August warmup and three complete scoring months')

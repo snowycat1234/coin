@@ -323,3 +323,9 @@ D053实际闭合：同原Jesse7c91e0.../MIT与原SMA/Polars均值，第三方零
 ### D054：固定November来源增量（运行前登记）
 
 沿用binance/binance-public-data固定f446ce3812bd4e5521f21faecd4ae3c6460e49fc/原软件MIT与行情条款、官方USD-M URL/.CHECKSUM/CSV格式与已登记成熟parser，正常薄wrapper只有限添加已授权2024Nov和完整Sep/Oct暖源。24首次新QA、6BTCETH303旧meta与90暖源复用，不新增aggTrades/LOB/daily下载或库安装。WSL无route仍原Windows System.Net.Http默认同一official HTTPS、字节/耗时限制，无重试/新代理。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause/Decimal原环境不改；账户/执行/费用保持，不认证Bybit原生/资金费单位或长期APR。正常日历/metadata接线是本地修改，原代码由Git3549675复现，失败/旧证据不覆盖。
+
+### D055：连续91日既有来源/账户复用（运行前登记）
+
+仍使用上述已登记Binance来源、Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause和标准库Decimal，0新依赖/第三方修改/下载/训练。正常适配只将原Sep/Oct/Nov接受manifest做小metadata组合、日块遍历和独立必要金融列连续读取，原三HOLD目标/共享账户/资金费/费用/风险/原五次退出数学不变。原D054与此前结果由Git90c6020及其父提交复现，不复制整套版本或框架；既有源格式QA证据按原byte/SHA复用，不自授新认证。
+
+D055实际闭合：同原Binance f446ce.../Polars1.44.2/NumPy2.5.3/Decimal，0新增依赖或第三方修改。Normal continuous接口与三accepted160身份metadata复用，12新实际/12独立与两保存对照已真实0；唯一金融input候选筛选修正不改数学/容差，原失败source/report/plan保持。Core账户/目标/执行仍原字节，不把条件历史净利当原生或APR资格。

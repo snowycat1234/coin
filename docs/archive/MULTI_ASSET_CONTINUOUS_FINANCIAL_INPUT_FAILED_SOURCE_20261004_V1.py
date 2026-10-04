@@ -175,7 +175,7 @@ def continuous_source_records(value, symbols, guard, scope):
         expected_warm = [r for m in manifests[:i] for r in m['market_records'] if r['kind'] == 'klines']
         need(keyed(manifests[i]['warmup_minute_records']) == keyed(expected_warm),
              'Prior minute aliases remain the exact accepted months')
-    daily = [r for r in pool['source_records'] if r['symbol'] in value['symbols']]
+    daily = pool['source_records']
     need(len(value['control_daily_records']) == 14 and len(daily) == 70 and
          keyed(value['daily_records'], True) == keyed(daily, True) and
          set(keyed(daily)) == {('klines', s, '1d', '2024-' + m) for s in pool['symbols']
