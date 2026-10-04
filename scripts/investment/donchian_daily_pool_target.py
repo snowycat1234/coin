@@ -86,14 +86,19 @@ def _load_public_hooks():
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
                   eligible_by_decision=None, allocation='EQUAL'):
-    shared.require(mode in MODES and allocation == 'EQUAL',
+    shared.require(mode in MODES and allocation in ('EQUAL', 'ACTIVE_EQUAL'),
         'Fixed daily Donchian LONG_ONLY/CASH and equal allocation required')
     frame, meta = shared.fixed_targets(bars, decisions, mode, symbols=symbols,
         direction_factory=_load_public_hooks(), eligible_by_decision=eligible_by_decision,
-        allocation='EQUAL', completed_bar_count=200)
+        allocation=allocation, completed_bar_count=200)
     for key in ('fast_period', 'slow_period', 'equality_holds_current_position', 'source'):
         meta.pop(key, None)
-    meta.update(strategy_id=STRATEGY_ID, rules=dict(RULES), allocation='EQUAL',
+    rules = dict(RULES)
+    if allocation == 'ACTIVE_EQUAL':
+        rules.update(raw_allocation='MIN_0.3_0.6_DIVIDED_BY_ACTIVE_ELIGIBLE_SIGNALS',
+            inactive_signal_budget_redistributed=True, allocation=allocation,
+            active_signal_zero_is_cash=True, clipped_budget_not_redistributed=True)
+    meta.update(strategy_id=STRATEGY_ID, rules=rules, allocation=allocation,
         original_long_and_short_and_exit_hooks_reused=False,
         original_long_entry_filter_and_exit_hooks_reused=True,
         original_short_entry_is_false=True, original_whole_balance_order_hooks_called=False,

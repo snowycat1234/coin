@@ -360,3 +360,6 @@ D063：未增加第三方库或框架。继续复用原ExecutionContractV2 clock
 D064运行前登记：沿用MIT jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364及jesse indicator417f8765225e3bfc12043d4b712f19fe15a3c078；复用既有third_party/jesse_example_donchian原类fc635b25..和原Donchian指标b7e96ebe..，license80d87314..，0新库/第三方修改。正常薄adapter只close上下文、原filters接线和显式日线共享N风险sizing，非whole-balance/native Jesse复制。标量SMA200使用NumPy均值，上游SMA实现内核未复现，独立直接窗口核数值；原previous20高低和严格entry/exit保持。Binance已接受官方source/CHECKSUM370身份只组合，无下载/新QA；费用/资源依赖沿D063正常接口，不添加策略框架。
 
 D064实际复用闭合：3条连续研究配方在303日正常共享账户已产生12完整保存轨迹，日线source/目标直接参考与12金融核验完成；原未确认资金units/Bybit原生限制保持。十币HOLD输出预算失败保留，单次saved-financial orchestration仅调用现有normal财务函数和直接目标参考，无市场重放/新账户引擎/库。诊断复用normal saved measures与perasset Decimal桥；无自写downloader/模型/online/资源平台。相关性30样本只是描述，旧source/caps/成本未因收益调整。
+
+
+D065沿用D064 pinned MIT Jesse Donchian原代码、license与commit，不修改vendor；仅COIN共享raw分配增加ACTIVE_EQUAL。原日线入场/过滤/退出未变，仍不是Jesse原生整个平台或Bybit成交复现。

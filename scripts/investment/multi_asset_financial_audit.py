@@ -998,12 +998,13 @@ def rsi2_pool_target_reference(window, symbols, mode='LONG_ONLY'):
     return pl.DataFrame(rows)
 
 
-def donchian_pool_target_reference(window, symbols):
+def donchian_pool_target_reference(window, symbols, allocation='EQUAL'):
     """Direct prior20 high/low, current completed SMA200 and fresh-flat long state.
 
     The entry-only SMA filter does not liquidate an existing long. Strict lower
     channel exits wait for the next daily decision before any reentry.
     """
+    need(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Only explicit Donchian raw budget policies')
     states = dict.fromkeys(symbols, 0)
     rows, witnesses = [], []
     for decision in range(window['start'], window['end'], DAY):
@@ -1040,7 +1041,6 @@ def donchian_pool_target_reference(window, symbols):
             else:
                 states[symbol] = int(latest > upper and latest > trend)
                 action = 'ENTER_LONG' if states[symbol] else 'STAY_CASH'
-            raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
             past = closes[-31:]
             returns.append(np.diff(past) / past[:-1])
             live.append(symbol)
@@ -1050,6 +1050,10 @@ def donchian_pool_target_reference(window, symbols):
                 channel_last_close_us=int(bars['close_us'][i-1]), channel_excludes_current=True,
                 old_state=before, new_state=states[symbol], action=action, reason='ELIGIBLE'))
         if live:
+            active = sum(states[s] != 0 for s in live)
+            denominator = active if allocation == 'ACTIVE_EQUAL' else len(members)
+            share = min(.3, .6 / denominator) if denominator else 0.
+            raw.update((s, share * states[s]) for s in live)
             x = np.column_stack(returns)
             need(np.isfinite(x).all(), 'Finite complete independent Donchian past30 returns')
             centered = x - x.mean(axis=0)
@@ -1071,7 +1075,9 @@ def donchian_pool_target_reference(window, symbols):
 
 
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY'):
-    need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
+    need(allocation in ALLOCATION_STRATEGIES or
+         allocation == 'ACTIVE_EQUAL' and strategy_id == DONCHIAN_POOL_STRATEGY,
+         'Only predeclared allocation choices, active budgeting limited to Donchian')
     need(strategy_id == RSI_POOL_STRATEGY or mode == 'LONG_ONLY',
          'Non-RSI references retain their predeclared long-only direction')
     if strategy_id == SMA_POOL_STRATEGY:
@@ -1084,8 +1090,8 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, m
         need(allocation == 'EQUAL', 'Predeclared RSI2 uses original equal member shares only')
         return rsi2_pool_target_reference(window, symbols, mode)
     if strategy_id == DONCHIAN_POOL_STRATEGY:
-        need(allocation == 'EQUAL', 'Predeclared Donchian uses original equal member shares only')
-        return donchian_pool_target_reference(window, symbols)
+        need(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Explicit Donchian equal-member or active-signal raw policy')
+        return donchian_pool_target_reference(window, symbols, allocation)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -1212,9 +1218,10 @@ def main():
         need(direction_mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH') and
              (rsi_strategy or direction_mode == 'LONG_ONLY'),
              'Only RSI2 has the explicit predeclared signed direction policies')
-        need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
-             (strategy_id == ALLOCATION_STRATEGIES[allocation] or
-               (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy) and allocation == 'EQUAL'),
+        need(spec['initial_capital_USDT'] == 10000 and
+             ((allocation in ALLOCATION_STRATEGIES and strategy_id == ALLOCATION_STRATEGIES[allocation]) or
+               (sma_strategy or momentum_strategy or rsi_strategy) and allocation == 'EQUAL' or
+               donchian_strategy and allocation in ('EQUAL', 'ACTIVE_EQUAL')),
              'Same fixed capital and explicit independent strategy/allocation policy')
         need('score_months' not in scope or not sma_strategy,
              'Continuous quarters contain the predeclared HOLD or past30 long/cash recipes')
@@ -1228,8 +1235,8 @@ def main():
                  'Only the fixed ten-member equal daily RSI2 recipe in the two continuous quarters')
         if donchian_strategy:
             need(scope['period_days'] == 303 and len(actual['cases'][0]['symbols']) == 10 and
-                 actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
-                 'Only the fixed ten-member equal daily Donchian recipe in the continuous303 span')
+                 actual['strategy_id'] == strategy_id and actual['allocation'] == allocation,
+                 'Only the fixed ten-member declared daily Donchian raw policy in the continuous303 span')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -1275,7 +1282,7 @@ def main():
                 Donchian_parameters=dict(channel_period=20, trend_SMA_period=200),
                 channel_excludes_current=True, SMA_filter_applies_only_to_entry=True,
                 strict_lower_channel_exit=True, exit_then_wait_next_daily_decision=True,
-                idle_raw_budget_redistributed=False, equality_tolerance_band_used=False)
+                idle_raw_budget_redistributed=allocation == 'ACTIVE_EQUAL', equality_tolerance_band_used=False)
         if rsi_strategy:
             report.update(independent_RSI2_state_witnesses=window['independent_RSI2_state_witnesses'],
                 official_RSI_kernel_metadata=window['official_RSI_kernel_metadata'],
@@ -1309,7 +1316,7 @@ def main():
             need(targets.columns == expected_targets.columns and targets.height == expected_targets.height,
                  'Complete independent configured target schema/calendar')
             exact_keys = ('available_us', 'symbol', 'mode', 'eligibility_reason')
-            if allocation == 'EQUAL':
+            if allocation in ('EQUAL', 'ACTIVE_EQUAL'):
                 exact_keys += ('raw_signed_target',)
             for key in exact_keys:
                 need(targets[key].to_list() == expected_targets[key].to_list(), 'Causal target identities/raw allocation: ' + key)

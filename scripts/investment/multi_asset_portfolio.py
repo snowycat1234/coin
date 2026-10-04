@@ -85,7 +85,8 @@ def main():
                   donchian_daily.STRATEGY_ID: ('EQUAL', donchian_daily)}
     identity = protocol['strategy']
     engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
-                allocation == strategies[identity][0],
+                (allocation == strategies[identity][0] or
+                 identity == donchian_daily.STRATEGY_ID and allocation == 'ACTIVE_EQUAL'),
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
     direction_mode = protocol.get('direction_mode', 'LONG_ONLY')

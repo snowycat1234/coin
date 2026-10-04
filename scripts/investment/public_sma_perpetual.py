@@ -11,7 +11,7 @@ from scripts.investment import public_sma_daily as public
 MODES = ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH')
 SYMBOLS = ('BTCUSDT', 'ETHUSDT')
 DAY_US = 86_400_000_000
-ALLOCATIONS = ('EQUAL', 'INVERSE_VOL_30D')
+ALLOCATIONS = ('EQUAL', 'INVERSE_VOL_30D', 'ACTIVE_EQUAL')
 
 
 def require(ok, message):
@@ -61,6 +61,8 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
     """
     require(mode in MODES, 'Preselected direction required')
     require(allocation in ALLOCATIONS, 'Preselected allocation required')
+    require(allocation != 'ACTIVE_EQUAL' or direction_factory is not None,
+            'Active allocation requires an explicitly supplied strategy direction')
     require(type(completed_bar_count) is int and completed_bar_count >= 200,
             'Explicit integer warmup must preserve at least the original 200 bars')
     symbols = symbol_order(symbols)
@@ -134,7 +136,18 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
             covariance_symbols.append(symbol)
             reasons[symbol] = 'ELIGIBLE'
         allocation_details = {}
-        if allocation == 'INVERSE_VOL_30D':
+        if allocation == 'ACTIVE_EQUAL':
+            # Signals and complete past-return eligibility were decided above.
+            # Allocate only after all ordered members have updated their state.
+            active = [s for s in covariance_symbols if raw[s] != 0.]
+            size = min(.3, .6 / len(active)) if active else 0.
+            raw.update((s, size * context[s]['state']) for s in active)
+            allocation_details = dict(allocation=allocation,
+                allocation_status='COMPLETE_ACTIVE_SIGNAL_EQUAL_ALLOCATION',
+                active_signal_count=len(active), raw_per_active_fraction=size,
+                inactive_signal_budget_redistributed=True,
+                clipped_budget_not_redistributed=True)
+        elif allocation == 'INVERSE_VOL_30D':
             # Reuse exactly the completed past-return/eligibility pipeline.
             # Any invalid member makes this allocation unknown and flat;
             # its budget is never reassigned to the remaining members.
