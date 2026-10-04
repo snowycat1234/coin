@@ -93,6 +93,14 @@ def main():
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
     target_options = {}
+    annual_vol_target = protocol.get('strategy_rules', {}).get('annual_volatility_target', .10)
+    engine.need(isinstance(annual_vol_target, (int, float)) and not isinstance(annual_vol_target, bool)
+                and 0 < annual_vol_target <= .10,
+                'Finite positive declared volatility budget cannot increase the existing limit')
+    engine.need(annual_vol_target == .10 or (target_module is hold and allocation == 'EQUAL'),
+                'Reduced risk budget experiment is bound to the equal constant-long reference')
+    if target_module is hold:
+        target_options['annual_vol_target'] = annual_vol_target
     if target_module is donchian_daily:
         exit_period = protocol.get('strategy_rules', {}).get('exit_period', 20)
         reentry_period = protocol.get('strategy_rules', {}).get('reentry_period', 20)

@@ -1103,7 +1103,12 @@ def donchian_pool_target_reference(window, symbols, allocation='EQUAL', *, exit_
 
 
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY',
-                     exit_period=20, reentry_period=20):
+                     exit_period=20, reentry_period=20, annual_vol_target=.10):
+    need(type(annual_vol_target) in (int, float) and math.isfinite(annual_vol_target) and
+         0 < annual_vol_target <= .10, 'Finite positive annual risk target at or below original10%')
+    need(annual_vol_target == .10 or allocation == 'EQUAL' and
+         strategy_id in (None, ALLOCATION_STRATEGIES['EQUAL']),
+         'Changed annual risk target belongs only to constant-long equal HOLD reference')
     need(allocation in ALLOCATION_STRATEGIES or
          allocation == 'ACTIVE_EQUAL' and strategy_id in DONCHIAN_STRATEGIES,
          'Only predeclared allocation choices, active budgeting limited to Donchian')
@@ -1147,8 +1152,8 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, m
         if gross > .6:
             weights *= .6 / gross
         sigma = math.sqrt(max(float(weights @ covariance @ weights), 0.))
-        if sigma > .10:
-            weights *= .10 / sigma
+        if sigma > annual_vol_target:
+            weights *= annual_vol_target / sigma
         for symbol, weight in zip(symbols, weights, strict=True):
             rows.append(dict(available_us=decision, symbol=symbol, target_weight=float(weight),
                 raw_signed_target=min(.3, .6 / len(symbols)), mode='LONG_ONLY', eligibility_reason='ELIGIBLE'))
@@ -1250,6 +1255,12 @@ def main():
         donchian_strategy = strategy_id in DONCHIAN_STRATEGIES
         exit_period = spec.get('strategy_rules', {}).get('exit_period', 20)
         reentry_period = spec.get('strategy_rules', {}).get('reentry_period', 20)
+        annual_vol_target = spec.get('strategy_rules', {}).get('annual_volatility_target', .10)
+        need(type(annual_vol_target) in (int, float) and math.isfinite(annual_vol_target) and
+             0 < annual_vol_target <= .10, 'Declared finite positive annual risk target at or below10%')
+        need(annual_vol_target == .10 or allocation == 'EQUAL' and
+             strategy_id == ALLOCATION_STRATEGIES['EQUAL'],
+             'Nondefault annual risk target is limited to explicit equal constant-long HOLD')
         direction_mode = spec.get('direction_mode', 'LONG_ONLY')
         need(direction_mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH') and
              (rsi_strategy or direction_mode == 'LONG_ONLY'),
@@ -1304,7 +1315,8 @@ def main():
         reference = base.module(base.REFERENCE, 'd050_independent_decimal_hand', base.REFERENCE_SHA)
         window = input_reader(spec, symbols, base, guard)
         expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id,
-            mode=direction_mode, exit_period=exit_period, reentry_period=reentry_period)
+            mode=direction_mode, exit_period=exit_period, reentry_period=reentry_period,
+            annual_vol_target=annual_vol_target)
         if sma_strategy:
             report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',

@@ -29,11 +29,11 @@ class _ConstantLongDirection:
     def update_position(self):return None
 
 def fixed_targets(bars,decisions,mode='LONG_ONLY',*,symbols=shared.SYMBOLS,
-                  eligible_by_decision=None,allocation='EQUAL'):
+                  eligible_by_decision=None,allocation='EQUAL',annual_vol_target=.10):
     shared.require(mode=='LONG_ONLY','Constant-long reference mode required')
     frame,meta=shared.fixed_targets(bars,decisions,mode,symbols=symbols,
         direction_factory=_ConstantLongDirection,eligible_by_decision=eligible_by_decision,
-        allocation=allocation)
+        allocation=allocation,annual_vol_target=annual_vol_target)
     for key in ('fast_period','slow_period','equality_holds_current_position','close_then_wait_next_daily_decision_to_reenter'):
         meta.pop(key,None)
     meta.update(strategy_id=STRATEGY_ID if allocation=='EQUAL' else INVERSE_STRATEGY_ID,
@@ -43,4 +43,5 @@ def fixed_targets(bars,decisions,mode='LONG_ONLY',*,symbols=shared.SYMBOLS,
         funding_rates_used_for_signal=False,benchmark_scope='SEEN_DEVELOPMENT_NOT_LONG_TERM_APR',
         target_caps_are_not_instantaneous_position_caps=True)
     if allocation!='EQUAL':meta['allocation']=allocation
+    meta['rules']['annual_volatility_target']=annual_vol_target
     return frame,meta

@@ -52,7 +52,7 @@ def signed_risk_weights(raw, past_returns, annual_vol_target=.10):
 
 def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
                   direction_factory=None, eligible_by_decision=None, allocation='EQUAL',
-                  completed_bar_count=200):
+                  completed_bar_count=200, annual_vol_target=.10):
     """Daily hooks, explicit completed-bar context and ordered membership.
 
     Missing/warming/exited assets have zero targets and retain their identity
@@ -60,6 +60,9 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
     the account runner, never by deleting scoring dates or zeroing PnL.
     """
     require(mode in MODES, 'Preselected direction required')
+    require(isinstance(annual_vol_target, (int, float)) and not isinstance(annual_vol_target, bool)
+            and np.isfinite(annual_vol_target) and 0 < annual_vol_target <= .10,
+            'Finite positive volatility budget cannot increase the existing 10 percent limit')
     require(allocation in ALLOCATIONS, 'Preselected allocation required')
     require(allocation != 'ACTIVE_EQUAL' or direction_factory is not None,
             'Active allocation requires an explicitly supplied strategy direction')
@@ -188,7 +191,7 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
         if covariance_symbols and not (allocation_details and
                 allocation_details['allocation_status'].startswith('UNKNOWN')):
             values, details = signed_risk_weights([raw[s] for s in covariance_symbols],
-                                                  np.column_stack(returns))
+                                                  np.column_stack(returns), annual_vol_target)
             weights.update(zip(covariance_symbols, values, strict=True))
         else:
             details = dict(unscaled_signed_covariance_annual_vol=0., net_target_weight=0.,

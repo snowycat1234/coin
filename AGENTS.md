@@ -118,3 +118,6 @@ D068保存日账本时间诊断已完成：完整303日/各首值10k/实际连�
 D069保存分钟/事件账说明13提前退出片段：raw按minute open，事件closed桶，抵押不作PnL、exec只扣一次，逐分钟NAV/fee/exec/fund/turnover与月份/state桥。XRP三月主要错过价格恢复，非fee，可识别片段不等于取消退出反事实。下一普通研究允许一个首次20/SMA200保持、退出10后prior10恢复再入场的明确COIN变体；arm/reset与因果/缺失必须核，完整新回放和风险/成本后再采用，不按资产选规则、不搜索退出网格。当前研究EXIT10/投资NONE/CASH、权限预算不变。
 
 D070当前决定：REENTRY10固定变体四情景净/risk更差，暂停；现研究EXIT10/REENTRY20、控制EXIT20、参照HOLD_TWO，投资NONE/CASH。正常source仅arm接口与无损报告编码，旧市场checker f8精确副本/current684分别绑定，旧失敗不覆盖。实际规则/净损益/资源/下一8%过去风险HOLD_TWO完整对照（未启动）见当前状态与docs/DONCHIAN_REENTRY10_20261005.md；不继续reentry周期网格或按亏币改规则。
+
+
+D071正常活动接口新增annual_vol_target默认.10且只允许下缩；主runner/独立reference非默认只HOLD EQUAL。本轮固定.08四两币完整账户/核账/配对，HOLD8保留风险收益参照/HOLD10控制/十币EXIT10挑战者，投资NONE/CASH。不得将两币与十币近似vol称匹配alpha；下一同两币EXIT10隔离池因素未启动，十币能力保持。旧D070及以前按Git精确源码工件复现，不改变成本/caps/资源/权限。

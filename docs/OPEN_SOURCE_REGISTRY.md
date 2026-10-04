@@ -369,3 +369,6 @@ D067运行前登记：继续原MIT Jesse Donchian类/指标的既有commit与四
 D070：沿用已登记同commit/MIT Jesse Donchian策略/指标/SMA200过滤；vendor字节与LICENSE保持，正常薄direction适配新增退出10后armed恢复prior10上沿，首次prior20与旧默认保持。共享targets可选reset_signal_state回调清资格/CASH的arm；无新库/Transformer/账户/下载框架。新变体为COIN适配，不称上游原始策略或Bybit原生成交。
 
 D070真实结束：Jesse原commit/MIT与vendor字节保持，单一COIN快reentry变体完整四账户净与risk更差而暂停；原研究/多空能力保留。金融only无损报告schema/row编码，无新依赖/自写model/framework；独立decoder仅standard json/Decimal，完整3030记录/全源除报告块等价，范围非独立市场。失败、两币误启动2+前缀和真实8核账calls保留。
+
+
+D071无新增第三方依赖/模型/下载框架；正常既有共享过去协方差风险函数只接线可选有限budget，旧默认10%保持。4新HOLD_TWO实际账户复用原共享引擎/Decimal核账，8%为COIN风险预算配置；旧公开策略vendor/commit/license未改。独立资金复核standard JSON/Decimal，不重放市场。
