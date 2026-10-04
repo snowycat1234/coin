@@ -111,6 +111,9 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
                 and np.all(c['available'][first:index+1] <= decision))
             if symbol not in membership or not valid:
                 c['state'] = 0
+                reset = getattr(c['hooks'], 'reset_signal_state', None)
+                if reset is not None:
+                    reset()
                 raw[symbol] = 0.
                 reasons[symbol] = 'POOL_EXIT' if symbol not in membership else 'WARMUP_OR_DATA_GAP'
                 continue
@@ -122,6 +125,9 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
             hook.liquidate = lambda: closed.__setitem__(0, True)
             if mode == 'CASH':
                 c['state'] = 0
+                reset = getattr(hook, 'reset_signal_state', None)
+                if reset is not None:
+                    reset()
             elif c['state']:
                 hook.update_position()
                 if closed[0]:

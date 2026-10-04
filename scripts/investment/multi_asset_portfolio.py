@@ -83,19 +83,22 @@ def main():
                   momentum_cash.STRATEGY_ID: ('EQUAL', momentum_cash),
                   rsi2_daily.STRATEGY_ID: ('EQUAL', rsi2_daily),
                   donchian_daily.STRATEGY_ID: ('EQUAL', donchian_daily),
-                  donchian_daily.EXIT10_STRATEGY_ID: ('EQUAL', donchian_daily)}
+                  donchian_daily.EXIT10_STRATEGY_ID: ('EQUAL', donchian_daily),
+                  donchian_daily.REENTRY10_STRATEGY_ID: ('EQUAL', donchian_daily)}
     identity = protocol['strategy']
     engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
                 (allocation == strategies[identity][0] or
-                 identity in (donchian_daily.STRATEGY_ID, donchian_daily.EXIT10_STRATEGY_ID) and allocation == 'ACTIVE_EQUAL'),
+                 identity in (donchian_daily.STRATEGY_ID, donchian_daily.EXIT10_STRATEGY_ID,
+                              donchian_daily.REENTRY10_STRATEGY_ID) and allocation == 'ACTIVE_EQUAL'),
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
     target_options = {}
     if target_module is donchian_daily:
         exit_period = protocol.get('strategy_rules', {}).get('exit_period', 20)
-        engine.need(identity == donchian_daily.strategy_id(exit_period),
+        reentry_period = protocol.get('strategy_rules', {}).get('reentry_period', 20)
+        engine.need(identity == donchian_daily.strategy_id(exit_period, reentry_period),
                     'Declared Donchian identity must match the exit period')
-        target_options['exit_period'] = exit_period
+        target_options.update(exit_period=exit_period, reentry_period=reentry_period)
     direction_mode = protocol.get('direction_mode', 'LONG_ONLY')
     engine.need(direction_mode in rsi2_daily.MODES if target_module is rsi2_daily
                 else direction_mode == 'LONG_ONLY',
@@ -108,6 +111,8 @@ def main():
               'PUBLIC_RSI2_OVERSOLD_ABOVE_SMA200_LONG_OR_CASH')
     if target_module is rsi2_daily and direction_mode != 'LONG_ONLY':
         signal = 'PUBLIC_RSI2_ORIGINAL_SELECTIVE_' + direction_mode
+    if target_module is donchian_daily and reentry_period == 10:
+        signal = 'COIN_PRIOR20_INITIAL_SMA200_EXIT10_RECOVERY_REENTRY10_LONG_OR_CASH'
     engine.need(bool(protocol['pools']) and
                 len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
                 'Nonempty configurable unique pools; saved controls need not be replayed')

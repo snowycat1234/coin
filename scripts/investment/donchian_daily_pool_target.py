@@ -17,6 +17,7 @@ from scripts.investment import public_sma_perpetual as shared
 
 STRATEGY_ID = 'COIN_JESSE_DONCHIAN20_SMA200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 EXIT10_STRATEGY_ID = 'COIN_JESSE_DONCHIAN20_SMA200_EXIT10_1D_USDM_CONFIGURED_POOL_VARIANT'
+REENTRY10_STRATEGY_ID = 'COIN_JESSE_DONCHIAN20_SMA200_EXIT10_REENTRY10_1D_USDM_CONFIGURED_POOL_VARIANT'
 MODES = ('LONG_ONLY', 'CASH')
 DAY_US = shared.DAY_US
 VENDOR = ROOT / 'third_party/jesse_example_donchian'
@@ -47,14 +48,18 @@ RULES = dict(timeframe_minutes=1440, completed_daily_eligibility_bars=200,
     daily_availability='EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED')
 
 
-def strategy_id(exit_period=20):
+def strategy_id(exit_period=20, reentry_period=20):
     shared.require(type(exit_period) is int and exit_period in (20, 10),
         'Explicit preselected 20 or 10 completed-day exit required')
+    shared.require(type(reentry_period) is int and (exit_period,reentry_period) in ((20,20),(10,20),(10,10)),
+        'Only original20, exit10 or exit10/reentry10 identities are preselected')
+    if reentry_period == 10:
+        return REENTRY10_STRATEGY_ID
     return STRATEGY_ID if exit_period == 20 else EXIT10_STRATEGY_ID
 
 
-def strategy_rules(allocation='EQUAL', exit_period=20):
-    strategy_id(exit_period)
+def strategy_rules(allocation='EQUAL', exit_period=20, reentry_period=20):
+    strategy_id(exit_period, reentry_period)
     shared.require(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Explicit Donchian allocation required')
     rules = dict(RULES)
     if allocation == 'ACTIVE_EQUAL':
@@ -67,12 +72,19 @@ def strategy_rules(allocation='EQUAL', exit_period=20):
             original_long_entry_filter_and_exit_hooks_used=False,
             original_long_entry_filter_hooks_used=True, original_exit_hook_used=False,
             exit_period_is_COIN_adaptation=True)
+    if reentry_period == 10:
+        rules.update(reentry_period=10, initial_entry_period=20,
+            reentry_predicate='AFTER_SIGNAL_EXIT_CLOSE_GT_PREVIOUS10_HIGH_AND_CLOSE_GT_CURRENT_SMA200',
+            reentry_armed_only_by_signal_exit=True, successful_reentry_clears_arm=True,
+            ineligible_or_cash_resets_reentry_arm=True,
+            original_long_entry_filter_hooks_used=False,
+            original_SMA200_filter_used=True, reentry_is_COIN_adaptation=True)
     return rules
 
 
-def _load_public_hooks(exit_period=20):
+def _load_public_hooks(exit_period=20, reentry_period=20):
     """Load unchanged pinned source nodes with the small scalar context API."""
-    strategy_id(exit_period)
+    strategy_id(exit_period, reentry_period)
     for name, sha in PINNED_HASHES.items():
         shared.require(hashlib.sha256((VENDOR / name).read_bytes()).hexdigest() == sha,
             'Pinned original MIT Donchian source/license changed: ' + name)
@@ -115,20 +127,44 @@ def _load_public_hooks(exit_period=20):
             if self.close < lower:
                 self.liquidate()
 
-    return Exit10Direction
+    if reentry_period == 20:
+        return Exit10Direction
+
+    class Reentry10Direction(Exit10Direction):
+        reentry_armed = False
+
+        def reset_signal_state(self):
+            self.reentry_armed = False
+
+        def update_position(self):
+            lower = namespace['ta'].donchian(self.candles[:-1], period=10).lowerband
+            if self.close < lower:
+                self.liquidate()
+                self.reentry_armed = True
+
+        def should_long(self):
+            if not self.reentry_armed:
+                return super().should_long()
+            upper = namespace['ta'].donchian(self.candles[:-1], period=10).upperband
+            eligible = self.close > upper and all(f() for f in self.filters())
+            if eligible:
+                self.reentry_armed = False
+            return eligible
+
+    return Reentry10Direction
 
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
-                  eligible_by_decision=None, allocation='EQUAL', exit_period=20):
+                  eligible_by_decision=None, allocation='EQUAL', exit_period=20, reentry_period=20):
     shared.require(mode in MODES and allocation in ('EQUAL', 'ACTIVE_EQUAL'),
         'Fixed daily Donchian LONG_ONLY/CASH and equal allocation required')
     frame, meta = shared.fixed_targets(bars, decisions, mode, symbols=symbols,
-        direction_factory=_load_public_hooks(exit_period), eligible_by_decision=eligible_by_decision,
+        direction_factory=_load_public_hooks(exit_period, reentry_period), eligible_by_decision=eligible_by_decision,
         allocation=allocation, completed_bar_count=200)
     for key in ('fast_period', 'slow_period', 'equality_holds_current_position', 'source'):
         meta.pop(key, None)
-    rules = strategy_rules(allocation, exit_period)
-    meta.update(strategy_id=strategy_id(exit_period), rules=rules, allocation=allocation,
+    rules = strategy_rules(allocation, exit_period, reentry_period)
+    meta.update(strategy_id=strategy_id(exit_period, reentry_period), rules=rules, allocation=allocation,
         original_long_and_short_and_exit_hooks_reused=False,
         original_long_entry_filter_and_exit_hooks_reused=exit_period == 20,
         original_short_entry_is_false=True, original_whole_balance_order_hooks_called=False,
@@ -145,4 +181,7 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
     if exit_period != 20:
         meta.update(exit_period=exit_period, original_exit_hook_reused=False,
             original_long_entry_filter_hooks_reused=True, exit_is_COIN_variant=True)
+    if reentry_period == 10:
+        meta.update(reentry_period=10, initial_entry_period=20, reentry_is_COIN_variant=True,
+            original_long_entry_filter_hooks_reused=False, original_SMA200_filter_reused=True)
     return frame, meta

@@ -365,3 +365,7 @@ D064实际复用闭合：3条连续研究配方在303日正常共享账户已产
 D065沿用D064 pinned MIT Jesse Donchian原代码、license与commit，不修改vendor；仅COIN共享raw分配增加ACTIVE_EQUAL。原日线入场/过滤/退出未变，仍不是Jesse原生整个平台或Bybit成交复现。
 
 D067运行前登记：继续原MIT Jesse Donchian类/指标的既有commit与四vendor/license SHA，第三方原字节不改；仅正常adapter新增COIN_EXIT10薄退出hook，调用原donchian(candles[:-1],period=10)。原prior20 entry/SMA200/共享风险接线沿用，不声称10日退出是原公开配方。无新模型/库/下载/框架；独立参考直接10日最低价与原20日入场窗口，不调用生产目标。
+
+D070：沿用已登记同commit/MIT Jesse Donchian策略/指标/SMA200过滤；vendor字节与LICENSE保持，正常薄direction适配新增退出10后armed恢复prior10上沿，首次prior20与旧默认保持。共享targets可选reset_signal_state回调清资格/CASH的arm；无新库/Transformer/账户/下载框架。新变体为COIN适配，不称上游原始策略或Bybit原生成交。
+
+D070真实结束：Jesse原commit/MIT与vendor字节保持，单一COIN快reentry变体完整四账户净与risk更差而暂停；原研究/多空能力保留。金融only无损报告schema/row编码，无新依赖/自写model/framework；独立decoder仅standard json/Decimal，完整3030记录/全源除报告块等价，范围非独立市场。失败、两币误启动2+前缀和真实8核账calls保留。

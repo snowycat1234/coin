@@ -1193,3 +1193,23 @@ HEAD9bfeef0，D068已验收/推送精确一致；主策略未变，原采集两�
 ### D069后验选择
 D069保存全303日退出/等待诊断完成：四条件各13个真实提前退出片段。BASE/F旧long新flat净+200.16、两版long-45.74、两版flat+2.25，合原+156.67；三月全差-429.45来自XRP，旧long新flat毛-417.93/净-419.17，主要价格恢复参与缺口而非费用。9段改善/4段变差，10次观察再入场等待13–155日、3次右删失，真实减仓/延迟库存保留。原EXIT10研究/EXIT20控制/HOLD_TWO参照保留，投资NONE/CASH、APR不可评价；代理/单位UNKNOWN/时间不稳定保持。0新市场/fit/HPO，主4.653s/RSS587.76MB/共享采样1.249GB/结果646KB，硬5GB/swap0/GPU0。下一仅一个固定的退出后prior10恢复再入场新假设：首次prior20与SMA200不变，必须完整新回放，不按币选规则；尚未实施/运行。独立复核与Git按实际凭证，详见docs/DONCHIAN_EXIT_WAIT_20261005.md。
 确认实际ACCOUNT价差而非取消退出因果效应；raw按minute open、事件按closed桶，所有月与state核账通过。新假设只改变退出后的再入场，初入场20/SMA200、退出10与caps保持；退出后等待恢复时prior10高，所有资产同规则，eligibility/gap重置arm，下一日才允许，0额外周期搜索。只有完成因果反例/一个配置4完整账户与独立参考才决定采用，不能拿52片段价差拼成新收益。若提高净同时不制造不可接受risk/成本则保留研究挑战者；否则暂停此有限配方、保持现研究，不追搜索显著。触发来自已见结果，不能标unseen/alpha；原投资NONE/CASH/权限边界与负结果保持。全目标active，本轮progress，下一实际未启动。
+
+### D070事前：一次退出后更快恢复再入场完整检验
+HEAD1b3987e，D069已验收推送/核远端，原两采集真实PID存活/8765健康，36无关WIP保留。D069提示13早退段既避跌也错过恢复（BASE/F新flat/旧long净+200.16，三月该组-419.17；XRP全月-429.45），主体价格不是费用，不能按亏币特判。只一个新的COIN变体：初始prior20高+SMA200，held prior10低退出arm，下一日armed flat以prior10高+同SMA200恢复，成功cleararm，eligibility/gap/CASH reset；默认reentry20/旧20不变。新可选正常reset hook接口仅有该方法的direction使用，不复制账户/平台，不改vendor/费用/风险caps/首次entry/exit10/资本/July十币/303日/末退出5次。先独立直接3币因果/window/risk/重置反例，再唯一一个配置的4完整新账户+4独立直接arm/window/金融参考calls，D0674保存control只读不重播。0fit/HPO/新QA/下载/API/locked/密钥/发单；市场owned600MB/1800s/RSS3GB，独立RSS1.5GB，新STATE总800MB，shared5GB/swap0/GPU0/D40GB不变，磁盘运行前实扫。净/gross/fees/exec/fund、实际vol/MDD/gross/net/保证金、交易/turnover、月/币集中与末清分别验收；若无有用净/风险改善保持原配置、暂停该配方，不扫更多周期。结果由已见历史提出，非unseen/独立alpha/稳定APR，代理/资金单位UNKNOWN并列解释不择优。新源码/协议事前绑定，旧证据依Git原版本；实际金融/预算/末清失败明确限结论，不追认成功。
+
+D070准备V1实际closed0，但OWN/diagnostic绑定仍指D067旧辅助路径，root在测试前拒绝来源工件；没有运行测试/市场，不能称绿测或经济失败。原源码/协议/任务完整保留，V2仅纠正own/diagnostic路径与独占run ID，策略/反例/预算不变。新V2协议事前再绑定，不覆盖V1。
+
+D070市场V2误启动：漏显式--pool-id导致default TWO_ASSET先跑，root为落实事前4新账户预算对精确自有PID892223发SIGINT；实际task31b55392..closed failed -2/host1，保存2完整两币与第三前缀，198.99s/42.949MB。没有十币新结果，不升级成功、不删工件。V3独占身份/协议记录误启动SHA并要求明确LIQUIDITY_TEN，策略/成本/caps/日期及已pass测试V2保持，0测试重跑；新完整十币四账户仍待运行。实际消耗和总STATE预算包含误启动。
+
+D070金融V3 task00d746b7..真实failed1：遍历四case后finally报告超过旧2MB小文件限，未保存金融result，不能算验收。原checker f8a753..逐字节保存；当前正常checker仅reentry10报告将重复键无损编码为schemas+rows，并assert精确还原与logicalSHA，不改direct targets/reference/金融数学/容差。新V4绑定/独占金融目录与报告，原市场V3零重跑、测试V2零重跑；market旧checker针由原副本核对，其他针严格不变。失败任务/run bindings与具体阻塞保留，资源包含两次核账。
+
+D070金融V4 task0d90958..failed1：old checker SHA在actual used source检查拒绝，0金融输入/调用。检查发现现有正常source_archives接口已支持精确旧源，无须修改生产绑定逻辑；V5仅plan映射CHECKER到原f8a753副本，正常checker仍684166..（只有无损输出修正），0市场/测试重跑。原V4计划/source/失败和run binding保留；不把拒绝改称成功。
+
+D070金融V5 task057725..failed1：source_archives同映射作用两source map，plan独立旧计划digest仍设new684而archive为f8，before input/calls0。V6仅metadata source_hashes[CHECKER]回绑定旧f8，checker_sha256仍精确current684并显式current_evaluator_source；接口已分别校验原计划来源与当前运行source，没有放宽检查/新源码变化。原V5报告/任务/绑定保留；市场和反例仍零重跑。
+
+
+## D070后验决定
+
+D070完成唯一退出后prior10恢复再入场完整对照：首次20/SMA200、exit10/十币/连续303日/共享10k与原成本风险保持。四条件净增均-316.18至-335.01USDT；BASE/F净497.16→180.98，毛-280.75、成本增33.61、资金费少1.83；vol8.36→8.48%、MDD7.43→10.24%、换手4.28→6.77。三月未修好且少22.27，一月/四月/六月主要拖累；暂停该固定REENTRY10，保留EXIT10/REENTRY20研究、EXIT20控制/HOLD_TWO参照，投资NONE/CASH、APR NE，不搜再入场网格。四436320分钟账户/末全清、四最终金融/四保存pair通过，3030状态全字段无损输出；误启动2两币+前缀、准备拒绝、金融输出失败和两绑定拒绝均保留，实际8金融calls。主体621.76s/RSS728MB/共享采样1.544GB；实扫27.835GB@18:20:13Z/STATE245.949MB/硬5GBswap0GPU0。下一只固定过去风险下缩8%HOLD_TWO新完整对照以解释当前收益/risk差，尚未启动。独立只读复核/Git以实际后验；详情docs/DONCHIAN_REENTRY10_20261005.md。
+
+主要缺口为价格参与和基准risk差，快恢复此配方未改善而非只多费。下一固定8%过去协方差风险预算HOLD_TWO对照，不高杠杆/后验NAV缩放/新网格/封存或native认证；重新模拟净值与实际风险后判断择时增量。尚未运行，不将四资金/成本解释当独立证据。
