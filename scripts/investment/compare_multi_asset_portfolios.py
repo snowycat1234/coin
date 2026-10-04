@@ -384,17 +384,22 @@ def main():
     actual_days=left['actual_calendar_days']
     require(isinstance(actual_days,int) and actual_days==right['actual_calendar_days'],
             'Same actual full calendar length')
-    if actual_days == 91:
+    if actual_days in (90, 91):
         a_spec,_ = saved_protocol(left); b_spec,_ = saved_protocol(right)
-        require(all(r.get('account_path') == p.get('account_path') ==
-                'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D' and
-                p['start'] == '2024-09-01T00:00:00+00:00' and
-                p['end_exclusive'] == '2024-12-01T00:00:00+00:00' and
-                p.get('data_role') == 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'
+        path, start, end, role = {
+            91: ('CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D',
+                 '2024-09-01T00:00:00+00:00', '2024-12-01T00:00:00+00:00',
+                 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'),
+            90: ('CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D',
+                 '2024-12-01T00:00:00+00:00', '2025-03-01T00:00:00+00:00',
+                 'SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST'),
+        }[actual_days]
+        require(all(r.get('account_path') == p.get('account_path') == path and
+                p['start'] == start and p['end_exclusive'] == end and p.get('data_role') == role
                 for r,p in ((left,a_spec),(right,b_spec))),
                 'Fixed continuous capital path, not concatenated fresh monthly NAV')
     else:
-        require(28 <= actual_days <= 31, 'Predeclared single month or accepted continuous 91D scope')
+        require(28 <= actual_days <= 31, 'Predeclared single month or accepted continuous quarter')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
     signal_context=signal_scope(left,right) if args.contrast=='signal' else None
     pool_context=pool_scope(left,right) if args.contrast=='pool' else None

@@ -95,15 +95,24 @@ def main():
     engine.need(start < end <= int(datetime(2026,3,1,tzinfo=UTC).timestamp()*1_000_000),
                 'Development window, locked boundary preserved')
     account_path = protocol.get('account_path', 'FRESH_SINGLE_WINDOW_SHARED_ACCOUNT')
-    continuous = account_path == 'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D'
-    engine.need(account_path in ('FRESH_SINGLE_WINDOW_SHARED_ACCOUNT',
-                'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D'), 'Explicit account capital path')
+    continuous_windows = {
+        'CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D': (
+            '2024-09-01T00:00:00+00:00', '2024-12-01T00:00:00+00:00',
+            'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'),
+        'CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D': (
+            '2024-12-01T00:00:00+00:00', '2025-03-01T00:00:00+00:00',
+            'SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST'),
+    }
+    continuous = account_path in continuous_windows
+    engine.need(account_path == 'FRESH_SINGLE_WINDOW_SHARED_ACCOUNT' or continuous,
+                'Explicit account capital path')
     if continuous:
+        window_start, window_end, data_role = continuous_windows[account_path]
         engine.need((start, end) == (
-            int(datetime(2024,9,1,tzinfo=UTC).timestamp()*1_000_000),
-            int(datetime(2024,12,1,tzinfo=UTC).timestamp()*1_000_000)) and
-            protocol.get('data_role') == 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST',
-            'Fixed accepted 91-day continuous path; no monthly account reset')
+            int(datetime.fromisoformat(window_start).timestamp()*1_000_000),
+            int(datetime.fromisoformat(window_end).timestamp()*1_000_000)) and
+            protocol.get('data_role') == data_role,
+            'Fixed accepted continuous window; no monthly account reset')
     for path, digest in protocol['source_hashes'].items():
         engine.need(path != 'state/dataset_lock.json' and sha(ROOT/path) == digest, 'Source changed: '+path)
     manifest = Path(protocol['data_manifest']['path'])

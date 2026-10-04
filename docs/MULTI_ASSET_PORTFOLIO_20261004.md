@@ -1,6 +1,93 @@
-# 可配置多币共享资本组合：D050–D055
+# 可配置多币共享资本组合：D050–D056
 
-## D055：三个月真实连续资本路径（已实际完成）
+## D056：后续90日未延续十币配置增量（已实际验收）
+
+**投资候选NONE，投资选择CASH；长期净几何APR未建立。** 保留可配置N资产、共享完整资本与连续账户能力；两币HOLD稳定研究控制、十币等权基准和逆波动挑战者保留，暂停两十币配置的投资晋级。
+
+从实际HEAD1f40239706162eb92daa8a1e2fa0abb9b59299ed接手，不重建已完成的symbols有序映射、N维目标/过去协方差、逐币产品规则、共享钱包、成交/净值与恢复接口。本版正常增加Dec–Feb有限来源、跨年日期和接受链输入。核心账户/执行/风险数学与独立金融容差未变。固定规则日线信号，成交/mark按分钟UTC日块、资金费按原事件，0逐币训练/HPO/aggTrades/LOB/GPU。
+
+冻结July当时可知流动性与200完成日资格选池保持：BTCUSDT、ETHUSDT、SOLUSDT、1000PEPEUSDT、XRPUSDT、WIFUSDT、WLDUSDT、DOGEUSDT、1000SATSUSDT、ORDIUSDT。有限历史目录880候选/279可排名/603 UNKNOWN，不称全交易所Top10，不按收益换币；十币仅为本版协议规模，N维接口不是永久十币限制。预热不足/退出零目标和库存身份保留沿原接口；真实退市/缺口恢复未在此完整池窗口获得市场验证，不能宣称动态选池已全面验证。
+
+三个配方×四情景各一次完整10,000 USDT初始化；一个配方内所有币时间同步竞争同一钱包、总gross和保证金，非独立满资金收益相加。2024-12-01至2025-03-01前连续90UTC日、129600分钟，Jan/Feb不reset，Dec不继承D055库存；两个独立季度不拼NAV或APR。abs单币30%/共享gross60%、过去30日协方差/10%预测波动仅缩小、逐仓1x/no topup、上一分钟0.1%容量、原五次末退出保持。
+
+| 90日净USDT/完整10k | 两币等权（末全平） | 十币等权（marked） | 十币逆波动（marked） |
+|---|---:|---:|---:|
+| BASE27/F 原值fraction | -632.711821 | -757.292012 | -775.943708 |
+| BASE27/P 原值percent | -593.828335 | -732.173852 | -748.987471 |
+| STRESS43/F | -638.611203 | -761.393520 | -780.983657 |
+| STRESS43/P | -599.739792 | -736.301620 | -754.041078 |
+
+CASH净收益/波动/DD/换手0。Bybit VIP0 taker5.5bp/侧、BASE27/STRESS43和未认证F/P解释均保留，不按结果选费用/单位。本轮只有实际多头，未把扩池贡献说成空头贡献。两币4/4末全平；两个十币配置0/4完成清仓，仅SATS残仓：等权名义5.6422–5.9651、未实现-1.4927至-1.4188USDT；inverse名义24.1444–24.5635、未实现-5.9443至-5.8508。真实数量/成本基础/保证金/浮亏完整纳NAV，不免费补平、删库存或延长原退出；十币清仓收益NOT_EVALUABLE。
+
+### 钱主要在哪里亏，扩池和配置贡献如何
+
+| BASE27/F，完整10k | 两币等权 | 十币等权 | 十币逆波动 |
+|---|---:|---:|---:|
+| 毛价格损益USDT | -580.6269 | -723.7878 | -738.0988 |
+| 手续费USDT | 4.2222 | 2.9469 | 3.6239 |
+| spread/slippage合计USDT | 6.1411 | 4.2859 | 5.2707 |
+| 资金费USDT | -41.7216 | -26.2714 | -28.9503 |
+| 实际日收益波动年化% | 9.9155 | 9.7698 | 9.9228 |
+| 分钟最大回撤% | 9.1281 | 10.0188 | 10.1709 |
+| 成交名义/完整初始资本 | 0.7677 | 0.5358 | 0.6589 |
+| 平均gross=平均net%（仅多） | 19.2653 | 11.6088 | 13.2946 |
+| 峰值gross% | 25.1423 | 14.4805 | 16.9570 |
+| 平均保证金/NAV% | 20.2815 | 14.3650 | 15.8739 |
+| 峰值保证金/NAV% | 27.1792 | 18.7199 | 20.8507 |
+
+价格毛亏主导，成本两币10.36–16.51、equal7.23–11.58、inverse8.89–14.19USDT较小。扩池四情景净少122.78–138.35：BASE/F毛少143.1610、成本省3.1305、资金费少付15.4503；波动略降但回撤更深，平均gross更低仍亏更多，不能称分散全面改善。inverse再净少16.81–19.59：BASE/F毛少14.3110、成本多1.6618、资金费多付2.6789，实际gross/波动/DD均更高。相同caps不是相同实际风险，未事后缩放。F/P改变现金流幅度但未改变三组全亏和两配对增量全负，不据此认证单位。
+
+| 连续端点月净USDT，BASE27/F | 两币 | 等权十币 | 逆波动十币 |
+|---|---:|---:|---:|
+| 2024-12 | -143.830410 | -291.158769 | -302.740638 |
+| 2025-01 | 74.832128 | -66.294572 | -20.870384 |
+| 2025-02 | -563.713539 | -399.838671 | -452.332686 |
+
+两币主要亏在二月，十币三个端点月均亏；十币BASE/F仅XRP正贡献（equal+20.6988/inverse+16.5095），其余九币负。equal WIF/ORDI/WLD净-160.5397/-126.0587/-122.8810；inverse分别-136.7173/-113.0562/-91.3978。不能因结果删除亏损币。上述归因来自同一钱包的毛价格、费用、资金费及未平仓mark；完整每币/四情景/集中度/Δnet=Δgross−Δcost+Δfund见[扩池配对](../reports/fast_research/MULTI_ASSET_WINTER_POOL_COMPARISON_20261004_V1.json)与[配置配对](../reports/fast_research/MULTI_ASSET_WINTER_ALLOCATION_COMPARISON_20261004_V1.json)。月表按close−1us端点标签，不能称UTC事件月份资金费总量。
+
+### 来源、独立复核与实际失败
+
+官方public-data URL/格式/CHECKSUM薄包装新增72档，复用18个D045已接受score身份与100旧warm身份；新源148,389,168B、规范化score107,777,456B。72档首次CSV/CRC/格式QA、18oldscore/100warm接受链及必要因果列复用，不重旧QA；manifest190身份，实际3510资金费事件/20跨月interval连接。Jan1无原记录的精确边界coupon，不补造8h事件；Feb1各配置币实际coupon均按持仓和严格更早mark归属。
+
+12新连续账户、12独立金融、两保存配对均真实closed0；最大金额误差3.63798e-11USDT、比例3.01981e-14，原cash1e-7/ratio1e-10容差。核记录成交、现金/保证金/费用/资金费/未实现/NAV与有序过去目标；全市场frozen intent sizing未另完整重建，不扩大范围。必要一个winter calendar/跨年反例真0；loader AST-only只证编译，不证经济。3×4×90条件日不是1080个独立真实日期。
+
+五真实失败保持：QA启动POLARS默认4（child显式2修复）；旧trade descriptor缺status（保留NULL和原QA_scope）；main metadata可选pool status比较；首main遗漏Nov_END预热日期（正常data精确补该日期）；第二main重复experiment ID被registry正确拒绝。首main已读warm daily但未进入账户，其他失败未进入市场账户；失败源/报告/RUN_BINDING/task保留。新V3 ATTEMPT3登记后实际执行，没有改registry/池/参数/风险/容差。source原dccf和原QA身份不改，当前c604由保存旧字节及单行修复桥解释，活动runner直接用正常源码。
+
+Binance价格/mark/资金费+Bybit成本仍跨场所代理。历史funding单位/publication、数量过滤、MMR/原生清算未确认，条件筛选不冒称原生回测或安全未清算。缺口不删日/补零，未清仓保留marked；无密钥、真钱、发单、paid、locked、杠杆/资本/风险增加。collector540真实持续运行。
+
+### 两币到十币的真实资源对照
+
+| 四情景回放 | 两币 | 十币等权 | 十币逆波动 |
+|---|---:|---:|---:|
+| 组合阶段秒 | 78.616 | 200.193 | 207.624 |
+| 含原磁盘守卫秒 | 161.422 | 278.705 | 288.849 |
+| 进程RSS峰MB | 323.023 | 432.382 | 431.112 |
+| 共享组实采峰GB | 1.945 | 2.275 | 2.558 |
+| 账户输出MB | 48.396 | 152.070 | 152.344 |
+
+三主输出352,810,740B；独立RSS376.30/591.88/544.08MB、21.55/24.89/27.95秒、合计40,564B。新STATE总量含失败/temp由发布时真实owned目录统计核≤事前1GB，实际数见[source binding](../reports/GITHUB_MULTI_ASSET_WINTER_SOURCE_BINDING_20261004_V1.json)。共享实采峰不冒充内核历史峰3.263GB；硬4,999,999,488B/swap0/GPU0保持。分钟账本耗时/输出是真瓶颈，十币RSS约0.43GB，不需扩RAM或复制高频张量。
+
+最终原disk.check实扫ROOT+整个D盘WSL VHD为24,890,287,979B，2026-10-04T02:33:52.261086Z，82.55秒。相对首TWO guard的全区间增长336,855,622B含collector/VHD分配等，不等于实验文件字节；点后Git增长不在扫描。详见[实际最终资源](../reports/MULTI_ASSET_WINTER_FINAL_RESOURCE_20261004_V1.json)。8765真实时刻/进度正常，未知扫描总量不造百分比；D40GB/32warn/36stopnew与0swap/GPU保持。
+
+### 自主决定与下一步
+
+采用N资产/共享资本/连续账本和诚实marked比较能力；保留两币HOLD控制、equal10透明基准和inverse挑战者，暂停两十币配置投资晋级。D055正增量没有在D056延续，不删除历史正结果，也不据一个季度删除能力。当前投资NONE/CASH，长期APR未建立。
+
+下一唯一主任务（尚未运行）：固定July10等权，仅增加“已完成过去30日绝对收益>0才做多，否则现金”方向门，在两个完整季度分别一次钱包与保存HOLD/CASH比较。30日取现有risk信息期限，是未测假设，不搜期限/阈值、不short、不按收益换池；inactive raw预算不再分配，原协方差只缩小，实际暴露可能不同必须报告。直接复用fixed_targets(direction_factory=...)和正常账户，不另建金融loop/平台。它最直接检验持续多头导致的毛亏，信息价值高于再扩币、换配置或省少量成本；运行前另简记有限预算/停止条件。
+
+重开条件：新门须两完整季度四情景均净增量、实际vol/DD不更差、非单月救回且可退出性诚实，才提高研究优先级；若只一季胜/仅少暴露避损/单位成本反转，保留机制诊断或暂停，不扫参。十币投资晋级还需更长独立跨状态净/实际风险、unit/native/可退出资格；更多币/ML需明确覆盖或信息机制及有限共同对照。原SMA50/200配方仍暂停，重开需新机制。原生资格gap不能解释当前价格毛亏，暂不作为救亏主实验。
+
+### 可复现正常入口
+
+全部hpc_linux WSL经原with_task_progress.sh/bounded.sh，显式线程2与原v8-clean-env，输出用新专属STATE不覆盖旧工件。
+
+```text
+scripts/with_task_progress.sh --title '新重现任务' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/MULTI_ASSET_WINTER_<RECIPE>_20261004_V3.json --pool-id <POOL> --run-dir <NEW_STATE> --output <NEW_REPORT>
+```
+
+RECIPE=TWO_CONTROL/TEN_EQUAL/TEN_INVERSE；POOL=TWO_ASSET/LIQUIDITY_TEN/LIQUIDITY_TEN。独立normal multi_asset_financial_audit先绑定实际closed0主任务/current source/report至新ACTUAL_BINDING，再同protocol/actual进入新financial STATE；保存比较不重账户/QA。源码/协议/小验收metadata入Git，真实行情/账本/环境留D。模块普通提交推送核远端，精确成功以独立后验同步凭证确认，不预造push。以下D055及更早下一步为历史时点，D056已执行后续季度。
+
+## D055：三个月真实连续资本路径（历史已完成）
 
 当前最佳研究挑战者为十币逆波动HOLD，证据等级仅已见历史/跨场所代理开发筛选；投资候选NONE、资金选择CASH、长期净几何APR未建立。十二账户各使用完整10,000 USDT，同一配置钱包只在2024-09-01初始化一次，连续到2024-12-01前91个真实UTC日；跨Oct1/Nov1保留真实数量、成本基础、保证金、现金和资金费归属，仅最终按原五次容量退出。月表来自新连续账本，不拼旧fresh月NAV。
 

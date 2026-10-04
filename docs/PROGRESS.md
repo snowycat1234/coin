@@ -6,7 +6,14 @@ V8起，当前状态统一见 [RESEARCH_STATUS.md](RESEARCH_STATUS.md)。
 - 实际运行：[机器登记](../reports/experiment_registry.jsonl)。
 - 本文件原始历史：[逐字节归档](archive/PROGRESS_PRE_V8_20261002.md)。
 
-## 当前模块：D055连续91日实际比较已验收
+## 当前步骤：D056实际经济验收完成，模块Git收尾
+
+**D056已实际验收**：固定July池三HOLD配置、后续90UTC日/12连续共享完整10k钱包/12独立金融/八保存配对真实closed0。两币净-593.83至-638.61USDT（末全平），equal10 marked-732.17至-761.39，inverse10 marked-748.99至-780.98；两十币SATS残仓/浮亏完整计NAV，清仓收益NE。价格毛亏主导，成本只7–17USDT；扩池净增量负122.78–138.35，inverse再负16.81–19.59且gross/vol/DD更高。BASE/F日波动年化9.916%/9.770%/9.923%，分钟DD9.128%/10.019%/10.171%；D055十一月主导的增量未延续。
+
+投资NONE/CASH/APR未建立。采用N资产共享资本能力，保留两币HOLD控制、equal10基准/inverse挑战者，暂停十币配置投资晋级。下一固定30日正趋势/否则现金门尚未运行，原池/预算/费用/risk/容量不变，两个完整季度与保存HOLD/CASH比；不short、闲置raw预算不再分配、不扫参。主要瓶颈是持续多头价格暴露，更多币/配置/省费用不是当前主线。只一季有效或净/实际风险未同时改善则诊断或暂停，不反复搜参；投资reopen仍需独立跨状态/原生/单位/可退出证据。
+
+72新官方CHECKSUM/首次格式QA、18旧score/100warm接受链复用，190manifest/3510真实fund事件闭合。五真实启动/metadata/date/registry失败与原源/task保留；跨年小病例真0、三主V3 ATTEMPT3后真实执行，未重旧QA/账户/绿测。独立最大cash3.64e-11/ratio3.02e-14、原容差；全市场frozen sizing未完整独立重建。主体RSS≤432.382MB/shared实采2.558GB/输出352.811MB，独立RSS≤591.884MB，硬shared5GB/swap0/GPU0不变。最终原扫描24,890,287,979B@2026-10-04T02:33:52.261086Z（preGit），8765健康/collector540真活。Binance+Bybit仍代理，单位/native假设不认证；历史已见仍development。详细钱、资源、失败、复现和reopen见[多币记录](MULTI_ASSET_PORTFOLIO_20261004.md)。Git精确成功只由后验凭证确认。
+## D055历史完成：连续91日比较
 
 三原HOLD配置、十二新连续10k共享账户和十二独立核账真实完成；Oct1/Nov1持仓与资金费归属延续，最终全部按原容量规则清仓，未拼旧fresh月NAV。两币净953.42–1013.61、equal10 1059.77–1103.50、inverse10 1178.02–1227.60 USDT。扩池净增但DD更深，inverse进一步增益同时gross/波动/DD略升；72%–73%利润来自十一月，投资NONE/CASH/APR未建立。
 

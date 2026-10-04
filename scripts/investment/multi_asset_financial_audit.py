@@ -82,8 +82,13 @@ def prepare_financial(symbols):
     return private, financial, proof
 
 
+def next_month(first):
+    """UTC month boundary, including December to January."""
+    return first.replace(year=first.year + (first.month == 12), month=first.month % 12 + 1)
+
+
 def calendar_scope(spec):
-    """Authorized seen UTC months or the one continuous September-November path."""
+    """Authorized seen UTC months and the two fixed continuous quarters."""
     first = datetime.fromisoformat(spec['start'])
     last = datetime.fromisoformat(spec['end_exclusive'])
     need(first.tzinfo is not None and last.tzinfo is not None and
@@ -100,8 +105,19 @@ def calendar_scope(spec):
             period_days=91, score_month='2024-09..2024-11',
             score_months=['2024-09', '2024-10', '2024-11'], calendar_months=3,
             required_minutes=131040, period_id='2024-09_2024-11_91D', seen_development=True)
+    if first == datetime(2024, 12, 1, tzinfo=UTC) and last == datetime(2025, 3, 1, tzinfo=UTC):
+        need(spec['period_days'] == 90 and
+             spec['account_path'] == 'CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D' and
+             spec['data_role'] == 'SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST',
+             'Only the predeclared fresh winter shared-wallet quarter')
+        return dict(start=first.isoformat(), end_exclusive=last.isoformat(),
+            start_us=int(first.timestamp()) * 1_000_000, end_us=int(last.timestamp()) * 1_000_000,
+            period_days=90, score_month='2024-12..2025-02',
+            score_months=['2024-12', '2025-01', '2025-02'], calendar_months=3,
+            warmup_months=['2024-09', '2024-10', '2024-11'],
+            required_minutes=129600, period_id='2024-12_2025-02_90D', seen_development=True)
     need(first.year == 2024 and first.month in (9, 10, 11) and
-         last == first.replace(month=first.month + 1), 'Only predeclared September-November seen scopes')
+         last == next_month(first), 'Only predeclared September-November seen scopes')
     days = (last - first).days
     return dict(start=first.isoformat(), end_exclusive=last.isoformat(),
         start_us=int(first.timestamp()) * 1_000_000, end_us=int(last.timestamp()) * 1_000_000,
@@ -150,7 +166,7 @@ def continuous_source_records(value, symbols, guard, scope):
             scope['score_months'], manifests, capabilities, refs, acceptance_refs,
             manifest_statuses, acceptance_statuses, strict=True):
         first = datetime.fromisoformat(month + '-01T00:00:00+00:00')
-        start, end = int(first.timestamp()) * 1_000_000, int(first.replace(month=first.month + 1).timestamp()) * 1_000_000
+        start, end = int(first.timestamp()) * 1_000_000, int(next_month(first).timestamp()) * 1_000_000
         need(manifest['status'] == mstatus and manifest['checksummed_source_format_verified'] is True and
              (manifest['start_us'], manifest['end_us']) == (start, end) and
              identity(manifest['pool_receipt']) == identity(value['pool_receipt']) and
@@ -189,6 +205,82 @@ def continuous_source_records(value, symbols, guard, scope):
     return records, certificates
 
 
+def winter_source_records(value, symbols, guard, scope):
+    """New quarter capability plus accepted warmup identities; no payload QA."""
+    def metadata(reference):
+        path = Path(reference['path'])
+        return guard.small(path if path.is_absolute() else guard.project(str(path)), reference['sha256'])[0]
+    def identity(reference):
+        path = Path(reference['path'])
+        return str(path if path.is_absolute() else ROOT / path), reference['sha256']
+    def keyed(records):
+        result = {}
+        for row in records:
+            key = row['kind'], row['symbol'], row.get('interval'), row['month']
+            need(key not in result, 'Unique winter source aliases')
+            result[key] = {k: row[k] for k in ('kind', 'symbol', 'interval', 'month',
+                'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows')}
+        return result
+    need(value['status'] == 'PASS_D056_SELECTED_PORTFOLIO_WINTER_SOURCE_BINDING_NOT_ECONOMICS' and
+         value['source_only'] is True and value['checksummed_source_format_verified'] is True and
+         (value['start_us'], value['end_us'], value['days']) ==
+         (scope['start_us'], scope['end_us'], scope['period_days']) and
+         value['score_months'] == scope['score_months'], 'Exact accepted winter90 source scope')
+    warm = metadata(value['warmup_manifest'])
+    warm_scope = calendar_scope(dict(start='2024-09-01T00:00:00+00:00',
+        end_exclusive='2024-12-01T00:00:00+00:00', period_days=91,
+        account_path='CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D',
+        data_role='SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'))
+    _, certificates = continuous_source_records(warm, symbols, guard, warm_scope)
+    need(identity(value['pool_receipt']) == identity(warm['pool_receipt']) and
+         value['selected_symbols'] == warm['selected_symbols'] and
+         len(value['symbols']) == len(set(value['symbols'])) == len(warm['symbols']) and
+         set(value['symbols']) == set(warm['symbols']) and
+         [identity(r) for r in value['warmup_source_acceptances']] ==
+         [identity(r) for r in warm['monthly_acceptances']], 'Original July pool and three warmup capabilities')
+    prior_trade = [r for r in warm['market_records'] if r['kind'] == 'klines']
+    need(len(value['daily_records']) == 70 and len(value['control_daily_records']) == 14 and
+         keyed(value['daily_records']) == keyed(warm['daily_records']) and
+         keyed(value['control_daily_records']) == keyed(warm['control_daily_records']) and
+         len(value['warmup_minute_records']) == 30 and
+         keyed(value['warmup_minute_records']) == keyed(prior_trade),
+         'Every accepted February-August daily and September-November minute warmup alias retained')
+    capability = metadata(value['source_acceptance'])
+    need(capability['status'] == 'PASS_D056_FIXED_POOL_WINTER_SOURCE_FORMAT_ONLY' and
+         capability['source_only'] is True and capability['actual_exit_code'] == 0 and
+         capability['pool_receipt_sha256'] == value['pool_receipt']['sha256'] and
+         (capability['start_us'], capability['end_us']) == (scope['start_us'], scope['end_us']) and
+         capability['completed_files'] == 90 and capability['newly_verified_files'] == 72 and
+         capability['reused_accepted_files'] == 18, 'One actual accepted72/18 quarter source capability')
+    expected = {(kind, symbol, interval, month) for symbol in warm['selected_symbols']
+        for month in scope['score_months']
+        for kind, interval in (('klines', '1m'), ('markPriceKlines', '1m'), ('fundingRate', None))}
+    market = keyed(value['market_records'])
+    hashes = {r['normalized_path']: r['normalized_sha256'] for r in market.values()}
+    need(len(market) == 90 and set(market) == expected and len(hashes) == 90 and
+         hashes == capability['normalized_source_hashes'] and keyed(capability['sources']) == market,
+         'Exact ninety accepted quarter financial roles')
+    original_ref = capability['reused_market_manifest']
+    need(original_ref['sha256'] == '8b665b2829eafd192871fe4a3bc418dac1c202ed54f7d2d5494545fa6636fbfa',
+         'Original accepted D045 source binding for eighteen control roles')
+    original = metadata(original_ref)
+    need(original['status'] == 'PASS_D045_FIXED_303D_USDM_INPUT_SOURCE_BINDING_NOT_ECONOMICS' and
+         original['source_only'] is True, 'Accepted old source capability, not failed parent data')
+    original_rows = keyed(original['source_files'].values())
+    reused_keys = {key for key in expected if key[1] in ('BTCUSDT', 'ETHUSDT')}
+    need(len(reused_keys) == 18 and all(market[k] == original_rows[k] for k in reused_keys),
+         'All eighteen original control source identities retained without new QA')
+    records = [*value['market_records'], *value['daily_records'], *value['control_daily_records'],
+        *value['warmup_minute_records']]
+    exact_hashes = {r['normalized_path']: r['normalized_sha256'] for r in records}
+    need(len(exact_hashes) == 190 and value['normalized_source_hashes'] == exact_hashes,
+         'Exact190 warm-and-score source SHA aliases; no unaccepted replacement')
+    certificates.append(dict(scope='WINTER_QUARTER_72_FIRST_QA_18_ACCEPTED_REUSE',
+        acceptance=value['source_acceptance'], actual_closed_task=guard.closed(capability['binding']['task_id']),
+        warmup_manifest=value['warmup_manifest'], old_warmup_rows_or_CRC_reread=False))
+    return records, certificates
+
+
 def input_reader(spec, symbols, base, guard):
     """Bound normal N sources, not the producer's loader or format QA."""
     manifest = spec['data_manifest']; path = Path(manifest['path'])
@@ -196,10 +288,12 @@ def input_reader(spec, symbols, base, guard):
     scope = calendar_scope(spec)
     start, end = scope['start_us'], scope['end_us']
     month = scope['score_month']
-    continuous = scope['period_days'] == 91
+    continuous = 'score_months' in scope
     source_metadata_proofs = []
     times = np.arange(start, end, MINUTE, dtype=np.int64)
-    if continuous:
+    if scope['period_days'] == 90:
+        records, source_metadata_proofs = winter_source_records(value, symbols, guard, scope)
+    elif continuous:
         records, source_metadata_proofs = continuous_source_records(value, symbols, guard, scope)
     elif spec.get('data_role') == 'EXISTING_ACCEPTED_TWO_ASSET_CONTROL':
         need(month in ('2024-09', '2024-10') and tuple(symbols) == ('BTCUSDT', 'ETHUSDT') and
@@ -345,12 +439,12 @@ def input_reader(spec, symbols, base, guard):
         warm = pl.concat([read(('klines', symbol, '1d', '2024-' + m),
                 ['open_us', 'close_us', 'available_us', 'close'])
             for m in ('02', '03', '04', '05', '06', '07', '08')]).sort('close_us')
-        prior_months = () if continuous else ('2024-09', '2024-10') if month == '2024-11' else ('2024-09',) if month == '2024-10' else ()
+        prior_months = scope.get('warmup_months', ()) if continuous else ('2024-09', '2024-10') if month == '2024-11' else ('2024-09',) if month == '2024-10' else ()
         for prior_month in prior_months:
             prior_trade = read(('klines', symbol, '1m', prior_month), ['open_us', 'available_us', 'close']).sort('open_us')
             first = datetime.fromisoformat(prior_month + '-01T00:00:00+00:00')
             prior_start = int(first.timestamp()) * 1_000_000
-            prior_end = int(first.replace(month=first.month + 1).timestamp()) * 1_000_000
+            prior_end = int(next_month(first).timestamp()) * 1_000_000
             warm = pl.concat([warm, daily_close(prior_trade, prior_start, prior_end)]).sort('close_us')
             del prior_trade
         need(np.array_equal(trade['open_us'].to_numpy(), times) and
@@ -625,7 +719,7 @@ def main():
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
              (strategy_id == ALLOCATION_STRATEGIES[allocation] or sma_strategy and allocation == 'EQUAL'),
              'Same fixed capital and explicit independent strategy/allocation policy')
-        need(scope['period_days'] != 91 or not sma_strategy, 'D055 contains only the three fixed HOLD recipes')
+        need('score_months' not in scope or not sma_strategy, 'Continuous quarters contain only the three fixed HOLD recipes')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -648,7 +742,7 @@ def main():
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
                 equality_tolerance_band_used=False)
         report['financial_input_bindings'] = window['proofs']
-        if scope['period_days'] == 91:
+        if 'score_months' in scope:
             report.update(accepted_monthly_source_proofs=window['source_metadata_proofs'],
                 continuous_account_path=spec['account_path'], monthly_account_reset=False,
                 month_financial_attribution_scope='DAILY_ENDPOINT_STATE_INCLUDES_SAME_TIMESTAMP_FUNDING_LABEL_CLOSE_MINUS_1US_NOT_UTC_EVENT_MONTH_SUM',
@@ -684,8 +778,8 @@ def main():
             progress.update('新共享N账户金融核验', len(report['cases']), 4, '账户', symbols=len(symbols),
                 cost=case['cost_id'], funding_unit=case['unit_id'])
             result = financial(window, canonical, guard, reference, Path(actual['run_dir']), None, [], errors)
-            if scope['period_days'] == 91:
-                need(result['completed_days_verified'] == 91 and result['completed_months_verified'] == 3,
+            if 'score_months' in scope:
+                need(result['completed_days_verified'] == scope['period_days'] and result['completed_months_verified'] == 3,
                      'Complete continuous daily observations and all three months')
                 result.update(continuous_accounting_verified=True,
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
