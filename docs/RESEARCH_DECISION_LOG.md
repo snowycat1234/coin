@@ -1090,3 +1090,24 @@ D057固定30日正动量门已实际两季度失败：秋季各场景落后等�
 采用正常N资产/暖源/日线适配能力，暂停固定RSI2 LONG_ONLY晋级，投资NONE/CASH/APRNE；原两HOLD、equal10/inversechallenger保留，固定30日仍暂停。不能因用户要short强行short，也不把教学策略代表市场上限。下一选择已登记原RSI2明确超买逆趋势short分支增量，对照savedlong/CASH，固定5/200/2/90，无阈值/周期HPO、同完整账户/费用/单位/risk/data。先核原entry/exit和实际恢复状态，必要最小正常signed参考与病例后完整跑LS账本；long与short争同资本/有符号协方差/总gross，不能加两个独立满资金结果。机制为利用部分下跌趋势中的超买回撤，而非只靠少暴露；若无跨状态净/实际risk/成本余量则保留能力/暂停该配方，不自动救参。相比扩币/降低费用/加ML，它更直接回答冬季gross方向瓶颈且现有数据和成熟实现成本低。
 
 Reopen：long与30日配方需要新因果信息/机制或独立跨状态净与actualrisk/退出证据，不在已见两季挖参数；扩池/逐币ML需明确覆盖/信息问题，当前无；native/unit在合法官方archive定义或历史响应可得时。三真实失败startup1/argparse2(host1)/sourceguard1原字节/计划/task保存，V2只正常来源守卫修复两明确pin文本，金融四函数体同pre-market cefd，不再做额外QA/市场/旧绿测。主RSS400MB/共享采样2.652GB，独立RSS≤593MB；最终物理25,200,014,390B@04:45:44.347845Z、增68.685MB包括collector，不是纯输出。0fit/HPO/真钱/keys/orders/locked/GPU/paid；D058科研已结束，下一未启动。模块按正常小证据/字节/敏感门槛提交推送，成功只按真实后验远端一致。
+
+### D059事前：原选择性空头的共享资本净增量
+
+上一goal turn实际完成D058真实经济/独立核账/最小来源守卫修复/文档/正常推送与远端61316ff，是progress。当前HEAD61316ff1865437b8cc7a286e0e2aad95bdc67340，tracked clean/36旧WIP+1实际D058后验；8765 errors[]/无研究running，collector540实活，原硬5GB/swap0/GPU0/D40GB保持。前次实际磁盘25,200,014,390B@2026-10-04T04:45:44.347845Z，非此刻新测。
+
+唯一主问题：同日线RSI2规则加入原选择性short（完成price<SMA200且RSI2>=90入空，持空price<SMA5退出）后，在同一完整10k组合账户，是否比已保存LONG_ONLY/CASH增加净收益且实际风险/成本/退出可接受？只一主要因素direction_mode LONG_ONLY→LONG_SHORT，原5/200/2/10/90/240warm/池/未来数据/费用/单位/资本/risk不变；不把“不多”全变空、不强行正负对称，不按收益另挑币。Signed covariance和共享gross/隔离margin会改变多头路径，贡献必须分short与long改变、不能加独立账户。退出后下一日才重入，不无成本瞬间反手。
+
+数据：原July固定十币池、已接受Jan日暖源（秋首13日WIF不足240如实cash）与两原scoring manifest，Sep-Nov91日/Dec-Feb90日，各情景fresh10k钱包季度内连续、不拼独立季度NAV。已看开发筛选、未来/locked未启封。复用原MIT Jesse long/short/exit hooks、官方已装jesse-rust1.3.0和正常N目标/账户/分钟日块/独立账本；不新增数据/QA/依赖/模型/HPO/平台。历史D058默认long目标/metadata严格兼容，旧protocol/source由Git保存，正常源码用明确mode接口。
+
+有限预算包含必要底层calls：1规则/0fit/HPO、8新main+8独立finance+2保存配对；唯一新受影响合成fixture，原long默认精确对Git、selective-short状态与账户signed语义/共享caps/因果/顺序。两main串行，金融只有完成组可受5GB组限并行；新STATE总<=800MB，各main<=250MB/1800s/RSS3GB，finance<=100KB/1800s/RSS1.5GB，test<=10MB/1200s/RSS1GB，metadata<=5MB。既有progress/bounded与线程2；保护collector，不增加CPU/RAM/GPU/网络/资本/风险权限。
+
+指标：完整资本gross/net、long/short价损益和原long路径变化、fund/cost/turnover，平均/峰值gross/net/margin、日波动/分钟DD、资产/月/日集中、部分成交与末库存/未实现/退出、实际RAM/耗时/磁盘。采用提高研究优先级需两季四情景净增、实际风险解释与可退出、非单季/单位事后胜；仍不授APR/投资资格。一个季度正或仅低暴露防御则保留机制/暂停，毛亏或成本反转则暂停配方，不搜参救活。真实来源/账本/破产/日历/预算错误立即保存失败修最小具体问题；标记marked/清仓NE不放宽原5次退出、不免费删除仓位。结果后自主决定继续/切换，当前候选NONE/CASH。
+## D059结果与下一选择（2026-10-04，原事前条件不变）
+
+固定原RSI2选择性short已真正接入N资产共享完整10k账户，两原季度各四费用/单位场景、8独立金融/8保存方向pair真实完成；原多头不重跑，0新下载/模型/HPO。秋净-104.43..-147.54、比多头-157.71..-196.30；冬marked净-43.80..-75.60、比多头+407.52..417.24。BASE/F空头净贡献-156.44/+416.86，多头路径差-1.27/+.38；总桥<=1.308e-12USDT。秋gross本身负，冬short防御收益被long毛亏抵消、总gross近零后真实成本使净负；冬vol升/DD降，非同实际风险alpha。冬所有成本情景SATS空头残仓407.75..409.31/浮利11.45..11.78计NAV，清仓收益NE，不能虚构退出。
+
+采用真实N资产双向能力，投资仍NONE/CASH/APRNE，暂停固定RSI2配方投资晋级与旧窗参数救援；不由一秋季short失败删除做空能力。恢复条件为新因果信息/机制或真正独立跨状态、完整成本/风险/退出证据，扩池/逐币ML需明确覆盖或信息缺陷。已见日期不改名unseen，两个季度不拼APR；Bybit+Binance/资金费unit/native仍条件代理。
+
+下一选固定Turtle LONG_ONLY单层/禁主动加仓消融。对照依据D049完整303日gross+443.89..457.17/net-83.13..-425.34、turnover38.55..39.24；BASE/F总成本528.35/ADD60.16，直接ADD费用不足解释亏损，需新完整目标/成交/资金/NAV路径检验是否降低后续换手。原BTC/ETH、资本、四成本/单位、止损/退出/必要风险保持，不删ETH、不相减旧费用伪反事实。旧bridge/currentN与finance接口兼容须直接正常修复，避免AST包装；尚未运行，运行前再记有限预算。少交易却gross损失更大、风险恶化或全成本仍负，则暂停配方，而非无限搜参。
+
+独立核账最大cash2.183e-11/ratio3.253e-14、原容差、只读同行复核未发现矛盾，范围限制不扩大。最终原实扫25.304GB@05:47:45.669212Z、本轮shared实采峰2.703GB，硬5GB/swap0/GPU0/D40GB保持。小结果/协议与源纳入正常模块Git；实际远端一致另由后验凭证确认，0真钱/keys/orders/locked/paid。详见MULTI_ASSET_PORTFOLIO_20261004.md的D059。

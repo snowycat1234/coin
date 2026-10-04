@@ -690,7 +690,7 @@ def momentum_pool_target_reference(window, symbols):
     return pl.DataFrame(rows)
 
 
-def rsi2_pool_target_reference(window, symbols):
+def rsi2_pool_target_reference(window, symbols, mode='LONG_ONLY'):
     """Direct official sequential RSI terminal value and independent state.
 
     Production uses the official scalar wrapper. This reference uses the
@@ -698,6 +698,8 @@ def rsi2_pool_target_reference(window, symbols):
     then checks the original predicates without importing a target factory.
     It reuses the mature kernel; it is not a second RSI implementation.
     """
+    need(mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH'),
+         'Explicit independent RSI2 direction policy')
     indicator = module(RSI_INDICATOR, RSI_INDICATOR_SHA, 'd058_independent_official_RSI_indicator')
     indicator._context()
     kernel_metadata = indicator.kernel_receipt()
@@ -736,12 +738,25 @@ def rsi2_pool_target_reference(window, symbols):
             rsi = float(kernel.rsi(np.asarray(closes, dtype=np.float64), 2)[-1])
             need(math.isfinite(rsi) and 0 <= rsi <= 100, 'Initialized official sequence RSI2 value')
             entry, exit_long = latest > slow and rsi <= 10, latest > fast
-            if before:
+            entry_short, exit_short = latest < slow and rsi >= 90, latest < fast
+            if mode == 'CASH':
+                states[symbol] = 0
+                action = 'STAY_CASH'
+            elif before == 1:
                 states[symbol] = 0 if exit_long else 1
                 action = 'EXIT_TO_CASH' if states[symbol] == 0 else 'KEEP_LONG'
+            elif before == -1:
+                states[symbol] = 0 if exit_short else -1
+                action = 'EXIT_TO_CASH' if states[symbol] == 0 else 'KEEP_SHORT'
+            elif mode in ('LONG_ONLY', 'LONG_SHORT') and entry:
+                states[symbol] = 1
+                action = 'ENTER_LONG'
+            elif mode in ('SHORT_ONLY', 'LONG_SHORT') and entry_short:
+                states[symbol] = -1
+                action = 'ENTER_SHORT'
             else:
-                states[symbol] = 1 if entry else 0
-                action = 'ENTER_LONG' if states[symbol] else 'STAY_CASH'
+                states[symbol] = 0
+                action = 'STAY_CASH'
             raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
             past = closes[-31:]
             returns.append(np.diff(past) / past[:-1])
@@ -754,6 +769,9 @@ def rsi2_pool_target_reference(window, symbols):
                 official_sequence_RSI2=rsi, entry_predicate=bool(entry),
                 long_exit_predicate=bool(exit_long), old_state=before, new_state=states[symbol],
                 action=action, reason='ELIGIBLE'))
+            if mode != 'LONG_ONLY':
+                witnesses[-1].update(direction_mode=mode, long_entry_predicate=bool(entry),
+                    short_entry_predicate=bool(entry_short), short_exit_predicate=bool(exit_short))
         if live:
             x = np.column_stack(returns)
             need(np.isfinite(x).all(), 'Finite complete independent RSI2 past30 returns')
@@ -770,7 +788,7 @@ def rsi2_pool_target_reference(window, symbols):
         for symbol in symbols:
             rows.append(dict(available_us=decision, symbol=symbol,
                 target_weight=weights[symbol], raw_signed_target=raw[symbol],
-                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+                mode=mode, eligibility_reason=reasons[symbol]))
     window['independent_RSI2_state_witnesses'] = witnesses
     window['official_RSI_kernel_metadata'] = dict(kernel_metadata,
         independent_reference_API='DIRECT_JESSE_RUST_RSI_SEQUENCE_LAST_VALUE_ON_LAST240_CLOSES',
@@ -779,8 +797,10 @@ def rsi2_pool_target_reference(window, symbols):
     return pl.DataFrame(rows)
 
 
-def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
+def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY'):
     need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
+    need(strategy_id == RSI_POOL_STRATEGY or mode == 'LONG_ONLY',
+         'Non-RSI references retain their predeclared long-only direction')
     if strategy_id == SMA_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared SMA uses original equal member shares only')
         return sma_pool_target_reference(window, symbols)
@@ -789,7 +809,7 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
         return momentum_pool_target_reference(window, symbols)
     if strategy_id == RSI_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared RSI2 uses original equal member shares only')
-        return rsi2_pool_target_reference(window, symbols)
+        return rsi2_pool_target_reference(window, symbols, mode)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -911,6 +931,10 @@ def main():
         sma_strategy = strategy_id == SMA_POOL_STRATEGY
         momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
         rsi_strategy = strategy_id == RSI_POOL_STRATEGY
+        direction_mode = spec.get('direction_mode', 'LONG_ONLY')
+        need(direction_mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH') and
+             (rsi_strategy or direction_mode == 'LONG_ONLY'),
+             'Only RSI2 has the explicit predeclared signed direction policies')
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
              (strategy_id == ALLOCATION_STRATEGIES[allocation] or
               (sma_strategy or momentum_strategy or rsi_strategy) and allocation == 'EQUAL'),
@@ -952,7 +976,8 @@ def main():
         report['financial_derivation'] = proof
         reference = base.module(base.REFERENCE, 'd050_independent_decimal_hand', base.REFERENCE_SHA)
         window = input_reader(spec, symbols, base, guard)
-        expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id)
+        expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id,
+            mode=direction_mode)
         if sma_strategy:
             report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
@@ -971,6 +996,8 @@ def main():
                     rsi_ob_threshold=90, rsi_os_threshold=10),
                 completed_daily_RSI2_context=240, exit_then_wait_next_daily_decision=True,
                 idle_raw_budget_redistributed=False, equality_tolerance_band_used=False)
+            if direction_mode != 'LONG_ONLY' or 'direction_mode' in spec:
+                report['direction_mode'] = direction_mode
         report['financial_input_bindings'] = window['proofs']
         if 'score_months' in scope:
             report.update(accepted_monthly_source_proofs=window['source_metadata_proofs'],
@@ -984,7 +1011,8 @@ def main():
             summary = case['summary']; contract = summary['contract']
             need(summary['version'] == 'usdt_linear_perpetual_closing_exempt_account_v2' and
                  contract['symbols'] == list(symbols) and contract['closing_min_notional_exempt'] is True and
-                 contract['native_filters_certified'] is False and summary['mode'] == 'LONG_ONLY', 'Normal shared closing-profile identity')
+                 contract['native_filters_certified'] is False and summary['mode'] == direction_mode,
+                 'Normal shared closing-profile and declared direction identity')
             need(set(contract['instrument_profiles']) == set(symbols) and
                  all(p['quantity_step'] == '1E-8' and float(p['min_notional']) == 10 for p in
                      contract['instrument_profiles'].values()), 'Original declared quantity/minimum profile only')
@@ -1004,7 +1032,7 @@ def main():
                 need(targets.filter(zero)['raw_signed_target'].eq(0).all() and
                      targets.filter(zero)['target_weight'].eq(0).all(), 'Unknown/exited allocation is exactly flat')
             base.same(targets['target_weight'], expected_targets['target_weight'], 'Independent N covariance weights', errors, base.RATIO_TOL)
-            canonical = dict(case, period=scope['period_id'], mode='LONG_ONLY')
+            canonical = dict(case, period=scope['period_id'], mode=direction_mode)
             progress.update('新共享N账户金融核验', len(report['cases']), 4, '账户', symbols=len(symbols),
                 cost=case['cost_id'], funding_unit=case['unit_id'])
             result = financial(window, canonical, guard, reference, Path(actual['run_dir']), None, [], errors)

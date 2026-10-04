@@ -86,10 +86,16 @@ def main():
                 allocation == strategies[identity][0],
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
+    direction_mode = protocol.get('direction_mode', 'LONG_ONLY')
+    engine.need(direction_mode in rsi2_daily.MODES if target_module is rsi2_daily
+                else direction_mode == 'LONG_ONLY',
+                'Explicit supported strategy direction without changing other recipes')
     signal = ('CONSTANT_LONG_NOT_SMA_ALPHA' if target_module is hold else
               'PUBLIC_SMA50_200_LONG_OR_FLAT' if target_module is sma_pool else
               'PAST30_POSITIVE_ABSOLUTE_RETURN_LONG_OR_CASH' if target_module is momentum_cash else
               'PUBLIC_RSI2_OVERSOLD_ABOVE_SMA200_LONG_OR_CASH')
+    if target_module is rsi2_daily and direction_mode != 'LONG_ONLY':
+        signal = 'PUBLIC_RSI2_ORIGINAL_SELECTIVE_' + direction_mode
     engine.need(bool(protocol['pools']) and
                 len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
                 'Nonempty configurable unique pools; saved controls need not be replayed')
@@ -154,6 +160,7 @@ def main():
         pool_changes_only=target_module is hold and allocation == 'EQUAL',
         strategy_changed_between_pools=False,
         allocation=allocation, strategy_id=identity, directional_signal=signal,
+        direction_mode=direction_mode,
         target_exchange='Bybit_VIP0', price_funding_source='Binance_USDM_CROSS_VENUE_PROXY',
         funding_unit_certified=False, native_filters_certified=False, candidate='NONE', investment='CASH',
         long_term_APR='NOT_EVALUABLE', model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
@@ -204,7 +211,7 @@ def main():
                     case_id = pool['id']+'_'+cost['id']+'_'+unit['id']
                     progress.update('实际同一多币账户',result['completed_cases'],required_cases,'账户',
                                     pool=pool['id'],symbols=len(symbols),cost=cost['id'],funding_unit=unit['id'])
-                    case = engine.simulate(window,'LONG_ONLY',cost,unit,progress,guard,
+                    case = engine.simulate(window,direction_mode,cost,unit,progress,guard,
                         target_factory=factory,account_factory=USDTLinearPerpetualAccount)
                     saved = engine.save_case(case,run/case_id)
                     result['cases'].append(dict(id=case_id,pool=pool['id'],symbols=list(symbols),

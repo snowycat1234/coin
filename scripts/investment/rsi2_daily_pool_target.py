@@ -1,4 +1,4 @@
-"""Pinned RSI2 long/exit hooks on closed daily configurable-pool targets.
+"""Pinned selective RSI2 direction/exit hooks on closed daily pool targets.
 
 The original class does not prescribe a timeframe. This fixed daily COIN port
 retains the official scalar RSI's 240-bar context and replaces upstream sizing
@@ -8,7 +8,7 @@ from scripts.investment import public_rsi2_adapter as original
 from scripts.investment import public_sma_perpetual as shared
 
 STRATEGY_ID = 'COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
-MODES = ('LONG_ONLY', 'CASH')
+MODES = ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH')
 DAY_US = shared.DAY_US
 PARAMETERS = dict(fast_sma_period=5, slow_sma_period=200, rsi_period=2,
     rsi_ob_threshold=90, rsi_os_threshold=10)
@@ -34,10 +34,34 @@ RULES = dict(timeframe_minutes=1440, completed_daily_eligibility_bars=240,
     daily_availability='EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED')
 
 
+def rules_for_mode(mode='LONG_ONLY'):
+    """Keep the accepted long/default rules; disclose the selective short port."""
+    shared.require(mode in MODES, 'Preselected RSI2 direction required')
+    rules = dict(RULES)
+    if mode in ('SHORT_ONLY', 'LONG_SHORT'):
+        long_allowed = mode == 'LONG_SHORT'
+        rules.pop('original_short_and_whole_balance_order_hooks_called')
+        rules.update(direction_mode=mode, long_entries_allowed=long_allowed,
+            short_entries_allowed=True,
+            long_entry_predicate='CURRENT_COMPLETED_CLOSE_GT_SMA200_AND_OFFICIAL_RSI2_LE_10',
+            short_entry_predicate='CURRENT_COMPLETED_CLOSE_LT_SMA200_AND_OFFICIAL_RSI2_GE_90',
+            long_exit_predicate='HELD_LONG_AND_CURRENT_COMPLETED_CLOSE_GT_SMA5',
+            short_exit_predicate='HELD_SHORT_AND_CURRENT_COMPLETED_CLOSE_LT_SMA5',
+            entry_predicate=('MODE_ALLOWED_SELECTIVE_LONG_OR_SHORT_PREDICATE' if long_allowed
+                else 'CURRENT_COMPLETED_CLOSE_LT_SMA200_AND_OFFICIAL_RSI2_GE_90'),
+            exit_predicate=('HELD_DIRECTION_ORIGINAL_SMA5_EXIT_PREDICATE' if long_allowed
+                else 'HELD_SHORT_AND_CURRENT_COMPLETED_CLOSE_LT_SMA5'),
+            original_long_entry_and_long_exit_hooks_used=long_allowed,
+            original_short_entry_and_short_exit_hooks_used=True,
+            original_whole_balance_order_hooks_called=False,
+            short_entry_is_not_negated_long_entry=True)
+    return rules
+
+
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
                   eligible_by_decision=None, allocation='EQUAL'):
     shared.require(mode in MODES and allocation == 'EQUAL',
-        'Fixed daily RSI2 LONG_ONLY/CASH and equal allocation required')
+        'Fixed daily RSI2 direction and equal allocation required')
     shared.require(original.SCALAR_CANDLE_WINDOW == 240,
         'Preserved official RSI scalar initialization context required')
     rules = original._load_public_hooks()
@@ -47,7 +71,7 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
         allocation='EQUAL', completed_bar_count=240)
     for key in ('fast_period', 'slow_period', 'equality_holds_current_position', 'source'):
         meta.pop(key, None)
-    meta.update(strategy_id=STRATEGY_ID, rules=dict(RULES), allocation='EQUAL',
+    meta.update(strategy_id=STRATEGY_ID, rules=rules_for_mode(mode), allocation='EQUAL',
         rsi_parameters=dict(PARAMETERS), complete_daily_warmup=240,
         scalar_candle_window=240, scalar_API='OFFICIAL_JESSE_RSI_NONSEQUENTIAL_2D_CANDLES',
         original_long_and_short_and_exit_hooks_reused=False,
@@ -64,4 +88,12 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
         reused_target_api='scripts/investment/public_sma_perpetual.py:fixed_targets(direction_factory,completed_bar_count=240)',
         benchmark_scope='SEEN_DEVELOPMENT_NOT_LONG_TERM_APR',
         target_caps_are_not_instantaneous_position_caps=True)
+    if mode in ('SHORT_ONLY', 'LONG_SHORT'):
+        meta.pop('original_short_and_whole_balance_order_hooks_called')
+        meta.update(direction_mode=mode,
+            original_long_and_short_and_exit_hooks_reused=mode == 'LONG_SHORT',
+            original_long_entry_and_long_exit_hooks_reused=mode == 'LONG_SHORT',
+            original_short_entry_and_short_exit_hooks_reused=True,
+            original_whole_balance_order_hooks_called=False,
+            short_entry_is_not_negated_long_entry=True)
     return frame, meta
