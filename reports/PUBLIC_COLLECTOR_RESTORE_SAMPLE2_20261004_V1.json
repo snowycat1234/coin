@@ -1,0 +1,398 @@
+{
+  "action": "sample2",
+  "task_id": "b8eca2165152470b9242a8cbdbc38188",
+  "created_utc": "2026-10-04T15:37:04.656258+00:00",
+  "helper": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_RESTORE_SOURCE_20261004_V2.py",
+    "bytes": 9164,
+    "sha256": "5e14a6506e6f89e82207db6fc1e3d40c0c12708f787d97c84fdff5d5ecf6b956"
+  },
+  "preservation": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_PRESERVATION_20261004_V1.json",
+    "bytes": 24986,
+    "sha256": "09719320c32d72f4c2e5f52b4dc1e444681173562562460aa434a31273aee9be"
+  },
+  "manifest_identity": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_MANIFEST_IDENTITIES_20261004_V1.json",
+    "bytes": 788035,
+    "sha256": "6155d4dc8b96dbb9c9c4fb1c166a4eacaf268392ef8035344b16195d48e4eff3"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 219688960,
+    "ram_peak_bytes": 3263008768,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "new_services": 0,
+  "source_switch": false,
+  "credentials_used": false,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "gpu_hours": 0,
+  "processes": [
+    {
+      "pid": 890567,
+      "argv": [
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.microstructure",
+        "--run"
+      ],
+      "start_ticks": 20387105,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r16278c9b18724e978d87e74d611df983.scope"
+    },
+    {
+      "pid": 890568,
+      "argv": [
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.collector_public_v3",
+        "--run"
+      ],
+      "start_ticks": 20387105,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-rdfd0fb35c9474fc493c9d3e6dedce3bd.scope"
+    }
+  ],
+  "launch_epoch_seconds": 1791127888.685317,
+  "sampled_us": 1791128224660996,
+  "actual_task_receipts": [
+    {
+      "path": "/home/xflops/coin-state/task-progress/task-497aaa6d5bcb4661b4a4a02a5b4b6cb6.json",
+      "sha256": "ef50e7edecec98c0606bcbb3a2f6e8cea23196a3babfb1db733991bb42489dcf",
+      "metadata": {
+        "id": "497aaa6d5bcb4661b4a4a02a5b4b6cb6",
+        "title": "D066原L1采集恢复·断档新会话",
+        "status": "running",
+        "started_at": 1791127889.7258925,
+        "phase": "运行中",
+        "completed": null,
+        "total": null,
+        "unit": "",
+        "metrics": {},
+        "children": [],
+        "pid": 890567,
+        "last_activity_at": 1791127889.7389545,
+        "start_ticks": 20387105
+      }
+    },
+    {
+      "path": "/home/xflops/coin-state/task-progress/task-c1242fb3275342deaddd658c4d14d0e1.json",
+      "sha256": "45daaff76494a6663fb3333a59b9630278305ed96beba31903629b3d0e50eaca",
+      "metadata": {
+        "id": "c1242fb3275342deaddd658c4d14d0e1",
+        "title": "D066原公开分钟采集恢复·断档新会话",
+        "status": "running",
+        "started_at": 1791127889.7267888,
+        "phase": "运行中",
+        "completed": null,
+        "total": null,
+        "unit": "",
+        "metrics": {},
+        "children": [],
+        "pid": 890568,
+        "last_activity_at": 1791127889.7441826,
+        "start_ticks": 20387105
+      }
+    }
+  ],
+  "public": {
+    "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+    "public_version": "collector_public_v3",
+    "read_only": true,
+    "financial_accounts": false,
+    "credentials_used": false,
+    "orders_sent": 0,
+    "alpha_eligible": false,
+    "qualified_72h": null,
+    "qualification_scope": "NOT_CERTIFIED_BY_THIS_SNAPSHOT",
+    "state": "RUNNING",
+    "sampled_ms": 1791128225051,
+    "stored_source_matches_current": true,
+    "contract": {
+      "credentials": false,
+      "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+      "disk_hard_bytes": 40000000000,
+      "engineering": false,
+      "financial_accounts": false,
+      "gpu": false,
+      "interval": "1m",
+      "orders": false,
+      "ram_shared_max_bytes": 5000000000,
+      "rest_base": "https://data-api.binance.vision",
+      "scope": "public_market_data_only",
+      "sources": {
+        "pyproject.toml": "bb863f68ce4187e3a23a4b6ef22dad24962c0bf8fe2a7e88fbc3ac3d0c14f69d",
+        "scripts/bounded.sh": "93f6ef9767fa67cc14c6a4a0495c7b2c4e7753c52b1f945988898f45c91843aa",
+        "scripts/collector_public_v3.ps1": "fe3807c797567057bea99f5700e131588bd2eee2e0c3a76340d941541b511674",
+        "scripts/collector_public_v3.sh": "c5b782e8d67aa9096dfec206ebf6e87702ca5b0118f77d7bf9dd903ea2986ea8",
+        "scripts/env.sh": "8761ed858db1561b3d27d271e4e44a3e083986179222ad83d25b5cdf4df5906c",
+        "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+        "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+        "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+        "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+        "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+        "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+        "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+        "uv.lock": "3db962663090852884ff02910bd64879aa475c2a7be12d16eb90e45d593cd49e"
+      },
+      "stream_url": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker",
+      "swap_bytes": 0,
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "version": "collector_public_v3",
+      "versions": {
+        "httpx": "0.28.1",
+        "numpy": "2.5.3",
+        "python": "3.12.3",
+        "sqlite": "3.45.1",
+        "websockets": "16.1.1"
+      }
+    },
+    "contract_sha256": "67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873",
+    "lifecycle_head": "091027f3a35eb99914da181e621eab157fa128ad7ee0123f61d7b10e92ad7790",
+    "session": {
+      "id": 6,
+      "started_ms": 1791127997542,
+      "ended_ms": null,
+      "state": "RUNNING",
+      "heartbeat_ms": 1791128214148,
+      "healthy_seconds": 165.52859676501248,
+      "observed_seconds": 216.60664247200475,
+      "healthy_since_ms": 1791128048620,
+      "clock_offset_ms": -403.0,
+      "last_error": null,
+      "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker"
+    },
+    "symbols": {
+      "BTCUSDT": {
+        "total": 5446,
+        "websocket": 4893,
+        "rest": 553,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1791128160000,
+        "last_websocket_received_ms": 1791128220711
+      },
+      "ETHUSDT": {
+        "total": 5446,
+        "websocket": 4893,
+        "rest": 553,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1791128160000,
+        "last_websocket_received_ms": 1791128220714
+      }
+    },
+    "unresolved_gaps": 0
+  },
+  "microstructure": {
+    "module": "A07",
+    "state": "CONNECTED",
+    "binding": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "mode": "live",
+      "store": "/mnt/d/codex/coin/data/microstructure_v1",
+      "version": "microstructure_l1_v1"
+    },
+    "checkpoint": {
+      "accepted_events": 10114,
+      "asof_us": 1791128225072062,
+      "connected": true,
+      "duplicate_events": 0,
+      "ids": {
+        "BTCUSDT:quote": {
+          "hash": "d4c4fd896da85daa38d1fb2517312987c2a8a062bc85a3d464dc82e0316b576b",
+          "id": 101024920365,
+          "received_us": 1791128224831805
+        },
+        "BTCUSDT:trade": {
+          "hash": "001527276cf55993f40e6aedb797736f64d7d6ed086475a4bc0661cb72ee967a",
+          "id": 4080497116,
+          "received_us": 1791128224793811
+        },
+        "ETHUSDT:quote": {
+          "hash": "f73edd8ba53fb83166e7769c2aaf997200bd35457cab9b179f055cb9a2974de0",
+          "id": 81731504520,
+          "received_us": 1791128224459293
+        },
+        "ETHUSDT:trade": {
+          "hash": "ec6bc56ce636d9e1645ac08d1b52f5af90b0670fb24519f5412e4347ac9ac549",
+          "id": 2094401627,
+          "received_us": 1791128221833164
+        }
+      },
+      "last_received_us": 1791128224831805,
+      "mode": "live",
+      "observed_monotonic_seconds": 224.75390814701677,
+      "rejected_events": 0,
+      "session": "a1cb5a053be046b193906f3b4a011d91"
+    },
+    "feature_bytes": 96293759,
+    "feature_rows": 748394,
+    "audit_head": "a12af3fc7cc740084020e6673eeca98942eeeb01d66bc3a87e30fb176fdb461f",
+    "last_audit": {
+      "kind": "RAW_PRUNED",
+      "payload": {
+        "bytes": 58043,
+        "count": 1,
+        "latest_us": 1791041777349385,
+        "oldest_us": 1791041777349385
+      }
+    },
+    "read_only": true,
+    "alpha_eligible": false,
+    "real_time_days_certified": 0
+  },
+  "errors": [],
+  "public_lifecycle_tail": [
+    {
+      "seq": 11,
+      "received_ms": 1791127902347,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "3808ac8fd74445411d5841d204591424f0b260e72711fc950390f1a22df31ce4",
+      "sha256": "091027f3a35eb99914da181e621eab157fa128ad7ee0123f61d7b10e92ad7790"
+    },
+    {
+      "seq": 10,
+      "received_ms": 1791127902343,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1791127902343,\"last_heartbeat_ms\":1791120763029,\"session_id\":5,\"started_ms\":1790919439119,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "27523539ceae7069209b3a0de15c4d88f724e560e443a4af716c430165986876",
+      "sha256": "3808ac8fd74445411d5841d204591424f0b260e72711fc950390f1a22df31ce4"
+    },
+    {
+      "seq": 9,
+      "received_ms": 1790919407368,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "3be3698e186402baee810ea9b4baf84ced958234967c8a3474bd737459d55dda",
+      "sha256": "27523539ceae7069209b3a0de15c4d88f724e560e443a4af716c430165986876"
+    },
+    {
+      "seq": 8,
+      "received_ms": 1790919407355,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1790919407355,\"last_heartbeat_ms\":1790918677354,\"session_id\":4,\"started_ms\":1790902659764,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "326e67b0c7dbaee3763a70454e03576a1a82a314c050f310d50b76f5003c3144",
+      "sha256": "3be3698e186402baee810ea9b4baf84ced958234967c8a3474bd737459d55dda"
+    },
+    {
+      "seq": 7,
+      "received_ms": 1790902622287,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "16958cab2ed6d4d4bd373c300f7bfd510f2d1f2a5fe1a8513b99eb3e4f39478f",
+      "sha256": "326e67b0c7dbaee3763a70454e03576a1a82a314c050f310d50b76f5003c3144"
+    },
+    {
+      "seq": 6,
+      "received_ms": 1790902622284,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1790902622284,\"last_heartbeat_ms\":1790901959201,\"session_id\":3,\"started_ms\":1790870474323,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "cd3f84026b1d2dbc44bc9af4f0b8916fb978989415cfb387f0f2da0c8ac6935b",
+      "sha256": "16958cab2ed6d4d4bd373c300f7bfd510f2d1f2a5fe1a8513b99eb3e4f39478f"
+    }
+  ],
+  "micro_restart_gap_tail": [
+    {
+      "seq": 5836,
+      "received_us": 1791128012632906,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1791128012632900,\"start_us\":1791118138013599,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "b7082b88356f6b8701fdb6d97da089c3e1e5225e10c6eb25dd1461a14c5a973c",
+      "sha256": "9a8059221ba23f56f92d26258c8113198f39c96c842c8c5ec5bad9df07fe5444"
+    },
+    {
+      "seq": 5835,
+      "received_us": 1791128012632791,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"a1cb5a053be046b193906f3b4a011d91\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "26beaa7f3ce67831c09ff23ef62f8dbaeec09bfc8dbc7edc40f59f8e488f3f0a",
+      "sha256": "b7082b88356f6b8701fdb6d97da089c3e1e5225e10c6eb25dd1461a14c5a973c"
+    },
+    {
+      "seq": 1322,
+      "received_us": 1790928077925300,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1790928077925295,\"start_us\":1790925702855739,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "d65e57a74b6f6c13ffddcaf35eed7b761b338ae415fff06160a6639a00e1ac85",
+      "sha256": "7a91e9cb025f79611034fa9e164453dec99316c49f59b407c8f8abf2f94a7a24"
+    },
+    {
+      "seq": 1321,
+      "received_us": 1790928077925201,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"6ba28c2935bc4c858f988ac62cd5a6da\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "1027ece38191d45c87f69e030372e1ee44ec01f89a0ec7f5b6e05fd026575d58",
+      "sha256": "d65e57a74b6f6c13ffddcaf35eed7b761b338ae415fff06160a6639a00e1ac85"
+    },
+    {
+      "seq": 1267,
+      "received_us": 1790919443599290,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1790919443599283,\"start_us\":1790908326063245,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "2861d0bd1092195bbe733958f5e9ebbbd5b8e4f26f0c23176f3a0933a99c0e65",
+      "sha256": "a2ac33ac084fff5899059ff88c5bfbf7cf3a4a8048b38d72750ea26f19be28a8"
+    },
+    {
+      "seq": 1266,
+      "received_us": 1790919443599144,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"dc77843136a94e4cabf36fd0fbe7a10f\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "a5ac2576e084e3421ac0b8be13202f2057a3805ad3adad1db6eaf0be15caf9e6",
+      "sha256": "2861d0bd1092195bbe733958f5e9ebbbd5b8e4f26f0c23176f3a0933a99c0e65"
+    }
+  ],
+  "advancement_comparison": {
+    "first_report": {
+      "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_RESTORE_SAMPLE1_20261004_V1.json",
+      "bytes": 16944,
+      "sha256": "642602a3aee114776aa45af10a11720776728376863975f5a9959166d1d278ec"
+    },
+    "public_heartbeat_delta_ms": 165528,
+    "micro_checkpoint_delta_us": 163029166,
+    "micro_accepted_events_delta": 7361
+  },
+  "status": "ORIGINAL_PUBLIC_COLLECTORS_LIVE_NEW_SESSIONS_SAMPLE_NOT_QUALIFICATION",
+  "log_snapshots": [
+    {
+      "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/public-v3-restored.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/public-v3-restored.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/micro-l1-v1-restored.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/micro-l1-v1-restored.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    }
+  ],
+  "healthy_gap_splicing": false,
+  "real_time_days_certified": 0,
+  "alpha_eligible": false
+}

@@ -1,0 +1,131 @@
+{
+  "action": "launch",
+  "task_id": "ab43c726a6a940ff8938611603e5b69a",
+  "created_utc": "2026-10-04T15:30:02.041177+00:00",
+  "helper": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_RESTORE_SOURCE_20261004_V1.py",
+    "bytes": 9090,
+    "sha256": "120f1c551e2c2d73475e6c5b1e4f9f5c052d7145857d061a5637b93d6ab32980"
+  },
+  "preservation": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_PRESERVATION_20261004_V1.json",
+    "bytes": 24986,
+    "sha256": "09719320c32d72f4c2e5f52b4dc1e444681173562562460aa434a31273aee9be"
+  },
+  "manifest_identity": {
+    "path": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/PUBLIC_COLLECTOR_MANIFEST_IDENTITIES_20261004_V1.json",
+    "bytes": 788035,
+    "sha256": "6155d4dc8b96dbb9c9c4fb1c166a4eacaf268392ef8035344b16195d48e4eff3"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 112652288,
+    "ram_peak_bytes": 3263008768,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "new_services": 0,
+  "source_switch": false,
+  "credentials_used": false,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "gpu_hours": 0,
+  "status": "ORIGINAL_PUBLIC_COLLECTORS_SINGLE_DETACHED_LAUNCH_NOT_HEALTH_OR_QUALIFICATION",
+  "capacity": {
+    "project_bytes": 4314849443,
+    "wsl_vhd_bytes": 23047700480,
+    "total_bytes": 27362549923,
+    "reserved_bytes": 1000000000,
+    "d_free_bytes": 354083885056,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-04T15:31:26.316122+00:00",
+    "elapsed_seconds": 84.18770535799558
+  },
+  "launches": [
+    {
+      "name": "public-v3",
+      "module": "quant.collector_public_v3",
+      "title": "D066原公开分钟采集恢复·断档新会话",
+      "wrapper_pid": 890559,
+      "command": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D066原公开分钟采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.collector_public_v3",
+        "--run"
+      ],
+      "stdout": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/public-v3-restored.stdout.log",
+      "stderr": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/public-v3-restored.stderr.log",
+      "start_new_session": true
+    },
+    {
+      "name": "micro-l1-v1",
+      "module": "quant.microstructure",
+      "title": "D066原L1采集恢复·断档新会话",
+      "wrapper_pid": 890560,
+      "command": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D066原L1采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.microstructure",
+        "--run"
+      ],
+      "stdout": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/micro-l1-v1-restored.stdout.log",
+      "stderr": "/home/xflops/coin-state/d066-public-collector-preservation-20261004-v1/micro-l1-v1-restored.stderr.log",
+      "start_new_session": true
+    }
+  ],
+  "collector_processes_at_launch": [
+    {
+      "pid": 890559,
+      "argv": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D066原公开分钟采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.collector_public_v3",
+        "--run"
+      ],
+      "start_ticks": 20386998,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r639b4ee0ab3347e6b1f9968afb58af5a.scope"
+    },
+    {
+      "pid": 890560,
+      "argv": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D066原L1采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.microstructure",
+        "--run"
+      ],
+      "start_ticks": 20386999,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-r639b4ee0ab3347e6b1f9968afb58af5a.scope"
+    }
+  ],
+  "launch_epoch_seconds": 1791127888.685317,
+  "healthy_gap_splicing": false,
+  "real_time_days_certified": 0,
+  "alpha_eligible": false
+}

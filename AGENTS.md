@@ -108,3 +108,5 @@ execution/Testnet/mainnet/resource-observer工程，不启动新的A11观察器�
 D064当前接线：`multi_asset_data.load_portfolio_window`支持既有已接受370唯一来源的303日连续钱包；`donchian_daily_pool_target`保留原prior20通道/SMA200入场过滤/long-flat，平台signed多空不变。输出预算失败与保存完整账本分别验收，禁止将后续资金核验升级为原任务预算通过。旧原证据不覆盖，当前研究/下一决策见状态页；未来单因素激活预算须完整新回放并报告实际risk，不能后验倍乘旧NAV或扩caps。
 
 D065活动日线Donchian新增EQUAL/ACTIVE_EQUAL正常raw接口；同信号/过去协方差/共享账户与风险caps不变。四303日账户+独立参考完整，采用激活预算研究挑战者，投资NONE/CASH。原EQUAL与D064失败/残仓保持Git可复现，不包装或覆写证据；当前下一优先原两路公开采集丢失后的三件套保存/断档与有限恢复。10日退出是尚未运行的下一单因素COIN假设，不自动把原配方变双向、不永久固定路线。
+
+D066原采集已单次恢复（public_v3/L1 v1，来源与.venv/defaultDB/store保持），新会话记录UNGRACEFUL_PREVIOUS_SESSION/RESTART_GAP。旧进程退出UNKNOWN，不能将旧running JSON当存活或拼健康时间；两次观测只证明进程/新heartbeat/闭合bars与accepted检查点推进，不认证有效天/alpha或新feature持久化。正常研究保持D065挑战者，下一10日退出尚未启动；live句柄与最新来源按实际核对，不复用静态PID作永久存活保证。

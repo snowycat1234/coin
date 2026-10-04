@@ -980,3 +980,7 @@ BASE/F主要净贡献XRP413.91/BTC274.46/DOGE220.88；ETH−327.68/SOL−135.29/
 - 原接受370个来源不新增下载/QA；4市场账户/4金融调用/4保存控制/4配对、0model/HPO/locked/orders。
 
 WSL通过`with_task_progress.sh → bounded.sh`使用原v8 Python和2线程；市场复现入口`multi_asset_portfolio.py --protocol protocols/DONCHIAN_ACTIVE_ALLOCATION_20261004_V1.json --pool-id LIQUIDITY_TEN --run-dir STATE/NEW_EXCLUSIVE --output reports/fast_research/NEW_EXCLUSIVE.json`。必须使用绝对路径、PYTHONPATH、同接受来源与Git/源码字节；新目录/报告/登记不得覆盖旧结果。独立核账须预绑定ACTUAL_BINDING，并完整提供protocol/actual/run-dir/output四参数。实际命令、环境与任务SHA见保存绑定。
+
+## D066：原公开采集断档后恢复（非新经济实验）
+D066已实际恢复原public_v3与L1 v1两路公开采集：数据库三件套/旧日志/任务/审计链已保存，2008份原清单payload SHA精确一致；原退出原因UNKNOWN。单次原环境/defaultDB/store/端点启动，两次实际新会话观测通过：BTC/ETH各增3根闭合分钟线、L1检查点前进163秒/增7361事件，同真实PID与资源组。public断档约119分钟、L1约165分钟明确不记连续资格；未认证72h/有效天/alpha，feature持久化增长本轮未证明。最新实扫27.363GB为启动前时刻，共享硬5GB/swap0/GPU0不变。8765可见新实际任务。D065研究挑战者ACTIVE_EQUAL保留、两币HOLD仍收益主参照；投资NONE/CASH、长期APR不可评价。下一科学问题为入场不变、仅10日退出的单因素COIN变体，尚未启动；Git成功仅按后验SYNC_VERIFIED。恢复证据见docs/PUBLIC_COLLECTOR_RESTORE_20261004.md。
+D065四情景净增量67.62–88.34USDT原结论保持；未改币池/成本/资金费单位或账户风险，未运行新历史回放。恢复不将两币采集范围变为N币研究永久限制，也不启动L1 v2。细节与只读复现入口见[恢复模块](PUBLIC_COLLECTOR_RESTORE_20261004.md)。
