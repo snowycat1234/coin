@@ -24,6 +24,7 @@ from scripts.investment import public_sma_pool_target as sma_pool
 from scripts.investment import momentum_cash_pool_target as momentum_cash
 from scripts.investment import rsi2_daily_pool_target as rsi2_daily
 from scripts.investment import donchian_daily_pool_target as donchian_daily
+from scripts.investment import hold_donchian_blend_target as hold_donchian_blend
 from scripts.investment.perpetual_closing_exempt_account import USDTLinearPerpetualAccount
 from scripts.research_v8.registry import FIELDS, append_event
 
@@ -84,7 +85,8 @@ def main():
                   rsi2_daily.STRATEGY_ID: ('EQUAL', rsi2_daily),
                   donchian_daily.STRATEGY_ID: ('EQUAL', donchian_daily),
                   donchian_daily.EXIT10_STRATEGY_ID: ('EQUAL', donchian_daily),
-                  donchian_daily.REENTRY10_STRATEGY_ID: ('EQUAL', donchian_daily)}
+                  donchian_daily.REENTRY10_STRATEGY_ID: ('EQUAL', donchian_daily),
+                  hold_donchian_blend.STRATEGY_ID: (hold_donchian_blend.ALLOCATION, hold_donchian_blend)}
     identity = protocol['strategy']
     engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
                 (allocation == strategies[identity][0] or
@@ -93,6 +95,9 @@ def main():
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
     target_options = {}
+    if target_module is hold_donchian_blend:
+        engine.need(protocol.get('strategy_rules') == hold_donchian_blend.RULES,
+                    'Exact fixed half HOLD10 / half EXIT10 rule; no mixture search')
     annual_vol_target = protocol.get('strategy_rules', {}).get('annual_volatility_target', .10)
     engine.need(isinstance(annual_vol_target, (int, float)) and not isinstance(annual_vol_target, bool)
                 and 0 < annual_vol_target <= .10,
@@ -121,6 +126,8 @@ def main():
         signal = 'PUBLIC_RSI2_ORIGINAL_SELECTIVE_' + direction_mode
     if target_module is donchian_daily and reentry_period == 10:
         signal = 'COIN_PRIOR20_INITIAL_SMA200_EXIT10_RECOVERY_REENTRY10_LONG_OR_CASH'
+    if target_module is hold_donchian_blend:
+        signal = 'COIN_HALF_CONSTANT_LONG_HALF_ACTIVE_EQUAL_EXIT10_TARGETS_ONE_WALLET'
     engine.need(bool(protocol['pools']) and
                 len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
                 'Nonempty configurable unique pools; saved controls need not be replayed')

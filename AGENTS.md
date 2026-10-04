@@ -124,3 +124,6 @@ D071正常活动接口新增annual_vol_target默认.10且只允许下缩；主ru
 
 
 D072活动金融Donchian入口按非空/唯一/同配置顺序池核，不再十币写死；303日/固定身份/4case/源哈希/独立财务护栏保持。两币EXIT10同池对照已真实完成，净更低而回撤更低；扩十币净更多/risk更高，BTCETH信号一致。HOLD8参照/HOLD10控制/两币防御对照/十币挑战者保留，投资NONE/CASH。下一固定50/50过去目标混合必须共享单账户真实回放，不拼NAV、不搜权重、不提高caps或假称同风险；未启动。旧证据按Git保留，具体经济数见当前状态与docs/DONCHIAN_TWO_20261005.md。
+
+
+D073正常hold_donchian_blend_target固定.5HOLD10+.5EXIT10/REENTRY20 ACTIVE_EQUAL，各组件过去cov缩风险后组合目标，runner一个共享钱包完整303日。四账户/四独立金融/12pair/Decimal已通过；净比HOLD8低而vol/DD更低，事前非共同支配标准仅保留防御挑战者，投资NONE/CASH。不得平均旧NAV/重复本金/搜权重/假风险匹配；N资产/signed/现金及原caps不变。下一只保存日账本配对时间/回撤集中度诊断未启动，不新增市场或策略，旧证据按原Git保存。具体经济证据见状态与docs/HOLD_EXIT_BLEND_20261005.md。

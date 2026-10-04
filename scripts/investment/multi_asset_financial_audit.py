@@ -48,6 +48,15 @@ DONCHIAN_REENTRY10_STRATEGY = 'COIN_JESSE_DONCHIAN20_SMA200_EXIT10_REENTRY10_1D_
 DONCHIAN_PERIODS = {DONCHIAN_POOL_STRATEGY: (20, 20),
     DONCHIAN_EXIT10_STRATEGY: (10, 20), DONCHIAN_REENTRY10_STRATEGY: (10, 10)}
 DONCHIAN_STRATEGIES = tuple(DONCHIAN_PERIODS)
+BLEND_STRATEGY = 'COIN_HALF_HOLD10_HALF_EXIT10_ACTIVE_EQUAL_1D_USDM_CONFIGURED_POOL_BLEND'
+BLEND_ALLOCATION = 'HALF_HOLD_HALF_ACTIVE_EQUAL_EXIT10'
+BLEND_RULES = dict(hold_weight=.5, donchian_weight=.5,
+    hold_strategy_id=ALLOCATION_STRATEGIES['EQUAL'], donchian_strategy_id=DONCHIAN_EXIT10_STRATEGY,
+    hold_allocation='EQUAL', donchian_allocation='ACTIVE_EQUAL', annual_volatility_target=.10,
+    exit_period=10, reentry_period=20,
+    blend_stage='AFTER_COMPONENT_RISK_SCALING_NO_EXTRA_RESCALE', separate_component_capital=False,
+    timeframe_minutes=1440, completed_daily_eligibility_bars=200, past_covariance_daily_returns=30,
+    absolute_target_per_asset=.3, gross_target_cap=.6)
 RSI_INDICATOR = 'scripts/investment/public_rsi2_indicator.py'
 RSI_INDICATOR_SHA = '417b9044ff1b2cb32326d4648d1239ebc2b7f872bf7da123901b0fe1bf0a2315'
 
@@ -630,7 +639,7 @@ def input_reader(spec, symbols, base, guard):
         catalog[key] = row
     window = dict(start=start, end=end, count=len(times), days=scope['period_days'],
         required_scope=scope, market={}, bars={}, events=[], proofs=[], source_metadata_proofs=source_metadata_proofs)
-    donchian = spec['strategy'] in DONCHIAN_STRATEGIES
+    donchian = spec['strategy'] in DONCHIAN_STRATEGIES or spec['strategy'] == BLEND_STRATEGY
     def read(key, columns):
         row = catalog[key]; p = base.payload(row)
         window['proofs'].append(dict(kind=key[0], symbol=key[1], interval=key[2], month=key[3],
@@ -1102,6 +1111,66 @@ def donchian_pool_target_reference(window, symbols, allocation='EQUAL', *, exit_
     return pl.DataFrame(rows)
 
 
+def blend_target_reference(window, symbols):
+    """Independent eligible HOLD and exit10 components, each risk-scaled first.
+
+    The original complete-input HOLD reference retains its strict requirements.
+    This explicit composite handles the shared component membership/reset policy.
+    """
+    need(bool(symbols) and len(symbols) == len(set(symbols)), 'Nonempty ordered blend identity')
+    hold_rows = []
+    for decision in range(window['start'], window['end'], DAY):
+        memberships = window.get('eligible_by_decision')
+        members = set(symbols) if memberships is None else set(memberships.get(decision, ()))
+        need(members <= set(symbols), 'Independent blend membership outside configured identity')
+        live, returns, reasons = [], [], {}
+        raw, weights = dict.fromkeys(symbols, 0.), dict.fromkeys(symbols, 0.)
+        for symbol in symbols:
+            bars = window['bars'][symbol]
+            i = int(np.searchsorted(bars['close_us'].to_numpy(), decision, side='right') - 1)
+            valid = (i >= 199 and bars['close_us'][i] == decision and
+                np.all(np.diff(bars['close_us'][i-199:i+1].to_numpy()) == DAY) and
+                np.all(bars['available_us'][i-199:i+1].to_numpy() <= decision))
+            if symbol not in members or not valid:
+                reasons[symbol] = 'POOL_EXIT' if symbol not in members else 'WARMUP_OR_DATA_GAP'
+                continue
+            close = bars['close'][i-199:i+1].to_numpy()
+            need(np.isfinite(close).all() and np.all(close > 0), 'Finite eligible blend HOLD completed closes')
+            raw[symbol] = min(.3, .6 / len(members))
+            returns.append(np.diff(close[-31:]) / close[-31:-1])
+            live.append(symbol); reasons[symbol] = 'ELIGIBLE'
+        if live:
+            x = np.column_stack(returns)
+            need(np.isfinite(x).all(), 'Finite eligible blend HOLD past30 returns')
+            centered = x - x.mean(axis=0)
+            covariance = centered.T @ centered / 29 * 365
+            scaled = np.asarray([raw[s] for s in live], dtype=np.float64)
+            gross = float(np.abs(scaled).sum())
+            if gross > .6:
+                scaled *= .6 / gross
+            sigma = math.sqrt(max(float(scaled @ covariance @ scaled), 0.))
+            if sigma > .10:
+                scaled *= .10 / sigma
+            weights.update(zip(live, map(float, scaled), strict=True))
+        for symbol in symbols:
+            hold_rows.append(dict(available_us=decision, symbol=symbol,
+                target_weight=weights[symbol], raw_signed_target=raw[symbol],
+                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+    timing = donchian_pool_target_reference(window, symbols, 'ACTIVE_EQUAL',
+        exit_period=10, reentry_period=20)
+    rows = []
+    for hold, dc in zip(hold_rows, timing.iter_rows(named=True), strict=True):
+        need(all(hold[k] == dc[k] for k in ('available_us', 'symbol', 'mode', 'eligibility_reason')),
+             'Independent blend components share exact ordered keys and eligibility')
+        rows.append(dict(hold, target_weight=.5 * hold['target_weight'] + .5 * dc['target_weight'],
+            raw_signed_target=.5 * hold['raw_signed_target'] + .5 * dc['raw_signed_target']))
+    window['independent_blend_reference'] = dict(component_rules=dict(BLEND_RULES),
+        logical_rows=len(rows), shared_order=list(symbols), component_keys_and_eligibility_equal=True,
+        production_adapter_imported=False, extra_risk_rescale=False, separate_component_capital=False)
+    window['independent_blend_components'] = dict(HOLD=pl.DataFrame(hold_rows), EXIT10=timing)
+    return pl.DataFrame(rows)
+
+
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY',
                      exit_period=20, reentry_period=20, annual_vol_target=.10):
     need(type(annual_vol_target) in (int, float) and math.isfinite(annual_vol_target) and
@@ -1109,6 +1178,12 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, m
     need(annual_vol_target == .10 or allocation == 'EQUAL' and
          strategy_id in (None, ALLOCATION_STRATEGIES['EQUAL']),
          'Changed annual risk target belongs only to constant-long equal HOLD reference')
+    if strategy_id == BLEND_STRATEGY:
+        need(allocation == BLEND_ALLOCATION and mode == 'LONG_ONLY' and
+             type(exit_period) is int and type(reentry_period) is int and
+             (exit_period, reentry_period, annual_vol_target) == (10, 20, .10),
+             'Only fixed half HOLD10 / half active exit10 after component risk scaling')
+        return blend_target_reference(window, symbols)
     need(allocation in ALLOCATION_STRATEGIES or
          allocation == 'ACTIVE_EQUAL' and strategy_id in DONCHIAN_STRATEGIES,
          'Only predeclared allocation choices, active budgeting limited to Donchian')
@@ -1253,6 +1328,7 @@ def main():
         momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
         rsi_strategy = strategy_id == RSI_POOL_STRATEGY
         donchian_strategy = strategy_id in DONCHIAN_STRATEGIES
+        blend_strategy = strategy_id == BLEND_STRATEGY
         exit_period = spec.get('strategy_rules', {}).get('exit_period', 20)
         reentry_period = spec.get('strategy_rules', {}).get('reentry_period', 20)
         annual_vol_target = spec.get('strategy_rules', {}).get('annual_volatility_target', .10)
@@ -1268,7 +1344,8 @@ def main():
         need(spec['initial_capital_USDT'] == 10000 and
              ((allocation in ALLOCATION_STRATEGIES and strategy_id == ALLOCATION_STRATEGIES[allocation]) or
                (sma_strategy or momentum_strategy or rsi_strategy) and allocation == 'EQUAL' or
-               donchian_strategy and allocation in ('EQUAL', 'ACTIVE_EQUAL')),
+               donchian_strategy and allocation in ('EQUAL', 'ACTIVE_EQUAL') or
+               blend_strategy and allocation == BLEND_ALLOCATION),
              'Same fixed capital and explicit independent strategy/allocation policy')
         need('score_months' not in scope or not sma_strategy,
              'Continuous quarters contain the predeclared HOLD or past30 long/cash recipes')
@@ -1287,6 +1364,14 @@ def main():
             need(type(exit_period) is int and type(reentry_period) is int and
                  (exit_period, reentry_period) == DONCHIAN_PERIODS[strategy_id],
                  'Protocol binds original20, exit10 or exit10/reentry10 fixed identity')
+        if blend_strategy:
+            need(scope['period_days'] == 303 and actual['strategy_id'] == strategy_id and
+                 actual['allocation'] == BLEND_ALLOCATION and direction_mode == 'LONG_ONLY',
+                 'Only fixed configured-pool continuous303 shared-account blend')
+            rules = spec.get('strategy_rules', {})
+            need(all(k in rules and type(rules[k]) is type(v) and rules[k] == v
+                     for k, v in BLEND_RULES.items()),
+                 'Fixed component identities, halves, budget, order and single-capital blend stage')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -1318,6 +1403,10 @@ def main():
         expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id,
             mode=direction_mode, exit_period=exit_period, reentry_period=reentry_period,
             annual_vol_target=annual_vol_target)
+        if blend_strategy:
+            report.update(independent_blend_reference=window['independent_blend_reference'],
+                independent_blend_Donchian_state_witnesses=window['independent_Donchian_state_witnesses'],
+                independent_blend_targets_verified=True, no_component_wallets_or_NAV_combined=True)
         if sma_strategy:
             report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
@@ -1384,7 +1473,7 @@ def main():
             need(targets.columns == expected_targets.columns and targets.height == expected_targets.height,
                  'Complete independent configured target schema/calendar')
             exact_keys = ('available_us', 'symbol', 'mode', 'eligibility_reason')
-            if allocation in ('EQUAL', 'ACTIVE_EQUAL'):
+            if allocation in ('EQUAL', 'ACTIVE_EQUAL', BLEND_ALLOCATION):
                 exact_keys += ('raw_signed_target',)
             for key in exact_keys:
                 need(targets[key].to_list() == expected_targets[key].to_list(), 'Causal target identities/raw allocation: ' + key)
@@ -1395,6 +1484,38 @@ def main():
                 need(targets.filter(zero)['raw_signed_target'].eq(0).all() and
                      targets.filter(zero)['target_weight'].eq(0).all(), 'Unknown/exited allocation is exactly flat')
             base.same(targets['target_weight'], expected_targets['target_weight'], 'Independent N covariance weights', errors, base.RATIO_TOL)
+            if blend_strategy:
+                meta, _ = guard.small(paths['target_meta.json'])
+                need(meta['strategy_id'] == BLEND_STRATEGY and meta['allocation'] == BLEND_ALLOCATION and
+                     meta['mode'] == 'LONG_ONLY' and meta['symbols'] == list(symbols) and
+                     all(k in meta['rules'] and type(meta['rules'][k]) is type(v) and meta['rules'][k] == v
+                         for k, v in BLEND_RULES.items()), 'Actual fixed single-capital blend metadata')
+                for role, identity in (('HOLD', ALLOCATION_STRATEGIES['EQUAL']), ('EXIT10', DONCHIAN_EXIT10_STRATEGY)):
+                    component = meta['components'][role]
+                    need(component['strategy_id'] == identity and component['symbols'] == list(symbols) and
+                         component['mode'] == 'LONG_ONLY' and component['rules']['annual_volatility_target'] == .10,
+                         'Actual ordered blend component identity and10% risk budget')
+                need(meta['components']['EXIT10']['allocation'] == 'ACTIVE_EQUAL' and
+                     meta['components']['EXIT10']['rules']['exit_period'] == 10 and
+                     meta['components']['EXIT10']['rules'].get('reentry_period', 20) == 20,
+                     'Actual original fixed exit10/reentry20 active component')
+                decisions = list(range(window['start'], window['end'], DAY))
+                need(len(meta['risk']) == len(decisions), 'Every configured blend decision metadata')
+                for i, (decision, risk) in enumerate(zip(decisions, meta['risk'], strict=True)):
+                    component_rows = {role: frame.slice(i * len(symbols), len(symbols))
+                        for role, frame in window['independent_blend_components'].items()}
+                    eligible = [r['symbol'] for r in component_rows['HOLD'].iter_rows(named=True)
+                        if r['eligibility_reason'] == 'ELIGIBLE']
+                    need(risk['decision_us'] == decision and risk['symbol_order'] == list(symbols) and
+                         risk['covariance_symbol_order'] == eligible and risk['past_only'] is True and
+                         risk['covariance_observations'] == (30 if eligible else 0) and
+                         risk['covariance_assets'] == len(eligible),
+                         'Actual blend covariance order and past-only clock')
+                    for role, component in component_rows.items():
+                        base.same(risk['component_' + role + '_target'], component['target_weight'],
+                            'Independent blend component risk-reduced target', errors, base.RATIO_TOL)
+                        need(risk['component_' + role + '_raw'] == component['raw_signed_target'].to_list(),
+                             'Exact independent blend component raw allocation')
             canonical = dict(case, period=scope['period_id'], mode=direction_mode)
             progress.update('新共享N账户金融核验', len(report['cases']), 4, '账户', symbols=len(symbols),
                 cost=case['cost_id'], funding_unit=case['unit_id'])
@@ -1407,12 +1528,13 @@ def main():
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
                         window, result, paths['funding.json'], base, errors))
             report['cases'].append(dict(result, pool=pool_id, symbols=list(symbols),
-                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy),
-                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy) else None,
+                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy or blend_strategy),
+                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy or blend_strategy) else None,
                 independent_SMA50_200_targets_verified=sma_strategy, independent_strategy_targets_verified=True,
                 independent_past30_momentum_targets_verified=momentum_strategy,
                 independent_RSI2_targets_verified=rsi_strategy,
                 independent_Donchian20_SMA200_targets_verified=donchian_strategy,
+                independent_blend_targets_verified=blend_strategy,
                 independent_strategy_id=strategy_id))
             report['completed_cases_verified'] = len(report['cases'])
             gc.collect(); bounded()
