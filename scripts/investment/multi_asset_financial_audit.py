@@ -1281,9 +1281,9 @@ def main():
                  actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
                  'Only the fixed ten-member equal daily RSI2 recipe in the two continuous quarters')
         if donchian_strategy:
-            need(scope['period_days'] == 303 and len(actual['cases'][0]['symbols']) == 10 and
+            need(scope['period_days'] == 303 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == allocation,
-                 'Only the fixed ten-member declared daily Donchian raw policy in the continuous303 span')
+                 'Only the declared configured-pool daily Donchian raw policy in the continuous303 span')
             need(type(exit_period) is int and type(reentry_period) is int and
                  (exit_period, reentry_period) == DONCHIAN_PERIODS[strategy_id],
                  'Protocol binds original20, exit10 or exit10/reentry10 fixed identity')
@@ -1309,7 +1309,8 @@ def main():
              and actual['complete_calendar_cases'] == 4, 'Exactly four new complete scenario accounts')
         symbols = tuple(actual['cases'][0]['symbols']); pool_id = actual['cases'][0]['pool']
         pool = next(p for p in spec['pools'] if p['id'] == pool_id)
-        need(list(symbols) == pool['symbols'] and len(symbols) == len(set(symbols)), 'One exact configured ordered pool')
+        need(bool(symbols) and list(symbols) == pool['symbols'] and len(symbols) == len(set(symbols)),
+             'One nonempty distinct exact configured ordered pool')
         base, financial, proof = prepare_financial(symbols)
         report['financial_derivation'] = proof
         reference = base.module(base.REFERENCE, 'd050_independent_decimal_hand', base.REFERENCE_SHA)

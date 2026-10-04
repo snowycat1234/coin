@@ -372,3 +372,6 @@ D070真实结束：Jesse原commit/MIT与vendor字节保持，单一COIN快reentr
 
 
 D071无新增第三方依赖/模型/下载框架；正常既有共享过去协方差风险函数只接线可选有限budget，旧默认10%保持。4新HOLD_TWO实际账户复用原共享引擎/Decimal核账，8%为COIN风险预算配置；旧公开策略vendor/commit/license未改。独立资金复核standard JSON/Decimal，不重放市场。
+
+
+D072沿用已登记MIT Jesse Donchian原commit/策略/指标与license SHA，vendor未改；COIN既有EXIT10适配/共享账户/过去协方差规则未变。只修正常独立金融入口旧十币限定，并运行同两币配置对照；无新库/模型/账户/下载框架。保存诊断复用原measures/Decimal，独立standardJSON/Decimal金额桥不重放市场。
