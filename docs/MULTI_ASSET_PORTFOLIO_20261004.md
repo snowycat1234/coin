@@ -727,3 +727,37 @@ bash scripts/with_task_progress.sh --title 'D059原RSI2选择性多空秋季组�
 采用真实N资产选择性多空能力；保留原两币风险管理HOLD控制、十币equal基准/inverse研究对照，暂停固定RSI2多头和多空投资晋级，不搜参救这两已见季度。支持short和采用short分开。重开须新的因果信息/机制或真正独立跨状态、完整成本/实际风险/退出证据，而非调10/90/200或挑收益币。更多币和逐币ML暂不优先，重开须明确覆盖/信息或分散缺陷。
 
 下一唯一主任务选择固定Turtle LONG_ONLY单层/禁主动加仓消融，原BTC/ETH完整303日与四成本/单位、资本/止损/退出/必要风险减仓保持。依据D049已验证gross+443.89..457.17而net-83.13..-425.34、换手38.55..39.24倍；BASE/F总成本528.35，其中直接ADD60.16不足抵全部亏损，是否减少后续换手必须完整重跑，不能删旧费用保留毛收益。先正常修旧bridge两币协方差与已失效source常量/旧finance接口，复用当前N账户直接入口，避免AST版本包装。若少交易却损失更多gross、实际风险恶化或四条件仍负，则暂停该配方；不能删ETH/降低费用救结果。此后续尚未运行，所有D059科学任务已结束，只有原公开collector保留；8765健康显示真实进度/扫描时刻。Git验收修文档后正常同步，成功只依据后验精确远端凭证，不预造push完成。
+
+## D060：正常Turtle接口与真实减仓反例（2026-10-04）
+
+当前投资NONE/CASH，长期APR不可评价。本版没有得出禁加仓的完整收益结论；主要发现是风险调度正确性错误，应先修复而非继续收益调参。原两币对照用于接口迁移与固定成本消融，十币共享资本能力/原池、HOLD基准及所有历史负结果保留，没有恢复永久两币限制。
+
+### 实际改变、结果与限制
+
+活动Turtle由直接事件接口接入正常共享N资产永续模拟器，原4h信号、fill callback、分钟止损/mark、资金费与五次容量尝试保持；producer不再运行时提取财务AST。币序继承account.symbols，协方差按N列、恢复绑定币序与策略许可。关闭主动ADD不关闭ENTRY碎片、channelEXIT、STOP、risk或terminal。独立金融继续复用成熟手账体，不宣称完整策略尺寸被另一套算法独立重建。
+
+原PYRAMID4四303日账户全部完成；对旧D049保存的436,320分钟、3,636有序目标、全部成交/资金费及末钱包仓位比较，四组最大金额/比例误差均0。迁移检查本身数量门为1e-7，真实误差0；独立金融数量仍1e-10、金额1e-7。独立四核账最大cash2.183e-11/ratio1.610e-14。原BASE/F净−128.64、gross+452.17、费215.25、执行313.09、资金费−52.46USDT；四条件净−83.13..−425.34。BASE/F换手39.137倍、日收益描述年化vol7.367%、分钟MDD6.539%、均/峰gross7.791%/29.881%，末全现金。这些是旧调度的真实账本，非有效alpha认定；旧投资解释标记待正确性修正。
+
+SINGLE_LAYER首BASE/F在83,285分钟（57个完整日+不完整日）因BTC risk reduction五次拒绝停止；其余三条件未运行，完整303日净增量、vol/DD差及成本改善均未测。停止前marked净−155.7907、gross−52.0778、费用38.4237、执行55.8872、funding−9.4020USDT；仍有BTC0.03836633、marked2668.45USDT，未免费清仓，不能与303日原方案比较或年化。独立该prefix174腿、348已观察资金费/全部已保存分钟、末仓/钱包核验PASS，cash2.956e-12/ratio2.220e-16；这是五次财务调用中的一条prefix，不冒称8个完整新账户。
+
+2024-10-28 20:01–20:05Z五次减仓请求0.00038367BTC约26.69USDT，先前五分钟官方ZIP与normalized的base量/quote量/count均0，按既有.001容量确应拒绝，非min10问题；ZIP公告/本地SHA aa8c79ad120a8d870e23276d1ad5966f99f59bc0a1886ef5927a3808a5efee36。只追踪这五条原始行，不重全源QA，不能推断原生Bybit流动性或交易所事故原因。
+
+进一步保存的独立反例确认：20:00风险输出权重逐值等于raw输入；past-only年化vol0.099915<.10，gross/单币约.271<.6/.3。但float权重→Decimal数量得到比q小1.21085758167676767676768e-18的值，abs(bounded)<abs(q)触发了额外.99缓冲，生成不应存在的1%risk减仓。零容量守卫正确，触发意图错误；金融守恒通过不等于风险决策正确。旧D048/D049账本保留，Turtle旧经济投资解释待新调度证据替代，不据此永久否定Turtle或禁ADD方向。
+
+### 失败、采用与下一步
+
+保留D060单层失败账户及资金/仓位，不补日期、不加尝试、不松容量/风险/费用。原financial V1在输入清单缺少既有303reader时、0金融调用前失败；V2只补元数据依赖后四次PASS，失败源/plan/task/report均保留，不重原账户。一个必要合成病例PASS是有限工程证据；不能代替真实调度反例。
+
+采用正常N资产事件接口能力；暂停Turtle旧投资解释和本次禁加仓投资晋级，不宣布单层配方失败。下一主任务是最小数量映射修正：未被缩放的候选数量直接保留Decimal身份，真实风险缩放仍减仓，禁止用epsilon豁免硬caps。先以已保存反例与真实风险/STOP/EXIT的必要病例核验，再在新版本重跑相同两方案四条件；允许新正确性结果改变旧策略轨迹，不为兼容保留已知错误。此后才决定继续该配方或转向固定十币动量的事前连续窗口；不搜参救旧窗口。更多币/逐币ML仍待明确覆盖、分散或信息缺陷；RSI配方重开需独立跨状态、完整成本/风险/退出证据。
+
+### 资源与复现
+
+本版4个完整default+1个失败单层账户、4完整+1prefix独立金融，另3单层与完整paired经济未运行；0下载/fit/HPO/locked/key/交易所发单/GPU/风险增加。default主含扫描317.49s/RSS651.43MB、实采共享峰1.191GB、工件88.97MB；失败单层87.80s/RSS637.24MB/工件4.52MB。最后原物理守卫实际总25,451,455,229B（ROOT4,316,357,373+整个D WSL VHD21,135,097,856），UTC2026-10-04T09:42:26.822784Z，之后小报告/Git/collector更新不在该时刻；5GB/swap0/D40GB不变。8765健康显示真实任务，继承Progress类的旧oracle说明不代表本轮研究内容，真实phase/分钟/情景准确，后续需正常修正说明字段。
+
+实际命令见各binding.command、RUN_BINDING和ACTUAL_BINDING；普通复现必须使用新专属输出，不覆盖旧证据。主入口：
+
+```bash
+bash scripts/with_task_progress.sh --title 'Turtle固定303日已登记变体' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/turtle_direction_research.py --protocol protocols/TURTLE_NO_ADD_RESEARCH_20261004_V1.json --variant PYRAMID4 --run-dir /home/xflops/coin-state/NEW-REGISTERED-OWNER --output reports/fast_research/NEW-REGISTERED-OUTPUT.json
+```
+
+证据为TURTLE_NO_ADD前缀的SYNTHETIC、PYRAMID4_303D、MIGRATION、PYRAMID4_FINANCIAL_V1/V2、SINGLE_LAYER_303D、FAILED_PREFIX_DIAGNOSIS、ZERO_LIQUIDITY_RAW_TRACE、RISK_ROUNDTRIP_COUNTEREXAMPLE。当前代码存在已证调度缺陷，旧命令只用于历史重现，不作为候选执行。所有科学任务已真实结束，下一修复尚未运行；完整目标保持active。

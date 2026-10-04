@@ -77,7 +77,7 @@ def source_frame(manifest,ids):
             rows=entry['rows'],format_evidence_role=entry['format_evidence_role']))
     return pl.concat(frames,how='vertical'),proofs
 
-def load_window(manifest,window):
+def load_window(manifest,window,*,trade_ranges=False):
     """Read each required economic input once; no old QA, index or raw archive."""
     start=int(datetime.fromisoformat(window['start']).timestamp()*1_000_000)
     end=int(datetime.fromisoformat(window['end_exclusive']).timestamp()*1_000_000)
@@ -99,12 +99,18 @@ def load_window(manifest,window):
             and traded['available_us'].eq(traded['close_us']).all()
             and marks['close_time_ms'].eq(marks['timestamp_ms']+59999).all(),
             'Required execution and mark closure semantics')
-        selected=traded.select('open','close','quote_volume').to_numpy()
+        trade_columns=['open','close','quote_volume']
+        if trade_ranges:trade_columns+=['high','low','volume']
+        selected=traded.select(trade_columns).to_numpy()
         mark_values=marks['close'].to_numpy()
         need(np.isfinite(selected).all() and np.isfinite(mark_values).all()
             and np.all(selected[:,:2]>0) and np.all(selected[:,2]>=0) and np.all(mark_values>0),
             'Finite actual prices and capacity; no substitution')
         market[symbol]=dict(open=selected[:,0],close=selected[:,1],quote_volume=selected[:,2],mark=mark_values)
+        if trade_ranges:
+            need(np.all(selected[:,3:5]>0) and np.all(selected[:,5]>=0),
+                 'Observed positive stop ranges and nonnegative official volume')
+            market[symbol].update(high=selected[:,3],low=selected[:,4],volume=selected[:,5])
         daily.append(bars.sort('close_us'))
         for row in rates.iter_rows(named=True):
             e=int(row['calc_time_ms'])*1000;raw=float(row['last_funding_rate'])
@@ -126,7 +132,7 @@ def journals_frame(rows,schema):
     # Exact Decimal strings remain in the JSON journal, simple columns in Parquet.
     return pl.DataFrame([{k:r.get(k) for k in schema} for r in rows],schema=schema)
 
-def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None):
+def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None,event_strategy=None):
     """Only event scheduling and output bookkeeping; finances belong to account."""
     symbols=strategy.symbol_order(window.get('symbols',SYMBOLS))
     start,end=window['start'],window['end']
@@ -134,11 +140,16 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
     account_factory=account_factory or USDTLinearPerpetualAccount
     decisions=np.arange(start,end,DAY,dtype=np.int64)
-    targets,meta=target_factory(window['daily'],decisions,mode)
-    need(targets.height==len(symbols)*len(decisions),'Complete ordered portfolio target calendar')
+    if event_strategy is None:
+        targets,meta=target_factory(window['daily'],decisions,mode)
+        need(targets.height==len(symbols)*len(decisions),'Complete ordered portfolio target calendar')
+    else:
+        need(mode in strategy.MODES,'Explicit event direction')
+        histories=event_strategy.prepare_signal_context(window)
+        targets,meta=None,None
     weights={}
     decision_kinds={}
-    for t in decisions:
+    for t in decisions if event_strategy is None else ():
         rows=targets.filter(pl.col('available_us')==t)
         need(rows.height==len(symbols) and set(rows['symbol'].to_list())==set(symbols),
              'Every decision has each configured symbol exactly once')
@@ -154,6 +165,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
         window['daily'].filter(pl.col('symbol')==s)['close'].to_list(),strict=True)) for s in symbols}
     config=PerpetualConfig(half_spread_bps=D(str(cost['half_spread_bps'])),slippage_bps=D(str(cost['slippage_bps'])))
     account=account_factory(config,symbols=symbols)
+    bridge=None if event_strategy is None else event_strategy.bridge_factory(account,mode)
     # Array columns: NAV/free/margin/gross/net, cumulative fees/cost/funding/turnover,
     # N signed quantities/marks/isolated balances/equities and asset weights.
     values=np.empty((n,11+5*len(symbols)),dtype=np.float64)
@@ -186,6 +198,9 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
 
     def schedule(target,signal,kind):
         nonlocal sequence
+        if bridge is not None:
+            bridge.force_targets(target,int(signal),kind)
+            return
         for s in symbols:
             order_kind=kind[s] if isinstance(kind,dict) else kind
             if s in pending:rejections.append(dict(symbol=s,event_us=int(signal),
@@ -196,7 +211,10 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
 
     def risk_schedule(stamp):
         if account.status!='BOUND_BREACH_REDUCTION_REQUIRED' or terminal:return
-        if any(o['kind']=='RISK_REDUCTION' for o in pending.values()):return
+        if bridge is None:
+            if any(o['kind']=='RISK_REDUCTION' for o in pending.values()):return
+        elif any(o and o['kind'] in ('RISK_REDUCTION','STOP','EXIT','TERMINAL')
+                 for o in bridge.summary_orders().values()):return
         nav=account.nav();notionals=[abs(account.positions[s].quantity)*account.marks[s][-1]['price']
                                    if account.positions[s].quantity else ZERO for s in symbols]
         scale=min(D(1),D('.297')*nav/max(notionals) if max(notionals)>0 else D(1),
@@ -232,6 +250,38 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
 
     def attempt(open_us,market_row,previous_quote):
         nonlocal first_entry,completion,stop
+        if bridge is not None:
+            event=int(open_us)+1
+            mids={s:D(str(market_row[s]['open'])) for s in symbols if s in market_row}
+            need(set(mids)==set(symbols),'Event strategy needs all configured real trade opens')
+            capacity={s:D(str(previous_quote[s]))*D('.001')/mids[s]
+                      if previous_quote is not None else ZERO for s in symbols}
+            due=sorted(bridge.due_orders(int(open_us),mids),
+                       key=lambda o:(not o['reduce_only'],symbols.index(o['symbol']),o['id']))
+            for order in due:
+                s=order['symbol'];before=len(account.trades)
+                receipt=account.execute_fill(s,order['side'],order['quantity'],event,order['signal_us'],
+                    order['id']+':'+str(order['attempts']),execution_mid_price=mids[s],
+                    quote_available_us=int(open_us),available_quantity=capacity[s],reduce_only=order['reduce_only'])
+                used=sum((D(r['decimal_strings']['quantity']) for r in account.trades[before:]),ZERO)
+                capacity[s]=max(ZERO,capacity[s]-used)
+                bridge.on_fill(order['id'],receipt)
+                bridge.note_attempt(order['id'],event,receipt)
+                if used>0 and order['kind']=='RISK_REDUCTION':
+                    matching=[r for r in reversed(breaches) if r['signal_us']==order['signal_us']]
+                    if matching and 'first_reduction_fill_us' not in matching[0]:
+                        matching[0].update(first_reduction_fill_us=event,
+                            reduction_latency_us=event-order['signal_us'])
+                if account.trades[before:] and first_entry is None:first_entry=event
+                if receipt['status']!='FILLED':
+                    rejections.append(dict(symbol=s,event_us=event,order_id=order['id'],kind=order['kind'],
+                        **{k:v for k,v in receipt.items() if k!='fills'}))
+                observe(event,'AFTER_TURTLE_'+order['kind'])
+                if account.status in HALTS:
+                    completion='NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED';stop=event;return
+                if bridge.halt_reason:
+                    completion=bridge.halt_reason;stop=event;return
+            return
         event=int(open_us)+1;due={s:o for s,o in pending.items()
             if event>=ExecutionContractV2().earliest_execution_us(o['signal_us'])+1}
         capacity={s:D(str(previous_quote[s]))*D('.001')/D(str(market_row[s]['open']))
@@ -292,9 +342,11 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
 
     def market_rows():
         if 'minute_blocks' not in window:
+            columns=('open','close','quote_volume','mark')
+            if bridge is not None:columns+=('high','low','volume')
             for i,t in enumerate(times):
                 yield int(t),{s:{k:window['market'][s][k][i] for k in
-                    ('open','close','quote_volume','mark')} for s in symbols}
+                    columns} for s in symbols}
             return
         expected=start
         for block in window['minute_blocks']():
@@ -305,7 +357,9 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                 'Execution blocks cover scoring dates without deletions or imputation')
             need(set(block['market'])<=set(symbols),'Block symbol outside configured account')
             for s,values_for_asset in block['market'].items():
-                need(set(values_for_asset)=={'open','close','quote_volume','mark'}
+                columns={'open','close','quote_volume','mark'}
+                if bridge is not None:columns|={'high','low','volume'}
+                need(set(values_for_asset)==columns
                     and all(len(v)==len(stamps) for v in values_for_asset.values()),
                     'Actual execution block schema and lengths')
             for j,t in enumerate(stamps):
@@ -323,7 +377,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             completion='NOT_EVALUABLE_MISSING_HELD_ASSET_EXECUTION_OR_MARK';stop=t
             rejections.append(dict(event_us=t,reason='MISSING_HELD_MARK_OR_EXECUTION',symbols=sorted(absent)))
             break
-        need(all(math.isfinite(float(v)) and (v>=0 if k=='quote_volume' else v>0)
+        need(all(math.isfinite(float(v)) and (v>=0 if k in ('quote_volume','volume') else v>0)
                  for row in market_row.values() for k,v in row.items()),'Finite actual block values')
         t=int(t);close=t+MINUTE
         if t in weights and not terminal:
@@ -332,6 +386,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             desired={s:D(str(weights[t][s]))*D('.99')*nav/D(str(daily_prices[s][t]))
                      if weights[t][s]!=0 else ZERO for s in symbols}
             if account.status=='ACTIVE':schedule(desired,t,decision_kinds[t])
+        if bridge is not None and t%event_strategy.FOUR_HOURS==0 and not terminal:
+            event_strategy.decision(bridge,histories,t)
         if t==end-6*MINUTE:
             terminal=True;schedule(dict.fromkeys(symbols,ZERO),t,'TERMINAL')
         funding_through(t+1,True)
@@ -348,6 +404,9 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
         funding_through(close,True)
         if stop is not None:break
         risk_schedule(close)
+        if bridge is not None and not terminal:
+            bridge.observe_stop(close,{s:dict(open_us=t,available_us=close,
+                high=market_row[s]['high'],low=market_row[s]['low']) for s in symbols})
         nav=account.nav();signed={s:account.positions[s].quantity*account.marks[s][-1]['price']
                                  if account.positions[s].quantity else ZERO for s in symbols}
         equities={s:account.positions[s].isolated_balance+account.positions[s].quantity*
@@ -394,7 +453,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
         first_entry_us=first_entry,terminal_marked_notional=summary['gross_notional'],
         terminal_mark_prices=terminal_prices,terminal_signed_marked_notional=terminal_signed,
         terminal_cash_realized=all(p.quantity==0 for p in account.positions.values()),
-        terminal_not_forced_free_fill=True,pending_orders_at_stop={s:{**r,'target':str(r['target'])} for s,r in pending.items()},
+        terminal_not_forced_free_fill=True,pending_orders_at_stop=(bridge.summary_orders() if bridge is not None
+            else {s:{**r,'target':str(r['target'])} for s,r in pending.items()}),
         funding_fill_5second_uncertainty_witnesses=nearest_funding_ties,candidate='NO_QUALIFIED_CANDIDATE',long_term_APR='NOT_EVALUABLE')
     summary['minimum_actual_free_cash_all_observations_USDT']=min_free
     summary['actual_caps_instantaneously_guaranteed']=False
@@ -402,6 +462,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     summary['risk_reduction_signal_count']=len(breaches)
     delays=[r['reduction_latency_us'] for r in breaches if 'reduction_latency_us' in r]
     summary['maximum_observed_first_risk_reduction_latency_us']=max(delays) if delays else None
+    if bridge is not None:
+        targets,meta=bridge.targets_frame(),bridge.meta()
     return dict(summary=summary,targets=targets,target_meta=meta,minute=minute,trades=account.trades,
         funding=funding_journal,rejections=rejections,breaches=breaches,extrema=extrema)
 

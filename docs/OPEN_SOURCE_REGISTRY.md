@@ -348,3 +348,5 @@ Binance public-data原repo/固定commit `f446ce3812bd4e5521f21faecd4ae3c6460e49f
 仍复用MIT jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364/原RSI2 fd463da53b6ac78138a0886268f654973daa569dd2094c6aa96796a8a5015f70、license80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d，官方indicator commit417f8765225e3bfc12043d4b712f19fe15a3c078/jesse-rust1.3.0与上述binding不变。0新依赖/第三方修改/自写RSI。正常adapter仅增加原明确选择性short入/出、LONG_ONLY/SHORT_ONLY/LONG_SHORT/CASH模式与本地N共享目标；runner与独立reference传同mode、保存comparer加入direction对照。240完成日、原5/200/2/10/90与日线假设不改，原go/全余额/原生执行仍不复现；不能称完整Jesse engine复现。默认long与Git61316ff原目标/状态一致，历史源/证据由Git保留，未复制版本框架。
 
 所有行情直接复用两已接受Binance public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc官方URL/CHECKSUM/CSV与January暖源；0下载/新源QA/库安装。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause与Decimal/原账户不变。8真实共享多空账户、8独立金融与8保存方向pair已完成；核账共用官方compiled RSI内核限制明确，不冒认第二独立递推。Bybit费用与Binance数据仍代理、单位/native不认证；投资NONE/CASH，固定配方暂停，方向能力保留。
+
+D060本地Turtle适配更新：jesse-ai/example-strategies原登记commit/MIT不变，未重写原ATR/Donchian/Turtle hooks；直接共享N账户事件接口、ordered symbols/snapshot、allow_pyramiding薄适配。真实回放揭示未缩放权重→数量映射误差导致伪risk reduction，旧投资解释待新正确性版本替代，非开源原策略缺陷认定。

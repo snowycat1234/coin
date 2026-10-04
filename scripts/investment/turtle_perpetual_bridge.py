@@ -1,7 +1,7 @@
 """Pinned Turtle hooks -> fill-driven research orders, never a financial ledger.
 
 Completed 4h signals and observed completed-minute stops are COIN adaptations.
-The supplied frozen account alone owns fills, cash, funding, margin and NAV.
+The supplied shared account alone owns fills, cash, funding, margin and NAV.
 Callbacks commit once per logical tranche's first actual fill, not per capacity
 fragment. This is not native Jesse/Bybit execution or intrabar-stop replication.
 """
@@ -28,7 +28,7 @@ from scripts.investment import public_rsi2_indicator as installed
 from scripts.investment import public_sma_perpetual as risk
 from scripts.investment import perpetual_risk_reduction_research_v2 as reduction
 
-VERSION = 'D047_TURTLE_FILL_BRIDGE_V1'
+VERSION = 'TURTLE_ORDERED_FILL_BRIDGE_V2'
 STRATEGY_ID = 'COIN_JESSE_TURTLE_S1_4H_USDT_PERPETUAL_ADAPTER'
 BAR_US, MINUTE_US, DAY_US = 14_400_000_000, 60_000_000, 86_400_000_000
 LOCKED_US = 1_772_323_200_000_000
@@ -37,11 +37,6 @@ VENDOR_PINS = {
     'turtle_rules_original.py': '35e4c3cd69010ca81402277693cb6f7deaf52a284153f20f25d4cf605701408a',
     'atr_indicator_original.py': '398a12258dbc59b350c8c9ed8a1199a57cd89e7503c7dcd3fa002030c77df06c',
     'LICENSE': '80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d',
-}
-DEPENDENCY_PINS = {
-    'src/quant/perpetual_account.py': 'cf47ae9b889eab4506be2b22929322976a6833235eaab6459399bdec53de2261',
-    'scripts/investment/public_sma_perpetual.py': 'c90a9d383fe3365681bfdd5772c0f8a9a8977d57e423627b9159098ce25f30df',
-    'scripts/investment/perpetual_risk_reduction_research_v2.py': 'd9f4310d482e2acfb275bb518e532f239b0befbafcbd699775d6d37fc7336fa6',
 }
 RULES = dict(timeframe_minutes=240, scalar_indicator_window=240, entry_period=20,
     exit_period=10, ATR_period=20, ATR_stop_multiplier=2, maximum_levels=4,
@@ -102,8 +97,6 @@ def official_context():
         'Official Turtle/ATR/license pins are not finalized')
     for name, sha in VENDOR_PINS.items():
         require(file_sha(VENDOR / name) == sha, 'Pinned official source changed: ' + name)
-    for path, sha in DEPENDENCY_PINS.items():
-        require(file_sha(ROOT / path) == sha, 'Frozen research dependency changed: ' + path)
     # The prior supplementary runtime already binds Python/NumPy/wheel/binary.
     old_namespace, old_receipt = installed._context()
     package = sys.modules['jesse_rust']
@@ -137,19 +130,24 @@ def official_context():
 
 
 class TurtlePerpetualBridge:
-    def __init__(self, account, *, _restoring=False):
-        require(isinstance(account, USDTLinearPerpetualAccount), 'Only the frozen perpetual account')
+    def __init__(self, account, *, allow_pyramiding=True, _restoring=False):
+        require(isinstance(account, USDTLinearPerpetualAccount), 'Only the shared perpetual account')
+        require(type(allow_pyramiding) is bool, 'Explicit Boolean proactive ADD permission')
         require(account.config.initial_cash == 10000 and account.config.max_asset_weight == D('.3')
             and account.config.max_gross_weight == D('.6'), 'Original independent10k account and caps')
         require(_restoring or not account.trades and all(p.quantity == 0 for p in account.positions.values()),
             'Fresh flat strategy; restore only with a bound account snapshot')
         cls, self.source_receipt = official_context()
         self.account = account
-        self.rules = {s: cls() for s in SYMBOLS}
+        self.symbols = risk.symbol_order(account.symbols)
+        require(tuple(account.positions) == self.symbols, 'Ordered account inventory identity')
+        self._allow_pyramiding = allow_pyramiding
+        self.source_receipt = dict(self.source_receipt, configuration=self.configuration())
+        self.rules = {s: cls() for s in self.symbols}
         self.contexts = {}
         self.intents = {}
-        self.pending = {s: None for s in SYMBOLS}
-        self.stops = {s: None for s in SYMBOLS}
+        self.pending = {s: None for s in self.symbols}
+        self.stops = {s: None for s in self.symbols}
         self.processed = {}
         self.callbacks = {}
         self.journal = []
@@ -161,6 +159,15 @@ class TurtlePerpetualBridge:
         self.consumed_trade_rows = 0
         self.terminal = False
         self.halt_reason = None
+
+    @property
+    def allow_pyramiding(self):
+        return self._allow_pyramiding
+
+    def configuration(self):
+        return dict(symbols=list(self.symbols), allow_pyramiding=self.allow_pyramiding,
+            original_maximum_levels=4, maximum_accepted_levels=4 if self.allow_pyramiding else 1,
+            disabled_scope='PROACTIVE_ADD_ONLY', covariance_column_order=list(self.symbols))
 
     def _clock(self, stamp):
         stamp = timestamp(stamp)
@@ -174,7 +181,7 @@ class TurtlePerpetualBridge:
 
     def _state_set(self, symbol, state):
         require(set(state) == set(STATE_KEYS) and type(state['current_pyramiding_levels']) is int
-            and 0 <= state['current_pyramiding_levels'] <= 4
+            and 0 <= state['current_pyramiding_levels'] <= (4 if self.allow_pyramiding else 1)
             and type(state['last_was_profitable']) is bool
             and math.isfinite(state['last_opened_price']) and state['last_opened_price'] >= 0,
             'Valid original strategy state')
@@ -210,9 +217,13 @@ class TurtlePerpetualBridge:
 
     def _new(self, symbol, side, quantity, signal, kind, *, target=None, state_before=None,
              staged_state=None, proposed_stop=None, raw_quantity=None):
-        require(symbol in SYMBOLS and kind in KINDS and side in ('BUY', 'SELL'), 'Known intent/product')
+        require(symbol in self.symbols and kind in KINDS and side in ('BUY', 'SELL'), 'Known intent/product')
         quantity = decimal(quantity)
         require(quantity > 0, 'Positive gross research intent')
+        if kind == 'ADD' and not self.allow_pyramiding:
+            self.journal.append(dict(event='PROACTIVE_ADD_SUPPRESSED', symbol=symbol, side=side,
+                signal_us=timestamp(signal), raw_quantity=str(quantity)))
+            return None
         old_id = self.pending[symbol]
         if old_id:
             old = self.intents[old_id]
@@ -239,11 +250,11 @@ class TurtlePerpetualBridge:
         """One completed4h decision, actual holdings; no warmup virtual position."""
         decision = timestamp(decision_us)
         require(decision % BAR_US == 0 and decision < LOCKED_US
-            and set(candles_by_symbol) == set(SYMBOLS), 'Exactly two assets at a completed UTC4h close')
+            and set(candles_by_symbol) == set(self.symbols), 'All configured assets at a completed UTC4h close')
         require(timestamp(risk_last_close_us) == decision // DAY_US * DAY_US,
             'Risk returns end at the latest completed UTC day')
         contexts = {}
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             values = np.asarray(candles_by_symbol[symbol], dtype=np.float64)
             require(values.shape == (240, 6) and np.isfinite(values).all()
                 and np.all(values[:, 0] == np.floor(values[:, 0]))
@@ -258,7 +269,7 @@ class TurtlePerpetualBridge:
             if availability_us_by_symbol is None:
                 available = opens + BAR_US
             else:
-                require(set(availability_us_by_symbol) == set(SYMBOLS), 'Both availability arrays')
+                require(set(availability_us_by_symbol) == set(self.symbols), 'All configured availability arrays')
                 available = np.asarray(availability_us_by_symbol[symbol])
                 require(available.shape == (240,) and available.dtype.kind in 'iu', 'Integer exact availability')
             require(np.all(available >= opens + BAR_US) and np.all(available <= decision),
@@ -266,7 +277,8 @@ class TurtlePerpetualBridge:
             contexts[symbol] = dict(decision_us=decision, candles=values.tolist(),
                 available_us=available.tolist(), availability_scope='CLOSED_BAR_PROXY_NOT_PUBLICATION_CERTIFIED')
         returns = np.asarray(past30_returns, dtype=np.float64)
-        require(returns.shape == (30, 2) and np.isfinite(returns).all(), 'Two assets, exactly30 past daily returns')
+        require(returns.shape == (30, len(self.symbols)) and np.isfinite(returns).all(),
+            'Ordered configured assets, exactly30 past daily returns')
         identity = digest(dict(contexts=contexts, returns=returns.tolist(), risk_close=risk_last_close_us))
         if str(decision) in self.bar_receipts:
             require(self.bar_receipts[str(decision)]['input_hash'] == identity, 'Conflicting decision identity')
@@ -275,9 +287,9 @@ class TurtlePerpetualBridge:
         require(not self.terminal and self.account.status not in HALTS, 'No new alpha after terminal/halt')
         self.contexts = contexts
         proposals = {}
-        prices = {s: decimal(contexts[s]['candles'][-1][2]) for s in SYMBOLS}
+        prices = {s: decimal(contexts[s]['candles'][-1][2]) for s in self.symbols}
         nav = self.account.nav()
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             obj = self._sync(symbol)
             obj.before()
             require(obj.balance > 0, 'No new strategy sizing with nonpositive settled wallet')
@@ -297,6 +309,13 @@ class TurtlePerpetualBridge:
                     self._state_set(symbol, before)
                     q = self.account.positions[symbol].quantity
                     self._new(symbol, 'SELL' if q > 0 else 'BUY', abs(q), decision, 'EXIT', target=0)
+                    continue
+                if not self.allow_pyramiding:
+                    if obj.buy is not None or obj.sell is not None:
+                        self.journal.append(dict(event='PROACTIVE_ADD_SUPPRESSED', symbol=symbol,
+                            signal_us=decision, raw_order=list(obj.buy if obj.buy is not None else obj.sell)))
+                    obj.buy = obj.sell = None
+                    self._state_set(symbol, before)
                     continue
                 kind = 'ADD'
             else:
@@ -321,14 +340,14 @@ class TurtlePerpetualBridge:
                     state_before=before, staged_state=self._state(symbol), proposed_stop=stop)
             self._state_set(symbol, before)
         raw = []
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             p = proposals.get(symbol)
             q = self.account.positions[symbol].quantity
             candidate = q + (p['raw_quantity'] if p['side'] == 'BUY' else -p['raw_quantity']) if p else q
             raw.append(float(candidate * prices[symbol] / nav))
         weights, details = risk.signed_risk_weights(raw, returns)
         submitted = []
-        for symbol, weight, raw_weight in zip(SYMBOLS, weights, raw, strict=True):
+        for symbol, weight, raw_weight in zip(self.symbols, weights, raw, strict=True):
             p = proposals.get(symbol)
             q = self.account.positions[symbol].quantity
             bounded = decimal(float(weight)) * nav / prices[symbol]
@@ -359,12 +378,12 @@ class TurtlePerpetualBridge:
 
     def force_targets(self, target_dict, signal_us, kind):
         signal = self._clock(signal_us)
-        require(set(target_dict) == set(SYMBOLS) and kind in ('RISK_REDUCTION', 'TERMINAL'), 'Only original risk/terminal target dispatch')
+        require(set(target_dict) == set(self.symbols) and kind in ('RISK_REDUCTION', 'TERMINAL'), 'Only original risk/terminal target dispatch')
         if kind == 'TERMINAL':
             self.terminal = True
             self.journal.append(dict(event='TERMINAL_STARTED', signal_us=signal))
         result = []
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             target, q = decimal(target_dict[symbol]), self.account.positions[symbol].quantity
             require(q*target >= 0 and abs(target) <= abs(q), 'Reduce-only force target cannot add or cross zero')
             if kind == 'TERMINAL':
@@ -379,9 +398,9 @@ class TurtlePerpetualBridge:
     def observe_stop(self, close_us, minutes_by_symbol):
         """Known completed-minute ranges; never fill at a stop or invent path."""
         close = self._clock(close_us)
-        require(close % MINUTE_US == 0 and set(minutes_by_symbol) == set(SYMBOLS), 'Two complete UTC minute stop observations')
+        require(close % MINUTE_US == 0 and set(minutes_by_symbol) == set(self.symbols), 'All configured complete UTC minute stop observations')
         triggered = []
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             bar = minutes_by_symbol[symbol]
             require(timestamp(bar['open_us']) + MINUTE_US == close
                 and timestamp(bar['available_us']) == close, 'Exact completed-minute closure proxy')
@@ -407,11 +426,11 @@ class TurtlePerpetualBridge:
     def due_orders(self, open_us, execution_mid_prices):
         open_us = timestamp(open_us)
         require(open_us % MINUTE_US == 0 and open_us < LOCKED_US and open_us + 1 >= self.clock_us
-            and set(execution_mid_prices) == set(SYMBOLS), 'Actual causal unlocked minute execution opens for both assets')
+            and set(execution_mid_prices) == set(self.symbols), 'Actual causal unlocked minute execution opens for configured assets')
         require(self.halt_reason is None and self.account.status not in HALTS, 'No orders after real execution/account halt')
         event = open_us + 1
         orders = []
-        for symbol in SYMBOLS:
+        for symbol in self.symbols:
             identity = self.pending[symbol]
             if not identity:
                 continue
@@ -437,7 +456,7 @@ class TurtlePerpetualBridge:
                 orders.append(dict(id=identity, symbol=symbol, side=intent['side'], quantity=quantity,
                     signal_us=intent['signal_us'], kind=intent['kind'], reduce_only=intent['reduce_only'],
                     attempts=intent['attempts']))
-        return sorted(orders, key=lambda x: (PRIORITY[x['kind']], SYMBOLS.index(x['symbol'])))
+        return sorted(orders, key=lambda x: (PRIORITY[x['kind']], self.symbols.index(x['symbol'])))
 
     def _callback(self, name, intent, receipt, *, closed_trade=None):
         identity = intent['id'] + ':' + name
@@ -556,7 +575,7 @@ class TurtlePerpetualBridge:
         return dict(replayed=False, completed=not intent['active'], halt_reason=self.halt_reason)
 
     def summary_orders(self):
-        return {s: None if self.pending[s] is None else deepcopy(self.intents[self.pending[s]]) for s in SYMBOLS}
+        return {s: None if self.pending[s] is None else deepcopy(self.intents[self.pending[s]]) for s in self.symbols}
 
     def targets_frame(self):
         schema = dict(available_us=pl.Int64, symbol=pl.String, target_weight=pl.Float64,
@@ -566,14 +585,16 @@ class TurtlePerpetualBridge:
 
     def meta(self):
         return dict(strategy_id=STRATEGY_ID, rules=RULES, source=self.source_receipt,
+            configuration=self.configuration(), symbols=list(self.symbols), allow_pyramiding=self.allow_pyramiding,
             decision_receipts=self.risk_receipts, callbacks=list(self.callbacks.values()),
             journal=deepcopy(self.journal), pending=self.summary_orders(), stops=deepcopy(self.stops),
             halt_reason=self.halt_reason, candidate='NO_QUALIFIED_CANDIDATE', long_term_APR='NOT_EVALUABLE')
 
     def snapshot(self):
         return dict(version=VERSION, rules=RULES, source_receipt=self.source_receipt,
+            configuration=self.configuration(), symbols=list(self.symbols), allow_pyramiding=self.allow_pyramiding,
             account_snapshot_sha256=digest(self.account.snapshot()),
-            strategy_state={s: self._state(s) for s in SYMBOLS}, contexts=deepcopy(self.contexts),
+            strategy_state={s: self._state(s) for s in self.symbols}, contexts=deepcopy(self.contexts),
             intents=deepcopy(self.intents), pending=deepcopy(self.pending), stops=deepcopy(self.stops),
             processed=deepcopy(self.processed), callbacks=deepcopy(self.callbacks),
             journal=deepcopy(self.journal), target_rows=deepcopy(self.target_rows),
@@ -582,10 +603,13 @@ class TurtlePerpetualBridge:
             terminal=self.terminal, halt_reason=self.halt_reason)
 
     @classmethod
-    def from_snapshot(cls, account, snapshot):
+    def from_snapshot(cls, account, snapshot, *, allow_pyramiding=True):
         require(snapshot['version'] == VERSION and snapshot['rules'] == RULES
+            and type(allow_pyramiding) is bool and snapshot['allow_pyramiding'] is allow_pyramiding
+            and snapshot['symbols'] == list(account.symbols)
             and snapshot['account_snapshot_sha256'] == digest(account.snapshot()), 'Exact bridge/account snapshot binding')
-        obj = cls(account, _restoring=True)
+        obj = cls(account, allow_pyramiding=allow_pyramiding, _restoring=True)
+        require(snapshot['configuration'] == obj.configuration(), 'Exact ordered symbols and proactive ADD permission')
         require(snapshot['source_receipt'] == obj.source_receipt, 'No source/runtime change during recovery')
         for key in ('contexts', 'intents', 'pending', 'stops', 'processed', 'callbacks', 'journal',
                     'target_rows', 'risk_receipts', 'bar_receipts', 'sequence', 'clock_us',
@@ -595,7 +619,9 @@ class TurtlePerpetualBridge:
         context_clock = max((r['decision_us'] for r in obj.contexts.values()), default=0)
         require(obj.clock_us <= max(account.clock_us, context_clock)
             and obj.consumed_trade_rows == len(account.trades)
-            and set(obj.pending) == set(SYMBOLS) and set(obj.stops) == set(SYMBOLS)
+            and set(obj.pending) == set(obj.symbols) and set(obj.stops) == set(obj.symbols)
+            and set(snapshot['strategy_state']) == set(obj.symbols)
+            and set(obj.contexts) <= set(obj.symbols)
             and type(obj.sequence) is int and obj.sequence >= 0 and type(obj.terminal) is bool,
             'No future, orphan financial rows or malformed bridge snapshot')
         require(obj.terminal == any(r.get('event') == 'TERMINAL_STARTED' for r in obj.journal),
@@ -605,7 +631,8 @@ class TurtlePerpetualBridge:
                 and obj.intents[identity]['active'], 'Pending pointer must identify its owned active logical order')
         seen_fills = []
         for identity, intent in obj.intents.items():
-            require(identity == intent['id'] and intent['symbol'] in SYMBOLS and intent['kind'] in KINDS
+            require(identity == intent['id'] and intent['symbol'] in obj.symbols and intent['kind'] in KINDS
+                and (obj.allow_pyramiding or intent['kind'] != 'ADD')
                 and intent['side'] in ('BUY', 'SELL') and type(intent['active']) is bool
                 and intent['reduce_only'] == (intent['kind'] in REDUCING)
                 and intent['attempts'] == len(set(intent['attempt_ids']))
@@ -626,7 +653,7 @@ class TurtlePerpetualBridge:
             require(intent['active'] == (obj.pending[intent['symbol']] == identity), 'No orphan active pending order')
         require(len(seen_fills) == len(set(seen_fills)) and set(seen_fills) == set(obj.processed)
             and set(obj.processed) == set(account.fill_requests), 'All actual order requests belong to the restored bridge')
-        for symbol in SYMBOLS:
+        for symbol in obj.symbols:
             obj._state_set(symbol, snapshot['strategy_state'][symbol])
             stop, q = obj.stops[symbol], account.positions[symbol].quantity
             if q and not obj.terminal:
