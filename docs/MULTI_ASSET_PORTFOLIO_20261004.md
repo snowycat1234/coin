@@ -788,3 +788,52 @@ BASE/F原509腿、禁加仓371腿，UNKNOWN0。原ENTRY/ADD/EXIT/STOP/RISK/TERMI
 Bybit VIP0费用加Binance USD-M价格/mark/funding仍为跨场所代理，funding单位保留F/P未认证、历史数量/MMR和原生清算仍条件化，已见开发窗口不叫unseen。本版只否定该禁加仓改进和当前条件，不永久删除趋势能力。禁加仓重开需新的明确收益/风险机制或真正独立条件下增量，不在同窗搜阈值。
 
 D061下一唯一研究选择（尚未运行）：保留原July10与固定past30多头/现金门，在第三个自然完整2025-03-01至2025-07-01前122日开发窗口，与同窗口十币HOLD、两币HOLD及CASH比较。D057秋增量负、冬防御增量正但仍亏/有残仓，跨第三状态的信息价值高于对负Turtle扩币或加过滤救参。只补必要OHLC/mark/实际funding，日块读取，先核现有覆盖和来源；不全量aggTrades/LOB、不换池/阈值/资本/caps/费用/单位。最多3配方×4情景=12新账户/12必要独立金融，0fit/HPO，shared5GB、D40GB、新增源和工件目标≤1.5GB且新增前需守卫核余量。数据不足/缺mark/funding或真实无法退出不补零、不改次数；停止依赖的收益评价。完整同成本下能跨状态改善净/实际risk、收益不集中且退出诚实才保留挑战者；否则暂停这个配方，不追加参数网格。各窗口fresh完整10k，绝不拼NAV或称unseen/APR。主要next交接：核当前multi_asset_data已接受Mar–Jun源覆盖，事前固定同口径有限manifest再执行。此决定由root与独立只读复核一致支持；后续任务未在本模块后台启动。
+
+## D062：固定十币第三自然窗口与费用口径核对（2026-10-04，已实际运行）
+
+**采用**正常可配置N资产共享账户、122日读入和严格数值类型修复；保留两币HOLD基准。**不采用投资候选**，继续NONE/CASH。当前最大缺口为执行摩擦证据、真实退出可执行性与资金费单位；不把三个独立季度账户拼为长期业绩。新用户费用附件作为输入证据与纠偏参考，下一项先校准费用/执行假设，不机械换教学策略名称。
+
+同一2025-03-01至2025-07-01前122个UTC日、完整10,000 USDT、同一接受manifest；三个方案每个有BASE27/STRESS43×两种未认证funding解释，共12个真实账户和12个独立金融核验。下表BASE27/RAW_AS_FRACTION仅为一个条件，全部四情景保留在两份paired报告中。资本在每个组合内共享，不相加独立钱包。历史已经看过，只是开发筛选，Bybit费用配Binance USD-M仍跨场所代理。
+
+| BASE27/F，USDT或注明单位 | 两币HOLD | 十币HOLD | 十币固定past30多头/现金 |
+|---|---:|---:|---:|
+| 持仓价格毛损益 | 420.54 | 150.09 | 146.74 |
+| commission | 5.94 | 4.02 | 18.56 |
+| 额外execution | 8.64 | 5.85 | 27.00 |
+| signed funding | -19.68 | -9.97 | -6.70 |
+| 净损益/完整资本 | +386.27 / +3.863% | +130.25 / +1.303% marked | +94.48 / +0.945% |
+| 四情景净损益范围 | +377.46..+405.99 | +124.36..+140.16 marked | +66.46..+101.12 |
+| 实际日收益描述年化波动 | 10.749% | 10.559% | 7.641% |
+| 分钟最大回撤 | 6.054% | 6.582% | 3.909% |
+| 平均gross=net敞口 | 15.758% | 10.300% | 6.408% |
+| 平均逐仓抵押/完整初始资本 | 15.221% | 10.426% | 5.856% |
+| 成交名义换手/完整初始资本 | 1.081 | 0.731 | 3.375 |
+| 末真实清仓 | 是 | 否 | 是 |
+
+扩池本窗口少赚约251..266USDT，主要价格毛收益下降，而不是手续费变贵。十币价格损益较两币少约270USDT，成本/资金费更低不足抵消；实际暴露也更低，相同caps不表示同风险。past30相对十币HOLD少赚35.776/39.042/57.902/61.203；BASE/F毛损益差-3.355、费用/执行多35.682、funding改善3.261，完整桥核对。降低回撤/波动是进展，但目前未证明同风险优势。现金为0，不追加风险或对收益事后倍乘。
+
+十币HOLD按原上一分钟.001参与率/五次末退出仍有约192.62..193.15USDT库存，BASE/F为SATS121.660、ORDI69.288、WLD1.851；末浮亏约31.035完整保留，liquidated return=NOT_EVALUABLE。这只表示当前代理退出模型未完成，不证明真实Bybit无法退出。不得免费清零、删日期或事后延长直到盈利。动量末清零不是无约束优势证明。BASE/F十币HOLD SATS净贡献-99.765，ORDI-24.663；不按结果删币。动量42/122正收益日，最大的5个正收益日占正收益45.640%，有集中风险。
+
+### 实际实现与资源
+
+固定July历史流动性/200日规则池不重选；10币并非10独立风险源，协方差有符号、顺序映射与跨币资本由独立目标和金融账本核对。原.3单币/.6gross/1x逐仓/no topup/完整资本保持。四月读入、月界funding、source cap和正常保存comparer直接扩接口，非再建平台。小时/日线信号和逐分钟执行分开，每日块读入，0逐币模型、训练/HPO/GPU/aggTrades/新LOB。
+
+源V1在48/120档遇到SOL April volume6701.80被整数前缀推断的格式缺陷，保留原失败报告/字节。正常parse_csv在读取时指定价格/量Float64，timestamp/count仍Int64，账本Decimal不降精度。新1440行csv.reader+Decimal逐量参考和非法小数count反例通过；另一个新122日/200日因果病例通过，旧绿测没有重跑。原337f92/d6574a/861b源码精确保存，证据不改写。恢复复用36已完成待首次QA档+12已接受档及1原ZIP，只有59新增下载；恢复source120档实际0，96首次CSV/CRC核验+24旧已接受档复用，250唯一normalized来源manifest。两个启动/元数据字段失败及一次旧HEAD pin失败在账户/测试执行前，真实task保留。
+
+| 实测，十进制MB | 两币HOLD四账户 | 十币HOLD四账户 | 十币past30四账户 |
+|---|---:|---:|---:|
+| 进程RSS峰值 | 348.926 | 497.258 | 450.085 |
+| 耗时秒，含现有磁盘守卫 | 198.726 | 357.032 | 278.790 |
+| 自有STATE文件字节 | 64,943,676 | 200,188,336 | 99,492,894 |
+
+本轮共享组采样峰1,831,526,400B（内核生命周期峰3,263,008,768B另列，不能归本轮）；硬4,999,999,488B/swap0。扩N当前主要增加分钟账本列和跨币计算，未触及内存瓶颈，未申请加RAM。最后原物理守卫ROOT+整个D盘WSLVHD=26,175,152,059B，扫描2026-10-04T11:46:44.089669Z，耗时52.90s，低于32/36/40GB门槛；首账户到末扫描物理增长370,779,820B含collector/Git等，不等同账户输出。此数不含以后新文件。恢复sourceRSS206.73MB/native保守组合935.85MB、owned120.70MB；旧失败73.997MB保留。独立最大cash2.911e-11、ratio3.542e-14，原1e-7/1e-10容差；独立已成交会计/目标不是完整intent sizing原生复现。
+
+### 费用输入和下一选择
+
+新8类snapshot的display/100=fraction=bps/10000逐项核对，标准crypto合约taker .00055原已正确。官方当前说明也列非VIP合约taker0.055%/maker0.02%，但新用户快照生效期未知，原两图片未独立打开，各symbol fee zone未认证。限价不自动Maker；目前仍taker。BASE27=每侧5.5commission+4halfspread+4slippage，STRESS43=5.5+8+8，均是研究成本情景而非官方纯手续费。八分类记录不启用TradFi/期权/优惠/MNT。
+
+D061保存摘要Decimal独立归因gross-fee-exec+signed_funding=net误差<1e-7：原加仓BASE/F旧成交数量不扣额外execution仅敏感度+206.155，禁ADD为-52.883；约5.258bp/侧盈亏平衡是调查执行的门槛，不是将新费用调到盈利的目标，不是新NAV/数学上界/投资业绩。通用账户仍把fee.00055/halfspread>=4/slippage>=4写成约束，下一在本轮源码/证据闭合后有限拆开为有来源和单位的成本情景，旧默认情景保持。随后少量公开目标场所BBO/深度或现有合法数据估计实际规模摩擦，当前测量不假充历史盘口；同symbol同settlement timestamp核funding比例单位。文档网页历史响应本次工具无法访问，未知不猜、不绕限制；具体原始HTTP核对仍待执行。
+
+固定past30研究方向继续暂停投资晋级：秋增量负/冬marked防御正/春增量负，不能用短负窗永久删除方向，但不得无限调30日阈值救历史。reopen需要新的因果机制或连续账户、外生成本与可退出风险下稳健增量。N资产能力保留；扩池晋级reopen为基于时点可知流动性/退出证据、对适用基准的真实风险分散增量，不按亏损删SATS/ETH。Turtle、RSI配方保留参照及负结果；成本和语义可信后再选择少量数周/月趋势多空挑战，非固定roadmap。本轮不产生长期APR或真钱资格。
+
+实际工件：`MULTI_ASSET_SPRING_{HOLD_TWO,HOLD_TEN,MOMENTUM_TEN}_20261004_V1.json`，对应FINANCIAL、POOL_PAIRED/SIGNAL_PAIRED，SOURCE_ACCEPTANCE、CALENDAR_SYNTHETIC/DECIMAL_TAIL_SYNTHETIC；`BYBIT_FEE_AND_D061_COST_REVIEW_20261004_V1.json`。每个run的RUN_BINDING及模块保存TASK含真实命令、冻结源和环境；原CLI为 `scripts/with_task_progress.sh --title ... -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol /mnt/d/codex/coin/protocols/MULTI_ASSET_SPRING_HOLD_TEN_20261004_V1.json --run-dir /home/xflops/coin-state/d062-spring-hold-ten-20261004-v1 --output /mnt/d/codex/coin/reports/fast_research/MULTI_ASSET_SPRING_HOLD_TEN_20261004_V1.json --pool-id LIQUIDITY_TEN`。这是原实际命令，目录专用且已闭合；复跑需检出模块commit并使用新的独立STATE/结果路径，不能覆盖旧工件。

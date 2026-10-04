@@ -92,7 +92,7 @@ def next_month(first):
 
 
 def calendar_scope(spec):
-    """Authorized seen UTC months and the two fixed continuous quarters."""
+    """Authorized seen UTC months and the three fixed continuous windows."""
     first = datetime.fromisoformat(spec['start'])
     last = datetime.fromisoformat(spec['end_exclusive'])
     need(first.tzinfo is not None and last.tzinfo is not None and
@@ -120,6 +120,17 @@ def calendar_scope(spec):
             score_months=['2024-12', '2025-01', '2025-02'], calendar_months=3,
             warmup_months=['2024-09', '2024-10', '2024-11'],
             required_minutes=129600, period_id='2024-12_2025-02_90D', seen_development=True)
+    if first == datetime(2025, 3, 1, tzinfo=UTC) and last == datetime(2025, 7, 1, tzinfo=UTC):
+        need(spec['period_days'] == 122 and
+             spec['account_path'] == 'CONTINUOUS_SHARED_ACCOUNT_MAR_JUN_122D' and
+             spec['data_role'] == 'SEEN_DEVELOPMENT_CONTINUOUS_THIRD_WINDOW_MANIFEST',
+             'Only the predeclared fresh spring shared-wallet window')
+        return dict(start=first.isoformat(), end_exclusive=last.isoformat(),
+            start_us=int(first.timestamp()) * 1_000_000, end_us=int(last.timestamp()) * 1_000_000,
+            period_days=122, score_month='2025-03..2025-06',
+            score_months=['2025-03', '2025-04', '2025-05', '2025-06'], calendar_months=4,
+            warmup_months=['2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02'],
+            required_minutes=175680, period_id='2025-03_2025-06_122D', seen_development=True)
     need(first.year == 2024 and first.month in (9, 10, 11) and
          last == next_month(first), 'Only predeclared September-November seen scopes')
     days = (last - first).days
@@ -285,6 +296,88 @@ def winter_source_records(value, symbols, guard, scope):
     return records, certificates
 
 
+def spring_source_records(value, symbols, guard, scope):
+    """Reuse accepted winter/warm metadata, then bind the new four-month capability."""
+    def metadata(reference):
+        path = Path(reference['path'])
+        return guard.small(path if path.is_absolute() else guard.project(str(path)), reference['sha256'])[0]
+    def identity(reference):
+        path = Path(reference['path'])
+        return str(path if path.is_absolute() else ROOT / path), reference['sha256']
+    def keyed(records):
+        result = {}
+        for row in records:
+            key = row['kind'], row['symbol'], row.get('interval'), row['month']
+            need(key not in result, 'Unique spring source aliases')
+            result[key] = {k: row[k] for k in ('kind', 'symbol', 'interval', 'month',
+                'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows')}
+        return result
+    need(value['status'] == 'PASS_D062_SELECTED_PORTFOLIO_SPRING_SOURCE_BINDING_NOT_ECONOMICS' and
+         value['source_only'] is True and value['checksummed_source_format_verified'] is True and
+         (value['start_us'], value['end_us'], value['days']) ==
+         (scope['start_us'], scope['end_us'], scope['period_days']) and
+         value['score_months'] == scope['score_months'], 'Exact accepted spring122 source scope')
+    need(value['warmup_manifest']['sha256'] ==
+         '56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193' and
+         value['warmup_source_acceptance']['sha256'] ==
+         '5f904de403070d9397fa00ef338e6cda38f642aaa85bb6620a68e5e935b3476c',
+         'Original accepted winter manifest and source capability')
+    warm = metadata(value['warmup_manifest'])
+    warm_scope = calendar_scope(dict(start='2024-12-01T00:00:00+00:00',
+        end_exclusive='2025-03-01T00:00:00+00:00', period_days=90,
+        account_path='CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D',
+        data_role='SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST'))
+    _, certificates = winter_source_records(warm, symbols, guard, warm_scope)
+    need(identity(value['warmup_source_acceptance']) == identity(warm['source_acceptance']) and
+         identity(value['pool_receipt']) == identity(warm['pool_receipt']) and
+         value['selected_symbols'] == warm['selected_symbols'] and
+         len(value['symbols']) == len(set(value['symbols'])) == len(warm['symbols']) and
+         set(value['symbols']) == set(warm['symbols']), 'Same July pool and accepted winter capability chain')
+    prior_trade = [*warm['warmup_minute_records'],
+                   *[r for r in warm['market_records'] if r['kind'] == 'klines']]
+    need(len(value['daily_records']) == 70 and len(value['control_daily_records']) == 14 and
+         keyed(value['daily_records']) == keyed(warm['daily_records']) and
+         keyed(value['control_daily_records']) == keyed(warm['control_daily_records']) and
+         len(value['warmup_minute_records']) == 60 and
+         keyed(value['warmup_minute_records']) == keyed(prior_trade),
+         'Every accepted February-August daily and September-February trade warmup alias retained')
+    capability = metadata(value['source_acceptance'])
+    need(capability['status'] == 'PASS_D062_FIXED_POOL_SPRING_SOURCE_FORMAT_ONLY' and
+         capability['source_only'] is True and capability['actual_exit_code'] == 0 and
+         capability['pool_receipt_sha256'] == value['pool_receipt']['sha256'] and
+         (capability['start_us'], capability['end_us']) == (scope['start_us'], scope['end_us']) and
+         capability['completed_files'] == 120 and capability['newly_verified_files'] == 96 and
+         capability['reused_accepted_files'] == 24, 'One actual accepted96/24 spring source capability')
+    expected = {(kind, symbol, interval, month) for symbol in warm['selected_symbols']
+        for month in scope['score_months']
+        for kind, interval in (('klines', '1m'), ('markPriceKlines', '1m'), ('fundingRate', None))}
+    market = keyed(value['market_records'])
+    hashes = {r['normalized_path']: r['normalized_sha256'] for r in market.values()}
+    need(len(market) == 120 and set(market) == expected and len(hashes) == 120 and
+         hashes == capability['normalized_source_hashes'] and keyed(capability['sources']) == market,
+         'Exact120 accepted spring financial roles')
+    original_ref = capability['reused_market_manifest']
+    need(original_ref['sha256'] == '8b665b2829eafd192871fe4a3bc418dac1c202ed54f7d2d5494545fa6636fbfa',
+         'Original accepted D045 source binding for twenty-four control roles')
+    original = metadata(original_ref)
+    need(original['status'] == 'PASS_D045_FIXED_303D_USDM_INPUT_SOURCE_BINDING_NOT_ECONOMICS' and
+         original['source_only'] is True, 'Accepted old source capability, not failed parent data')
+    original_rows = keyed(original['source_files'].values())
+    reused_keys = {key for key in expected if key[1] in ('BTCUSDT', 'ETHUSDT')}
+    need(len(reused_keys) == 24 and all(market[k] == original_rows[k] for k in reused_keys),
+         'All twenty-four original control source identities retained without new QA')
+    records = [*value['market_records'], *value['daily_records'], *value['control_daily_records'],
+        *value['warmup_minute_records']]
+    exact_hashes = {r['normalized_path']: r['normalized_sha256'] for r in records}
+    need(len(exact_hashes) == 250 and value['normalized_source_hashes'] == exact_hashes,
+         'Exact250 warm-and-score source SHA aliases; no unaccepted replacement')
+    certificates.append(dict(scope='SPRING_WINDOW_96_FIRST_QA_24_ACCEPTED_REUSE',
+        acceptance=value['source_acceptance'], actual_closed_task=guard.closed(capability['binding']['task_id']),
+        warmup_manifest=value['warmup_manifest'], warmup_source_acceptance=value['warmup_source_acceptance'],
+        old_warmup_rows_or_CRC_reread=False))
+    return records, certificates
+
+
 def input_reader(spec, symbols, base, guard):
     """Bound normal N sources, not the producer's loader or format QA."""
     manifest = spec['data_manifest']; path = Path(manifest['path'])
@@ -295,7 +388,9 @@ def input_reader(spec, symbols, base, guard):
     continuous = 'score_months' in scope
     source_metadata_proofs = []
     times = np.arange(start, end, MINUTE, dtype=np.int64)
-    if scope['period_days'] == 90:
+    if scope['period_days'] == 122:
+        records, source_metadata_proofs = spring_source_records(value, symbols, guard, scope)
+    elif scope['period_days'] == 90:
         records, source_metadata_proofs = winter_source_records(value, symbols, guard, scope)
     elif continuous:
         records, source_metadata_proofs = continuous_source_records(value, symbols, guard, scope)
@@ -944,7 +1039,7 @@ def main():
         if momentum_strategy:
             need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
-                 'Only the fixed ten-member equal momentum recipe in the two continuous quarters')
+                 'Only the fixed ten-member equal momentum recipe in the continuous seen windows')
         if rsi_strategy:
             need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
@@ -1037,8 +1132,9 @@ def main():
                 cost=case['cost_id'], funding_unit=case['unit_id'])
             result = financial(window, canonical, guard, reference, Path(actual['run_dir']), None, [], errors)
             if 'score_months' in scope:
-                need(result['completed_days_verified'] == scope['period_days'] and result['completed_months_verified'] == 3,
-                     'Complete continuous daily observations and all three months')
+                need(result['completed_days_verified'] == scope['period_days'] and
+                     result['completed_months_verified'] == scope['calendar_months'],
+                     'Complete continuous daily observations and every declared month')
                 result.update(continuous_accounting_verified=True,
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
                         window, result, paths['funding.json'], base, errors))

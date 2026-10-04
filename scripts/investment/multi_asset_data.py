@@ -44,6 +44,10 @@ NOV_END = int(datetime(2024, 12, 1, tzinfo=UTC).timestamp()) * 1_000_000
 WINTER_JAN = int(datetime(2025, 1, 1, tzinfo=UTC).timestamp()) * 1_000_000
 WINTER_FEB = int(datetime(2025, 2, 1, tzinfo=UTC).timestamp()) * 1_000_000
 WINTER_END = int(datetime(2025, 3, 1, tzinfo=UTC).timestamp()) * 1_000_000
+SPRING_APR = int(datetime(2025, 4, 1, tzinfo=UTC).timestamp()) * 1_000_000
+SPRING_MAY = int(datetime(2025, 5, 1, tzinfo=UTC).timestamp()) * 1_000_000
+SPRING_JUN = int(datetime(2025, 6, 1, tzinfo=UTC).timestamp()) * 1_000_000
+SPRING_END = int(datetime(2025, 7, 1, tzinfo=UTC).timestamp()) * 1_000_000
 COMPONENT = 'reports/fast_research/V8_OFFICIAL_DOWNLOAD_COMPONENT_20261002_V2.json'
 COMPONENT_SHA = '8a2ae22bd5bbf60763df352abb50d380763ba1fe19ac6545cc398f8d45d3ce96'
 # This is the bucket configured by the official public-data index. The metadata
@@ -92,6 +96,21 @@ WINTER_RULES = dict(NOVEMBER_RULES, score_start='2024-12-01', score_end_exclusiv
     score_months=[r[0] for r in WINTER_SCOPES], new_market_files=72, reused_market_files=18,
     warmup='ACCEPTED_FEB_AUG_1D_PLUS_ACCEPTED_SEP_NOV_1M_CAUSAL_DAILY_REDUCTION')
 WINTER_BUDGETS = dict(NOVEMBER_BUDGETS)
+SPRING_CONTRACT = 'D062_FIXED_JULY_POOL_SPRING_SOURCE_V1'
+SPRING_SOURCE_STATUS = 'COMPLETE_D062_FIXED_POOL_SPRING_SOURCE_FORMAT_PENDING_ACCEPTANCE'
+SPRING_ACCEPTANCE_STATUS = 'PASS_D062_FIXED_POOL_SPRING_SOURCE_FORMAT_ONLY'
+SPRING_MANIFEST_STATUS = 'PASS_D062_SELECTED_PORTFOLIO_SPRING_SOURCE_BINDING_NOT_ECONOMICS'
+SPRING_SCOPES = (('2025-03', WINTER_END, SPRING_APR), ('2025-04', SPRING_APR, SPRING_MAY),
+                 ('2025-05', SPRING_MAY, SPRING_JUN), ('2025-06', SPRING_JUN, SPRING_END))
+SPRING_RULES = dict(WINTER_RULES, score_start='2025-03-01', score_end_exclusive='2025-07-01',
+    score_months=[r[0] for r in SPRING_SCOPES], new_market_files=96, reused_market_files=24,
+    warmup='ACCEPTED_FEB_AUG_1D_PLUS_ACCEPTED_SEP_FEB_1M_CAUSAL_DAILY_REDUCTION')
+SPRING_BUDGETS = dict(WINTER_BUDGETS, market_owned_bytes=400_000_000,
+    temporary_owned_bytes=200_000_000)
+SPRING_WARMUP_MANIFEST = dict(
+    path=str(STATE/'d056-multiasset-winter-source-acceptance-20261004-v2/INPUT_MANIFEST.json'),
+    sha256='56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193',
+    required_status=WINTER_MANIFEST_STATUS)
 CONTINUOUS_MANIFEST_STATUS = 'PASS_D055_CONTINUOUS_91D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS'
 CONTINUOUS_SCOPES = (('2024-09', START, END), ('2024-10', END, OCT_END),
                      ('2024-11', OCT_END, NOV_END))
@@ -139,9 +158,10 @@ def symbol_ok(symbol):
 def period_scope(start_us, end_us):
     require(type(start_us) is int and type(end_us) is int and
         (start_us, end_us) in ((START, END), (END, OCT_END), (OCT_END, NOV_END),
-        *((a, b) for _, a, b in WINTER_SCOPES)), 'Explicit complete authorized source month only')
+        *((a, b) for _, a, b in (*WINTER_SCOPES, *SPRING_SCOPES))), 'Explicit complete authorized source month only')
     return {START: '2024-09', END: '2024-10', OCT_END: '2024-11',
-            NOV_END: '2024-12', WINTER_JAN: '2025-01', WINTER_FEB: '2025-02'}[start_us]
+            NOV_END: '2024-12', WINTER_JAN: '2025-01', WINTER_FEB: '2025-02',
+            WINTER_END: '2025-03', SPRING_APR: '2025-04', SPRING_MAY: '2025-05', SPRING_JUN: '2025-06'}[start_us]
 
 
 def entry(symbol, kind, interval, month):
@@ -151,8 +171,8 @@ def entry(symbol, kind, interval, month):
         (kind == 'fundingRate' and interval is None), 'Required USD-M product')
     require(month in ('2024-01', '2024-02', '2024-03', '2024-04', '2024-05',
         '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11',
-        '2024-12', '2025-01', '2025-02') and not (interval == '1d' and
-        month in ('2024-11', '2024-12', '2025-01', '2025-02')) and
+        '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06') and not (interval == '1d' and
+        month in ('2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06')) and
         (month != '2024-01' or (kind == 'klines' and interval == '1d')),
         'Explicit unlocked source months; no new late-quarter daily source')
     suffix = (f'{symbol}-fundingRate-{month}.zip' if interval is None else
@@ -380,7 +400,8 @@ def acquire(item, run, client, *, authorization, reuse_catalog=None, budgets=DEF
         else:
             month = {'SEPTEMBER_SOURCE': '2024-09', 'OCTOBER_SOURCE': '2024-10',
                  'NOVEMBER_SOURCE': '2024-11'}.get(phase)
-            authorized_months = tuple(r[0] for r in WINTER_SCOPES) if phase == 'WINTER_SOURCE' else (month,)
+            authorized_months = (tuple(r[0] for r in SPRING_SCOPES) if phase == 'SPRING_SOURCE' else
+                tuple(r[0] for r in WINTER_SCOPES) if phase == 'WINTER_SOURCE' else (month,))
             require(None not in authorized_months and item['month'] in authorized_months and
                 item['interval'] != '1d' and item['symbol'] in authorization['symbols'] and
                 proof['sha256'] == authorization['pool_receipt_sha256'], 'Frozen July pool bound before explicit score-month IO')
@@ -398,12 +419,28 @@ def acquire(item, run, client, *, authorization, reuse_catalog=None, budgets=DEF
     job.mkdir(exist_ok=False)
     if isinstance(client, WindowsSourceTransport):
         archive, checksum = job/name, job/(name+'.CHECKSUM')
-        with deadline(budgets['source_file_seconds']):
-            client.download(item['checksum_url'], checksum, 4096)
+        saved = authorization.get('saved_archive_reuse', {}).get(item['url'])
+        if saved:
+            require(phase == 'SPRING_SOURCE', 'Saved archive recovery only in explicit spring scope')
+            for target, label, maximum in ((archive, 'zip', limit), (checksum, 'checksum', 4096)):
+                original = Path(saved[label+'_path'])
+                require(original.is_file() and not original.is_symlink() and
+                    original.resolve().is_relative_to(STATE.resolve()) and
+                    0 < original.stat().st_size <= maximum and sha(original) == saved[label+'_sha256'],
+                    'Exact retained official archive recovery')
+                with original.open('rb') as source, target.open('xb') as destination:
+                    import shutil
+                    shutil.copyfileobj(source, destination, 1024*1024)
             check = checksum.read_text(encoding='ascii').split()
-            require(len(check) == 2 and re.fullmatch('[0-9a-fA-F]{64}', check[0]) and
-                check[1].lstrip('*') == name, 'Official exact CHECKSUM identity before ZIP')
-            client.download(item['url'], archive, limit)
+            require(len(check) == 2 and check[1].lstrip('*') == name and
+                re.fullmatch('[0-9a-fA-F]{64}', check[0]), 'Retained official CHECKSUM identity')
+        else:
+            with deadline(budgets['source_file_seconds']):
+                client.download(item['checksum_url'], checksum, 4096)
+                check = checksum.read_text(encoding='ascii').split()
+                require(len(check) == 2 and re.fullmatch('[0-9a-fA-F]{64}', check[0]) and
+                    check[1].lstrip('*') == name, 'Official exact CHECKSUM identity before ZIP')
+                client.download(item['url'], archive, limit)
     else:
         with client.stream('HEAD', item['url']) as response:
             if response.status_code in (403, 451, 418, 429):
@@ -498,7 +535,7 @@ def daily_frame(records):
 
 def qualify_daily(symbol, daily, *, start_us=START):
     """Pure eligibility using only real daily bars completed by entry."""
-    require(type(start_us) is int and start_us in (START, END, OCT_END, NOV_END), 'Explicit entry boundary')
+    require(type(start_us) is int and start_us in (START, END, OCT_END, NOV_END, WINTER_END), 'Explicit entry boundary')
     require(symbol_ok(symbol) and daily['symbol'].unique().to_list() == [symbol], 'One candidate')
     one = daily.sort('open_us')
     require(one.null_count().select(pl.sum_horizontal(pl.all())).item() == 0, 'Unknown daily values')
@@ -606,7 +643,8 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
     require(type(start_us) is int and type(end_us) is int, 'Explicit integer scoring boundaries')
     continuous = (start_us, end_us) == (START, NOV_END)
     winter = (start_us, end_us) == (NOV_END, WINTER_END)
-    scopes = WINTER_SCOPES if winter else CONTINUOUS_SCOPES if continuous else (
+    spring = (start_us, end_us) == (WINTER_END, SPRING_END)
+    scopes = SPRING_SCOPES if spring else WINTER_SCOPES if winter else CONTINUOUS_SCOPES if continuous else (
         (period_scope(start_us, end_us), start_us, end_us),)
     months = tuple(r[0] for r in scopes)
     month = months[0]
@@ -629,13 +667,14 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
     daily_records = {(r['symbol'], r['month']): r for r in
         [*(pool['source_records'] if pool is not None else []), *control_daily_records] if r['symbol'] in symbols}
     daily = daily_frame(list(daily_records.values()))
-    if winter:
+    if winter or spring:
+        warm_scopes = (*CONTINUOUS_SCOPES, *WINTER_SCOPES) if spring else CONTINUOUS_SCOPES
         warm_table = {(r['symbol'], r['month']): r for r in warmup_minute_records}
         require(len(warm_table) == len(warmup_minute_records) and set(warm_table) ==
-            {(s, m) for s in all_symbols for m, _, _ in CONTINUOUS_SCOPES},
-            'Three already accepted trade-minute warmup months per pool/control asset')
+            {(s, m) for s in all_symbols for m, _, _ in warm_scopes},
+            'Every already accepted trade-minute warmup month per pool/control asset')
         reductions = [daily_from_minutes(warm_table[(s, m)], a, b)
-            for m, a, b in CONTINUOUS_SCOPES for s in symbols]
+            for m, a, b in warm_scopes for s in symbols]
         daily = pl.concat([daily.select(reductions[0].columns), *reductions]).sort(['symbol', 'open_us'])
     elif month == '2024-10':
         warm_table = {r['symbol']: r for r in warmup_minute_records}
@@ -939,24 +978,19 @@ def winter_warmup_metadata(proofs, pool):
     return warm, daily, pins
 
 
-def load_winter_portfolio_window(manifest_path, symbols, start_us=NOV_END, end_us=WINTER_END):
-    """One fresh 90-day wallet window; prior September-November prices are warmup only."""
-    require(type(start_us) is int and type(end_us) is int and
-        (start_us, end_us) == (NOV_END, WINTER_END), 'Only fixed December-February continuous90D')
-    path = Path(manifest_path)
-    require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
-        path.stat().st_size <= 2_000_000, 'Small accepted winter STATE manifest')
-    manifest = json.loads(path.read_bytes())
-    require(manifest['status'] == WINTER_MANIFEST_STATUS and manifest['source_only'] is True and
-        manifest['checksummed_source_format_verified'] is True and manifest['days'] == 90 and
-        manifest['score_months'] == [r[0] for r in WINTER_SCOPES] and
-        (manifest['start_us'], manifest['end_us']) == (start_us, end_us), 'Accepted fixed quarter source role')
-    pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
-    require(isinstance(symbols, (tuple, list)) and (list(symbols) == pool['symbols'] or
-        tuple(symbols) == ('BTCUSDT', 'ETHUSDT')), 'Original ordered July pool or original two-asset control')
-    cap = small_proof(manifest['source_acceptance'], WINTER_ACCEPTANCE_STATUS)
+def accepted_quarter_metadata(manifest, pool, *, spring=False):
+    """Finite quarter capability/identity checks only; no Parquet, CRC or rows QA."""
+    scopes = SPRING_SCOPES if spring else WINTER_SCOPES
+    days, files = (122, 120) if spring else (90, 90)
+    manifest_status = SPRING_MANIFEST_STATUS if spring else WINTER_MANIFEST_STATUS
+    acceptance_status = SPRING_ACCEPTANCE_STATUS if spring else WINTER_ACCEPTANCE_STATUS
+    require(manifest['status'] == manifest_status and manifest['source_only'] is True and
+        manifest['checksummed_source_format_verified'] is True and manifest['days'] == days and
+        manifest['score_months'] == [r[0] for r in scopes] and
+        (manifest['start_us'], manifest['end_us']) == (scopes[0][1], scopes[-1][2]), 'Accepted fixed quarter source role')
+    cap = small_proof(manifest['source_acceptance'], acceptance_status)
     require(cap['actual_exit_code'] == 0 and cap['source_only'] is True and
-        cap['completed_files'] == len(cap['sources']) == 90 and
+        cap['completed_files'] == len(cap['sources']) == files and
         cap['symbols'] == manifest['symbols'] == sorted(pool['symbols']) and
         cap['pool_receipt_sha256'] == manifest['pool_receipt']['sha256'] and
         cap['funding_unit_certified'] is False and cap['native_Bybit_certified'] is False,
@@ -967,30 +1001,89 @@ def load_winter_portfolio_window(manifest_path, symbols, start_us=NOV_END, end_u
     require(not task_path.is_symlink() and task_path.stat().st_size <= 2_000_000, 'Small closed capability task')
     task = json.loads(task_path.read_bytes())
     require(task['id'] == task_id and task['status'] == 'completed' and task['exit_code'] == 0,
-        'Winter source acceptance truly closed0 before economics')
-    warm, daily, warm_pins = winter_warmup_metadata(manifest, pool)
+        'Quarter source acceptance truly closed0 before economics')
+    warm, daily, warm_pins = (spring_warmup_metadata(manifest, pool) if spring else
+        winter_warmup_metadata(manifest, pool))
     require(manifest['warmup_minute_records'] == warm and manifest['daily_records'] == daily,
         'Warm descriptors exactly retain their original owners and order')
-    prior = small_proof(manifest['warmup_manifest'], CONTINUOUS_MANIFEST_STATUS)
+    prior = small_proof(manifest['warmup_manifest'], WINTER_MANIFEST_STATUS if spring else CONTINUOUS_MANIFEST_STATUS)
     require(manifest['control_daily_records'] == prior['control_daily_records'], 'Original fourteen control daily aliases')
     market = manifest['market_records']
     identities = lambda rows: [tuple(r[k] for k in ('symbol', 'kind', 'interval', 'month',
         'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows')) for r in rows]
-    require(len(market) == 90 and identities(market) == identities(cap['sources']),
+    require(len(market) == files and identities(market) == identities(cap['sources']),
         'Every scoring descriptor exactly matches the new independent acceptance')
     score_pins = {r['normalized_path']: r['normalized_sha256'] for r in market}
-    require(len(score_pins) == 90 and cap['normalized_source_hashes'] == score_pins and
+    require(len(score_pins) == files and cap['normalized_source_hashes'] == score_pins and
         not set(score_pins).intersection(warm_pins) and
         manifest['normalized_source_hashes'] == {**warm_pins, **score_pins},
-        'Ninety directly accepted score files and one hundred referenced warm files')
+        'Directly accepted score files and exact referenced warm source identities')
+    return warm, daily, {**warm_pins, **score_pins}
+
+
+def spring_warmup_metadata(proofs, pool):
+    """Prior winter plus its accepted Sep-Nov chain; all prices remain unread here."""
+    ref = proofs['warmup_manifest']
+    require(Path(ref['path']).resolve() == Path(SPRING_WARMUP_MANIFEST['path']).resolve() and
+        ref['sha256'] == SPRING_WARMUP_MANIFEST['sha256'] and
+        ref.get('required_status') == WINTER_MANIFEST_STATUS, 'Exact accepted D056 winter warmup manifest')
+    previous = small_proof(ref, WINTER_MANIFEST_STATUS)
+    current = proofs['warmup_source_acceptance']
+    prior_cap = previous['source_acceptance']
+    require((ROOT/Path(current['path'])).resolve() == (ROOT/Path(prior_cap['path'])).resolve() and
+        current['sha256'] == prior_cap['sha256'] and
+        current.get('required_status') == WINTER_ACCEPTANCE_STATUS and
+        previous['pool_receipt']['sha256'] == proofs['pool_receipt']['sha256'] and
+        previous['selected_symbols'] == pool['symbols'], 'Same ordered July pool and exact winter capability')
+    old_warm, daily, previous_pins = accepted_quarter_metadata(previous, pool)
+    warm = [*old_warm, *(r for r in previous['market_records'] if r['kind'] == 'klines')]
+    keys = [(r['symbol'], r['kind'], r['interval'], r['month']) for r in warm]
+    require(len(keys) == len(set(keys)) == 60 and set(keys) ==
+        {(s, 'klines', '1m', m) for s in pool['symbols']
+         for m, _, _ in (*CONTINUOUS_SCOPES, *WINTER_SCOPES)} and len(daily) == 70,
+        'Six accepted trade-minute warm months and seventy daily sources, no reranking')
+    pins = {r['normalized_path']: r['normalized_sha256'] for r in [*daily, *warm]}
+    require(len(pins) == 130 and all(previous_pins.get(p) == h for p, h in pins.items()),
+        'Every inherited warm source keeps its original accepted byte identity')
+    return warm, daily, pins
+
+
+def load_quarter_portfolio_window(manifest_path, symbols, start_us, end_us):
+    """One explicitly authorized complete quarter; one caller-owned wallet."""
+    spring = (start_us, end_us) == (WINTER_END, SPRING_END)
+    require(type(start_us) is int and type(end_us) is int and
+        ((start_us, end_us) == (NOV_END, WINTER_END) or spring), 'Only fixed winter90D or spring122D')
+    path = Path(manifest_path)
+    require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
+        path.stat().st_size <= 2_000_000, 'Small accepted quarter STATE manifest')
+    manifest = json.loads(path.read_bytes())
+    pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+    require(isinstance(symbols, (tuple, list)) and (list(symbols) == pool['symbols'] or
+        tuple(symbols) == ('BTCUSDT', 'ETHUSDT')), 'Original ordered July pool or original two-asset control')
+    warm, daily, _ = accepted_quarter_metadata(manifest, pool, spring=spring)
+    market = manifest['market_records']
     result = window(pool, market, pool_receipt_sha256=manifest['pool_receipt']['sha256'],
         control_daily_records=manifest['control_daily_records'], requested_symbols=symbols,
         warmup_minute_records=warm, start_us=start_us, end_us=end_us)
     result.update(manifest_path=str(path), manifest_sha256=sha(path), continuous_wallet_required=True,
-        account_path='CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D', score_months=manifest['score_months'],
+        account_path='CONTINUOUS_SHARED_ACCOUNT_MAR_JUN_122D' if spring else 'CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D',
+        score_months=manifest['score_months'],
         input_proofs=[*market, *daily, *warm],
-        daily_source_scope='FEB_AUG_DAILY_ONCE_PLUS_SEP_NOV_WARM_AND_DEC_FEB_SCORE_CAUSAL_MINUTE_REDUCTIONS_NO_MONTHLY_RESET')
+        daily_source_scope=('FEB_AUG_DAILY_ONCE_PLUS_SEP_FEB_WARM_AND_MAR_JUN_SCORE_CAUSAL_MINUTE_REDUCTIONS_NO_MONTHLY_RESET'
+            if spring else 'FEB_AUG_DAILY_ONCE_PLUS_SEP_NOV_WARM_AND_DEC_FEB_SCORE_CAUSAL_MINUTE_REDUCTIONS_NO_MONTHLY_RESET'))
     return result
+
+
+def load_winter_portfolio_window(manifest_path, symbols, start_us=NOV_END, end_us=WINTER_END):
+    """Original fixed winter90D interface; its source and financial scope stay unchanged."""
+    require((start_us, end_us) == (NOV_END, WINTER_END), 'Only fixed winter90D')
+    return load_quarter_portfolio_window(manifest_path, symbols, start_us, end_us)
+
+
+def load_spring_portfolio_window(manifest_path, symbols, start_us=WINTER_END, end_us=SPRING_END):
+    """Fixed March-June122D, with Sep-Feb accepted minute-derived warmup."""
+    require((start_us, end_us) == (WINTER_END, SPRING_END), 'Only fixed spring122D')
+    return load_quarter_portfolio_window(manifest_path, symbols, start_us, end_us)
 
 
 def load_portfolio_window(manifest_path, symbols, start_us, end_us):
@@ -1003,6 +1096,8 @@ def load_portfolio_window(manifest_path, symbols, start_us, end_us):
         return load_continuous_portfolio_window(manifest_path, symbols, start_us, end_us)
     if (start_us, end_us) == (NOV_END, WINTER_END):
         return load_winter_portfolio_window(manifest_path, symbols, start_us, end_us)
+    if (start_us, end_us) == (WINTER_END, SPRING_END):
+        return load_spring_portfolio_window(manifest_path, symbols, start_us, end_us)
     month = period_scope(start_us, end_us)
     require(isinstance(symbols, (tuple, list)) and symbols and len(symbols) == len(set(symbols)) and
         all(symbol_ok(s) for s in symbols), 'Explicit unique selected assets')
@@ -1087,17 +1182,20 @@ def source_stage(args):
     run, output = Path(args.run_dir).resolve(), Path(args.output).resolve()
     phase = 'POOL_DAILY' if args.mode == 'pool' else spec['phase']
     require(phase in ('POOL_DAILY', 'SEPTEMBER_SOURCE', 'OCTOBER_SOURCE', 'NOVEMBER_SOURCE',
-        'WINTER_SOURCE'), 'Explicit source phase')
+        'WINTER_SOURCE', 'SPRING_SOURCE'), 'Explicit source phase')
     require((args.mode == 'pool') == (phase == 'POOL_DAILY'), 'Separate pool/source execution mode')
     october = phase == 'OCTOBER_SOURCE'
     november = phase == 'NOVEMBER_SOURCE'
     winter = phase == 'WINTER_SOURCE'
-    followup = october or november or winter
-    rules = WINTER_RULES if winter else NOVEMBER_RULES if november else OCTOBER_RULES if october else RULES
-    budgets = WINTER_BUDGETS if winter else NOVEMBER_BUDGETS if november else OCTOBER_BUDGETS if october else DEFAULT_BUDGETS
-    start_us, end_us = (NOV_END, WINTER_END) if winter else (OCT_END, NOV_END) if november else (END, OCT_END) if october else (START, END)
-    months = tuple(r[0] for r in WINTER_SCOPES) if winter else (period_scope(start_us, end_us),)
-    month = '2024-12..2025-02' if winter else months[0]
+    spring = phase == 'SPRING_SOURCE'
+    quarter = winter or spring
+    followup = october or november or quarter
+    rules = SPRING_RULES if spring else WINTER_RULES if winter else NOVEMBER_RULES if november else OCTOBER_RULES if october else RULES
+    budgets = SPRING_BUDGETS if spring else WINTER_BUDGETS if winter else NOVEMBER_BUDGETS if november else OCTOBER_BUDGETS if october else DEFAULT_BUDGETS
+    start_us, end_us = ((WINTER_END, SPRING_END) if spring else (NOV_END, WINTER_END) if winter else
+        (OCT_END, NOV_END) if november else (END, OCT_END) if october else (START, END))
+    months = tuple(r[0] for r in (SPRING_SCOPES if spring else WINTER_SCOPES)) if quarter else (period_scope(start_us, end_us),)
+    month = '2025-03..2025-06' if spring else '2024-12..2025-02' if winter else months[0]
     require(spec['phase'] == phase and spec['ready_for_execution'] is True and
         spec['capacity_registered'] is True and spec['rules'] == rules and
         spec['budgets'] == budgets and (not followup or
@@ -1108,6 +1206,10 @@ def source_stage(args):
         spec['score_months'] == list(months) and spec['new_market_files'] == 72 and
         spec['reused_market_files'] == 18 and spec['joint_disk_reservation_bytes'] == 1_000_000_000),
         'One prospective complete winter source contract and joint capacity')
+    require(not spring or (spec['contract_id'] == SPRING_CONTRACT and spec['days'] == 122 and
+        spec['score_months'] == list(months) and spec['new_market_files'] == 96 and
+        spec['reused_market_files'] == 24 and spec['joint_disk_reservation_bytes'] == 1_500_000_000),
+        'One prospective complete spring source contract and joint capacity')
     require(run == Path(spec['run_dir']).resolve() and not run.exists() and run.is_relative_to(STATE.resolve()) and
         output == (ROOT/spec['output_path']).resolve() and not output.exists(), 'New exclusive source phase')
     require(os.environ.get('COIN_TASK_ID') and sys.prefix == str(STATE/'v8-clean-env-20261002-v2'), 'Bounded clean/progress invocation')
@@ -1120,7 +1222,7 @@ def source_stage(args):
         spec['source_hashes'].get(args.transport_script.as_posix()) == sha(args.transport_script), 'Explicit default native source transport')
     old = small_proof(spec['reuse_manifest'], 'PASS_D045_FIXED_303D_USDM_INPUT_SOURCE_BINDING_NOT_ECONOMICS')
     catalog = reuse_catalog(old); official_downloader(); warm = []; warm_daily = []
-    if winter:
+    if quarter:
         require(spec['reuse_manifest']['sha256'] ==
             '8b665b2829eafd192871fe4a3bc418dac1c202ed54f7d2d5494545fa6636fbfa',
             'Exact D045 accepted control source catalogue')
@@ -1141,15 +1243,21 @@ def source_stage(args):
     elif winter:
         pool = small_proof(spec['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
         warm, warm_daily, _ = winter_warmup_metadata(spec, pool)
+    elif spring:
+        pool = small_proof(spec['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+        warm, warm_daily, _ = spring_warmup_metadata(spec, pool)
     if spec.get('partial_source_reuse'):
-        prior = small_proof(spec['partial_source_reuse'], 'FAIL_D050_SOURCE_STAGE')
-        require(phase == 'SEPTEMBER_SOURCE' and prior['actual_exit_code'] == 1 and
+        prior = small_proof(spec['partial_source_reuse'], 'FAIL_D062_SOURCE_STAGE' if spring else 'FAIL_D050_SOURCE_STAGE')
+        require(phase in ('SEPTEMBER_SOURCE', 'SPRING_SOURCE') and prior['actual_exit_code'] == 1 and
             prior['source_bytes_unchanged'] is True and prior['binding']['phase'] == phase and
             prior['binding']['source_sha256'] == spec['partial_source_reuse_source_sha256'] and
             prior['binding']['protocol_sha256'] == spec['partial_source_reuse_protocol_sha256'], 'Truthful failed-stage partial reuse')
         for row in prior['completed_sources']:
             key = (row['kind'], row['symbol'], row['interval'], row['month'])
-            require(key not in catalog and row['month'] == '2024-09' and row['symbol'] in spec['symbols'], 'One distinct bounded partial source')
+            if spring and row['symbol'] in ('BTCUSDT', 'ETHUSDT'):
+                require(key in catalog and row['normalized_sha256'] == catalog[key]['normalized_sha256'], 'Old accepted control unchanged')
+                continue
+            require(key not in catalog and row['month'] in months and row['symbol'] in spec['symbols'], 'One distinct bounded partial source')
             for field in ('zip', 'checksum', 'receipt'):
                 path = Path(row[field+'_path'])
                 require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
@@ -1175,7 +1283,7 @@ def source_stage(args):
         success_failure='START_BEFORE_NEW_PRICE_IO', reason_for_next_experiment='Historical shared-account pool comparison',
         result_influenced_later_choice='NO_SCORE_RESULTS', task_id=binding['task_id'], fits=0)
     registration = append_event(ROOT/'reports/experiment_registry.jsonl', event)
-    failure_status = 'FAIL_D056_SOURCE_STAGE' if winter else 'FAIL_D054_SOURCE_STAGE' if november else 'FAIL_D051_SOURCE_STAGE' if october else 'FAIL_D050_SOURCE_STAGE'
+    failure_status = 'FAIL_D062_SOURCE_STAGE' if spring else 'FAIL_D056_SOURCE_STAGE' if winter else 'FAIL_D054_SOURCE_STAGE' if november else 'FAIL_D051_SOURCE_STAGE' if october else 'FAIL_D050_SOURCE_STAGE'
     report = dict(status=failure_status, binding=binding, run_dir=str(run), source_only=True,
         registration_start=registration, run_binding_sha256=sha(run/'RUN_BINDING.json'),
         source_records=[], score_payloads_read=0, model_fits=0, orders_sent=0, GPU=0, locked_consumed=False,
@@ -1184,7 +1292,7 @@ def source_stage(args):
     reserve = budgets['pool_owned_bytes' if args.mode == 'pool' else 'market_owned_bytes']
     try:
         progress.update('实际磁盘扫描，扫描总量未知', None, None, '扫描')
-        capacity_reserve = 1_000_000_000 if november or winter else 700_000_000
+        capacity_reserve = 1_500_000_000 if spring else 1_000_000_000 if november or winter else 700_000_000
         before = datetime.now(UTC).isoformat(); measured = disk.check(capacity_reserve)
         measured.update(scan_started_utc=before, scan_finished_utc=datetime.now(UTC).isoformat())
         report['disk_before'] = measured
@@ -1227,35 +1335,37 @@ def source_stage(args):
                         owned_normalized = sum(r['normalized_bytes'] for r in market if Path(r['normalized_path']).is_relative_to(run))
                         require(normalized <= budgets['input_owned_bytes'] and
                             owned(run)-owned_normalized <= budgets['temporary_owned_bytes'], 'Actual input and temporary byte subbudgets')
-                    require(not winter or resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
-                        budgets['peak_RSS_bytes'], 'Actual winter source RSS budget')
+                    require(not quarter or resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
+                        budgets['peak_RSS_bytes'], 'Actual quarter source RSS budget')
                     progress.update('选中币来源，选池已冻结', len(market), len(plans), '档', symbol=planned['symbol'], month=planned['month'])
-                report.update(status=(WINTER_SOURCE_STATUS if winter else NOVEMBER_SOURCE_STATUS if november else 'COMPLETE_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_PENDING_ACCEPTANCE' if october
+                report.update(status=(SPRING_SOURCE_STATUS if spring else WINTER_SOURCE_STATUS if winter else NOVEMBER_SOURCE_STATUS if november else 'COMPLETE_D051_FIXED_POOL_OCTOBER_SOURCE_FORMAT_PENDING_ACCEPTANCE' if october
                     else 'COMPLETE_D050_SELECTED_MARKET_SOURCE_FORMAT_PENDING_ACCEPTANCE'), market_records=market,
                     control_daily_records=controls, pool_receipt=spec['pool_receipt'], symbols=spec['symbols'],
                     start_us=start_us, end_us=end_us, score_payloads_read=len(market), checksummed_source_format_verified=True)
                 if followup:
-                    new_count = sum(r['acquisition'] == 'NEW_OFFICIAL_BYTES_FORMAT_QA_PENDING_INDEPENDENT_ACCEPTANCE' for r in market)
+                    new_count = sum(r['acquisition'] in ('NEW_OFFICIAL_BYTES_FORMAT_QA_PENDING_INDEPENDENT_ACCEPTANCE',
+                        'REUSED_FAILED_STAGE_COMPLETED_ROW_PENDING_INDEPENDENT_QA') for r in market)
                     old_count = sum(r['acquisition'] == 'REUSED_ACCEPTED_BYTES_NO_REPEAT_QA_OR_DOWNLOAD' for r in market)
-                    require(new_count == (72 if winter else 24) and old_count == (18 if winter else 6) and
-                        (not winter or all((r['symbol'] in ('BTCUSDT', 'ETHUSDT')) ==
+                    require(new_count == (96 if spring else 72 if winter else 24) and old_count == (24 if spring else 18 if winter else 6) and
+                        (not quarter or all((r['symbol'] in ('BTCUSDT', 'ETHUSDT')) ==
                         (r['acquisition'] == 'REUSED_ACCEPTED_BYTES_NO_REPEAT_QA_OR_DOWNLOAD') for r in market)),
                         'Exact new and independently accepted control source roles')
                     report.update(warmup_minute_records=warm, warmup_manifest=spec['warmup_manifest'],
                         prior_source_format_reused_without_QA=True, selected_pool_unchanged=True,
                         normalized_input_bytes=sum(r['normalized_bytes'] for r in market),
                         temporary_owned_bytes=owned(run)-sum(r['normalized_bytes'] for r in market if Path(r['normalized_path']).is_relative_to(run)))
-                    if winter:
-                        previous = small_proof(spec['warmup_manifest'], CONTINUOUS_MANIFEST_STATUS)
+                    if quarter:
+                        previous = small_proof(spec['warmup_manifest'], WINTER_MANIFEST_STATUS if spring else CONTINUOUS_MANIFEST_STATUS)
                         require(controls == previous['control_daily_records'], 'Original control aliases preserved')
-                        report.update(warmup_source_acceptances=spec['warmup_source_acceptances'],
-                            daily_records=warm_daily, score_months=list(months), days=90,
+                        warm_caps = (dict(warmup_source_acceptance=spec['warmup_source_acceptance']) if spring else
+                            dict(warmup_source_acceptances=spec['warmup_source_acceptances']))
+                        report.update(**warm_caps, daily_records=warm_daily, score_months=list(months), days=122 if spring else 90,
                             new_market_files=new_count, reused_market_files=old_count,
                             monthly_account_reset=False, models_fit=0)
                     else:
                         report['warmup_source_acceptance'] = spec['warmup_source_acceptance']
         require(owned(run) <= reserve, 'Actual owned source budget')
-        require(not (november or winter) or resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
+        require(not (november or quarter) or resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
             budgets['peak_RSS_bytes'], 'Actual registered source RSS budget')
         code = 0
     except Exception as error:

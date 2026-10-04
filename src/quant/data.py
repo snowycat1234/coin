@@ -158,7 +158,10 @@ def download_months(months: list[str], workers: int = 4) -> list[dict]:
 def parse_csv(content: bytes, symbol: str, ingested_us: int = 0) -> tuple[pl.DataFrame, dict]:
     frame = pl.read_csv(io.BytesIO(content), has_header=False, new_columns=SOURCE_COLUMNS,
                         schema_overrides={"raw_open": pl.Int64, "raw_close": pl.Int64,
-                                          "trade_count": pl.Int64})
+                                          "trade_count": pl.Int64,
+                                          **{name: pl.Float64 for name in
+                                             ("open", "high", "low", "close", "volume",
+                                              "quote_volume", "taker_buy_base", "taker_buy_quote", "ignore")}})
     if frame.height == 0:
         raise ValueError("Empty CSV")
     units = frame.select((pl.col("raw_open") < 100_000_000_000_000).n_unique()).item()

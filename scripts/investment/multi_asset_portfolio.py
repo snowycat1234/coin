@@ -115,6 +115,9 @@ def main():
         'CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D': (
             '2024-12-01T00:00:00+00:00', '2025-03-01T00:00:00+00:00',
             'SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST'),
+        'CONTINUOUS_SHARED_ACCOUNT_MAR_JUN_122D': (
+            '2025-03-01T00:00:00+00:00', '2025-07-01T00:00:00+00:00',
+            'SEEN_DEVELOPMENT_CONTINUOUS_THIRD_WINDOW_MANIFEST'),
     }
     continuous = account_path in continuous_windows
     engine.need(account_path == 'FRESH_SINGLE_WINDOW_SHARED_ACCOUNT' or continuous,

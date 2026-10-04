@@ -50,14 +50,23 @@ SOURCE_SCOPES = {
         prior_status=STATUS, prior_manifest_status=MANIFEST_STATUS),
     '2024-12_2025-02': dict(start_us=1733011200000000, end_us=1740787200000000,
         score_months=('2024-12', '2025-01', '2025-02'), days=90,
-        files=90, new_files=72, reused_files=18,
+        files=90, new_files=72, reused_files=18, warm_files=100,
         contract='D056_FIXED_POOL_WINTER_SOURCE_FORMAT_ACCEPTANCE_V1',
         status='PASS_D056_FIXED_POOL_WINTER_SOURCE_FORMAT_ONLY',
         manifest_status='PASS_D056_SELECTED_PORTFOLIO_WINTER_SOURCE_BINDING_NOT_ECONOMICS',
         failure='FAIL_D056_FIXED_POOL_WINTER_SOURCE_ACCEPTANCE'),
+    '2025-03_2025-06': dict(start_us=1740787200000000, end_us=1751328000000000,
+        score_months=('2025-03', '2025-04', '2025-05', '2025-06'), days=122,
+        files=120, new_files=96, reused_files=24, warm_files=130,
+        contract='D062_FIXED_POOL_SPRING_SOURCE_FORMAT_ACCEPTANCE_V1',
+        status='PASS_D062_FIXED_POOL_SPRING_SOURCE_FORMAT_ONLY',
+        manifest_status='PASS_D062_SELECTED_PORTFOLIO_SPRING_SOURCE_BINDING_NOT_ECONOMICS',
+        failure='FAIL_D062_FIXED_POOL_SPRING_SOURCE_ACCEPTANCE'),
 }
 WINTER_WARMUP_SHA = '847d8a6e561d782ae641d492697ee03fd7b3ba2eda65298e5d0f02cb0c7b1e50'
 WINTER_WARMUP_STATUS = 'PASS_D055_CONTINUOUS_91D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS'
+SPRING_WARMUP_SHA = '56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193'
+SPRING_WARMUP_ACCEPTANCE_SHA = '5f904de403070d9397fa00ef338e6cda38f642aaa85bb6620a68e5e935b3476c'
 GUARD = 'docs/archive/VOL_MANAGED_HOLD_547D_ROOT_CLOSE_SOURCE_20261003_V2.py'
 GUARD_SHA = '278c9117283b88eb73b50276f37a4cd86449ffd87e747556db301dc146ce905a'
 FORMAT = 'scripts/research_v8/audit_funding_price_source.py'
@@ -385,8 +394,78 @@ def winter_warmup(previous, pool, selected, symbols, spec, g, pins):
         warmup_derivation='LOADER_CAUSAL_DAILY_REDUCTION_OF_ACCEPTED_SEP_NOV_TRADE_1M_NOT_NEW_SOURCE'), daily, warm_pins
 
 
-def winter_accepted_market(records, old, old_catalog, g, pins):
-    """Reference the 18 old identities and their saved independent QA results."""
+def spring_warmup(previous, pool, selected, symbols, spec, g, pins):
+    """Reuse winter's capability and its original warm chain; hash warm130 only."""
+    winter = SOURCE_SCOPES['2024-12_2025-02']
+    ref = spec['prior_acceptance']
+    cap_path = root_path(ref['path'])
+    need(spec['prior_manifest']['sha256'] == SPRING_WARMUP_SHA
+         and Path(spec['prior_manifest']['path']).resolve()
+         == (STATE/'d056-multiasset-winter-source-acceptance-20261004-v2/INPUT_MANIFEST.json').resolve()
+         and previous['status'] == spec['prior_manifest']['required_status'] == winter['manifest_status']
+         and previous['source_only'] is True and previous['checksummed_source_format_verified'] is True
+         and (previous['start_us'], previous['end_us'], previous['days'])
+         == (winter['start_us'], winter['end_us'], winter['days'])
+         and previous['score_months'] == list(winter['score_months'])
+         and previous['symbols'] == symbols and previous['selected_symbols'] == selected
+         and previous['pool_receipt']['sha256'] == spec['pool_receipt']['sha256']
+         and root_path(previous['source_acceptance']['path']).resolve() == cap_path.resolve()
+         and previous['source_acceptance']['sha256'] == ref['sha256'] == SPRING_WARMUP_ACCEPTANCE_SHA
+         and previous['source_acceptance']['required_status'] == ref['required_status'] == winter['status']
+         and pins.get(cap_path.relative_to(ROOT).as_posix()) == ref['sha256'],
+         'Exact accepted winter manifest and source-only capability before spring')
+    cap, _ = g.small(cap_path, ref['sha256'])
+    need(cap['status'] == ref['required_status'] and cap['actual_exit_code'] == 0
+         and cap['source_only'] is True and cap['funding_unit_certified'] is False
+         and cap['native_Bybit_certified'] is False and cap['symbols'] == symbols
+         and cap['selected_symbols'] == selected and cap['pool_receipt_sha256'] == spec['pool_receipt']['sha256']
+         and (cap['start_us'], cap['end_us'], cap['days'])
+         == (winter['start_us'], winter['end_us'], winter['days'])
+         and cap['score_months'] == list(winter['score_months'])
+         and (cap['completed_files'], cap['newly_verified_files'], cap['reused_accepted_files']) == (90, 72, 18)
+         and cap['warmup_manifest'] == previous['warmup_manifest']
+         and cap['warmup_source_acceptances'] == previous['warmup_source_acceptances'],
+         'Completed winter scope retains its lower original capabilities without re-QA')
+    task = g.closed(cap['binding']['task_id'])
+    base, _ = g.small(Path(previous['warmup_manifest']['path']), previous['warmup_manifest']['sha256'])
+    inherited = dict(spec, prior_manifest=previous['warmup_manifest'],
+                     prior_acceptances=previous['warmup_source_acceptances'])
+    warm, _, _, stats, daily, base_pins = winter_warmup(base, pool, selected, symbols, inherited, g, pins)
+    need(previous['warmup_minute_records'] == warm and previous['daily_records'] == daily
+         and previous['control_daily_records'] == base['control_daily_records'],
+         'Winter daily70 and September-November warm30 retain exact original identities')
+    records = previous['market_records']
+    expected = {(k, s, i, m) for m in winter['score_months'] for s in symbols for k, i in
+                (('klines', '1m'), ('markPriceKlines', '1m'), ('fundingRate', None))}
+    need(len(records) == len(cap['sources']) == len(cap['normalized_source_hashes']) == 90
+         and {key(r) for r in records} == expected and len({key(r) for r in cap['sources']}) == 90,
+         'Complete ninety winter scoring records; no missing month or replaced symbol')
+    for row, accepted in zip(records, cap['sources'], strict=True):
+        need(key(row) == key(accepted) and all(row[k] == accepted[k] for k in IDENTITY)
+             and cap['normalized_source_hashes'].get(row['normalized_path']) == row['normalized_sha256'],
+             'Winter manifest preserves each ordered independently accepted identity')
+    score_pins = {r['normalized_path']: r['normalized_sha256'] for r in records}
+    need(not set(base_pins).intersection(score_pins)
+         and previous['normalized_source_hashes'] == {**base_pins, **score_pins}
+         and len(previous['normalized_source_hashes']) == 190, 'Winter full source map is still exact')
+    more = [r for r in records if r['kind'] == 'klines']
+    for row in more:
+        payload(row['normalized_path'], STATE, row['normalized_sha256'], 32_000_000, row['normalized_bytes'])
+    warm = [*warm, *more]
+    need(len(warm) == len({key(r) for r in warm}) == 60
+         and {key(r) for r in warm} == {('klines', s, '1m', m) for s in symbols
+             for m in ('2024-09', '2024-10', '2024-11', *winter['score_months'])},
+         'Spring causal warm60 covers every accepted September-February trade month')
+    warm_pins = {r['normalized_path']: r['normalized_sha256'] for r in [*daily, *warm]}
+    need(len(warm_pins) == 130, 'Daily70 plus trade60, without a derived data copy')
+    stats.update(prior_certificate_files_referenced=250, prior_warmup_files_reused=130,
+        prior_market_warmup_files_reused=60, warmup_acceptance_tasks=[*stats['warmup_acceptance_tasks'], task],
+        warmup_derivation='LOADER_CAUSAL_DAILY_REDUCTION_OF_ACCEPTED_SEP_FEB_TRADE_1M_NOT_NEW_SOURCE')
+    return warm, dict(ref), dict(spec['prior_manifest']), stats, daily, warm_pins
+
+
+def accepted_market_reuse(records, old, old_catalog, g, pins, expected_files):
+    """Reference the old scoring identities and their saved independent QA results."""
     references = {}; catalogs = {}; results = {}
     for row in records:
         if row['symbol'] not in ('BTCUSDT', 'ETHUSDT'):
@@ -415,7 +494,7 @@ def winter_accepted_market(records, old, old_catalog, g, pins):
             result.update({k: proof[k] for k in ('first_timestamp_ms', 'last_timestamp_ms',
                 'first_interval_hours', 'last_interval_hours', 'observed_interval_hours', 'actual_delta_hours')})
         results[key(row)] = result
-    need(len(results) == 18, 'Exactly eighteen reused quarter controls; no reconstructed source task')
+    need(len(results) == expected_files, 'Exact reused controls count; no reconstructed source task')
     return results, list(references.values())
 
 
@@ -431,6 +510,8 @@ def main():
     need(month in SOURCE_SCOPES, 'Explicit accepted followup source scope')
     scope = SOURCE_SCOPES[month]
     winter = month == '2024-12_2025-02'
+    spring = month == '2025-03_2025-06'
+    multi_month = winter or spring
     score_months = list(scope.get('score_months', (month,)))
     files, new_files, reused_files = (scope.get(k, v) for k, v in
                                     (('files', 30), ('new_files', 24), ('reused_files', 6)))
@@ -441,8 +522,8 @@ def main():
          and run == Path(spec['run_dir']) and run.parent == STATE and not run.exists()
          and output == root_path(spec['output_path']) and output.parent == ROOT/'reports/fast_research'
          and not output.exists(), 'Exclusive prospective fixed '+month+' source scope')
-    if winter:
-        need(spec['score_months'] == score_months, 'Exactly December-February quarter; no missing month')
+    if multi_month:
+        need(spec['score_months'] == score_months, 'Exact complete scoring months; no missing month')
     need(os.environ.get('COIN_TASK_ID') and sys.prefix == str(STATE/'v8-clean-env-20261002-v2')
          and pl.thread_pool_size() <= 2, 'Actual bounded clean CPU2 task')
     budgets = spec['budgets']
@@ -501,7 +582,7 @@ def main():
              'Fixed original July pool; no score-based reselection')
         report['pool_receipt_task'] = g.closed(pool['binding']['task_id'])
         previous, _ = g.small(Path(spec['prior_manifest']['path']), spec['prior_manifest']['sha256'])
-        if not winter:
+        if not multi_month:
             prior, _ = g.small(root_path(spec['prior_acceptance']['path']), spec['prior_acceptance']['sha256'])
             need(prior['status'] == scope['prior_status']
                  and prior['actual_exit_code'] == 0 and prior['source_only'] is True
@@ -518,7 +599,7 @@ def main():
              'Accepted old BTCETH source catalogue')
         old_catalog = {key(r): r for r in old['source_files'].values()}
         selected = pool['symbols']; symbols = sorted(set(selected) | {'BTCUSDT', 'ETHUSDT'})
-        prior_pool = previous if winter else prior
+        prior_pool = previous if multi_month else prior
         need(len(selected) == len(set(selected)) == 10 and market['symbols'] == prior_pool['symbols'] == symbols
              and prior_pool['selected_symbols'] == selected and market['pool_receipt']['sha256'] == spec['pool_receipt']['sha256']
              and (market['start_us'], market['end_us']) == (start_us, end_us),
@@ -530,6 +611,13 @@ def main():
                  and market['warmup_minute_records'] == warm_minutes and market['daily_records'] == warm_daily
                  and market['warmup_source_acceptances'] == warm_acceptances and market['warmup_manifest'] == warm_manifest,
                  'Exact quarter scoring scope and unchanged one hundred warm descriptors')
+        elif spring:
+            warm_minutes, warm_acceptance, warm_manifest, warm_stats, warm_daily, warm_pins = spring_warmup(
+                previous, pool, selected, symbols, spec, g, pins)
+            need(market['days'] == scope['days'] and market['score_months'] == score_months
+                 and market['warmup_minute_records'] == warm_minutes and market['daily_records'] == warm_daily
+                 and market['warmup_source_acceptance'] == warm_acceptance and market['warmup_manifest'] == warm_manifest,
+                 'Exact spring scoring scope and unchanged one hundred thirty warm descriptors')
         elif month == '2024-11':
             warm_minutes, warm_acceptance, warm_manifest, warm_stats = november_warmup(
                 previous, prior, pool, selected, symbols, spec, g, pins)
@@ -567,7 +655,7 @@ def main():
             warm_stats = dict(prior_certificate_files_referenced=100, prior_warmup_files_reused=80,
                 prior_market_warmup_files_reused=10, prior_daily_files_reused=70,
                 warmup_derivation='LOADER_DAILY_UTC_AGGREGATION_OF_ACCEPTED_SEPTEMBER_TRADE_1M_NOT_NEW_SOURCE')
-        if not winter:
+        if not multi_month:
             need(market['warmup_minute_records'] == warm_minutes
                  and market['warmup_source_acceptance'] == warm_acceptance and market['warmup_manifest'] == warm_manifest,
                  'Exact accepted trade warmup and certificate chain')
@@ -577,10 +665,14 @@ def main():
              and {key(r) for r in records} == {(k, s, i, m) for m in score_months for s in symbols for k, i in
                  (('klines', '1m'), ('markPriceKlines', '1m'), ('fundingRate', None))},
              'Exact '+month+' source identities; no fill/drop/replacement')
-        if winter:
-            accepted_market, accepted_refs = winter_accepted_market(records, old, old_catalog, g, pins)
+        if multi_month:
+            accepted_market, accepted_refs = accepted_market_reuse(records, old, old_catalog, g, pins, reused_files)
             report.update(reused_market_manifest=spec['reuse_manifest'], reused_market_acceptances=accepted_refs,
-                prior_manifest=spec['prior_manifest'], prior_acceptances=spec['prior_acceptances'])
+                prior_manifest=spec['prior_manifest'])
+            if winter:
+                report['prior_acceptances'] = spec['prior_acceptances']
+            else:
+                report['prior_acceptance'] = spec['prior_acceptance']
         independent = load(TRADE, TRADE_SHA); proxy = load(FORMAT, FORMAT_SHA)
         format_spec, _ = g.small(ROOT/'protocols/FUNDING_MARK_INDEX_SOURCE_V8_V1.json',
                                 pins['protocols/FUNDING_MARK_INDEX_SOURCE_V8_V1.json'])
@@ -593,11 +685,25 @@ def main():
                 need(all(row[k] == accepted[k] for k in (*IDENTITY, 'receipt_path', 'receipt_sha256')),
                      'Exact accepted '+month+' control rows')
                 payload(row['normalized_path'], STATE, row['normalized_sha256'], 32_000_000, row['normalized_bytes'])
-                result = accepted_market[key(row)] if winter else dict(
+                result = accepted_market[key(row)] if multi_month else dict(
                     status='REUSED_ACCEPTED_EXACT_METADATA_NO_RAW_OR_ROWS_REREAD', rows=row['rows'])
                 reused += 1
             else:
-                parquet, archive, csv_bytes = new_receipt(row, owner, g)
+                row_owner = owner
+                if row.get('partial_source_proof'):
+                    proof = row['partial_source_proof']
+                    prior = source_report(proof)
+                    need(spring and prior['status'] == 'FAIL_D062_SOURCE_STAGE' and
+                        prior['actual_exit_code'] == 1 and prior['source_bytes_unchanged'] is True and
+                        market_spec.get('partial_source_reuse') == proof and
+                        pins.get(proof['path']) == proof['sha256'], 'Exact retained failed-stage capability')
+                    g.closed(prior['binding']['task_id'], code=1)
+                    originals = [r for r in prior['completed_sources'] if key(r) == key(row)]
+                    need(len(originals) == 1 and all(originals[0][k] == row[k] for k in
+                        (*IDENTITY, 'receipt_path', 'receipt_sha256')), 'Original completed row remains exact; first QA now')
+                    row_owner = Path(prior['run_dir'])
+                    need(row_owner.parent == STATE, 'Retained source owner is dedicated STATE')
+                parquet, archive, csv_bytes = new_receipt(row, row_owner, g)
                 result = audit_trade(row, parquet, archive, independent)[0] if row['kind'] == 'klines' else audit_proxy(
                     row, parquet, archive, csv_bytes, proxy, format_spec)
                 need(sha(parquet) == row['normalized_sha256'] and sha(archive) == row['zip_sha256'],
@@ -611,7 +717,7 @@ def main():
             need(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <= budgets['peak_RSS_bytes'], 'RSS bound')
         need(fresh == new_files and reused == reused_files and len(report['normalized_source_hashes']) == files
              and all(sha(project_source(n, g)) == d for n, d in pins.items()), 'Final new/reused counts and accepted warmup binding')
-        if winter:
+        if multi_month:
             joins = []; tolerance = format_spec['funding_nominal_interval_tolerance_ms']
             need(0 <= tolerance <= 1000, 'Original nominal funding interval jitter bound')
             for symbol in symbols:
@@ -625,11 +731,16 @@ def main():
                          'Actual recorded cross-month funding gap versus its reported intervals')
                     joins.append(dict(symbol=symbol, left_month=left['month'], right_month=right['month'],
                         actual_delta_ms=delta, boundary_reported_interval_hours=list(hours)))
-            need(len(joins) == 20, 'Twenty December-January-February funding boundary joins')
-            report.update(days=90, score_months=score_months, crossmonth_funding=joins,
+            need(len(joins) == len(symbols)*(len(score_months)-1), 'Every recorded scoring-month funding join')
+            report.update(days=scope['days'], score_months=score_months, crossmonth_funding=joins,
                 funding_event_count=sum(r['rows'] for r in report['sources'] if r['kind'] == 'fundingRate'),
-                warmup_manifest=warm_manifest, warmup_source_acceptances=warm_acceptances,
-                source_capability_scope='72_FIRST_QA_18_ACCEPTED_SCORE_METADATA_100_ACCEPTED_WARM_HASHES')
+                warmup_manifest=warm_manifest,
+                source_capability_scope=(str(new_files)+'_FIRST_QA_'+str(reused_files)
+                    +'_ACCEPTED_SCORE_METADATA_'+str(scope['warm_files'])+'_ACCEPTED_WARM_HASHES'))
+            if winter:
+                report['warmup_source_acceptances'] = warm_acceptances
+            else:
+                report['warmup_source_acceptance'] = warm_acceptance
         report.update(status=scope['status'], symbols=symbols, selected_symbols=selected,
             pool_receipt_sha256=spec['pool_receipt']['sha256'], start_us=start_us, end_us=end_us,
             completed_files=files, newly_verified_files=fresh, reused_accepted_files=reused,
@@ -637,7 +748,7 @@ def main():
             prior_warmup_rows_QA_repeated=False, prior_warmup_CRC_repeated=False,
             raw_units='TRADE_RAW_MS_TO_US; MARK_AND_FUNDING_RAW_MS; FUNDING_RATE_UNCONFIRMED',
             availability='EXCLUSIVE_CLOSED_PRICE_BAR_PROXY_NOT_PUBLICATION_OR_RATE_AVAILABILITY_CERTIFICATE')
-        if not winter:
+        if not multi_month:
             report.update(prior_acceptance=spec['prior_acceptance'], prior_manifest=spec['prior_manifest'])
         code = 0
     except Exception as error:
@@ -658,15 +769,19 @@ def main():
                     warmup_minute_records=warm_minutes, warmup_manifest=warm_manifest,
                     pool_receipt=spec['pool_receipt'], source_acceptance={'path': str(output), 'sha256': '0'*64,
                         'required_status': scope['status']})
-                if winter:
+                if multi_month:
                     score_pins = report['normalized_source_hashes']
                     need(not set(score_pins).intersection(warm_pins), 'Score and warm sources are distinct')
-                    pending.update(source_only=True, days=90, score_months=score_months,
+                    pending.update(source_only=True, days=scope['days'], score_months=score_months,
                         selected_symbols=selected, daily_records=warm_daily,
-                        warmup_source_acceptances=warm_acceptances,
                         normalized_source_hashes={**warm_pins, **score_pins},
                         reused_market_manifest=spec['reuse_manifest'], reused_market_acceptances=accepted_refs)
-                    need(len(pending['normalized_source_hashes']) == 190, 'Ninety score plus one hundred warm SHA identities')
+                    if winter:
+                        pending['warmup_source_acceptances'] = warm_acceptances
+                    else:
+                        pending['warmup_source_acceptance'] = warm_acceptance
+                    need(len(pending['normalized_source_hashes']) == files+scope['warm_files'],
+                         'Exact score plus accepted warm SHA identities')
                 else:
                     pending['warmup_source_acceptance'] = warm_acceptance
             projected = len(json.dumps(report, ensure_ascii=False, allow_nan=False).encode())

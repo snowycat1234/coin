@@ -358,8 +358,9 @@ def momentum_scope(left, right):
         'Actual recorded sources match each saved protocol')
     for key in FINANCE_SOURCES + TARGET_SOURCES:
         require(hashes[0][key] == hashes[1][key], 'Unchanged shared finance/risk ' + key)
-    require(hashes[0]['scripts/investment/public_sma_perpetual.py'] ==
-        '37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47' and
+    require(hashes[0]['scripts/investment/public_sma_perpetual.py'] in (
+        '37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
+        '0107ce0cb410280be3435eb6b7264e2e3e3e80c76b03cfebdfd7453124126682') and
         hashes[0]['scripts/investment/vol_managed_perpetual_target.py'] ==
         'a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b',
         'Known accepted equal targets and unchanged covariance math')
@@ -665,7 +666,7 @@ def main():
     actual_days=left['actual_calendar_days']
     require(isinstance(actual_days,int) and actual_days==right['actual_calendar_days'],
             'Same actual full calendar length')
-    if actual_days in (90, 91):
+    if actual_days in (90, 91, 122):
         a_spec,_ = saved_protocol(left); b_spec,_ = saved_protocol(right)
         path, start, end, role = {
             91: ('CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D',
@@ -674,6 +675,9 @@ def main():
             90: ('CONTINUOUS_SHARED_ACCOUNT_DEC_FEB_90D',
                  '2024-12-01T00:00:00+00:00', '2025-03-01T00:00:00+00:00',
                  'SEEN_DEVELOPMENT_CONTINUOUS_NEXT_QUARTER_MANIFEST'),
+            122: ('CONTINUOUS_SHARED_ACCOUNT_MAR_JUN_122D',
+                  '2025-03-01T00:00:00+00:00', '2025-07-01T00:00:00+00:00',
+                  'SEEN_DEVELOPMENT_CONTINUOUS_THIRD_WINDOW_MANIFEST'),
         }[actual_days]
         require(all(r.get('account_path') == p.get('account_path') == path and
                 p['start'] == start and p['end_exclusive'] == end and p.get('data_role') == role
