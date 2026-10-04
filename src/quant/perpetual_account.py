@@ -68,13 +68,49 @@ class PerpetualConfig:
     def __post_init__(self) -> None:
         for field in fields(self):
             object.__setattr__(self, field.name, decimal(getattr(self, field.name)))
-        if (self.initial_cash <= 0 or self.fee_rate != D("0.00055")
-                or self.half_spread_bps < 4 or self.slippage_bps < 4
+        if (self.initial_cash <= 0 or not 0 <= self.fee_rate < 1
+                or self.half_spread_bps < 0 or self.slippage_bps < 0
+                or self.half_spread_bps + self.slippage_bps >= 10000
                 or self.leverage != 1 or not 0 < self.max_asset_weight <= D("0.3")
                 or not 0 < self.max_gross_weight <= D("0.6")
                 or self.maintenance_margin_rate != D("0.005")
                 or self.min_notional != 10 or self.quantity_step != D("0.00000001")):
-            raise ValueError("unsupported or less conservative perpetual scenario")
+            raise ValueError("invalid costs or unsupported perpetual risk/product scenario")
+
+
+def _cost_context(config: PerpetualConfig, symbols: tuple[str, ...], value: Any) -> dict | None:
+    """A changed fee/friction hypothesis needs an explicit, unverified scope.
+
+    This validates provenance identity, not truth or historical applicability.
+    Legacy 5.5bp + >=4/4bp scenarios remain available for reproduction.
+    """
+    if value is None:
+        if (config.fee_rate != D("0.00055") or config.half_spread_bps < 4
+                or config.slippage_bps < 4):
+            raise ValueError("changed cost assumptions require explicit cost provenance")
+        return None
+    if not isinstance(value, Mapping):
+        raise ValueError("cost provenance mapping required")
+    result = deepcopy(dict(value))
+    if (result.get("exchange") != "Bybit" or result.get("product") != "LINEAR_USDT_PERPETUAL"
+            or result.get("settlement_asset") != "USDT" or result.get("liquidity_role") != "TAKER"
+            or result.get("native_fee_zone_certified") is not False
+            or result.get("historical_execution_certified") is not False
+            or decimal(result.get("fee_rate_fraction")) != config.fee_rate):
+        raise ValueError("unsupported cost product/role or fee provenance mismatch")
+    zones = result.get("fee_zone_by_symbol")
+    supported = {"DERIVATIVES_CRYPTO_STANDARD", "DERIVATIVES_INNOVATION", "DERIVATIVES_PREMARKET"}
+    if (not isinstance(zones, dict) or set(zones) != set(symbols)
+            or any(zone not in supported for zone in zones.values()) or len(set(zones.values())) != 1):
+        raise ValueError("explicit homogeneous per-symbol fee zones required; no name inference")
+    for key in ("fee_source_ref", "fee_time_scope", "symbol_zone_status", "execution_source_ref",
+                "execution_status"):
+        if type(result.get(key)) is not str or not result[key].strip():
+            raise ValueError("nonempty cost provenance scope required")
+    digest = result.get("fee_source_sha256")
+    if type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+        raise ValueError("fee source SHA256 required")
+    return result
 
 
 @dataclass(frozen=True)
@@ -160,6 +196,7 @@ class USDTLinearPerpetualAccount:
                  symbols: tuple[str, ...] = SYMBOLS,
                  instrument_profiles: Mapping[str, InstrumentProfile | Mapping[str, Any]] | None = None,
                  closing_min_notional_exempt: bool = False,
+                 cost_context: Mapping[str, Any] | None = None,
                  market_type: str = "LINEAR_USDT_PERPETUAL",
                  external_gross_notional: Any = 0) -> None:
         if market_type != "LINEAR_USDT_PERPETUAL" or decimal(external_gross_notional) != 0:
@@ -170,6 +207,7 @@ class USDTLinearPerpetualAccount:
             raise ValueError("closing minimum-notional policy must be an explicit bool")
         self.config = config or PerpetualConfig()
         self._symbols = _symbols(symbols)
+        self.cost_context = _cost_context(self.config, self.symbols, cost_context)
         self.instrument_profiles = _profiles(self.symbols, instrument_profiles, self.config)
         self.closing_min_notional_exempt = closing_min_notional_exempt
         self.free_cash = self.config.initial_cash
@@ -195,14 +233,16 @@ class USDTLinearPerpetualAccount:
     def contract_metadata(self) -> dict[str, Any]:
         steps = {profile.quantity_step for profile in self.instrument_profiles.values()}
         minimums = {profile.min_notional for profile in self.instrument_profiles.values()}
-        return {
+        result = {
             "version": self.VERSION, "target_exchange": "Bybit", "market_type": "LINEAR_USDT_PERPETUAL",
             "symbols": list(self.symbols), "symbol_order_is_account_identity": True,
             "instrument_profiles": {symbol: self.instrument_profiles[symbol].metadata() for symbol in self.symbols},
             "settlement_asset": "USDT", "quantity_asset": "BASE", "contract_multiplier": 1,
             "position_mode": "ONE_WAY", "margin_mode": "ISOLATED", "leverage": 1,
-            "fee_asset": "USDT", "taker_fee_bps_per_side": 5.5,
-            "nominal_roundtrip_bps": 27, "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+            "fee_asset": "USDT", "taker_fee_bps_per_side": float(self.config.fee_rate * 10000),
+            "nominal_roundtrip_bps": float(2 * (self.config.fee_rate * 10000
+                + self.config.half_spread_bps + self.config.slippage_bps)),
+            "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
             "quantity_step_assumption": str(next(iter(steps))) if len(steps) == 1 else "PER_INSTRUMENT_PROFILE",
             "min_notional_assumption_USDT": float(next(iter(minimums))) if len(minimums) == 1 else "PER_INSTRUMENT_PROFILE",
             "closing_min_notional_exempt": self.closing_min_notional_exempt,
@@ -214,6 +254,9 @@ class USDTLinearPerpetualAccount:
             "native_filters_certified": False, "native_liquidation_certified": False,
             "funding_publication_certified": False, "mixed_product_supported": False,
         }
+        if self.cost_context is not None:
+            result["cost_provenance"] = deepcopy(self.cost_context)
+        return result
 
     def _symbol(self, symbol: str) -> None:
         if symbol not in self.symbols:
@@ -550,6 +593,7 @@ class USDTLinearPerpetualAccount:
             "symbols": list(self.symbols),
             "instrument_profiles": {symbol: self.instrument_profiles[symbol].metadata() for symbol in self.symbols},
             "closing_min_notional_exempt": self.closing_min_notional_exempt,
+            "cost_context": deepcopy(self.cost_context),
             "config": {field.name: str(getattr(self.config, field.name)) for field in fields(self.config)},
             "free_cash": str(self.free_cash), "unpaid_liability": str(self.unpaid_liability),
             "positions": {sym: {"quantity": str(pos.quantity), "entry_price": str(pos.entry_price),
@@ -565,7 +609,7 @@ class USDTLinearPerpetualAccount:
 
     @classmethod
     def from_snapshot(cls, snapshot: Mapping[str, Any], *, expected_symbols=None,
-                      expected_instrument_profiles=None) -> "USDTLinearPerpetualAccount":
+                      expected_instrument_profiles=None, expected_cost_context=None) -> "USDTLinearPerpetualAccount":
         if snapshot.get("version") != cls.VERSION:
             raise ValueError("snapshot product/version mismatch")
         symbols = _symbols(snapshot["symbols"])
@@ -576,9 +620,17 @@ class USDTLinearPerpetualAccount:
                        for profile in profiles.values())):
             raise ValueError("snapshot instrument profile identity is incomplete")
         result = cls(config, symbols=symbols, instrument_profiles=profiles,
-                     closing_min_notional_exempt=snapshot["closing_min_notional_exempt"])
+                     closing_min_notional_exempt=snapshot["closing_min_notional_exempt"],
+                     cost_context=snapshot.get("cost_context"))
         if snapshot.get("contract") != result.contract_metadata():
-            raise ValueError("snapshot product/symbol/profile/closing identity mismatch")
+            # Old snapshots mislabeled every stress scenario as RT27. Only that
+            # known legacy metadata error is migrated; old journal bytes stay put.
+            legacy = result.contract_metadata()
+            legacy["nominal_roundtrip_bps"] = 27
+            if "cost_context" in snapshot or result.cost_context is not None or snapshot.get("contract") != legacy:
+                raise ValueError("snapshot product/symbol/profile/cost identity mismatch")
+        if expected_cost_context is not None and result.cost_context != _cost_context(config, symbols, expected_cost_context):
+            raise ValueError("snapshot expected cost provenance mismatch")
         if expected_symbols is not None and _symbols(expected_symbols) != symbols:
             raise ValueError("snapshot configured symbol order mismatch")
         if expected_instrument_profiles is not None:
@@ -636,6 +688,17 @@ class USDTLinearPerpetualAccount:
             # merely produce an internally plausible free-wallet balance.
             if any(row["symbol"] not in result.symbols for row in result.trades + result.funding):
                 raise ValueError("snapshot journal contains an unconfigured symbol")
+            rate = decimal(ExecutionContractV2.execution_rate(float(config.half_spread_bps),
+                                                             float(config.slippage_bps)))
+            for row in result.trades:
+                exact = row["decimal_strings"]
+                quantity, mid, fill = (decimal(exact[key]) for key in ("quantity", "mid_price", "fill_price"))
+                side = row["side"]
+                if (side not in {"BUY", "SELL"} or quantity <= 0 or mid <= 0 or fill <= 0
+                        or fill != mid * (1 + (1 if side == "BUY" else -1) * rate)
+                        or decimal(exact["fee_amount"]) != quantity * fill * config.fee_rate
+                        or decimal(exact["execution_cost"]) != quantity * abs(fill - mid)):
+                    raise ValueError("snapshot per-leg cost/config arithmetic mismatch")
             for sym in result.symbols:
                 quantity = sum((decimal(row["decimal_strings"]["position_delta"])
                                 for row in result.trades if row["symbol"] == sym), ZERO)

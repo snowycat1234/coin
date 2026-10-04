@@ -16,7 +16,7 @@ from quant.metrics import daily_metrics
 from quant.paths import ROOT, STATE
 from quant.perpetual_account import PerpetualConfig, USDTLinearPerpetualAccount, SYMBOLS, D, ZERO, HALTS
 from scripts.investment import public_sma_perpetual as strategy
-from scripts.investment.bybit_cost_inputs import execution_components, account_for_cost, cash_cost_summary
+from scripts.investment.bybit_cost_inputs import scenario_config, execution_components
 from scripts.research_v8 import funding_price_source_v2 as support
 from scripts.research_v8.registry import FIELDS, append_event
 
@@ -164,7 +164,9 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             decision_kinds[int(t)][row['symbol']]=kind
     daily_prices={s:dict(zip(window['daily'].filter(pl.col('symbol')==s)['close_us'].to_list(),
         window['daily'].filter(pl.col('symbol')==s)['close'].to_list(),strict=True)) for s in symbols}
-    account=account_for_cost(cost,symbols,account_factory)
+    config=scenario_config(cost)
+    cost_args={'cost_context':cost['provenance']} if 'provenance' in cost else {}
+    account=account_factory(config,symbols=symbols,**cost_args)
     bridge=None if event_strategy is None else event_strategy.bridge_factory(account,mode)
     # Array columns: NAV/free/margin/gross/net, cumulative fees/cost/funding/turnover,
     # N signed quantities/marks/isolated balances/equities and asset weights.
@@ -613,9 +615,8 @@ def main():
                         case_id=f'{window_spec["id"]}_{mode}_{cost["id"]}_{unit["id"]}'
                         directory=run/case_id
                         if mode=='CASH' and cached_cash is not None:
-                            saved=json.loads(json.dumps(cached_cash))
-                            saved['summary']=cash_cost_summary(cost,SYMBOLS,saved['summary'])
-                            saved['summary']['cost_scenario']=cost;saved['summary']['unit_scenario']=unit
+                            saved=json.loads(json.dumps(cached_cash));saved['summary']['cost_scenario']=cost;saved['summary']['unit_scenario']=unit
+                            saved['summary']['configured_nominal_roundtrip_bps']=cost['roundtrip_bps']
                             saved['shared_constant_cash_artifact_directory']=str(cached_cash_directory)
                         else:
                             if mode=='CASH':
@@ -626,7 +627,8 @@ def main():
                                     **{s+k:np.zeros(size) for s in SYMBOLS for k in ('_quantity','_signed_marked_notional','_isolated_balance','_isolated_equity','_signed_weight')},
                                     gross_weight=np.zeros(size),net_signed_weight=np.zeros(size)))
                                 targets,meta=strategy.fixed_targets(window['daily'],np.arange(window['start'],window['end'],DAY,dtype=np.int64),mode)
-                                summary=cash_cost_summary(cost,SYMBOLS);summary.update(completion='COMPLETE_CONDITIONAL_ACCOUNT',mode=mode,
+                                summary=USDTLinearPerpetualAccount(PerpetualConfig(half_spread_bps=D(str(cost['half_spread_bps'])),
+                                    slippage_bps=D(str(cost['slippage_bps'])))).summary();summary.update(completion='COMPLETE_CONDITIONAL_ACCOUNT',mode=mode,
                                     cost_scenario=cost,unit_scenario=unit,completed_minutes=size,required_minutes=size,all_observation_max_drawdown=0.,
                                     funding_original_events=len(window['events']),funding_observed_events=len(window['events']),funding_owned_events=0,
                                     funding_account_applied_events=0,funding_deferred_after_halt_events=0,fresh_flat_no_past_mark_events=0,

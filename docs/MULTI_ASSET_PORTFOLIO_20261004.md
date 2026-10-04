@@ -837,3 +837,34 @@ D061保存摘要Decimal独立归因gross-fee-exec+signed_funding=net误差<1e-7�
 固定past30研究方向继续暂停投资晋级：秋增量负/冬marked防御正/春增量负，不能用短负窗永久删除方向，但不得无限调30日阈值救历史。reopen需要新的因果机制或连续账户、外生成本与可退出风险下稳健增量。N资产能力保留；扩池晋级reopen为基于时点可知流动性/退出证据、对适用基准的真实风险分散增量，不按亏损删SATS/ETH。Turtle、RSI配方保留参照及负结果；成本和语义可信后再选择少量数周/月趋势多空挑战，非固定roadmap。本轮不产生长期APR或真钱资格。
 
 实际工件：`MULTI_ASSET_SPRING_{HOLD_TWO,HOLD_TEN,MOMENTUM_TEN}_20261004_V1.json`，对应FINANCIAL、POOL_PAIRED/SIGNAL_PAIRED，SOURCE_ACCEPTANCE、CALENDAR_SYNTHETIC/DECIMAL_TAIL_SYNTHETIC；`BYBIT_FEE_AND_D061_COST_REVIEW_20261004_V1.json`。每个run的RUN_BINDING及模块保存TASK含真实命令、冻结源和环境；原CLI为 `scripts/with_task_progress.sh --title ... -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol /mnt/d/codex/coin/protocols/MULTI_ASSET_SPRING_HOLD_TEN_20261004_V1.json --run-dir /home/xflops/coin-state/d062-spring-hold-ten-20261004-v1 --output /mnt/d/codex/coin/reports/fast_research/MULTI_ASSET_SPRING_HOLD_TEN_20261004_V1.json --pool-id LIQUIDITY_TEN`。这是原实际命令，目录专用且已闭合；复跑需检出模块commit并使用新的独立STATE/结果路径，不能覆盖旧工件。
+
+## D063：费用来源和活动账本纠偏（2026-10-04）
+
+**投资候选仍NONE/CASH；长期APR未测且不可评价。** 标准加密合约taker已正确为0.00055/每侧5.5bp；本轮没有降低历史费用制造新收益。D061原加仓的保存数量毛收益+475.36，被手续费215.65、额外摩擦313.67、资金费-53.56抵消；固定账本不扣额外摩擦仅+206.15敏感度，非新策略回测。D062第三窗固定2024年July规则池（不是2025July后验选池）仍两币基准更强，十币/动量不晋级。
+
+### 实际改变
+
+- 通用账户接受有限非负手续费/点差/滑点，摩擦合计<10000bp以保证卖出价格正；资金、abs30%/gross60%、逐仓1倍/no topup、MMR与数量规则保持。旧BASE27=5.5+4+4每侧、STRESS43=5.5+8+8每侧继续可复现。
+- 修改费率或降低旧摩擦需明确cost provenance；薄适配器由用户快照SHA选择显式逐币费区，TAKER身份及线性USDT产品/settlement/适用时间绑定。当前仅支持同一声明加密费区，混合区拒绝；不凭币名自动选标准/最低费区、不启用Maker/Spot/TradFi/options，8类表仅为输入证据。
+- STRESS账户合同由错误RT27改为实际RT43；非等额摩擦月报和总额按实际比例分拆，NAV不重复扣execution。首次及缓存CASH使用同一成本入口，复用零工件时刷新完整成本/Decimal身份。
+- snapshot恢复逐腿验证q、fill/mid、commission和execution符合配置，拒绝改配置+contract而携旧费用journal。已知旧stress元数据误标仅在缺新context的legacy snapshot有限迁移；原journal不改。活动多币closing specialization正常转发cost_context，保留closing数量/容量与恢复能力。
+
+### 实际证据与边界
+
+[成本汇总](../reports/fast_research/COST_PROVENANCE_ACCOUNT_ACCEPTANCE_20261004_V1.json)、[活动主路径V2](../reports/fast_research/COST_PROVENANCE_ACCOUNT_SYNTHETIC_20261004_V2.json)、[独立静态复核](../reports/COST_PROVENANCE_INDEPENDENT_REVIEW_20261004_V1.md)。主V2真实7项通过，另只对多币closing转发/恢复单项验收；V1真实6项中5pass、异常文案期待错误导致FAIL，原源/报告/任务保留。旧parent9a4223..在同输入BASE/STRESS的相同手算序列成交、资金费/钱包/NAV逐值一致；stress元数据是有意纠正。真实新入口不是旧版本绿测。
+
+两个完整2日/2880分钟合成共同10k账户产生4腿多/空成交并全清仓：2+1bp摩擦gross0、commission4.3556333711、execution2.3758000206（spread1.5838666804/slip0.7919333402）、net-6.7314333917；0额外摩擦gross0、commission4.3557628158、net-4.3557628158。数量/NAV因成本而变化，未把旧净值直接加回费用。无funding事件仅为明确合成fixture，不对历史补零。10k逐腿名义独立手算手续费往返11、2+1bp摩擦6、净-17；100k本金仅是手算夹具避免越30%cap，并非项目资本变更。Maker2/4/7.5、Spot20手算来自保存费用复核，不称当前模拟Maker成交。
+
+**本轮没有新市场回放或成本校准。** 2+1/0+0只验证接口和会计，不作为新BASE、历史真实滑点、可执行优势或数学上界。当前费用快照不认证历史费率/真实fee-zone，原图本机未观看；MNTfalse不折扣。Binance数据+Bybit当前账户费用仍跨场所代理。新摩擦历史资金费主结果均未测。
+
+更正D062“原始HTTP待执行”：同事件单位核对已真实HTTP451(task94a04f..；matched0/retry0)；Bybit官方profile已有403(task26a51..，1请求0profile)，现无访问条件变化。复用保存失败而不重复API/替换host绕限制。官方网页只确认VIP0标准taker .055%/maker .02%、orderbook字段，不建立历史archive last_funding_rate单位、原生费区/规则或盘口摩擦桥。两未认证fund倍率保留历史条件，不按收益选解释，不无限重试。
+
+主V2耗时51.09s/进程峰225,239,040B/owned178,279B；共享组硬4,999,999,488B、swap0/GPU0，生命周期峰3.263GB不冒充本轮实测组峰。末实扫26,211,488,033B@2026-10-04T12:24:36.211990Z（含整个D盘VHD及ROOT；后续小文件/Git不在该扫描内）。仍低于32GB警戒。无新依赖/训练/HPO/密钥/发单/真钱/holdout。
+
+### 决策与下一项
+
+采用成本身份、恢复正确性及当前正常账户修复，保留旧历史费用情景、N资产/多空/现金能力和HOLD强基准；不采用任何新低摩擦投资结果。暂停校准宣称，reopen合法目标场所盘口/历史成本证据；fund单位reopen合法官方archive定义或同symbol/timestamp官方历史响应。固定30日动量/禁加仓晋级暂停，reopen真实跨状态合理风险净增量或明确新机制，能力保留。
+
+下一主问题转低换手真实时间尺度：先复用已有日线做一个原规则与活动策略的时序参考核对，再事前固定一个日线趋势变体与稳定HOLD在现有连续窗口/共享完整资本的有限对照。明确20根4h=80h、20根日线=20日，不声称本地Turtle4h为经典20交易日复现；不轮流救示例，不搜几十周期/不拼季度赢家。成本BASE/STRESS仅条件范围，新来源可得才更新估计；先查source/策略信息价值和有限预算再运行。后续尚未启动，无声称后台科研。
+
+复现主V2：`scripts/with_task_progress.sh --title '成本接线复验' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/research_tests.py --protocol /mnt/d/codex/coin/protocols/COST_PROVENANCE_ACCOUNT_SYNTHETIC_20261004_V2.json --run-dir /home/xflops/coin-state/d063-cost-provenance-reproduce-NEW --output /mnt/d/codex/coin/reports/fast_research/COST_PROVENANCE_REPRODUCE_NEW.json --experiment-id D063_COST_REPRODUCE_NEW`。新路径必须未存在，按本模块提交复现；closing协议同入口替换为对应COST_PROVENANCE_CLOSING_SYNTHETIC_20261004_V1，独立新路径。

@@ -354,3 +354,5 @@ D060本地Turtle适配更新：jesse-ai/example-strategies原登记commit/MIT不
 D061（2026-10-04）：沿用既有jesse-ai/example-strategies已登记commit与MIT原文件，未改第三方源码。正常本地Turtle bridge V3_EXACT_CANDIDATE只修未缩放Decimal候选身份（8行），数量/STOP/EXIT必要反例和同成本303日True/False实际回放见TURTLE_EXACT_QUANTITY_*；无新模型或框架。
 
 D062：继续原binance/binance-public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc/MIT软件及行情条款、官方URL/CHECKSUM；仅本地四月编排/已保存字节恢复。Polars1.44.2/MIT、NumPy2.5.3/BSD和Decimal不变，无新依赖/模型/第三方修改。正常parse_csv明确Float64价格/量、Int64时间/count，避免整数前缀推断丢小数，账户Decimal不变。十二122日账户/十二独立账本已运行。用户Bybit snapshot是输入证据非开源代码/历史费用证书，未启用新产品或Maker成交。
+
+D063：未增加第三方库或框架。继续复用原ExecutionContractV2 clock/费用算术、Decimal/NumPy/Polars/pytest；仅薄用户费率快照适配和正常账户接口。Bybit费用/公开盘口官方说明是来源参考；用户JSON SHA a406d4bd..为当前账户场景输入，不是开源项目或原图/历史费区认证。禁自造downloader/online/model框架保持。

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="29.519" timestamp="2026-10-04T12:14:10.912517+00:00" hostname="xflops"><testcase classname="tests.test_cost_provenance_account" name="test_user_snapshot_to_actual_taker_fee_and_unequal_friction_hand_account" time="0.010" /><testcase classname="tests.test_cost_provenance_account" name="test_zero_extra_friction_reversal_partial_and_reduce_only_are_not_free" time="0.010" /><testcase classname="tests.test_cost_provenance_account" name="test_fee_zones_are_explicit_product_scenarios_not_symbol_or_maker_inference" time="0.090" /><testcase classname="tests.test_cost_provenance_account" name="test_invalid_costs_risk_unchanged_and_cost_snapshot_tamper_rejected" time="0.009"><failure message="AssertionError: Regex pattern did not match.&#10;  Expected regex: 'expected cost'&#10;  Actual message: 'unsupported cost product/role or fee provenance mismatch'">def test_invalid_costs_risk_unchanged_and_cost_snapshot_tamper_rejected():
+        for args in ({'fee_rate':-1}, {'fee_rate':1}, {'fee_rate':'NaN'}, {'fee_rate':True},
+                     {'half_spread_bps':-1}, {'slippage_bps':'Infinity'}, {'half_spread_bps':10000},
+                     {'leverage':2}, {'max_asset_weight':'.31'}, {'max_gross_weight':'.61'}):
+            with pytest.raises(ValueError):
+                PerpetualConfig(**args)
+        with pytest.raises(ValueError):
+            Account(PerpetualConfig(half_spread_bps=2, slippage_bps=1))
+        c = cost(); account = Account(scenario_config(c), symbols=('BTCUSDT',), cost_context=c['provenance'])
+        mark(account, 0); fill(account,'BUY',10,MINUTE+1,'open')
+        original = account.snapshot()
+        corrupt = deepcopy(original)
+        corrupt['config']['fee_rate'] = '.0011'
+        corrupt['cost_context']['fee_rate_fraction'] = '.0011'
+        corrupt['cost_context']['fee_zone_by_symbol']['BTCUSDT'] = 'DERIVATIVES_INNOVATION'
+        replacement = Account(PerpetualConfig(**corrupt['config']), symbols=('BTCUSDT',), cost_context=corrupt['cost_context'])
+        corrupt['contract'] = replacement.contract_metadata()
+        with pytest.raises(ValueError, match='per-leg cost/config'):
+            Account.from_snapshot(corrupt)
+&gt;       with pytest.raises(ValueError, match='expected cost'):
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'expected cost'
+E         Actual message: 'unsupported cost product/role or fee provenance mismatch'
+
+tests/test_cost_provenance_account.py:127: AssertionError</failure></testcase><testcase classname="tests.test_cost_provenance_account" name="test_legacy_base_stress_cashflows_exact_against_git_parent" time="0.206" /><testcase classname="tests.test_cost_provenance_account" name="test_active_runner_signed_target_fee_and_asymmetric_month_report" time="0.663" /></testsuite></testsuites>

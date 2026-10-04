@@ -23,12 +23,13 @@ class USDTLinearPerpetualAccount(shared.USDTLinearPerpetualAccount):
 
     def __init__(self, config=None, *, symbols=SYMBOLS, instrument_profiles=None,
                  closing_min_notional_exempt=True,
+                 cost_context=None,
                  market_type='LINEAR_USDT_PERPETUAL', external_gross_notional=0):
         if closing_min_notional_exempt is not True:
             raise ValueError('closing account requires its exact exemption profile')
         super().__init__(config, symbols=symbols, instrument_profiles=instrument_profiles,
             closing_min_notional_exempt=True, market_type=market_type,
-            external_gross_notional=external_gross_notional)
+            external_gross_notional=external_gross_notional, cost_context=cost_context)
 
     def contract_metadata(self):
         metadata = super().contract_metadata()
