@@ -1,0 +1,71 @@
+{
+  "experiment_id": "D068-DONCHIAN-TIME-STABILITY-20261005-V1",
+  "git_parent": "33fa0de74cc9fb9d86420d2f1ad0d6d48b49d998",
+  "question": "Is the saved exit10 versus exit20 net increment temporally stable or concentrated, with serial dependence and post-selection disclosed?",
+  "data_role": "SEEN_DEVELOPMENT_SAVED_PAIRED_WALLETS_POST_SELECTION",
+  "start_us": 1725148800000000,
+  "end_us": 1751328000000000,
+  "full_capital_USDT": 10000,
+  "fixed_tranche_indices": [
+    [
+      0,
+      101
+    ],
+    [
+      101,
+      202
+    ],
+    [
+      202,
+      303
+    ]
+  ],
+  "blocks_days": [
+    7,
+    30,
+    60
+  ],
+  "primary_block_days": 60,
+  "samples_per_case_per_block": 2000,
+  "seed": 20261005,
+  "budget": {
+    "RSS_bytes": 600000000,
+    "output_bytes": 1000000,
+    "wall_seconds": 120
+  },
+  "source_hashes": {
+    "scripts/investment/donchian_time_stability.py": "c5078f649b15362967e1ac9b9378776cb920e33247f1018b04fa0c65b09d3c41",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/research_v8/registry.py": "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+  },
+  "baseline_report": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/DONCHIAN_ACTIVE_ALLOCATION_20261004_V1.json",
+    "sha256": "41e7ba93f2c204586b8a3279217c94b0cbf880ea4bc5fc31cbb4333af8af2e5c"
+  },
+  "challenger_report": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/DONCHIAN_EXIT10_20261004_V1.json",
+    "sha256": "5c1a74eb2600569ccdaf89e76120915588fb2ee2ac0cd36d16e041e638572071"
+  },
+  "accepted_financial_reports": [
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/DONCHIAN_ACTIVE_ALLOCATION_20261004_V1_FINANCIAL.json",
+      "sha256": "854664312099ec3f34d19de82f906677c9de05456139871dda7c40d6a6f7a689"
+    },
+    {
+      "path": "/mnt/d/codex/coin/reports/fast_research/DONCHIAN_EXIT10_20261004_V1_FINANCIAL.json",
+      "sha256": "7e91e131512693e68767834ea7cd325723485597ca0caa624d18915654f63383"
+    }
+  ],
+  "accepted_pair_diagnostic": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/DONCHIAN_EXIT10_20261004_V1_DIAGNOSTIC.json",
+    "sha256": "bf4d271519a042c541fca92bd29632f68d888e89f0fe365964051b26a8732c11"
+  },
+  "scope": "NO_MARKET_REPLAY_NO_FIT_NO_NAV_RESCALE_NO_DATE_SELECTION_NO_SELECTION_CORRECTION_NO_NEW_OOS",
+  "bootstrap_library": "existing quant.metrics.block_bootstrap_mean_ci unchanged",
+  "rejection": "Incomplete dates/nonpositive NAV/mismatched identity/terminal bridge fail => no conclusion",
+  "decision": "Intervals containing zero or tranche reversals prevent stability claim; retain research configuration only if original saved economics valid, no investment promotion",
+  "created_utc": "2026-10-04T16:50:23.7194943Z"
+}
