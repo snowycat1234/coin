@@ -21,6 +21,7 @@ INVERSE_ID='COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 SMA_SIGNAL_ID='COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 MOMENTUM_SIGNAL_ID='COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
 RSI_SIGNAL_ID='COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
+DONCHIAN_SIGNAL_ID='COIN_JESSE_DONCHIAN20_SMA200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 SIGNAL_SOURCE_PINS={
     'scripts/investment/public_sma_pool_target.py':'0d8eca6fe244630e77bbd0bd8592bbcbd70c10463f4a211588f6ee3c8595b485',
     'scripts/investment/public_sma_perpetual.py':'37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
@@ -234,6 +235,53 @@ def allocation_case(left,right,scope,days):
         [r['covariance_symbol_order'] for r in metadata[1]['risk']], 'Same eligible covariance input members')
     return dict(baseline=proofs[0],current=proofs[1],directional_signal_changed=False,
         allocation_changed=True,realized_risk_matched=False)
+
+
+def donchian_scope(left, right):
+    """Same freshly declared inputs and normal APIs, only direction changes."""
+    a, ap = saved_protocol(left); b, bp = saved_protocol(right)
+    require(a['strategy'] == EQUAL_ID and b['strategy'] == DONCHIAN_SIGNAL_ID,
+            'Equal HOLD versus fixed daily Donchian only')
+    for key in ('start', 'end_exclusive', 'initial_capital_USDT', 'pools',
+                'data_manifest', 'account_path', 'data_role', 'pool_receipt'):
+        require(a[key] == b[key], 'Identical fixed comparison ' + key)
+    require(a['initial_capital_USDT'] == 10000 and
+            a['allocation'] == b['allocation'] == 'EQUAL', 'Shared capital and equal allocation')
+    hashes = [r['binding']['source_hashes'] for r in (left, right)]
+    require(a['source_hashes'] == hashes[0] and b['source_hashes'] == hashes[1] and
+            hashes[0] == hashes[1], 'Same pre-run source map, including unused challenger adapter')
+    require(left['binding']['manifest_sha256'] == right['binding']['manifest_sha256'] ==
+            a['data_manifest']['sha256'], 'Same accepted market identity')
+    return dict(baseline_protocol=ap, current_protocol=bp,
+        start_us=int(datetime.fromisoformat(a['start']).timestamp())*1_000_000,
+        end_us=int(datetime.fromisoformat(a['end_exclusive']).timestamp())*1_000_000,
+        predeclared_pools=a['pools'], baseline_strategy_id=EQUAL_ID,
+        current_strategy_id=DONCHIAN_SIGNAL_ID, directional_signal_changed=True,
+        allocation_changed=False, realized_risk_matched=False,
+        rule_scope='PRIOR20_CHANNEL_SMA200_ENTRY_FILTER_DAILY_LONG_FLAT_COIN_ADAPTER')
+
+
+def donchian_case(left, right, scope, days):
+    require(left['pool'] == right['pool'] == 'LIQUIDITY_TEN' and
+            left['symbols'] == right['symbols'] and
+            left['summary']['contract'] == right['summary']['contract'] and
+            left['summary']['cost_scenario'] == right['summary']['cost_scenario'] and
+            left['summary']['unit_scenario'] == right['summary']['unit_scenario'],
+            'Same ordered assets, product, risk and cost/unit assumptions')
+    proofs=[]
+    for case, identity in ((left, EQUAL_ID), (right, DONCHIAN_SIGNAL_ID)):
+        artifact=case['artifacts']['target_meta.json']
+        meta=read(artifact['path'], artifact['sha256'])
+        require(meta['strategy_id'] == identity and meta['symbols'] == case['symbols'] and
+                meta['mode'] == 'LONG_ONLY' and meta.get('allocation', 'EQUAL') == 'EQUAL',
+                'Actual direction and allocation identity')
+        require([r['decision_us'] for r in meta['risk']] ==
+                list(range(scope['start_us'], scope['end_us'], 86_400_000_000)) and
+                len(meta['risk']) == days and all(r['past_only'] for r in meta['risk']),
+                'Every completed daily causal decision retained')
+        proofs.append(dict(path=artifact['path'], sha256=artifact['sha256'], rules=meta['rules']))
+    return dict(baseline=proofs[0], current=proofs[1], directional_signal_changed=True,
+                allocation_changed=False, realized_risk_matched=False, alpha_identified=False)
 
 
 def signal_scope(left,right):
@@ -666,9 +714,12 @@ def main():
     actual_days=left['actual_calendar_days']
     require(isinstance(actual_days,int) and actual_days==right['actual_calendar_days'],
             'Same actual full calendar length')
-    if actual_days in (90, 91, 122):
+    if actual_days in (90, 91, 122, 303):
         a_spec,_ = saved_protocol(left); b_spec,_ = saved_protocol(right)
         path, start, end, role = {
+            303: ('CONTINUOUS_SHARED_ACCOUNT_SEP_JUN_303D',
+                  '2024-09-01T00:00:00+00:00', '2025-07-01T00:00:00+00:00',
+                  'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_TEN_MONTH_MANIFEST'),
             91: ('CONTINUOUS_SHARED_ACCOUNT_SEP_NOV_91D',
                  '2024-09-01T00:00:00+00:00', '2024-12-01T00:00:00+00:00',
                  'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_THREE_MONTH_MANIFEST'),
@@ -688,7 +739,8 @@ def main():
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
     momentum = args.contrast == 'signal' and right.get('strategy_id') == MOMENTUM_SIGNAL_ID
     rsi = args.contrast == 'signal' and right.get('strategy_id') == RSI_SIGNAL_ID
-    signal_context=(rsi_scope(left,right) if rsi else momentum_scope(left,right) if momentum else signal_scope(left,right)) if args.contrast=='signal' else None
+    donchian = args.contrast == 'signal' and right.get('strategy_id') == DONCHIAN_SIGNAL_ID
+    signal_context=(donchian_scope(left,right) if donchian else rsi_scope(left,right) if rsi else momentum_scope(left,right) if momentum else signal_scope(left,right)) if args.contrast=='signal' else None
     direction_context = direction_scope(left, right) if args.contrast == 'direction' else None
     pool_context=pool_scope(left,right) if args.contrast=='pool' else None
     if args.contrast=='pool':
@@ -713,7 +765,8 @@ def main():
                 'Actual ordered identities and complete cost/unit scenarios')
         target_contrast=allocation_case(a[key],b[key],contrast_scope,actual_days) if contrast_scope else None
         if signal_context:
-            target_contrast=(rsi_case(a[key],b[key],signal_context,actual_days) if rsi else
+            target_contrast=(donchian_case(a[key],b[key],signal_context,actual_days) if donchian else
+                             rsi_case(a[key],b[key],signal_context,actual_days) if rsi else
                              momentum_case(a[key],b[key],signal_context,actual_days) if momentum else
                              signal_case(a[key],b[key],signal_context,actual_days))
         if direction_context:
@@ -755,7 +808,8 @@ def main():
     if signal_context:
         result.update(contrast='signal',signal_contrast=signal_context,
             scope='Same ordered July N10 pool, full capital, accepted inputs, equal raw allocation, costs and financial risk rules; '
-                  + ('constant-long HOLD versus original RSI2 long hooks on a new explicit daily timeframe. ' if rsi else
+                  + ('constant-long HOLD versus prior20 Donchian with SMA200 entry filter on an explicit daily timeframe. ' if donchian else
+                     'constant-long HOLD versus original RSI2 long hooks on a new explicit daily timeframe. ' if rsi else
                      'constant-long HOLD versus fixed past30 absolute momentum long/cash. '
                      if momentum else 'constant-long HOLD versus fixed original SMA50/200 long-flat signal. ')
                   + 'Actual exposure and realized risk are not matched. '
@@ -768,6 +822,7 @@ def main():
     event.update(event_id=args.experiment_id+':RESULT',event_type='SAVED_RESEARCH_COMPARISON',
         experiment_id=args.experiment_id,data_manifest_hash=result['control']['sha256'],
         success_failure=result['status'],reason_for_next_experiment=(
+            'Saved prior20 Donchian/SMA200 daily long-cash contribution and unequal actual risk' if donchian else
             'Saved selective short increment including changed long path and unequal actual risk' if direction_context else
             'Saved fixed daily RSI2 contribution and unequal actual risk' if rsi else
             'Saved single-factor past30 direction/cash contribution and unequal actual risk' if momentum else

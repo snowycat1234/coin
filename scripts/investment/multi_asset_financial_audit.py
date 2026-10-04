@@ -42,6 +42,7 @@ ALLOCATION_STRATEGIES = {
 SMA_POOL_STRATEGY = 'COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 MOMENTUM_POOL_STRATEGY = 'COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
 RSI_POOL_STRATEGY = 'COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
+DONCHIAN_POOL_STRATEGY = 'COIN_JESSE_DONCHIAN20_SMA200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 RSI_INDICATOR = 'scripts/investment/public_rsi2_indicator.py'
 RSI_INDICATOR_SHA = '417b9044ff1b2cb32326d4648d1239ebc2b7f872bf7da123901b0fe1bf0a2315'
 
@@ -92,7 +93,7 @@ def next_month(first):
 
 
 def calendar_scope(spec):
-    """Authorized seen UTC months and the three fixed continuous windows."""
+    """Authorized seen UTC months, three fixed windows and one continuous long span."""
     first = datetime.fromisoformat(spec['start'])
     last = datetime.fromisoformat(spec['end_exclusive'])
     need(first.tzinfo is not None and last.tzinfo is not None and
@@ -131,6 +132,18 @@ def calendar_scope(spec):
             score_months=['2025-03', '2025-04', '2025-05', '2025-06'], calendar_months=4,
             warmup_months=['2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02'],
             required_minutes=175680, period_id='2025-03_2025-06_122D', seen_development=True)
+    if first == datetime(2024, 9, 1, tzinfo=UTC) and last == datetime(2025, 7, 1, tzinfo=UTC):
+        need(spec['period_days'] == 303 and
+             spec['account_path'] == 'CONTINUOUS_SHARED_ACCOUNT_SEP_JUN_303D' and
+             spec['data_role'] == 'SEEN_DEVELOPMENT_CONTINUOUS_ACCEPTED_TEN_MONTH_MANIFEST',
+             'Only the predeclared one-wallet September-June long span')
+        return dict(start=first.isoformat(), end_exclusive=last.isoformat(),
+            start_us=int(first.timestamp()) * 1_000_000, end_us=int(last.timestamp()) * 1_000_000,
+            period_days=303, score_month='2024-09..2025-06',
+            score_months=['2024-09', '2024-10', '2024-11', '2024-12', '2025-01',
+                          '2025-02', '2025-03', '2025-04', '2025-05', '2025-06'],
+            calendar_months=10, required_minutes=436320,
+            period_id='2024-09_2025-06_303D', seen_development=True)
     need(first.year == 2024 and first.month in (9, 10, 11) and
          last == next_month(first), 'Only predeclared September-November seen scopes')
     days = (last - first).days
@@ -378,6 +391,78 @@ def spring_source_records(value, symbols, guard, scope):
     return records, certificates
 
 
+def long_span_source_records(value, symbols, guard, scope):
+    """Compose three already accepted source windows; never stitch account results."""
+    def metadata(reference):
+        path = Path(reference['path'])
+        return guard.small(path if path.is_absolute() else guard.project(str(path)), reference['sha256'])[0]
+    def identity(reference):
+        path = Path(reference['path'])
+        return str(path if path.is_absolute() else ROOT / path), reference['sha256']
+    def keyed(records):
+        result = {}
+        for row in records:
+            key = row['kind'], row['symbol'], row.get('interval'), row['month']
+            need(key not in result, 'Unique long-span source aliases')
+            result[key] = {k: row[k] for k in ('kind', 'symbol', 'interval', 'month',
+                'normalized_path', 'normalized_sha256', 'normalized_bytes', 'rows')}
+        return result
+    need(value['status'] == 'PASS_D064_CONTINUOUS_303D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS' and
+         value['source_only'] is True and value['checksummed_source_format_verified'] is True and
+         (value['start_us'], value['end_us'], value['days']) ==
+         (scope['start_us'], scope['end_us'], scope['period_days']) and
+         value['score_months'] == scope['score_months'] and value['monthly_account_reset'] is False and
+         value['new_source_QA_performed'] is False, 'Accepted continuous303 source scope without new QA')
+    refs = value['window_manifests']
+    need(len(refs) == 3 and [r['sha256'] for r in refs] == [
+         '847d8a6e561d782ae641d492697ee03fd7b3ba2eda65298e5d0f02cb0c7b1e50',
+         '56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193',
+         '908e73415a089b00b71f86f50fba17a70bfd71fc0f58335065c592d53efeacf0'],
+         'Exact ordered accepted autumn, winter and spring source manifests')
+    autumn, winter, spring = [metadata(r) for r in refs]
+    need(identity(winter['warmup_manifest']) == identity(refs[0]) and
+         identity(spring['warmup_manifest']) == identity(refs[1]), 'Original recursive warmup manifest chain')
+    spring_scope = calendar_scope(dict(start='2025-03-01T00:00:00+00:00',
+        end_exclusive='2025-07-01T00:00:00+00:00', period_days=122,
+        account_path='CONTINUOUS_SHARED_ACCOUNT_MAR_JUN_122D',
+        data_role='SEEN_DEVELOPMENT_CONTINUOUS_THIRD_WINDOW_MANIFEST'))
+    # The accepted spring verifier recursively checks winter and autumn, including
+    # all five source capabilities and their genuinely completed tasks.
+    _, certificates = spring_source_records(spring, symbols, guard, spring_scope)
+    market = [r for manifest in (autumn, winter, spring) for r in manifest['market_records']]
+    expected = {(kind, symbol, interval, month) for symbol in autumn['selected_symbols']
+        for month in scope['score_months']
+        for kind, interval in (('klines', '1m'), ('markPriceKlines', '1m'), ('fundingRate', None))}
+    need(len(market) == 300 and set(keyed(market)) == expected and
+         keyed(value['market_records']) == keyed(market) and
+         [identity(m['pool_receipt']) for m in (autumn, winter, spring)] ==
+         [identity(value['pool_receipt'])] * 3 and
+         value['selected_symbols'] == autumn['selected_symbols'] and
+         len(value['symbols']) == len(set(value['symbols'])) == len(autumn['symbols']) and
+         set(value['symbols']) == set(autumn['symbols']), 'Same July pool and all ten accepted source months')
+    need(len(value['daily_records']) == 70 and len(value['control_daily_records']) == 14 and
+         keyed(value['daily_records']) == keyed(autumn['daily_records']) and
+         keyed(value['control_daily_records']) == keyed(autumn['control_daily_records']),
+         'Initial February-August daily warmup only once, without future quarter warmup')
+    acceptances = [*autumn['monthly_acceptances'], winter['source_acceptance'], spring['source_acceptance']]
+    need(len(value['source_acceptances']) == len(value['accepted_closed_tasks']) == len(certificates) == 5 and
+         [identity(r) for r in value['source_acceptances']] == [identity(r) for r in acceptances],
+         'Exactly the five original source capabilities, not new source or economic acceptance')
+    task_ids = []
+    for ref, saved in zip(acceptances, value['accepted_closed_tasks'], strict=True):
+        capability = metadata(ref)
+        closed = guard.closed(capability['binding']['task_id'])
+        need(saved['task_id'] == closed['task']['id'] and saved['sha256'] == closed['sha256'] and
+             Path(saved['path']).resolve() == Path(closed['path']).resolve(), 'Original closed source task exact binding')
+        task_ids.append(saved['task_id'])
+    need(len(set(task_ids)) == 5, 'Five distinct originally completed source tasks')
+    records = [*value['market_records'], *value['daily_records'], *value['control_daily_records']]
+    exact_hashes = {r['normalized_path']: r['normalized_sha256'] for r in records}
+    need(len(exact_hashes) == 370 and value['normalized_source_hashes'] == exact_hashes,
+         'Exact370 accepted scoring and initial warmup SHA identities')
+    return records, certificates
+
+
 def input_reader(spec, symbols, base, guard):
     """Bound normal N sources, not the producer's loader or format QA."""
     manifest = spec['data_manifest']; path = Path(manifest['path'])
@@ -388,7 +473,9 @@ def input_reader(spec, symbols, base, guard):
     continuous = 'score_months' in scope
     source_metadata_proofs = []
     times = np.arange(start, end, MINUTE, dtype=np.int64)
-    if scope['period_days'] == 122:
+    if scope['period_days'] == 303:
+        records, source_metadata_proofs = long_span_source_records(value, symbols, guard, scope)
+    elif scope['period_days'] == 122:
         records, source_metadata_proofs = spring_source_records(value, symbols, guard, scope)
     elif scope['period_days'] == 90:
         records, source_metadata_proofs = winter_source_records(value, symbols, guard, scope)
@@ -538,6 +625,7 @@ def input_reader(spec, symbols, base, guard):
         catalog[key] = row
     window = dict(start=start, end=end, count=len(times), days=scope['period_days'],
         required_scope=scope, market={}, bars={}, events=[], proofs=[], source_metadata_proofs=source_metadata_proofs)
+    donchian = spec['strategy'] == DONCHIAN_POOL_STRATEGY
     def read(key, columns):
         row = catalog[key]; p = base.payload(row)
         window['proofs'].append(dict(kind=key[0], symbol=key[1], interval=key[2], month=key[3],
@@ -551,23 +639,41 @@ def input_reader(spec, symbols, base, guard):
         ends = stamps + MINUTE; mask = ends % DAY == 0
         closes = frame['close'].to_numpy()[mask]
         need(np.isfinite(closes).all() and np.all(closes > 0), 'Actual completed-day closes without imputation')
-        return pl.DataFrame(dict(open_us=ends[mask] - DAY, close_us=ends[mask],
-            available_us=ends[mask], close=closes))
+        values = dict(open_us=ends[mask] - DAY, close_us=ends[mask], available_us=ends[mask], close=closes)
+        if donchian:
+            day_rows = DAY // MINUTE
+            price = {name: frame[name].to_numpy() for name in ('open', 'high', 'low', 'close')}
+            need(all(np.isfinite(a).all() and np.all(a > 0) for a in price.values()) and
+                 np.all(price['high'] >= np.maximum(price['open'], price['close'])) and
+                 np.all(price['low'] <= np.minimum(price['open'], price['close'])),
+                 'Actual finite minute OHLC for independent Donchian day reduction')
+            values.update(open=price['open'].reshape(-1, day_rows)[:, 0],
+                high=price['high'].reshape(-1, day_rows).max(axis=1),
+                low=price['low'].reshape(-1, day_rows).min(axis=1))
+        return pl.DataFrame(values)
     for symbol in symbols:
         score_months = scope['score_months'] if continuous else [month]
-        trade = pl.concat([read(('klines', symbol, '1m', m),
-            ['open_us', 'available_us', 'open', 'close', 'quote_volume']) for m in score_months]).sort('open_us')
+        trade_columns = ['open_us', 'available_us', 'open', 'close', 'quote_volume']
+        if donchian:
+            trade_columns += ['high', 'low']
+        trade = pl.concat([read(('klines', symbol, '1m', m), trade_columns)
+            for m in score_months]).sort('open_us')
         mark = pl.concat([read(('markPriceKlines', symbol, '1m', m), ['timestamp_ms', 'close'])
             for m in score_months]).sort('timestamp_ms')
         fund = pl.concat([read(('fundingRate', symbol, None, m), ['calc_time_ms', 'last_funding_rate'])
             for m in score_months]).sort('calc_time_ms')
-        warm = pl.concat([read(('klines', symbol, '1d', '2024-' + m),
-                ['open_us', 'close_us', 'available_us', 'close'])
+        warm_columns = ['open_us', 'close_us', 'available_us', 'close']
+        if donchian:
+            warm_columns += ['open', 'high', 'low']
+        warm = pl.concat([read(('klines', symbol, '1d', '2024-' + m), warm_columns)
             for m in (('01',) if extension is not None else ()) +
                      ('02', '03', '04', '05', '06', '07', '08')]).sort('close_us')
         prior_months = scope.get('warmup_months', ()) if continuous else ('2024-09', '2024-10') if month == '2024-11' else ('2024-09',) if month == '2024-10' else ()
         for prior_month in prior_months:
-            prior_trade = read(('klines', symbol, '1m', prior_month), ['open_us', 'available_us', 'close']).sort('open_us')
+            prior_columns = ['open_us', 'available_us', 'close']
+            if donchian:
+                prior_columns += ['open', 'high', 'low']
+            prior_trade = read(('klines', symbol, '1m', prior_month), prior_columns).sort('open_us')
             first = datetime.fromisoformat(prior_month + '-01T00:00:00+00:00')
             prior_start = int(first.timestamp()) * 1_000_000
             prior_end = int(next_month(first).timestamp()) * 1_000_000
@@ -892,6 +998,78 @@ def rsi2_pool_target_reference(window, symbols, mode='LONG_ONLY'):
     return pl.DataFrame(rows)
 
 
+def donchian_pool_target_reference(window, symbols):
+    """Direct prior20 high/low, current completed SMA200 and fresh-flat long state.
+
+    The entry-only SMA filter does not liquidate an existing long. Strict lower
+    channel exits wait for the next daily decision before any reentry.
+    """
+    states = dict.fromkeys(symbols, 0)
+    rows, witnesses = [], []
+    for decision in range(window['start'], window['end'], DAY):
+        memberships = window.get('eligible_by_decision')
+        members = set(symbols) if memberships is None else set(memberships.get(decision, ()))
+        need(members <= set(symbols), 'Independent Donchian membership outside configured identity')
+        live, returns, reasons = [], [], {}
+        raw, weights = dict.fromkeys(symbols, 0.), dict.fromkeys(symbols, 0.)
+        for symbol in symbols:
+            bars = window['bars'][symbol]
+            i = int(np.searchsorted(bars['close_us'].to_numpy(), decision, side='right') - 1)
+            valid = (i >= 199 and bars['close_us'][i] == decision and
+                np.all(np.diff(bars['close_us'][i-199:i+1].to_numpy()) == DAY) and
+                np.all(bars['available_us'][i-199:i+1].to_numpy() <= decision))
+            before = states[symbol]
+            if symbol not in members or not valid:
+                states[symbol] = 0
+                reasons[symbol] = 'POOL_EXIT' if symbol not in members else 'WARMUP_OR_DATA_GAP'
+                witnesses.append(dict(decision_us=decision, symbol=symbol, old_state=before,
+                    new_state=0, action='RESET_UNAVAILABLE', reason=reasons[symbol]))
+                continue
+            closes = bars['close'][i-199:i+1].to_numpy()
+            high = bars['high'][i-20:i].to_numpy()
+            low = bars['low'][i-20:i].to_numpy()
+            need(np.isfinite(closes).all() and np.all(closes > 0) and
+                 len(high) == len(low) == 20 and np.isfinite(high).all() and np.isfinite(low).all() and
+                 np.all(high >= low) and np.all(low > 0), 'Finite completed Donchian/SMA/covariance inputs')
+            latest = float(closes[-1])
+            upper, lower = float(np.max(high)), float(np.min(low))
+            trend = math.fsum(map(float, closes)) / 200
+            if before:
+                states[symbol] = 0 if latest < lower else 1
+                action = 'EXIT_TO_CASH' if states[symbol] == 0 else 'KEEP_LONG'
+            else:
+                states[symbol] = int(latest > upper and latest > trend)
+                action = 'ENTER_LONG' if states[symbol] else 'STAY_CASH'
+            raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
+            past = closes[-31:]
+            returns.append(np.diff(past) / past[:-1])
+            live.append(symbol)
+            reasons[symbol] = 'ELIGIBLE'
+            witnesses.append(dict(decision_us=decision, symbol=symbol, completed_close=latest,
+                prior20_upper=upper, prior20_lower=lower, current_completed_SMA200=trend,
+                channel_last_close_us=int(bars['close_us'][i-1]), channel_excludes_current=True,
+                old_state=before, new_state=states[symbol], action=action, reason='ELIGIBLE'))
+        if live:
+            x = np.column_stack(returns)
+            need(np.isfinite(x).all(), 'Finite complete independent Donchian past30 returns')
+            centered = x - x.mean(axis=0)
+            covariance = centered.T @ centered / 29 * 365
+            scaled = np.asarray([raw[s] for s in live], dtype=np.float64)
+            gross = float(np.abs(scaled).sum())
+            if gross > .6:
+                scaled *= .6 / gross
+            sigma = math.sqrt(max(float(scaled @ covariance @ scaled), 0.))
+            if sigma > .10:
+                scaled *= .10 / sigma
+            weights.update(zip(live, map(float, scaled), strict=True))
+        for symbol in symbols:
+            rows.append(dict(available_us=decision, symbol=symbol,
+                target_weight=weights[symbol], raw_signed_target=raw[symbol],
+                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+    window['independent_Donchian_state_witnesses'] = witnesses
+    return pl.DataFrame(rows)
+
+
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY'):
     need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
     need(strategy_id == RSI_POOL_STRATEGY or mode == 'LONG_ONLY',
@@ -905,6 +1083,9 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, m
     if strategy_id == RSI_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared RSI2 uses original equal member shares only')
         return rsi2_pool_target_reference(window, symbols, mode)
+    if strategy_id == DONCHIAN_POOL_STRATEGY:
+        need(allocation == 'EQUAL', 'Predeclared Donchian uses original equal member shares only')
+        return donchian_pool_target_reference(window, symbols)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -1026,13 +1207,14 @@ def main():
         sma_strategy = strategy_id == SMA_POOL_STRATEGY
         momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
         rsi_strategy = strategy_id == RSI_POOL_STRATEGY
+        donchian_strategy = strategy_id == DONCHIAN_POOL_STRATEGY
         direction_mode = spec.get('direction_mode', 'LONG_ONLY')
         need(direction_mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH') and
              (rsi_strategy or direction_mode == 'LONG_ONLY'),
              'Only RSI2 has the explicit predeclared signed direction policies')
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
              (strategy_id == ALLOCATION_STRATEGIES[allocation] or
-              (sma_strategy or momentum_strategy or rsi_strategy) and allocation == 'EQUAL'),
+               (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy) and allocation == 'EQUAL'),
              'Same fixed capital and explicit independent strategy/allocation policy')
         need('score_months' not in scope or not sma_strategy,
              'Continuous quarters contain the predeclared HOLD or past30 long/cash recipes')
@@ -1044,6 +1226,10 @@ def main():
             need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
                  'Only the fixed ten-member equal daily RSI2 recipe in the two continuous quarters')
+        if donchian_strategy:
+            need(scope['period_days'] == 303 and len(actual['cases'][0]['symbols']) == 10 and
+                 actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
+                 'Only the fixed ten-member equal daily Donchian recipe in the continuous303 span')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -1083,6 +1269,13 @@ def main():
                 momentum_completed_return_days=30, equality_exits_held_long=True,
                 exit_then_wait_next_daily_decision=True, idle_raw_budget_redistributed=False,
                 equality_tolerance_band_used=False)
+        if donchian_strategy:
+            report.update(independent_Donchian_state_witnesses=window['independent_Donchian_state_witnesses'],
+                independent_Donchian_reference='DIRECT_PRIOR20_HIGH_LOW_CURRENT_COMPLETED_SMA200_FRESH_FLAT_NO_PRODUCER_OR_HOOK_IMPORT',
+                Donchian_parameters=dict(channel_period=20, trend_SMA_period=200),
+                channel_excludes_current=True, SMA_filter_applies_only_to_entry=True,
+                strict_lower_channel_exit=True, exit_then_wait_next_daily_decision=True,
+                idle_raw_budget_redistributed=False, equality_tolerance_band_used=False)
         if rsi_strategy:
             report.update(independent_RSI2_state_witnesses=window['independent_RSI2_state_witnesses'],
                 official_RSI_kernel_metadata=window['official_RSI_kernel_metadata'],
@@ -1139,11 +1332,12 @@ def main():
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
                         window, result, paths['funding.json'], base, errors))
             report['cases'].append(dict(result, pool=pool_id, symbols=list(symbols),
-                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy or rsi_strategy),
-                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy or rsi_strategy) else None,
+                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy),
+                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy or rsi_strategy or donchian_strategy) else None,
                 independent_SMA50_200_targets_verified=sma_strategy, independent_strategy_targets_verified=True,
                 independent_past30_momentum_targets_verified=momentum_strategy,
                 independent_RSI2_targets_verified=rsi_strategy,
+                independent_Donchian20_SMA200_targets_verified=donchian_strategy,
                 independent_strategy_id=strategy_id))
             report['completed_cases_verified'] = len(report['cases'])
             gc.collect(); bounded()

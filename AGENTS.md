@@ -104,3 +104,5 @@ execution/Testnet/mainnet/resource-observer工程，不启动新的A11观察器�
   冻结哈希、敏感信息及新增文件大小。代码、协议、文档、小型验收报告和人工合成
   工程模型夹具入库；行情原始数据、真实模型文件、数据库、环境/缓存、日志、VHD
   和用户压缩包留在 D 盘。保留既有 Git 历史，不强推；推送需核验远程提交一致。
+
+D064当前接线：`multi_asset_data.load_portfolio_window`支持既有已接受370唯一来源的303日连续钱包；`donchian_daily_pool_target`保留原prior20通道/SMA200入场过滤/long-flat，平台signed多空不变。输出预算失败与保存完整账本分别验收，禁止将后续资金核验升级为原任务预算通过。旧原证据不覆盖，当前研究/下一决策见状态页；未来单因素激活预算须完整新回放并报告实际risk，不能后验倍乘旧NAV或扩caps。

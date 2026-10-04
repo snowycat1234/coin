@@ -868,3 +868,67 @@ D061保存摘要Decimal独立归因gross-fee-exec+signed_funding=net误差<1e-7�
 下一主问题转低换手真实时间尺度：先复用已有日线做一个原规则与活动策略的时序参考核对，再事前固定一个日线趋势变体与稳定HOLD在现有连续窗口/共享完整资本的有限对照。明确20根4h=80h、20根日线=20日，不声称本地Turtle4h为经典20交易日复现；不轮流救示例，不搜几十周期/不拼季度赢家。成本BASE/STRESS仅条件范围，新来源可得才更新估计；先查source/策略信息价值和有限预算再运行。后续尚未启动，无声称后台科研。
 
 复现主V2：`scripts/with_task_progress.sh --title '成本接线复验' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/research_tests.py --protocol /mnt/d/codex/coin/protocols/COST_PROVENANCE_ACCOUNT_SYNTHETIC_20261004_V2.json --run-dir /home/xflops/coin-state/d063-cost-provenance-reproduce-NEW --output /mnt/d/codex/coin/reports/fast_research/COST_PROVENANCE_REPRODUCE_NEW.json --experiment-id D063_COST_REPRODUCE_NEW`。新路径必须未存在，按本模块提交复现；closing协议同入口替换为对应COST_PROVENANCE_CLOSING_SYNTHETIC_20261004_V1，独立新路径。
+
+## D064：连续303日、真实日线规则与机会预算（2026-10-04）
+
+**投资候选 NONE，现金选择保留，长期净APR不可评价。** 当前研究收益参照仍为两币风险管理HOLD；其303日条件净收益6.53%–7.86%、分钟MDD10.95%–11.27%，不是原生成交/独立未来记录。十币与Donchian并未取得净增量；低换手假设被实际交易否定，较低风险是另一项结果。
+
+### 实际改变与范围
+
+- 正常数据入口增加Sep2024–Jun2025连续303日，复用已接受三段manifest、300评分源+70初始日线源=370唯一来源；零下载、零新来源QA。
+- 正常N目标/账户保留，日线信号与分钟执行/mark/实际资金事件分开。每条路径一次初始完整10k、单一钱包持续303日、月间不清仓或重置；仅末尾原五次退出，未拼季度账户。
+- 新薄日线Donchian适配：close突破前20日high且高于当前完成SMA200才入多；持仓close跌破前20日low才退出。严格等号不触发，过滤只管入场，原short=False保留。日线/共享风险sizing属于COIN变体，非完整Jesse或Bybit原生复现。平台多空与空仓能力不退回永久long-only。
+- 先直接窗口独立反例核对通道/过滤/状态/顺序/未来扰动，再实际3配方×4原条件，目标/财务正文分别独立核查。NumPy SMA均值上下文不宣称与完整原框架执行一致。
+
+### 同口径钱与风险
+
+2024-09-01至2025-07-01前303日，BASE27/RAW_AS_FRACTION，仅作为一个条件展示；全部BASE/STRESS与F/P保留在DIAGNOSTIC。
+
+| 配方 | 价格gross USDT | commission | spread+slippage | signed funding | net USDT | 年化日波动 | 分钟MDD | 平均gross/net | 换手/完整资本 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 两币HOLD | 816.48 | 12.05 | 17.53 | -116.26 | 670.63 | 10.49% | 11.23% | 18.13% | 2.19 |
+| 十币HOLD，marked | 460.13 | 8.47 | 12.33 | -76.32 | 363.02 | 10.24% | 13.37% | 11.49% | 1.54 |
+| 十币日线Donchian | 365.25 | 16.56 | 24.09 | -65.08 | 259.53 | 8.18% | 9.34% | 8.99% | 3.01 |
+| CASH | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+四条件：两币net652.77–786.36；十币marked350.73–438.30；Donchian236.07–320.52。十币较两币少302.04–348.06，Donchian较同池HOLD少103.48–129.00。实际风险不匹配，不能把差额都称alpha。
+
+BASE/F信号增量：gross -94.88，成本 +19.84，资金费改善 +11.24，net -103.48。毛收益参与差异大于新增成本；即使删除所有额外新增成本，也不能消除毛差，不能靠降费救结论。原成本沿用，5.5bp真实费用快照匹配但4+4/8+8为研究摩擦，资金单位仍未认证。无新的低成本市场情景。
+
+两币末全清；十币四条件残仓201.09–204.31USDT（BASE/F WLD4.88/SATS124.47/ORDI72.15），未实现盈亏已包含marked NAV，cash/liquidated return=NOT_EVALUABLE。Donchian四条末全清。本地数量平零只是代理账本状态，不代表场所真实可成交性或清算认证。
+
+BASE/F两币净贡献BTC583.85/ETH86.78；十币XRP209.63、DOGE123.46、PEPE110.20，SATS-183.46/ORDI-94.52；DonchianDOGE211.44/XRP205.08/BTC172.63，SOL-127.78/ETH-99.66。不事后删亏币。top5正收益日占比分别16.80%/14.44%/19.95%；不能把这些天拼成新策略。
+
+### 机制与资源诊断
+
+Donchian平均激活2.75/10，60日全空仓；raw平均gross16.50%，过去风险缩后目标9.11%，实际8.99%。十币每个信号原预算6%，未激活份额不重分；不能按事后敞口倍乘NAV。Donchian日常分配增减536个成交腿、名义15694.30、成本21.19USDT；入口/信号平仓39腿成本19.45，总换手比十币HOLD更高。成交分类只重建数量生命周期和确切signal/breach/terminal时间，UNKNOWN保留；不按订单理由分配整笔利润，不把理由当因果证明。
+
+实验前August30个日收益平均两两相关.7213，第一相关主成分占76.51%，相关矩阵参与率1.668。只是这30个收益的依赖描述，不等于独立币数/长期分散/独立样本。raw6%静态协方差风险最大贡献WIF14.23%，不等于实际持仓贡献。
+
+| 主体 | 回放耗时秒 | 进程peak RAM bytes | STATE工件bytes | 任务状态 |
+|---|---:|---:|---:|---|
+| 两币HOLD | 292.45 | 420384768 | 161641333 | completed0 |
+| 十币HOLD | 691.14 | 754696192 | 505969595 | failed1，输出预算 |
+| 十币Donchian | 586.78 | 729604096 | 212099059 | completed0 |
+
+**十币HOLD不是成功运行**：四303日完整轨迹已保存，末guard发现505.97MB>事前400MB而失败，原report/SHA/task1保留；没有上调旧预算或重复市场账户。另一个明确的已保存账本核查任务调用现有normal金融函数，确认全部四条轨迹、目标、资金、月边界，并单独PASS金融，不升级原预算结果。其余八条正常主体+金融均完成。全模块12条已保存完整轨迹/12次金融、8个有条件保存配对，0fit/HPO/下载/发单/locked。金融peak最高1247236096B，现金最大误差3.28e-11USDT；主体最大观测共享占用2487205888B，内核历史peak3263008768B不是本版peak，hard4999999488B/swap0/GPU0。
+
+最终物理扫描2026-10-04T13:26:18.271713Z：ROOT+整个D WSL VHD27088056073B，区间增长874962949B（含采集/Git等非独占变化），仍低于32GB预警/36GB新增停止/40GB硬限。末扫描后Git新增少量文件不包含在该时刻数值。
+
+### 采用、暂停与下一决策
+
+采用连续303日正常来源入口、原日线规则过滤接线、真实账本与机会诊断；保留两币HOLD稳定研究参照、十币基准与Donchian防御参照。没有合格投资候选；不把更低DD或正筛选收益当晋级。
+
+暂停：固定十币静态份额Donchian的投资晋级/参数网格，reopen须新的完整同口径净/风险证据；该趋势能力不永久删除。扩池优越性声明暂停，reopen须依赖与净/风险改善并退出诚实；原source池不按新收益洗牌。资金单位/原生执行认证仍暂停，reopen须合法官方单位桥/历史matched事件或对应场所数据，原451/403不绕过、不重复无条件探测。
+
+**下一项自主选择（尚未运行）**：仅改变Donchian激活信号的raw分配，min(.3,.6/N_active)，0active仍CASH，原信号/日期/价格/费用/funding/abs.3/gross.6/过去30协方差10%scale-down不变。它检验当前固定N预算是否压低参与，而不是给旧曲线加杠杆/事后放大；必须重跑完整共享账户并比较净、实际风险和成本，不能保证改善。只新旧两配方，不网格；旧结果作诚实参照。下一版依据本次观测为输出预留至少600MB/主体、组联合≤1.4GB，重用现有守卫，不请求扩RAM或磁盘。本轮没有留此研究在后台。
+
+### 实际工件和复现
+
+- `protocols/CONTINUOUS_DAILY_TREND_{HOLD_TWO,HOLD_TEN,DONCHIAN_TEN}_20261004_V1.json`，原sources/protocol/capital均绑定；每项原cost×unit保持。
+- `reports/fast_research/CONTINUOUS_DAILY_TREND_DIAGNOSTIC_20261004_V1.json`：12账户、8保存配对、perasset与成本原因/机会/相关性；主结果不消费旧独立账户拼NAV。
+- 三`*_FINANCIAL_20261004_V1.json`独立结果；HOLD_TEN明确SAVED_BUDGET_FAILURE_NOT_PRODUCER_SUCCESS。
+- `DONCHIAN_DAILY_SEMANTICS_SYNTHETIC_20261004_V1.json`直接规则反例；`reports/CONTINUOUS_DAILY_TREND_INDEPENDENT_REVIEW_20261004_V1.md`另一次只读复核。
+- `reports/CONTINUOUS_DAILY_TREND_FINAL_RESOURCE_20261004_V1.json`是实际时刻扫描；模块Git以真实SOURCE_BINDING/STAGED_GATE/SYNC_VERIFIED为准，失败没有删除。
+
+WSL中通过 `scripts/with_task_progress.sh --title '复现日线组合' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol /mnt/d/codex/coin/protocols/CONTINUOUS_DAILY_TREND_DONCHIAN_TEN_20261004_V1.json --run-dir /home/xflops/coin-state/NEW_EXCLUSIVE_REPRODUCTION --output /mnt/d/codex/coin/reports/fast_research/NEW_EXCLUSIVE_REPRODUCTION.json --pool-id LIQUIDITY_TEN`。需同一接受来源；必须换独占新路径、登记新尝试，不能覆盖原结果。

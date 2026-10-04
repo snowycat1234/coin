@@ -356,3 +356,7 @@ D061（2026-10-04）：沿用既有jesse-ai/example-strategies已登记commit与
 D062：继续原binance/binance-public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc/MIT软件及行情条款、官方URL/CHECKSUM；仅本地四月编排/已保存字节恢复。Polars1.44.2/MIT、NumPy2.5.3/BSD和Decimal不变，无新依赖/模型/第三方修改。正常parse_csv明确Float64价格/量、Int64时间/count，避免整数前缀推断丢小数，账户Decimal不变。十二122日账户/十二独立账本已运行。用户Bybit snapshot是输入证据非开源代码/历史费用证书，未启用新产品或Maker成交。
 
 D063：未增加第三方库或框架。继续复用原ExecutionContractV2 clock/费用算术、Decimal/NumPy/Polars/pytest；仅薄用户费率快照适配和正常账户接口。Bybit费用/公开盘口官方说明是来源参考；用户JSON SHA a406d4bd..为当前账户场景输入，不是开源项目或原图/历史费区认证。禁自造downloader/online/model框架保持。
+
+D064运行前登记：沿用MIT jesse-ai/example-strategies commit7c91e0a37bf62165790120d730442e4f6eb00364及jesse indicator417f8765225e3bfc12043d4b712f19fe15a3c078；复用既有third_party/jesse_example_donchian原类fc635b25..和原Donchian指标b7e96ebe..，license80d87314..，0新库/第三方修改。正常薄adapter只close上下文、原filters接线和显式日线共享N风险sizing，非whole-balance/native Jesse复制。标量SMA200使用NumPy均值，上游SMA实现内核未复现，独立直接窗口核数值；原previous20高低和严格entry/exit保持。Binance已接受官方source/CHECKSUM370身份只组合，无下载/新QA；费用/资源依赖沿D063正常接口，不添加策略框架。
+
+D064实际复用闭合：3条连续研究配方在303日正常共享账户已产生12完整保存轨迹，日线source/目标直接参考与12金融核验完成；原未确认资金units/Bybit原生限制保持。十币HOLD输出预算失败保留，单次saved-financial orchestration仅调用现有normal财务函数和直接目标参考，无市场重放/新账户引擎/库。诊断复用normal saved measures与perasset Decimal桥；无自写downloader/模型/online/资源平台。相关性30样本只是描述，旧source/caps/成本未因收益调整。

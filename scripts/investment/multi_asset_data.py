@@ -128,6 +128,14 @@ WINTER_WARMUP_MANIFEST = dict(
     path=str(STATE/'d055-continuous-input-binding-20261004-v1/INPUT_MANIFEST.json'),
     sha256='847d8a6e561d782ae641d492697ee03fd7b3ba2eda65298e5d0f02cb0c7b1e50',
     required_status=CONTINUOUS_MANIFEST_STATUS)
+LONG_SPAN_MANIFEST_STATUS = 'PASS_D064_CONTINUOUS_303D_ACCEPTED_SOURCE_BINDING_NOT_ECONOMICS'
+LONG_SPAN_SCOPES = (*CONTINUOUS_SCOPES, *WINTER_SCOPES, *SPRING_SCOPES)
+LONG_SPAN_MANIFEST_REFS = (
+    dict(WINTER_WARMUP_MANIFEST),
+    dict(SPRING_WARMUP_MANIFEST),
+    dict(path=str(STATE/'d062-multiasset-spring-source-acceptance-20261004-v1/INPUT_MANIFEST.json'),
+         sha256='908e73415a089b00b71f86f50fba17a70bfd71fc0f58335065c592d53efeacf0',
+         required_status=SPRING_MANIFEST_STATUS))
 
 
 def require(ok, message):
@@ -644,7 +652,8 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
     continuous = (start_us, end_us) == (START, NOV_END)
     winter = (start_us, end_us) == (NOV_END, WINTER_END)
     spring = (start_us, end_us) == (WINTER_END, SPRING_END)
-    scopes = SPRING_SCOPES if spring else WINTER_SCOPES if winter else CONTINUOUS_SCOPES if continuous else (
+    long_span = (start_us, end_us) == (START, SPRING_END)
+    scopes = LONG_SPAN_SCOPES if long_span else SPRING_SCOPES if spring else WINTER_SCOPES if winter else CONTINUOUS_SCOPES if continuous else (
         (period_scope(start_us, end_us), start_us, end_us),)
     months = tuple(r[0] for r in scopes)
     month = months[0]
@@ -1086,12 +1095,115 @@ def load_spring_portfolio_window(manifest_path, symbols, start_us=WINTER_END, en
     return load_quarter_portfolio_window(manifest_path, symbols, start_us, end_us)
 
 
+def compose_long_span_manifest(window_manifest_proofs):
+    """Reuse five completed source capabilities for one September-June calendar.
+
+    This reads only existing small metadata. It neither downloads nor accepts
+    sources again. All 300 scoring descriptors keep their original owners, and
+    the initial February-August daily70 are inherited only once.
+    """
+    require(isinstance(window_manifest_proofs, (tuple, list)) and
+        len(window_manifest_proofs) == 3, 'Exactly three ordered accepted window manifests')
+    same = lambda a, b: ((ROOT/Path(a['path'])).resolve(), a['sha256']) == (
+        (ROOT/Path(b['path'])).resolve(), b['sha256'])
+    manifests = []
+    for ref, expected in zip(window_manifest_proofs, LONG_SPAN_MANIFEST_REFS, strict=True):
+        require(same(ref, expected), 'Exact accepted September-November, winter and spring manifest identities')
+        manifests.append(small_proof(ref, expected['required_status']))
+    base, winter, spring = manifests
+    require(base == compose_continuous_manifest(base['monthly_manifests']),
+        'Original three monthly acceptances remain complete and unchanged')
+    pool = small_proof(base['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+    accepted_quarter_metadata(winter, pool)
+    accepted_quarter_metadata(spring, pool, spring=True)
+    require(same(winter['warmup_manifest'], window_manifest_proofs[0]) and
+        same(spring['warmup_manifest'], window_manifest_proofs[1]),
+        'Actual preceding accepted window references, not unrelated source catalogues')
+    market, score_pins = [], {}
+    for manifest in manifests:
+        require(same(manifest['pool_receipt'], base['pool_receipt']) and
+            manifest['selected_symbols'] == pool['symbols'] and
+            manifest['symbols'] == base['symbols'] and
+            manifest['control_daily_records'] == base['control_daily_records'],
+            'Same ordered selected pool, source catalogue and original control daily aliases')
+        for row in manifest['market_records']:
+            path = row['normalized_path']
+            require(path not in score_pins and
+                manifest['normalized_source_hashes'].get(path) == row['normalized_sha256'],
+                'Distinct scoring source owner and its original accepted byte SHA')
+            score_pins[path] = row['normalized_sha256']
+            market.append(row)
+    keys = [(r['kind'], r['symbol'], r.get('interval'), r['month']) for r in market]
+    require(len(keys) == len(set(keys)) == 300 and set(keys) ==
+        {(k, s, None if k == 'fundingRate' else '1m', month)
+         for k in ('klines', 'markPriceKlines', 'fundingRate')
+         for s in base['symbols'] for month, _, _ in LONG_SPAN_SCOPES},
+        'Exactly ten complete accepted months, ten assets and three product roles')
+    daily = base['daily_records']
+    daily_pins = {r['normalized_path']: r['normalized_sha256'] for r in daily}
+    require(len(daily) == len(daily_pins) == 70 and
+        {(r['symbol'], r['kind'], r.get('interval'), r['month']) for r in daily} ==
+        {(s, 'klines', '1d', '2024-'+m) for s in base['symbols']
+         for m in ('02', '03', '04', '05', '06', '07', '08')} and
+        all(base['normalized_source_hashes'].get(p) == h for p, h in daily_pins.items()) and
+        not set(daily_pins).intersection(score_pins), 'Original seventy initial warmup identities exactly once')
+    acceptances = [*base['monthly_acceptances'], winter['source_acceptance'], spring['source_acceptance']]
+    tasks = [*base['accepted_closed_tasks']]
+    for ref, status in ((winter['source_acceptance'], WINTER_ACCEPTANCE_STATUS),
+                        (spring['source_acceptance'], SPRING_ACCEPTANCE_STATUS)):
+        cap = small_proof(ref, status)
+        task_id = cap['binding']['task_id']
+        task_path = STATE/'task-progress'/f'task-{task_id}.json'
+        task = json.loads(task_path.read_bytes())
+        # accepted_quarter_metadata above checked task identity, location and closure.
+        tasks.append(dict(path=str(task_path), sha256=sha(task_path), task_id=task_id,
+            status=task['status'], exit_code=task['exit_code'], pid=task['pid'], start_ticks=task['start_ticks']))
+    require(len({r['task_id'] for r in tasks}) == 5, 'Five distinct originally completed source acceptances')
+    return dict(status=LONG_SPAN_MANIFEST_STATUS, source_only=True, checksummed_source_format_verified=True,
+        start_us=START, end_us=SPRING_END, days=303, score_months=[r[0] for r in LONG_SPAN_SCOPES],
+        symbols=list(base['symbols']), selected_symbols=list(pool['symbols']), pool_receipt=base['pool_receipt'],
+        window_manifests=[dict(r) for r in LONG_SPAN_MANIFEST_REFS], source_acceptances=acceptances,
+        accepted_closed_tasks=tasks, market_records=market, daily_records=daily,
+        control_daily_records=base['control_daily_records'], normalized_source_hashes={**daily_pins, **score_pins},
+        prior_format_QA_reused=True, new_source_QA_performed=False, price_payloads_read=0,
+        raw_archives_or_CRC_reread=False, monthly_account_reset=False, models_fit=0, orders_sent=0,
+        locked_consumed=False, funding_unit_certified=False, native_Bybit_certified=False,
+        publication_certified=False, boundary_events='PRESERVE_EVERY_RECORDED_EVENT_START_LE_EVENT_LT_END',
+        scope='ACCEPTED_SOURCE_METADATA_COMPOSITION_NOT_ROWS_QA_ACCOUNT_NAV_OR_INVESTMENT_QUALIFICATION')
+
+
+def load_long_span_portfolio_window(manifest_path, symbols, start_us=START, end_us=SPRING_END):
+    """One continuous 303-day source window; the caller owns one shared wallet."""
+    require(type(start_us) is int and type(end_us) is int and
+        (start_us, end_us) == (START, SPRING_END), 'Only fixed September-June continuous303D')
+    path = Path(manifest_path)
+    require(path.resolve().is_relative_to(STATE.resolve()) and not path.is_symlink() and
+        path.stat().st_size <= 2_000_000, 'Small exclusive continuous303D STATE manifest')
+    manifest = json.loads(path.read_bytes())
+    require(manifest == compose_long_span_manifest(manifest['window_manifests']),
+        'Exact inherited accepted metadata composition, no changed scoring or warmup identities')
+    pool = small_proof(manifest['pool_receipt'], 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS')
+    require(isinstance(symbols, (tuple, list)) and
+        (list(symbols) == pool['symbols'] or tuple(symbols) == ('BTCUSDT', 'ETHUSDT')),
+        'Original ordered July pool or original two-asset control')
+    result = window(pool, manifest['market_records'], pool_receipt_sha256=manifest['pool_receipt']['sha256'],
+        control_daily_records=manifest['control_daily_records'], requested_symbols=symbols,
+        start_us=start_us, end_us=end_us)
+    result.update(manifest_path=str(path), manifest_sha256=sha(path), continuous_wallet_required=True,
+        account_path='CONTINUOUS_SHARED_ACCOUNT_SEP_JUN_303D', score_months=manifest['score_months'],
+        input_proofs=[*manifest['market_records'], *manifest['daily_records']],
+        daily_source_scope='FEB_AUG_DAILY_ONCE_PLUS_SEP_JUN_SCORE_CAUSAL_MINUTE_REDUCTIONS_NO_MONTHLY_RESET')
+    return result
+
+
 def load_portfolio_window(manifest_path, symbols, start_us, end_us):
     """Public runner API; manifest SHA is bound by the portfolio protocol.
 
     Root accepts checksums/format evidence into this manifest after pool and
     source finish separately. No manifest self-awards native or unit semantics.
     """
+    if (start_us, end_us) == (START, SPRING_END):
+        return load_long_span_portfolio_window(manifest_path, symbols, start_us, end_us)
     if (start_us, end_us) == (START, NOV_END):
         return load_continuous_portfolio_window(manifest_path, symbols, start_us, end_us)
     if (start_us, end_us) == (NOV_END, WINTER_END):
