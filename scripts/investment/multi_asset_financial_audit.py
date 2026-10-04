@@ -40,6 +40,7 @@ ALLOCATION_STRATEGIES = {
     'INVERSE_VOL_30D': 'COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE',
 }
 SMA_POOL_STRATEGY = 'COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
+MOMENTUM_POOL_STRATEGY = 'COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
 
 
 def need(ok, message):
@@ -592,11 +593,81 @@ def sma_pool_target_reference(window, symbols):
     return pl.DataFrame(rows)
 
 
+def momentum_pool_target_reference(window, symbols):
+    """Independent completed-close predicate and fresh-flat long/cash state.
+
+    Directly compare the latest close with the close thirty UTC days earlier;
+    no producer target method, direction hook, return threshold or epsilon band.
+    Idle members retain their raw budget, with the accepted covariance scaling.
+    """
+    states = dict.fromkeys(symbols, 0)
+    rows, witnesses = [], []
+    for decision in range(window['start'], window['end'], DAY):
+        memberships = window.get('eligible_by_decision')
+        members = set(symbols) if memberships is None else set(memberships.get(decision, ()))
+        need(members <= set(symbols), 'Independent momentum membership outside configured identity')
+        live, returns, reasons = [], [], {}
+        raw, weights = dict.fromkeys(symbols, 0.), dict.fromkeys(symbols, 0.)
+        for symbol in symbols:
+            bars = window['bars'][symbol]
+            i = int(np.searchsorted(bars['close_us'].to_numpy(), decision, side='right') - 1)
+            valid = (i >= 199 and bars['close_us'][i] == decision and
+                np.all(np.diff(bars['close_us'][i-199:i+1].to_numpy()) == DAY) and
+                np.all(bars['available_us'][i-199:i+1].to_numpy() <= decision))
+            before = states[symbol]
+            if symbol not in members or not valid:
+                states[symbol] = 0
+                reasons[symbol] = 'POOL_EXIT' if symbol not in members else 'WARMUP_OR_DATA_GAP'
+                witnesses.append(dict(decision_us=decision, symbol=symbol, old_state=before,
+                    new_state=0, action='RESET_UNAVAILABLE', reason=reasons[symbol]))
+                continue
+            closes = bars['close'][i-199:i+1].to_numpy()
+            need(np.isfinite(closes).all() and np.all(closes > 0), 'Finite completed momentum/covariance closes')
+            latest, previous = float(closes[-1]), float(closes[-31])
+            if before:
+                states[symbol] = 0 if latest <= previous else 1
+                action = 'EXIT_TO_CASH' if states[symbol] == 0 else 'KEEP_LONG'
+            else:
+                states[symbol] = 1 if latest > previous else 0
+                action = 'ENTER_LONG' if states[symbol] else 'STAY_CASH'
+            raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
+            past = closes[-31:]
+            returns.append(np.diff(past) / past[:-1])
+            live.append(symbol)
+            reasons[symbol] = 'ELIGIBLE'
+            witnesses.append(dict(decision_us=decision, symbol=symbol,
+                latest_completed_close=latest, completed_close_30_days_earlier=previous,
+                prior_close_us=int(bars['close_us'][i-30]), latest_close_us=int(bars['close_us'][i]),
+                old_state=before, new_state=states[symbol], action=action, reason='ELIGIBLE'))
+        if live:
+            x = np.column_stack(returns)
+            need(np.isfinite(x).all(), 'Finite complete independent momentum past30 returns')
+            centered = x - x.mean(axis=0)
+            covariance = centered.T @ centered / 29 * 365
+            scaled = np.asarray([raw[s] for s in live], dtype=np.float64)
+            gross = float(np.abs(scaled).sum())
+            if gross > .6:
+                scaled *= .6 / gross
+            sigma = math.sqrt(max(float(scaled @ covariance @ scaled), 0.))
+            if sigma > .10:
+                scaled *= .10 / sigma
+            weights.update(zip(live, map(float, scaled), strict=True))
+        for symbol in symbols:
+            rows.append(dict(available_us=decision, symbol=symbol,
+                target_weight=weights[symbol], raw_signed_target=raw[symbol],
+                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+    window['independent_momentum_state_witnesses'] = witnesses
+    return pl.DataFrame(rows)
+
+
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
     need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
     if strategy_id == SMA_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared SMA uses original equal member shares only')
         return sma_pool_target_reference(window, symbols)
+    if strategy_id == MOMENTUM_POOL_STRATEGY:
+        need(allocation == 'EQUAL', 'Predeclared momentum uses original equal member shares only')
+        return momentum_pool_target_reference(window, symbols)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -716,10 +787,17 @@ def main():
         allocation = spec.get('allocation', 'EQUAL')
         strategy_id = spec['strategy']
         sma_strategy = strategy_id == SMA_POOL_STRATEGY
+        momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
-             (strategy_id == ALLOCATION_STRATEGIES[allocation] or sma_strategy and allocation == 'EQUAL'),
+             (strategy_id == ALLOCATION_STRATEGIES[allocation] or
+              (sma_strategy or momentum_strategy) and allocation == 'EQUAL'),
              'Same fixed capital and explicit independent strategy/allocation policy')
-        need('score_months' not in scope or not sma_strategy, 'Continuous quarters contain only the three fixed HOLD recipes')
+        need('score_months' not in scope or not sma_strategy,
+             'Continuous quarters contain the predeclared HOLD or past30 long/cash recipes')
+        if momentum_strategy:
+            need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
+                 actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
+                 'Only the fixed ten-member equal momentum recipe in the two continuous quarters')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -740,6 +818,12 @@ def main():
         if sma_strategy:
             report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
+                equality_tolerance_band_used=False)
+        if momentum_strategy:
+            report.update(independent_momentum_state_witnesses=window['independent_momentum_state_witnesses'],
+                independent_momentum_reference='DIRECT_COMPLETED_CLOSE_VS_30_DAYS_EARLIER_FRESH_FLAT_GT_ENTRY_LE_EXIT_NO_PRODUCER_OR_HOOK_IMPORT',
+                momentum_completed_return_days=30, equality_exits_held_long=True,
+                exit_then_wait_next_daily_decision=True, idle_raw_budget_redistributed=False,
                 equality_tolerance_band_used=False)
         report['financial_input_bindings'] = window['proofs']
         if 'score_months' in scope:
@@ -785,8 +869,10 @@ def main():
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
                         window, result, paths['funding.json'], base, errors))
             report['cases'].append(dict(result, pool=pool_id, symbols=list(symbols),
-                independent_HOLD_targets_verified=not sma_strategy, independent_HOLD_allocation=allocation if not sma_strategy else None,
+                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy),
+                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy) else None,
                 independent_SMA50_200_targets_verified=sma_strategy, independent_strategy_targets_verified=True,
+                independent_past30_momentum_targets_verified=momentum_strategy,
                 independent_strategy_id=strategy_id))
             report['completed_cases_verified'] = len(report['cases'])
             gc.collect(); bounded()

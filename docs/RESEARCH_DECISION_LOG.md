@@ -1053,3 +1053,25 @@ D053实际完成并推送/远端核354967542958004c59a7f8e4b3d2fececf036b63，�
 选择它比扩币/换allocation/省小额成本更有价值，因为它直接检验是否可以因果地减少恒多头下跌毛亏，同时保留前季收益。两个季度四档均净增、实际vol/DD不更差、非单月救回且退出诚实才提高研究优先级；一季胜/仅少暴露避损/单位成本反转，保留机制诊断或暂停，不搜参救活。十币投资reopen仍须更长独立跨状态/实际风险、单位/native/可退出资格；更多币/ML需明确覆盖/信息机制及有限共同对照，SMA50/200仍暂停，重开需具体新机制。原生资格gap不能解释当前gross负，暂非救亏主实验。
 
 source148.389MB/main352.811MB/financial40.564KB，RSS≤432.382MB/shared实采2.558GB、内核历史3.263GB非本版峰，原hard5GB/swap0/GPU0/D40/1GB增量保持。原guard最终实扫24,890,287,979B@2026-10-04T02:33:52.261086Z（preGit），区间全ROOT+VHD增336,855,622B含collector等，不是实验文件量。五真实失败和最小正常修复、旧源/task保留，registry不放宽；0旧QA/市场/绿测/模型/HPO/依赖/keys/orders/locked/paid。collector540真活、8765准确，模块源码/敏感门槛后正常push，精确结果仅按后验同步凭证，不预造后台研究。
+
+### D057事前：固定30日方向/现金门，检验价格暴露而非再扩币
+
+上一goal turn为progress：D056真实90D/12新账户/12独立金融/八配对、五真实失败与正常修复、文档/门槛/正常推送核远端1459b2d完成。当前HEAD1459b2d17cc669a736e2caebf90cd2734c82a835，tracked clean/37untracked（旧36WIP+1实际D056后验），0研究running、collector540真实PID活、8765 errors[]/hard4,999,999,488B/swap0/GPU0；末scan24,890,287,979B@2026-10-04T02:33:52.261086Z为preGit实际点，不伪造当前容量。后验同步fc91fe38本正常模块入库。
+
+唯一问题：固定July10等权，把恒多改为已完成过去30日close[-1]>close[-31]才入多、持多<=退出/否则现金，能否减少冬季价格毛亏且保留前季上涨收益？30取既有risk信息期限，零阈值一次固定选择，未测不是最优期。原shared目标200warm/过去30协方差/.10仅缩小/单币abs.3-总gross.6/逐仓1x/no topup/完整10k/BASE27-STRESS43×F-P/上一分钟.001容量/原5次末退出不变；inactive raw预算不再分配，risk缩小比例与实际暴露可能不同，完整报告不宣称同风险。无short，原close-then-wait下个日决策才重入，与HOLD单一方向因素对照，不同时改变池/配置/费用。
+
+仅Sep1-Dec1前91D与Dec1-Mar1前90D，各新策略4账户=8新连续钱包/8独立金融，各季度fresh一次完整10k，季度内跨月不reset；不拼两个独立钱包或改历史unseen。复用两原已接受manifest847d/56f1及已登记July池9b8d，旧HOLD/CASH只读保存比较，0源下载/CRC/旧QA/旧账户重跑/模型/fit/训练/HPO/新依赖。新正常薄direction adapter、现有runner/comparer和独立target分支，金融/HandLedger/成本/账户/目标risk数学不重造。两个必要小病例合并验证方向状态/过去可得性/未来扰动/成员与顺序/raw不再分配，以及独立拒错误等号/提前day；与新入口有关的必要测试 בלבד，不用旧绿测充数。
+
+有限预算全部含底层calls：8main/8financial/两保存配对，两main串行，只已完成组金融可与下一main有限并行；总新STATE≤800,000,000B含失败/temp，各main≤250MB/1800秒/RSS3GB、financial≤100KB/1800秒/RSS1.5GB、tests≤10MB/1200秒/RSS1GB、meta≤5MB。预计main约308MB是预算预估非已测，实际超限真停止；原shared5GB/线程2/D40-32warn-36stop/swap0/GPU0/collector保护。每长任务原progress/bounded、新专属STATE，不覆盖旧报告。0keys/真钱/orders/testnet/mainnet/locked/paid/杠杆风险资本增加，不绕场所限制。
+
+指标：完整资本净/gross/费用/资金费、actual vol/minuteDD、净/gross与保证金均/峰、换手/交易原因、资产/月/日集中、残仓/浮亏/退出、实际resource。主要判定：两个完整季度四情景都净增且actual vol/DD不更差、非单月救回才提升研究优先级，依然NONE/CASH/APRNE；仅少暴露避亏/一季有效/成本单位反转只保留机制诊断或暂停，不继续扫30周边期限/阈值。停止8+8+2及必要病例，或真实缺口/金融/破产/容量/预算错误；原marked/cash分类不放宽、不延退出或删亏币/日期。负结果后依据机制自主换路，更多币/ML仍需明确覆盖/信息问题及有限共同对照。
+
+### D057结果决定：方向门仅防御权衡，暂停晋级，转不同收益机制
+
+两个完整季度8main/8financial/两保存pair真实closed0，财务最大cash2.001e-11/ratio2.665e-14，原tols；另一次独立只读审阅确认新30日reference与冬季cash=false/残仓桥一致。秋季net965.08..1037.19，比原EQ少65.75..95.36，BF gross少21.67/cost多44.88/fund省.80；turnover.668→3.992、vol9.961→10.319%、DD3.495→3.518%。冬季marked-604.60..-561.53，比EQ少亏152.19..175.23，BF gross少亏202.67/cost多31.76/fund省4.32；gross仍-521，三个整月/十币net负，meanGross11.61→8.82%、vol9.77→7.37/DD10.02→8.44。未识别同风险alpha，两个独立账户不拼APR。冬季SATS库存460.12..462.67/浮亏-12.45..-12.83保留，4清仓NE；秋4实际flat。不改变成本/单位/原五次退出或删币。
+
+事前双季净/实际risk改善门槛未通过。采用N资产共享资本/正常cash门能力，暂停固定30日门晋级和参数救援；投资NONE/CASH/APRNE。稳定两币HOLD控制、EQ10基准与inverse挑战者保留，扩币净增量状态依赖，更多币/逐币模型当前没有覆盖或信息缺陷依据。现有原因journal缺口记UNKNOWN，不将新增成本全部归某类退出，也不把平仓gross归订单原因。
+
+下一唯一主问题转已登记公开固定低换手均值回归机制，先核RSI2完整周期/entry/exit与正常接口兼容，再选一个事前固定日线对照；旧1h负结果保持，日线未测且无胜率承诺。它比救30日期限、缩费用、按收益换币更有信息价值，因为本轮pricegross与turnover代价不能由risk caps相同解释。忠实语义不兼容或无明确有限对照则停止该配方，不搭平台；有净/真实风险/可退出跨状态优势才提高研究优先级。30日门reopen须新机制/独立跨状态净与risk/退出证据，非本两季事后搜参；native/unit在合法来源可核时重开。
+
+新main187936950B、finance26390B，主RSS≤423.444MB/独立≤565.846MB，共享实采峰2.767GB；累计峰3.263GB不是新精确峰。末guard实际25,128,987,214B@2026-10-04T03:28:17.470050Z为preGit，区间增长202,858,429含collector；800MB STATE总预算待metadata出口精确合计，D40/shared5/swap0/GPU0不变。两个metadata启动失败127/1为0market/QA/protocol保留，原helper与经济source保持。0fits/HPO/download/newQA/旧账户或旧绿测/orders/keys/locked/paid。模块按原源码/字节/敏感门槛后正常push，以实际远端核对为准，不预造后台实验。

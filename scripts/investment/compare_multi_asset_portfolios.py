@@ -19,6 +19,7 @@ FINANCE_SOURCES=('src/quant/perpetual_account.py','scripts/investment/perpetual_
 EQUAL_ID='COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 INVERSE_ID='COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 SMA_SIGNAL_ID='COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
+MOMENTUM_SIGNAL_ID='COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
 SIGNAL_SOURCE_PINS={
     'scripts/investment/public_sma_pool_target.py':'0d8eca6fe244630e77bbd0bd8592bbcbd70c10463f4a211588f6ee3c8595b485',
     'scripts/investment/public_sma_perpetual.py':'37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
@@ -330,6 +331,104 @@ def signal_case(left,right,scope,days):
         realized_risk_matched=False,alpha_identified=False)
 
 
+def momentum_scope(left, right):
+    """Saved constant-long versus one predeclared direction/cash change.
+
+    Historical report/source identities stay historical. Only the source
+    reader and runner may differ, alongside the added direction adapter;
+    account, execution and past-risk math must remain identical.
+    """
+    a, ap = saved_protocol(left); b, bp = saved_protocol(right)
+    require(a['strategy'] == EQUAL_ID and b['strategy'] == MOMENTUM_SIGNAL_ID and
+        a.get('allocation', 'EQUAL') == b.get('allocation', 'EQUAL') == 'EQUAL',
+        'Fixed equal HOLD versus predeclared momentum/flat only')
+    require(a['start'] == b['start'] and a['end_exclusive'] == b['end_exclusive'] and
+        a['initial_capital_USDT'] == b['initial_capital_USDT'] == 10000 and a['pools'] == b['pools'],
+        'Same complete dates, ordered pools and full shared capital')
+    proofs = [saved_pool_proof(p) for p in (a, b)]
+    require(proofs[0]['path'] == proofs[1]['path'] and proofs[0]['sha256'] == proofs[1]['sha256'],
+        'Same point-in-time pool, no return-based reselection')
+    require(a['data_manifest']['sha256'] == b['data_manifest']['sha256'] ==
+        left['binding']['manifest_sha256'] == right['binding']['manifest_sha256'] and
+        Path(a['data_manifest']['path']).resolve() == Path(b['data_manifest']['path']).resolve(),
+        'Identical accepted signal/execution source manifest')
+    hashes = [p['binding']['source_hashes'] for p in (left, right)]
+    require(all(p['source_hashes'] == h for p, h in zip((a, b), hashes, strict=True)),
+        'Actual recorded sources match each saved protocol')
+    for key in FINANCE_SOURCES + TARGET_SOURCES:
+        require(hashes[0][key] == hashes[1][key], 'Unchanged shared finance/risk ' + key)
+    require(hashes[0]['scripts/investment/public_sma_perpetual.py'] ==
+        '37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47' and
+        hashes[0]['scripts/investment/vol_managed_perpetual_target.py'] ==
+        'a1f73af45253f42b557d902da79eea94148c4e487be178891279558d3d9bb54b',
+        'Known accepted equal targets and unchanged covariance math')
+    adapter = 'scripts/investment/momentum_cash_pool_target.py'
+    require(hashes[1][adapter] == sha(ROOT/adapter), 'Pre-market adapter pin matches normal source')
+    changed = {k: dict(baseline=v, current=hashes[1][k]) for k, v in hashes[0].items()
+               if k in hashes[1] and v != hashes[1][k]}
+    require(set(changed) <= {'scripts/investment/multi_asset_data.py',
+                            'scripts/investment/multi_asset_portfolio.py'} and
+        set(hashes[0]) <= set(hashes[1]) and set(hashes[1])-set(hashes[0]) <= {adapter},
+        'Only source/runner compatibility and added direction adapter')
+    require(left['binding']['environment_lock_sha256'] == right['binding']['environment_lock_sha256'] ==
+        hashes[0]['environments/v8/uv.lock'], 'Identical accepted runtime lock')
+    require(b['momentum_parameters'] == dict(completed_days=30, threshold=0,
+        entry='LAST_COMPLETED_CLOSE_GT_30D_PRIOR_CLOSE',
+        exit='HELD_LONG_AND_LAST_COMPLETED_CLOSE_LE_30D_PRIOR_CLOSE',
+        inactive_raw_budget_redistributed=False), 'One fixed 30-day zero-threshold choice')
+    return dict(baseline_protocol=ap, current_protocol=bp, predeclared_pools=a['pools'],
+        start_us=int(datetime.fromisoformat(a['start']).timestamp()*1_000_000),
+        end_us=int(datetime.fromisoformat(a['end_exclusive']).timestamp()*1_000_000),
+        frozen_pool_receipt=proofs[0], identical_data_manifest_sha256=a['data_manifest']['sha256'],
+        source_changes=changed, adapter_source_sha256=hashes[1][adapter],
+        strategy_rules=b['strategy_rules'], momentum_parameters=b['momentum_parameters'],
+        baseline_strategy_id=EQUAL_ID, current_strategy_id=MOMENTUM_SIGNAL_ID,
+        baseline_signal='CONSTANT_LONG', current_signal='PAST30_POSITIVE_ABSOLUTE_RETURN_LONG_OR_CASH',
+        allocation_changed=False, directional_signal_changed=True, realized_risk_matched=False)
+
+
+def momentum_case(left, right, scope, days):
+    require(left['pool'] == right['pool'] == 'LIQUIDITY_TEN' and left['symbols'] == right['symbols'] and
+        any(p['id'] == left['pool'] and p['symbols'] == left['symbols'] for p in scope['predeclared_pools']) and
+        left['summary']['contract'] == right['summary']['contract'] and
+        left['summary']['cost_scenario'] == right['summary']['cost_scenario'] and
+        left['summary']['unit_scenario'] == right['summary']['unit_scenario'] and
+        left['summary']['mode'] == right['summary']['mode'] == 'LONG_ONLY',
+        'Same ordered pool, actual product/risk/cost/unit rules')
+    common = dict(timeframe_minutes=1440, completed_daily_eligibility_bars=200,
+        past_covariance_daily_returns=30, annual_volatility_target=.10,
+        absolute_target_per_asset=.3, gross_target_cap=.6,
+        raw_allocation='EQUAL_SHARE_OF_0.6_GROSS_TO_CONFIGURED_ELIGIBLE_MEMBERS',
+        SMA_alpha_or_original_Jesse_hooks_used=False)
+    metas, proofs = [], []
+    for case, identity in ((left, EQUAL_ID), (right, MOMENTUM_SIGNAL_ID)):
+        item = case['artifacts']['target_meta.json']; path = Path(item['path'])
+        require(path.stat().st_size == item['bytes'] <= 2_000_000, 'Small saved actual target metadata')
+        meta = read(path, item['sha256']); rules, risk = meta['rules'], meta['risk']
+        require(meta['strategy_id'] == identity and meta.get('allocation', 'EQUAL') == 'EQUAL' and
+            meta['symbols'] == case['symbols'] and meta['mode'] == 'LONG_ONLY' and
+            all(rules.get(k) == v for k, v in common.items()) and
+            meta['original_SMA_alpha_used'] is False and meta['funding_rates_used_for_signal'] is False and
+            meta['fresh_flat_each_window'] is True and meta['native_Jesse_or_Bybit_execution_replicated'] is False,
+            'Same completed-day eligibility/raw allocation/risk, no SMA or funding signal')
+        require(len(risk) == days and all(r['symbol_order'] == case['symbols'] and
+            r['past_only'] is True for r in risk) and
+            [r['decision_us'] for r in risk] == [scope['start_us'] + d*86_400_000_000 for d in range(days)],
+            'Complete causal ordered daily decision clock')
+        metas.append(meta); proofs.append(dict(path=str(path), sha256=item['sha256'], rules=rules))
+    require(metas[0]['rules']['direction_is_constant'] is True and
+        metas[1]['rules'] == scope['strategy_rules'] and metas[1]['rules']['direction_is_constant'] is False and
+        metas[1]['original_long_and_short_and_exit_hooks_reused'] is False and
+        metas[1]['direction_context_is_Jesse_strategy'] is False and
+        'fast_period' not in metas[1] and 'slow_period' not in metas[1],
+        'Truthful fixed own direction rule, not an original SMA replica')
+    require([r['covariance_symbol_order'] for r in metas[0]['risk']] ==
+        [r['covariance_symbol_order'] for r in metas[1]['risk']],
+        'Same eligible past covariance inputs, direction may alter realized risk')
+    return dict(baseline=proofs[0], current=proofs[1], allocation_changed=False,
+        directional_signal_changed=True, realized_risk_matched=False, alpha_identified=False)
+
+
 def pool_scope(left, right):
     """New pool comparisons share one accepted source, including control subsets.
 
@@ -401,7 +500,8 @@ def main():
     else:
         require(28 <= actual_days <= 31, 'Predeclared single month or accepted continuous quarter')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
-    signal_context=signal_scope(left,right) if args.contrast=='signal' else None
+    momentum = args.contrast == 'signal' and right.get('strategy_id') == MOMENTUM_SIGNAL_ID
+    signal_context=(momentum_scope(left,right) if momentum else signal_scope(left,right)) if args.contrast=='signal' else None
     pool_context=pool_scope(left,right) if args.contrast=='pool' else None
     if args.contrast=='pool':
         for name in ('public_sma_perpetual.py','vol_managed_perpetual_target.py',
@@ -425,7 +525,8 @@ def main():
                 'Actual ordered identities and complete cost/unit scenarios')
         target_contrast=allocation_case(a[key],b[key],contrast_scope,actual_days) if contrast_scope else None
         if signal_context:
-            target_contrast=signal_case(a[key],b[key],signal_context,actual_days)
+            target_contrast=(momentum_case(a[key],b[key],signal_context,actual_days) if momentum else
+                             signal_case(a[key],b[key],signal_context,actual_days))
         x,y=measures(a[key]),measures(b[key])
         pairs.append(dict(cost=key[0],funding_unit_scenario=key[1],control=x,pool=y,
             pool_minus_control_net_USDT=y['net_USDT']-x['net_USDT'],
@@ -456,7 +557,9 @@ def main():
     if signal_context:
         result.update(contrast='signal',signal_contrast=signal_context,
             scope='Same ordered July N10 pool, full capital, accepted inputs, equal raw allocation, costs and financial risk rules; '
-                  'constant-long HOLD versus fixed original SMA50/200 long-flat signal. Actual exposure and realized risk are not matched. '
+                  + ('constant-long HOLD versus fixed past30 absolute momentum long/cash. '
+                     if momentum else 'constant-long HOLD versus fixed original SMA50/200 long-flat signal. ')
+                  + 'Actual exposure and realized risk are not matched. '
                   'Saved marked-NAV pairing retains terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
                   'No post-hoc risk scaling, account replay, identified alpha, native Bybit or long-term APR claim.')
     with args.output.open('x',encoding='utf-8') as stream:
@@ -466,6 +569,7 @@ def main():
     event.update(event_id=args.experiment_id+':RESULT',event_type='SAVED_RESEARCH_COMPARISON',
         experiment_id=args.experiment_id,data_manifest_hash=result['control']['sha256'],
         success_failure=result['status'],reason_for_next_experiment=(
+            'Saved single-factor past30 direction/cash contribution and unequal actual risk' if momentum else
             'Saved single-factor original SMA signal contribution and unequal actual risk' if signal_context else
             'Saved single-factor allocation contribution and unequal actual risk' if contrast_scope else 'Economic pool contribution and actual risk'),
         artifact_path=str(args.output.resolve().relative_to(ROOT)),artifact_sha256=sha(args.output))

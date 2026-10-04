@@ -333,3 +333,7 @@ D055实际闭合：同原Binance f446ce.../Polars1.44.2/NumPy2.5.3/Decimal，0�
 ### D056：下一固定季度（运行前登记）
 
 复用原binance/binance-public-data固定f446ce3812bd4e5521f21faecd4ae3c6460e49fc/官方URL+CHECKSUM+格式，现有thin默认Windows传输与trade/formats parser；不新造下载框架。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause、Decimal原环境零安装/第三方修改。正常本地适配只增Dec2024–Feb2025有限日期/profile、单quarter源与按日块读取；72首次新QA、18旧score与100旧warm接受metadata复用，0重旧CSV/CRC/行情账户/模型。原账户/风险/目标/费用/资金费体保持；旧D055/失败由Git1f40239及父提交复现，历史证据不篡改。Bybit原生与单位/发布时钟不自授认证。
+
+### D057：固定30日方向/现金薄适配（调用前登记）
+
+本配方是COIN自己的简单研究规则，不冒称公开momentum策略完整复现，无新第三方repo/安装/模型库。固定30个完成日close比较与一个state hook，直接复用已登记NumPy/Polars、正常public_sma_perpetual.fixed_targets(direction_factory=...)的有序成员/过去协方差/风险及共享账户；原第三方版本/license/本地修改继续见上表。官方public-data/CHECKSUM只复用两已接受manifest，不下载/重QA；不加载原Jesse SMA alpha，不新增训练、资源框架或金融loop。

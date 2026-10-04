@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+exec /mnt/c/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe -NoProfile -NonInteractive -File D:/codex/coin/.cache/d057_metadata.ps1 -ExpectedTargetSHA256 9f2fe9aae324db2e5ccbcca0ca843b8612625f2aba1cece6937f5db09cb586a4 -ExpectedPortfolioSHA256 84ff0c4dbbc36827c456891d63431466903f3d19e608a811e671ec7639812546 -ExpectedCheckerSHA256 6108748d5ee685883bac9b3a747956f99751bb13d459ecd69cb2682e86dd75b5 -ExpectedComparerSHA256 2c1a3d5cd5c82ad18bd663f09ba74bb21975305f997f9470d1cf5ee4a1a9d1cc -MetadataTaskId "$COIN_TASK_ID"

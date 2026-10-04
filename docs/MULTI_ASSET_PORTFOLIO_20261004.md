@@ -553,3 +553,62 @@ bash scripts/with_task_progress.sh --title 'D052九月保存账本配对' -- env
 ```
 
 独立run须先用已归档薄binder绑定新actual真实closed0与小元数据；原ACTUAL_BINDING/RUN_BINDING/COMPLETED_TASK逐字节归档在两个`MULTI_ASSET_INVERSE_VOL_*_INDEPENDENT_USED_METADATA_20261004_V1`目录，原输出实际exit凭证分别在对应`INDEPENDENT_ACTUAL_EXIT`报告。未启动下一趋势实验，不虚报后台运行。模块Git同步见独立后验`GITHUB_MULTI_ASSET_INVERSE_VOL_SYNC_VERIFIED_20261004_V1.json`，原D051后验凭证随本版入库。
+
+## D057：固定30日方向／现金门的两个完整季度
+
+本版在现有可配置N资产链路上，只增加一个正常方向适配器：最新已完成日收盘价严格高于30日前才持多，持多时小于等于该价格则退出；否则空仓。直接复用既有 `fixed_targets(direction_factory=...)`，没有模型、搜参、下载、重跑旧QA或旧账户。原July十币池、等权原始份额、200连续日预热、过去30日协方差、10%波动目标仅下缩、单币abs30%/总gross60%、逐仓1x、完整10k、27/43bp成本和F/P单位情景、分钟容量及最后五次退出都保持。闲置原始份额不再分配；风险缩放可能改变实际暴露，不称同风险alpha。
+
+十币按既有池的顺序进入同一钱包：BTC、ETH、SOL、1000PEPE、XRP、WIF、WLD、DOGE、1000SATS、ORDI。这个池是历史流动性/预热筛选样本，不是永久范围或收益择币。目标、协方差、账户和成交保持同一有序身份；每日信号与分钟执行/mark、实际资金费事件分开，按日块读取。没有逐币训练或全量aggTrades/LOB下载。原两币及十币HOLD作为保存基准，不重新计算账户。
+
+### 实际净收益和风险
+
+每个季度/情景分别投入一次完整10,000 USDT，季度内跨月连续；两个独立季度不拼成NAV、APR或组合。以下为已见开发筛选，风险列采用BASE/F；净损益范围覆盖四个预登记成本/单位情景，CASH为0。
+
+|窗口 / 方案|完整资本净损益 USDT|实际日收益描述性年化波动|分钟最大回撤|末清仓|
+|---|---:|---:|---:|---|
+|2024-09至11 / 保存两币HOLD|953.42–1013.61|10.538%|3.071%|4/4|
+|同季 / 保存十币等权HOLD|1059.77–1103.50|9.961%|3.495%|4/4|
+|同季 / 新十币方向现金门|965.08–1037.19|10.319%|3.518%|4/4|
+|2024-12至2025-02 / 保存两币HOLD|−638.61至−593.83|9.916%|9.128%|4/4|
+|同季 / 保存十币等权HOLD|−761.39至−732.17，marked|9.770%|10.019%|0/4|
+|同季 / 新十币方向现金门|−604.60至−561.53，marked|7.369%|8.442%|0/4|
+
+固定同十币、同产品、同资本/日期/输入/成本的配对隔离方向因素；两币行只是保留的另一个池参照，不能将不同池和信号的总差异归给方向。
+
+秋季四配对净增量依次BASE/F、BASE/P、STRESS/F、STRESS/P：**−65.746050 /−66.313043 /−94.690627 /−95.355544 USDT**。BASE/F价格gross少21.6652，费用/执行多44.8782，资金费省0.7974，净少65.7461；压力成本增负担71.35。换手/full资本从0.668到3.992；平均gross从12.928%到12.175%，但峰gross从16.383%到20.002%，实际波动和回撤略高。低平均暴露没有保证更低实际风险。月端点净28.30/87.41/883.96，仍十一月主导，不能把方向门叫稳健改善。
+
+冬季四配对净增量：**+175.226150 /+170.641794 /+156.798090 /+152.191450 USDT**。BASE/F gross少亏202.6672，被新增费用/执行31.7568抵消，资金费省4.3158。新gross仍−521.1206，交易成本38.9897、资金费−21.9556，净−582.0659；压力成本约62.03。平均gross/net11.609%→8.823%，峰gross14.481%→14.969%；保证金/full初始资本平均13.850%→8.558%、峰17.452%→14.380%。换手0.536→2.888；三个完整月份净−325.49/−43.96/−212.61，十币净贡献全部为负。冬季少亏伴随更低实际暴露/波动，是防御权衡诊断，没有证明同风险alpha或正收益。
+
+秋季新配置平均/峰保证金/full初始资本11.459%/17.982%，完整报告另保留相对NAV口径、gross/net均峰、日损益集中度与每币gross/费用/执行/资金费/未实现贡献。BASE/F秋季592、冬季261个金融成交腿；两窗口实际risk-reduction信号计数均0。当前保存目标/成交没有可可靠映射全部订单原因的intent journal，因此逐原因费用归属标为 **UNKNOWN**，不能把一笔平仓的收益分给某个原因；方向/资产/费用桥已经核对。新增成本归因是配对会计分解，不能据此把全部新增费用称为某一类退出成本。
+
+### 残仓与金融正确性
+
+冬季四新账户SATS末标记名义 **460.1206–462.6742 USDT**，未实现损益 **−12.8325至−12.4528** 完整计入NAV。BASE/F数量3,498,500.55628468、标记461.4522、浮亏−12.4537、NAV9417.9341。它是实质库存，非dust；清仓收益均 **NOT_EVALUABLE**。原HOLD残仓保持；本版没有删库存、免费退出、增加原五次退出或延长日期。完整marked日历和可变现收益分别判断。
+
+新增8个实际账户（91日131040分钟/90日129600分钟）与8次独立金融调用均实际closed0。独立标量30日方向/等号退出/状态重置/有序协方差参考实际执行，各组910/900条状态证据；新targets、成交腿、费用、资金费归属、钱包/保证金、分钟/日/月NAV及末库存均核对。最大现金误差2.001e−11 USDT、ratio2.665e−14，在原1e−7/1e−10容差内。完整frozen intent数量仍未独立全部重建，金融通过不认证数据发布、资金费单位、历史数量/MMR或原生清算。
+
+- 主体：[秋季](../reports/fast_research/MOMENTUM_CASH_SEPNOV91_20261004_V1.json)与[冬季](../reports/fast_research/MOMENTUM_CASH_DECFEB90_20261004_V1.json)，实际任务05c73ee3…/f6f5626c…；host44344/b52029与14662/4dc565均exit0。
+- 独立：[秋季](../reports/fast_research/MOMENTUM_CASH_SEPNOV91_INDEPENDENT_20261004_V1.json)、[冬季](../reports/fast_research/MOMENTUM_CASH_DECFEB90_INDEPENDENT_20261004_V1.json)，8cb62f2a…/bc9dc4f8…；独立agent只读核验确认冬季cash=false与未实现桥一致，没有再跑金融。
+- 配对：[秋季](../reports/fast_research/MOMENTUM_CASH_SEPNOV91_COMPARISON_20261004_V1.json)、[冬季](../reports/fast_research/MOMENTUM_CASH_DECFEB90_COMPARISON_20261004_V1.json)，36f1319d…/335b1108…真实exit0。旧源码按各自Git提交保留，当前账户/风险/成本源码一致，仅披露data/runner适配及新方向adapter；不要求旧源码永久作为新实现运行依赖。
+- 新两个合成病例：[实际JUnit](../reports/MOMENTUM_CASH_TARGET_TESTS_20261004_V1.xml)，a11a3f1c…真0；手算协方差/严格30日、等号退出、顺序、缺口/退出及未来扰动通过。没有用旧绿测或历史QA充数；测试单进程峰RSS未记录，不补造。
+
+### 资源与采用决定
+
+主体秋季/冬季耗时267.835/251.105秒、RSS423.444/406.479MB、STATE输出118,568,444/69,368,506B；共187,936,950B。独立RSS565.846/548.725MB、25.841/28.432秒、独立STATE12,320/14,070B。共享组本轮实采峰2.767GB，内核累计峰3.263GB是此前记录，不能写成新过程精确峰。原hard4,999,999,488B/swap0/GPU0与总D40GB继续，无GPU。
+
+[末磁盘实扫](../reports/MOMENTUM_CASH_FINAL_RESOURCE_20261004_V1.json)：**25,128,987,214B @2026-10-04T03:28:17.470050Z**，ROOT4,295,879,246+整个D盘WSL VHD20,833,107,968；74.654秒，preGit。相对首账户扫描增长202,858,429B，含公开采集及其他文件分配，非本实验文件量。8765显示实际扫描时刻与closed任务；之后metadata/Git增长不冒充已扫描。全部D057自有STATE另由模块导出核800MB总预算。
+
+采用可配置N资产/共享资金/现金门研究能力，**暂停固定30日门投资晋级和参数救援；投资NONE/CASH，长期APR未建立**。事前双季度净/实际风险改善门槛未通过。两币HOLD稳定控制、十币equal基准/inverse挑战者保留；更大池与逐币模型不因能力扩展而自动引入。扩池的净增量在前季为正、后季为负；没有证明永久分散收益，下一研究重点转收益机制。
+
+下一唯一问题：不同的公开固定低换手均值回归机制能否带来扣真实成本后的价格gross优势？先核现有已登记RSI2源码周期和完整entry/exit兼容性，再事前固定一个有限对照；旧1h负结果保持，日线仅未测假设。不扫描30日周围期限/阈值/迟滞，不按收益删币或换资金费解释。30日门reopen需要新的信息机制或真正独立跨状态净/风险/可退出证据；原生/单位资格在合法输入可核实时重开，当前不为修复gross亏绕场所限制。
+
+### 可复现命令
+
+以下是已实际执行的主体入口。复测应检出本版并采用新的experiment_id、STATE和输出名，保留原日期/成本/资金单位/策略规则；禁止覆盖本版工件或重复registry事件。独立运行先用归档薄metadata助手绑定实际完成主体；其协议在 `MOMENTUM_CASH_*_FINANCIAL_BINDING_20261004_V1.json`，不读取locked正文。
+
+```bash
+cd /mnt/d/codex/coin
+bash scripts/with_task_progress.sh --title 'D057 秋季91日方向门' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/MOMENTUM_CASH_SEPNOV91_20261004_V1.json --run-dir /home/xflops/coin-state/d057-momentum-cash-sep-nov-20261004-v1 --output reports/fast_research/MOMENTUM_CASH_SEPNOV91_20261004_V1.json --pool-id LIQUIDITY_TEN
+```
+
+冬季同一入口改为DECFEB90协议/报告及 `d057-momentum-cash-dec-feb-20261004-v1`；保存配对使用 `compare_multi_asset_portfolios.py --contrast signal`、对应旧HOLD `--control` 与新规则 `--pool`，没有账户重放。两次metadata启动失败（猜错现有PowerShell路径exit127/跨shell任务ID空值exit1）均为0账户/0QA/0协议，真实任务保留；用确切现有运行时与脚本传原任务ID后完成，未改经济配置。
