@@ -1075,3 +1075,18 @@ source148.389MB/main352.811MB/financial40.564KB，RSS≤432.382MB/shared实采2.
 下一唯一主问题转已登记公开固定低换手均值回归机制，先核RSI2完整周期/entry/exit与正常接口兼容，再选一个事前固定日线对照；旧1h负结果保持，日线未测且无胜率承诺。它比救30日期限、缩费用、按收益换币更有信息价值，因为本轮pricegross与turnover代价不能由risk caps相同解释。忠实语义不兼容或无明确有限对照则停止该配方，不搭平台；有净/真实风险/可退出跨状态优势才提高研究优先级。30日门reopen须新机制/独立跨状态净与risk/退出证据，非本两季事后搜参；native/unit在合法来源可核时重开。
 
 新main187936950B、finance26390B，主RSS≤423.444MB/独立≤565.846MB，共享实采峰2.767GB；累计峰3.263GB不是新精确峰。末guard实际25,128,987,214B@2026-10-04T03:28:17.470050Z为preGit，区间增长202,858,429含collector；800MB STATE总预算待metadata出口精确合计，D40/shared5/swap0/GPU0不变。两个metadata启动失败127/1为0market/QA/protocol保留，原helper与经济source保持。0fits/HPO/download/newQA/旧账户或旧绿测/orders/keys/locked/paid。模块按原源码/字节/敏感门槛后正常push，以实际远端核对为准，不预造后台实验。
+
+## D058 — 2026-10-04 运行前：日线RSI2不同收益机制
+
+D057固定30日正动量门已实际两季度失败：秋季各场景落后等权HOLD，冬季少亏但仍负；该配方暂停晋级，保留能力。当前投资候选NONE/CASH，长期APR不可评价。本轮只测试一个不同机制：固定MIT Jesse RSI2原多头入/出规则，日线5/200/2/10；不调阈值/周期/择币/费用/风险。使用同July10池和完整10k账户、原abs.3/gross.6/逐仓1x、原分钟成交与mark/真实事件资金费、两成本与两个UNKNOWN单位情景。新日线周期为显式新假设，不追认旧1h失败。
+
+对照保存D055 Sep-Nov91日与D056 Dec-Feb90日等权HOLD/CASH及原两币结果，旧钱包不重跑、不拼接两个满资金季度成长期NAV。RSI官方scalar需240日，旧213日秋季暖源不足；先单独补January2024同池1d暖源（尽可能复用已验BTCETH2条、只下载/独立QA其余8条），旧pool200日资格/来源manifest/评价起点不变。预热不足/缺口如实现金而非补值。普通源码增加明确warmup参数和闭合price上下文，默认200逻辑保持，原经济证据按Git保留。
+
+预算：1配方0fit0HPO；最多8新账户+8独立记录账本核对、2保存工件配对，不重验旧市场；新暖源owner<=10MB/900s/RSS1GB，每quarterowner<=250MB/1800s/RSS3GB，合计STATE<=800MB，共享5GB/swap0/GPU0与D40GB原守卫。必要受影响小合成测试与独立官方kernel序列参考，不造平台。停止条件：真实日历/账本/来源不符即停止修正确切问题并保留失败；负毛收益或成本耗尽/跨状态无价值则暂停固定配方。采用需要同时有净收益/成本余量与实际风险可解释，开发历史正值不产生独立优势或真钱资格。
+### D058结果决定：均值回归long低暴露但无跨状态收益，检验原选择性short
+
+两原完整季度8新共享账户、8独立核账与8保存配对真实闭合/终端库存零，独立只读复核无实质矛盾。秋net44.10..57.93USDT，冬−485.16..−459.01；相比equalHOLD秋少1012..1049、冬少亏257..293。BASE/F秋gross73.33/cost15.37/fund−4.67，冬gross−423.27/cost35.45/fund−6.06；冬即使免费交易仍毛亏，February约73%损失，只有January小gross被成本吞噬。actual vol3.152/6.229%与minuteDD1.641/6.700%主要低暴露权衡，非同riskalpha。秋WIF最初13日240成熟cash的配对差异如实披露，冬0；未来未授权/独立证据不自授。
+
+采用正常N资产/暖源/日线适配能力，暂停固定RSI2 LONG_ONLY晋级，投资NONE/CASH/APRNE；原两HOLD、equal10/inversechallenger保留，固定30日仍暂停。不能因用户要short强行short，也不把教学策略代表市场上限。下一选择已登记原RSI2明确超买逆趋势short分支增量，对照savedlong/CASH，固定5/200/2/90，无阈值/周期HPO、同完整账户/费用/单位/risk/data。先核原entry/exit和实际恢复状态，必要最小正常signed参考与病例后完整跑LS账本；long与short争同资本/有符号协方差/总gross，不能加两个独立满资金结果。机制为利用部分下跌趋势中的超买回撤，而非只靠少暴露；若无跨状态净/实际risk/成本余量则保留能力/暂停该配方，不自动救参。相比扩币/降低费用/加ML，它更直接回答冬季gross方向瓶颈且现有数据和成熟实现成本低。
+
+Reopen：long与30日配方需要新因果信息/机制或独立跨状态净与actualrisk/退出证据，不在已见两季挖参数；扩池/逐币ML需明确覆盖/信息问题，当前无；native/unit在合法官方archive定义或历史响应可得时。三真实失败startup1/argparse2(host1)/sourceguard1原字节/计划/task保存，V2只正常来源守卫修复两明确pin文本，金融四函数体同pre-market cefd，不再做额外QA/市场/旧绿测。主RSS400MB/共享采样2.652GB，独立RSS≤593MB；最终物理25,200,014,390B@04:45:44.347845Z、增68.685MB包括collector，不是纯输出。0fit/HPO/真钱/keys/orders/locked/GPU/paid；D058科研已结束，下一未启动。模块按正常小证据/字节/敏感门槛提交推送，成功只按真实后验远端一致。

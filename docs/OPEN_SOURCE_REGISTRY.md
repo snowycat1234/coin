@@ -337,3 +337,9 @@ D055实际闭合：同原Binance f446ce.../Polars1.44.2/NumPy2.5.3/Decimal，0�
 ### D057：固定30日方向/现金薄适配（调用前登记）
 
 本配方是COIN自己的简单研究规则，不冒称公开momentum策略完整复现，无新第三方repo/安装/模型库。固定30个完成日close比较与一个state hook，直接复用已登记NumPy/Polars、正常public_sma_perpetual.fixed_targets(direction_factory=...)的有序成员/过去协方差/风险及共享账户；原第三方版本/license/本地修改继续见上表。官方public-data/CHECKSUM只复用两已接受manifest，不下载/重QA；不加载原Jesse SMA alpha，不新增训练、资源框架或金融loop。
+
+### D058：日线RSI2固定多头/现金薄适配（已运行）
+
+复用MIT `jesse-ai/example-strategies` commit `7c91e0a37bf62165790120d730442e4f6eb00364` RSI2原类，原SHA `fd463da53b6ac78138a0886268f654973daa569dd2094c6aa96796a8a5015f70`/license `80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d`。官方indicator源commit `417f8765225e3bfc12043d4b712f19fe15a3c078`、原已装jesse-rust1.3.0及bindingSHA `4035a57485f63bc7e4470f91b7fdea950e3b99a07638e959d32013b705f23b2a`沿旧登记；0新依赖/第三方修改/自写RSI。正常本地adapter仅日线完整close上下文、明确240完成日、原long入/出hooks与COIN共享目标/风险，日线是新显式假设，原类未声明周期，原short/go/资金配置/原生执行未复现，旧1h负结果不覆盖。8新账户/8独立参考实际完成，不称完整双向公开策略复现。
+
+Binance public-data原repo/固定commit `f446ce3812bd4e5521f21faecd4ae3c6460e49fc`/MIT软件和行情条款继续；仅January1d8新档/首次QA与2旧meta复用，官方URL/CHECKSUM/CSV薄编排，不重新造下载framework。正常Polars/NumPy/Decimal已登记版本不变，独立参考使用原官方compiled顺序RSI（共享内核限制明确）。第三方源码无修改；本地source-verification只精确允许原已pin两源码文本，旧金融函数体和容差不变。Bybit VIP0配Binance行情仍代理，单位/native不认证；本配方投资暂停，能力保留。

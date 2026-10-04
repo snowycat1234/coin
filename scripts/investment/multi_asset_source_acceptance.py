@@ -163,7 +163,7 @@ def new_receipt(row, owner, guard):
     return parquet, archive, csv_bytes
 
 
-def audit_trade(row, parquet, archive, independent):
+def audit_trade(row, parquet, archive, independent, *, allow_partial_before_listing=False):
     frame = pl.read_parquet(parquet)
     need(frame.columns == independent.SCHEMA and frame.height == row['rows']
          and all(frame.schema[n] == pl.Float64 for n in independent.FLOATS)
@@ -179,8 +179,9 @@ def audit_trade(row, parquet, archive, independent):
     opens = frame['open_us'].to_numpy()
     need(len(opens) and first <= opens[0] and opens[-1]+step == last
          and np.array_equal(opens, np.arange(opens[0], last, step, dtype=np.int64))
-         and (opens[0] == first or (row['month'], row['interval']) == ('2024-02', '1d')),
-         'Full month calendar; only pre-listing February daily prefix may be absent')
+         and (opens[0] == first or (row['month'], row['interval']) == ('2024-02', '1d')
+              or (allow_partial_before_listing and (row['month'], row['interval']) == ('2024-01', '1d'))),
+         'Full observed month calendar; only explicitly authorized daily pre-listing prefix may be absent')
     need(np.array_equal(frame['close_us'].to_numpy(), opens+step)
          and np.array_equal(frame['available_us'].to_numpy(), opens+step)
          and np.array_equal(frame['source_close_us'].to_numpy(), opens+step-1000)

@@ -20,6 +20,7 @@ EQUAL_ID='COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 INVERSE_ID='COIN_PAST30_INVERSE_VOL_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE'
 SMA_SIGNAL_ID='COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 MOMENTUM_SIGNAL_ID='COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
+RSI_SIGNAL_ID='COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
 SIGNAL_SOURCE_PINS={
     'scripts/investment/public_sma_pool_target.py':'0d8eca6fe244630e77bbd0bd8592bbcbd70c10463f4a211588f6ee3c8595b485',
     'scripts/investment/public_sma_perpetual.py':'37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
@@ -429,6 +430,92 @@ def momentum_case(left, right, scope, days):
         directional_signal_changed=True, realized_risk_matched=False, alpha_identified=False)
 
 
+def rsi_scope(left, right):
+    """Same scoring sources; optional earlier warm source serves RSI only."""
+    a, ap = saved_protocol(left); b, bp = saved_protocol(right)
+    require(a['strategy'] == EQUAL_ID and b['strategy'] == RSI_SIGNAL_ID and
+        a.get('allocation', 'EQUAL') == b.get('allocation', 'EQUAL') == 'EQUAL' and
+        a['start'] == b['start'] and a['end_exclusive'] == b['end_exclusive'] and
+        a['pools'] == b['pools'] and a['initial_capital_USDT'] == b['initial_capital_USDT'] == 10000,
+        'Fixed daily RSI2 versus saved equal HOLD, same complete dates and capital')
+    pools = [saved_pool_proof(p) for p in (a, b)]
+    require(pools[0]['path'] == pools[1]['path'] and pools[0]['sha256'] == pools[1]['sha256'],
+        'Unchanged pre-score liquidity pool, no return selection')
+    require(a['data_manifest'] == b['data_manifest'] and
+        left['binding']['manifest_sha256'] == right['binding']['manifest_sha256'] == a['data_manifest']['sha256'],
+        'Identical scoring trade/mark/funding and original warmup manifest')
+    hashes = [r['binding']['source_hashes'] for r in (left, right)]
+    require(all(p['source_hashes'] == h for p, h in zip((a, b), hashes, strict=True)),
+        'Sources agree with actual pre-run protocol')
+    for name in FINANCE_SOURCES + ('scripts/investment/vol_managed_perpetual_target.py',):
+        require(hashes[0][name] == hashes[1][name], 'Unchanged finance/default sizing ' + name)
+    compatibility = b['target_compatibility']
+    tested = read(ROOT/compatibility['path'], compatibility['sha256'])
+    require(tested['status'] == 'PASS_BOUNDED_RESEARCH_TESTS_SYNTHETIC_NOT_MARKET_RESULT' and
+        tested['test_exit_code'] == 0 and tested['source_bytes_unchanged'] is True and
+        tested['binding']['source_hashes']['scripts/investment/public_sma_perpetual.py'] ==
+        hashes[1]['scripts/investment/public_sma_perpetual.py'], 'Changed warm-context interface actually tested')
+    require(hashes[0]['scripts/investment/public_sma_perpetual.py'] ==
+        '37e126709d479fd4f99487e3a8a66deda8889286154e2f6ed04d180a2987ca47',
+        'Known saved normal N default target version')
+    adapter = 'scripts/investment/rsi2_daily_pool_target.py'
+    require(hashes[1][adapter] == sha(ROOT/adapter), 'Exact new pre-market RSI adapter')
+    changes = {n:dict(baseline=v,current=hashes[1][n]) for n,v in hashes[0].items()
+        if n in hashes[1] and v != hashes[1][n]}
+    require(set(changes) <= {'scripts/investment/public_sma_perpetual.py',
+        'scripts/investment/multi_asset_data.py', 'scripts/investment/multi_asset_portfolio.py'} and
+        set(hashes[0]) <= set(hashes[1]), 'Only context/source/runner changes to shared prior paths')
+    require(b['rsi_parameters'] == dict(fast_sma_period=5,slow_sma_period=200,
+        rsi_period=2,rsi_ob_threshold=90,rsi_os_threshold=10), 'One fixed pinned original parameter choice')
+    return dict(baseline_protocol=ap,current_protocol=bp,predeclared_pools=a['pools'],
+        start_us=int(datetime.fromisoformat(a['start']).timestamp()*1_000_000),
+        end_us=int(datetime.fromisoformat(a['end_exclusive']).timestamp()*1_000_000),
+        frozen_pool_receipt=pools[0],identical_scoring_manifest=a['data_manifest'],
+        earlier_indicator_warmup=b.get('daily_warmup_extension'),source_changes=changes,
+        tested_default_context_compatibility=compatibility,strategy_rules=b['strategy_rules'],
+        baseline_strategy_id=EQUAL_ID,current_strategy_id=RSI_SIGNAL_ID,
+        current_signal='ORIGINAL_RSI2_LONG_HOOKS_ON_EXPLICIT_DAILY_TIMEFRAME',
+        allocation_changed=False,directional_signal_changed=True,realized_risk_matched=False)
+
+
+def rsi_case(left, right, scope, days):
+    require(left['symbols'] == right['symbols'] and left['pool'] == right['pool'] == 'LIQUIDITY_TEN' and
+        left['summary']['contract'] == right['summary']['contract'] and
+        left['summary']['cost_scenario'] == right['summary']['cost_scenario'] and
+        left['summary']['unit_scenario'] == right['summary']['unit_scenario'] and
+        left['summary']['mode'] == right['summary']['mode'] == 'LONG_ONLY',
+        'Same actual product, ordered identities, cost/unit/risk rules')
+    metas, proofs = [], []
+    for case, identity in ((left,EQUAL_ID),(right,RSI_SIGNAL_ID)):
+        item = case['artifacts']['target_meta.json']; path = Path(item['path'])
+        require(path.stat().st_size == item['bytes'] <= 2_000_000, 'Small saved target metadata')
+        meta = read(path,item['sha256']); risk = meta['risk']
+        require(meta['strategy_id'] == identity and meta['symbols'] == case['symbols'] and
+            meta['mode'] == 'LONG_ONLY' and meta['fresh_flat_each_window'] is True and
+            meta['funding_rates_used_for_signal'] is False and
+            meta['native_Jesse_or_Bybit_execution_replicated'] is False and len(risk) == days and
+            [r['decision_us'] for r in risk] == list(range(scope['start_us'],scope['end_us'],86_400_000_000)) and
+            all(r['symbol_order'] == case['symbols'] and r['past_only'] for r in risk),
+            'Actual complete causal target clock and truthful execution scope')
+        metas.append(meta); proofs.append(dict(path=str(path),sha256=item['sha256'],rules=meta['rules']))
+    require(metas[1]['rules'] == scope['strategy_rules'] and metas[1]['complete_daily_warmup'] == 240,
+        'Exactly predeclared daily RSI2 rules and official scalar240 context')
+    warm_differences = []
+    for old, new in zip(metas[0]['risk'], metas[1]['risk'], strict=True):
+        require(set(new['covariance_symbol_order']) <= set(old['covariance_symbol_order']),
+            'Indicator maturity cannot introduce a new covariance member')
+        omitted = [s for s in old['covariance_symbol_order'] if s not in new['covariance_symbol_order']]
+        require(all(new['eligibility'][s] == 'WARMUP_OR_DATA_GAP' for s in omitted),
+            'Only explicit indicator maturity or missing bars can omit original members')
+        if omitted:
+            warm_differences.append(dict(decision_us=new['decision_us'],symbols=omitted))
+    return dict(baseline=proofs[0],current=proofs[1],allocation_changed=False,
+        directional_signal_changed=True,realized_risk_matched=False,alpha_identified=False,
+        indicator_maturity_differences=warm_differences,
+        same_covariance_members_all_dates=not warm_differences,
+        contribution_scope='DIRECTION_PLUS_DISCLOSED240_INDICATOR_MATURITY_NOT_ISOLATED_ALPHA')
+
+
 def pool_scope(left, right):
     """New pool comparisons share one accepted source, including control subsets.
 
@@ -501,7 +588,8 @@ def main():
         require(28 <= actual_days <= 31, 'Predeclared single month or accepted continuous quarter')
     contrast_scope=allocation_scope(left,right) if args.contrast=='allocation' else None
     momentum = args.contrast == 'signal' and right.get('strategy_id') == MOMENTUM_SIGNAL_ID
-    signal_context=(momentum_scope(left,right) if momentum else signal_scope(left,right)) if args.contrast=='signal' else None
+    rsi = args.contrast == 'signal' and right.get('strategy_id') == RSI_SIGNAL_ID
+    signal_context=(rsi_scope(left,right) if rsi else momentum_scope(left,right) if momentum else signal_scope(left,right)) if args.contrast=='signal' else None
     pool_context=pool_scope(left,right) if args.contrast=='pool' else None
     if args.contrast=='pool':
         for name in ('public_sma_perpetual.py','vol_managed_perpetual_target.py',
@@ -525,7 +613,8 @@ def main():
                 'Actual ordered identities and complete cost/unit scenarios')
         target_contrast=allocation_case(a[key],b[key],contrast_scope,actual_days) if contrast_scope else None
         if signal_context:
-            target_contrast=(momentum_case(a[key],b[key],signal_context,actual_days) if momentum else
+            target_contrast=(rsi_case(a[key],b[key],signal_context,actual_days) if rsi else
+                             momentum_case(a[key],b[key],signal_context,actual_days) if momentum else
                              signal_case(a[key],b[key],signal_context,actual_days))
         x,y=measures(a[key]),measures(b[key])
         pairs.append(dict(cost=key[0],funding_unit_scenario=key[1],control=x,pool=y,
@@ -557,7 +646,8 @@ def main():
     if signal_context:
         result.update(contrast='signal',signal_contrast=signal_context,
             scope='Same ordered July N10 pool, full capital, accepted inputs, equal raw allocation, costs and financial risk rules; '
-                  + ('constant-long HOLD versus fixed past30 absolute momentum long/cash. '
+                  + ('constant-long HOLD versus original RSI2 long hooks on a new explicit daily timeframe. ' if rsi else
+                     'constant-long HOLD versus fixed past30 absolute momentum long/cash. '
                      if momentum else 'constant-long HOLD versus fixed original SMA50/200 long-flat signal. ')
                   + 'Actual exposure and realized risk are not matched. '
                   'Saved marked-NAV pairing retains terminal inventory; unclosed liquidated return is NOT_EVALUABLE. '
@@ -569,6 +659,7 @@ def main():
     event.update(event_id=args.experiment_id+':RESULT',event_type='SAVED_RESEARCH_COMPARISON',
         experiment_id=args.experiment_id,data_manifest_hash=result['control']['sha256'],
         success_failure=result['status'],reason_for_next_experiment=(
+            'Saved fixed daily RSI2 contribution and unequal actual risk' if rsi else
             'Saved single-factor past30 direction/cash contribution and unequal actual risk' if momentum else
             'Saved single-factor original SMA signal contribution and unequal actual risk' if signal_context else
             'Saved single-factor allocation contribution and unequal actual risk' if contrast_scope else 'Economic pool contribution and actual risk'),

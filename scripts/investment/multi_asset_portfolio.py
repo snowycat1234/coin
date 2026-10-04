@@ -22,6 +22,7 @@ from scripts.investment import perpetual_directional as engine
 from scripts.investment import vol_managed_perpetual_target as hold
 from scripts.investment import public_sma_pool_target as sma_pool
 from scripts.investment import momentum_cash_pool_target as momentum_cash
+from scripts.investment import rsi2_daily_pool_target as rsi2_daily
 from scripts.investment.perpetual_closing_exempt_account import USDTLinearPerpetualAccount
 from scripts.research_v8.registry import FIELDS, append_event
 
@@ -57,7 +58,8 @@ def terminal_evaluation_scope(cases):
 
 
 def main():
-    from scripts.investment.multi_asset_data import load_portfolio_window, load_accepted_two_asset_control
+    from scripts.investment.multi_asset_data import (load_portfolio_window,
+        load_accepted_two_asset_control, extend_daily_warmup)
     # Reuse the established local progress publisher. No second UI/service.
     from scripts.research_v7.oracle_flow_ceiling import Progress
     parser = argparse.ArgumentParser(description=__doc__)
@@ -77,7 +79,8 @@ def main():
     strategies = {hold.STRATEGY_ID: ('EQUAL', hold),
                   hold.INVERSE_STRATEGY_ID: ('INVERSE_VOL_30D', hold),
                   sma_pool.STRATEGY_ID: ('EQUAL', sma_pool),
-                  momentum_cash.STRATEGY_ID: ('EQUAL', momentum_cash)}
+                  momentum_cash.STRATEGY_ID: ('EQUAL', momentum_cash),
+                  rsi2_daily.STRATEGY_ID: ('EQUAL', rsi2_daily)}
     identity = protocol['strategy']
     engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
                 allocation == strategies[identity][0],
@@ -85,7 +88,8 @@ def main():
     target_module = strategies[identity][1]
     signal = ('CONSTANT_LONG_NOT_SMA_ALPHA' if target_module is hold else
               'PUBLIC_SMA50_200_LONG_OR_FLAT' if target_module is sma_pool else
-              'PAST30_POSITIVE_ABSOLUTE_RETURN_LONG_OR_CASH')
+              'PAST30_POSITIVE_ABSOLUTE_RETURN_LONG_OR_CASH' if target_module is momentum_cash else
+              'PUBLIC_RSI2_OVERSOLD_ABOVE_SMA200_LONG_OR_CASH')
     engine.need(bool(protocol['pools']) and
                 len({p['id'] for p in protocol['pools']}) == len(protocol['pools']),
                 'Nonempty configurable unique pools; saved controls need not be replayed')
@@ -189,6 +193,8 @@ def main():
                 window=load_accepted_two_asset_control(symbols, start, end)
             else:
                 window = load_portfolio_window(manifest, symbols, start, end)
+            if protocol.get('daily_warmup_extension'):
+                window = extend_daily_warmup(window, protocol['daily_warmup_extension'], symbols)
             engine.need(window['start'] == start and window['end'] == end,
                         'Reader dates differ from predeclared evaluation window')
             factory = lambda bars, decisions, mode: target_module.fixed_targets(

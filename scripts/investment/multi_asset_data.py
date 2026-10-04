@@ -149,10 +149,11 @@ def entry(symbol, kind, interval, month):
     require((kind == 'klines' and interval in ('1d', '1m')) or
         (kind == 'markPriceKlines' and interval == '1m') or
         (kind == 'fundingRate' and interval is None), 'Required USD-M product')
-    require(month in ('2024-02', '2024-03', '2024-04', '2024-05',
+    require(month in ('2024-01', '2024-02', '2024-03', '2024-04', '2024-05',
         '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11',
         '2024-12', '2025-01', '2025-02') and not (interval == '1d' and
-        month in ('2024-11', '2024-12', '2025-01', '2025-02')),
+        month in ('2024-11', '2024-12', '2025-01', '2025-02')) and
+        (month != '2024-01' or (kind == 'klines' and interval == '1d')),
         'Explicit unlocked source months; no new late-quarter daily source')
     suffix = (f'{symbol}-fundingRate-{month}.zip' if interval is None else
         f'{interval}/{symbol}-{interval}-{month}.zip')
@@ -371,12 +372,18 @@ def acquire(item, run, client, *, authorization, reuse_catalog=None, budgets=DEF
         require(selected_pool['status'] == 'POOL_SELECTED_PRE_SCORE_WITH_SCOPE_LIMITATIONS' and
             len(selected_pool['symbols']) == 10 and authorization['symbols'] ==
             sorted(set(selected_pool['symbols']) | {'BTCUSDT', 'ETHUSDT'}), 'Selected symbols and controls match pool')
-        month = {'SEPTEMBER_SOURCE': '2024-09', 'OCTOBER_SOURCE': '2024-10',
+        if phase == 'WARMUP_DAILY':
+            require(item['month'] == '2024-01' and item['kind'] == 'klines' and
+                item['interval'] == '1d' and item['symbol'] in authorization['symbols'] and
+                proof['sha256'] == authorization['pool_receipt_sha256'],
+                'Only same selected July pool January daily indicator warmup')
+        else:
+            month = {'SEPTEMBER_SOURCE': '2024-09', 'OCTOBER_SOURCE': '2024-10',
                  'NOVEMBER_SOURCE': '2024-11'}.get(phase)
-        authorized_months = tuple(r[0] for r in WINTER_SCOPES) if phase == 'WINTER_SOURCE' else (month,)
-        require(None not in authorized_months and item['month'] in authorized_months and
-            item['interval'] != '1d' and item['symbol'] in authorization['symbols'] and
-            proof['sha256'] == authorization['pool_receipt_sha256'], 'Frozen July pool bound before explicit score-month IO')
+            authorized_months = tuple(r[0] for r in WINTER_SCOPES) if phase == 'WINTER_SOURCE' else (month,)
+            require(None not in authorized_months and item['month'] in authorized_months and
+                item['interval'] != '1d' and item['symbol'] in authorization['symbols'] and
+                proof['sha256'] == authorization['pool_receipt_sha256'], 'Frozen July pool bound before explicit score-month IO')
     key = (item['kind'], item['symbol'], item['interval'], item['month'])
     if reuse_catalog and key in reuse_catalog:
         old = dict(reuse_catalog[key]); p = Path(old['normalized_path'])
@@ -444,7 +451,7 @@ def acquire(item, run, client, *, authorization, reuse_catalog=None, budgets=DEF
         start, end = formats.month_range(item['month']); step = DAY if item['interval'] == '1d' else MINUTE
         opens = frame['open_us'].to_numpy()
         require(len(opens) > 0 and np.all(opens >= start*1000) and np.all(opens < end*1000), 'Fixed archive month')
-        if not (item['interval'] == '1d' and item['month'] == '2024-02'):
+        if not (item['interval'] == '1d' and item['month'] in ('2024-01', '2024-02')):
             require(np.array_equal(opens, np.arange(start*1000, end*1000, step, dtype=np.int64)), 'Complete fixed month, no fill/drop')
         frame.write_parquet(normalized, compression='zstd'); rows = frame.height
         quality.update(market='USD_M_TRADE_KLINES', interval=item['interval'],
@@ -695,6 +702,46 @@ def small_proof(proof, required_status=None):
     status = required_status or proof.get('required_status')
     require(status is not None and value['status'] == status, 'Explicit accepted metadata status')
     return value
+
+
+def extend_daily_warmup(window, proof, symbols):
+    """Add separately accepted January bars for indicators, not pool selection.
+
+    Existing scoring manifest, prices, funding, execution blocks and dates stay
+    identical. Every extension record has an actual closed source acceptance.
+    No decision becomes eligible without its own contiguous available warmup.
+    """
+    accepted = small_proof(proof, 'PASS_D058_JANUARY_DAILY_WARMUP_SOURCE_FORMAT_ONLY')
+    require(accepted['source_only'] is True and accepted['actual_exit_code'] == 0 and
+        accepted['pool_receipt']['sha256'] == window['pool_receipt_sha256'] and
+        set(accepted['symbols']) == set(symbols), 'Same selected pool, warmup only')
+    task_id = accepted['binding']['task_id']
+    require(re.fullmatch('[a-f0-9]{32}', task_id) is not None, 'Real acceptance task')
+    task = json.loads((STATE/'task-progress'/f'task-{task_id}.json').read_bytes())
+    require(task['id'] == task_id and task['status'] == 'completed' and task['exit_code'] == 0,
+        'Independent warm source task actually completed before simulation')
+    records = accepted['sources']
+    require(len(records) == len(symbols) and {r['symbol'] for r in records} == set(symbols),
+        'One exact January source per configured asset')
+    frames = []
+    for row in records:
+        require(row['kind'] == 'klines' and row['interval'] == '1d' and row['month'] == '2024-01',
+            'Only January daily indicator context, no new scoring source')
+        p = Path(row['normalized_path'])
+        require(p.resolve().is_relative_to(STATE.resolve()) and not p.is_symlink() and
+            p.stat().st_size == row['normalized_bytes'] and sha(p) == row['normalized_sha256'] and
+            accepted['normalized_source_hashes'][str(p)] == row['normalized_sha256'],
+            'Exact independently accepted new/reused warm bytes')
+        frame = pl.read_parquet(p).select(window['daily'].columns)
+        require(0 < frame.height <= 31 and frame['symbol'].unique().to_list() == [row['symbol']] and
+            frame['available_us'].max() <= window['start'], 'Complete pre-score January only')
+        frames.append(frame)
+    daily = pl.concat([*frames, window['daily']]).sort(['symbol', 'open_us'])
+    require(daily.select(pl.struct('symbol', 'open_us').n_unique()).item() == daily.height,
+        'No duplicated warm/scoring identity')
+    window.update(daily=daily, daily_warmup_extension=proof,
+        input_proofs=[*window['input_proofs'], *records])
+    return window
 
 
 def november_warmup_metadata(proofs, pool):

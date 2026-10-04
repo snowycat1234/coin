@@ -51,8 +51,9 @@ def signed_risk_weights(raw, past_returns, annual_vol_target=.10):
 
 
 def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
-                  direction_factory=None, eligible_by_decision=None, allocation='EQUAL'):
-    """Daily original hooks, 200 closed-bar warmup, explicit ordered membership.
+                  direction_factory=None, eligible_by_decision=None, allocation='EQUAL',
+                  completed_bar_count=200):
+    """Daily hooks, explicit completed-bar context and ordered membership.
 
     Missing/warming/exited assets have zero targets and retain their identity
     for actual portfolio liquidation. Missing executable prices are handled by
@@ -60,6 +61,8 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
     """
     require(mode in MODES, 'Preselected direction required')
     require(allocation in ALLOCATIONS, 'Preselected allocation required')
+    require(type(completed_bar_count) is int and completed_bar_count >= 200,
+            'Explicit integer warmup must preserve at least the original 200 bars')
     symbols = symbol_order(symbols)
     supplied = np.asarray(decisions)
     require(supplied.dtype.kind in ('i', 'u') and supplied.ndim == 1
@@ -100,16 +103,18 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
         for symbol in symbols:
             c = context[symbol]
             index = int(np.searchsorted(c['stamps'], decision, side='right') - 1)
-            valid = (index >= 199 and c['stamps'][index] == decision
-                and np.all(np.diff(c['stamps'][index-199:index+1]) == DAY_US)
-                and np.all(c['available'][index-199:index+1] <= decision))
+            first = index - completed_bar_count + 1
+            valid = (first >= 0 and c['stamps'][index] == decision
+                and np.all(np.diff(c['stamps'][first:index+1]) == DAY_US)
+                and np.all(c['available'][first:index+1] <= decision))
             if symbol not in membership or not valid:
                 c['state'] = 0
                 raw[symbol] = 0.
                 reasons[symbol] = 'POOL_EXIT' if symbol not in membership else 'WARMUP_OR_DATA_GAP'
                 continue
             hook = c['hooks']
-            hook.candles = c['candles'][index-199:index+1]
+            hook.candles = c['candles'][first:index+1]
+            hook.price = float(hook.candles[-1, 2])
             hook.is_long, hook.is_short = c['state'] == 1, c['state'] == -1
             closed = [False]
             hook.liquidate = lambda: closed.__setitem__(0, True)
@@ -181,6 +186,7 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
         whole_balance_sizing_replaced_by_capped_COINSizing=True,
         close_then_wait_next_daily_decision_to_reenter=True, equality_holds_current_position=True,
         forbidden_directions_never_create_internal_positions=True, source=public.PINNED_HASHES,
-        timeframe_minutes=1440, fast_period=50, slow_period=200, complete_daily_warmup=200,
+        timeframe_minutes=1440, fast_period=50, slow_period=200,
+        complete_daily_warmup=completed_bar_count,
         native_Jesse_or_Bybit_execution_replicated=False, fresh_flat_each_window=True,
         funding_rates_used_for_signal=False, candidate_status='NO_QUALIFIED_CANDIDATE')

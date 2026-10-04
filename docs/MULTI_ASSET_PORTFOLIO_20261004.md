@@ -612,3 +612,62 @@ bash scripts/with_task_progress.sh --title 'D057 秋季91日方向门' -- env PO
 ```
 
 冬季同一入口改为DECFEB90协议/报告及 `d057-momentum-cash-dec-feb-20261004-v1`；保存配对使用 `compare_multi_asset_portfolios.py --contrast signal`、对应旧HOLD `--control` 与新规则 `--pool`，没有账户重放。两次metadata启动失败（猜错现有PowerShell路径exit127/跨shell任务ID空值exit1）均为0账户/0QA/0协议，真实任务保留；用确切现有运行时与脚本传原任务ID后完成，未改经济配置。
+
+## D058：固定日线RSI2多头/现金实际比较
+
+**采用研究能力，暂停固定多头配方投资晋级；投资NONE/CASH，长期APR不可评价。** 不继续扩币或搜参。D057 HEAD7136186及工作差异/采集核实后，使用同July十币池、两原完整季度和同一10k共享账户，测试一个不同收益机制。每个成本/资金费情景是独立的满资本钱包，季度内不断档/不reset，两个季度不拼成可投资长期曲线。
+
+复用已登记MIT Jesse RSI2原多头hooks：完成日price>SMA200且RSI2≤10入场，持多price>SMA5退出；等号保持、退出同日不重入。日线是COIN明确的新周期假设，原代码未指定周期，且本轮未消费其short/go/sizing/SLTP等原生执行语义，不称完整策略复现。正常有序N资产/past30有符号协方差/10%仅缩小风险、inactive预算不分配、abs30%/gross60%/逐仓1x继续。原Spot库存保护与通用多空账户不变。
+
+### 经济证据：完整10,000USDT资本
+
+|固定BASE/F情景|Sep-Nov 2024（91日）|Dec-Feb 2024/25（90日）|
+|---|---:|---:|
+|RSI2持仓价格毛损益 USDT|73.33|−423.27|
+|手续费 USDT|6.26|14.44|
+|点差+滑点 USDT|9.11|21.01|
+|资金费现金流 USDT|−4.67|−6.06|
+|RSI2净损益 USDT|53.28|−464.79|
+|原十币equal HOLD净损益 USDT|1065.42|−757.29|
+|RSI2减HOLD净增量 USDT|−1012.14|+292.51|
+|换手（成交名义额/初始资本）|1.139|2.626|
+|实际日收益年化波动|3.152%|6.229%|
+|分钟最大回撤|1.641%|6.700%|
+|平均/峰值gross=net|1.709% /18.165%|5.290% /15.574%|
+|隔离抵押/初始资本平均、峰值|1.742% /17.809%|5.456% /16.173%|
+|成交腿/必要风险减仓|39 /0|144 /0|
+|终端库存/未实现损益|0 /0|0 /0|
+
+四个事前固定条件BASE/F、BASE/P、STRESS/F、STRESS/P的净损益分别为秋53.2800、57.9315、44.1041、48.7519USDT；冬−464.7861、−459.0065、−485.1565、−479.3889。费用Bybit非VIP永续5.5bp/side；BASE spread4+slip4bp、STRESS8+8bp，总往返27/43bp。Binance来源档funding_unit UNKNOWN，F=1/P=.01只作有限情景；未因结果选择更盈利单位。按-q*严格过去mark*rate真实事件计，trade/mark身份与乘数/数量代理不混成Bybit原生。
+
+秋RSI2相对HOLD少1012.14–1049.08；冬少亏256.91–292.51。冬BASE/F毛增300.51、额外手续费与执行成本28.22、资金费负担减少20.21，并非同实际风险alpha。秋实际波动/HOLD为3.15%/9.96%，冬6.23%/9.77%，低暴露解释大部分防御权衡；相同caps不等于同risk。本轮8账户终端库存与未实现损益清零/保证金释放，冬若干decimal unpaid尾值约1e−47远低于容差；旧冬HOLD的SATS小残仓仍完整计marked NAV，未将其清仓收益改称可评价。CASH恒0；原两币HOLD秋953.42–1013.61/冬−593.83至−638.61USDT仍保存，两/十扩池贡献前正后负，不因新策略宣称扩池产生稳定优势。
+
+BASE/F连续月边界净损益秋0、−67.38、+120.66；冬−119.57、−5.00、−340.22。月表是相邻close−1us NAV区间，不能叫严格UTC资金费事件归因。秋利润主要来自November、冬约73%亏在February；冬毛损益−423.27即使去掉所有成本仍负，January少量毛利8.55才被成本/资金费吞噬。LONG贡献即上述净损益、SHORT0，本轮没有模拟空头成交。已有通用空头能力继续，不能将仅多实验冒称完成原策略双向复现。原因未有可靠intent journal的成交仍UNKNOWN，状态见证不证明每笔原因，不把平仓利润归给任意原因。
+
+### 来源、成熟度与正常维护
+
+池保持BTC、ETH、SOL、1000PEPE、XRP、WIF、WLD、DOGE、1000SATS、ORDI原有序映射，依据July可知流动性/上市与原200日资格，不看未来收益。日线官方RSI scalar需240完成日；仅January 2024同池1d新增8档（16 official GET含CHECKSUM）与首次独立QA，BTC/ETH两条旧接受metadata/SHA复用，293真实行，WIF Jan18–31仅14行。Sep1 WIF227完成日，首13评价日不交易，Sep14首次240；不填17行上市前历史、不重选池、不强求共同历史交集。保存配对明确秋13个maturity成员差异、冬0，秋为方向加披露的预热差异，非隔离纯alpha。分钟trade/mark/funding仍按日块读原接受源，不增全量aggTrades/LOB/张量/逐币训练。
+
+正常共享目标增加completed_bar_count（默认200）和完成price上下文，薄daily adapter、runner与独立参考接入240，旧默认与HOLD目标/metadata对原Git源码精确一致。唯一新合成病例包括真实hooks、239/240成熟、等号/退出同日、缺口/顺序/因果扰动/共享caps；不重跑无关绿测。独立参考用官方已装jesse-rust顺序RSI和独立NumPy SMA/状态/past30 covariance，不新写RSI/Transformer/在线框架；共享内核是限制，不叫独立指标实现。
+
+三次真实失败完整保留：fixture启动env-i丢task id（exit1，测试0）；核账启动缺protocol/actual参数（内层argparse exit2，host1，金融0）；核账V1只读源码守卫拒绝两个已pin的.rs/.txt（exit1，input/金融0）。55fd正常修复只精确准许那两份≤128KB普通原始源码文本，保持历史守卫、路径/size/rawSHA；pre-market cefd归档，金融/inputreader/RSI/target函数体一致。V2独立计划/新报告，不改市场配方/已冻结protocol/旧结果，也未重跑市场。
+
+两主任务24c3d10e…/ee63e103…、两V2金融c1ce734e…/a6d36091…及两保存比较均真实closed0。独立核账输入170/190、日目标见证910/900，8/8完整91/90日，RSI=true/HOLD=false；最大金额误差1.819e−11USDT/比例4.263e−14，原容差1e−7/1e−10。独立只读复核再次检查任务/绑定/成熟度/结果/差异，未新跑核账/QA/tests。成交资金流水、钱包、抵押、未实现/NAV与每日月界核对成立；完整市场意图sizing未独立重建、原生数量/MMR/历史清算及资金费单位仍未认证，已看历史仍开发筛选。此为条件能力/经济比较证据，不是独立候选或真钱资格。
+
+### 实测资源与复现
+
+主任务秋242.74s/RSS394,633,216B/owned22,763,888B，冬247.56s/RSS400,277,504B/owned42,945,707B；主任务共享采样峰2,652,135,424B。独立17.69/18.04s，RSS592,834,560/532,103,168B，owned12,723/14,473B；暖源+QA owned136,411B。已有两币/十币小规模资源对照保持，当前瓶颈是收益机制而非内存，日块与串行逐币目标足够，无须加RAM。最终现有guard实扫ROOT4,299,797,558+整个D VHD20,900,216,832=25,200,014,390B于2026-10-04T04:45:44.347845Z完成，区间增长68,684,954B含collector/Git/分配，不是纯实验产物。内核累计峰3.263GB不是本版reset峰；hard4,999,999,488B/swap0/GPU0/D40GB保持，未动资金/风险/封存/网络权限。
+
+原始实际命令在每份main.binding.command与独立RUN_BINDING/ACTUAL_BINDING归档。以当前提交源码、固定环境和接受manifest复现（原工件只读，不直接覆盖旧输出；新尝试须新路径/计划登记），实际秋主调用为：
+
+```bash
+bash scripts/with_task_progress.sh --title 'D058日线RSI2秋季组合' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/tools/task_progress:/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python scripts/investment/multi_asset_portfolio.py --protocol protocols/RSI2_DAILY_SEPNOV91_20261004_V1.json --run-dir /home/xflops/coin-state/d058-rsi2-daily-sep-nov-20261004-v1 --output reports/fast_research/RSI2_DAILY_SEPNOV91_20261004_V1.json --pool-id LIQUIDITY_TEN
+```
+
+冬季对应固定protocol `RSI2_DAILY_DECFEB90_20261004_V1.json`，实际专属owner `d058-rsi2-daily-dec-feb-20261004-v1`。主要工件：同名两actual、两`*_INDEPENDENT_20261004_V2.json`、两`*_COMPARISON_20261004_V1.json`、January SOURCE/ACCEPTANCE、TARGET_SYNTHETIC_V2、INPUT_BINDING、FINAL_RESOURCE；均在reports（市场小报告在fast_research），真实数组/账本仍STATE，Git只带源码/协议/小证据。所有D058研究已结束，下一实验未后台启动；现有8765发布真实task/磁盘测量时刻，公开collector未干扰。
+
+### 自主决策
+
+保留可配置N资产共享资本/多空能力与日线RSI2适配，暂停固定long配方投资晋级。它提供低暴露/可退出对照，但未创造跨状态净收益；不救5/200/2/10参数、不降低成本或择池。当前投资NONE/CASH。下一研究原策略明确选择性short：price<SMA200且RSI2≥90才开空、持空price<SMA5退出，恢复原分支后与saved LONG_ONLY/CASH在同一共有wallet/risk/product/funding/cost/calendar比较；原代码语义核对与有限事前记录后才运行，不能相加独立账户或强制空头、不能冒称该未测机制有alpha。
+
+日线long reopen须新的因果信息/机制或真正独立跨状态净、实际风险/成本/退出证据；30日门同条件，非旧两季事后搜参；扩池/逐币ML需明确覆盖或信息瓶颈并有限对照，当前不重开；原生单位与规则核查在合法官方语义/历史来源可取得时重开。支持short与投资采用分开，0真钱/keys/orders/holdout/paid/杠杆新增。

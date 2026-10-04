@@ -41,6 +41,9 @@ ALLOCATION_STRATEGIES = {
 }
 SMA_POOL_STRATEGY = 'COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 MOMENTUM_POOL_STRATEGY = 'COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
+RSI_POOL_STRATEGY = 'COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
+RSI_INDICATOR = 'scripts/investment/public_rsi2_indicator.py'
+RSI_INDICATOR_SHA = '417b9044ff1b2cb32326d4648d1239ebc2b7f872bf7da123901b0fe1bf0a2315'
 
 
 def need(ok, message):
@@ -405,6 +408,32 @@ def input_reader(spec, symbols, base, guard):
                  for r in warm_records if r['symbol'] in symbols),
              'Every financially used source covered by the scoring or prior-warmup capability')
         records = [*market_records, *warm_records]
+    extension = spec.get('daily_warmup_extension')
+    if extension is not None:
+        need(spec['strategy'] == RSI_POOL_STRATEGY and scope['period_days'] == 91,
+             'January extension is only the predeclared autumn RSI2 indicator context')
+        extension_path = Path(extension['path'])
+        accepted, _ = guard.small(extension_path if extension_path.is_absolute()
+                                  else guard.project(str(extension_path)), extension['sha256'])
+        need(accepted['status'] == 'PASS_D058_JANUARY_DAILY_WARMUP_SOURCE_FORMAT_ONLY' and
+             accepted['source_only'] is True and type(accepted['actual_exit_code']) is int and
+             accepted['actual_exit_code'] == 0 and
+             accepted['pool_receipt']['sha256'] == value['pool_receipt']['sha256'] and
+             accepted['pool_receipt']['path'] == value['pool_receipt']['path'] and
+             len(accepted['symbols']) == len(set(accepted['symbols'])) == len(symbols) == 10 and
+             set(accepted['symbols']) == set(symbols), 'Actually accepted warmup for the same July pool')
+        extension_task = guard.closed(accepted['binding']['task_id'])
+        warm_sources = accepted['sources']
+        need(len(warm_sources) == len(symbols) and
+             {(r['kind'], r['symbol'], r.get('interval'), r['month']) for r in warm_sources} ==
+             {('klines', s, '1d', '2024-01') for s in symbols} and
+             all(type(r['rows']) is int and 1 <= r['rows'] <= 31 for r in warm_sources) and
+             accepted['normalized_source_hashes'] ==
+             {r['normalized_path']: r['normalized_sha256'] for r in warm_sources},
+             'Exactly ten accepted January daily aliases, including real partial listing months only')
+        records = [*records, *warm_sources]
+        source_metadata_proofs.append(dict(daily_warmup_extension=extension,
+            actual_closed_task=extension_task, source_only=True, payload_QA_repeated=False))
     catalog = {}
     for row in records:
         key = row['kind'], row['symbol'], row.get('interval'), row['month']
@@ -439,7 +468,8 @@ def input_reader(spec, symbols, base, guard):
             for m in score_months]).sort('calc_time_ms')
         warm = pl.concat([read(('klines', symbol, '1d', '2024-' + m),
                 ['open_us', 'close_us', 'available_us', 'close'])
-            for m in ('02', '03', '04', '05', '06', '07', '08')]).sort('close_us')
+            for m in (('01',) if extension is not None else ()) +
+                     ('02', '03', '04', '05', '06', '07', '08')]).sort('close_us')
         prior_months = scope.get('warmup_months', ()) if continuous else ('2024-09', '2024-10') if month == '2024-11' else ('2024-09',) if month == '2024-10' else ()
         for prior_month in prior_months:
             prior_trade = read(('klines', symbol, '1m', prior_month), ['open_us', 'available_us', 'close']).sort('open_us')
@@ -660,6 +690,95 @@ def momentum_pool_target_reference(window, symbols):
     return pl.DataFrame(rows)
 
 
+def rsi2_pool_target_reference(window, symbols):
+    """Direct official sequential RSI terminal value and independent state.
+
+    Production uses the official scalar wrapper. This reference uses the
+    separately exposed sequence kernel on exactly the same last240 closes,
+    then checks the original predicates without importing a target factory.
+    It reuses the mature kernel; it is not a second RSI implementation.
+    """
+    indicator = module(RSI_INDICATOR, RSI_INDICATOR_SHA, 'd058_independent_official_RSI_indicator')
+    indicator._context()
+    kernel_metadata = indicator.kernel_receipt()
+    kernel = sys.modules['jesse_rust']
+    need(Path(kernel.__file__).resolve() == Path(kernel_metadata['package_file']) and
+         kernel_metadata['package_version'] == '1.3.0' and
+         kernel_metadata['scalar_2d_window'] == 240, 'Exact already accepted official RSI runtime')
+    states = dict.fromkeys(symbols, 0)
+    rows, witnesses = [], []
+    for decision in range(window['start'], window['end'], DAY):
+        memberships = window.get('eligible_by_decision')
+        members = set(symbols) if memberships is None else set(memberships.get(decision, ()))
+        need(members <= set(symbols), 'Independent RSI2 membership outside configured identity')
+        live, returns, reasons = [], [], {}
+        raw, weights = dict.fromkeys(symbols, 0.), dict.fromkeys(symbols, 0.)
+        for symbol in symbols:
+            bars = window['bars'][symbol]
+            i = int(np.searchsorted(bars['close_us'].to_numpy(), decision, side='right') - 1)
+            valid = (i >= 239 and bars['close_us'][i] == decision and
+                np.all(np.diff(bars['close_us'][i-239:i+1].to_numpy()) == DAY) and
+                np.all(bars['available_us'][i-239:i+1].to_numpy() <= decision))
+            before = states[symbol]
+            if symbol not in members or not valid:
+                states[symbol] = 0
+                reasons[symbol] = 'POOL_EXIT' if symbol not in members else 'WARMUP_OR_DATA_GAP'
+                witnesses.append(dict(decision_us=decision, symbol=symbol, old_state=before,
+                    new_state=0, action='RESET_UNAVAILABLE', reason=reasons[symbol]))
+                continue
+            closes = bars['close'][i-239:i+1].to_numpy()
+            need(len(closes) == 240 and np.isfinite(closes).all() and np.all(closes > 0),
+                 'Finite exact240 completed RSI2/covariance closes')
+            # Accepted SMA port uses NumPy mean; preserve strict original
+            # predicates rather than adding a near-threshold tolerance band.
+            latest = float(closes[-1])
+            fast, slow = float(np.mean(closes[-5:])), float(np.mean(closes[-200:]))
+            rsi = float(kernel.rsi(np.asarray(closes, dtype=np.float64), 2)[-1])
+            need(math.isfinite(rsi) and 0 <= rsi <= 100, 'Initialized official sequence RSI2 value')
+            entry, exit_long = latest > slow and rsi <= 10, latest > fast
+            if before:
+                states[symbol] = 0 if exit_long else 1
+                action = 'EXIT_TO_CASH' if states[symbol] == 0 else 'KEEP_LONG'
+            else:
+                states[symbol] = 1 if entry else 0
+                action = 'ENTER_LONG' if states[symbol] else 'STAY_CASH'
+            raw[symbol] = min(.3, .6 / len(members)) * states[symbol]
+            past = closes[-31:]
+            returns.append(np.diff(past) / past[:-1])
+            live.append(symbol)
+            reasons[symbol] = 'ELIGIBLE'
+            witnesses.append(dict(decision_us=decision, symbol=symbol,
+                first_context_close_us=int(bars['close_us'][i-239]),
+                latest_close_us=int(bars['close_us'][i]), completed_daily_bars=240,
+                latest_completed_close=latest, fast_SMA5=fast, slow_SMA200=slow,
+                official_sequence_RSI2=rsi, entry_predicate=bool(entry),
+                long_exit_predicate=bool(exit_long), old_state=before, new_state=states[symbol],
+                action=action, reason='ELIGIBLE'))
+        if live:
+            x = np.column_stack(returns)
+            need(np.isfinite(x).all(), 'Finite complete independent RSI2 past30 returns')
+            centered = x - x.mean(axis=0)
+            covariance = centered.T @ centered / 29 * 365
+            scaled = np.asarray([raw[s] for s in live], dtype=np.float64)
+            gross = float(np.abs(scaled).sum())
+            if gross > .6:
+                scaled *= .6 / gross
+            sigma = math.sqrt(max(float(scaled @ covariance @ scaled), 0.))
+            if sigma > .10:
+                scaled *= .10 / sigma
+            weights.update(zip(live, map(float, scaled), strict=True))
+        for symbol in symbols:
+            rows.append(dict(available_us=decision, symbol=symbol,
+                target_weight=weights[symbol], raw_signed_target=raw[symbol],
+                mode='LONG_ONLY', eligibility_reason=reasons[symbol]))
+    window['independent_RSI2_state_witnesses'] = witnesses
+    window['official_RSI_kernel_metadata'] = dict(kernel_metadata,
+        independent_reference_API='DIRECT_JESSE_RUST_RSI_SEQUENCE_LAST_VALUE_ON_LAST240_CLOSES',
+        producer_target_factory_called=False, production_scalar_RSI_wrapper_called=False,
+        shared_official_kernel=True, independent_RSI_recurrence_implemented=False)
+    return pl.DataFrame(rows)
+
+
 def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
     need(allocation in ALLOCATION_STRATEGIES, 'Only predeclared allocation choices')
     if strategy_id == SMA_POOL_STRATEGY:
@@ -668,6 +787,9 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None):
     if strategy_id == MOMENTUM_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared momentum uses original equal member shares only')
         return momentum_pool_target_reference(window, symbols)
+    if strategy_id == RSI_POOL_STRATEGY:
+        need(allocation == 'EQUAL', 'Predeclared RSI2 uses original equal member shares only')
+        return rsi2_pool_target_reference(window, symbols)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -788,9 +910,10 @@ def main():
         strategy_id = spec['strategy']
         sma_strategy = strategy_id == SMA_POOL_STRATEGY
         momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
+        rsi_strategy = strategy_id == RSI_POOL_STRATEGY
         need(allocation in ALLOCATION_STRATEGIES and spec['initial_capital_USDT'] == 10000 and
              (strategy_id == ALLOCATION_STRATEGIES[allocation] or
-              (sma_strategy or momentum_strategy) and allocation == 'EQUAL'),
+              (sma_strategy or momentum_strategy or rsi_strategy) and allocation == 'EQUAL'),
              'Same fixed capital and explicit independent strategy/allocation policy')
         need('score_months' not in scope or not sma_strategy,
              'Continuous quarters contain the predeclared HOLD or past30 long/cash recipes')
@@ -798,10 +921,25 @@ def main():
             need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
                  'Only the fixed ten-member equal momentum recipe in the two continuous quarters')
+        if rsi_strategy:
+            need('score_months' in scope and len(actual['cases'][0]['symbols']) == 10 and
+                 actual['strategy_id'] == strategy_id and actual['allocation'] == 'EQUAL',
+                 'Only the fixed ten-member equal daily RSI2 recipe in the two continuous quarters')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
-            path = guard.project(plan.get('source_archives', {}).get(name, name))
+            if name in ('third_party/jesse_example_rsi2/rsi_kernel_original.rs',
+                        'third_party/jesse_example_rsi2/JESSE_REQUIREMENTS_ORIGINAL.txt'):
+                # These two pinned upstream source texts are neither a binary
+                # model nor market payload. The historical generic guard only
+                # accepts Python/doc suffixes; keep its old behavior intact.
+                path = ROOT/name
+                need(path.resolve().is_relative_to(ROOT.resolve()) and
+                     not any(p.is_symlink() for p in (path, *path.parents)) and
+                     path.is_file() and path.stat().st_size <= 128_000,
+                     'Only two bounded ordinary pinned RSI source texts')
+            else:
+                path = guard.project(plan.get('source_archives', {}).get(name, name))
             need(sha(path) == digest, 'Actual used source bytes: ' + name)
         report.update(actual_report_sha256=actual_sha, producer_run_binding_sha256=rb_sha,
             verified_source_hashes=rb['source_hashes'], protocol_sha256=plan['protocol_sha256'])
@@ -825,6 +963,14 @@ def main():
                 momentum_completed_return_days=30, equality_exits_held_long=True,
                 exit_then_wait_next_daily_decision=True, idle_raw_budget_redistributed=False,
                 equality_tolerance_band_used=False)
+        if rsi_strategy:
+            report.update(independent_RSI2_state_witnesses=window['independent_RSI2_state_witnesses'],
+                official_RSI_kernel_metadata=window['official_RSI_kernel_metadata'],
+                independent_RSI2_reference='DIRECT_OFFICIAL_SEQUENCE_RSI_LAST240_NUMPY_SMA5_200_FRESH_FLAT_NO_TARGET_FACTORY',
+                RSI2_parameters=dict(fast_sma_period=5, slow_sma_period=200, rsi_period=2,
+                    rsi_ob_threshold=90, rsi_os_threshold=10),
+                completed_daily_RSI2_context=240, exit_then_wait_next_daily_decision=True,
+                idle_raw_budget_redistributed=False, equality_tolerance_band_used=False)
         report['financial_input_bindings'] = window['proofs']
         if 'score_months' in scope:
             report.update(accepted_monthly_source_proofs=window['source_metadata_proofs'],
@@ -869,10 +1015,11 @@ def main():
                     cross_month_boundary_witnesses=continuous_boundary_witnesses(
                         window, result, paths['funding.json'], base, errors))
             report['cases'].append(dict(result, pool=pool_id, symbols=list(symbols),
-                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy),
-                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy) else None,
+                independent_HOLD_targets_verified=not (sma_strategy or momentum_strategy or rsi_strategy),
+                independent_HOLD_allocation=allocation if not (sma_strategy or momentum_strategy or rsi_strategy) else None,
                 independent_SMA50_200_targets_verified=sma_strategy, independent_strategy_targets_verified=True,
                 independent_past30_momentum_targets_verified=momentum_strategy,
+                independent_RSI2_targets_verified=rsi_strategy,
                 independent_strategy_id=strategy_id))
             report['completed_cases_verified'] = len(report['cases'])
             gc.collect(); bounded()
