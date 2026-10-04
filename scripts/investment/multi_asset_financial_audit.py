@@ -43,6 +43,8 @@ SMA_POOL_STRATEGY = 'COIN_JESSE_SMA50_200_1D_USDM_CONFIGURED_POOL_ADAPTER'
 MOMENTUM_POOL_STRATEGY = 'COIN_PAST30_ABSOLUTE_MOMENTUM_LONG_CASH_USDM_CONFIGURED_POOL_ADAPTER'
 RSI_POOL_STRATEGY = 'COIN_JESSE_RSI2_1D_USDM_CONFIGURED_POOL_ADAPTER'
 DONCHIAN_POOL_STRATEGY = 'COIN_JESSE_DONCHIAN20_SMA200_1D_USDM_CONFIGURED_POOL_ADAPTER'
+DONCHIAN_EXIT10_STRATEGY = 'COIN_JESSE_DONCHIAN20_SMA200_EXIT10_1D_USDM_CONFIGURED_POOL_VARIANT'
+DONCHIAN_STRATEGIES = (DONCHIAN_POOL_STRATEGY, DONCHIAN_EXIT10_STRATEGY)
 RSI_INDICATOR = 'scripts/investment/public_rsi2_indicator.py'
 RSI_INDICATOR_SHA = '417b9044ff1b2cb32326d4648d1239ebc2b7f872bf7da123901b0fe1bf0a2315'
 
@@ -625,7 +627,7 @@ def input_reader(spec, symbols, base, guard):
         catalog[key] = row
     window = dict(start=start, end=end, count=len(times), days=scope['period_days'],
         required_scope=scope, market={}, bars={}, events=[], proofs=[], source_metadata_proofs=source_metadata_proofs)
-    donchian = spec['strategy'] == DONCHIAN_POOL_STRATEGY
+    donchian = spec['strategy'] in DONCHIAN_STRATEGIES
     def read(key, columns):
         row = catalog[key]; p = base.payload(row)
         window['proofs'].append(dict(kind=key[0], symbol=key[1], interval=key[2], month=key[3],
@@ -998,13 +1000,14 @@ def rsi2_pool_target_reference(window, symbols, mode='LONG_ONLY'):
     return pl.DataFrame(rows)
 
 
-def donchian_pool_target_reference(window, symbols, allocation='EQUAL'):
-    """Direct prior20 high/low, current completed SMA200 and fresh-flat long state.
+def donchian_pool_target_reference(window, symbols, allocation='EQUAL', *, exit_period=20):
+    """Direct prior20 entry high, prior10/20 exit low and completed SMA200.
 
     The entry-only SMA filter does not liquidate an existing long. Strict lower
     channel exits wait for the next daily decision before any reentry.
     """
     need(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Only explicit Donchian raw budget policies')
+    need(type(exit_period) is int and exit_period in (10, 20), 'Explicit fixed Donchian exit period 10 or 20')
     states = dict.fromkeys(symbols, 0)
     rows, witnesses = [], []
     for decision in range(window['start'], window['end'], DAY):
@@ -1033,7 +1036,7 @@ def donchian_pool_target_reference(window, symbols, allocation='EQUAL'):
                  len(high) == len(low) == 20 and np.isfinite(high).all() and np.isfinite(low).all() and
                  np.all(high >= low) and np.all(low > 0), 'Finite completed Donchian/SMA/covariance inputs')
             latest = float(closes[-1])
-            upper, lower = float(np.max(high)), float(np.min(low))
+            upper, lower = float(np.max(high)), float(np.min(low[-exit_period:]))
             trend = math.fsum(map(float, closes)) / 200
             if before:
                 states[symbol] = 0 if latest < lower else 1
@@ -1046,9 +1049,11 @@ def donchian_pool_target_reference(window, symbols, allocation='EQUAL'):
             live.append(symbol)
             reasons[symbol] = 'ELIGIBLE'
             witnesses.append(dict(decision_us=decision, symbol=symbol, completed_close=latest,
-                prior20_upper=upper, prior20_lower=lower, current_completed_SMA200=trend,
+                prior20_upper=upper, prior20_lower=float(np.min(low)), current_completed_SMA200=trend,
                 channel_last_close_us=int(bars['close_us'][i-1]), channel_excludes_current=True,
                 old_state=before, new_state=states[symbol], action=action, reason='ELIGIBLE'))
+            if exit_period == 10:
+                witnesses[-1].update(prior10_lower=lower, exit_period=exit_period)
         if live:
             active = sum(states[s] != 0 for s in live)
             denominator = active if allocation == 'ACTIVE_EQUAL' else len(members)
@@ -1074,10 +1079,12 @@ def donchian_pool_target_reference(window, symbols, allocation='EQUAL'):
     return pl.DataFrame(rows)
 
 
-def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY'):
+def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, mode='LONG_ONLY', exit_period=20):
     need(allocation in ALLOCATION_STRATEGIES or
-         allocation == 'ACTIVE_EQUAL' and strategy_id == DONCHIAN_POOL_STRATEGY,
+         allocation == 'ACTIVE_EQUAL' and strategy_id in DONCHIAN_STRATEGIES,
          'Only predeclared allocation choices, active budgeting limited to Donchian')
+    need(strategy_id in DONCHIAN_STRATEGIES or exit_period == 20,
+         'Changed exit period belongs only to explicit Donchian identities')
     need(strategy_id == RSI_POOL_STRATEGY or mode == 'LONG_ONLY',
          'Non-RSI references retain their predeclared long-only direction')
     if strategy_id == SMA_POOL_STRATEGY:
@@ -1089,9 +1096,11 @@ def target_reference(window, symbols, allocation='EQUAL', *, strategy_id=None, m
     if strategy_id == RSI_POOL_STRATEGY:
         need(allocation == 'EQUAL', 'Predeclared RSI2 uses original equal member shares only')
         return rsi2_pool_target_reference(window, symbols, mode)
-    if strategy_id == DONCHIAN_POOL_STRATEGY:
+    if strategy_id in DONCHIAN_STRATEGIES:
         need(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Explicit Donchian equal-member or active-signal raw policy')
-        return donchian_pool_target_reference(window, symbols, allocation)
+        need(exit_period == (10 if strategy_id == DONCHIAN_EXIT10_STRATEGY else 20),
+             'Independent Donchian identity binds its exact fixed exit period')
+        return donchian_pool_target_reference(window, symbols, allocation, exit_period=exit_period)
     need(strategy_id in (None, ALLOCATION_STRATEGIES[allocation]), 'Explicit independent strategy identity')
     if allocation == 'INVERSE_VOL_30D':
         return inverse_target_reference(window, symbols)
@@ -1213,7 +1222,8 @@ def main():
         sma_strategy = strategy_id == SMA_POOL_STRATEGY
         momentum_strategy = strategy_id == MOMENTUM_POOL_STRATEGY
         rsi_strategy = strategy_id == RSI_POOL_STRATEGY
-        donchian_strategy = strategy_id == DONCHIAN_POOL_STRATEGY
+        donchian_strategy = strategy_id in DONCHIAN_STRATEGIES
+        exit_period = spec.get('strategy_rules', {}).get('exit_period', 20)
         direction_mode = spec.get('direction_mode', 'LONG_ONLY')
         need(direction_mode in ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH') and
              (rsi_strategy or direction_mode == 'LONG_ONLY'),
@@ -1237,6 +1247,9 @@ def main():
             need(scope['period_days'] == 303 and len(actual['cases'][0]['symbols']) == 10 and
                  actual['strategy_id'] == strategy_id and actual['allocation'] == allocation,
                  'Only the fixed ten-member declared daily Donchian raw policy in the continuous303 span')
+            need(type(exit_period) is int and
+                 exit_period == (10 if strategy_id == DONCHIAN_EXIT10_STRATEGY else 20),
+                 'Protocol binds original20 or explicit variant10 exit without changing entry')
         report.update(allocation=allocation, strategy_id=strategy_id,
             inverse_volatility_is_not_equal_risk_contribution=allocation == 'INVERSE_VOL_30D')
         for name, digest in rb['source_hashes'].items():
@@ -1265,7 +1278,7 @@ def main():
         reference = base.module(base.REFERENCE, 'd050_independent_decimal_hand', base.REFERENCE_SHA)
         window = input_reader(spec, symbols, base, guard)
         expected_targets = target_reference(window, symbols, allocation, strategy_id=strategy_id,
-            mode=direction_mode)
+            mode=direction_mode, exit_period=exit_period)
         if sma_strategy:
             report.update(independent_SMA_state_witnesses=window['independent_SMA_state_witnesses'],
                 independent_SMA_reference='SCALAR_FSUM50_200_FRESH_FLAT_STRICT_PREDICATES_NO_PRODUCER_OR_HOOK_IMPORT',
@@ -1278,8 +1291,9 @@ def main():
                 equality_tolerance_band_used=False)
         if donchian_strategy:
             report.update(independent_Donchian_state_witnesses=window['independent_Donchian_state_witnesses'],
-                independent_Donchian_reference='DIRECT_PRIOR20_HIGH_LOW_CURRENT_COMPLETED_SMA200_FRESH_FLAT_NO_PRODUCER_OR_HOOK_IMPORT',
-                Donchian_parameters=dict(channel_period=20, trend_SMA_period=200),
+                independent_Donchian_reference=('DIRECT_PRIOR20_HIGH_PRIOR10_LOW_CURRENT_COMPLETED_SMA200_FRESH_FLAT_NO_PRODUCER_OR_HOOK_IMPORT'
+                    if exit_period == 10 else 'DIRECT_PRIOR20_HIGH_LOW_CURRENT_COMPLETED_SMA200_FRESH_FLAT_NO_PRODUCER_OR_HOOK_IMPORT'),
+                Donchian_parameters=dict(channel_period=20, trend_SMA_period=200, exit_period=exit_period),
                 channel_excludes_current=True, SMA_filter_applies_only_to_entry=True,
                 strict_lower_channel_exit=True, exit_then_wait_next_daily_decision=True,
                 idle_raw_budget_redistributed=allocation == 'ACTIVE_EQUAL', equality_tolerance_band_used=False)

@@ -110,3 +110,5 @@ D064当前接线：`multi_asset_data.load_portfolio_window`支持既有已接受
 D065活动日线Donchian新增EQUAL/ACTIVE_EQUAL正常raw接口；同信号/过去协方差/共享账户与风险caps不变。四303日账户+独立参考完整，采用激活预算研究挑战者，投资NONE/CASH。原EQUAL与D064失败/残仓保持Git可复现，不包装或覆写证据；当前下一优先原两路公开采集丢失后的三件套保存/断档与有限恢复。10日退出是尚未运行的下一单因素COIN假设，不自动把原配方变双向、不永久固定路线。
 
 D066原采集已单次恢复（public_v3/L1 v1，来源与.venv/defaultDB/store保持），新会话记录UNGRACEFUL_PREVIOUS_SESSION/RESTART_GAP。旧进程退出UNKNOWN，不能将旧running JSON当存活或拼健康时间；两次观测只证明进程/新heartbeat/闭合bars与accepted检查点推进，不认证有效天/alpha或新feature持久化。正常研究保持D065挑战者，下一10日退出尚未启动；live句柄与最新来源按实际核对，不复用静态PID作永久存活保证。
+
+D067活动Donchian正常接口exit_period=20默认，新增显式10与独立COIN_EXIT10策略ID，原vendor/入场/共享账户/caps不变；独立参考直接prior10低，真实四账户/核账/配对完整。采用10为当前规则研究配置，20/HOLD参照保持，投资NONE/CASH；不要重造版本包装。下一只做保存配对日收益/时间稳定性与依赖诊断，不搜索退出网格；任何重抽样非独立市场、非可执行新路径。源码/实际工件优先，D067及以前旧报告依Git原字节复现。

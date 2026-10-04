@@ -82,13 +82,20 @@ def main():
                   sma_pool.STRATEGY_ID: ('EQUAL', sma_pool),
                   momentum_cash.STRATEGY_ID: ('EQUAL', momentum_cash),
                   rsi2_daily.STRATEGY_ID: ('EQUAL', rsi2_daily),
-                  donchian_daily.STRATEGY_ID: ('EQUAL', donchian_daily)}
+                  donchian_daily.STRATEGY_ID: ('EQUAL', donchian_daily),
+                  donchian_daily.EXIT10_STRATEGY_ID: ('EQUAL', donchian_daily)}
     identity = protocol['strategy']
     engine.need(identity in strategies and protocol['initial_capital_USDT'] == 10000 and
                 (allocation == strategies[identity][0] or
-                 identity == donchian_daily.STRATEGY_ID and allocation == 'ACTIVE_EQUAL'),
+                 identity in (donchian_daily.STRATEGY_ID, donchian_daily.EXIT10_STRATEGY_ID) and allocation == 'ACTIVE_EQUAL'),
                 'Same full capital and one fixed rule, no search')
     target_module = strategies[identity][1]
+    target_options = {}
+    if target_module is donchian_daily:
+        exit_period = protocol.get('strategy_rules', {}).get('exit_period', 20)
+        engine.need(identity == donchian_daily.strategy_id(exit_period),
+                    'Declared Donchian identity must match the exit period')
+        target_options['exit_period'] = exit_period
     direction_mode = protocol.get('direction_mode', 'LONG_ONLY')
     engine.need(direction_mode in rsi2_daily.MODES if target_module is rsi2_daily
                 else direction_mode == 'LONG_ONLY',
@@ -96,7 +103,8 @@ def main():
     signal = ('CONSTANT_LONG_NOT_SMA_ALPHA' if target_module is hold else
               'PUBLIC_SMA50_200_LONG_OR_FLAT' if target_module is sma_pool else
               'PAST30_POSITIVE_ABSOLUTE_RETURN_LONG_OR_CASH' if target_module is momentum_cash else
-              'PUBLIC_PRIOR20_DONCHIAN_SMA200_LONG_OR_CASH' if target_module is donchian_daily else
+              ('PUBLIC_PRIOR20_DONCHIAN_SMA200_LONG_OR_CASH' if exit_period == 20 else
+               'COIN_PRIOR20_DONCHIAN_SMA200_EXIT10_LONG_OR_CASH') if target_module is donchian_daily else
               'PUBLIC_RSI2_OVERSOLD_ABOVE_SMA200_LONG_OR_CASH')
     if target_module is rsi2_daily and direction_mode != 'LONG_ONLY':
         signal = 'PUBLIC_RSI2_ORIGINAL_SELECTIVE_' + direction_mode
@@ -215,7 +223,7 @@ def main():
             engine.need(window['start'] == start and window['end'] == end,
                         'Reader dates differ from predeclared evaluation window')
             factory = lambda bars, decisions, mode: target_module.fixed_targets(
-                bars,decisions,mode,symbols=symbols,allocation=allocation)
+                bars,decisions,mode,symbols=symbols,allocation=allocation,**target_options)
             for cost in engine.COSTS:
                 for unit in engine.UNITS:
                     case_id = pool['id']+'_'+cost['id']+'_'+unit['id']

@@ -363,3 +363,5 @@ D064实际复用闭合：3条连续研究配方在303日正常共享账户已产
 
 
 D065沿用D064 pinned MIT Jesse Donchian原代码、license与commit，不修改vendor；仅COIN共享raw分配增加ACTIVE_EQUAL。原日线入场/过滤/退出未变，仍不是Jesse原生整个平台或Bybit成交复现。
+
+D067运行前登记：继续原MIT Jesse Donchian类/指标的既有commit与四vendor/license SHA，第三方原字节不改；仅正常adapter新增COIN_EXIT10薄退出hook，调用原donchian(candles[:-1],period=10)。原prior20 entry/SMA200/共享风险接线沿用，不声称10日退出是原公开配方。无新模型/库/下载/框架；独立参考直接10日最低价与原20日入场窗口，不调用生产目标。

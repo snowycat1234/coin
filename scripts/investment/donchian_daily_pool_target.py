@@ -16,6 +16,7 @@ from quant.paths import ROOT
 from scripts.investment import public_sma_perpetual as shared
 
 STRATEGY_ID = 'COIN_JESSE_DONCHIAN20_SMA200_1D_USDM_CONFIGURED_POOL_ADAPTER'
+EXIT10_STRATEGY_ID = 'COIN_JESSE_DONCHIAN20_SMA200_EXIT10_1D_USDM_CONFIGURED_POOL_VARIANT'
 MODES = ('LONG_ONLY', 'CASH')
 DAY_US = shared.DAY_US
 VENDOR = ROOT / 'third_party/jesse_example_donchian'
@@ -46,8 +47,32 @@ RULES = dict(timeframe_minutes=1440, completed_daily_eligibility_bars=200,
     daily_availability='EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED')
 
 
-def _load_public_hooks():
+def strategy_id(exit_period=20):
+    shared.require(type(exit_period) is int and exit_period in (20, 10),
+        'Explicit preselected 20 or 10 completed-day exit required')
+    return STRATEGY_ID if exit_period == 20 else EXIT10_STRATEGY_ID
+
+
+def strategy_rules(allocation='EQUAL', exit_period=20):
+    strategy_id(exit_period)
+    shared.require(allocation in ('EQUAL', 'ACTIVE_EQUAL'), 'Explicit Donchian allocation required')
+    rules = dict(RULES)
+    if allocation == 'ACTIVE_EQUAL':
+        rules.update(raw_allocation='MIN_0.3_0.6_DIVIDED_BY_ACTIVE_ELIGIBLE_SIGNALS',
+            inactive_signal_budget_redistributed=True, allocation=allocation,
+            active_signal_zero_is_cash=True, clipped_budget_not_redistributed=True)
+    if exit_period != 20:
+        rules.update(exit_period=exit_period,
+            exit_predicate='HELD_LONG_AND_CLOSE_LT_PREVIOUS10_LOW',
+            original_long_entry_filter_and_exit_hooks_used=False,
+            original_long_entry_filter_hooks_used=True, original_exit_hook_used=False,
+            exit_period_is_COIN_adaptation=True)
+    return rules
+
+
+def _load_public_hooks(exit_period=20):
     """Load unchanged pinned source nodes with the small scalar context API."""
+    strategy_id(exit_period)
     for name, sha in PINNED_HASHES.items():
         shared.require(hashlib.sha256((VENDOR / name).read_bytes()).hexdigest() == sha,
             'Pinned original MIT Donchian source/license changed: ' + name)
@@ -81,26 +106,31 @@ def _load_public_hooks():
             # Jesse evaluates filters separately; the shared hook API does not.
             return super().should_long() and all(f() for f in self.filters())
 
-    return DailyDirection
+    if exit_period == 20:
+        return DailyDirection
+
+    class Exit10Direction(DailyDirection):
+        def update_position(self):
+            lower = namespace['ta'].donchian(self.candles[:-1], period=exit_period).lowerband
+            if self.close < lower:
+                self.liquidate()
+
+    return Exit10Direction
 
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
-                  eligible_by_decision=None, allocation='EQUAL'):
+                  eligible_by_decision=None, allocation='EQUAL', exit_period=20):
     shared.require(mode in MODES and allocation in ('EQUAL', 'ACTIVE_EQUAL'),
         'Fixed daily Donchian LONG_ONLY/CASH and equal allocation required')
     frame, meta = shared.fixed_targets(bars, decisions, mode, symbols=symbols,
-        direction_factory=_load_public_hooks(), eligible_by_decision=eligible_by_decision,
+        direction_factory=_load_public_hooks(exit_period), eligible_by_decision=eligible_by_decision,
         allocation=allocation, completed_bar_count=200)
     for key in ('fast_period', 'slow_period', 'equality_holds_current_position', 'source'):
         meta.pop(key, None)
-    rules = dict(RULES)
-    if allocation == 'ACTIVE_EQUAL':
-        rules.update(raw_allocation='MIN_0.3_0.6_DIVIDED_BY_ACTIVE_ELIGIBLE_SIGNALS',
-            inactive_signal_budget_redistributed=True, allocation=allocation,
-            active_signal_zero_is_cash=True, clipped_budget_not_redistributed=True)
-    meta.update(strategy_id=STRATEGY_ID, rules=rules, allocation=allocation,
+    rules = strategy_rules(allocation, exit_period)
+    meta.update(strategy_id=strategy_id(exit_period), rules=rules, allocation=allocation,
         original_long_and_short_and_exit_hooks_reused=False,
-        original_long_entry_filter_and_exit_hooks_reused=True,
+        original_long_entry_filter_and_exit_hooks_reused=exit_period == 20,
         original_short_entry_is_false=True, original_whole_balance_order_hooks_called=False,
         original_SMA50_200_alpha_used=False, direction_context_is_Jesse_strategy=True,
         original_example_commit='7c91e0a37bf62165790120d730442e4f6eb00364',
@@ -112,4 +142,7 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
         reused_target_api='public_sma_perpetual.fixed_targets(direction_factory,completed_bar_count=200)',
         benchmark_scope='SEEN_DEVELOPMENT_NOT_LONG_TERM_APR',
         target_caps_are_not_instantaneous_position_caps=True)
+    if exit_period != 20:
+        meta.update(exit_period=exit_period, original_exit_hook_reused=False,
+            original_long_entry_filter_hooks_reused=True, exit_is_COIN_variant=True)
     return frame, meta
