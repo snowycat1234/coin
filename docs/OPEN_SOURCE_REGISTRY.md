@@ -350,3 +350,5 @@ Binance public-data原repo/固定commit `f446ce3812bd4e5521f21faecd4ae3c6460e49f
 所有行情直接复用两已接受Binance public-data f446ce3812bd4e5521f21faecd4ae3c6460e49fc官方URL/CHECKSUM/CSV与January暖源；0下载/新源QA/库安装。Polars1.44.2/MIT、NumPy2.5.3/BSD-3-Clause与Decimal/原账户不变。8真实共享多空账户、8独立金融与8保存方向pair已完成；核账共用官方compiled RSI内核限制明确，不冒认第二独立递推。Bybit费用与Binance数据仍代理、单位/native不认证；投资NONE/CASH，固定配方暂停，方向能力保留。
 
 D060本地Turtle适配更新：jesse-ai/example-strategies原登记commit/MIT不变，未重写原ATR/Donchian/Turtle hooks；直接共享N账户事件接口、ordered symbols/snapshot、allow_pyramiding薄适配。真实回放揭示未缩放权重→数量映射误差导致伪risk reduction，旧投资解释待新正确性版本替代，非开源原策略缺陷认定。
+
+D061（2026-10-04）：沿用既有jesse-ai/example-strategies已登记commit与MIT原文件，未改第三方源码。正常本地Turtle bridge V3_EXACT_CANDIDATE只修未缩放Decimal候选身份（8行），数量/STOP/EXIT必要反例和同成本303日True/False实际回放见TURTLE_EXACT_QUANTITY_*；无新模型或框架。

@@ -1125,3 +1125,11 @@ Reopen：long与30日配方需要新因果信息/机制或独立跨状态净与a
 D060事后新增有限诊断：单层BASE/F在83,285分钟后因五次必要BTC风险减仓无法成交真实停止；其余单层情景未运行，完整303日对照NE。禁止删缺口/增加尝试/松容量或风险救结果。保留失败V1，下一只调用既有独立财务体核该记录prefix（1次，原容差），读取相同金融必要列核五次真实前一分钟容量，0新账户/QA/拟合；单次RSS<=1.5GB/wall<=1800s，仍总新STATE<=700MB。依据实际输入判断是正当容量停机还是正确性问题，不能将prefix净亏当同窗经济差。
 
 D060最终：default四303日保存迁移数值误差0/独立四PASS；single首BASE/F五次0容量止于83285分钟，其余三与完整paired未运行。prefix独立PASS，raw五行quote/base/count真0；但20:00 riskweights==raw、vol<.1/caps未触发，Decimal回转1.21e-18变成1%减仓，确认correctness blocker。原账本保留，Turtle旧投资解释标记待修正，不能据prefix否定single。下一最小修未缩放数量身份+必要反例，真风险/STOP/EXIT不关闭，原容量5次不变；随后新版本相同8情景判断。当前NONE/CASH/APRNE，不进入其他调参。D060作为正确性发现验收，Git同期后验核。
+
+D061事前：D060真实同权重数量回转反例已确认，普通correctness修复不再要求复现已知错误。正常bridge只记录逐币原Decimal candidate；权重严格==raw时保留其数量，其余缩放沿原路径/.99。VERSION绑定新映射，旧snapshot拒绝，不复制V3文件。保持原风控/账户/成本/容量/五次/STOP/EXIT，禁止epsilon豁免caps。先一个真实hook与账本的新固定反例：scale1不造减仓，实际scaled仍reduce-only成交付费，N3币序/STOP/EXIT/恢复保护；原D060旧test不重跑。预算1新case/RSS<=1.5GB/wall<=120s，STATE独占，0市场/旧QA/fit/HPO/download/locked；通过后下一新两方案同条件8账户/8金融，经济指标目前未测。
+
+D061实际新反例PASS（1f985b7a.../金额原容差，50.87s，旧case未重跑）及独立只读8行复核后，选择继续同固定303日True/False八主账户/八金融。D060数学错误允许目标/成交轨迹变化，不执行要求旧错误完全等价的migration；已接受来源94+4/原资本费用风险/真实容量5次保持。两个主任务可并行，仍共享hard5GB，每任务RSS3GB/owned250MB/wall1800s，总STATE700MB，0新QA/download/fit/HPO。若真实HALT/不完整，保留失败、全期delta NE并核真实必要原因；不提高caps或扩末尝试。
+
+D061事后决定：修正后8个完整303日/末全平账户与8独立金融均closed0，四同loop配对全负且禁ADD比原再少107.65–182.85USDT。BASE/F毛少311.44、成本省129.14、funding再多付.208，换手约减24.4%但MDD6.640%→9.158%、vol7.468%→7.488%。采用无epsilon数量身份修复；暂停固定禁ADD配方投资晋级/HPO，原P4也NONE/CASH。旧错误调度财务保留，投资解释由D061替代，不据归因事后删ETH；N资产/多空/现金能力与两币HOLD/十币基准保留。当前主要缺口是稳定收益机制和独立证据，费用/单位/原生仍条件化。新机制或真正独立净/实际风险增量才reopen，细表/资源/失败见MULTI_ASSET_PORTFOLIO_20261004.md的D061。
+
+D061下一唯一研究选择（尚未运行）：保留原July10与固定past30多头/现金门，在第三个自然完整2025-03-01至2025-07-01前122日开发窗口，与同窗口十币HOLD、两币HOLD及CASH比较。D057秋增量负、冬防御增量正但仍亏/有残仓，跨第三状态的信息价值高于对负Turtle扩币或加过滤救参。只补必要OHLC/mark/实际funding，日块读取，先核现有覆盖和来源；不全量aggTrades/LOB、不换池/阈值/资本/caps/费用/单位。最多3配方×4情景=12新账户/12必要独立金融，0fit/HPO，shared5GB、D40GB、新增源和工件目标≤1.5GB且新增前需守卫核余量。数据不足/缺mark/funding或真实无法退出不补零、不改次数；停止依赖的收益评价。完整同成本下能跨状态改善净/实际risk、收益不集中且退出诚实才保留挑战者；否则暂停这个配方，不追加参数网格。各窗口fresh完整10k，绝不拼NAV或称unseen/APR。主要next交接：核当前multi_asset_data已接受Mar–Jun源覆盖，事前固定同口径有限manifest再执行。此决定由root与独立只读复核一致支持；后续任务未在本模块后台启动。

@@ -28,7 +28,7 @@ from scripts.investment import public_rsi2_indicator as installed
 from scripts.investment import public_sma_perpetual as risk
 from scripts.investment import perpetual_risk_reduction_research_v2 as reduction
 
-VERSION = 'TURTLE_ORDERED_FILL_BRIDGE_V2'
+VERSION = 'TURTLE_ORDERED_FILL_BRIDGE_V3_EXACT_CANDIDATE'
 STRATEGY_ID = 'COIN_JESSE_TURTLE_S1_4H_USDT_PERPETUAL_ADAPTER'
 BAR_US, MINUTE_US, DAY_US = 14_400_000_000, 60_000_000, 86_400_000_000
 LOCKED_US = 1_772_323_200_000_000
@@ -340,17 +340,21 @@ class TurtlePerpetualBridge:
                     state_before=before, staged_state=self._state(symbol), proposed_stop=stop)
             self._state_set(symbol, before)
         raw = []
+        candidates = {}
         for symbol in self.symbols:
             p = proposals.get(symbol)
             q = self.account.positions[symbol].quantity
             candidate = q + (p['raw_quantity'] if p['side'] == 'BUY' else -p['raw_quantity']) if p else q
+            candidates[symbol] = candidate
             raw.append(float(candidate * prices[symbol] / nav))
         weights, details = risk.signed_risk_weights(raw, returns)
         submitted = []
         for symbol, weight, raw_weight in zip(self.symbols, weights, raw, strict=True):
             p = proposals.get(symbol)
             q = self.account.positions[symbol].quantity
-            bounded = decimal(float(weight)) * nav / prices[symbol]
+            # Unchanged risk weights preserve exact inventory/candidate identity.
+            bounded = (candidates[symbol] if float(weight) == raw_weight
+                else decimal(float(weight)) * nav / prices[symbol])
             risk_reduced = abs(bounded) < abs(q) and q * bounded >= 0
             if risk_reduced and not self.pending[symbol]:
                 target = bounded * D('.99')
