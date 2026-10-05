@@ -1,0 +1,80 @@
+{
+  "module": "D097_CE_EPISODE_SCOPE_REVIEW",
+  "parent_commit": "67bb67967cc9ab95da3de387ba6e0ae5be7bfd12",
+  "family": "PUBLIC_DEFAULT_CHANDELIER_AND_EXISTING_SHORT_JOURNAL_DIAGNOSTIC",
+  "recipe": "ONE_CE22_3_RMA_PUBLIC_DEFAULT; NO_PARAMETER_SEARCH_OR_NEW_ACCOUNT",
+  "decision": "RETAIN_D096; SAME_LINE_FREQUENCY_NOT_MAIN_FIX; CE_FULL_STRATEGY_NOT_REJECTED_BY_DAILY_SNAPSHOT; RETAIN_CE_CAPABILITY_AS_RESERVE; NEXT_ONE_FAST_SLOW_CONFLICT_RULE",
+  "next_action": "下一有限主任务：在D096稳定SHORT确认上，只选择一个公开快慢周期冲突规则：单币已完成4h趋势转为上涨时把short降为现金，长周期仍共同看空才重新允许short；先固定公开周期与成本、核对可得性/清仓语义，再两个BASE完整账户，只有净/SHORT/实际风险门槛通过才补压力情景。避免只按BTC慢状态，也不因为五个最差日事后删交易。零模型搜索，不调ATR倍数；当前新规则及经济指标NOT_RUN。",
+  "references": {
+    "reports/SHORT_REBOUND_TIMING_20261006_V1.json": "PASS_SAVED_SHORT_DAILY_PNL_AND_EXIT_TIMING_DIAGNOSTIC",
+    "reports/SHORT_CHANDELIER_PROBE_20261006_V1.json": "PASS_PUBLIC_CHANDELIER_DEFAULT_CAUSAL_APPLICABILITY_NOT_ECONOMIC_BACKTEST",
+    "reports/SHORT_INCREASE_ATTRIBUTION_20261006_V1.json": "PASS_ALL303D_SHORT_PRO_RATA_LOT_PNL_BRIDGE_NOT_NO_ADD_BACKTEST",
+    "reports/SHORT_CHANDELIER_EPISODE_TRACE_20261006_V1.json": "PASS_FULL_RECORDED_EPISODE_CAUSAL_CE_TRACE_NOT_ECONOMIC_REPLAY"
+  },
+  "additional_tasks": [
+    {
+      "expected_exit_code": 0,
+      "id": "3c213b7f5ea94234a11c80260c1cba78"
+    },
+    {
+      "expected_exit_code": 0,
+      "id": "726b979167f24721ad81325a5970cb44"
+    },
+    {
+      "expected_exit_code": 1,
+      "id": "db5e10cf8d294c08bcdebdef32a3b898"
+    },
+    {
+      "expected_exit_code": 1,
+      "id": "9e5360a05b7a49d9857595404e91a978"
+    },
+    {
+      "expected_exit_code": 0,
+      "id": "88633e3ecebd47cdaa631d7d385aecc3"
+    },
+    {
+      "id": "75fc563006694c34a4a439f7803d4db0",
+      "expected_exit_code": 1
+    }
+  ],
+  "source_paths": [
+    "scripts/investment/short_rebound_timing.py",
+    "scripts/investment/chandelier_short_levels.py",
+    "scripts/investment/probe_chandelier_short.py",
+    "scripts/investment/short_increase_attribution.py",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "scripts/investment/trace_chandelier_short_episodes.py"
+  ],
+  "runtime_directory": "/home/xflops/coin-state/pandas-ta-classic-0.8.32-v1",
+  "primary_reference": "reports/SHORT_CHANDELIER_EPISODE_TRACE_20261006_V1.json",
+  "selected_paths": [
+    "scripts/investment/short_rebound_timing.py",
+    "scripts/investment/chandelier_short_levels.py",
+    "scripts/investment/probe_chandelier_short.py",
+    "scripts/investment/short_increase_attribution.py",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "reports/SHORT_REBOUND_TIMING_20261006_V1.json",
+    "reports/SHORT_CHANDELIER_PROBE_20261006_V1.json",
+    "reports/SHORT_INCREASE_ATTRIBUTION_20261006_V1.json",
+    "environments/supplementary/pandas-ta-classic-0.8.32.txt",
+    "docs/SHORT_SELECTION.md",
+    "docs/RESEARCH_STATUS.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/OPEN_SOURCE_REGISTRY.md",
+    "reports/experiment_registry.jsonl",
+    "reports/GITHUB_SHORT_SELECTION_SYNC_VERIFIED_20261006_V1.json",
+    "scripts/investment/trace_chandelier_short_episodes.py",
+    "reports/SHORT_CHANDELIER_EPISODE_TRACE_20261006_V1.json",
+    "reports/SHORT_REBOUND_MODULE_CLOSED_20261006_V1.json",
+    "reports/GITHUB_SHORT_REBOUND_SOURCE_BINDING_20261006_V1.json",
+    "protocols/SHORT_REBOUND_DIAGNOSTIC_CHECKPOINT_20261006_V1.json",
+    "protocols/SHORT_REBOUND_DIAGNOSTIC_CHECKPOINT_20261006_V2.json"
+  ],
+  "prior_binding": "reports/GITHUB_SHORT_SELECTION_SOURCE_BINDING_20261006_V1.json",
+  "closed": "reports/SHORT_REBOUND_MODULE_CLOSED_20261006_V2.json",
+  "binding": "reports/GITHUB_SHORT_REBOUND_SOURCE_BINDING_20261006_V2.json",
+  "stage_script": ".cache/stage_selected_short_rebound.ps1",
+  "metadata_role": "POST_RESULT_DIAGNOSTIC_CHECKPOINT_NOT_PRE_RESULT_PREREGISTRATION",
+  "superseded_point_in_time_metadata_scope": "V1 closes the raw five-day line probe; V2 includes full recorded episode trace. Old reports retained. The trace corrects overbroad rejection interpretation, no historical economics overwritten.",
+  "event_id_suffix": "EPISODE_SCOPE_CORRECTION"
+}

@@ -1,0 +1,159 @@
+{
+  "status": "COMPLETE_SAVED_EVIDENCE_DIAGNOSTIC_NOT_NEW_ECONOMIC_REPLAY",
+  "parent_commit": "67bb67967cc9ab95da3de387ba6e0ae5be7bfd12",
+  "references": {
+    "reports/SHORT_REBOUND_TIMING_20261006_V1.json": {
+      "sha256": "76303ebb4bea6f374451e2d7ce3dedc5b252c264388e418baed7eb1f75667969",
+      "task_id": "ab1172733d9e48959a5a842fd5dcb7c8",
+      "source_sha256": "7b45ac7ce1bc6d83d386ab6bf3ee6a2c49df183ec069336d30548c44d0c12775"
+    },
+    "reports/SHORT_CHANDELIER_PROBE_20261006_V1.json": {
+      "sha256": "4dc407b7929b8f5239a71d0d8e5be0d231fe0aee52d037c09af94a4ae5d5dd03",
+      "task_id": "68af5208ecf341c6b431b50f1d1bdc79",
+      "source_sha256": "46fd667fde3a9247efec2efb60177e1d6970c588193e365ad4ca84df7303217a"
+    },
+    "reports/SHORT_INCREASE_ATTRIBUTION_20261006_V1.json": {
+      "sha256": "620a312b09877afc5ad5f3b55336e9874b7ef72035dfa82bd04ace19a76c9e12",
+      "task_id": "403e36c5a1784dcab5c58e2d9f87d7e8",
+      "source_sha256": "08c61bbdfabd06710114cb356491468145b71f5d7ba5e489fb10855b778af3f1"
+    },
+    "reports/SHORT_CHANDELIER_EPISODE_TRACE_20261006_V1.json": {
+      "sha256": "39b683d2545fcde907ee6a19d5e519194d69ab1c5faf6126b59756c48281acab",
+      "task_id": "9afc93b00f874c8a8bff39fa72eadad6",
+      "source_sha256": "f4d2c6fd17fb6d922681891a5f413cae74941a2db434cd72c40b578e2521d5d1"
+    }
+  },
+  "decision": "RETAIN_D096; SAME_LINE_FREQUENCY_NOT_MAIN_FIX; CE_FULL_STRATEGY_NOT_REJECTED_BY_DAILY_SNAPSHOT; RETAIN_CE_CAPABILITY_AS_RESERVE; NEXT_ONE_FAST_SLOW_CONFLICT_RULE",
+  "next_action": "下一有限主任务：在D096稳定SHORT确认上，只选择一个公开快慢周期冲突规则：单币已完成4h趋势转为上涨时把short降为现金，长周期仍共同看空才重新允许short；先固定公开周期与成本、核对可得性/清仓语义，再两个BASE完整账户，只有净/SHORT/实际风险门槛通过才补压力情景。避免只按BTC慢状态，也不因为五个最差日事后删交易。零模型搜索，不调ATR倍数；当前新规则及经济指标NOT_RUN。",
+  "models_fit": 0,
+  "new_accounts": 0,
+  "new_strategy_net_return": "NOT_RUN",
+  "locked_body_read": false,
+  "source_hashes": {
+    "scripts/investment/short_rebound_timing.py": "7b45ac7ce1bc6d83d386ab6bf3ee6a2c49df183ec069336d30548c44d0c12775",
+    "scripts/investment/chandelier_short_levels.py": "1ff1bc5f1777dc1be715b713d299476f1261ff6c11fec74567396340301f8c28",
+    "scripts/investment/probe_chandelier_short.py": "46fd667fde3a9247efec2efb60177e1d6970c588193e365ad4ca84df7303217a",
+    "scripts/investment/short_increase_attribution.py": "08c61bbdfabd06710114cb356491468145b71f5d7ba5e489fb10855b778af3f1",
+    "scripts/investment/checkpoint_diagnostic_research.py": "96c25b75489410df38708d0381725e96248ba4991e7ad429a3622c143e07e988",
+    "scripts/investment/trace_chandelier_short_episodes.py": "f4d2c6fd17fb6d922681891a5f413cae74941a2db434cd72c40b578e2521d5d1"
+  },
+  "task_intervals_union_seconds": 279.15233516693115,
+  "tasks": [
+    {
+      "id": "ab1172733d9e48959a5a842fd5dcb7c8",
+      "title": "SHORT五个亏损日：退出与真实成交时点只读诊断",
+      "started_at": 1791220559.1285548,
+      "ended_at": 1791220592.4476883,
+      "exit_code": 0
+    },
+    {
+      "id": "68af5208ecf341c6b431b50f1d1bdc79",
+      "title": "默认Chandelier：补齐依赖后继续原只读探测",
+      "started_at": 1791221086.272863,
+      "ended_at": 1791221128.9170744,
+      "exit_code": 0
+    },
+    {
+      "id": "403e36c5a1784dcab5c58e2d9f87d7e8",
+      "title": "SHORT全窗口加仓归因：使用真实fill_id·不重跑账户",
+      "started_at": 1791221323.6803877,
+      "ended_at": 1791221331.2065651,
+      "exit_code": 0
+    },
+    {
+      "id": "9afc93b00f874c8a8bff39fa72eadad6",
+      "title": "SHORT完整24次持仓：公开退出最早触发时点",
+      "started_at": 1791221880.9515612,
+      "ended_at": 1791221922.8223915,
+      "exit_code": 0
+    },
+    {
+      "id": "3c213b7f5ea94234a11c80260c1cba78",
+      "title": "复用公开Chandelier组件：独立D盘安装·固定版本与校验",
+      "started_at": 1791220754.4753647,
+      "ended_at": 1791220801.3319888,
+      "exit_code": 0
+    },
+    {
+      "id": "726b979167f24721ad81325a5970cb44",
+      "title": "Chandelier组件依赖：独立补充pandas·原环境不改",
+      "started_at": 1791221008.1574776,
+      "ended_at": 1791221073.6376164,
+      "exit_code": 0
+    },
+    {
+      "id": "db5e10cf8d294c08bcdebdef32a3b898",
+      "title": "复用默认Chandelier：因果适用性与旧退出独立复核",
+      "started_at": 1791220892.0318756,
+      "ended_at": 1791220922.6870527,
+      "exit_code": 1
+    },
+    {
+      "id": "9e5360a05b7a49d9857595404e91a978",
+      "title": "SHORT全303日初开与后续加空：保存账本边际归因",
+      "started_at": 1791221271.3979666,
+      "ended_at": 1791221279.179694,
+      "exit_code": 1
+    },
+    {
+      "id": "88633e3ecebd47cdaa631d7d385aecc3",
+      "title": "SHORT逻辑订单编号字段只读定位",
+      "started_at": 1791221300.3877788,
+      "ended_at": 1791221301.3030362,
+      "exit_code": 0
+    },
+    {
+      "id": "75fc563006694c34a4a439f7803d4db0",
+      "title": "SHORT同模块最终补核：含完整持仓时点·保留旧解释",
+      "started_at": 1791222043.8682609,
+      "ended_at": 1791222045.9713185,
+      "exit_code": 1
+    }
+  ],
+  "unattributed_intervals": "UNKNOWN_NOT_CALLED_MODEL_THINKING_OR_IDLE",
+  "disk_scan": {
+    "project_bytes": 4671136112,
+    "wsl_vhd_bytes": 31728861184,
+    "total_bytes": 36399997296,
+    "reserved_bytes": 0,
+    "d_free_bytes": 345588166656,
+    "status": "OK",
+    "hard_limit_bytes": 150000000000,
+    "warning_limit_bytes": 120000000000,
+    "intake_limit_bytes": 135000000000,
+    "emergency_buffer_bytes": 15000000000,
+    "measured_utc": "2026-10-05T17:43:20.082386+00:00"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice",
+    "ram_limit_bytes": 8000000000,
+    "ram_current_bytes": 1549905920,
+    "ram_peak_bytes": 2339868672,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false,
+    "task_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-research.slice/run-r165a39556a264bceb9c3c27096ce61dd.scope",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "cpu_quota": "max 100000"
+  },
+  "runtime_directory_bytes": 46583263
+}

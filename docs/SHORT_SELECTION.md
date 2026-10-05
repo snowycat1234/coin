@@ -62,3 +62,29 @@ BASE与STRESS协议源哈希冻结；信号黄金与CASH/HOLD目标复用范围�
 `reports/SHORT_CONFIRMATION_STRESS43_REVIEW_20261006_V1.json` SHA256 `f9fbb2e0054f250f2d792f64a88a9108dbb6044cceeae1434e3322875f5dc2a6`。
 `reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json` SHA256 `938362b3d9cfa897843ba0f1e12f1ce773eb2f18403ab09a0189d18a7bc577b9`。
 `reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json` SHA256 `0a6c011220e2a324439f40ecee41a3da44613c3a66e5573238132fcafd72efec`。
+
+## D097：排除错误退出猜测，复用公开组件但暂不接账户
+
+当前主候选仍为D096双通道SHORT确认，BASE/PCT净1578.24、SHORT572.59、分钟DD5.39%；本轮未改变账户、仓位、费用或已有收益证据。投资NONE/CASH、长期APR NOT_EVALUABLE。
+
+只读重建五个最大BEAR分类空头亏损日共40个持仓资产日期：当日SHORT与保存的独立资金贡献桥接误差<1e-7。37/40全天都未越过既有prior10退出线；4月9日八币价格涨8.24%–16.31%，旧线全部未越过。独立复用原MIT Jesse Donchian核对全部40条线。故“原线从日检查改分钟就能救主要损失”的解释在这些反例上被否定；不宣称对所有日期无效。
+
+直接安装并调用pandas-ta-classic0.8.32原生CE，无代码改动；MIT、22日/3ATR/rma/offset0/talibFalse、不补缺失。0.8.32 wheel SHA e8e1ede0c13d5927d28c91dce3d5ab2c71a1fb7f2e62fb61fe95178d4ab768e0；补充pandas2.3.3/dateutil2.9.0.post0/pytz2025.2/tzdata2025.2/six1.17只装STATE独立目录，冻结原环境不变。所有安装文件SHA见probe。未来价格扰动后截止前10币退出线完全相同；默认CE仅1/40触发，4月9日0/8。暂停把这套默认CE作为当前急反弹修复方案，不花预算做完整钱包；功能保留，reopen需不同已授权状态/窗口下有适用性机制，不能搜索倍数迎合这五天。
+
+全303日保存账本另按真实fill_id区分初始逻辑订单及后续增仓，不把部分成交碎片当独立加仓；平仓与资金费按剩余数量比例分配。初开24逻辑订单38片段：毛521.27、费+执行25.09、funding+.20、净496.38；后续加空197订单207片段：毛91.77、费+执行15.64、funding+.08、净76.21。合计572.59，桥误差1.25e-12。分类只是会计归因，不证明删除加仓能增加收益；“加空整体有害”也不受当前证据支持。
+
+这些五日是事后最差日诊断，不是新OOS、收益筛选或保护后的PnL。Chandelier无回放新钱包，净收益/回撤改善NOT_RUN；初开与加空是同一钱包贡献，不相加独立资金账户。两次技术失败（缺pandas、parquet不含order_id）任务日志保留，补齐依赖及使用真实JSON fill_id后完成，没有重跑旧账户。
+
+复现：hpc_linux中经with_task_progress.sh/bounded.sh，以原v8-clean-env Python执行 short_rebound_timing.py、probe_chandelier_short.py、short_increase_attribution.py；输出要求未用路径/原证据不覆盖。补充组件由 environments/supplementary/pandas-ta-classic-0.8.32.txt 固定wheel校验，依赖安装版本如上，无源码修改。
+
+工件：reports/SHORT_REBOUND_TIMING_20261006_V1.json、SHORT_CHANDELIER_PROBE_20261006_V1.json、SHORT_INCREASE_ATTRIBUTION_20261006_V1.json；源码、任务时刻与引用SHA、实扫和资源见 reports/SHORT_REBOUND_MODULE_CLOSED_20261006_V1.json。原账本以及独立finance证明按SHA复用，不复做旧验收。
+
+下一有限主任务：在D096稳定SHORT确认上，只选择一个公开快慢周期冲突规则：单币已完成4h趋势转为上涨时把short降为现金，长周期仍共同看空才重新允许short；先固定公开周期与成本、核对可得性/清仓语义，再两个BASE完整账户，只有净/SHORT/实际风险门槛通过才补压力情景。避免只按BTC慢状态，也不因为五个最差日事后删交易。零模型搜索，不调ATR倍数；当前新规则及经济指标NOT_RUN。
+
+### D097生命周期范围补核
+
+五日原始CE线1/40只描述当日触线，不能作为完整CE策略淘汰证据。随后实际沿24次原空头持仓，用未改动CE22/3原生线、按空头保护线只下移的状态规则、第一完整入场后分钟观察，得到11/24次有更早触发；3月11日和19日BTC/ETH/SOL持仓已有前期触发可能。4月9日、11日、12日的原八币持仓在当日前仍没有CE触发，故4月9日主损失仍不能靠这套默认状态保护解释为“已经可避免”。这是原轨迹影子时点，不是CE账户或再入场模拟，净收益/风险改善仍NOT_RUN。
+
+据此更正过宽表述：不淘汰完整Chandelier能力，暂列备用；当前主任务仍是单币快慢趋势冲突。完整CE经济对照reopen条件为需要评价3月前期保护的净/风险增量，或出现不同授权周期的机制证据；不得从五日触线或11次触发推算盈利。原点截面收尾及第一绑定保留，最终同模块V2补核含生命周期报告并明确该范围修正，没有覆盖旧经济证据。
+
+最终收尾另保留一次重复事件ID被append-only注册器拒绝的技术失败，改用独立纠偏事件后继续；没有覆盖旧注册记录。完整生命周期和当下资源最终见 reports/SHORT_REBOUND_MODULE_CLOSED_20261006_V2.json，V1只保留原点截面范围。
