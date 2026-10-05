@@ -276,7 +276,7 @@ def main():
         progress.update('容量守卫，扫描总量未知',None,None,'扫描')
         result['disk_before']=disk.check(config['budget']['owned_bytes'])
         result['disk_before']['measured_utc']=datetime.now(UTC).isoformat()
-        assert result['disk_before']['total_bytes']+config['budget']['owned_bytes']<32_000_000_000
+        assert result['disk_before']['total_bytes']+config['budget']['owned_bytes']<disk.WARNING_LIMIT
         first_month=config.get('warmup_start','2024-01')
         last_month=config.get('last_source_month','2025-06')
         rows=[x for x in source['sources'] if x['symbol'] in symbols and first_month<=x['month']<=last_month]

@@ -216,7 +216,7 @@ class WindowsMetadataTransport:
     def fetch(self, url, *, params, limit):
         require(url in (INDEX, BUCKET) and limit <= 512_000, 'Metadata only; no price endpoint')
         require(len(self.requests) < 5, 'Index plus at most four folder pages')
-        require(resources.status()['ram_current_bytes']+250_000_000 < 5_000_000_000,
+        require(resources.status()['ram_current_bytes']+250_000_000 < resources.RAM_LIMIT,
             'Shared WSL plus reserved native transport RAM')
         require(sha(self.script) == self.script_sha256, 'Transport bytes unchanged')
         url = url+('?' + urlencode(params) if params else '')
@@ -249,7 +249,7 @@ class WindowsMetadataTransport:
                 raise PermissionError(f"Official HTTP {info['http_status']}; STOP without another host or retry")
             require(process.returncode == 0 and info['status'] == 'RETRIEVED', str(info.get('reason', 'Official metadata HTTP failure')))
             require(info['WindowsPeakWorkingSet64'] <= 250_000_000 and
-                info['combined_conservative_peak_bound_bytes'] <= 5_000_000_000, 'Combined native/WSL RAM bound')
+                info['combined_conservative_peak_bound_bytes'] <= resources.RAM_LIMIT, 'Combined native/WSL RAM bound')
             require(destination.stat().st_size <= limit, 'Fixed metadata byte bound')
             return destination.read_bytes()
         finally:
@@ -317,7 +317,7 @@ class WindowsSourceTransport:
 
     def download(self, url, destination, maximum):
         require(sha(self.script) == self.script_sha256 and destination.resolve().is_relative_to(self.run), 'Frozen transport/own destination')
-        require(resources.status()['ram_current_bytes']+250_000_000 < 5_000_000_000, 'WSL plus native transport RAM')
+        require(resources.status()['ram_current_bytes']+250_000_000 < resources.RAM_LIMIT, 'WSL plus native transport RAM')
         native_script = subprocess.check_output(['wslpath', '-w', str(self.script)], text=True).strip()
         native_output = subprocess.check_output(['wslpath', '-w', str(destination)], text=True).strip()
         quoted = lambda value: "'"+value.replace("'", "''")+"'"
@@ -350,7 +350,7 @@ class WindowsSourceTransport:
             if info.get('http_status') == 404:
                 raise FileNotFoundError('OFFICIAL_HTTP404_NO_ARCHIVE; historical listing/publication UNKNOWN')
             require(process.returncode == 0 and info['status'] == 'RETRIEVED', str(info.get('reason', 'Official source HTTP failure')))
-            require(self.native_peak <= 250_000_000 and self.combined_peak <= 5_000_000_000, 'Combined native/WSL memory bound')
+            require(self.native_peak <= 250_000_000 and self.combined_peak <= resources.RAM_LIMIT, 'Combined native/WSL memory bound')
             require(0 < destination.stat().st_size <= maximum, 'Fixed delivered file bound')
             return info
         finally:
@@ -1412,7 +1412,7 @@ def source_stage(args):
         before = datetime.now(UTC).isoformat(); measured = disk.check(capacity_reserve)
         measured.update(scan_started_utc=before, scan_finished_utc=datetime.now(UTC).isoformat())
         report['disk_before'] = measured
-        require(measured['total_bytes']+capacity_reserve < 32_000_000_000, 'Expected source plus research warning budget')
+        require(measured['total_bytes']+capacity_reserve < disk.WARNING_LIMIT, 'Expected source plus research warning budget')
         last_disk = STATE/'task-progress'/'last-disk.json'; temporary = last_disk.with_suffix('.source.tmp')
         temporary.write_text(json.dumps(dict(ledger=measured, measured_at=time.time()), allow_nan=False), encoding='utf-8')
         os.replace(temporary, last_disk)

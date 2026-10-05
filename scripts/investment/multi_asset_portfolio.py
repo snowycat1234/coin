@@ -220,7 +220,7 @@ def main():
         engine.need(owned <= reserve and time.monotonic()-began <= protocol['budget']['wall_seconds'],
                     'Finite output/wall research budget reached')
         engine.need(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <=
-                    protocol['budget'].get('peak_RSS_bytes', 5_000_000_000),
+                    protocol['budget'].get('peak_RSS_bytes', resources.RAM_LIMIT),
                     'Finite process RSS research budget reached')
 
     try:
@@ -228,7 +228,7 @@ def main():
         measured = disk.check(reserve)
         measured['measured_utc'] = datetime.now(UTC).isoformat()
         result['disk_before'] = measured
-        engine.need(measured['total_bytes']+reserve < 32_000_000_000, 'Expected footprint exceeds warning budget')
+        engine.need(measured['total_bytes']+reserve < disk.WARNING_LIMIT, 'Expected footprint exceeds warning budget')
         for pool in pools:
             pool_began = time.monotonic()
             before_bytes = sum(p.stat().st_size for p in run.rglob('*') if p.is_file())

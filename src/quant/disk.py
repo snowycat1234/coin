@@ -8,6 +8,10 @@ from pathlib import Path
 from .paths import ROOT, VHD
 
 GB = 1_000_000_000
+HARD_LIMIT = 150 * GB
+WARNING_LIMIT = 120 * GB
+INTAKE_LIMIT = 135 * GB
+EMERGENCY_BUFFER = 15 * GB
 
 
 def tree_bytes(root: Path) -> int:
@@ -42,13 +46,13 @@ def tree_bytes(root: Path) -> int:
 def enforce(used: int, reserve: int, free: int) -> str:
     if reserve < 0:
         raise ValueError("Reservation cannot be negative")
-    if used + reserve >= 40 * GB:
-        raise RuntimeError("40 GB hard limit would be reached")
-    if used + reserve >= 36 * GB:
-        raise RuntimeError("36 GB intake limit: preserve the 4 GB emergency buffer")
-    if free < reserve + 4 * GB:
+    if used + reserve >= HARD_LIMIT:
+        raise RuntimeError("150 GB hard limit would be reached")
+    if used + reserve >= INTAKE_LIMIT:
+        raise RuntimeError("135 GB intake limit: preserve the 15 GB emergency buffer")
+    if free < reserve + EMERGENCY_BUFFER:
         raise RuntimeError("D drive emergency free-space buffer would be consumed")
-    return "WARNING" if used + reserve >= 32 * GB else "OK"
+    return "WARNING" if used + reserve >= WARNING_LIMIT else "OK"
 
 
 def check(reserve: int = 0, root: Path = ROOT, vhd: Path = VHD) -> dict:
@@ -60,7 +64,9 @@ def check(reserve: int = 0, root: Path = ROOT, vhd: Path = VHD) -> dict:
     free = shutil.disk_usage(root).free
     return {"project_bytes": project_bytes, "wsl_vhd_bytes": vhd_bytes,
             "total_bytes": used, "reserved_bytes": reserve, "d_free_bytes": free,
-            "status": enforce(used, reserve, free), "hard_limit_bytes": 40 * GB}
+            "status": enforce(used, reserve, free), "hard_limit_bytes": HARD_LIMIT,
+            "warning_limit_bytes": WARNING_LIMIT, "intake_limit_bytes": INTAKE_LIMIT,
+            "emergency_buffer_bytes": EMERGENCY_BUFFER}
 
 
 if __name__ == "__main__":

@@ -53,7 +53,7 @@ def processes():
             continue
         try:
             cgroup = (folder / "cgroup").read_text()
-            if "/coin-quant.slice/" not in cgroup:
+            if "/coin.slice/" not in cgroup:
                 continue
             arguments = (folder / "cmdline").read_bytes().decode().strip("\0").split("\0")
             if not arguments:
@@ -252,7 +252,7 @@ def run_task(run, process, inventory):
 def update_disk(ledger, stamp):
     global LATEST_DISK
     if ledger.get("total_bytes") and stamp > LATEST_DISK.get("measured_at", 0):
-        LATEST_DISK = {"bytes": ledger["total_bytes"], "limit_bytes": 40_000_000_000,
+        LATEST_DISK = {"bytes": ledger["total_bytes"], "limit_bytes": ledger.get('hard_limit_bytes',150_000_000_000),
                        "measured_at": stamp, "status": "最近已完成扫描的记录"}
 
 
@@ -263,7 +263,7 @@ def resources():
         update_disk(recorded["ledger"], recorded["measured_at"])
     relative = Path("/proc/self/cgroup").read_text().strip().split("::", 1)[1]
     parent = Path("/sys/fs/cgroup") / relative.lstrip("/")
-    while parent.name != "coin-quant.slice":
+    while parent.name != "coin.slice":
         parent = parent.parent
         if parent == Path("/sys/fs/cgroup"):
             raise ValueError("Window must run inside the shared bounded slice")
@@ -272,7 +272,7 @@ def resources():
     return {"ram_current_bytes": read("memory.current"), "ram_peak_bytes": read("memory.peak"),
             "ram_limit_bytes": read("memory.max"), "swap_bytes": read("memory.swap.current"),
             "gpu_used": False, "disk": LATEST_DISK or {"bytes": None,
-                "limit_bytes": 40_000_000_000, "measured_at": None, "status": "尚无完成扫描记录"}}
+                "limit_bytes": 150_000_000_000, "measured_at": None, "status": "尚无完成扫描记录"}}
 
 
 def build_snapshot():
