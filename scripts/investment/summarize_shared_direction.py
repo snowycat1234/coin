@@ -18,22 +18,32 @@ def main():
     ap.add_argument('--document',type=Path,required=True)
     a=ap.parse_args(); r=json.loads(a.actual.read_bytes())
     is_anchor=r['status']=='COMPLETE_FIXED_PAST_TREND_GATE_NEW4_REUSED16_CONDITIONAL_PROXY'
+    is_short=is_anchor and r['protocol']['regime'].get('direction_mode')=='SHORT_ONLY'
     is_regime=is_anchor or r['status']=='COMPLETE_FIXED_DIRECTION_REGIME_PAIRED_ECONOMICS_CONDITIONAL_PROXY'
     assert is_regime or r['status']=='COMPLETE_ONE_SHARED_FIT_MATCHED_DIRECTION_AND_RULE_ECONOMICS_CONDITIONAL_PROXY'
     new_accounts=len(r['cases']); control_proof=None
     if is_anchor:
         assert new_accounts==r['required_accounts']==4
-        control_proof=r['control_reuse']
+        control_proof=dict(r['control_reuse'])
         assert control_proof['probability_golden']=='PASS_EXACT_1220_ROWS'
         assert sha(control_proof['path'])==control_proof['sha256']
         prior=json.loads(Path(control_proof['path']).read_bytes())
+        for c in prior['cases']: c['account_evidence']='REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION'
+        if is_short:
+            extra=r['extra_control_reuse']
+            assert sha(extra['path'])==extra['sha256']
+            additional=json.loads(Path(extra['path']).read_bytes())
+            assert len(additional['cases'])==4
+            for c in additional['cases']: c['account_evidence']='REUSED_ACCEPTED_D087_BY_SHA_NO_RESIMULATION'
+            prior['cases']+=additional['cases'];control_proof['additional_fixed_trend_report']=extra
         # Preserve old evidence; only regroup its recorded daily contributions.
         import polars as pl
         states_by_day={row['available_us']:row['regime'] for row in
             pl.read_parquet(Path(r['run_dir'])/'market_regimes.parquet').iter_rows(named=True)}
         for c in prior['cases']:
-            c['account_evidence']='REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION'
-            check=c['independent']; check['original_GMM_state_contributions']=check['by_learned_regime']
+            check=c['independent']
+            if c['account_evidence']=='REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION':
+                check['original_GMM_state_contributions']=check['by_learned_regime']
             grouped={}
             for day in check['daily_direction_contributions']:
                 label=states_by_day[day['day_end_us']-86_400_000_000]
@@ -43,7 +53,7 @@ def main():
                 v['net']+=day['LONG']+day['SHORT']
             check['by_learned_regime']=grouped
         r['cases']=prior['cases']+r['cases']
-    accounts=20 if is_anchor else 16 if is_regime else 20
+    accounts=24 if is_short else 20 if is_anchor else 16 if is_regime else 20
     days=122 if is_regime else 61
     assert len(r['cases'])==accounts and (is_anchor or r['required_accounts']==accounts)
     if is_regime:
@@ -86,6 +96,10 @@ def main():
                 assert check['target_reference']['status'].startswith('PASS')
             minute=pl.read_parquet(c['artifacts']['minute_nav_inventory.parquet']['path'])
             notionals=minute.select([symbol+'_signed_marked_notional' for symbol in r['protocol']['symbols']]).to_numpy()
+            if c['strategy']=='XGB_TREND_SHORT_ONLY':
+                assert (minute.select([symbol+'_quantity' for symbol in r['protocol']['symbols']]).to_numpy()<=0).all()
+                assert row['LONG_USDT']==0
+                row['short_only_inventory_reference']='PASS_ALL_MINUTES_NO_POSITIVE_BASE_QUANTITY'
             nav=minute['nav'].to_numpy()
             gross=np.abs(notionals).sum(axis=1)/nav; net=notionals.sum(axis=1)/nav
             day_start=((minute['close_us'].to_numpy()-1)//86_400_000_000)*86_400_000_000
@@ -99,6 +113,23 @@ def main():
                     mean_net=float(net[mask].mean()),min_net=float(net[mask].min()),max_net=float(net[mask].max()),
                     exactly_flat_minutes=int((gross[mask]==0).sum()))
             del minute,notionals,nav,gross,net,labels
+            if is_short and c['strategy']=='XGB_TREND_SHORT_ONLY':
+                rejections=json.loads(Path(c['artifacts']['rejections.json']['path']).read_bytes())
+                expired=[v for v in rejections if v.get('reason')=='FIVE_ATTEMPTS_EXPIRED']
+                targets=pl.read_parquet(c['artifacts']['targets.parquet']['path'])
+                target_by_time={(v['available_us'],v['symbol']):v['target_weight'] for v in targets.iter_rows(named=True)}
+                cash_expired=[]
+                for v in expired:
+                    day=((v['event_us']-1)//86_400_000_000)*86_400_000_000
+                    if (v.get('kind')=='DAILY_TARGET' and 0<v['event_us']-day<=300_000_001
+                            and target_by_time.get((day,v['symbol']))==0
+                            and v['remaining_signed_quantity']>0):
+                        cash_expired.append(v)
+                row['expired_target_attempts']=dict(total=len(expired),
+                    by_symbol={s:sum(v.get('symbol')==s for v in expired) for s in r['protocol']['symbols']},
+                    zero_target_short_close_expiries=len(cash_expired),
+                    zero_target_expiry_events=cash_expired,
+                    semantics='RECORDED_FIVE_ATTEMPT_EXPIRY; NOT_EACH_RECORD_A_CASH_EXIT')
         assert abs(row['LONG_USDT']+row['SHORT_USDT']-row['net_USDT'])<1e-7
         assert abs(row['gross_USDT']-row['fee_USDT']-row['spread_USDT']-row['slippage_USDT']+row['funding_USDT']-row['net_USDT'])<1e-7
         rows.append(row); byid[(c['strategy'],c['cost_id'],c['unit_id'])]=row
@@ -123,8 +154,8 @@ def main():
     comparisons=[]
     for cost in ('BASE27','STRESS43'):
         for unit in ('RAW_AS_FRACTION','RAW_AS_PERCENT'):
-            ls=byid[('XGB_TREND_GATED' if is_anchor else 'XGB_REGIME_GATED' if is_regime else 'XGB_LONG_SHORT',cost,unit)]
-            lo=byid[('XGB_REGIME_GATED' if is_anchor else 'XGB_LONG_SHORT' if is_regime else 'XGB_LONG_ONLY',cost,unit)]
+            ls=byid[('XGB_TREND_SHORT_ONLY' if is_short else 'XGB_TREND_GATED' if is_anchor else 'XGB_REGIME_GATED' if is_regime else 'XGB_LONG_SHORT',cost,unit)]
+            lo=byid[('XGB_TREND_GATED' if is_short else 'XGB_REGIME_GATED' if is_anchor else 'XGB_LONG_SHORT' if is_regime else 'XGB_LONG_ONLY',cost,unit)]
             benefit=(ls['net_USDT']>lo['net_USDT']+1e-7 or ls['minute_max_drawdown']<lo['minute_max_drawdown']-1e-10
                 or ls['daily_sharpe'] is not None and lo['daily_sharpe'] is not None and ls['daily_sharpe']>lo['daily_sharpe']+1e-10)
             comparisons.append(dict(cost=cost,unit=unit,net_delta_USDT=ls['net_USDT']-lo['net_USDT'],
@@ -134,13 +165,15 @@ def main():
                 bear_short_contribution_USDT=ls['by_learned_regime'].get('BEAR',{}).get('SHORT',0.) if is_regime else None,
                 scope='PAIRED_MARKED_NAV_NOT_SUM_OF_INDEPENDENT_LONG_AND_SHORT_WALLETS'))
     decision='RETAIN_FOR_RESEARCH_NOT_INVESTMENT' if all(c['either_predeclared_benefit'] for c in comparisons) else 'PAUSE_THIS_FIXED_RECIPE'
+    if is_short and not all(x['net_USDT']>0 for x in rows if x['strategy']=='XGB_TREND_SHORT_ONLY'):
+        decision='PAUSE_THIS_FIXED_RECIPE'
     secondary=[]
     if is_anchor:
         for c in comparisons:
-            challenger=byid[('XGB_TREND_GATED',c['cost'],c['unit'])]
+            challenger=byid[('XGB_TREND_SHORT_ONLY' if is_short else 'XGB_TREND_GATED',c['cost'],c['unit'])]
             raw=byid[('XGB_LONG_SHORT',c['cost'],c['unit'])]
             secondary.append(dict(cost=c['cost'],unit=c['unit'],comparator='XGB_LONG_SHORT',
-                challenger='XGB_TREND_GATED',net_delta_USDT=challenger['net_USDT']-raw['net_USDT'],
+                challenger=challenger['strategy'],net_delta_USDT=challenger['net_USDT']-raw['net_USDT'],
                 DD_delta=challenger['minute_max_drawdown']-raw['minute_max_drawdown'],
                 vol_delta=challenger['daily_annualized_volatility']-raw['daily_annualized_volatility']))
     model_path=Path(r['direction_model_reused']['path']) if is_regime else Path(r['run_dir'])/'xgb_shared.json'
@@ -154,7 +187,7 @@ def main():
         direction_model_reused=r.get('direction_model_reused'),
         accepted_accounts=accounts,actual_short_open_legs=sum(x['short_open_legs'] for x in rows),rows=rows,
         new_actual_short_open_legs=sum(x['short_open_legs'] for x in rows if x['account_evidence']=='NEW_COMPLETE_REPLAY'),
-        new_accounts=new_accounts,reused_accounts=16 if is_anchor else 0,control_reuse=control_proof,
+        new_accounts=new_accounts,reused_accounts=20 if is_short else 16 if is_anchor else 0,control_reuse=control_proof,
         booster_rounds=120,actual_fitted_tree_count=actual_tree_count,configurations=1,
         comparisons=comparisons,secondary_raw_comparisons=secondary,asset_contributions=asset_rows,decision=decision,qualified_investment='NONE/CASH',long_term_APR='NOT_EVALUABLE',
         bear_short_positive_in_all_conditional_scenarios=all(c['bear_short_contribution_USDT']>0 for c in comparisons) if is_regime else None,
@@ -168,10 +201,11 @@ def main():
         maximum_independent_wallet_error_USDT=max(c['independent']['maximum_wallet_error_USDT'] for c in r['cases']),
         original_failure_preserved=r.get('fit_reused'),created_utc=datetime.now(UTC).isoformat())
     write(a.output,accepted)
-    lines=['# D087：固定过去趋势状态与相对分群门控对照' if is_anchor else '# D086：训练期状态门控与同窗真实账户对照' if is_regime else '# D085：共享三分类方向基线与真实账户对照','',
+    lines=['# D088：同规则short-only完整资本反事实' if is_short else '# D087：固定过去趋势状态与相对分群门控对照' if is_anchor else '# D086：训练期状态门控与同窗真实账户对照' if is_regime else '# D085：共享三分类方向基线与真实账户对照','',
         f'决定：**{decision}**。投资候选仍 NONE/CASH，长期APR NOT_EVALUABLE。', '',
         f'一套10币共享XGBoost（120轮boosting、实际{actual_tree_count}棵分类树、depth3、CPU2、seed20261005），没有搜索、阈值挑选或逐币训练。',
-        ('复用D085固定模型，全部1220行概率和标签与D086精确一致；固定过去BTC SMA200/20d规则，无方向/状态/标准化拟合。只新增4个Mar–Jun2025连续122日账户，16个D086同窗对照按SHA复用。旧GMM状态桶保留，报告统一按固定规则重新分桶；回溯已见研究，不声称历史部署。' if is_anchor else
+        ('复用同一固定XGB预测与BTC趋势规则，仅方向mask由LONG_SHORT改为SHORT_ONLY；重新运行4个Mar–Jun2025完整资本122日账户，旧20个账户按SHA复用。零新拟合/搜索，不将D087方向归因当作本轮收益；原GMM桶保留，已有历史不称unseen。' if is_short else
+         '复用D085固定模型，全部1220行概率和标签与D086精确一致；固定过去BTC SMA200/20d规则，无方向/状态/标准化拟合。只新增4个Mar–Jun2025连续122日账户，16个D086同窗对照按SHA复用。旧GMM状态桶保留，报告统一按固定规则重新分桶；回溯已见研究，不声称历史部署。' if is_anchor else
          '复用D085固定模型，实际fit与标签成熟均早于2025-03-01；训练期一套GMM与标准化，连续经济账户Mar–Jun2025共122日。回溯研究复用，不声称当时已部署；所有币相同时间切分。'
          if is_regime else '训练Sep2024–Feb2025、诊断Mar–Apr2025、经济May–Jun2025共61日；所有币相同时间切分，5日标签严格成熟。'),
         '数据已见开发筛选；Binance USD-M价格/mark/资金费配用户Bybit手续费，是跨场所代理。',
@@ -184,7 +218,7 @@ def main():
         sh='UNKNOWN' if x['daily_sharpe'] is None else f"{x['daily_sharpe']:.2f}"
         lines.append(f"|{x['strategy']}|{x['cost']}|{x['unit']}|{x['net_USDT']:.2f}|{x['gross_USDT']:.2f}|{x['LONG_USDT']:.2f}|{x['SHORT_USDT']:.2f}|{x['fee_USDT']:.2f}|{x['spread_USDT']+x['slippage_USDT']:.2f}|{x['funding_USDT']:.2f}|{x['turnover']:.3f}|{x['daily_annualized_volatility']*100:.2f}|{x['minute_max_drawdown']*100:.2f}|{sh}|{x['residual_marked_notional']:.2f}|")
     lines += ['', 'CASH解析基准：净0、风险0、成本0，完整资本10k；不冒充模拟运行。上述净值包含全部残仓mark，残仓未删除；没有完成付费清仓的账户 **liquidated return NOT_EVALUABLE**。', '',
-        '## 固定趋势门控相对同窗GMM门控的增量' if is_anchor else '## 状态门控相对同窗未门控的增量' if is_regime else '## 双向相对同模型多头的增量', '', '|成本|资金费解释|净增量USDT|DD变化百分点|vol变化百分点|预先任一改善|', '|---|---|---:|---:|---:|---|']
+        '## short-only相对同规则long-short的增量' if is_short else '## 固定趋势门控相对同窗GMM门控的增量' if is_anchor else '## 状态门控相对同窗未门控的增量' if is_regime else '## 双向相对同模型多头的增量', '', '|成本|资金费解释|净增量USDT|DD变化百分点|vol变化百分点|预先任一改善|', '|---|---|---:|---:|---:|---|']
     for c in comparisons: lines.append(f"|{c['cost']}|{c['unit']}|{c['net_delta_USDT']:.2f}|{c['DD_delta']*100:.2f}|{c['vol_delta']*100:.2f}|{c['either_predeclared_benefit']}|")
     if is_anchor:
         lines += ['', '## 相对未门控方向的次要对照', '', '|成本|资金费解释|净增量USDT|DD变化百分点|vol变化百分点|', '|---|---|---:|---:|---:|']
@@ -195,6 +229,7 @@ def main():
         'BTC close>SMA200且20d return>0为BULL，两者负为BEAR；单日<-5%且30d年vol>80%为HIGH_VOL_CRASH，其他SIDEWAYS。不使用未来行情定义状态。', '',
         '|策略(BASE27, RAW_AS_PERCENT)|状态|日数|LONG USDT|SHORT USDT|净 USDT|', '|---|---|---:|---:|---:|---:|']
     strategies=('XGB_LONG_SHORT','XGB_REGIME_GATED','XGB_TREND_GATED','HOLD','DONCHIAN_EXIT10') if is_anchor else ('XGB_LONG_SHORT','XGB_REGIME_GATED','HOLD','DONCHIAN_EXIT10') if is_regime else ('XGB_LONG_SHORT','XGB_LONG_ONLY','XGB_SHORT_ONLY','HOLD','DONCHIAN_EXIT10')
+    if is_short: strategies=('XGB_TREND_SHORT_ONLY',*strategies)
     for strategy in strategies:
         x=byid[(strategy,'BASE27','RAW_AS_PERCENT')]
         for label,v in x['by_past_regime'].items():
@@ -219,7 +254,7 @@ def main():
             '固定规则只描述上一闭合日当前趋势，不是未来牛熊收益真值；收益分桶含旧持仓与退出成本，不是因果贡献。零目标不保证容量受限时立即现金。', '',
             '状态日数：'+json.dumps(r['regime_counts'],ensure_ascii=False), '',
             '|策略(BASE27, RAW_AS_PERCENT)|状态|平均gross%|峰值gross%|平均net%|精确零仓分钟/总分钟|', '|---|---|---:|---:|---:|---|']
-        for strategy in ('XGB_REGIME_GATED','XGB_TREND_GATED'):
+        for strategy in (('XGB_TREND_GATED','XGB_TREND_SHORT_ONLY') if is_short else ('XGB_REGIME_GATED','XGB_TREND_GATED')):
             for label,v in byid[(strategy,'BASE27','RAW_AS_PERCENT')]['actual_exposure_by_learned_regime'].items():
                 lines.append(f"|{strategy}|{label}|{v['mean_gross']*100:.2f}|{v['max_gross']*100:.2f}|{v['mean_net']*100:.2f}|{v['exactly_flat_minutes']}/{v['minutes']}|")
     lines += ['', '## 资产贡献与成交成本（双向BASE27、RAW_AS_PERCENT）','',
@@ -233,7 +268,8 @@ def main():
         '独立验证是记录成交的会计，不是独立重建订单选择、原生保证金层级或全盘价格来源认证；瞬时风险/跳空及历史规则未认证范围沿用原账户。',
         'funding物理单位仍UNKNOWN，两种情景均报告，不能挑更盈利解释。资金费/basis/OI未作为特征；日线可得性是已闭合时间代理，非原生发布认证。',
         f"末尾{r['classification']['ECONOMICS']['missing_future_labels']}个未知5日标签保留缺失；重叠标签不是独立交易；原方向模型CASH预测{r['classification']['ECONOMICS']['predictions']['CASH']}，状态门控的零目标不等同模型学会现金择时。HMM/MLP/meta未跑。",
-        ('本轮所有新fit=0；2个相关趋势状态回归无拟合，既有GMM回归未重跑。新4账户各自独立复算目标、全部分钟NAV/钱包/费用/funding；16对照仅按原证据SHA与相同金融/数据源码绑定复用，不称重新运行。' if is_anchor else
+        ('本轮所有新fit=0、无新增模型/规则测试；已有三方向默认golden在实际入口精确重验，新4个SHORT_ONLY目标/全部分钟NAV/钱包/费用/funding独立复算。20旧账户只按SHA和相同金融/状态输入绑定复用，不称重新运行。' if is_short else
+         '本轮所有新fit=0；2个相关趋势状态回归无拟合，既有GMM回归未重跑。新4账户各自独立复算目标、全部分钟NAV/钱包/费用/funding；16对照仅按原证据SHA与相同金融/数据源码绑定复用，不称重新运行。' if is_anchor else
          '本轮新direction fit=0，GMM=1、StandardScaler=1；相关因果回归额外2个GMM+2个Scaler拟合均计入，不作经济参数选择。原共同窗口概率和三个方向目标精确golden通过；独立目标审计另算状态过滤、标的顺序和过去协方差。'
          if is_regime else '首次账户因为严格全额平仓断言而停止：原模型/成交/负结果/225USDT残仓与原退出码保存；修正的是验收范围，模型与原预测逐字一致并复用，首账户未重跑。'), '',
         f"共享RAM采样峰值 {r['shared_RAM_sampled_peak_bytes']/1e9:.3f}GB，进程RSS峰值 {r['peak_RSS_bytes']/1e9:.3f}GB，输出增长 {r['owned_bytes']/1e6:.2f}MB，GPU0，swap0。磁盘实际扫描 {r['disk_before']['measured_utc']}：{r['disk_before']['total_bytes']/1e9:.3f}GB，不能当收尾扫描。", '',
@@ -246,6 +282,8 @@ def main():
         lines=[line.replace('protocols/SHARED_XGB_DIRECTION_20261005_V1.json','protocols/MARKET_REGIME_GATE_20261005_V1.json').replace('d085-independent-reproduction','d086-independent-reproduction').replace('SHARED_DIRECTION_INDEPENDENT_REPRODUCTION.json','MARKET_REGIME_INDEPENDENT_REPRODUCTION.json') for line in lines]
     if is_anchor:
         lines=[line.replace('protocols/MARKET_REGIME_GATE_20261005_V1.json','protocols/PAST_TREND_GATE_20261005_V1.json').replace('d086-independent-reproduction','d087-independent-reproduction').replace('MARKET_REGIME_INDEPENDENT_REPRODUCTION.json','PAST_TREND_INDEPENDENT_REPRODUCTION.json') for line in lines]
+    if is_short:
+        lines=[line.replace('protocols/PAST_TREND_GATE_20261005_V1.json','protocols/TREND_SHORT_COUNTERFACTUAL_20261005_V1.json').replace('d087-independent-reproduction','d088-independent-reproduction').replace('PAST_TREND_INDEPENDENT_REPRODUCTION.json','TREND_SHORT_INDEPENDENT_REPRODUCTION.json') for line in lines]
     with a.document.open('x',encoding='utf-8') as f: f.write('\n'.join(lines)+'\n')
     print(json.dumps(dict(status=accepted['status'],decision=decision,short_open_legs=accepted['actual_short_open_legs'],comparisons=comparisons)))
 

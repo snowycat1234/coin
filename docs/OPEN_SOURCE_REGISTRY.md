@@ -387,3 +387,5 @@ D085：复用 https://github.com/dmlc/xgboost ，本机 `xgboost-cpu 3.4.1`（im
 D086运行前登记：复用 https://github.com/scikit-learn/scikit-learn 已装1.9.1/BSD-3-Clause 的 StandardScaler 与 GaussianMixture，库零修改、零新安装。仅薄过去市场特征/训练中心状态映射/现有共享方向目标adapter；1个固定3-component diag GMM，random_from_data/n_init1，1个训练期scaler，0个内部KMeans或方向重训。HIGH_VOL_CRASH是预先固定过去行情风险覆盖条件，不造不存在的崩盘训练类。实际版本随运行receipt核对。方向复用D085已冻结XGBoost，过去/未来共同期间概率及三种旧默认目标逐字golden；不自写HMM/聚类框架。官方定义 https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html 与 https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html 。相关测试另有2次GMM/2次scaler拟合，仅未来扰动验证，不作alpha配置搜索；生产预算仍单一配置。
 
 D087：既有XGBoost模型只加载，既有GMM仅作不可变对照；零新模型/标准化拟合，零新依赖与库修改。固定过去BTC SMA200/20d状态沿用D085/D086原描述性定义，薄规则adapter；4新共享账户与16原SHA对照。仅2项状态边界/未来可得性/缺口回归，零拟合；不重新实现模型内核。
+
+D088：沿用D085已装XGBoost固定模型、D087薄过去趋势规则和原signed目标/账户，仅SHORT_ONLY mask反事实；零库修改/新依赖/新拟合。4新完整资本账户，对照20个已验收旧账户按SHA引用。已有SHORT_ONLY默认golden与独立目标会计复算复用，不重跑无关GMM模型。

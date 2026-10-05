@@ -1325,3 +1325,12 @@ D087固定既有过去BTC SMA200/20d状态，新增4个连续122日10币共享�
 采用门控能力，保留GMM防御参照；本固定双向趋势配方 PAUSE_THIS_FIXED_RECIPE，未晋级投资。有成本后正SHORT归因只支持下一独立short反事实，不证明可投资alpha。暂停配方reopen需不同可得机制带来固定成本下可复现净/风险改善；无独立证据不晋级。投资候选仍NONE/CASH；UNKNOWN资金费两解释与proxy、真实残仓保留。
 
 下一有限主任务：同固定BTC趋势规则/同XGB预测仅切SHORT_ONLY，对照当前LONG_SHORT/GMM/HOLD/CASH。新增4个真实共享账户、零拟合/零搜索，判断组合内正SHORT贡献能否成为独立、完整资本、真实风险与成本后的净增量。只改变方向mask，既有必要风控、费用、容量和残仓规则不变；不能把LONG_SHORT中的SHORT贡献当作独立收益。
+
+
+## D088 — direction regime comparison, 2026-10-05
+
+D088仅改变同一固定趋势门控的方向mask为SHORT_ONLY，新增4个完整122日10币共享10k账户，零拟合/搜索；20个旧账户按SHA复用，未拼接钱包。BASE27/RAW_AS_PERCENT净43.56USDT（完整资本0.4356%），原固定LONG_SHORT净-259.85，GMM净-48.06，HOLD净140.16。SHORT_ONLY毛75.42、费用/执行31.87、资金费0.01；LONG=0且独立核每分钟q<=0，新4账户实付平仓/残仓0。分钟DD 1.95%、实际vol 2.90%、平均gross 1.62%；caps相同不代表与HOLD实际风险相同。四成本/资金费解释净+24.50至+45.03，BEAR桶均负（BASE/PCT -20.86），SIDEWAYS +65.95、BULL -1.52。每情景9个零目标平空请求FIVE_ATTEMPTS_EXPIRED，正收益日仅16/122，top5正日占正日利润69.7%；状态日归因不是因果alpha。全1220预测和三方向默认目标golden精确一致；独立资金/NAV/目标核验及只读复核通过，new4/reused20范围分开。
+
+保留SHORT_ONLY为研究挑战者（RETAIN_FOR_RESEARCH_NOT_INVESTMENT），暂停固定LONG_SHORT配方，能力保留。投资候选NONE/CASH、长期APR NOT_EVALUABLE；已见开发、跨场所代理、未知资金费单位和退出超时仍限制声明，不宣称稳定熊市alpha。暂停方向reopen需不同可得机制在固定成本下出现可信净/风险改善并补独立证据，不靠无限调参。
+
+下一有限主任务：同一SHORT_ONLY信号的零目标平仓持续重试对照，检验5次过期后继续留空是否影响小幅正收益。先固定协议，仅改变该退出重试机制；最多新增4个完整账户，零模型拟合/搜索。保留费用、成交容量、必要风控、资本及caps，用相关平仓反例和旧默认golden复核，不删除旧交易/成本或免费平仓。若退出修正后无增量则暂停配方；正结果也只保留研究，独立/native资格仍未满足。

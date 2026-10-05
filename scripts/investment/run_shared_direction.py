@@ -44,6 +44,9 @@ def main():
     symbols = tuple(spec['symbols'])
     regime_spec=spec.get('regime')
     is_anchor=bool(regime_spec and regime_spec.get('kind')=='FIXED_PAST_TREND')
+    anchor_mode=regime_spec.get('direction_mode','LONG_SHORT') if is_anchor else 'LONG_SHORT'
+    engine.need(anchor_mode in ('LONG_SHORT','SHORT_ONLY'),'Finite fixed trend direction counterfactual')
+    anchor_strategy='XGB_TREND_SHORT_ONLY' if anchor_mode=='SHORT_ONLY' else 'XGB_TREND_GATED'
     reuse_spec=spec.get('direction_model_reuse')
     train_start=stamp(spec['split']['train_decisions_start'])
     train_end=stamp(spec['split']['training_label_maturity_before'])
@@ -221,17 +224,30 @@ def main():
             engine.need(regime_map=={k:v for k,v in regimes.items() if k<score_end},'Fixed decision states equal previous descriptive state definition')
             result['control_reuse']=dict(**control,status='REUSED_D086_BY_IMMUTABLE_REPORT_AND_IDENTICAL_INPUTS',
                 reused_accounts=16,probability_golden='PASS_EXACT_1220_ROWS',new_accounts=4)
+            extra=spec.get('extra_control_reuse')
+            if extra:
+                p=Path(extra['path'])
+                engine.need(p.resolve().is_relative_to(ROOT/'reports') and sha(p)==extra['sha256'],'Exact prior fixed trend controls')
+                prior=json.loads(p.read_bytes())
+                engine.need(prior['status']=='COMPLETE_FIXED_PAST_TREND_GATE_NEW4_REUSED16_CONDITIONAL_PROXY' and len(prior['cases'])==4,'Four closed fixed trend controls')
+                for key in ('split','symbols','risk','labels','cost','data_manifest','signal_execution'):
+                    engine.need(prior['protocol'][key]==spec[key],'Matched extra control field '+key)
+                engine.need(prior['protocol']['regime']['rule']==regime_spec['rule'],'Same trend rule; only direction mask changes')
+                for source,digest in prior['binding']['source_hashes'].items():
+                    if source!='scripts/investment/run_shared_direction.py':
+                        engine.need(sha(ROOT/source)==digest,'Unchanged extra control financial/state source '+source)
+                result['extra_control_reuse']=dict(**extra,status='REUSED_D087_FIXED_RULE_BY_SHA',reused_accounts=4)
         strategies = [('XGB_LONG_SHORT','LONG_SHORT'),('XGB_LONG_ONLY','LONG_ONLY'),
             ('XGB_SHORT_ONLY','SHORT_ONLY'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
         if regime_spec:
             strategies=[('XGB_LONG_SHORT','LONG_SHORT'),('XGB_REGIME_GATED','LONG_SHORT'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
-        if is_anchor: strategies=[('XGB_TREND_GATED','LONG_SHORT')]
+        if is_anchor: strategies=[(anchor_strategy,anchor_mode)]
         result['required_accounts'] = len(strategies)*4
         for name, mode in strategies:
             if name == 'HOLD': factory=lambda b,d,m:hold.fixed_targets(b,d,m,symbols=symbols)
             elif name == 'DONCHIAN_EXIT10': factory=lambda b,d,m:donchian.fixed_targets(b,d,m,symbols=symbols,exit_period=10)
             else: factory=lambda b,d,m:model.targets(predictions,b,d,m,symbols,
-                regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED') else None)
+                regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY') else None)
             for cost_legacy in engine.COSTS:
                 cost = snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json', symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols}, scenario_id=cost_legacy['id'],
@@ -257,7 +273,7 @@ def main():
                     if name.startswith('XGB'):
                         checked['target_reference']=independent.verify_direction_targets(
                             pl.read_parquet(case_dir/'targets.parquet'),predictions,bars,symbols,mode,
-                            regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED') else None)
+                            regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY') else None)
                     by_regime={}
                     for day in checked['daily_direction_contributions']:
                         regime=regimes[day['day_end_us']-model.DAY]
