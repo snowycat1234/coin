@@ -42,12 +42,21 @@ def main():
     engine.need(sha(ROOT/'state/dataset_lock.json') ==
         '29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d', 'Lock SHA only')
     symbols = tuple(spec['symbols'])
+    regime_spec=spec.get('regime')
+    reuse_spec=spec.get('direction_model_reuse')
+    train_start=stamp(spec['split']['train_decisions_start'])
+    train_end=stamp(spec['split']['training_label_maturity_before'])
+    val_end=stamp(spec['split']['validation_label_maturity_before'])
+    score_start=stamp(spec['split']['economics_start'])
+    score_end=stamp(spec['split']['economics_end_exclusive'])
+    score_days=(score_end-score_start)//model.DAY
     source_paths = ['scripts/investment/run_shared_direction.py','scripts/investment/shared_direction_model.py',
         'scripts/investment/audit_shared_direction.py','scripts/investment/multi_asset_data.py',
         'scripts/investment/perpetual_directional.py','scripts/investment/perpetual_closing_exempt_account.py',
         'scripts/investment/bybit_cost_inputs.py','src/quant/perpetual_account.py',
         'scripts/investment/public_sma_perpetual.py','scripts/investment/vol_managed_perpetual_target.py',
         'scripts/investment/donchian_daily_pool_target.py']
+    if regime_spec: source_paths+=['scripts/investment/market_regime.py']
     binding = dict(task_id=os.environ['COIN_TASK_ID'], protocol_sha256=sha(args.protocol),
         source_hashes={p:sha(ROOT/p) for p in source_paths}, command=[sys.executable, *sys.argv],
         git_commit=subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip(),
@@ -59,10 +68,13 @@ def main():
         event_id=spec['experiment_id']+':'+run.name+':START', git_commit=binding['git_commit'],
         data_manifest_hash=binding['input_manifest_sha256'], protocol_hash=binding['protocol_sha256'],
         feature_set='PAST_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_ONEHOT_SHARED', labels=spec['labels'],
-        model_family='XGBOOST_SHARED_THREE_CLASS', hyperparameters=model.MODEL, seed=20261005,
+        model_family='XGB_FIXED_PLUS_TRAIN_ONLY_GMM' if regime_spec else 'XGBOOST_SHARED_THREE_CLASS',
+        hyperparameters=dict(direction=model.MODEL,regime=regime_spec), seed=20261005,
         thresholds='ARGMAX_FIXED_37BP_LABEL_BAND', cost_assumptions='BYBIT_SNAPSHOT_TWO_COSTS_TWO_UNKNOWN_FUNDING_UNITS',
         all_folds=spec['split'], success_failure='START_BEFORE_FIT_OR_ACCOUNT_RESULTS',
-        reason_for_next_experiment=spec['question'], result_influenced_later_choice=False, fits=0 if args.resume_input else 1)
+        reason_for_next_experiment=spec['question'], result_influenced_later_choice=False,
+        direction_fits=0 if args.resume_input or reuse_spec else 1,regime_fits=1 if regime_spec else 0,
+        normalizer_fits=1 if regime_spec else 0)
     append_event(ROOT/'reports/experiment_registry.jsonl', event)
     progress = Progress(); progress.value['detail'] = '共享三分类方向与真实成本账户对照；已见历史开发筛选'
     began = time.monotonic(); shared_peak = 0
@@ -86,15 +98,24 @@ def main():
         features, columns = model.feature_table(bars, symbols)
         labeled = model.label_table(features, bars).filter(pl.all_horizontal([pl.col(f).is_not_null() for f in columns]))
         labeled.write_parquet(run/'shared_dataset.parquet', compression='zstd')
-        train_end, val_end = stamp('2025-03-01'), stamp('2025-05-01')
-        train = labeled.filter((pl.col('close_us') >= stamp('2024-09-01')) & (pl.col('label_available_us') < train_end) & pl.col('label').is_not_null())
+        train = labeled.filter((pl.col('close_us') >= train_start) & (pl.col('label_available_us') < train_end) & pl.col('label').is_not_null())
         validation = labeled.filter((pl.col('close_us') >= train_end) & (pl.col('label_available_us') < val_end) & pl.col('label').is_not_null())
-        score = labeled.filter((pl.col('close_us') >= val_end) & (pl.col('close_us') < stamp('2025-07-01')))
-        engine.need(train.height > 1000 and validation.height > 400 and score.height == 61*len(symbols) and
+        score = labeled.filter((pl.col('close_us') >= score_start) & (pl.col('close_us') < score_end))
+        engine.need(train.height > 1000 and validation.height > 400 and score.height == score_days*len(symbols) and
             set(train['label']) == {0,1,2}, 'Shared matured train/diagnostic/economics split, all classes')
-        fit_start = time.monotonic(); progress.update('共享XGBoost训练，一个配置',0,1,'模型')
+        fit_start = time.monotonic(); progress.update('复用固定方向模型' if reuse_spec or args.resume_input else '共享XGBoost训练，一个配置',0,1,'模型')
         clf = xgboost.XGBClassifier(**model.MODEL)
-        if args.resume_input:
+        if reuse_spec:
+            proof=Path(reuse_spec['report_path']); model_path=Path(reuse_spec['path'])
+            engine.need(proof.resolve().is_relative_to(ROOT/'reports') and model_path.resolve().is_relative_to(STATE) and
+                sha(proof)==reuse_spec['report_sha256'] and sha(model_path)==reuse_spec['sha256'], 'Exact immutable existing direction fit')
+            old=json.loads(proof.read_bytes())
+            engine.need(old['splits']['fitted_data_cutoff_us']==train_end and old['splits']['maximum_training_label_available_us']<score_start and
+                old['splits']['no_validation_early_stopping'] and old['feature_columns']==columns and
+                old['binding']['input_manifest_sha256']==binding['input_manifest_sha256'], 'Same matured training, feature order and data; no future fit')
+            clf.load_model(model_path)
+            result['direction_model_reused']=reuse_spec
+        elif args.resume_input:
             previous = args.resume_input.resolve()
             engine.need(previous.parent == STATE and previous != run, 'One exact closed predecessor')
             old = json.loads((ROOT/'reports/fast_research/SHARED_DIRECTION_20261005_V1.json').read_bytes())
@@ -118,7 +139,7 @@ def main():
         result['feature_columns'] = columns
         result['splits'] = dict(train_rows=train.height, validation_rows=validation.height, score_rows=score.height,
             maximum_training_label_available_us=int(train['label_available_us'].max()),
-            fitted_data_cutoff_us=train_end, model_usable_before_economics_us=val_end,
+            fitted_data_cutoff_us=train_end, model_usable_before_economics_us=score_start,
             no_validation_early_stopping=True, no_score_selection=True, normalization='NONE_TREE_MODEL')
         result['classification'] = {}
         for name, frame in [('VALIDATION',validation),('ECONOMICS',score)]:
@@ -137,24 +158,55 @@ def main():
         if args.resume_input:
             old_predictions = pl.read_parquet(previous/'ECONOMICS_predictions.parquet')
             engine.need(predictions.equals(old_predictions), 'Same immutable predictions; no new fit or changed selection')
-        window = dict(whole, start=val_end, end=stamp('2025-07-01'),
-            events=[r for r in whole['events'] if val_end <= r['event_us'] < stamp('2025-07-01')],
-            minute_blocks=lambda:whole['minute_blocks'](val_end, stamp('2025-07-01')))
+        if reuse_spec:
+            previous_predictions=pl.read_parquet(reuse_spec['golden_predictions_path'])
+            engine.need(sha(reuse_spec['golden_predictions_path'])==reuse_spec['golden_predictions_sha256'], 'Original default prediction bytes')
+            overlap=predictions.filter((pl.col('close_us')>=previous_predictions['close_us'].min()) &
+                (pl.col('close_us')<=previous_predictions['close_us'].max()))
+            engine.need(overlap.equals(previous_predictions), 'Golden common-period probabilities/identity/labels unchanged')
+            result['default_prediction_golden']='PASS_EXACT_D085_MAY_JUNE_PROBABILITIES_AND_LABELS'
+            result['default_target_golden']=[]
+            for old_target in reuse_spec.get('golden_targets',[]):
+                engine.need(sha(old_target['path'])==old_target['sha256'], 'Original default target bytes')
+                original=pl.read_parquet(old_target['path'])
+                original_decisions=np.asarray(sorted(original['available_us'].unique()),dtype=np.int64)
+                reproduced,_=model.targets(overlap,bars,original_decisions,old_target['mode'],symbols)
+                engine.need(reproduced.equals(original), 'Default ordered raw/risk targets unchanged')
+                result['default_target_golden'].append(dict(mode=old_target['mode'],rows=original.height,
+                    status='PASS_EXACT_ORIGINAL_TARGETS_NO_OLD_ACCOUNT_REPLAY'))
+        regime_map=None
+        if regime_spec:
+            from scripts.investment import market_regime
+            engine.need(regime_spec['parameters']==market_regime.PARAMETERS and regime_spec['features']==list(market_regime.FEATURES), 'One declared GMM config')
+            progress.update('训练期市场分群，一个固定配置',0,1,'分群')
+            regime_frame,receipt,scaler,gmm=market_regime.fit_predict(features,train_start,train_end,score_start,score_end)
+            regime_frame.write_parquet(run/'market_regimes.parquet',compression='zstd')
+            import joblib
+            joblib.dump(dict(scaler=scaler,gmm=gmm,receipt=receipt),run/'regime_model.joblib')
+            write(run/'regime_fit.json',receipt); result['regime_fit']=receipt
+            regime_map=dict(zip(regime_frame['available_us'],regime_frame['regime'],strict=True))
+            result['regime_counts']={label:regime_frame.filter(pl.col('regime')==label).height for label in ('BULL','BEAR','SIDEWAYS','HIGH_VOL_CRASH')}
+        window = dict(whole, start=score_start, end=score_end,
+            events=[r for r in whole['events'] if score_start <= r['event_us'] < score_end],
+            minute_blocks=lambda:whole['minute_blocks'](score_start, score_end))
         decisions = np.arange(window['start'], window['end'], model.DAY, dtype=np.int64)
         # Past-only descriptive strata; this is not the planned learned HMM.
         btc = features.filter(pl.col('symbol')=='BTCUSDT')
         regimes = {r['close_us']:('HIGH_VOL_CRASH' if r['return_1d'] < -.05 and r['vol_30d']*365**.5 > .8 else
             'BULL' if r['ma200_distance'] > 0 and r['return_20d'] > 0 else
             'BEAR' if r['ma200_distance'] < 0 and r['return_20d'] < 0 else 'SIDEWAYS')
-            for r in btc.filter(pl.col('close_us')>=val_end).iter_rows(named=True)}
+            for r in btc.filter(pl.col('close_us')>=score_start).iter_rows(named=True)}
         result['regime_definition'] = 'PAST_BTC_SMA200_AND20D_RETURN_CRASH_1D_LT_MINUS5PCT_VOL30_GT80PCT_DESCRIPTIVE_NOT_HMM'
         strategies = [('XGB_LONG_SHORT','LONG_SHORT'),('XGB_LONG_ONLY','LONG_ONLY'),
             ('XGB_SHORT_ONLY','SHORT_ONLY'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
+        if regime_spec:
+            strategies=[('XGB_LONG_SHORT','LONG_SHORT'),('XGB_REGIME_GATED','LONG_SHORT'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
         result['required_accounts'] = len(strategies)*4
         for name, mode in strategies:
             if name == 'HOLD': factory=lambda b,d,m:hold.fixed_targets(b,d,m,symbols=symbols)
             elif name == 'DONCHIAN_EXIT10': factory=lambda b,d,m:donchian.fixed_targets(b,d,m,symbols=symbols,exit_period=10)
-            else: factory=lambda b,d,m:model.targets(predictions,b,d,m,symbols)
+            else: factory=lambda b,d,m:model.targets(predictions,b,d,m,symbols,
+                regimes=regime_map if name=='XGB_REGIME_GATED' else None)
             for cost_legacy in engine.COSTS:
                 cost = snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json', symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols}, scenario_id=cost_legacy['id'],
@@ -175,8 +227,12 @@ def main():
                             account_factory=USDTLinearPerpetualAccount)
                         saved=engine.save_case(actual,case_dir)
                         write(case_dir/'summary.json', saved['summary'])
-                    engine.need(saved['summary']['completed_minutes']==61*1440, 'Complete marked calendar; residual never deleted')
+                    engine.need(saved['summary']['completed_minutes']==score_days*1440, 'Complete marked calendar; residual never deleted')
                     checked=independent.verify(case_dir,symbols,unit['scale'])
+                    if name.startswith('XGB'):
+                        checked['target_reference']=independent.verify_direction_targets(
+                            pl.read_parquet(case_dir/'targets.parquet'),predictions,bars,symbols,mode,
+                            regimes=regime_map if name=='XGB_REGIME_GATED' else None)
                     by_regime={}
                     for day in checked['daily_direction_contributions']:
                         regime=regimes[day['day_end_us']-model.DAY]
@@ -185,6 +241,15 @@ def main():
                         for k in ('LONG','SHORT','CASH'): r[k]+=day[k]
                         r['net']+=day['LONG']+day['SHORT']
                     checked['by_past_regime']=by_regime
+                    if regime_map:
+                        grouped={}
+                        for day in checked['daily_direction_contributions']:
+                            label=regime_map[day['day_end_us']-model.DAY]
+                            v=grouped.setdefault(label,dict(days=0,LONG=0.,SHORT=0.,CASH=0.,net=0.))
+                            v['days']+=1
+                            for k in ('LONG','SHORT','CASH'): v[k]+=day[k]
+                            v['net']+=day['LONG']+day['SHORT']
+                        checked['by_learned_regime']=grouped
                     write(run/(case_id+'_independent.json'),checked)
                     result['cases'].append(dict(id=case_id,strategy=name,cost_id=cost['id'],unit_id=unit['id'],
                         elapsed_seconds=time.monotonic()-started,**saved, independent=checked,
@@ -192,7 +257,8 @@ def main():
                     write(run/'CHECKPOINT.json',result); del actual; gc.collect(); guard()
         result['cash_benchmark'] = dict(initial_capital_USDT=10000, net_PnL=0, costs=0, volatility=0, drawdown=0,
             role='ANALYTIC_FLAT_ACCOUNT_NOT_A_FAKE_REPLAY')
-        result['status']='COMPLETE_ONE_SHARED_FIT_MATCHED_DIRECTION_AND_RULE_ECONOMICS_CONDITIONAL_PROXY'
+        result['status']=('COMPLETE_FIXED_DIRECTION_REGIME_PAIRED_ECONOMICS_CONDITIONAL_PROXY' if regime_spec else
+            'COMPLETE_ONE_SHARED_FIT_MATCHED_DIRECTION_AND_RULE_ECONOMICS_CONDITIONAL_PROXY')
     except Exception as e:
         result.update(error_type=type(e).__name__,reason=str(e)); raise
     finally:

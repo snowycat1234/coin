@@ -383,3 +383,5 @@ D081运行前登记：继续MIT jesse-ai/example-strategies commit `7c91e0a37bf6
 
 
 D085：复用 https://github.com/dmlc/xgboost ，本机 `xgboost-cpu 3.4.1`（import xgboost），Apache-2.0；仅共同日特征/5d成本带分类labels/one-hot symbol/既有账户的薄adapter，未改库源。一个固定CPU hist multi:softprob fit，非自写树/在线学习框架。参数定义参考 https://xgboost.readthedocs.io/en/stable/parameter.html 。NumPy/Polars/scikit-learn沿用已有环境uv.lock，不新增依赖或模型内核；Donchian/HOLD的既有vendor/commit/许可不变。未确认funding/basis/OI不补造；模型与行情只留D/STATE。
+
+D086运行前登记：复用 https://github.com/scikit-learn/scikit-learn 已装1.9.1/BSD-3-Clause 的 StandardScaler 与 GaussianMixture，库零修改、零新安装。仅薄过去市场特征/训练中心状态映射/现有共享方向目标adapter；1个固定3-component diag GMM，random_from_data/n_init1，1个训练期scaler，0个内部KMeans或方向重训。HIGH_VOL_CRASH是预先固定过去行情风险覆盖条件，不造不存在的崩盘训练类。实际版本随运行receipt核对。方向复用D085已冻结XGBoost，过去/未来共同期间概率及三种旧默认目标逐字golden；不自写HMM/聚类框架。官方定义 https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html 与 https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html 。相关测试另有2次GMM/2次scaler拟合，仅未来扰动验证，不作alpha配置搜索；生产预算仍单一配置。

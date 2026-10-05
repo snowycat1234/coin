@@ -81,7 +81,7 @@ def label_table(features, bars, *, horizon_days=5, roundtrip_bps=27., threshold_
         .when(pl.col('future_price_return') > band).then(2)
         .when(pl.col('future_price_return') < -band).then(0).otherwise(1).cast(pl.Int32).alias('label'))
 
-def targets(predictions, bars, decisions, mode, symbols):
+def targets(predictions, bars, decisions, mode, symbols, *, regimes=None):
     if mode not in ('LONG_SHORT', 'LONG_ONLY', 'SHORT_ONLY', 'CASH'):
         raise ValueError('Explicit direction policy')
     lookup = {(r['close_us'], r['symbol']): r['prediction']-1
@@ -92,6 +92,9 @@ def targets(predictions, bars, decisions, mode, symbols):
         raw, histories = [], []
         for s in symbols:
             direction = lookup[(int(t), s)]
+            if regimes is not None:
+                from scripts.investment.market_regime import allowed
+                if not allowed(regimes[int(t)],direction): direction=0
             if mode == 'CASH' or mode == 'LONG_ONLY' and direction < 0 or mode == 'SHORT_ONLY' and direction > 0:
                 direction = 0
             b = closes[s].filter((pl.col('close_us') <= t) & (pl.col('available_us') <= t)).tail(31)
@@ -103,8 +106,10 @@ def targets(predictions, bars, decisions, mode, symbols):
         weights, risk = signed_risk_weights(raw, np.column_stack(histories))
         risks.append(dict(available_us=int(t), **risk))
         for i, s in enumerate(symbols):
-            rows.append(dict(available_us=int(t), symbol=s, raw_signed_target=raw[i],
-                target_weight=float(weights[i]), mode=mode))
+            row=dict(available_us=int(t), symbol=s, raw_signed_target=raw[i],
+                target_weight=float(weights[i]), mode=mode)
+            if regimes is not None: row['regime']=regimes[int(t)]
+            rows.append(row)
     return pl.DataFrame(rows), dict(strategy_id='COIN_SHARED_XGB_3CLASS_5D_1D',
         classes=list(CLASSES), mode=mode, risk=risks, symbols=list(symbols),
         probability_rule='ARGMAX_NO_POST_SCORE_THRESHOLD_SEARCH',

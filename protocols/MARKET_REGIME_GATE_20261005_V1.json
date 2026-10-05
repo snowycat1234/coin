@@ -1,0 +1,123 @@
+{
+  "experiment_id": "D086-TRAIN-ONLY-REGIME-GATE-20261005",
+  "question": "Does a training-only global GMM regime gate improve fixed shared direction economics over the same ungated predictions, with actual bear coverage?",
+  "data_role": "ALREADY_SEEN_DEVELOPMENT_TEMPORAL_OUT_OF_FIT_NOT_UNSEEN_OR_LOCKED",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "pool_rule": "REUSED_PRE_SEPTEMBER_2024_JULY_LIQUIDITY_AND200_DAY_ELIGIBILITY_NOT_RETURN_RANKING",
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "split": {
+    "train_decisions_start": "2024-09-01",
+    "training_label_maturity_before": "2025-03-01",
+    "validation_start": "2025-03-01",
+    "validation_label_maturity_before": "2025-05-01",
+    "economics_start": "2025-03-01",
+    "economics_end_exclusive": "2025-07-01",
+    "same_calendar_all_assets": true,
+    "score_early_stopping": false
+  },
+  "labels": {
+    "horizon_days": 5,
+    "future_price_return": "TRADE_OPEN_AT_T_PLUS5D_OVER_T_MINUS1",
+    "cost_roundtrip_bps": 27,
+    "extra_edge_bps": 10,
+    "classes": "SHORT below -37bp; LONG above +37bp; CASH otherwise; missing future stays missing",
+    "funding_in_label": "EXCLUDED_UNCONFIRMED_UNIT_AND_PUBLICATION_CLOCK",
+    "economic_funding": "ACTUAL_EVENTS_TWO_EXPLICIT_UNIT_SCENARIOS",
+    "overlapping_labels_independent": false
+  },
+  "model": "REUSED_ONE_FIXED_XGB_PLUS_ONE_TRAIN_ONLY_GMM_NO_MODEL_SEARCH",
+  "feature_scope": "COMPLETED_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_AND_ONEHOT_SYMBOL",
+  "feature_missing": {
+    "funding": "EXCLUDED_PUBLICATION_AND_UNIT_UNKNOWN",
+    "basis": "NOT_AVAILABLE_CERTIFIED_INDEX_BASIS",
+    "open_interest": "NOT_IN_ACCEPTED_INPUTS"
+  },
+  "signal_execution": "DAILY_DECISION; EXISTING_ONE_MINUTE_LATENCY_CAPACITY_FILL_AND_MARK_ACCOUNT",
+  "comparison": [
+    "XGB_LONG_SHORT",
+    "XGB_REGIME_GATED",
+    "HOLD",
+    "DONCHIAN_EXIT10",
+    "ANALYTIC_CASH"
+  ],
+  "cost": "SUPPLIED_BYBIT_STANDARD_USER_TAKER5.5BP_SIDE_BASE27_STRESS43_BINANCE_USDM_PROXY",
+  "risk": {
+    "full_capital_USDT": 10000,
+    "asset_absolute_cap": 0.3,
+    "portfolio_gross_cap": 0.6,
+    "annual_vol_target_max": 0.1,
+    "leverage": 1,
+    "margin": "ONE_WAY_ISOLATED_NO_AUTO_TOPUP",
+    "raw_direction_weights": "0.6/N_SIGNED; NO_REDISTRIBUTION_OF_CASH_BUDGET"
+  },
+  "adoption": "Keep gate as research component only if net or DD or Sharpe improves versus matched ungated account in all four cost/unit scenarios. Short alpha claim requires positive SHORT contribution after costs in learned BEAR across four scenarios and adequate evidence; no investment qualification. If no consistent benefit pause recipe; no refit/search.",
+  "stopping": "One GMM fit and one scaler fit; init random_from_data n_init1 no kmeans fit; zero direction fits; 16 new 122day continuous accounts. Nonconvergence stops without tuning. No future fit, no locked or higher risk.",
+  "budget": {
+    "wall_seconds": 3600,
+    "owned_bytes": 850000000,
+    "RSS_bytes": 2000000000,
+    "GPU": 0
+  },
+  "regime": {
+    "crash_override": "Past BTC1d return below -5pct and past30d annualvol above80pct -> HIGH_VOL_CRASH",
+    "parameters": {
+      "n_init": 1,
+      "n_components": 3,
+      "init_params": "random_from_data",
+      "random_state": 20261005,
+      "tol": 0.001,
+      "max_iter": 200,
+      "reg_covar": 0.0001,
+      "covariance_type": "diag"
+    },
+    "policy": "BULL allows original LONG; BEAR allows original SHORT; SIDEWAYS/HIGH_VOL_CRASH -> CASH; reject never invert; risk reduction remains active",
+    "features": [
+      "return_20d",
+      "ma200_distance",
+      "vol_30d",
+      "market_breadth"
+    ],
+    "mapping": "Sort training standardized return20+MA200distance+breadth centre sum: lowest BEAR, middle SIDEWAYS, highest BULL; descriptive relative states not truth",
+    "fit_period": "2024-09-01 <= completed feature timestamp < 2025-03-01"
+  },
+  "direction_model_reuse": {
+    "availability": "Retrospective replay with identical preMarch fit data cutoff; not actual historical deployed model, no validation early stopping or parameter choice",
+    "golden_predictions_sha256": "ec270aa8eb110c232e9f4d9d4aeac9fe0f6e079c5ce6d98ef30d6216279ca7f4",
+    "golden_predictions_path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/ECONOMICS_predictions.parquet",
+    "report_sha256": "150d6507d6b90b2a509ae35d856a08ffcee87e1cc98d4165dbf9847688e92946",
+    "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/xgb_shared.json",
+    "report_path": "/mnt/d/codex/coin/reports/fast_research/SHARED_DIRECTION_20261005_V3.json",
+    "sha256": "c74f2d792d6fff16f881610aec9ace42a29c5695478f3acd2e11bfc4166242f9",
+    "golden_targets": [
+      {
+        "mode": "LONG_SHORT",
+        "sha256": "090bed4fab05a74d243fc54965d7ffc326d3bac7b41fb29a5a05298b58f792a4",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT/targets.parquet"
+      },
+      {
+        "mode": "LONG_ONLY",
+        "sha256": "5636a0d9ca1afb178b36eea6465181d46356e6353c339e35cc5ebc4888b3c446",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_LONG_ONLY_BASE27_RAW_AS_PERCENT/targets.parquet"
+      },
+      {
+        "mode": "SHORT_ONLY",
+        "sha256": "1df2701cbbab0002ce727960908090297884e74ffdcec733b87314d9280f295e",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_SHORT_ONLY_BASE27_RAW_AS_PERCENT/targets.parquet"
+      }
+    ]
+  }
+}

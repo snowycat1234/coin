@@ -10,6 +10,41 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 
+def verify_direction_targets(frame,predictions,bars,symbols,mode,regimes=None):
+    """Separate direction gate and ordered covariance math, no target import."""
+    daily={s:bars.filter(pl.col('symbol')==s).sort('close_us') for s in symbols}
+    prediction={(r['close_us'],r['symbol']):r['prediction']-1 for r in predictions.iter_rows(named=True)}
+    error=0.; day=86_400_000_000
+    for t in sorted(frame['available_us'].unique()):
+        rows=frame.filter(pl.col('available_us')==t)
+        if rows.height!=len(symbols) or set(rows['symbol'])!=set(symbols):
+            raise ValueError('Full explicit target universe each decision')
+        observed={r['symbol']:r for r in rows.iter_rows(named=True)}
+        raw=[]; returns=[]
+        for s in symbols:
+            sign=prediction[(t,s)]
+            if mode=='CASH' or mode=='LONG_ONLY' and sign<0 or mode=='SHORT_ONLY' and sign>0: sign=0
+            if regimes is not None:
+                label=regimes[t]
+                if not (label=='BULL' and sign>0 or label=='BEAR' and sign<0): sign=0
+                if observed[s]['regime']!=label: raise ValueError('Saved state identity')
+            amount=sign*.6/len(symbols); raw.append(amount)
+            if abs(observed[s]['raw_signed_target']-amount)>1e-15:
+                raise ValueError('Independent signal gate never inverts rejected direction')
+            p=daily[s].filter((pl.col('close_us')<=t)&(pl.col('available_us')<=t)).tail(31)
+            if p.height!=31 or not np.all(np.diff(p['close_us'])==day):
+                raise ValueError('Independent causal covariance calendar')
+            c=p['close'].to_numpy();returns.append(c[1:]/c[:-1]-1)
+        w=np.clip(np.asarray(raw,dtype=np.float64),-.3,.3)
+        if np.abs(w).sum()>.6: w*=.6/np.abs(w).sum()
+        covariance=np.cov(np.column_stack(returns),rowvar=False,ddof=1)*365
+        vol=float(np.sqrt(max(float(w@covariance@w),0.)))
+        if vol>.1: w*=.1/vol
+        error=max(error,max(abs(observed[s]['target_weight']-w[i]) for i,s in enumerate(symbols)))
+    if error>1e-10: raise ValueError('Independent ordered signed risk target disagreement')
+    return dict(status='PASS_INDEPENDENT_GATE_CASH_AND_ORDERED_PAST_COVARIANCE_TARGETS',rows=frame.height,
+        maximum_weight_error=error,mode=mode,gate_used=regimes is not None)
+
 def verify(directory, symbols, unit_scale):
     p = Path(directory)
     minute = pl.read_parquet(p/'minute_nav_inventory.parquet')
