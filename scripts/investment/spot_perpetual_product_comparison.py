@@ -24,6 +24,7 @@ from quant import disk, resources
 from quant.backtest import BacktestConfig, run_backtest
 from quant.paths import ROOT, STATE
 from scripts.investment.vol_managed_perpetual_target import fixed_targets
+from scripts.investment import hold_donchian_blend_target as blend
 from scripts.research_v7.oracle_flow_ceiling import Progress
 from scripts.research_v8.registry import FIELDS, append_event
 
@@ -132,6 +133,41 @@ def comparison(spot, perpetual):
         funding_only_causal_effect=False,actual_risk_matched=False)
 
 
+def spot_comparison(challenger, control):
+    """Same-product full-capital contrast, retaining both actual risk paths."""
+    assert challenger['config'] == control['config']
+    s, p = challenger['summary'], control['summary']
+    delta = dict(net=s['final_nav']-p['final_nav'],
+        gross=s['gross_pnl_before_costs']-p['gross_pnl_before_costs'],
+        fees=s['fees']-p['fees'], execution=s['execution_costs']-p['execution_costs'])
+    assert abs(delta['net']-(delta['gross']-delta['fees']-delta['execution'])) < 1e-7
+    return dict(challenger_id=challenger['id'], control_id=control['id'],
+        net_delta_USDT=delta['net'], gross_delta_USDT=delta['gross'],
+        fee_delta_USDT=delta['fees'], execution_delta_USDT=delta['execution'],
+        funding_delta_USDT=0, actual_risk_matched=False,
+        comparison_basis='SAME_SPOT_INPUT_COST_ACCOUNT_FULL_CAPITAL_DIFFERENT_FIXED_TARGET_RECIPE',
+        challenger_daily_vol=s['annual_volatility'], control_daily_vol=p['annual_volatility'],
+        challenger_daily_MDD=s['max_drawdown'], control_daily_MDD=p['max_drawdown'],
+        challenger_minute_MDD=challenger['risk']['minute_max_drawdown'],
+        control_minute_MDD=control['risk']['minute_max_drawdown'],
+        challenger_turnover=challenger['turnover_over_full_initial_capital'],
+        control_turnover=control['turnover_over_full_initial_capital'])
+
+
+def cached_market(control):
+    """Use exact accepted artifacts without copying or reducing source again."""
+    assert control['status'] == 'COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR'
+    frames = []
+    for key in ('daily_bars', 'market_minutes'):
+        receipt = control[key]; path = Path(receipt['path'])
+        assert path.resolve().is_relative_to(STATE) and not path.is_symlink()
+        assert path.stat().st_size == receipt['bytes'] and sha(path) == receipt['sha256']
+        frame = pl.read_parquet(path)
+        assert frame.height == receipt['rows']
+        frames.append(frame)
+    return (*frames, control['source_records'])
+
+
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--protocol',type=Path,required=True)
     p.add_argument('--run-dir',type=Path,required=True); p.add_argument('--output',type=Path,required=True)
@@ -140,12 +176,16 @@ def main():
     assert os.environ.get('COIN_TASK_ID')
     for name,h in config['source_hashes'].items(): assert sha(ROOT/name)==h,name
     assert sha(ROOT/'state/dataset_lock.json')=='29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d'
-    source=read(config['spot_source']); perpetual=read(config['perpetual_report'])
+    source=read(config['spot_source'])
+    recipe=config.get('recipe','HOLD8')
+    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10')
+    control=read(config['spot_control']) if recipe=='HALF_HOLD10_EXIT10' else None
+    perpetual=read(config['perpetual_report']) if control is None else None
     assert source['status']=='PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR'
-    assert perpetual['actual_calendar_days']==303 and not perpetual['funding_unit_certified']
+    assert (control or perpetual)['actual_calendar_days']==303
     symbols=config['symbols']; assert symbols==['BTCUSDT','ETHUSDT']
     start,end=config['start_us'],config['end_us']; assert end-start==303*DAY
-    assert config['annual_vol_target']==.08 and config['terminal_exit_minutes']==5
+    assert config['annual_vol_target']==(.08 if control is None else .10) and config['terminal_exit_minutes']==5
     assert config['minimum_notional_USDT']==10 and config['quantity_step']=='1E-8'
     run.mkdir(); progress=Progress(); began=time.monotonic()
     peak=resources.status()['ram_current_bytes']
@@ -157,15 +197,19 @@ def main():
         source_QA_reused=True,new_downloads=0,API_calls=0,new_model_fits=0,HPO=0,
         locked_consumed=False,orders_sent=0,native_Bybit_certified=False,
         funding_unit_certified=False,actual_calendar_days=303,
-        spot_source=config['spot_source'],perpetual_report=config['perpetual_report'])
+        spot_source=config['spot_source'],perpetual_report=config.get('perpetual_report'),
+        spot_control=config.get('spot_control'),recipe=recipe)
+    module=config.get('module','D077')
+    if control is not None:
+        result['price_source']='BINANCE_SPOT_WITH_USER_BYBIT_VIP0_COST_SCENARIOS'
     def guard():
         nonlocal peak
         peak=max(peak,resources.status()['ram_current_bytes'])
         assert time.monotonic()-began<=config['budget']['wall_seconds']
         assert sum(x.stat().st_size for x in run.rglob('*') if x.is_file())<=config['budget']['owned_bytes']
-    event=dict.fromkeys(FIELDS);event.update(event_id='D077:START',event_type='OPERATIONAL_RESEARCH_START',
+    event=dict.fromkeys(FIELDS);event.update(event_id=module+':START',event_type='OPERATIONAL_RESEARCH_START',
         experiment_id=config['experiment_id'],git_commit=result['git_commit'],protocol_hash=sha(a.protocol),
-        model_family='NORMAL_SPOT_HOLD8_PRODUCT_CONTRAST',fits=0)
+        model_family='NORMAL_SPOT_'+recipe, fits=0)
     append_event(ROOT/'reports/experiment_registry.jsonl',event)
     try:
         progress.update('容量守卫，扫描总量未知',None,None,'扫描')
@@ -176,7 +220,7 @@ def main():
         assert len(rows)==36 and len({(x['symbol'],x['month']) for x in rows})==36
         daily,execution,receipts=[],[],[]
         cols=['symbol','open_us','close_us','available_us','open','high','low','close','volume','quote_volume']
-        for i,row in enumerate(rows):
+        for i,row in enumerate(rows if control is None else []):
             path=Path(row['normalized_path'])
             expected=ROOT/'data/normalized/spot'/row['symbol']/'1m'/(row['month']+'.parquet')
             assert path==expected and path.resolve()==expected and not path.is_symlink()
@@ -189,15 +233,32 @@ def main():
             receipts.append(dict(path=str(path),sha256=row['normalized_sha256'],symbol=row['symbol'],month=row['month'],rows=row['rows']))
             progress.update('复用已接受现货源及完整日线',i+1,len(rows),'文件')
             guard()
-        bars=pl.concat(daily).sort(['symbol','open_us']); minutes=pl.concat(execution).sort(['symbol','open_us'])
-        del daily,execution,frame;gc.collect()
+        if control is None:
+            bars=pl.concat(daily).sort(['symbol','open_us']); minutes=pl.concat(execution).sort(['symbol','open_us'])
+            del frame
+        else:
+            bars,minutes,receipts=cached_market(control)
+            assert len(receipts)==len(rows)
+            assert {(r['symbol'],r['month'],r['sha256']) for r in receipts} == {
+                (r['symbol'],r['month'],r['normalized_sha256']) for r in rows}
+            assert control['spot_source']==config['spot_source']
+            assert all(c['symbols']==symbols and c['config']['start_us']==start
+                and c['config']['end_us']==end and c['fee_snapshot']==config['fee_snapshot']
+                and c['risk']['observed_caps_ok'] for c in control['cases'])
+            progress.update('已接受现货缓存SHA匹配，无复制',2,2,'工件')
+        del daily,execution;gc.collect()
         decisions=np.arange(start,end,DAY,dtype=np.int64)
-        targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
+        if control is None:
+            targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
+        else:
+            targets,meta=blend.fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols)
+        meta['source_target_builder_id']=meta['strategy_id']
+        meta['strategy_id']='COIN_SPOT_'+recipe+'_1D_SHARED_CAPITAL'
         assert targets.height==303*len(symbols)
         assert targets['target_weight'].is_finite().all()
         result['target_meta']=meta; result['source_records']=receipts
-        result['market_minutes']=save_frame(minutes,run/'source_minutes.parquet')
-        result['daily_bars']=save_frame(bars,run/'source_daily_bars.parquet')
+        result['market_minutes']=save_frame(minutes,run/'source_minutes.parquet') if control is None else control['market_minutes']
+        result['daily_bars']=save_frame(bars,run/'source_daily_bars.parquet') if control is None else control['daily_bars']
         result['target_artifact']=save_frame(targets,run/'targets.parquet')
         fee_source=read(config['fee_snapshot'])
         fee_row=next(x for x in fee_source['product_rates'] if x['product_id']=='SPOT_CRYPTO_STANDARD')
@@ -238,12 +299,15 @@ def main():
             case['artifacts']['trades']=case['artifacts']['trades.parquet']
             case['artifacts']['daily_nav']=case['artifacts']['daily_nav.parquet']
             result['cases'].append(case)
-            for pc in perpetual['cases']:
-                if pc['cost_id']==cost['perpetual_cost_id']:
+            for pc in (control or perpetual)['cases']:
+                if control is not None and pc['id']==case['id']:
+                    result['comparisons'].append(spot_comparison(case,pc))
+                elif control is None and pc['cost_id']==cost['perpetual_cost_id']:
                     result['comparisons'].append(comparison(case,pc))
             guard();del account,path,daily_frame;gc.collect()
-        assert len(result['cases'])==2 and len(result['comparisons'])==4
-        result['status']=('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR'
+        assert len(result['cases'])==2 and len(result['comparisons'])==(4 if control is None else 2)
+        result['status']=(('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if control is None
+                          else 'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR')
             if all(c['risk']['observed_caps_ok'] for c in result['cases'])
             else 'FAILED_OBSERVED_CAPS_PRODUCT_COMPARISON_LIMITED_DIAGNOSTIC')
         progress.update('产品账户保存完成',2,2,'账户')
@@ -254,7 +318,7 @@ def main():
             shared_RAM_sampled_peak_bytes=peak,resources_after=resources.status(),
             owned_bytes=sum(x.stat().st_size for x in run.rglob('*') if x.is_file()),created_utc=datetime.now(UTC).isoformat())
         write(a.output,result)
-        append_event(ROOT/'reports/experiment_registry.jsonl',dict(event,event_id='D077:RESULT',event_type='OPERATIONAL_RESEARCH_RESULT',
+        append_event(ROOT/'reports/experiment_registry.jsonl',dict(event,event_id=module+':RESULT',event_type='OPERATIONAL_RESEARCH_RESULT',
             success_failure=result['status'],artifact_path=str(a.output),artifact_sha256=sha(a.output)))
         progress.stop.set();progress.thread.join(timeout=3)
     print(json.dumps(dict(status=result['status'],cases=len(result['cases']),elapsed_seconds=result['elapsed_seconds'],process_peak_RSS_bytes=result['process_peak_RSS_bytes'])))
