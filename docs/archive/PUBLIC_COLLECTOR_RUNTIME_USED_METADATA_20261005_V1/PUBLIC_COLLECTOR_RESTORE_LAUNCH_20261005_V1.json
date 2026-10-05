@@ -1,0 +1,96 @@
+{
+  "action": "launch",
+  "task_id": "9a1a55e102574bee911743551badf710",
+  "created_utc": "2026-10-05T02:15:51.673350+00:00",
+  "helper": {
+    "path": "/mnt/d/codex/coin/.cache/d075_restore.py",
+    "bytes": 9255,
+    "sha256": "0ae876c7d73d7fce409a32b8d57f4cb590001959ba10075f64b0b46ed543a2af"
+  },
+  "preservation": {
+    "path": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/PRESERVATION.json",
+    "bytes": 19358,
+    "sha256": "dd6adb83b7248233dc36a939c0aaae0ec52027da341fe5d985c0e1c4389eab31"
+  },
+  "manifest_identity": {
+    "path": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/MANIFEST_IDENTITIES.json",
+    "bytes": 885038,
+    "sha256": "63b08cc12c73acaa0eaaa7577e78968d773e19b0509a6ea643eb8c1cbda73423"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 196972544,
+    "ram_peak_bytes": 197337088,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "new_services": 0,
+  "source_switch": false,
+  "credentials_used": false,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "gpu_hours": 0,
+  "status": "ORIGINAL_PUBLIC_COLLECTORS_SINGLE_DETACHED_LAUNCH_NOT_HEALTH_OR_QUALIFICATION",
+  "capacity": {
+    "project_bytes": 4403108954,
+    "wsl_vhd_bytes": 24048041984,
+    "total_bytes": 28451150938,
+    "reserved_bytes": 1000000000,
+    "d_free_bytes": 353572909056,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-05T02:17:18.163809+00:00",
+    "elapsed_seconds": 86.405437081
+  },
+  "launches": [
+    {
+      "name": "public-v3",
+      "module": "quant.collector_public_v3",
+      "title": "D075原公开分钟采集恢复·断档新会话",
+      "wrapper_pid": 477,
+      "command": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D075原公开分钟采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.collector_public_v3",
+        "--run"
+      ],
+      "stdout": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/public-v3-restored.stdout.log",
+      "stderr": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/public-v3-restored.stderr.log",
+      "start_new_session": true
+    },
+    {
+      "name": "micro-l1-v1",
+      "module": "quant.microstructure",
+      "title": "D075原L1采集恢复·断档新会话",
+      "wrapper_pid": 478,
+      "command": [
+        "bash",
+        "/mnt/d/codex/coin/scripts/with_task_progress.sh",
+        "--title",
+        "D075原L1采集恢复·断档新会话",
+        "--",
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.microstructure",
+        "--run"
+      ],
+      "stdout": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/micro-l1-v1-restored.stdout.log",
+      "stderr": "/home/xflops/coin-state/d075-runtime-restoration-20261005-v1/micro-l1-v1-restored.stderr.log",
+      "start_new_session": true
+    }
+  ],
+  "collector_processes_at_launch": [],
+  "launch_epoch_seconds": 1791166638.3171048,
+  "healthy_gap_splicing": false,
+  "real_time_days_certified": 0,
+  "alpha_eligible": false
+}

@@ -129,3 +129,5 @@ D072活动金融Donchian入口按非空/唯一/同配置顺序池核，不再十
 D073正常hold_donchian_blend_target固定.5HOLD10+.5EXIT10/REENTRY20 ACTIVE_EQUAL，各组件过去cov缩风险后组合目标，runner一个共享钱包完整303日。四账户/四独立金融/12pair/Decimal已通过；净比HOLD8低而vol/DD更低，事前非共同支配标准仅保留防御挑战者，投资NONE/CASH。不得平均旧NAV/重复本金/搜权重/假风险匹配；N资产/signed/现金及原caps不变。下一只保存日账本配对时间/回撤集中度诊断未启动，不新增市场或策略，旧证据按原Git保存。具体经济证据见状态与docs/HOLD_EXIT_BLEND_20261005.md。
 
 D074正常时间诊断可选日终episodes已核8完整日账本与独立Decimal；真实endpoint时钟含初始10k、相等恢复与末未恢复右删失。四条件三段反转/12块区间含零，不晋级稳定alpha/APR；HOLD8参照/组合防御挑战者保留，投资NONE/CASH。验收后段发现原采集PID已失，下一先保存退出证据与有限恢复，再有限资金费来源核对，均尚未启动，已有403/451不重试绕过；N/signed/现金/资源/caps/locked边界与旧Git证据保持。详情当前状态及docs/HOLD_EXIT_BLEND_TIME_20261005.md。
+
+D075原source/DB/store两路公开采集已再次保存/2256SHA/单次恢复/两新session推进；断档不拼资格，exit UNKNOWN，boot身份变化已证实。Windows正常keep_wsl_research_runtime仅一棵隐藏客户端树，sleep经原bounded，不改资源/电源/自动登录；有限恢复不等于跨重启/72h可靠。投资NONE/CASH，下一有限资金费单位来源核对未启动；现态与具体证据见docs/PUBLIC_COLLECTOR_RUNTIME_RESTORE_20261005.md。
