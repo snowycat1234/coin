@@ -1,0 +1,119 @@
+{
+  "experiment_id": "D094_FIXED_DC_TWO_SPEED_303D",
+  "question": "Can a fixed equal forecast average of public20/10 and55/20 reduce early short losses without losing later downside capture? One recipe, same303d account/cost inputs; no fits or weight/stop search.",
+  "models_fit": 0,
+  "families": [
+    "DC_TWO_SPEED"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2024-09-01",
+  "economics_start": "2024-09-01",
+  "economics_end_exclusive": "2025-07-01",
+  "data_role": "PREVIOUSLY_SEEN_DEVELOPMENT_CONTINUOUS303D_NOT_UNSEEN_FULL_CYCLE_OR_LOCKED",
+  "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "COIN_EQUAL_FORECAST_ADAPTER_OF_PUBLIC_TURTLE_CHANNEL_PERIODS_NOT_FULL_TURTLE_OR_CERTIFIED_NATIVE_STRATEGY",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2011.11.003",
+    "https://mebfaber.com/2016/09/14/episode-20-listener-qa/",
+    "https://www.followingthetrend.com/?mdocs-file=2551",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "D093 observed70.8MB average/case;6 cases per cost estimated0.43GB;1.2GB owned cap. Two cost tasks share8GB; explicit2 threads each; existing collector remains live.",
+  "budget": {
+    "wall_seconds": 2400,
+    "RSS_bytes": 1800000000,
+    "owned_bytes": 1200000000,
+    "GPU": 0
+  },
+  "stopping": "ONE_FIXED_DUAL_CHANNEL_RECIPE_THREE_DIRECTIONS_TWO_UNKNOWN_UNITS;6_NEW_ACCOUNTS_PER_COST12_TOTAL;8_BOUND_CASH_HOLD_CONTROLS_REUSED; NO_SEARCH_FIT_DOWNLOAD",
+  "adoption": "Research contender only if LONG_SHORT net improves in all four cost/unit pairs over original20/10 LONG_SHORT, with actual volatility and DD no worse. Also report LO,SO,HOLD,CASH and continuous period/asset contributions. Failure pauses this recipe, not short capability. No native/unseen/longAPR/investment qualification.",
+  "regression": {
+    "path": "reports/CTA_TWO_SPEED_TESTS_20261005_V2.xml",
+    "sha256": "15ce4045d4f37ade74beac60a1d7d37d6e93650d58d1cb319cbec7ef18f3c50a",
+    "source_sha256": "650e4a84c8edd14098d666db47fe0e286e9b968a9c3326cebec0b957773b0f35",
+    "tests": 3,
+    "reuse_scope": "ACTUAL_3_RULE_TARGET_TESTS; DEFAULT_SIGNALS_GOLDEN_PLUS_CAUSAL_FRACTIONAL_FORECAST_AND_ORDERED_TARGET_REFERENCE; financial kernel unchanged; each new account finance reference required; failedV1 fixture preserved"
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "ca9b101474d0f3943c50069c021d78594dcbf6e2a2af264b1ece140e661a85df",
+    "scripts/investment/audit_cta_classics.py": "948d5ea1eac2f93b13472dc5c7c6339e8261078bbaaea6b69ee4a83e3bc3674e",
+    "scripts/investment/run_cta_leaderboard.py": "d05cb6008c6e90ea5d8795f2b178be8f8bbb842cd0a55f19b5cabb12d028fb4e",
+    "scripts/investment/summarize_cta_leaderboard.py": "e63f774aa5813429496601dafbf99550c3e4b1d39199914669ae33b231fca140"
+  },
+  "operational_correction": "NONE_NEW_PREDECLARED_PERIOD_FAMILY_AND_FIXED_COST_PARTITION; NO_NEW_FINANCIAL_SEMANTICS",
+  "cost_ids": [
+    "BASE27"
+  ],
+  "coverage": {
+    "path": "reports/CTA_EXISTING_CYCLE_COVERAGE_20261005_V1.json",
+    "sha256": "ca560f7ad6a2c569ee329111c6e2edfd2f9f441d7f32f3d6b9f7b8cf957c291c"
+  },
+  "parallel_scope": "Two bounded tasks share coin.slice8GB; explicit2 threads per task; full accounts independent counterfactuals not summed; stage durations task interval union not sum",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "baseline": {
+    "path": "reports/CTA_DONCHIAN_303D_ACCEPTED_20261005_V1.json",
+    "sha256": "b9fc313e5add7d975a084b3cf41d1608301ed676b5e050076b1d1360a6c9377e"
+  },
+  "legacy_control_targets": [
+    {
+      "family": "SMA200_SIGNED",
+      "mode": "CASH",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/CASH_CASH_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "254307917ff18d09d4e392cf5cd4da79e538dd581e018e9ab417e752cad68924"
+    },
+    {
+      "family": "HOLD",
+      "mode": "LONG_ONLY",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/HOLD_LONG_ONLY_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "a0e84c9ad734ca26a756028af954577d08dd81231cf64251027b1c9340515a7b"
+    }
+  ],
+  "created_utc": "2026-10-05T14:40:10.803827+00:00",
+  "legacy_signal_golden": {
+    "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/frozen_signals.parquet",
+    "sha256": "8ed5b064be670ce6802d6f670f4059fdaeecea09f70f4a5557e3292f3fb9e6d0"
+  }
+}

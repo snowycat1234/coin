@@ -28,7 +28,7 @@ def main():
     a=ap.parse_args();spec=json.loads(a.protocol.read_bytes());run=a.run_dir.resolve();out=a.output.resolve()
     assert os.getenv('COIN_TASK_ID') and run.parent==STATE and not run.exists() and not out.exists()
     assert out.is_relative_to(ROOT/'reports/fast_research') and pl.thread_pool_size()<=2
-    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.FAMILIES)
+    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.SUPPORTED_FAMILIES)
     assert spec['modes']==list(cta.MODES) and spec['models_fit']==0
     costs=[v for v in engine.COSTS if v['id'] in spec.get('cost_ids',[v['id'] for v in engine.COSTS])]
     assert costs and len(costs)==len(spec.get('cost_ids',costs)), 'Fixed known cost subset, no cheaper invented cost'
@@ -38,7 +38,7 @@ def main():
     import xml.etree.ElementTree as ET
     test=spec['regression'];assert sha(ROOT/test['path'])==test['sha256'] and sha(ROOT/'tests/test_cta_classics.py')==test['source_sha256']
     suites=list(ET.parse(ROOT/test['path']).getroot().iter('testsuite'))
-    assert sum(int(v.get('tests',0)) for v in suites)==2 and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
+    assert sum(int(v.get('tests',0)) for v in suites)==test.get('tests',2) and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
     paths=['scripts/investment/'+p+'.py' for p in ('cta_classics','audit_cta_classics','run_cta_leaderboard',
         'multi_asset_data','public_sma_perpetual','donchian_daily_pool_target','perpetual_directional','perpetual_closing_exempt_account',
         'bybit_cost_inputs','audit_shared_direction','market_regime','shared_direction_model')]
@@ -46,6 +46,19 @@ def main():
     paths+=['third_party/jesse_example_donchian/'+p for p in cta.PINNED_HASHES]
     binding=dict(task_id=os.environ['COIN_TASK_ID'],git_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         protocol_sha256=sha(a.protocol),source_hashes={p:sha(ROOT/p) for p in paths},input_manifest_sha256=manifest['sha256'])
+    if not spec.get('include_controls',True):
+        base=spec['baseline'];assert sha(ROOT/base['path'])==base['sha256']
+        prior=json.loads((ROOT/base['path']).read_bytes())
+        assert prior['status']=='ACCEPTED_FIXED_DONCHIAN_303D_TWO_COST_TASKS_NO_WALLET_JOIN' and prior['complete_accounts']==20
+        allowed={'scripts/investment/'+p+'.py' for p in ('cta_classics','audit_cta_classics','run_cta_leaderboard')}
+        allowed.add('tests/test_cta_classics.py')
+        for p,h in prior['source_hashes'].items():
+            if p not in allowed:assert sha(ROOT/p)==h,'Reused financial/data/kernel source changed: '+p
+        for entry in prior['inputs']:
+            for k in ('symbols','data_manifest','locked_sha256','preparation_start','economics_start','economics_end_exclusive','cost','resources'):
+                old=json.loads((ROOT/entry['path']).read_bytes())['protocol']
+                assert old[k]==spec[k], 'Baseline input/capital/cost mismatch: '+k
+        binding['reused_controls_baseline']=base
     run.mkdir();write(run/'RUN_BINDING.json',binding)
     event=dict.fromkeys(FIELDS);event.update(experiment_id=spec['experiment_id'],event_id=spec['experiment_id']+':'+run.name+':START',
         event_type='OPERATIONAL_RESEARCH_START',git_commit=binding['git_commit'],data_manifest_hash=manifest['sha256'],protocol_hash=binding['protocol_sha256'],
@@ -69,19 +82,32 @@ def main():
         assert begin<=start<end and (end-start)%cta.DAY==0
         days=(end-start)//cta.DAY;r['actual_days']=days
         whole=load_portfolio_window(manifest['path'],symbols,begin,end);bars=whole['daily']
-        signal,available=cta.signals(bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
+        signal,available=cta.signals(bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols,
+            include_components=bool(set(spec['families'])&set(cta.EXTRA_FAMILIES)))
         r['signal_reference']=reference.verify_signals(signal,bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
         signal.write_parquet(run/'frozen_signals.parquet');write(run/'SIGNAL_AVAILABILITY.json',available)
         score=signal.filter(pl.col('close_us')>=start)
         assert score.height==days*len(symbols) and score.select(spec['families']).null_count().select(pl.sum_horizontal(pl.all())).item()==0
+        if 'legacy_signal_golden' in spec:
+            golden=spec['legacy_signal_golden'];assert sha(golden['path'])==golden['sha256']
+            saved=pl.read_parquet(golden['path'])
+            assert signal.select(saved.columns).equals(saved), 'Original full-window rule signals changed'
+            r['legacy_signal_golden']=dict(status='PASS_SAME_ORIGINAL_SIGNAL_COLUMNS_ALL_DECISIONS',**golden)
         decisions=np.arange(start,end,cta.DAY,dtype=np.int64)
+        if 'legacy_control_targets' in spec:
+            for golden in spec['legacy_control_targets']:
+                assert sha(golden['path'])==golden['sha256']
+                legacy,_=cta.targets(signal,bars,decisions,golden['mode'],symbols,golden['family'])
+                assert legacy.equals(pl.read_parquet(golden['path'])), 'Reused control targets changed'
+            r['legacy_control_targets_status']='PASS_SAME_CASH_AND_HOLD_ALL303D_ORDERED_TARGETS'
         window=dict(whole,start=start,end=end,events=[v for v in whole['events'] if start<=v['event_us']<end],
                     minute_blocks=lambda:whole['minute_blocks'](start,end))
         from scripts.investment.shared_direction_model import feature_table
         from scripts.investment.market_regime import past_state
         btc=feature_table(bars,symbols)[0].filter((pl.col('symbol')=='BTCUSDT')&(pl.col('close_us')>=start)&(pl.col('close_us')<end))
         states={v['close_us']:past_state(v) for v in btc.iter_rows(named=True)};r['descriptive_past_states']=states
-        plans=[(f,m) for f in spec['families'] for m in ('LONG_ONLY','SHORT_ONLY','LONG_SHORT')]+[('CASH','CASH'),('HOLD','LONG_ONLY')]
+        plans=[(f,m) for f in spec['families'] for m in ('LONG_ONLY','SHORT_ONLY','LONG_SHORT')]
+        if spec.get('include_controls',True):plans += [('CASH','CASH'),('HOLD','LONG_ONLY')]
         r['required_accounts']=len(plans)*len(costs)*len(engine.UNITS)
         for family,mode in plans:
             target_family='SMA200_SIGNED' if family=='CASH' else family

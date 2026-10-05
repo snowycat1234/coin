@@ -399,3 +399,6 @@ D091 运行前登记：零训练冻结经典CTA四family，Moskowitz/Ooi/Pederse
 ### D092 initial ATR protection reuse
 
 Existing Jesse/Turtle MIT pinned source and jesse-rust1.3.0 unchanged; existing `turtle_perpetual_bridge.official_context` loads original ATR/go_long/go_short. Adapter: actual-first-fill anchor, initial-only symmetric2ATR, minute range observation, shared scheduler paid exits and next-month cooldown. No new indicator/account core; not full Turtle. Pins/installed receipt in `protection_journal.json` and frozen protocol source hashes.
+
+
+D094运行前：继续复用D091已登记Jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078原Donchian内核及Turtle20/10、55/20公开周期；vendor/license零修改、无新依赖。仅显式输出原已计算55/20状态，固定两forecast等权平均（COIN adapter，非完整Turtle）。共同原vol sizing/Decimal账户/价格/资金费/用户费率保持；旧默认signal全窗口golden和CASH/HOLD全303日ordered targets核对后复用8控制，12新方向账户实际重跑。零训练/搜索/下载；V1新样本未触发半仓导致失败保留，V2实际突破样本通过3项相关回归。

@@ -16,6 +16,8 @@ from scripts.investment.donchian_daily_pool_target import VENDOR, PINNED_HASHES
 
 DAY = 86_400_000_000
 FAMILIES = ('TSMOM12M', 'SMA200_SIGNED', 'DONCHIAN20_10', 'DC_TSMOM_ENSEMBLE')
+EXTRA_FAMILIES = ('DC_TWO_SPEED',)
+SUPPORTED_FAMILIES = (*FAMILIES, *EXTRA_FAMILIES)
 MODES = ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH')
 
 def channel_kernel():
@@ -35,7 +37,7 @@ def year_ago(t):
     d=datetime.fromtimestamp(int(t)/1e6,UTC)
     return int(d.replace(year=d.year-1,day=min(d.day,calendar.monthrange(d.year-1,d.month)[1])).timestamp())*1_000_000
 
-def signals(bars, decisions, symbols):
+def signals(bars, decisions, symbols, *, include_components=False):
     """Virtual deterministic signal states are independent of account fills.
 
     Channel entries/exit use prior bars only. Signal exits are cash for that
@@ -78,13 +80,16 @@ def signals(bars, decisions, symbols):
             sma=float(np.sign(c[j,1]-np.mean(c[j-199:j+1,1]))) if valid else None
             values=dict(TSMOM12M=mom,SMA200_SIGNED=sma,DONCHIAN20_10=dc[(20,10)] if valid else None,
                 DC_TSMOM_ENSEMBLE=(dc[(20,10)]+dc[(55,20)]+mom)/3 if valid and mom is not None else None)
+            if include_components:
+                values.update(DONCHIAN55_20=dc[(55,20)] if valid else None,
+                    DC_TWO_SPEED=(dc[(20,10)]+dc[(55,20)])/2 if valid else None)
             availability.append(dict(symbol=symbol,decision_us=int(t),warmup_valid=valid,
                 twelve_month_anchor_us=int(prior),twelve_month_valid=valid_mom,month_boundary=key))
             rows.append(dict(close_us=int(t),available_us=int(t),symbol=symbol,**values))
     return pl.DataFrame(rows,infer_schema_length=None).sort(['close_us','symbol']),availability
 
 def targets(signal, bars, decisions, mode, symbols, family):
-    assert mode in MODES and family in (*FAMILIES,'HOLD')
+    assert mode in MODES and family in (*SUPPORTED_FAMILIES,'HOLD')
     symbols=symbol_order(symbols);out=[];risks=[]
     lookup={(r['close_us'],r['symbol']):r for r in signal.iter_rows(named=True)}
     histories={s:bars.filter(pl.col('symbol')==s).sort('close_us') for s in symbols}

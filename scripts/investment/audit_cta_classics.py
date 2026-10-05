@@ -28,6 +28,9 @@ def verify_signals(frame,bars,decisions,symbols):
             values=dict(TSMOM12M=mom,SMA200_SIGNED=float(np.sign(price-sum(r['close'] for r in records[j-199:j+1])/200)) if valid else None,
                 DONCHIAN20_10=float(states[0]) if valid else None,
                 DC_TSMOM_ENSEMBLE=(sum(states)+mom)/3 if valid and mom is not None else None)
+            if 'DC_TWO_SPEED' in frame.columns:
+                values.update(DONCHIAN55_20=float(states[1]) if valid else None,
+                    DC_TWO_SPEED=sum(states)/2 if valid else None)
             for f,v in values.items():
                 actual=observed[(int(t),s)][f]
                 assert (actual is None)==(v is None),(s,t,f)

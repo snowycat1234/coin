@@ -39,3 +39,24 @@ def test_modes_order_covariance_and_cash_budget():
             reversed_,_=cta.targets(f,b,t,mode,symbols[::-1],family)
             assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
                 reversed_.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)
+
+def test_two_speed_reuses_channels_preserves_default_and_is_causal():
+    b,t=fixture();symbols=('BTCUSDT','ETHUSDT')
+    b=b.with_columns((pl.col('close')+.01).alias('high'),(pl.col('close')-.01).alias('low'))
+    old,_=cta.signals(b,t,symbols);extended,_=cta.signals(b,t,symbols,include_components=True)
+    assert extended.select(old.columns).equals(old)
+    ref.verify_signals(extended,b,t,symbols)
+    assert extended['DC_TWO_SPEED'].equals((extended['DONCHIAN20_10']+extended['DONCHIAN55_20'])/2)
+    assert set(extended['DC_TWO_SPEED'].drop_nulls().to_list())<= {-1.,-.5,0.,.5,1.}
+    assert any(abs(x)==.5 for x in extended['DC_TWO_SPEED'].drop_nulls().to_list())
+    cutoff=int(t[150]);changed=b.with_columns(*[
+        pl.when(pl.col('close_us')>cutoff).then(pl.col(k)*3).otherwise(pl.col(k)).alias(k)
+        for k in ('open','close','high','low')])
+    future,_=cta.signals(changed,t,symbols,include_components=True)
+    assert extended.filter(pl.col('close_us')<=cutoff).equals(future.filter(pl.col('close_us')<=cutoff))
+    for mode in cta.MODES:
+        target,_=cta.targets(extended,b,t,mode,symbols,'DC_TWO_SPEED')
+        ref.verify_targets(target,extended,b,symbols,'DC_TWO_SPEED',mode)
+        reversed_,_=cta.targets(extended,b,t,mode,symbols[::-1],'DC_TWO_SPEED')
+        assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
+            reversed_.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)
