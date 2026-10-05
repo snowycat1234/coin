@@ -1,0 +1,79 @@
+{
+  "experiment_id": "D091_FROZEN_CLASSIC_CTA_20261005",
+  "question": "固定公开经典趋势策略在相同10币共享资本和真实成本下，short是否提供收益或风险增量？先benchmark，再ML挑战。",
+  "models_fit": 0,
+  "families": [
+    "TSMOM12M",
+    "SMA200_SIGNED",
+    "DONCHIAN20_10",
+    "DC_TSMOM_ENSEMBLE"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2024-09-01",
+  "economics_start": "2025-03-01",
+  "economics_end_exclusive": "2025-07-01",
+  "data_role": "PREVIOUSLY_SEEN_DEVELOPMENT_NOT_UNSEEN_OR_LOCKED",
+  "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "LITERATURE_RULE_COINSIZING_ADAPTER_NOT_COMPLETE_MOP_FABER_TURTLE_REPLICATION",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2011.11.003",
+    "https://mebfaber.com/2016/09/14/episode-20-listener-qa/",
+    "https://www.followingthetrend.com/?mdocs-file=2551",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "D090 observed max50.05MB/account x56=2.803GB plus metadata reserve0.397GB; no new source download",
+  "budget": {
+    "wall_seconds": 7200,
+    "RSS_bytes": 2000000000,
+    "owned_bytes": 3200000000,
+    "GPU": 0
+  },
+  "stopping": "FOUR_FROZEN_FAMILIES; NO_SEARCH_FIT_OR_POSTRESULT_THRESHOLD; 56_ACTUAL_ACCOUNTS_MAX_OR_EXPLICIT_RISK_HALT",
+  "adoption": "PRESERVE_ALL_FROZEN_BENCHMARKS; RANK_ONLY_COMMON_COMPLETE_CALENDARS; SHORT_POLICY_INCREMENT_FULL_MATCHED_PAIR_WITH_ACTUAL_RISK; NO_INVESTMENT_PROMOTION_ON_SEEN122D_PROXY",
+  "regression": {
+    "path": "reports/CTA_CLASSICS_TESTS_20261005_V1.xml",
+    "sha256": "9825418c56ee905ef15b88e068497d3b60d67556df66b8a1e2edf3ade6f27e18",
+    "source_sha256": "e0bc58eee432733f15d96f2da00021a227366c5bd1f632147aca6f9654a1fb0d"
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "907b03eff9799ffc9d1964e4d255b3c63453a415cfcd9d2e62dcc069870a696e",
+    "scripts/investment/audit_cta_classics.py": "511da94c09b7f6651c29620fbb4d9857c0693f8d9f9cae4146d8232015c8968d",
+    "scripts/investment/run_cta_leaderboard.py": "67070839da7e359a777a24dcb40968b14a3a5f75c125cc26883f2d64fd4a58e7",
+    "scripts/investment/summarize_cta_leaderboard.py": "e63f774aa5813429496601dafbf99550c3e4b1d39199914669ae33b231fca140"
+  }
+}

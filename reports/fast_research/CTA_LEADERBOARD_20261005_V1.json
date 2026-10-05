@@ -1,0 +1,137 @@
+{
+  "status": "FAILED",
+  "binding": {
+    "task_id": "a9f5e8159d3c429db75b16bae8860c32",
+    "git_commit": "8acab8bacc188d37d90bd2e3ba4c111ff76aa75a",
+    "protocol_sha256": "0f3e746db96f086cee8c03a99272e0c097c9d02e4a4aff3b628966153ddaee3d",
+    "source_hashes": {
+      "scripts/investment/cta_classics.py": "907b03eff9799ffc9d1964e4d255b3c63453a415cfcd9d2e62dcc069870a696e",
+      "scripts/investment/audit_cta_classics.py": "511da94c09b7f6651c29620fbb4d9857c0693f8d9f9cae4146d8232015c8968d",
+      "scripts/investment/run_cta_leaderboard.py": "67070839da7e359a777a24dcb40968b14a3a5f75c125cc26883f2d64fd4a58e7",
+      "scripts/investment/multi_asset_data.py": "4689e24325558c1b8013fbb4ad917d487dcfff0ebdcb12dcf157f76743ede6cb",
+      "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+      "scripts/investment/perpetual_directional.py": "d3caee8f6111481dd71e68965d671de6357868ace202fabd314e52a2b90c419d",
+      "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+      "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "scripts/investment/audit_shared_direction.py": "3b63cd09a176ae5aaef8457f4101c14ec4be6e8c502e060a5e5d0db24fa748bf",
+      "scripts/investment/market_regime.py": "c4a26e89f60f577e5c455cd6981f3414678d20f79d638ee457072a81889b67e5",
+      "scripts/investment/shared_direction_model.py": "f918bb99c8062e9b74cf3b05b2abaae0c60b64107f846ef0679f852cf82e3c85",
+      "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+      "tests/test_cta_classics.py": "e0bc58eee432733f15d96f2da00021a227366c5bd1f632147aca6f9654a1fb0d",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4"
+    },
+    "input_manifest_sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "protocol": {
+    "experiment_id": "D091_FROZEN_CLASSIC_CTA_20261005",
+    "question": "固定公开经典趋势策略在相同10币共享资本和真实成本下，short是否提供收益或风险增量？先benchmark，再ML挑战。",
+    "models_fit": 0,
+    "families": [
+      "TSMOM12M",
+      "SMA200_SIGNED",
+      "DONCHIAN20_10",
+      "DC_TSMOM_ENSEMBLE"
+    ],
+    "modes": [
+      "LONG_ONLY",
+      "SHORT_ONLY",
+      "LONG_SHORT",
+      "CASH"
+    ],
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "data_manifest": {
+      "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+      "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+    },
+    "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+    "preparation_start": "2024-09-01",
+    "economics_start": "2025-03-01",
+    "economics_end_exclusive": "2025-07-01",
+    "data_role": "PREVIOUSLY_SEEN_DEVELOPMENT_NOT_UNSEEN_OR_LOCKED",
+    "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+    "rules": {
+      "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+      "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+      "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+      "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+      "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+      "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+      "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+      "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+      "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+      "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER"
+    },
+    "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+    "source_scope": "LITERATURE_RULE_COINSIZING_ADAPTER_NOT_COMPLETE_MOP_FABER_TURTLE_REPLICATION",
+    "sources": [
+      "https://doi.org/10.1016/j.jfineco.2011.11.003",
+      "https://mebfaber.com/2016/09/14/episode-20-listener-qa/",
+      "https://www.followingthetrend.com/?mdocs-file=2551",
+      "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+    ],
+    "budgets_estimation": "D090 observed max50.05MB/account x56=2.803GB plus metadata reserve0.397GB; no new source download",
+    "budget": {
+      "wall_seconds": 7200,
+      "RSS_bytes": 2000000000,
+      "owned_bytes": 3200000000,
+      "GPU": 0
+    },
+    "stopping": "FOUR_FROZEN_FAMILIES; NO_SEARCH_FIT_OR_POSTRESULT_THRESHOLD; 56_ACTUAL_ACCOUNTS_MAX_OR_EXPLICIT_RISK_HALT",
+    "adoption": "PRESERVE_ALL_FROZEN_BENCHMARKS; RANK_ONLY_COMMON_COMPLETE_CALENDARS; SHORT_POLICY_INCREMENT_FULL_MATCHED_PAIR_WITH_ACTUAL_RISK; NO_INVESTMENT_PROMOTION_ON_SEEN122D_PROXY",
+    "regression": {
+      "path": "reports/CTA_CLASSICS_TESTS_20261005_V1.xml",
+      "sha256": "9825418c56ee905ef15b88e068497d3b60d67556df66b8a1e2edf3ade6f27e18",
+      "source_sha256": "e0bc58eee432733f15d96f2da00021a227366c5bd1f632147aca6f9654a1fb0d"
+    },
+    "frozen_source_hashes": {
+      "scripts/investment/cta_classics.py": "907b03eff9799ffc9d1964e4d255b3c63453a415cfcd9d2e62dcc069870a696e",
+      "scripts/investment/audit_cta_classics.py": "511da94c09b7f6651c29620fbb4d9857c0693f8d9f9cae4146d8232015c8968d",
+      "scripts/investment/run_cta_leaderboard.py": "67070839da7e359a777a24dcb40968b14a3a5f75c125cc26883f2d64fd4a58e7",
+      "scripts/investment/summarize_cta_leaderboard.py": "e63f774aa5813429496601dafbf99550c3e4b1d39199914669ae33b231fca140"
+    }
+  },
+  "run_dir": "/home/xflops/coin-state/d091-frozen-cta-20261005-v1",
+  "cases": [],
+  "models_fit": 0,
+  "search_configurations": 0,
+  "GPU_hours": 0.0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "disk_before": {
+    "project_bytes": 4518028267,
+    "wsl_vhd_bytes": 25991053312,
+    "total_bytes": 30509081579,
+    "reserved_bytes": 3200000000,
+    "d_free_bytes": 351616036864,
+    "status": "WARNING",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-05T11:29:23.160685+00:00"
+  },
+  "signal_reference": {
+    "status": "PASS_INDEPENDENT_SCALAR_PRIOR_CHANNEL_MONTHLY_12M_SMA200_SIGNALS",
+    "rows": 3030,
+    "maximum_error": 0.0
+  },
+  "error_type": "TypeError",
+  "error": "Object of type bool is not JSON serializable",
+  "elapsed_seconds": 108.79705559000104,
+  "shared_RAM_sampled_peak_bytes": 0,
+  "peak_RSS_bytes": 266379264,
+  "owned_bytes": 11204,
+  "created_utc": "2026-10-05T11:29:27.634802+00:00"
+}
