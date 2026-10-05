@@ -14,11 +14,12 @@ def calculate(bars,saved,symbols,recipe):
     assert list(zip(saved['available_us'],saved['symbol']))==[(int(t),s) for t in times for s in symbols]
     states=dict.fromkeys(symbols,False);expected=[];raws=[];entries=dict.fromkeys(symbols,0);exits=dict.fromkeys(symbols,0)
     for t in times:
-        returns=[]
+        returns=[];hold_gate=[]
         for s in symbols:
             p=bars.filter((pl.col('symbol')==s)&(pl.col('close_us')<=t)&(pl.col('available_us')<=t)).sort('close_us').tail(200)
             assert p.height==200 and p['close_us'][-1]==t and np.all(np.diff(p['close_us'])==DAY)
             close=p['close'][-1]
+            hold_gate.append(float(close>p['close'].mean()))
             if states[s]:
                 if close<min(p['low'][-11:-1]):states[s]=False;exits[s]+=1
             elif close>max(p['high'][-21:-1]) and close>p['close'].mean():states[s]=True;entries[s]+=1
@@ -31,8 +32,9 @@ def calculate(bars,saved,symbols,recipe):
         if recipe=='HOLD8':expected.extend(scale(hraw,.08));raws.extend(hraw)
         elif recipe=='HALF_HOLD10':expected.extend(.5*scale(hraw,.1));raws.extend(.5*hraw)
         else:
-            assert recipe=='HALF_HOLD10_EXIT10'
-            expected.extend(.5*scale(hraw,.1)+.5*scale(draw,.1));raws.extend(.5*hraw+.5*draw)
+            assert recipe in ('HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_HOLD_TREND')
+            mask=np.array(hold_gate) if recipe.endswith('_HOLD_TREND') else np.ones(len(symbols))
+            expected.extend(.5*scale(hraw,.1)*mask+.5*scale(draw,.1));raws.extend(.5*hraw*mask+.5*draw)
     return np.array(expected),np.array(raws),entries,exits
 ap=argparse.ArgumentParser();ap.add_argument('--input',required=True);ap.add_argument('--output',required=True);a=ap.parse_args();began=time.monotonic()
 v=json.loads(Path(a.input).read_bytes());bars=frame(v['daily_bars']);saved=frame(v['target_artifact']);symbols=v['cases'][0]['symbols']
@@ -51,12 +53,23 @@ elif v['recipe']=='HALF_HOLD10':
     altered_targets,_=half_hold_targets(altered,times,symbols=symbols)
 else:
     from scripts.investment.hold_donchian_blend_target import fixed_targets
-    altered_targets,_=fixed_targets(altered,times,'LONG_ONLY',symbols=symbols)
+    altered_targets,_=fixed_targets(altered,times,'LONG_ONLY',symbols=symbols,
+        hold_trend_gate=v['recipe']=='HALF_HOLD10_EXIT10_HOLD_TREND')
 producer_early_gap=float(np.max(abs(altered_targets['target_weight'][:early.height].to_numpy()-saved['target_weight'][:early.height].to_numpy())))
 assert producer_early_gap<=1e-12
+default_golden=None
+if v['recipe']=='HALF_HOLD10_EXIT10_HOLD_TREND':
+    control_ref=v['spot_control'];assert sha(control_ref['path'])==control_ref['sha256']
+    control=json.loads(Path(control_ref['path']).read_bytes());old=frame(control['target_artifact'])
+    normal,_=fixed_targets(bars,times,'LONG_ONLY',symbols=symbols)
+    assert normal.select('available_us','symbol').equals(old.select('available_us','symbol'))
+    default_golden={k:float(np.max(abs(normal[k].to_numpy()-old[k].to_numpy())))
+        for k in ('target_weight','raw_signed_target')}
+    assert max(default_golden.values())<=1e-12
 out=Path(a.output).resolve();assert out.is_relative_to(STATE);out.parent.mkdir(parents=True,exist_ok=True)
 with out.open('x') as f:json.dump(dict(status='PASS_INDEPENDENT_DAILY_SCALAR_TARGETS_AND_FUTURE_PERTURBATION',input_sha256=sha(a.input),
     target_rows=saved.height,target_max_error=gap,raw_max_error=raw_gap,early_future_perturbation_max_error=early_gap,
     entries=entries,exits=exits,entry_exit_scope='DONCHIAN_SIGNAL_DIAGNOSTIC_NOT_ACTUAL_ORDER_COUNTS',producer_future_perturbation_early_error=producer_early_gap,
+    unchanged_default_saved_target_golden=default_golden,
     current_source_sha256=sha(ROOT/'scripts/investment/public_sma_perpetual.py'),source_sha256=sha(__file__),elapsed_seconds=time.monotonic()-began,scope='Independent scalar expected signals, centered Gram covariance, allocation and blend; separate producer future perturbation. Not market QA, native execution or alpha qualification.'),f,indent=2)
 print(json.dumps(dict(status='PASS_INDEPENDENT_DAILY_SCALAR_TARGETS_AND_FUTURE_PERTURBATION',error=gap)))

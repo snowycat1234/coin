@@ -51,7 +51,10 @@ def half_hold_targets(bars, decisions, *, symbols=shared.SYMBOLS):
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
                   eligible_by_decision=None, allocation=ALLOCATION,
-                  signal_interval_minutes=1440, risk_bars=None, trend_filter_interval_minutes=None):
+                  signal_interval_minutes=1440, risk_bars=None, trend_filter_interval_minutes=None,
+                  hold_trend_gate=False):
+    shared.require(type(hold_trend_gate) is bool and (not hold_trend_gate or
+        signal_interval_minutes==1440), 'HOLD trend gate requires daily decisions')
     shared.require(mode == 'LONG_ONLY' and allocation == ALLOCATION,
         'Only the predeclared half HOLD10 / half ACTIVE_EQUAL EXIT10 target blend')
     symbols = shared.symbol_order(symbols)
@@ -83,6 +86,23 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
     shared.require(h.columns == d.columns and h.height == d.height and all(
         h[k].to_list() == d[k].to_list() for k in keys),
         'Components must have identical ordered calendar, identity and eligibility')
+    gate_records=[]
+    if hold_trend_gate:
+        masks=[]
+        for r in hm['risk']:
+            record={}
+            for s in symbols:
+                if r['eligibility'][s]!='ELIGIBLE':
+                    record[s]=dict(eligible=False,allow=False);masks.append(0.);continue
+                p=bars.filter((pl.col('symbol')==s)&(pl.col('close_us')<=r['decision_us'])&
+                    (pl.col('available_us')<=r['decision_us'])).sort('close_us').tail(200)
+                shared.require(p.height==200 and p['close_us'][-1]==r['decision_us'] and
+                    np.all(np.diff(p['close_us'])==DAY_US), 'Complete available daily trend context')
+                close=float(p['close'][-1]);sma=float(p['close'].mean());allow=close>sma
+                masks.append(float(allow));record[s]=dict(eligible=True,allow=allow,close=close,SMA200=sma)
+            gate_records.append(record)
+        h=h.with_columns(pl.Series('target_weight',h['target_weight'].to_numpy()*masks),
+                         pl.Series('raw_signed_target',h['raw_signed_target'].to_numpy()*masks))
     values = .5 * h['target_weight'].to_numpy() + .5 * d['target_weight'].to_numpy()
     raw = .5 * h['raw_signed_target'].to_numpy() + .5 * d['raw_signed_target'].to_numpy()
     shared.require(np.isfinite(values).all() and np.all(values >= 0.) and
@@ -111,6 +131,8 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
             covariance_assets=hr['covariance_assets'], past_only=True,
             net_target_weight=float(np.sum(values[rows])),
             gross_target_weight=float(np.sum(np.abs(values[rows])))))
+        if hold_trend_gate:
+            risk[-1]['hold_trend_gate']=gate_records[i]
     meta = dict(strategy_id=STRATEGY_ID, allocation=ALLOCATION, mode=mode,
         symbols=list(symbols), rules=dict(RULES), risk=risk,
         components=dict(HOLD={k:v for k,v in hm.items() if k != 'risk'},
@@ -120,6 +142,17 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
         target_caps_are_not_instantaneous_position_caps=True,
         benchmark_scope='SEEN_DEVELOPMENT_NOT_LONG_TERM_APR',
         sizing_and_execution='COMBINED_TARGET_ONE_SHARED_ACCOUNT_NORMAL_RISK_AND_PAID_FILLS')
+    if hold_trend_gate:
+        meta['strategy_id'] += '_HOLD_SMA200_GATE'
+        meta['rules'].update(hold_gate='AVAILABLE_DAILY_CLOSE_STRICTLY_ABOVE_SMA200',
+            equality_gate='FLAT',risk_sizing='ORIGINAL_FULL_HOLD_PAST30_COVARIANCE_THEN_MASK',
+            inactive_HOLD_budget_redistributed=False,gate_state='STATELESS_EACH_DAILY_DECISION',
+            donchian_signal_and_budget_unchanged=True)
+        meta['components']['HOLD'].update(strategy_id='COIN_PAST_RISK_HOLD_SMA200_GATE',
+            rules=dict(hm['rules'],direction_is_constant=False,
+                gate='AVAILABLE_DAILY_CLOSE_STRICTLY_ABOVE_SMA200_AFTER_ORIGINAL_SIZING',
+                inactive_budget_redistributed=False))
+        meta['attribution_limit']='HOLD_TIMING_ONLY_WITH_DIFFERENT_ACTUAL_EXPOSURE_NOT_MATCHED_RISK_ALPHA'
     if signal_interval_minutes == 240:
         meta['strategy_id'] = STRATEGY_ID.replace('_1D_', '_4H_')
         meta['rules'] = dict(RULES, timeframe_minutes=240, hold_timeframe_minutes=1440,

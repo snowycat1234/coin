@@ -1,0 +1,100 @@
+{
+  "status": "FAILED",
+  "task_id": "ed0ee0dabc144091a07923b440fb39d2",
+  "config_sha256": "e114d55f0999b2b37e8f013480dc467e99b0e16ae492efc56b0a72cabaf3e9cd",
+  "runner_sha256": "1ab349b30dcfba9456acb2ae43efe97e7b041adbeba61577ef2ead1eb5db4039",
+  "stages": [
+    {
+      "title": "ORIGINALHOLD\u8d8b\u52bf\u95e8\u63a7\u4e24\u6210\u672c\u771f\u5b9e\u94b1\u5305",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_perpetual_product_comparison.py",
+        "--protocol",
+        "protocols/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+        "--run-dir",
+        "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL",
+        "--output",
+        "reports/fast_research/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json"
+      ],
+      "started_utc": "2026-10-05T07:10:07.156118+00:00",
+      "start_monotonic_ns": 371578980178,
+      "end_monotonic_ns": 495014157356,
+      "wall_seconds": 123.435177178,
+      "exit_code": 0
+    },
+    {
+      "title": "ORIGINAL\u72ec\u7acb\u8d44\u91d1\u5e93\u5b58\u8d39\u7528\u4e0e\u5206\u949frisk",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "docs/archive/SPOT_PERPETUAL_PRODUCT_USED_METADATA_20261005_V1/d077_spot_independent.py",
+        "--input",
+        "reports/fast_research/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_FINANCIAL.json"
+      ],
+      "started_utc": "2026-10-05T07:12:10.591434+00:00",
+      "start_monotonic_ns": 495014296959,
+      "end_monotonic_ns": 502527187188,
+      "wall_seconds": 7.512890229,
+      "exit_code": 0
+    },
+    {
+      "title": "ORIGINAL\u72ec\u7acb\u8d8b\u52bf\u76ee\u6807\u672a\u6765\u6270\u52a8\u4e0e\u65e7\u9ed8\u8ba4golden",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/audit_daily_spot_targets.py",
+        "--input",
+        "reports/fast_research/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_TARGETS.json"
+      ],
+      "started_utc": "2026-10-05T07:12:18.104394+00:00",
+      "start_monotonic_ns": 502527259485,
+      "end_monotonic_ns": 540002606913,
+      "wall_seconds": 37.475347428,
+      "exit_code": 0
+    },
+    {
+      "title": "ORIGINAL\u8d44\u4ea7\u6708\u4efd\u4e0e\u6210\u672c\u914d\u5bf9\u8bca\u65ad",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_saved_economic_diagnostics.py",
+        "--input",
+        "reports/fast_research/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_DIAGNOSTIC.json"
+      ],
+      "started_utc": "2026-10-05T07:12:55.579818+00:00",
+      "start_monotonic_ns": 540002683407,
+      "end_monotonic_ns": 564945740775,
+      "wall_seconds": 24.943057368,
+      "exit_code": 0
+    },
+    {
+      "title": "LATERHOLD\u8d8b\u52bf\u95e8\u63a7\u4e24\u6210\u672c\u771f\u5b9e\u94b1\u5305",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_perpetual_product_comparison.py",
+        "--protocol",
+        "protocols/SPOT_HOLD_TREND_LATER_20261005_V1.json",
+        "--run-dir",
+        "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/LATER",
+        "--output",
+        "reports/fast_research/SPOT_HOLD_TREND_LATER_20261005_V1.json"
+      ],
+      "started_utc": "2026-10-05T07:13:20.522976+00:00",
+      "start_monotonic_ns": 564945841221,
+      "end_monotonic_ns": 590589565805,
+      "wall_seconds": 25.643724584,
+      "exit_code": 1
+    }
+  ],
+  "start_monotonic_ns": 371578927157,
+  "end_monotonic_ns": 590674026872,
+  "timing_scope": "This command only; prior conversation/context/model timing UNKNOWN. Sequential stages are disjoint, no child double count."
+}

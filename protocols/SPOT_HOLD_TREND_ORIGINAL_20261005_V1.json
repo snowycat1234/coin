@@ -1,0 +1,92 @@
+{
+  "experiment_id": "D084_HOLD_TREND_ORIGINAL",
+  "parent_commit": "f328dcbef054b53dbf31cae87af082c0f8305dcb",
+  "question": "Does gating only the HOLD leg by the completed daily close above SMA200 reduce downside without eliminating the original net opportunity?",
+  "data_role": "SEEN_DEVELOPMENT_NOT_UNSEEN",
+  "start_us": 1725148800000000,
+  "end_us": 1751328000000000,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "warmup_start": "2024-01",
+  "last_source_month": "2025-06",
+  "annual_vol_target": 0.1,
+  "terminal_exit_minutes": 5,
+  "minimum_notional_USDT": 10,
+  "quantity_step": "1E-8",
+  "quantity_profile": "SHARED_UNCERTIFIED_RESEARCH_PROFILE_NOT_NATIVE_BYBIT_HISTORY",
+  "spot_source": {
+    "sha256": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+    "path": "/mnt/d/codex/coin/reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json"
+  },
+  "fee_snapshot": {
+    "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+    "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+  },
+  "costs": [
+    {
+      "perpetual_cost_id": "BASE27",
+      "half_spread_bps": 4,
+      "id": "SPOT_BASE36",
+      "slippage_bps": 4,
+      "roundtrip_bps": 36
+    },
+    {
+      "perpetual_cost_id": "STRESS43",
+      "half_spread_bps": 8,
+      "id": "SPOT_STRESS52",
+      "slippage_bps": 8,
+      "roundtrip_bps": 52
+    }
+  ],
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "b230175c0bb2dce19e6bfefba8ed012bbc2d56c73a24c2d353f4e829facb0297",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "936c9511942800e0fb1f8a2f0cc02d02ca660cd2d39b0d28b542be3a6f3417b7",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/investment/audit_daily_spot_targets.py": "2cecc6b358025e12742b02a8daf97a7697340d546d33262812311d49f8824382"
+  },
+  "budget": {
+    "actual_spot_wallets": 2,
+    "wall_seconds": 1200,
+    "owned_bytes": 100000000,
+    "fits": 0,
+    "HPO": 0,
+    "downloads": 0,
+    "API": 0
+  },
+  "stop_rule": "Exactly four wallets at declared windows/costs, no SMA/period/threshold grid. Stop on source/target/cash/cap mismatch; preserve terminal residual and original five exits. No retrospective date/asset selection.",
+  "primary_metrics": [
+    "full10k final marked net",
+    "actual daily/minute drawdown and daily volatility",
+    "funding/fee/execution/gross bridge",
+    "turnover",
+    "gross/net exposure",
+    "cash realized status and retained inventory"
+  ],
+  "comparison": "Same Spot input/cost/wallet/caps/full10k. Fixed .5 HOLD10 + .5 EXIT10/REENTRY20 after own component .10 past-cov scaling versus accepted HOLD8 .08. Different risk recipe, not single-factor signal or matched risk.",
+  "success_decision": "Account acceptance independent of economic result. Adopt development challenger only if BASE/STRESS both show positive net delta with no greater realized daily vol and minute MDD in BOTH seen windows; otherwise retain old research reference, identify tradeoff and pause fixed gate. No investment promotion.",
+  "locked_body_read": false,
+  "orders_sent": 0,
+  "funding_unit_certified": false,
+  "module": "D084_ORIGINAL",
+  "recipe": "HALF_HOLD10_EXIT10_HOLD_TREND",
+  "spot_control": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_DEFENSIVE_BLEND_20261005_V1.json",
+    "sha256": "8b894e36ab73a640caf30b0fe2603db858e8e1e173adc3f068d866858f2413cc"
+  },
+  "hypothesis": "D083 later loss is HOLD price exposure, not Donchian or fee. A past-known trend gate may lower downside but miss rebounds and incur gate transactions.",
+  "change": "Only HOLD component multiplied by daily close>SMA200 mask AFTER original full HOLD covariance sizing. Equality flat, no redistribution; .5HOLD+.5EXIT10, EXIT10 and budgets unchanged."
+}

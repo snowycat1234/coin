@@ -1,0 +1,144 @@
+{
+  "reproducible_command": "scripts/with_task_progress.sh --title 'HOLD趋势门控四钱包及必要核验' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/run_research_steps.py --config docs/archive/SPOT_HOLD_TREND_USED_METADATA_20261005_V1/batch_config.json --output reports/NEW_BATCH.json\n# 原V1 later辅助SHA曾触发guard；当前完整later使用remaining_batch_config.json。旧原producer/validator身份依Git或协议保持，不把旧freeze重写。",
+  "disk_reference_results": [
+    {
+      "sha256": "faad640c153ade1a5c1838c8e9a93a5f2dc43ce5600dec0adde9a151fec29178",
+      "path": "reports/fast_research/SPOT_HOLD_TREND_LATER_20261005_V1.json"
+    },
+    {
+      "field": "capacity",
+      "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/RESTORE_LAUNCH.json",
+      "sha256": "049aeae4b098a5055e1f790333bb8401ec58796fc5d68900da03d7da765e4af0"
+    }
+  ],
+  "selected_paths": [
+    "scripts/investment/hold_donchian_blend_target.py",
+    "scripts/investment/spot_perpetual_product_comparison.py",
+    "scripts/investment/audit_daily_spot_targets.py",
+    "scripts/investment/accept_spot_research.py",
+    "scripts/investment/checkpoint_spot_research.py",
+    "scripts/investment/preserve_public_runtime.py",
+    "scripts/investment/verify_public_manifest_identity.py",
+    "scripts/investment/restore_public_runtime.py",
+    "docs/RESEARCH_STATUS.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/SPOT_HOLD_TREND_20261005.md",
+    "reports/experiment_registry.jsonl",
+    "reports/GITHUB_SPOT_COMPONENT_SYNC_VERIFIED_20261005_V1.json",
+    "protocols/SPOT_HOLD_TREND_20261005_V1.json",
+    "protocols/SPOT_HOLD_TREND_LATER_20261005_V2.json",
+    "reports/SPOT_HOLD_TREND_BATCH_20261005_V1.json",
+    "reports/SPOT_HOLD_TREND_REMAINING_BATCH_20261005_V2.json",
+    "reports/SPOT_HOLD_TREND_ACCEPT_BATCH_20261005_V1.json",
+    "protocols/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+    "reports/fast_research/SPOT_HOLD_TREND_ORIGINAL_20261005_V1.json",
+    "reports/SPOT_HOLD_TREND_ORIGINAL_ACCEPTED_20261005_V1.json",
+    "protocols/SPOT_HOLD_TREND_LATER_20261005_V1.json",
+    "reports/fast_research/SPOT_HOLD_TREND_LATER_20261005_V1.json",
+    "reports/SPOT_HOLD_TREND_LATER_ACCEPTED_20261005_V1.json"
+  ],
+  "parent_commit": "f328dcbef054b53dbf31cae87af082c0f8305dcb",
+  "archive": "docs/archive/SPOT_HOLD_TREND_USED_METADATA_20261005_V1",
+  "title": "HOLD过去趋势门控的收益与防御取舍",
+  "acceptance": "reports/SPOT_HOLD_TREND_ORIGINAL_ACCEPTED_20261005_V1.json",
+  "decision": {
+    "next": "停止当前两币SMA/退出/门槛网格。下一主任务评估Spot资产分散：先核已有永续池与Spot产品身份差异（如1000PEPE不能直接充作PEPE），按评价前官方Spot流动性/上市与200日预热确定约10币候选池；优先同已见Dec2025-Feb2026的90日窗口、原日线组合与HOLD8固定规则、同资本/cost/caps和BTCETH控制。只取必要daily预热与评分分钟，不取aggTrades/LOB；数据增长预估最多1GB、含临时预留整盘须低于32GB，失败就保留缺口/减少批次，不扩权限。来源可用后同单账户完整回放，不合并独立NAV；目前尚未启动。它检验分散能否改善单一BTCETH暴露及机会集中，优先于再调已否定时序门槛；不是保证正收益。HOLD200门控重开须不同信息机制或合法独立证据，不试周期网格；4h/宏观Donchian/RSI2固定失败继续按原reopen条件暂停。资金费单位UNKNOWN，D076链不重复审计，不重试403/451；多空/N币/ML能力保持。",
+    "summary": "D084完成唯一HOLD腿过去close>SMA200门控的四个真实Spot钱包。原303日净330.09/307.83USDT，比原日线组合少300.64/301.40；日vol约8.12%→6.33%、分钟DD约6.82%→4.64%（stress4.75%）。后90日HOLD及Donchian皆零目标，真实全程CASH：净/fee/turnover/vol/DD均0，比原组合少亏330.70/333.92，但这不是新增价格alpha。事前两窗联合净改善标准未通过，不替换日线组合/HOLD8；门控能力保留、固定配方暂停，投资NONE/CASH。两路采集在WSL进程丢失后已保存三件套并单次恢复，新会话/断档真实记录，两次观测推进，非有效天认证。",
+    "adopted": false
+  },
+  "report_document": "docs/SPOT_HOLD_TREND_20261005.md",
+  "notes": "## 两窗经济与机制\n\n只改变HOLD腿可得日close严格大于过去200日均值时允许原目标；相等或低于均值时该腿为现金。原full HOLD过去30协方差预算10%先缩，再乘gate与.5，不重新分配空闲预算；Donchian prior20/SMA200入场、prior10退出/20再入场、.5权重完全保持。不是原公开Jesse策略的完整复刻，SMA reduction与既有Donchian/正常账本复用，无新依赖或模型。\n\n原303日新gross379.36/378.84、fee+exec49.27/71.02USDT，净330.09/307.83。相对原组合gross少298.03/297.67、费用执行额外2.60/3.73，主要差距是机会损益，不能归因于交易成本；成交数337→210，但成交名义换手2.593→2.738，笔数下降并不等于成本下降。分钟DD6.82%→4.64%（stress6.86%→4.75%），日vol8.12%→6.33%，相同caps不称相同实际风险。月份配对中Feb2025少亏132.62/132.35，Sep/Nov/May净增量均负；逐币/月/连续101日资金桥见绑定DIAGNOSTIC，不删日期、不把门控退出标签称为因果PnL。\n\n后90日门控策略真实全程现金（两资产所有target0，全部分钟NAV=10k，0真实成交/0库存/0成本/0波动）。原日线组合仍净-330.70/-333.92，其gross价格损失约322.52/322.11、费用执行8.19/11.81；门控改善是避免暴露，不能称主动价格alpha，更不能与原303日策略事后拼赢家。后窗单独条件通过，但原303失败，因此按事前四情景联合标准不采用；能力与防御取舍证据保留。投资NONE、USDT现金参照无利息、长期APR NOT_EVALUABLE。\n\n原303新账户末库存0.000117092/0.000037875USDT仍在NAV、liquidated return NOT_EVALUABLE；后90新账户库存0、COMPLETE_CASH_RETURN。完整10k本金、received-asset fee、Bybit用户VIP0与Binance Spot输入、原5次退出/1e-8数量/min10/abs.3/gross.6保持，非Bybit原生、数量/最低订单历史规则未认证。原副本/旧失败/locked正文均未改或启封。\n\n独立scalar期望值不调用producer，original目标误差5.55e-17、later0；两窗future扰动早期0，修改后正常默认target/raw与保存旧组合golden差均0。独立Decimal现金/收到资产费/库存/完整分钟caps真实通过（内部0.218/0.070s）；必要回归不重跑旧模型或无关账户。正常验收新增显式paired acceptance，原窗口经济决定引用后窗口已接受身份/非重叠日期/相同核心producer/cost，再按两个窗口全部条件决定；后窗局部pass不是整版采用。\n\n首次batch前四阶段正常，后窗口在source guard因我修改acceptance helper停止，尚未创建后钱包或读取回放输入；25.64s失败完整保留在SPOT_HOLD_TREND_BATCH_20261005_V1.json。实际失败时helper完整字节SHA未记录为UNKNOWN，不伪造精确失败源码；V1原绑定与Git旧helper保持，V2仅更新该辅助SHA/operational_rebind说明，策略/数据/日期/费用不变。原303成功钱包不重复，remaining batch只执行尚未运行四阶段。两批命令单调时间219.10+175.45=394.54s（不重叠、含失败），不冒充整轮/model/并行运维总耗时；主账户内部95.94/83.99s，RSS768.85/399.34MB、共享采样峰1210.73MB，wallet owned26.83MB。没有HPO/fit/新市场下载或API；采集恢复是原授权公开WS独立运维活动，不伪称全轮零网络。\n\n## WSL断档与原采集有限恢复\n\n当前boot6a60eca0-0809-4173-aca8-3f0ffac188be与D075保存boot不同，检查时仅启动约1分钟，旧两进程缺失；具体退出码和重启发起原因UNKNOWN，不猜OOM。原日志/host/task、检查点、audit、DB+可用WAL/SHM先保存50.81MB；仅SQL打开衍生副本，闭合备份quick_check均ok、原源绑定一致。原L1 catalog2368文件/113,562,485B逐个流式bytes/SHA一致（234.30s、RSS20.40MB），不是重新认证数据有效性/健康天。\n\n单次用原.venv/默认DB/store/public_v3/L1_v1启动，不新建采集服务或改冻结source。public旧session7留下UNGRACEFUL_PREVIOUS_SESSION并开新会话；L1记录RESTART_GAP与未知未提交尾。两次实际PID/start_ticks/cgroup、新heartbeat推进120,140ms、每币closed bars推进、micro checkpoint推进107,008,758us/accepted事件16,623，errors[]；只是这两时点恢复活跃，不拼旧running JSON或有效天，alpha资格0。host已有holder已失效，恢复一个隐藏bounded WSL连接helper维持原运行，未改系统电源/自动登录/资源规则；8765 api errors[]。运维副本与原库留D，不入Git。归档metadata只保存必要凭证。恢复准备与科学任务部分并行，时间不能相加冒充整体。\n\n最新实际扫描按绑定的恢复launch容量与两科学结果时间比较，进度窗口显示最晚一次的真实扫描时间，非当前post总量；守卫每次仍实扫，原5GB/swap0/GPU0/D40GB不变。报告绑定结果与验收是代理开发证据；本轮不认证长期稳定收益。",
+  "archive_copies": [
+    [
+      ".cache/d084_prepare.py",
+      "prepare.py"
+    ],
+    [
+      ".cache/d084_batch.json",
+      "batch_config.json"
+    ],
+    [
+      ".cache/d084_remaining_batch.json",
+      "remaining_batch_config.json"
+    ],
+    [
+      ".cache/d084_accept_batch.json",
+      "accept_batch_config.json"
+    ],
+    [
+      ".cache/d084_checkpoint.json",
+      "checkpoint_config.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_FINANCIAL.json",
+      "ORIGINAL_FINANCIAL.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_TARGETS.json",
+      "ORIGINAL_TARGETS.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/ORIGINAL_DIAGNOSTIC.json",
+      "ORIGINAL_DIAGNOSTIC.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/LATER_FINANCIAL.json",
+      "LATER_FINANCIAL.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/LATER_TARGETS.json",
+      "LATER_TARGETS.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-hold-trend-gate-20261005-v1/LATER_DIAGNOSTIC.json",
+      "LATER_DIAGNOSTIC.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/PRESERVATION.json",
+      "PRESERVATION.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/MANIFEST_IDENTITIES.json",
+      "MANIFEST_IDENTITIES.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/RESTORE_LAUNCH.json",
+      "RESTORE_LAUNCH.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/RESTORE_SAMPLE1.json",
+      "RESTORE_SAMPLE1.json"
+    ],
+    [
+      "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/RESTORE_SAMPLE2.json",
+      "RESTORE_SAMPLE2.json"
+    ],
+    [
+      ".cache/d084_failure_reference.json",
+      "OPERATIONAL_FAILURE_REFERENCE.json"
+    ]
+  ],
+  "prior_sync_proof": "reports/GITHUB_SPOT_COMPONENT_SYNC_VERIFIED_20261005_V1.json",
+  "progress_entry_paths": [],
+  "module": "D084_ORIGINAL",
+  "task_ids": {
+    "preparation": "cc46445c5941436f9d077dd9b0ec0ad4",
+    "collector_sample2": "d985ebdbec764b87a9f805635cefd76f",
+    "first_batch_failed": "ed0ee0dabc144091a07923b440fb39d2",
+    "collector_sample1": "d1bf4a06b55649ef8969b03f931b088c",
+    "preservation": "51c90d8e74044ed99e8b748a8c6db99d",
+    "manifest_identity": "c554a7244adf4d3888074dddd2dd2c5b",
+    "remaining_batch": "62eaf3dee85e493c97d172290d7bc186",
+    "collector_launch": "6814a5399517437d8394485d49f372c1",
+    "acceptance": "506dbd1cd75e4be8b07f9c7fdde9630f"
+  },
+  "source_binding": "reports/GITHUB_SPOT_HOLD_GATE_SOURCE_BINDING_20261005_V1.json",
+  "expected_exit_codes": {
+    "first_batch_failed": 1
+  },
+  "attempts": {
+    "first_batch_failed": "OPERATIONAL_FAILURE_REFERENCE.json"
+  },
+  "attempt_model_family": "VALIDATOR_SOURCE_BINDING_NOT_ALPHA_FAILURE",
+  "attempt_reason": "Only the acceptance helper changed mid-batch; later V1 stopped before replay. Preserve failed stage and rebind validator only for V2, reuse successful original wallets, no extra strategy configurations."
+}

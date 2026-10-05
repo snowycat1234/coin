@@ -1,0 +1,388 @@
+{
+  "action": "sample1",
+  "task_id": "d1bf4a06b55649ef8969b03f931b088c",
+  "created_utc": "2026-10-05T07:21:04.483683+00:00",
+  "helper": {
+    "path": "/mnt/d/codex/coin/scripts/investment/restore_public_runtime.py",
+    "bytes": 9188,
+    "sha256": "3915c05bc0f2d6b78dae62afdd3ce0075ae15b7a6b4e4d7e90ccf2f507041e55"
+  },
+  "preservation": {
+    "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/PRESERVATION.json",
+    "bytes": 19015,
+    "sha256": "15486c4f7357981a0908d1a6afe0fbfe8544f6b3d33502c223789b96a2395a8f"
+  },
+  "manifest_identity": {
+    "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/MANIFEST_IDENTITIES.json",
+    "bytes": 928937,
+    "sha256": "f61026aee7eab4665601b5982fef4ae4e4026b6899e639e868ee502f35b462b6"
+  },
+  "resources": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 736878592,
+    "ram_peak_bytes": 1225932800,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "new_services": 0,
+  "source_switch": false,
+  "credentials_used": false,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "gpu_hours": 0,
+  "processes": [
+    {
+      "pid": 717,
+      "argv": [
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.collector_public_v3",
+        "--run"
+      ],
+      "start_ticks": 83418,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-reb0da558e5154412bf3be1e2e4744fb9.scope"
+    },
+    {
+      "pid": 718,
+      "argv": [
+        "/mnt/d/codex/coin/.venv/bin/python",
+        "-u",
+        "-m",
+        "quant.microstructure",
+        "--run"
+      ],
+      "start_ticks": 83419,
+      "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice/run-rd627b69883bc4615ba8f50d04e4b506c.scope"
+    }
+  ],
+  "launch_epoch_seconds": 1791184668.37574,
+  "sampled_us": 1791184864499368,
+  "actual_task_receipts": [
+    {
+      "path": "/home/xflops/coin-state/task-progress/task-1c91bf2995674d84aa931632a50ade63.json",
+      "sha256": "ddf4ce97207099e31b07419e2b121e6ce998d55867ebb0c951ee80d7a9fdbd5b",
+      "metadata": {
+        "id": "1c91bf2995674d84aa931632a50ade63",
+        "title": "原公开分钟采集恢复·断档新会话",
+        "status": "running",
+        "started_at": 1791184669.759556,
+        "phase": "运行中",
+        "completed": null,
+        "total": null,
+        "unit": "",
+        "metrics": {},
+        "children": [],
+        "pid": 717,
+        "last_activity_at": 1791184669.76426,
+        "start_ticks": 83418
+      }
+    },
+    {
+      "path": "/home/xflops/coin-state/task-progress/task-e43fab5d5cda4657816e14fc81ccd915.json",
+      "sha256": "c5ef7545df856506e94201723704af7f649fc94cf26e4e5ca4dd18808a9b6a97",
+      "metadata": {
+        "id": "e43fab5d5cda4657816e14fc81ccd915",
+        "title": "原L1采集恢复·断档新会话",
+        "status": "running",
+        "started_at": 1791184669.7692504,
+        "phase": "运行中",
+        "completed": null,
+        "total": null,
+        "unit": "",
+        "metrics": {},
+        "children": [],
+        "pid": 718,
+        "last_activity_at": 1791184669.774009,
+        "start_ticks": 83419
+      }
+    }
+  ],
+  "public": {
+    "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+    "public_version": "collector_public_v3",
+    "read_only": true,
+    "financial_accounts": false,
+    "credentials_used": false,
+    "orders_sent": 0,
+    "alpha_eligible": false,
+    "qualified_72h": null,
+    "qualification_scope": "NOT_CERTIFIED_BY_THIS_SNAPSHOT",
+    "state": "RUNNING",
+    "sampled_ms": 1791184865033,
+    "stored_source_matches_current": true,
+    "contract": {
+      "credentials": false,
+      "database": "/home/xflops/coin-state/collector_public_v3.sqlite3",
+      "disk_hard_bytes": 40000000000,
+      "engineering": false,
+      "financial_accounts": false,
+      "gpu": false,
+      "interval": "1m",
+      "orders": false,
+      "ram_shared_max_bytes": 5000000000,
+      "rest_base": "https://data-api.binance.vision",
+      "scope": "public_market_data_only",
+      "sources": {
+        "pyproject.toml": "bb863f68ce4187e3a23a4b6ef22dad24962c0bf8fe2a7e88fbc3ac3d0c14f69d",
+        "scripts/bounded.sh": "93f6ef9767fa67cc14c6a4a0495c7b2c4e7753c52b1f945988898f45c91843aa",
+        "scripts/collector_public_v3.ps1": "fe3807c797567057bea99f5700e131588bd2eee2e0c3a76340d941541b511674",
+        "scripts/collector_public_v3.sh": "c5b782e8d67aa9096dfec206ebf6e87702ca5b0118f77d7bf9dd903ea2986ea8",
+        "scripts/env.sh": "8761ed858db1561b3d27d271e4e44a3e083986179222ad83d25b5cdf4df5906c",
+        "src/quant/collector.py": "1008b39d27cfd4dda1fc2977802113b6a48d82fdecd22bad7a4c69f2235139e8",
+        "src/quant/collector_public_v3.py": "955d60b0b207afd037f231c76ceb736195f2fd8d14478f40937a469d96eb04cb",
+        "src/quant/concurrent_budget.py": "fa8b1642f63dfdc9175fd83457c7239b4f50cd17f41d3098e30ffb216edf96dd",
+        "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+        "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+        "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+        "src/quant/shadow.py": "9239ae1357d6fdb01e8d66f687c691a28830424e78548326d32b2ff94ad78c88",
+        "uv.lock": "3db962663090852884ff02910bd64879aa475c2a7be12d16eb90e45d593cd49e"
+      },
+      "stream_url": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker",
+      "swap_bytes": 0,
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "version": "collector_public_v3",
+      "versions": {
+        "httpx": "0.28.1",
+        "numpy": "2.5.3",
+        "python": "3.12.3",
+        "sqlite": "3.45.1",
+        "websockets": "16.1.1"
+      }
+    },
+    "contract_sha256": "67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873",
+    "lifecycle_head": "1b5183b1596b4995dffd77ffa678226f39960a7c66f61e47b66c9aceb95487c8",
+    "session": {
+      "id": 8,
+      "started_ms": 1791184736639,
+      "ended_ms": null,
+      "state": "RUNNING",
+      "heartbeat_ms": 1791184851034,
+      "healthy_seconds": 46.25538278699992,
+      "observed_seconds": 114.39600186799998,
+      "healthy_since_ms": 1791184804779,
+      "clock_offset_ms": -7.0,
+      "last_error": null,
+      "endpoint": "wss://data-stream.binance.vision/stream?streams=btcusdt@kline_1m/btcusdt@bookTicker/ethusdt@kline_1m/ethusdt@bookTicker"
+    },
+    "symbols": {
+      "BTCUSDT": {
+        "total": 6390,
+        "websocket": 5784,
+        "rest": 606,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1791184800000,
+        "last_websocket_received_ms": 1791184860778
+      },
+      "ETHUSDT": {
+        "total": 6390,
+        "websocket": 5784,
+        "rest": 606,
+        "first_open_ms": 1790801460000,
+        "last_open_ms": 1791184800000,
+        "last_websocket_received_ms": 1791184860801
+      }
+    },
+    "unresolved_gaps": 0
+  },
+  "microstructure": {
+    "module": "A07",
+    "state": "CONNECTED",
+    "binding": {
+      "compression": {
+        "codec": "zstd",
+        "level": 3,
+        "polars_version": "1.44.2",
+        "statistics": false
+      },
+      "implementation_sha256": "649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4",
+      "mode": "live",
+      "store": "/mnt/d/codex/coin/data/microstructure_v1",
+      "version": "microstructure_l1_v1"
+    },
+    "checkpoint": {
+      "accepted_events": 17849,
+      "asof_us": 1791184865007751,
+      "connected": true,
+      "duplicate_events": 0,
+      "ids": {
+        "BTCUSDT:quote": {
+          "hash": "14cf8574f92acbcca9c0bbef925808c0a25fe666a26ef5308a2b800d7494f9a8",
+          "id": 101051384727,
+          "received_us": 1791184864942103
+        },
+        "BTCUSDT:trade": {
+          "hash": "7508a70db8fde5debf5765b41ba279eab9bd4678702372a44ec7bb7c4619d9d9",
+          "id": 4080971788,
+          "received_us": 1791184864098932
+        },
+        "ETHUSDT:quote": {
+          "hash": "5f9ee46ecf3795b22320e0b52f9d7b8dbed7ccf5f64e3fde2be9459bc8836aca",
+          "id": 81749915336,
+          "received_us": 1791184864846865
+        },
+        "ETHUSDT:trade": {
+          "hash": "ccc70bedca7c84ba2d9ca7403e5b6e76fc4862257032fb6c2e48b7e5958ce750",
+          "id": 2094694353,
+          "received_us": 1791184864573535
+        }
+      },
+      "last_received_us": 1791184864942103,
+      "mode": "live",
+      "observed_monotonic_seconds": 121.85991686699992,
+      "rejected_events": 0,
+      "session": "3fde1cd7c8014fae8d309b0f5110e23c"
+    },
+    "feature_bytes": 113757809,
+    "feature_rows": 882280,
+    "audit_head": "560892e11b45007d1e5c6c1f3142cb5178df031ddf576c50819faea295a00cbb",
+    "last_audit": {
+      "kind": "RAW_PRUNED",
+      "payload": {
+        "bytes": 73735,
+        "count": 1,
+        "latest_us": 1791098426480346,
+        "oldest_us": 1791098426480346
+      }
+    },
+    "read_only": true,
+    "alpha_eligible": false,
+    "real_time_days_certified": 0
+  },
+  "errors": [],
+  "public_lifecycle_tail": [
+    {
+      "seq": 15,
+      "received_ms": 1791184676193,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "32c29a78a4ce4efa818bdf1dc53e603d6d65d03dad2eb5c429e461460c05c334",
+      "sha256": "1b5183b1596b4995dffd77ffa678226f39960a7c66f61e47b66c9aceb95487c8"
+    },
+    {
+      "seq": 14,
+      "received_ms": 1791184676182,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1791184676182,\"last_heartbeat_ms\":1791183492024,\"session_id\":7,\"started_ms\":1791166719498,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "1df76d4c27cdcc8b85f4ed4a323c22413f90a8c020538a626b30ddbf81251cc1",
+      "sha256": "32c29a78a4ce4efa818bdf1dc53e603d6d65d03dad2eb5c429e461460c05c334"
+    },
+    {
+      "seq": 13,
+      "received_ms": 1791166647814,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "886c03bdfba277fe7946daffb0ab4741171ba81520aae20b7ce2ac4b47fa7692",
+      "sha256": "1df76d4c27cdcc8b85f4ed4a323c22413f90a8c020538a626b30ddbf81251cc1"
+    },
+    {
+      "seq": 12,
+      "received_ms": 1791166647808,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1791166647808,\"last_heartbeat_ms\":1791164787496,\"session_id\":6,\"started_ms\":1791127997542,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "091027f3a35eb99914da181e621eab157fa128ad7ee0123f61d7b10e92ad7790",
+      "sha256": "886c03bdfba277fe7946daffb0ab4741171ba81520aae20b7ce2ac4b47fa7692"
+    },
+    {
+      "seq": 11,
+      "received_ms": 1791127902347,
+      "kind": "RUN_REQUEST",
+      "payload": "{\"contract_sha256\":\"67b38e3b65dc171ef97d4260cf7fe1fff73235891debaca642aba21252101873\",\"engineering\":false,\"seconds\":null}",
+      "previous_sha": "3808ac8fd74445411d5841d204591424f0b260e72711fc950390f1a22df31ce4",
+      "sha256": "091027f3a35eb99914da181e621eab157fa128ad7ee0123f61d7b10e92ad7790"
+    },
+    {
+      "seq": 10,
+      "received_ms": 1791127902343,
+      "kind": "UNGRACEFUL_PREVIOUS_SESSION",
+      "payload": "{\"detected_ms\":1791127902343,\"last_heartbeat_ms\":1791120763029,\"session_id\":5,\"started_ms\":1790919439119,\"unobserved_time_not_credited\":true}",
+      "previous_sha": "27523539ceae7069209b3a0de15c4d88f724e560e443a4af716c430165986876",
+      "sha256": "3808ac8fd74445411d5841d204591424f0b260e72711fc950390f1a22df31ce4"
+    }
+  ],
+  "micro_restart_gap_tail": [
+    {
+      "seq": 7097,
+      "received_us": 1791184761120454,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1791184761120448,\"start_us\":1791183501374198,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "684e983ed86bc026c6b28ff3a923f7efe2495db2d40a77488a834d4800327f2a",
+      "sha256": "5d5d23530cebb01b7de2bf2ea749f1401d7a9e72faf86196ae564d76950a48b1"
+    },
+    {
+      "seq": 7096,
+      "received_us": 1791184761120344,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"3fde1cd7c8014fae8d309b0f5110e23c\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "21ee150e0781dbc62aebd485bd2fd09c3bd6f8a7a455f3eddebc0879f5cb1650",
+      "sha256": "684e983ed86bc026c6b28ff3a923f7efe2495db2d40a77488a834d4800327f2a"
+    },
+    {
+      "seq": 6701,
+      "received_us": 1791166734215791,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1791166734215781,\"start_us\":1791164802002516,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "d45bad6fb6180c421b4614e28e3002adfa9cbb059a8dd856e3bd082ad213fe61",
+      "sha256": "cb2b40be57d225a8942b4c02c004babb5d6f2cc11c013ae75fd4e7a43a518d24"
+    },
+    {
+      "seq": 6700,
+      "received_us": 1791166734215643,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"784b15bb14164473aaa81579b0e7d9bb\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "fde0d1a2a32e3f384cced03ff338022cabd0d46053e7ac0aa214bb642c271e29",
+      "sha256": "d45bad6fb6180c421b4614e28e3002adfa9cbb059a8dd856e3bd082ad213fe61"
+    },
+    {
+      "seq": 5836,
+      "received_us": 1791128012632906,
+      "kind": "RESTART_GAP",
+      "payload": "{\"end_us\":1791128012632900,\"start_us\":1791118138013599,\"uncommitted_tail_unknown\":true}",
+      "previous_sha": "b7082b88356f6b8701fdb6d97da089c3e1e5225e10c6eb25dd1461a14c5a973c",
+      "sha256": "9a8059221ba23f56f92d26258c8113198f39c96c842c8c5ec5bad9df07fe5444"
+    },
+    {
+      "seq": 5835,
+      "received_us": 1791128012632791,
+      "kind": "SESSION",
+      "payload": "{\"compression\":{\"codec\":\"zstd\",\"level\":3,\"polars_version\":\"1.44.2\",\"statistics\":false},\"endpoint\":\"wss://data-stream.binance.vision/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade/ethusdt@bookTicker/ethusdt@aggTrade\",\"mode\":\"live\",\"schema_sha256\":\"721f6cfee75bb57d261a63ae0ff37652afbb33cda356c21371f889f1db6fc7f0\",\"session\":\"a1cb5a053be046b193906f3b4a011d91\",\"source_sha256\":\"649a69c924cdcfc4e85dca37a2a6c4958993f3f3365e04b3f10372f8875ddbb4\",\"version\":\"microstructure_l1_v1\"}",
+      "previous_sha": "26beaa7f3ce67831c09ff23ef62f8dbaeec09bfc8dbc7edc40f59f8e488f3f0a",
+      "sha256": "b7082b88356f6b8701fdb6d97da089c3e1e5225e10c6eb25dd1461a14c5a973c"
+    }
+  ],
+  "status": "ORIGINAL_PUBLIC_COLLECTORS_LIVE_NEW_SESSIONS_SAMPLE_NOT_QUALIFICATION",
+  "log_snapshots": [
+    {
+      "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/public-v3-restored.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/public-v3-restored.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/micro-l1-v1-restored.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/home/xflops/coin-state/d084-runtime-preservation-20261005-v1/micro-l1-v1-restored.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    }
+  ],
+  "healthy_gap_splicing": false,
+  "real_time_days_certified": 0,
+  "alpha_eligible": false
+}

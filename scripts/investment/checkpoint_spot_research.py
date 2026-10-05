@@ -72,8 +72,8 @@ save(archive/'publication_manifest.json',dict(task_id=os.environ['COIN_TASK_ID']
 ledgers=[v['disk_before']]
 for r in c.get('disk_reference_results',[]):
     p=Path(r['path']);p=p if p.is_absolute() else ROOT/p
-    assert p.resolve().is_relative_to(ROOT/'reports') and sha(p)==r['sha256']
-    ledgers.append(read(p)['disk_before'])
+    assert (p.resolve().is_relative_to(ROOT/'reports') or p.resolve().is_relative_to(STATE)) and sha(p)==r['sha256']
+    ledgers.append(read(p)[r.get('field','disk_before')])
 ledger=max(ledgers,key=lambda x:datetime.fromisoformat(x['measured_utc']))
 tmp=STATE/'task-progress'/('last-disk-'+c['module']+'.tmp')
 tmp.write_text(json.dumps(dict(ledger=ledger,measured_at=datetime.fromisoformat(ledger['measured_utc']).timestamp(),source=c['module']+' actual pre-replay full scan, not current post-artifact total')));tmp.replace(STATE/'task-progress/last-disk.json')
