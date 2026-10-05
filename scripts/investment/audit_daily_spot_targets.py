@@ -29,6 +29,7 @@ def calculate(bars,saved,symbols,recipe):
         def scale(raw,limit):
             vol=float(np.sqrt(max(0.,raw@cov@raw)));return raw*min(1.,limit/vol) if vol else raw
         if recipe=='HOLD8':expected.extend(scale(hraw,.08));raws.extend(hraw)
+        elif recipe=='HALF_HOLD10':expected.extend(.5*scale(hraw,.1));raws.extend(.5*hraw)
         else:
             assert recipe=='HALF_HOLD10_EXIT10'
             expected.extend(.5*scale(hraw,.1)+.5*scale(draw,.1));raws.extend(.5*hraw+.5*draw)
@@ -45,6 +46,9 @@ times=saved['available_us'].unique(maintain_order=True).to_numpy()
 if v['recipe']=='HOLD8':
     from scripts.investment.vol_managed_perpetual_target import fixed_targets
     altered_targets,_=fixed_targets(altered,times,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
+elif v['recipe']=='HALF_HOLD10':
+    from scripts.investment.hold_donchian_blend_target import half_hold_targets
+    altered_targets,_=half_hold_targets(altered,times,symbols=symbols)
 else:
     from scripts.investment.hold_donchian_blend_target import fixed_targets
     altered_targets,_=fixed_targets(altered,times,'LONG_ONLY',symbols=symbols)
@@ -53,6 +57,6 @@ assert producer_early_gap<=1e-12
 out=Path(a.output).resolve();assert out.is_relative_to(STATE);out.parent.mkdir(parents=True,exist_ok=True)
 with out.open('x') as f:json.dump(dict(status='PASS_INDEPENDENT_DAILY_SCALAR_TARGETS_AND_FUTURE_PERTURBATION',input_sha256=sha(a.input),
     target_rows=saved.height,target_max_error=gap,raw_max_error=raw_gap,early_future_perturbation_max_error=early_gap,
-    entries=entries,exits=exits,producer_future_perturbation_early_error=producer_early_gap,
+    entries=entries,exits=exits,entry_exit_scope='DONCHIAN_SIGNAL_DIAGNOSTIC_NOT_ACTUAL_ORDER_COUNTS',producer_future_perturbation_early_error=producer_early_gap,
     current_source_sha256=sha(ROOT/'scripts/investment/public_sma_perpetual.py'),source_sha256=sha(__file__),elapsed_seconds=time.monotonic()-began,scope='Independent scalar expected signals, centered Gram covariance, allocation and blend; separate producer future perturbation. Not market QA, native execution or alpha qualification.'),f,indent=2)
 print(json.dumps(dict(status='PASS_INDEPENDENT_DAILY_SCALAR_TARGETS_AND_FUTURE_PERTURBATION',error=gap)))

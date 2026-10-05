@@ -1,0 +1,104 @@
+{
+  "steps": [
+    {
+      "title": "ORIGINAL半份HOLD10完整两成本钱包",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_perpetual_product_comparison.py",
+        "--protocol",
+        "protocols/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+        "--run-dir",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL",
+        "--output",
+        "reports/fast_research/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json"
+      ]
+    },
+    {
+      "title": "ORIGINAL独立资金费用和完整分钟风险",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "docs/archive/SPOT_PERPETUAL_PRODUCT_USED_METADATA_20261005_V1/d077_spot_independent.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_FINANCIAL.json"
+      ]
+    },
+    {
+      "title": "ORIGINAL独立半份目标/未来扰动",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/audit_daily_spot_targets.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_TARGETS.json"
+      ]
+    },
+    {
+      "title": "ORIGINAL资产月份及连续资本诊断",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_saved_economic_diagnostics.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_DIAGNOSTIC.json"
+      ]
+    },
+    {
+      "title": "LATER半份HOLD10完整两成本钱包",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_perpetual_product_comparison.py",
+        "--protocol",
+        "protocols/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+        "--run-dir",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER",
+        "--output",
+        "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json"
+      ]
+    },
+    {
+      "title": "LATER独立资金费用和完整分钟风险",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "docs/archive/SPOT_PERPETUAL_PRODUCT_USED_METADATA_20261005_V1/d077_spot_independent.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_FINANCIAL.json"
+      ]
+    },
+    {
+      "title": "LATER独立半份目标/未来扰动",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/audit_daily_spot_targets.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_TARGETS.json"
+      ]
+    },
+    {
+      "title": "LATER资产月份及连续资本诊断",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/spot_saved_economic_diagnostics.py",
+        "--input",
+        "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+        "--output",
+        "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_DIAGNOSTIC.json"
+      ]
+    }
+  ]
+}

@@ -228,7 +228,7 @@ def main():
     assert sha(ROOT/'state/dataset_lock.json')=='29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d'
     source=read(config['spot_source'])
     recipe=config.get('recipe','HOLD8')
-    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_4H','HALF_HOLD10_EXIT10_4H_DAILY_TREND')
+    assert recipe in ('HOLD8','HALF_HOLD10','HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_4H','HALF_HOLD10_EXIT10_4H_DAILY_TREND')
     daily_trend = recipe=='HALF_HOLD10_EXIT10_4H_DAILY_TREND'
     four_hour = recipe in ('HALF_HOLD10_EXIT10_4H','HALF_HOLD10_EXIT10_4H_DAILY_TREND')
     control=read(config['spot_control']) if recipe!='HOLD8' else None
@@ -345,6 +345,8 @@ def main():
         decisions=np.arange(start,end,240*MINUTE if four_hour else DAY,dtype=np.int64)
         if control is None:
             targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
+        elif recipe=='HALF_HOLD10':
+            targets,meta=blend.half_hold_targets(bars,decisions,symbols=symbols)
         else:
             targets,meta=blend.fixed_targets(signal_bars,decisions,'LONG_ONLY',symbols=symbols,
                 signal_interval_minutes=240 if four_hour else 1440,risk_bars=bars if four_hour else None,

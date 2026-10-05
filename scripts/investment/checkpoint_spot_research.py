@@ -69,7 +69,13 @@ event=dict.fromkeys(FIELDS);event.update(event_id=c['module']+':ACCEPTED',event_
 append_event(ROOT/'reports/experiment_registry.jsonl',event)
 save(archive/'publication_manifest.json',dict(task_id=os.environ['COIN_TASK_ID'],tasks=tasks,acceptance=dict(path=c['acceptance'],sha256=sha(ROOT/c['acceptance'])),
  config_sha256=sha(a.config),publisher_source_sha256=sha(__file__),elapsed_seconds=time.monotonic()-began,created_utc=datetime.now(UTC).isoformat()))
-ledger=v['disk_before'];tmp=STATE/'task-progress'/('last-disk-'+c['module']+'.tmp')
+ledgers=[v['disk_before']]
+for r in c.get('disk_reference_results',[]):
+    p=Path(r['path']);p=p if p.is_absolute() else ROOT/p
+    assert p.resolve().is_relative_to(ROOT/'reports') and sha(p)==r['sha256']
+    ledgers.append(read(p)['disk_before'])
+ledger=max(ledgers,key=lambda x:datetime.fromisoformat(x['measured_utc']))
+tmp=STATE/'task-progress'/('last-disk-'+c['module']+'.tmp')
 tmp.write_text(json.dumps(dict(ledger=ledger,measured_at=datetime.fromisoformat(ledger['measured_utc']).timestamp(),source=c['module']+' actual pre-replay full scan, not current post-artifact total')));tmp.replace(STATE/'task-progress/last-disk.json')
 wip=read(ROOT/c['prior_sync_proof'])['prior_WIP_preserved'];selected=set(c['selected_paths'])
 selected.update(p.relative_to(ROOT).as_posix() for p in archive.iterdir());assert not selected.intersection(wip)

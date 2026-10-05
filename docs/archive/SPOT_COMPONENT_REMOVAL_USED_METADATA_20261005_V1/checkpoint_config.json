@@ -1,0 +1,98 @@
+{
+  "reproducible_command": "scripts/with_task_progress.sh --title '组件移除四账户与独立核验' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/run_research_steps.py --config docs/archive/SPOT_COMPONENT_REMOVAL_USED_METADATA_20261005_V1/batch_config.json --output reports/NEW_BATCH.json",
+  "disk_reference_results": [
+    {
+      "path": "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+      "sha256": "2bb1d14609dba7c0de3b3bf9a0e3199d7a2d6b795330571e4f456d4d82cc8673"
+    }
+  ],
+  "selected_paths": [
+    "scripts/investment/hold_donchian_blend_target.py",
+    "scripts/investment/spot_perpetual_product_comparison.py",
+    "scripts/investment/audit_daily_spot_targets.py",
+    "scripts/investment/saved_component_comparison.py",
+    "scripts/investment/checkpoint_spot_research.py",
+    "docs/RESEARCH_STATUS.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/SPOT_COMPONENT_REMOVAL_20261005.md",
+    "reports/experiment_registry.jsonl",
+    "reports/GITHUB_SPOT_LATER_SYNC_VERIFIED_20261005_V1.json",
+    "protocols/SPOT_COMPONENT_REMOVAL_20261005_V1.json",
+    "reports/SPOT_COMPONENT_BATCH_STAGES_20261005_V1.json",
+    "reports/SPOT_COMPONENT_ACCEPT_BATCH_20261005_V1.json",
+    "reports/SPOT_COMPONENT_COMPARISON_20261005_V1.json",
+    "protocols/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+    "reports/fast_research/SPOT_HALF_HOLD10_ORIGINAL_20261005_V1.json",
+    "reports/SPOT_HALF_HOLD10_ORIGINAL_ACCEPTED_20261005_V1.json",
+    "protocols/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+    "reports/fast_research/SPOT_HALF_HOLD10_LATER_20261005_V1.json",
+    "reports/SPOT_HALF_HOLD10_LATER_ACCEPTED_20261005_V1.json"
+  ],
+  "parent_commit": "8c93cc6b874757194e3931a82c0788829fad0bd7",
+  "archive": "docs/archive/SPOT_COMPONENT_REMOVAL_USED_METADATA_20261005_V1",
+  "title": "真实组件移除与收益集中度",
+  "acceptance": "reports/SPOT_HALF_HOLD10_ORIGINAL_ACCEPTED_20261005_V1.json",
+  "decision": {
+    "adopted": false,
+    "summary": "D083在相同10k本金/费用/执行/日期下完成半份HOLD10组件的四个新钱包。303日完整组合相对半HOLD净多230.25/217.43USDT，但实际日波动5.30%→8.12%、分钟DD5.65%→6.82%；11月增量333.48/330.97，其余月份合计-103.23/-113.53，不能证明稳定择时alpha。另90日组合与半HOLD逐笔成交、全部分钟NAV完全相同，净-330.70/-333.92USDT，Donchian零参与。保留半HOLD诊断控制/日线组合防御参照/HOLD8，半HOLD不替换主力；投资NONE/CASH，长期APR不可评价。",
+    "next": "下一主任务只验证HOLD腿过去日线SMA200趋势门控：低于过去趋势时转现金、恢复趋势时允许持有，复用现有正常SMA/风险/Spot账本，固定一个规则，完整原303与后90日同成本配对，不搜索周期/阈值/币种或缩放旧NAV。主要瓶颈是HOLD下跌敞口和收益状态集中，费用不是本轮主要解释；该对照检验是否能减少下跌损失而不过度错失恢复。新协议在运行前登记取舍；当前未启动。4h/宏观Donchian过滤/重入网格继续暂停，reopen需不同信息机制或合法独立证据；RSI2旧失败不机械重跑。资金费链D076已通过，不重复审计；物理单位UNKNOWN，仅新官方归档单位定义或合法同事件证据可重开，不重试既有403/451。多空/N资产/ML能力保留。"
+  },
+  "report_document": "docs/SPOT_COMPONENT_REMOVAL_20261005.md",
+  "notes": "## 两个窗口的组件增量\n\n303日半HOLD净400.47/391.79USDT，原组合630.73/609.23；组合新增同数量成本加回gross258.46/258.09，额外fee+exec28.21/40.66。半HOLD273成交，组合337。这是两个完整共享资本账户的配对差，不是独立腿利润之和，风险不匹配，不将11月之外的描述诊断转成可执行日期过滤。各月份/逐币/连续资金分段/turnover/平均峰值gross与net详见绑定结果，原旧NAV不修改。\n\n后段2025-12-01..<2026-03-01的90日两个新半HOLD账户，与D082组合全部分钟NAV差0、成交表精确一致；净-330.703786/-333.923746USDT，日vol6.137%/6.132%、分钟DD5.706%/5.708%，92笔成交。资金费为Spot不适用，未把永续费用或删资金费后的旧账本当Spot。两窗口各自10k、不拼接为长期资本记录，均已见开发筛选。CASH0为同USDT本金无利息参照，没有新增CASH账户或投资资格。\n\n原303日半HOLD末库存0.001018923/0.000797549USDT，后90日9.505677849/8.964867032，仍在NAV；所有liquidated return=NOT_EVALUABLE。没有免费清仓/延长5次退出/删除库存。Bybit用户VIP0收到资产扣费profile与Binance Spot价格不变，数量/最低订单仍历史未认证代理，非Bybit原生或稳定APR。\n\n正常target新增HALF_HOLD10：同日过去200预热/30协方差/10%组件预算后固定乘.5，保留完整10k资本；正常runner使用此目标再实际逐分钟回放，不把旧收益倍乘。独立scalar期望值无producer调用，原/后target误差1.39e-17/6.94e-18、正常producer未来扰动早期差0；独立Decimal与完整分钟资金/库存/费用一次/风险均通过，abs.3/gross.6/原Spot引擎字节不变。旧默认目标接口没有重建包装。\n\n批次8阶段371.0s，主钱包内部74.53/83.18s；主峰RSS748.51/407.40MB，共享采样峰1219.64MB（cgroup历史峰1302.82MB不称本轮峰）。独立资金核验内部0.283/0.117s；参数尝试四钱包、0 fit/HPO/download/市场API。只读配对内部0.829s，不冒充整个阶段或整轮时间。两个钱包输出合计34.83MB；最后实际完整盘扫描28,819,782,555B@2026-10-05T14:21:49.348312+08:00，为后账户前测量，不冒称当前post总量。publisher只将多个绑定结果中最新实际扫描放回既有进度窗口，不新建观察器或省略守卫。两路collector验收时进程快照仍在，只证明该时点运维，不证明健康天/前向alpha。\n\nD076资金费1818原事件/8钱包链已经核对，当前无新单位证据，不重复全核验、不绕过403/451。原始来源/单位限制保持；官方文档只作来源检查，不等于历史同事件单位认证。结构化配对 reports/SPOT_COMPONENT_COMPARISON_20261005_V1.json，后窗口验收 reports/SPOT_HALF_HOLD10_LATER_ACCEPTED_20261005_V1.json。",
+  "archive_copies": [
+    [
+      ".cache/d083_prepare.py",
+      "prepare.py"
+    ],
+    [
+      ".cache/d083_batch.json",
+      "batch_config.json"
+    ],
+    [
+      ".cache/d083_compare.json",
+      "comparison_config.json"
+    ],
+    [
+      ".cache/d083_accept_batch.json",
+      "accept_batch_config.json"
+    ],
+    [
+      ".cache/d083_checkpoint.json",
+      "checkpoint_config.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_FINANCIAL.json",
+      "ORIGINAL_FINANCIAL.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_TARGETS.json",
+      "ORIGINAL_TARGETS.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/ORIGINAL_DIAGNOSTIC.json",
+      "ORIGINAL_DIAGNOSTIC.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_FINANCIAL.json",
+      "LATER_FINANCIAL.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_TARGETS.json",
+      "LATER_TARGETS.json"
+    ],
+    [
+      "/home/xflops/coin-state/d083-half-hold-component-20261005-v1/LATER_DIAGNOSTIC.json",
+      "LATER_DIAGNOSTIC.json"
+    ]
+  ],
+  "prior_sync_proof": "reports/GITHUB_SPOT_LATER_SYNC_VERIFIED_20261005_V1.json",
+  "progress_entry_paths": [],
+  "module": "D083_ORIGINAL",
+  "task_ids": {
+    "acceptance": "8b522eebf22d4466a8e09d49d934ed0b",
+    "paired_saved_diagnostic": "394a9e2632424a50ad203a5b10e9cec9",
+    "preparation": "b70ca10bed3c4ef3a897a422305ccb01",
+    "wallets_and_independent": "468b50fc1c1048d5b5c2b8ca4fc16025"
+  },
+  "source_binding": "reports/GITHUB_SPOT_COMPONENT_SOURCE_BINDING_20261005_V1.json"
+}

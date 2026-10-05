@@ -29,6 +29,26 @@ RULES = dict(hold_weight=.5, donchian_weight=.5,
     component_signal_states_independent_of_executed_blended_position=True)
 
 
+def half_hold_targets(bars, decisions, *, symbols=shared.SYMBOLS):
+    """The existing blend's HOLD leg alone, in one full-capital wallet.
+
+    This is a component removal control, not a fitted volatility target or
+    a rescaling of old NAV. Signals, eligibility and past risk are unchanged.
+    """
+    frame, meta = hold.fixed_targets(bars, decisions, 'LONG_ONLY', symbols=symbols,
+        allocation='EQUAL', annual_vol_target=.10)
+    frame=frame.with_columns(pl.col('target_weight')*.5,pl.col('raw_signed_target')*.5)
+    for r in meta['risk']:
+        r['component_HOLD_unscaled_vol']=r['unscaled_signed_covariance_annual_vol']
+        for k in ('unscaled_signed_covariance_annual_vol','net_target_weight','gross_target_weight'):r[k]*=.5
+    meta.update(strategy_id='COIN_HALF_HOLD10_COMPONENT_REMOVAL_CONTROL',
+        rules=dict(meta['rules'],after_component_risk_weight=.5,donchian_weight=0,
+            component_volatility_budget=.10,full_shared_capital=True,weights_fitted=False),
+        attribution_limit='REMOVES_EXIT10_COMPONENT_NOT_MATCHED_REALIZED_RISK',
+        account_NAVs_scaled_or_averaged=False)
+    return frame,meta
+
+
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
                   eligible_by_decision=None, allocation=ALLOCATION,
                   signal_interval_minutes=1440, risk_bars=None, trend_filter_interval_minutes=None):
