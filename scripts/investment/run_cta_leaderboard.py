@@ -28,7 +28,10 @@ def main():
     a=ap.parse_args();spec=json.loads(a.protocol.read_bytes());run=a.run_dir.resolve();out=a.output.resolve()
     assert os.getenv('COIN_TASK_ID') and run.parent==STATE and not run.exists() and not out.exists()
     assert out.is_relative_to(ROOT/'reports/fast_research') and pl.thread_pool_size()<=2
-    assert spec['families']==list(cta.FAMILIES) and spec['modes']==list(cta.MODES) and spec['models_fit']==0
+    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.FAMILIES)
+    assert spec['modes']==list(cta.MODES) and spec['models_fit']==0
+    costs=[v for v in engine.COSTS if v['id'] in spec.get('cost_ids',[v['id'] for v in engine.COSTS])]
+    assert costs and len(costs)==len(spec.get('cost_ids',costs)), 'Fixed known cost subset, no cheaper invented cost'
     for p,h in spec['frozen_source_hashes'].items():assert sha(ROOT/p)==h,'Frozen rule/source '+p
     assert sha(ROOT/'state/dataset_lock.json')==spec['locked_sha256']
     manifest=spec['data_manifest'];assert sha(manifest['path'])==manifest['sha256']
@@ -48,7 +51,7 @@ def main():
         event_type='OPERATIONAL_RESEARCH_START',git_commit=binding['git_commit'],data_manifest_hash=manifest['sha256'],protocol_hash=binding['protocol_sha256'],
         feature_set='CLOSED_1D_PRICE_PRIOR_CHANNEL_PAST30_RETURNS',labels='NONE_ZERO_TRAINING',model_family='FROZEN_PUBLIC_CLASSIC_CTA',
         hyperparameters=spec['rules'],seed=None,thresholds='NO_FITTED_OR_POST_RESULT_THRESHOLD',cost_assumptions=spec['cost'],
-        all_folds='COMMON_SEEN_DEVELOPMENT_MAR_JUN_2025_122D',success_failure='START_BEFORE_ACCOUNTS',reason_for_next_experiment=spec['question'],
+        all_folds=spec['data_role']+':'+spec['economics_start']+':'+spec['economics_end_exclusive'],success_failure='START_BEFORE_ACCOUNTS',reason_for_next_experiment=spec['question'],
         result_influenced_later_choice=False,models_fit=0)
     append_event(ROOT/'reports/experiment_registry.jsonl',event)
     started=time.monotonic();shared_peak=0;progress=Progress();progress.value['detail']='冻结经典CTA；零训练；同10币共享资本代理账户';r=dict(status='FAILED',binding=binding,protocol=spec,
@@ -62,13 +65,15 @@ def main():
     try:
         progress.update('CTA磁盘实扫；总量未知',None,None,'扫描')
         r['disk_before']=dict(disk.check(spec['budget']['owned_bytes']),measured_utc=datetime.now(UTC).isoformat())
-        symbols=tuple(spec['symbols']);begin=stamp('2024-09-01');start=stamp('2025-03-01');end=stamp('2025-07-01')
+        symbols=tuple(spec['symbols']);begin=stamp(spec['preparation_start']);start=stamp(spec['economics_start']);end=stamp(spec['economics_end_exclusive'])
+        assert begin<=start<end and (end-start)%cta.DAY==0
+        days=(end-start)//cta.DAY;r['actual_days']=days
         whole=load_portfolio_window(manifest['path'],symbols,begin,end);bars=whole['daily']
         signal,available=cta.signals(bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
         r['signal_reference']=reference.verify_signals(signal,bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
         signal.write_parquet(run/'frozen_signals.parquet');write(run/'SIGNAL_AVAILABILITY.json',available)
         score=signal.filter(pl.col('close_us')>=start)
-        assert score.height==122*len(symbols) and score.select(cta.FAMILIES).null_count().select(pl.sum_horizontal(pl.all())).item()==0
+        assert score.height==days*len(symbols) and score.select(spec['families']).null_count().select(pl.sum_horizontal(pl.all())).item()==0
         decisions=np.arange(start,end,cta.DAY,dtype=np.int64)
         window=dict(whole,start=start,end=end,events=[v for v in whole['events'] if start<=v['event_us']<end],
                     minute_blocks=lambda:whole['minute_blocks'](start,end))
@@ -76,13 +81,13 @@ def main():
         from scripts.investment.market_regime import past_state
         btc=feature_table(bars,symbols)[0].filter((pl.col('symbol')=='BTCUSDT')&(pl.col('close_us')>=start)&(pl.col('close_us')<end))
         states={v['close_us']:past_state(v) for v in btc.iter_rows(named=True)};r['descriptive_past_states']=states
-        plans=[(f,m) for f in cta.FAMILIES for m in ('LONG_ONLY','SHORT_ONLY','LONG_SHORT')]+[('CASH','CASH'),('HOLD','LONG_ONLY')]
-        r['required_accounts']=len(plans)*4
+        plans=[(f,m) for f in spec['families'] for m in ('LONG_ONLY','SHORT_ONLY','LONG_SHORT')]+[('CASH','CASH'),('HOLD','LONG_ONLY')]
+        r['required_accounts']=len(plans)*len(costs)*len(engine.UNITS)
         for family,mode in plans:
             target_family='SMA200_SIGNED' if family=='CASH' else family
             target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
             target_ref=reference.verify_targets(target,signal,bars,symbols,target_family,mode)
-            for oldcost in engine.COSTS:
+            for oldcost in costs:
                 cost=snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json',symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols},scenario_id=oldcost['id'],
                     half_spread_bps=oldcost['half_spread_bps'],slippage_bps=oldcost['slippage_bps'],execution_source_ref='ACCEPTED_BINANCE_USDM_PROXY',
@@ -111,7 +116,7 @@ def main():
                     r['cases'].append(dict(id=case_id,strategy=family,mode=mode,cost=cost['id'],unit=unit['id'],
                         elapsed_seconds=time.monotonic()-began,**saved,independent=checked))
                     write(run/'CHECKPOINT.json',r);del case;gc.collect()
-        r['status']='COMPLETE_FROZEN_CTA_56_ACTUAL_ACCOUNTS_OR_EXPLICIT_HALTS'
+        r['status']=f"COMPLETE_FROZEN_CTA_{r['required_accounts']}_ACTUAL_ACCOUNTS_OR_EXPLICIT_HALTS"
     except Exception as e:r.update(error_type=type(e).__name__,error=str(e));raise
     finally:
         r.update(elapsed_seconds=time.monotonic()-started,shared_RAM_sampled_peak_bytes=shared_peak,
