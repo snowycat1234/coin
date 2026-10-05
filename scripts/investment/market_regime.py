@@ -13,6 +13,26 @@ FEATURES=('return_20d','ma200_distance','vol_30d','market_breadth')
 PARAMETERS=dict(n_components=3,covariance_type='diag',n_init=1,max_iter=200,
     tol=.001,reg_covar=.0001,random_state=20261005,init_params='random_from_data')
 
+def past_state(row):
+    """Existing descriptive BTC trend rule, now a fixed decision input."""
+    values=[row[k] for k in ('return_1d','vol_30d','ma200_distance','return_20d')]
+    if not np.isfinite(values).all(): raise ValueError('Finite past trend inputs required')
+    if row['return_1d']<-.05 and row['vol_30d']*365**.5>.8: return 'HIGH_VOL_CRASH'
+    if row['ma200_distance']>0 and row['return_20d']>0: return 'BULL'
+    if row['ma200_distance']<0 and row['return_20d']<0: return 'BEAR'
+    return 'SIDEWAYS'
+
+def rule_states(features,start,end):
+    score=features.filter((pl.col('symbol')=='BTCUSDT') &
+        (pl.col('close_us')>=start) & (pl.col('close_us')<end)).sort('close_us')
+    stamps=score['close_us'].to_numpy()
+    if score.height!=(end-start)//86_400_000_000 or not np.all(np.diff(stamps)==86_400_000_000):
+        raise ValueError('Complete daily decision states, no gap imputation')
+    if not np.array_equal(stamps,score['available_us'].to_numpy()):
+        raise ValueError('Closed past features only, no future availability')
+    return pl.DataFrame([dict(available_us=int(r['close_us']),regime=past_state(r))
+        for r in score.iter_rows(named=True)])
+
 def fit_predict(features,train_start,train_end,score_start,score_end):
     btc=features.filter(pl.col('symbol')=='BTCUSDT').sort('close_us')
     train=btc.filter((pl.col('close_us')>=train_start)&(pl.col('close_us')<train_end))

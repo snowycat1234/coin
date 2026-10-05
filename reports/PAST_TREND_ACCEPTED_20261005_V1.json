@@ -1,0 +1,4807 @@
+{
+  "status": "ACCEPTED_ECONOMIC_COMPARISON_MARKED_AND_LIQUIDATED_SCOPES_SEPARATE",
+  "actual_path": "reports/fast_research/PAST_TREND_20261005_V1.json",
+  "actual_sha256": "d6cb2593e671fbc2cf3e28bf2562ad5336398659815a0c4c6056cab301fca055",
+  "binding": {
+    "task_id": "159c3b8e66884135ade6993131fd7dd1",
+    "protocol_sha256": "0f9d41f5bc8d55430e5a9a9c92d0e933239777b0c6203d8086a710bb59a67297",
+    "source_hashes": {
+      "scripts/investment/run_shared_direction.py": "54722ac5fe30b673dd52e82b6f1986e2b3b6b2ab3264ab4a45ff3afa73b02514",
+      "scripts/investment/shared_direction_model.py": "f918bb99c8062e9b74cf3b05b2abaae0c60b64107f846ef0679f852cf82e3c85",
+      "scripts/investment/audit_shared_direction.py": "7e59ced37f8d956f10204a82c3f90732e97a30c623e6a7e7d2cce8eb23156b0e",
+      "scripts/investment/multi_asset_data.py": "4689e24325558c1b8013fbb4ad917d487dcfff0ebdcb12dcf157f76743ede6cb",
+      "scripts/investment/perpetual_directional.py": "82f0ba1506e0a6dc494c12fac50705df28466384477169d7c070373a25939f2d",
+      "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+      "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+      "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+      "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+      "scripts/investment/market_regime.py": "c4a26e89f60f577e5c455cd6981f3414678d20f79d638ee457072a81889b67e5"
+    },
+    "command": [
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "scripts/investment/run_shared_direction.py",
+      "--protocol",
+      "protocols/PAST_TREND_GATE_20261005_V1.json",
+      "--run-dir",
+      "/home/xflops/coin-state/d087-past-trend-20261005-v1",
+      "--output",
+      "reports/fast_research/PAST_TREND_20261005_V1.json"
+    ],
+    "git_commit": "6ae43a6b24a314191822406a510e5318733c9e10",
+    "input_manifest_sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab",
+    "xgboost_version": "3.4.1"
+  },
+  "actual_days": 122,
+  "full_capital_USDT": 10000,
+  "one_shared_fit_total": 1,
+  "new_direction_fits": 0,
+  "regime_fit": {
+    "kind": "FIXED_PAST_TREND",
+    "regime_fits": 0,
+    "normalizer_fits": 0,
+    "direction_fits": 0,
+    "future_labels_or_account_results_used": false,
+    "rule": "BTC_SMA200_AND_RETURN20_ZERO_BOUNDARY_WITH_PAST_CRASH_OVERRIDE",
+    "semantics": "CURRENT_COMPLETED_PRICE_TREND_NOT_FUTURE_RETURN_TRUTH"
+  },
+  "regime_counts": {
+    "BULL": 56,
+    "BEAR": 25,
+    "SIDEWAYS": 41,
+    "HIGH_VOL_CRASH": 0
+  },
+  "default_prediction_golden": "PASS_EXACT_D085_MAY_JUNE_PROBABILITIES_AND_LABELS",
+  "default_target_golden": [
+    {
+      "mode": "LONG_SHORT",
+      "rows": 610,
+      "status": "PASS_EXACT_ORIGINAL_TARGETS_NO_OLD_ACCOUNT_REPLAY"
+    },
+    {
+      "mode": "LONG_ONLY",
+      "rows": 610,
+      "status": "PASS_EXACT_ORIGINAL_TARGETS_NO_OLD_ACCOUNT_REPLAY"
+    },
+    {
+      "mode": "SHORT_ONLY",
+      "rows": 610,
+      "status": "PASS_EXACT_ORIGINAL_TARGETS_NO_OLD_ACCOUNT_REPLAY"
+    }
+  ],
+  "direction_model_reused": {
+    "availability": "Retrospective replay with identical preMarch fit data cutoff; not actual historical deployed model, no validation early stopping or parameter choice",
+    "golden_predictions_sha256": "ec270aa8eb110c232e9f4d9d4aeac9fe0f6e079c5ce6d98ef30d6216279ca7f4",
+    "golden_predictions_path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/ECONOMICS_predictions.parquet",
+    "report_sha256": "150d6507d6b90b2a509ae35d856a08ffcee87e1cc98d4165dbf9847688e92946",
+    "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/xgb_shared.json",
+    "report_path": "/mnt/d/codex/coin/reports/fast_research/SHARED_DIRECTION_20261005_V3.json",
+    "sha256": "c74f2d792d6fff16f881610aec9ace42a29c5695478f3acd2e11bfc4166242f9",
+    "golden_targets": [
+      {
+        "mode": "LONG_SHORT",
+        "sha256": "090bed4fab05a74d243fc54965d7ffc326d3bac7b41fb29a5a05298b58f792a4",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT/targets.parquet"
+      },
+      {
+        "mode": "LONG_ONLY",
+        "sha256": "5636a0d9ca1afb178b36eea6465181d46356e6353c339e35cc5ebc4888b3c446",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_LONG_ONLY_BASE27_RAW_AS_PERCENT/targets.parquet"
+      },
+      {
+        "mode": "SHORT_ONLY",
+        "sha256": "1df2701cbbab0002ce727960908090297884e74ffdcec733b87314d9280f295e",
+        "path": "/home/xflops/coin-state/d085-shared-direction-20261005-v3/XGB_SHORT_ONLY_BASE27_RAW_AS_PERCENT/targets.parquet"
+      }
+    ]
+  },
+  "accepted_accounts": 20,
+  "actual_short_open_legs": 3632,
+  "rows": [
+    {
+      "id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "strategy": "XGB_LONG_SHORT",
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -919.832791665172,
+      "gross_USDT": -646.3137422696733,
+      "fee_USDT": 112.19046328706483,
+      "spread_USDT": 81.59292977618739,
+      "slippage_USDT": 81.59292977618739,
+      "funding_USDT": 1.8572734439408842,
+      "LONG_USDT": -135.7625382756356,
+      "SHORT_USDT": -784.0702533895362,
+      "CASH_USDT": 0.0,
+      "turnover": 20.398266052193605,
+      "fill_legs": 2193,
+      "short_open_legs": 548,
+      "daily_annualized_volatility": 0.09793689169197128,
+      "daily_sharpe": -2.8979134887156377,
+      "minute_max_drawdown": 0.12008978599927367,
+      "mean_gross": 0.16455309754363395,
+      "mean_net": -0.01181404872877162,
+      "max_gross": 0.5335418584842151,
+      "mean_collateral_over_initial_capital": 0.16028359233318185,
+      "max_collateral_over_initial_capital": 0.49992040018572625,
+      "liquidated": false,
+      "residual_marked_notional": 226.21190781019766,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -200.79668717087685,
+          "SHORT": 40.33804371187131,
+          "CASH": 0.0,
+          "net": -160.45864345900554
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 529.6250915822055,
+          "SHORT": -234.5390306561784,
+          "CASH": 0.0,
+          "net": 295.08606092602713
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -464.59094268696344,
+          "SHORT": -589.8692664452301,
+          "CASH": 0.0,
+          "net": -1054.4602091321935
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -200.79668717087685,
+          "SHORT": 40.33804371187131,
+          "CASH": 0.0,
+          "net": -160.45864345900554
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 529.6250915822055,
+          "SHORT": -234.5390306561784,
+          "CASH": 0.0,
+          "net": 295.08606092602713
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -464.59094268696344,
+          "SHORT": -589.8692664452301,
+          "CASH": 0.0,
+          "net": -1054.4602091321935
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -546.48650949529,
+          "SHORT": -811.9146350222773,
+          "CASH": 0.0,
+          "net": -1358.4011445175668
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 410.72397121965514,
+          "SHORT": 27.84438163274001,
+          "CASH": 0.0,
+          "net": 438.56835285239515
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 51,
+        "total_days": 122,
+        "top5_positive_day_share": 0.3588597579941245,
+        "largest_absolute_day_share": 0.05007221320199187,
+        "positive_gain_USDT": 1629.2302596357003,
+        "absolute_daily_net_delta_USDT": 4178.293310936573
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.14985628193230308,
+          "max_gross": 0.5327286760244657,
+          "mean_net": -0.041821356583320465,
+          "min_net": -0.1685142589863892,
+          "max_net": 0.20052587141672215,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.1585272294988765,
+          "max_gross": 0.5335418584842152,
+          "mean_net": 0.005936864085198512,
+          "min_net": -0.1329932097808832,
+          "max_net": 0.24663289197973046,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.18830110669859657,
+          "max_gross": 0.5082336478642048,
+          "mean_net": 0.018347815161605985,
+          "min_net": -0.16716659957583185,
+          "max_net": 0.19757515125654895,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "strategy": "XGB_LONG_SHORT",
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -921.573093794843,
+      "gross_USDT": -646.2251140311388,
+      "fee_USDT": 112.18648233097991,
+      "spread_USDT": 81.59003454337383,
+      "slippage_USDT": 81.59003454337383,
+      "funding_USDT": 0.018571654023407998,
+      "LONG_USDT": -128.9366376374135,
+      "SHORT_USDT": -792.636456157428,
+      "CASH_USDT": 0.0,
+      "turnover": 20.397542241996348,
+      "fill_legs": 2193,
+      "short_open_legs": 548,
+      "daily_annualized_volatility": 0.09800148339957429,
+      "daily_sharpe": -2.9017862496197004,
+      "minute_max_drawdown": 0.12027343723405037,
+      "mean_gross": 0.16455278752177668,
+      "mean_net": -0.011813968444116255,
+      "max_gross": 0.5335352849695123,
+      "mean_collateral_over_initial_capital": 0.1602762997110165,
+      "max_collateral_over_initial_capital": 0.4999563618058569,
+      "liquidated": false,
+      "residual_marked_notional": 226.14820289030365,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -199.13830788268166,
+          "SHORT": 38.878536640399005,
+          "CASH": 0.0,
+          "net": -160.25977124228265
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 531.4783533995852,
+          "SHORT": -235.88296400851237,
+          "CASH": 0.0,
+          "net": 295.5953893910727
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -461.27668315431697,
+          "SHORT": -595.6320287893162,
+          "CASH": 0.0,
+          "net": -1056.908711943633
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -199.13830788268166,
+          "SHORT": 38.878536640399005,
+          "CASH": 0.0,
+          "net": -160.25977124228265
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 531.4783533995852,
+          "SHORT": -235.88296400851237,
+          "CASH": 0.0,
+          "net": 295.5953893910727
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -461.27668315431697,
+          "SHORT": -595.6320287893162,
+          "CASH": 0.0,
+          "net": -1056.908711943633
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -541.3138996205474,
+          "SHORT": -819.4454789665849,
+          "CASH": 0.0,
+          "net": -1360.7593785871325
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 412.37726198313385,
+          "SHORT": 26.80902280915521,
+          "CASH": 0.0,
+          "net": 439.18628479228903
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 51,
+        "total_days": 122,
+        "top5_positive_day_share": 0.3589096496258638,
+        "largest_absolute_day_share": 0.05005613082890631,
+        "positive_gain_USDT": 1629.8481178061666,
+        "absolute_daily_net_delta_USDT": 4181.269329407176
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.14985673306820244,
+          "max_gross": 0.5327250509189508,
+          "mean_net": -0.041821500567023925,
+          "min_net": -0.16851168933107352,
+          "max_net": 0.20052414304797705,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.1585260528211805,
+          "max_gross": 0.5335352849695123,
+          "mean_net": 0.005936660053484164,
+          "min_net": -0.1329939180770331,
+          "max_net": 0.24663432514207734,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.18830028549531483,
+          "max_gross": 0.5082336302099447,
+          "mean_net": 0.018348375127659827,
+          "min_net": -0.1671658227414061,
+          "max_net": 0.19757893011760663,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "strategy": "XGB_LONG_SHORT",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -1069.4257502735625,
+      "gross_USDT": -636.0286683624491,
+      "fee_USDT": 111.33947648010776,
+      "spread_USDT": 161.94779740777875,
+      "slippage_USDT": 161.94779740777875,
+      "funding_USDT": 1.8379893845519146,
+      "LONG_USDT": -215.49940801926428,
+      "SHORT_USDT": -853.9263422542998,
+      "CASH_USDT": 0.0,
+      "turnover": 20.24354117820141,
+      "fill_legs": 2188,
+      "short_open_legs": 546,
+      "daily_annualized_volatility": 0.09800570394510107,
+      "daily_sharpe": -3.402477057639694,
+      "minute_max_drawdown": 0.13190164780303137,
+      "mean_gross": 0.16456892686887106,
+      "mean_net": -0.011795731195558096,
+      "max_gross": 0.5339397663357706,
+      "mean_collateral_over_initial_capital": 0.15891302341873703,
+      "max_collateral_over_initial_capital": 0.49856110263756426,
+      "liquidated": false,
+      "residual_marked_notional": 220.3897367028821,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -231.73104156840213,
+          "SHORT": 13.780007425152974,
+          "CASH": 0.0,
+          "net": -217.9510341432491
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 508.8613282967034,
+          "SHORT": -250.42513523978312,
+          "CASH": 0.0,
+          "net": 258.4361930569205
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -492.62969474756346,
+          "SHORT": -617.2812144396703,
+          "CASH": 0.0,
+          "net": -1109.9109091872338
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -231.73104156840213,
+          "SHORT": 13.780007425152974,
+          "CASH": 0.0,
+          "net": -217.9510341432491
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 508.8613282967034,
+          "SHORT": -250.42513523978312,
+          "CASH": 0.0,
+          "net": 258.4361930569205
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -492.62969474756346,
+          "SHORT": -617.2812144396703,
+          "CASH": 0.0,
+          "net": -1109.9109091872338
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -598.4847964500161,
+          "SHORT": -860.3297219830307,
+          "CASH": 0.0,
+          "net": -1458.8145184330465
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 382.98538843075414,
+          "SHORT": 6.4033797287303855,
+          "CASH": 0.0,
+          "net": 389.38876815948447
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 50,
+        "total_days": 122,
+        "top5_positive_day_share": 0.36842845303798694,
+        "largest_absolute_day_share": 0.04916702747489228,
+        "positive_gain_USDT": 1560.480986566501,
+        "absolute_daily_net_delta_USDT": 4190.387723406564
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.14983786284388248,
+          "max_gross": 0.5331266913373714,
+          "mean_net": -0.04174770757828526,
+          "min_net": -0.1669360886137306,
+          "max_net": 0.20004473520634744,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.15860095657496967,
+          "max_gross": 0.5339397663357706,
+          "mean_net": 0.005867544698363384,
+          "min_net": -0.13292992739204346,
+          "max_net": 0.24647826344764479,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.18832841083830743,
+          "max_gross": 0.5084379755783939,
+          "mean_net": 0.018343995147970787,
+          "min_net": -0.1656062345785627,
+          "max_net": 0.19759864443298022,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "strategy": "XGB_LONG_SHORT",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -1071.149292798104,
+      "gross_USDT": -635.948162310354,
+      "fee_USDT": 111.33549556797222,
+      "spread_USDT": 161.94200701249304,
+      "slippage_USDT": 161.94200701249304,
+      "funding_USDT": 0.018379105208210657,
+      "LONG_USDT": -208.7279852542412,
+      "SHORT_USDT": -862.4213075438608,
+      "CASH_USDT": 0.0,
+      "turnover": 20.24281737599495,
+      "fill_legs": 2188,
+      "short_open_legs": 546,
+      "daily_annualized_volatility": 0.09806836823861514,
+      "daily_sharpe": -3.406123454148247,
+      "minute_max_drawdown": 0.1320619068073271,
+      "mean_gross": 0.16456873601183356,
+      "mean_net": -0.01179596943363042,
+      "max_gross": 0.533933182373377,
+      "mean_collateral_over_initial_capital": 0.15890590886763012,
+      "max_collateral_over_initial_capital": 0.4985970282075176,
+      "liquidated": false,
+      "residual_marked_notional": 220.32670406274943,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -230.08595672323594,
+          "SHORT": 12.33850618941699,
+          "CASH": 0.0,
+          "net": -217.74745053381895
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 510.70802507115025,
+          "SHORT": -251.76764549737203,
+          "CASH": 0.0,
+          "net": 258.9403795737782
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -489.350053602156,
+          "SHORT": -622.9921682359072,
+          "CASH": 0.0,
+          "net": -1112.3422218380633
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -230.08595672323594,
+          "SHORT": 12.33850618941699,
+          "CASH": 0.0,
+          "net": -217.74745053381895
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 510.70802507115025,
+          "SHORT": -251.76764549737203,
+          "CASH": 0.0,
+          "net": 258.9403795737782
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -489.350053602156,
+          "SHORT": -622.9921682359072,
+          "CASH": 0.0,
+          "net": -1112.3422218380633
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -593.3531112005021,
+          "SHORT": -867.7995367449655,
+          "CASH": 0.0,
+          "net": -1461.1526479454678
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 384.6251259462603,
+          "SHORT": 5.378229201103295,
+          "CASH": 0.0,
+          "net": 390.0033551473636
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 50,
+        "total_days": 122,
+        "top5_positive_day_share": 0.3682850849704257,
+        "largest_absolute_day_share": 0.04915179583636484,
+        "positive_gain_USDT": 1561.0999640228547,
+        "absolute_daily_net_delta_USDT": 4193.349220843813
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.14983844533373086,
+          "max_gross": 0.5331230676702138,
+          "mean_net": -0.04174853126111554,
+          "min_net": -0.16694092855099202,
+          "max_net": 0.2000429098041685,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.1585999846277855,
+          "max_gross": 0.533933182373377,
+          "mean_net": 0.00586736155126958,
+          "min_net": -0.1329307242158599,
+          "max_net": 0.24647971193650164,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.18832763997707636,
+          "max_gross": 0.5084379683556784,
+          "mean_net": 0.01834452294970291,
+          "min_net": -0.16561275585377225,
+          "max_net": 0.19760245667201903,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "strategy": "XGB_REGIME_GATED",
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -46.80666864091753,
+      "gross_USDT": 1.0234825916651302,
+      "fee_USDT": 20.00544645432958,
+      "spread_USDT": 14.549476980419028,
+      "slippage_USDT": 14.549476980419028,
+      "funding_USDT": 1.2742491825849733,
+      "LONG_USDT": 0.0,
+      "SHORT_USDT": -46.80666864091631,
+      "CASH_USDT": 0.0,
+      "turnover": 3.6373539007871964,
+      "fill_legs": 503,
+      "short_open_legs": 213,
+      "daily_annualized_volatility": 0.04264999274494364,
+      "daily_sharpe": -0.3078396899194759,
+      "minute_max_drawdown": 0.021293692949093557,
+      "mean_gross": 0.021194092203123408,
+      "mean_net": -0.021194092203123408,
+      "max_gross": 0.1429660880490729,
+      "mean_collateral_over_initial_capital": 0.021202335707735817,
+      "max_collateral_over_initial_capital": 0.13604107797111428,
+      "liquidated": false,
+      "residual_marked_notional": 190.78048691479376,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -64.08636373284207,
+          "CASH": 0.0,
+          "net": -64.08636373284207
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -2.0463274043459307,
+          "CASH": 0.0,
+          "net": -2.0463274043459307
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 19.32602249627047,
+          "CASH": 0.0,
+          "net": 19.32602249627047
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -64.08636373284207,
+          "CASH": 0.0,
+          "net": -64.08636373284207
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -2.0463274043459307,
+          "CASH": 0.0,
+          "net": -2.0463274043459307
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 19.32602249627047,
+          "CASH": 0.0,
+          "net": 19.32602249627047
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": 0.0,
+          "SHORT": 16.0470643296048,
+          "CASH": 0.0,
+          "net": 16.0470643296048
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 0.0,
+          "SHORT": -62.853732970522344,
+          "CASH": 0.0,
+          "net": -62.853732970522344
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 21,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5726670374072291,
+        "largest_absolute_day_share": 0.19009457228385787,
+        "positive_gain_USDT": 420.02296083531473,
+        "absolute_daily_net_delta_USDT": 886.8525903115478
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.0014283511803915674,
+          "max_gross": 0.10644135475531033,
+          "mean_net": -0.0014283511803915674,
+          "min_net": -0.10644135475531033,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 73439
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.03502743203191466,
+          "max_gross": 0.11974735114222815,
+          "mean_net": -0.03502743203191466,
+          "min_net": -0.11974735114222815,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 20156
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.03975623858246978,
+          "max_gross": 0.1429660880490729,
+          "mean_net": -0.03975623858246978,
+          "min_net": -0.1429660880490729,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 33109
+        }
+      }
+    },
+    {
+      "id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "strategy": "XGB_REGIME_GATED",
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -48.0634687211188,
+      "gross_USDT": 1.0261208420139332,
+      "fee_USDT": 20.004603599884163,
+      "spread_USDT": 14.548863991596841,
+      "slippage_USDT": 14.548863991596841,
+      "funding_USDT": 0.01274201994510937,
+      "LONG_USDT": 0.0,
+      "SHORT_USDT": -48.063468721117815,
+      "CASH_USDT": 0.0,
+      "turnover": 3.637200654524393,
+      "fill_legs": 503,
+      "short_open_legs": 213,
+      "daily_annualized_volatility": 0.04268211320179612,
+      "daily_sharpe": -0.3164269501494449,
+      "minute_max_drawdown": 0.021304608939012537,
+      "mean_gross": 0.021194220122939835,
+      "mean_net": -0.021194220122939835,
+      "max_gross": 0.14296868101503965,
+      "mean_collateral_over_initial_capital": 0.021201332579030827,
+      "max_collateral_over_initial_capital": 0.13603332338406884,
+      "liquidated": false,
+      "residual_marked_notional": 190.76606437172669,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -64.70936080605624,
+          "CASH": 0.0,
+          "net": -64.70936080605624
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -2.5117823763236586,
+          "CASH": 0.0,
+          "net": -2.5117823763236586
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 19.157674461261095,
+          "CASH": 0.0,
+          "net": 19.157674461261095
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -64.70936080605624,
+          "CASH": 0.0,
+          "net": -64.70936080605624
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -2.5117823763236586,
+          "CASH": 0.0,
+          "net": -2.5117823763236586
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 19.157674461261095,
+          "CASH": 0.0,
+          "net": 19.157674461261095
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": 0.0,
+          "SHORT": 15.81615485281565,
+          "CASH": 0.0,
+          "net": 15.81615485281565
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 0.0,
+          "SHORT": -63.87962357393445,
+          "CASH": 0.0,
+          "net": -63.87962357393445
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 21,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5736193799646183,
+        "largest_absolute_day_share": 0.19034083940734012,
+        "positive_gain_USDT": 419.28870562224984,
+        "absolute_daily_net_delta_USDT": 886.6408799656183
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.0014283786883909427,
+          "max_gross": 0.1064421308908465,
+          "mean_net": -0.0014283786883909427,
+          "min_net": -0.1064421308908465,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 73439
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.03502760308728115,
+          "max_gross": 0.11974716740542815,
+          "mean_net": -0.03502760308728115,
+          "min_net": -0.11974716740542815,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 20156
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.039756477347969214,
+          "max_gross": 0.14296868101503965,
+          "mean_net": -0.039756477347969214,
+          "min_net": -0.14296868101503965,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 33109
+        }
+      }
+    },
+    {
+      "id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "strategy": "XGB_REGIME_GATED",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -75.8118011955016,
+      "gross_USDT": 1.0208475941747586,
+      "fee_USDT": 19.980285629782685,
+      "spread_USDT": 29.062478703614346,
+      "slippage_USDT": 29.062478703614346,
+      "funding_USDT": 1.2725942473350176,
+      "LONG_USDT": 0.0,
+      "SHORT_USDT": -75.81180119549985,
+      "CASH_USDT": 0.0,
+      "turnover": 3.632779205415034,
+      "fill_legs": 502,
+      "short_open_legs": 213,
+      "daily_annualized_volatility": 0.04266935188663026,
+      "daily_sharpe": -0.5122946446290884,
+      "minute_max_drawdown": 0.021555501815671785,
+      "mean_gross": 0.021198295623843864,
+      "mean_net": -0.021198295623843864,
+      "max_gross": 0.1429803564577592,
+      "mean_collateral_over_initial_capital": 0.021155292220277747,
+      "max_collateral_over_initial_capital": 0.1356609699721076,
+      "liquidated": false,
+      "residual_marked_notional": 190.4325071529651,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -80.18512734484312,
+          "CASH": 0.0,
+          "net": -80.18512734484312
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -13.21928582175726,
+          "CASH": 0.0,
+          "net": -13.21928582175726
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 17.592611971098805,
+          "CASH": 0.0,
+          "net": 17.592611971098805
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -80.18512734484312,
+          "CASH": 0.0,
+          "net": -80.18512734484312
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -13.21928582175726,
+          "CASH": 0.0,
+          "net": -13.21928582175726
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 17.592611971098805,
+          "CASH": 0.0,
+          "net": 17.592611971098805
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": 0.0,
+          "SHORT": 8.468603434383695,
+          "CASH": 0.0,
+          "net": 8.468603434383695
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 0.0,
+          "SHORT": -84.28040462988527,
+          "CASH": 0.0,
+          "net": -84.28040462988527
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 19,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5836633220193046,
+        "largest_absolute_day_share": 0.19070202263161448,
+        "positive_gain_USDT": 406.67735336458827,
+        "absolute_daily_net_delta_USDT": 889.1665079246777
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.0014290542831409305,
+          "max_gross": 0.10645102716112945,
+          "mean_net": -0.0014290542831409305,
+          "min_net": -0.10645102716112945,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 74875
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.035032660825666986,
+          "max_gross": 0.11975300539229719,
+          "mean_net": -0.035032660825666986,
+          "min_net": -0.11975300539229719,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 20156
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.03976459769783865,
+          "max_gross": 0.1429803564577592,
+          "mean_net": -0.03976459769783865,
+          "min_net": -0.1429803564577592,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 33109
+        }
+      }
+    },
+    {
+      "id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "strategy": "XGB_REGIME_GATED",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -77.06570742205909,
+      "gross_USDT": 1.0235202321576293,
+      "fee_USDT": 19.979444040743335,
+      "spread_USDT": 29.061254559102306,
+      "slippage_USDT": 29.061254559102306,
+      "funding_USDT": 0.012725504731233519,
+      "LONG_USDT": 0.0,
+      "SHORT_USDT": -77.06570742205747,
+      "CASH_USDT": 0.0,
+      "turnover": 3.632626189226061,
+      "fill_legs": 502,
+      "short_open_legs": 213,
+      "daily_annualized_volatility": 0.04270198772439719,
+      "daily_sharpe": -0.5207226197005372,
+      "minute_max_drawdown": 0.021566416612506134,
+      "mean_gross": 0.02119843814242127,
+      "mean_net": -0.02119843814242127,
+      "max_gross": 0.14298294994132674,
+      "mean_collateral_over_initial_capital": 0.021154306020817616,
+      "max_collateral_over_initial_capital": 0.1356531278119117,
+      "liquidated": false,
+      "residual_marked_notional": 190.4181155629143,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -80.80651360405905,
+          "CASH": 0.0,
+          "net": -80.80651360405905
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -13.683923890912851,
+          "CASH": 0.0,
+          "net": -13.683923890912851
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 17.424730072912823,
+          "CASH": 0.0,
+          "net": 17.424730072912823
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": 0.0,
+          "SHORT": -80.80651360405905,
+          "CASH": 0.0,
+          "net": -80.80651360405905
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 0.0,
+          "SHORT": -13.683923890912851,
+          "CASH": 0.0,
+          "net": -13.683923890912851
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 0.0,
+          "SHORT": 17.424730072912823,
+          "CASH": 0.0,
+          "net": 17.424730072912823
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": 0.0,
+          "SHORT": 8.238301034814505,
+          "CASH": 0.0,
+          "net": 8.238301034814505
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 0.0,
+          "SHORT": -85.30400845687358,
+          "CASH": 0.0,
+          "net": -85.30400845687358
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 19,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5845876969856887,
+        "largest_absolute_day_share": 0.1909247448518432,
+        "positive_gain_USDT": 405.99820265010203,
+        "absolute_daily_net_delta_USDT": 889.0621127222639
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.0014291116818870057,
+          "max_gross": 0.1064519070409901,
+          "mean_net": -0.0014291116818870057,
+          "min_net": -0.1064519070409901,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 74875
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.035032831778989554,
+          "max_gross": 0.11975282083192017,
+          "mean_net": -0.035032831778989554,
+          "min_net": -0.11975282083192017,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 20156
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.03976483913938984,
+          "max_gross": 0.14298294994132674,
+          "mean_net": -0.03976483913938984,
+          "min_net": -0.14298294994132674,
+          "max_net": 0.0,
+          "exactly_flat_minutes": 33109
+        }
+      }
+    },
+    {
+      "id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "strategy": "HOLD",
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": 130.25266869548477,
+      "gross_USDT": 150.09143152835836,
+      "fee_USDT": 4.022537062100194,
+      "spread_USDT": 2.925467833350956,
+      "slippage_USDT": 2.925467833350956,
+      "funding_USDT": -9.965290104071473,
+      "LONG_USDT": 130.2526686954861,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7313703749273079,
+      "fill_legs": 534,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.10559431193911199,
+      "daily_sharpe": 0.41887060762173195,
+      "minute_max_drawdown": 0.06582373502502481,
+      "mean_gross": 0.10300242335761646,
+      "mean_net": 0.10300242335761646,
+      "max_gross": 0.1493339952412785,
+      "mean_collateral_over_initial_capital": 0.10426201952724809,
+      "max_collateral_over_initial_capital": 0.15880560728770596,
+      "liquidated": false,
+      "residual_marked_notional": 192.79880114088434,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -304.41271796575575,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -304.41271796575575
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 230.36358410799767,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 230.36358410799767
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 204.30180255324285,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 204.30180255324285
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -304.41271796575575,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -304.41271796575575
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 230.36358410799767,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 230.36358410799767
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 204.30180255324285,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 204.30180255324285
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -142.3318844917453,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -142.3318844917453
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 272.5845531872301,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 272.5845531872301
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 59,
+        "total_days": 122,
+        "top5_positive_day_share": 0.353447169791891,
+        "largest_absolute_day_share": 0.047510982945171816,
+        "positive_gain_USDT": 2392.2350751658687,
+        "absolute_daily_net_delta_USDT": 4654.217481636253
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.10226920851167277,
+          "max_gross": 0.14018345826166845,
+          "mean_net": 0.10226920851167277,
+          "min_net": 0.080656327466742,
+          "max_net": 0.14018345826166845,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.09988382645205163,
+          "max_gross": 0.1346932427055252,
+          "mean_net": 0.09988382645205163,
+          "min_net": 0.08359667704529121,
+          "max_net": 0.1346932427055252,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.10590547101644494,
+          "max_gross": 0.1493339952412785,
+          "mean_net": 0.10590547101644494,
+          "min_net": 0.0,
+          "max_net": 0.1493339952412785,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "strategy": "HOLD",
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": 140.16194507555315,
+      "gross_USDT": 150.1382088610037,
+      "fee_USDT": 4.023796790371975,
+      "spread_USDT": 2.92638390092953,
+      "slippage_USDT": 2.92638390092953,
+      "funding_USDT": -0.09969919321950244,
+      "LONG_USDT": 140.16194507555534,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7315994164312681,
+      "fill_legs": 533,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.10566844575478752,
+      "daily_sharpe": 0.4463343622789477,
+      "minute_max_drawdown": 0.065718524123483,
+      "mean_gross": 0.10300062100341352,
+      "mean_net": 0.10300062100341352,
+      "max_gross": 0.14933415629001273,
+      "mean_collateral_over_initial_capital": 0.10430353686882805,
+      "max_collateral_over_initial_capital": 0.15882652119778973,
+      "liquidated": false,
+      "residual_marked_notional": 193.1531949313152,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -302.9412462999305,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -302.9412462999305
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 232.1186612259753,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 232.1186612259753
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 210.98453014950837,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 210.98453014950837
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -302.9412462999305,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -302.9412462999305
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 232.1186612259753,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 232.1186612259753
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 210.98453014950837,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 210.98453014950837
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -134.1134394578802,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -134.1134394578802
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 274.27538453343334,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 274.27538453343334
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 59,
+        "total_days": 122,
+        "top5_positive_day_share": 0.35284656051678337,
+        "largest_absolute_day_share": 0.0474933288583589,
+        "positive_gain_USDT": 2399.9618236613624,
+        "absolute_daily_net_delta_USDT": 4659.761702247171
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.10226675186708034,
+          "max_gross": 0.14018032261911498,
+          "mean_net": 0.10226675186708034,
+          "min_net": 0.08065332401815513,
+          "max_net": 0.14018032261911498,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.09988268772682775,
+          "max_gross": 0.13469174762284122,
+          "mean_net": 0.09988268772682775,
+          "min_net": 0.08359647561338207,
+          "max_net": 0.13469174762284122,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.10590415767534773,
+          "max_gross": 0.14933415629001273,
+          "mean_net": 0.10590415767534773,
+          "min_net": 0.0,
+          "max_net": 0.14933415629001273,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "strategy": "HOLD",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": 124.36235011590621,
+      "gross_USDT": 150.04531480041086,
+      "fee_USDT": 4.021659393691932,
+      "spread_USDT": 5.849631900486065,
+      "slippage_USDT": 5.849631900486065,
+      "funding_USDT": -9.962041489840592,
+      "LONG_USDT": 124.36235011590774,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7312107988530785,
+      "fill_legs": 534,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.10563162194599528,
+      "daily_sharpe": 0.40228482354271244,
+      "minute_max_drawdown": 0.06594411518507937,
+      "mean_gross": 0.10300342975368719,
+      "mean_net": 0.10300342975368719,
+      "max_gross": 0.14933610105584688,
+      "mean_collateral_over_initial_capital": 0.10431492195677748,
+      "max_collateral_over_initial_capital": 0.15889670035755044,
+      "liquidated": false,
+      "residual_marked_notional": 192.61589180285262,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -308.28360201444355,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -308.28360201444355
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 229.7116539518131,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 229.7116539518131
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 202.93429817853666,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 202.93429817853666
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -308.28360201444355,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -308.28360201444355
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 229.7116539518131,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 229.7116539518131
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 202.93429817853666,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 202.93429817853666
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -146.0403162263499,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -146.0403162263499
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 270.4026663422561,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 270.4026663422561
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 59,
+        "total_days": 122,
+        "top5_positive_day_share": 0.35367354460506634,
+        "largest_absolute_day_share": 0.04749766704471668,
+        "positive_gain_USDT": 2389.727594922615,
+        "absolute_daily_net_delta_USDT": 4655.092839729325
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.10226991683718682,
+          "max_gross": 0.14018452130382011,
+          "mean_net": 0.10226991683718682,
+          "min_net": 0.08065653792158066,
+          "max_net": 0.14018452130382011,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.09988454299043466,
+          "max_gross": 0.13469440527429377,
+          "mean_net": 0.09988454299043466,
+          "min_net": 0.0835972802786942,
+          "max_net": 0.13469440527429377,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.10590706127576852,
+          "max_gross": 0.14933610105584688,
+          "mean_net": 0.10590706127576852,
+          "min_net": 0.0,
+          "max_net": 0.14933610105584688,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "strategy": "HOLD",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": 134.2858943771084,
+      "gross_USDT": 150.1113750535899,
+      "fee_USDT": 4.02291070130821,
+      "spread_USDT": 5.851451614491708,
+      "slippage_USDT": 5.851451614491708,
+      "funding_USDT": -0.09966674618988687,
+      "LONG_USDT": 134.2858943771088,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7314383093287654,
+      "fill_legs": 534,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.1057051199821055,
+      "daily_sharpe": 0.42980830485337373,
+      "minute_max_drawdown": 0.06583891006182385,
+      "mean_gross": 0.10300163169247495,
+      "mean_net": 0.10300163169247495,
+      "max_gross": 0.14933634630509615,
+      "mean_collateral_over_initial_capital": 0.10435605011861884,
+      "max_collateral_over_initial_capital": 0.15891762921029517,
+      "liquidated": false,
+      "residual_marked_notional": 192.970858190807,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -306.81417149493495,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -306.81417149493495
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 231.4663349257653,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 231.4663349257653
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 209.6337309462781,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 209.6337309462781
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -306.81417149493495,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -306.81417149493495
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 231.4663349257653,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 231.4663349257653
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": 209.6337309462781,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 209.6337309462781
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -137.80583476519416,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -137.80583476519416
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": 272.0917291423026,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 272.0917291423026
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 59,
+        "total_days": 122,
+        "top5_positive_day_share": 0.35307183323968905,
+        "largest_absolute_day_share": 0.047480220419709805,
+        "positive_gain_USDT": 2397.4522004384635,
+        "absolute_daily_net_delta_USDT": 4660.618506499819
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.10226745085333476,
+          "max_gross": 0.14018128431417967,
+          "mean_net": 0.10226745085333476,
+          "min_net": 0.08065357502988077,
+          "max_net": 0.14018128431417967,
+          "exactly_flat_minutes": 0
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.0998834253638624,
+          "max_gross": 0.13469290894442199,
+          "mean_net": 0.0998834253638624,
+          "min_net": 0.08359707898731819,
+          "max_net": 0.13469290894442199,
+          "exactly_flat_minutes": 0
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.10590576059996676,
+          "max_gross": 0.14933634630509615,
+          "mean_net": 0.10590576059996676,
+          "min_net": 0.0,
+          "max_net": 0.14933634630509615,
+          "exactly_flat_minutes": 1
+        }
+      }
+    },
+    {
+      "id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "strategy": "DONCHIAN_EXIT10",
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -357.34380140027076,
+      "gross_USDT": -343.4607258336988,
+      "fee_USDT": 4.075571534602585,
+      "spread_USDT": 2.96394211773325,
+      "slippage_USDT": 2.96394211773325,
+      "funding_USDT": -3.8796197965028627,
+      "LONG_USDT": -357.3438014002709,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7410130062913792,
+      "fill_legs": 87,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.045354369535943455,
+      "daily_sharpe": -2.377466268062478,
+      "minute_max_drawdown": 0.03630562152826056,
+      "mean_gross": 0.05078699855553972,
+      "mean_net": 0.05078699855553972,
+      "max_gross": 0.18312674032803994,
+      "mean_collateral_over_initial_capital": 0.05228972640199592,
+      "max_collateral_over_initial_capital": 0.17654433741613698,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -265.3444695412773,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -265.3444695412773
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.78698104154762,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.78698104154762
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -213.78631290054108,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -213.78631290054108
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -265.3444695412773,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -265.3444695412773
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.78698104154762,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.78698104154762
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -213.78631290054108,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -213.78631290054108
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -280.0257772474309,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -280.0257772474309
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": -77.31802415283988,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -77.31802415283988
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 35,
+        "total_days": 122,
+        "top5_positive_day_share": 0.4462437538372669,
+        "largest_absolute_day_share": 0.07790857963462246,
+        "positive_gain_USDT": 571.4169882947099,
+        "absolute_daily_net_delta_USDT": 1500.177777989691
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.07788434343562933,
+          "max_gross": 0.18312674032803994,
+          "mean_net": 0.07788434343562933,
+          "min_net": 0.0,
+          "max_net": 0.18312674032803994,
+          "exactly_flat_minutes": 18722
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.02403206088538698,
+          "max_gross": 0.06663980722833203,
+          "mean_net": 0.02403206088538698,
+          "min_net": 0.0,
+          "max_net": 0.06663980722833203,
+          "exactly_flat_minutes": 21599
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.030089977298681153,
+          "max_gross": 0.12104670573762846,
+          "mean_net": 0.030089977298681153,
+          "min_net": 0.0,
+          "max_net": 0.12104670573762846,
+          "exactly_flat_minutes": 28799
+        }
+      }
+    },
+    {
+      "id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "strategy": "DONCHIAN_EXIT10",
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -353.5794998801948,
+      "gross_USDT": -343.53695030269074,
+      "fee_USDT": 4.075690420618016,
+      "spread_USDT": 2.9640285558980963,
+      "slippage_USDT": 2.9640285558980963,
+      "funding_USDT": -0.03880204508982644,
+      "LONG_USDT": -353.57949988019584,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7410346219305483,
+      "fill_legs": 87,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.04536028512954113,
+      "daily_sharpe": -2.3514153331360705,
+      "minute_max_drawdown": 0.03592670683005528,
+      "mean_gross": 0.050786395581957425,
+      "mean_net": 0.050786395581957425,
+      "max_gross": 0.18312221495299094,
+      "mean_collateral_over_initial_capital": 0.05229076557730794,
+      "max_collateral_over_initial_capital": 0.17654216581128304,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -265.58437369470045,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -265.58437369470045
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.0506351358361,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.0506351358361
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -209.04576132133047,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -209.04576132133047
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -265.58437369470045,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -265.58437369470045
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.0506351358361,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.0506351358361
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -209.04576132133047,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -209.04576132133047
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -276.2719892650941,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -276.2719892650941
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": -77.30751061510074,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -77.30751061510074
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 35,
+        "total_days": 122,
+        "top5_positive_day_share": 0.44610567813800006,
+        "largest_absolute_day_share": 0.07784499384257294,
+        "positive_gain_USDT": 573.694395650864,
+        "absolute_daily_net_delta_USDT": 1500.9682911819218
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.07788307961146497,
+          "max_gross": 0.18312221495299094,
+          "mean_net": 0.07788307961146497,
+          "min_net": 0.0,
+          "max_net": 0.18312221495299094,
+          "exactly_flat_minutes": 18722
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.024032140212713403,
+          "max_gross": 0.06663998211278001,
+          "mean_net": 0.024032140212713403,
+          "min_net": 0.0,
+          "max_net": 0.06663998211278001,
+          "exactly_flat_minutes": 21599
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.030089860913144712,
+          "max_gross": 0.12104224897869385,
+          "mean_net": 0.030089860913144712,
+          "min_net": 0.0,
+          "max_net": 0.12104224897869385,
+          "exactly_flat_minutes": 28799
+        }
+      }
+    },
+    {
+      "id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "strategy": "DONCHIAN_EXIT10",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -363.1671487932403,
+      "gross_USDT": -343.36212106980616,
+      "fee_USDT": 4.074608212413848,
+      "spread_USDT": 5.926263350905172,
+      "slippage_USDT": 5.926263350905172,
+      "funding_USDT": -3.8778928092099374,
+      "LONG_USDT": -363.16714879324024,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7408378568025177,
+      "fill_legs": 87,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.04545699080424073,
+      "daily_sharpe": -2.4117439264083815,
+      "minute_max_drawdown": 0.03684429300183345,
+      "mean_gross": 0.0507874682546828,
+      "mean_net": 0.0507874682546828,
+      "max_gross": 0.18312712854556468,
+      "mean_collateral_over_initial_capital": 0.05231845062230303,
+      "max_collateral_over_initial_capital": 0.1766326433987223,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -267.4496814168726,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -267.4496814168726
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.17480336991406,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.17480336991406
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -216.89227074628178,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -216.89227074628178
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -267.4496814168726,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -267.4496814168726
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 121.17480336991406,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 121.17480336991406
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -216.89227074628178,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -216.89227074628178
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -284.35672690124215,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -284.35672690124215
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": -78.81042189199815,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -78.81042189199815
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 34,
+        "total_days": 122,
+        "top5_positive_day_share": 0.44697475992857616,
+        "largest_absolute_day_share": 0.07805351263062528,
+        "positive_gain_USDT": 570.180232580924,
+        "absolute_daily_net_delta_USDT": 1503.5276139550879
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.07788522064533049,
+          "max_gross": 0.18312712854556465,
+          "mean_net": 0.07788522064533049,
+          "min_net": 0.0,
+          "max_net": 0.18312712854556465,
+          "exactly_flat_minutes": 18722
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.024032103212599572,
+          "max_gross": 0.06663987443705509,
+          "mean_net": 0.024032103212599572,
+          "min_net": 0.0,
+          "max_net": 0.06663987443705509,
+          "exactly_flat_minutes": 21599
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.030090150990678143,
+          "max_gross": 0.1210468193879011,
+          "mean_net": 0.030090150990678143,
+          "min_net": 0.0,
+          "max_net": 0.1210468193879011,
+          "exactly_flat_minutes": 28799
+        }
+      }
+    },
+    {
+      "id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "strategy": "DONCHIAN_EXIT10",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -359.40479481310433,
+      "gross_USDT": -343.4384109630736,
+      "fee_USDT": 4.074727000492305,
+      "spread_USDT": 5.926436035913684,
+      "slippage_USDT": 5.926436035913684,
+      "funding_USDT": -0.03878477771107838,
+      "LONG_USDT": -359.40479481310336,
+      "SHORT_USDT": 0.0,
+      "CASH_USDT": 0.0,
+      "turnover": 0.7408594546349645,
+      "fill_legs": 87,
+      "short_open_legs": 0,
+      "daily_annualized_volatility": 0.04546252141974335,
+      "daily_sharpe": -2.3857658152734675,
+      "minute_max_drawdown": 0.03646555939221685,
+      "mean_gross": 0.05078686384645362,
+      "mean_net": 0.05078686384645362,
+      "max_gross": 0.18312260426311586,
+      "mean_collateral_over_initial_capital": 0.052319487923136086,
+      "max_collateral_over_initial_capital": 0.176630470352572,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -267.69030649130275,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -267.69030649130275
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 120.4386002814326,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 120.4386002814326
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -212.15308860323418,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -212.15308860323418
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -267.69030649130275,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -267.69030649130275
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": 120.4386002814326,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": 120.4386002814326
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -212.15308860323418,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -212.15308860323418
+        }
+      },
+      "account_evidence": "REUSED_ACCEPTED_D086_BY_SHA_NO_RESIMULATION",
+      "original_GMM_state_contributions": {
+        "SIDEWAYS": {
+          "days": 90,
+          "LONG": -280.60424017162427,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -280.60424017162427
+        },
+        "BEAR": {
+          "days": 32,
+          "LONG": -78.80055464148006,
+          "SHORT": 0.0,
+          "CASH": 0.0,
+          "net": -78.80055464148006
+        }
+      },
+      "daily_gain_concentration": {
+        "positive_days": 34,
+        "total_days": 122,
+        "top5_positive_day_share": 0.44683388048759987,
+        "largest_absolute_day_share": 0.07799000038681395,
+        "positive_gain_USDT": 572.4565878915582,
+        "absolute_daily_net_delta_USDT": 1504.3179705962211
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.07788395376535827,
+          "max_gross": 0.18312260426311586,
+          "mean_net": 0.07788395376535827,
+          "min_net": 0.0,
+          "max_net": 0.18312260426311586,
+          "exactly_flat_minutes": 18722
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.02403218253572072,
+          "max_gross": 0.06664004923977535,
+          "mean_net": 0.02403218253572072,
+          "min_net": 0.0,
+          "max_net": 0.06664004923977535,
+          "exactly_flat_minutes": 21599
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.030090034512542954,
+          "max_gross": 0.12104247238777681,
+          "mean_net": 0.030090034512542954,
+          "min_net": 0.0,
+          "max_net": 0.12104247238777681,
+          "exactly_flat_minutes": 28799
+        }
+      }
+    },
+    {
+      "id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "strategy": "XGB_TREND_GATED",
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -262.3158146471953,
+      "gross_USDT": -155.30862506961964,
+      "fee_USDT": 42.55866792843285,
+      "spread_USDT": 30.951708794645686,
+      "slippage_USDT": 30.951708794645686,
+      "funding_USDT": -2.545104059851417,
+      "LONG_USDT": -307.05161626065785,
+      "SHORT_USDT": 44.73580161346339,
+      "CASH_USDT": 0.0,
+      "turnover": 7.737939623351427,
+      "fill_legs": 739,
+      "short_open_legs": 148,
+      "daily_annualized_volatility": 0.0543412258998568,
+      "daily_sharpe": -1.436360711929323,
+      "minute_max_drawdown": 0.052168637613697944,
+      "mean_gross": 0.04409235606549479,
+      "mean_net": 0.011897944980581275,
+      "max_gross": 0.1874410604802758,
+      "mean_collateral_over_initial_capital": 0.04372957161502861,
+      "max_collateral_over_initial_capital": 0.17996764623244715,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -8.698663207620793,
+          "SHORT": 64.88136763041513,
+          "CASH": 0.0,
+          "net": 56.18270442279435
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -0.7374316992094982,
+          "SHORT": -18.626802574806888,
+          "CASH": 0.0,
+          "net": -19.36423427401637
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -297.615521353828,
+          "SHORT": -1.5187634421452287,
+          "CASH": 0.0,
+          "net": -299.13428479597326
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -8.698663207620793,
+          "SHORT": 64.88136763041513,
+          "CASH": 0.0,
+          "net": 56.18270442279435
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -0.7374316992094982,
+          "SHORT": -18.626802574806888,
+          "CASH": 0.0,
+          "net": -19.36423427401637
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -297.615521353828,
+          "SHORT": -1.5187634421452287,
+          "CASH": 0.0,
+          "net": -299.13428479597326
+        }
+      },
+      "account_evidence": "NEW_COMPLETE_REPLAY",
+      "original_GMM_state_contributions": null,
+      "daily_gain_concentration": {
+        "positive_days": 31,
+        "total_days": 122,
+        "top5_positive_day_share": 0.4950339138758262,
+        "largest_absolute_day_share": 0.06633795181677496,
+        "positive_gain_USDT": 757.4153704059227,
+        "absolute_daily_net_delta_USDT": 1777.1465554590413
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.06094346535789598,
+          "max_gross": 0.18744106048027578,
+          "mean_net": 0.060941037001338426,
+          "min_net": -0.09699927628279771,
+          "max_net": 0.18744106048027578,
+          "exactly_flat_minutes": 30240
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.07387284542332359,
+          "max_gross": 0.12795171173077316,
+          "mean_net": -0.073695036702773,
+          "min_net": -0.12795171173077316,
+          "max_net": 0.12464401719942245,
+          "exactly_flat_minutes": 7198
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.0029173718137829163,
+          "max_gross": 0.12071153644531885,
+          "mean_net": -0.002896899192066135,
+          "min_net": -0.12071153644531885,
+          "max_net": 0.12023768850644101,
+          "exactly_flat_minutes": 53259
+        }
+      }
+    },
+    {
+      "id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "strategy": "XGB_TREND_GATED",
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -259.84679138609323,
+      "gross_USDT": -155.3572886788737,
+      "fee_USDT": 42.559467951115124,
+      "spread_USDT": 30.952290613751348,
+      "slippage_USDT": 30.952290613751348,
+      "funding_USDT": -0.025453528601693032,
+      "LONG_USDT": -303.1117509550252,
+      "SHORT_USDT": 43.26495956893349,
+      "CASH_USDT": 0.0,
+      "turnover": 7.73808508202093,
+      "fill_legs": 739,
+      "short_open_legs": 148,
+      "daily_annualized_volatility": 0.0543709582511044,
+      "daily_sharpe": -1.4215988603803253,
+      "minute_max_drawdown": 0.051978048527783316,
+      "mean_gross": 0.04409214737567982,
+      "mean_net": 0.011897538911893699,
+      "max_gross": 0.18743312066024384,
+      "mean_collateral_over_initial_capital": 0.04372989417533272,
+      "max_collateral_over_initial_capital": 0.17999308685692905,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -8.765160669306383,
+          "SHORT": 64.68739082810052,
+          "CASH": 0.0,
+          "net": 55.92223015879414
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -0.7424589699367843,
+          "SHORT": -19.90371949251032,
+          "CASH": 0.0,
+          "net": -20.646178462447097
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -293.6041313157829,
+          "SHORT": -1.5187117666573613,
+          "CASH": 0.0,
+          "net": -295.1228430824403
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -8.765160669306383,
+          "SHORT": 64.68739082810052,
+          "CASH": 0.0,
+          "net": 55.92223015879414
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -0.7424589699367843,
+          "SHORT": -19.90371949251032,
+          "CASH": 0.0,
+          "net": -20.646178462447097
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -293.6041313157829,
+          "SHORT": -1.5187117666573613,
+          "CASH": 0.0,
+          "net": -295.1228430824403
+        }
+      },
+      "account_evidence": "NEW_COMPLETE_REPLAY",
+      "original_GMM_state_contributions": null,
+      "daily_gain_concentration": {
+        "positive_days": 32,
+        "total_days": 122,
+        "top5_positive_day_share": 0.49538759975367286,
+        "largest_absolute_day_share": 0.06648832345824528,
+        "positive_gain_USDT": 758.591792696463,
+        "absolute_daily_net_delta_USDT": 1777.0303767790192
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.060942836769903704,
+          "max_gross": 0.18743312066024384,
+          "mean_net": 0.06094040839339895,
+          "min_net": -0.09700074350824721,
+          "max_net": 0.18743312066024384,
+          "exactly_flat_minutes": 30240
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.07387330130259735,
+          "max_gross": 0.12795424722375995,
+          "mean_net": -0.07369567617113762,
+          "min_net": -0.12795424722375995,
+          "max_net": 0.12464291442713958,
+          "exactly_flat_minutes": 7198
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.0029173314183755512,
+          "max_gross": 0.12071237872246691,
+          "mean_net": -0.0028968589878260623,
+          "min_net": -0.12071237872246691,
+          "max_net": 0.12023769261368614,
+          "exactly_flat_minutes": 53259
+        }
+      }
+    },
+    {
+      "id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "strategy": "XGB_TREND_GATED",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_USDT": -323.21648566264537,
+      "gross_USDT": -154.79237773770322,
+      "fee_USDT": 42.437919594029246,
+      "spread_USDT": 61.72768491161722,
+      "slippage_USDT": 61.72768491161722,
+      "funding_USDT": -2.5308185076784677,
+      "LONG_USDT": -349.0469035001216,
+      "SHORT_USDT": 25.830417837477317,
+      "CASH_USDT": 0.0,
+      "turnover": 7.715985380732589,
+      "fill_legs": 739,
+      "short_open_legs": 148,
+      "daily_annualized_volatility": 0.05433558054907121,
+      "daily_sharpe": -1.7818723615155052,
+      "minute_max_drawdown": 0.054682808450477904,
+      "mean_gross": 0.044101659037864095,
+      "mean_net": 0.011903937920829648,
+      "max_gross": 0.18746674529455878,
+      "mean_collateral_over_initial_capital": 0.04361809043535993,
+      "max_collateral_over_initial_capital": 0.1791633559345483,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -13.218145016586842,
+          "SHORT": 60.35904044481269,
+          "CASH": 0.0,
+          "net": 47.14089542822585
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -2.455786306053678,
+          "SHORT": -32.24577855080385,
+          "CASH": 0.0,
+          "net": -34.701564856857544
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -333.3729721774818,
+          "SHORT": -2.2828440565319283,
+          "CASH": 0.0,
+          "net": -335.6558162340137
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -13.218145016586842,
+          "SHORT": 60.35904044481269,
+          "CASH": 0.0,
+          "net": 47.14089542822585
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -2.455786306053678,
+          "SHORT": -32.24577855080385,
+          "CASH": 0.0,
+          "net": -34.701564856857544
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -333.3729721774818,
+          "SHORT": -2.2828440565319283,
+          "CASH": 0.0,
+          "net": -335.6558162340137
+        }
+      },
+      "account_evidence": "NEW_COMPLETE_REPLAY",
+      "original_GMM_state_contributions": null,
+      "daily_gain_concentration": {
+        "positive_days": 27,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5040927538033646,
+        "largest_absolute_day_share": 0.06509453020301519,
+        "positive_gain_USDT": 733.8568651779406,
+        "absolute_daily_net_delta_USDT": 1790.930216018527
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.060960509703374646,
+          "max_gross": 0.18746674529455876,
+          "mean_net": 0.06095808143851474,
+          "min_net": -0.09700387145411225,
+          "max_net": 0.18746674529455876,
+          "exactly_flat_minutes": 30240
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.07388325353189354,
+          "max_gross": 0.1280109396307785,
+          "mean_net": -0.07370716185382238,
+          "min_net": -0.1280109396307785,
+          "max_net": 0.12466610072831821,
+          "exactly_flat_minutes": 7198
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.002915427339831705,
+          "max_gross": 0.12072233335401912,
+          "mean_net": -0.002894953362684134,
+          "min_net": -0.12072233335401912,
+          "max_net": 0.12024909753997304,
+          "exactly_flat_minutes": 53259
+        }
+      }
+    },
+    {
+      "id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "strategy": "XGB_TREND_GATED",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_USDT": -320.7646684556022,
+      "gross_USDT": -154.8429629827138,
+      "fee_USDT": 42.43871404499614,
+      "spread_USDT": 61.72884041191086,
+      "slippage_USDT": 61.72884041191086,
+      "funding_USDT": -0.025310604070519455,
+      "LONG_USDT": -345.126636016958,
+      "SHORT_USDT": 24.36196756135634,
+      "CASH_USDT": 0.0,
+      "turnover": 7.716129826362935,
+      "fill_legs": 739,
+      "short_open_legs": 148,
+      "daily_annualized_volatility": 0.05436437465263998,
+      "daily_sharpe": -1.7669621864197913,
+      "minute_max_drawdown": 0.054492879196878174,
+      "mean_gross": 0.04410146115584089,
+      "mean_net": 0.011903547087874687,
+      "max_gross": 0.1874587292112929,
+      "mean_collateral_over_initial_capital": 0.04361841709328234,
+      "max_collateral_over_initial_capital": 0.17918857036561528,
+      "liquidated": true,
+      "residual_marked_notional": 0.0,
+      "by_past_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -13.284752370554617,
+          "SHORT": 60.16519826210742,
+          "CASH": 0.0,
+          "net": 46.880445891552796
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -2.460672217980795,
+          "SHORT": -33.52046991861769,
+          "CASH": 0.0,
+          "net": -35.98114213659849
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -329.3812114284233,
+          "SHORT": -2.2827607821332094,
+          "CASH": 0.0,
+          "net": -331.6639722105565
+        }
+      },
+      "by_learned_regime": {
+        "SIDEWAYS": {
+          "days": 41,
+          "LONG": -13.284752370554617,
+          "SHORT": 60.16519826210742,
+          "CASH": 0.0,
+          "net": 46.880445891552796
+        },
+        "BEAR": {
+          "days": 25,
+          "LONG": -2.460672217980795,
+          "SHORT": -33.52046991861769,
+          "CASH": 0.0,
+          "net": -35.98114213659849
+        },
+        "BULL": {
+          "days": 56,
+          "LONG": -329.3812114284233,
+          "SHORT": -2.2827607821332094,
+          "CASH": 0.0,
+          "net": -331.6639722105565
+        }
+      },
+      "account_evidence": "NEW_COMPLETE_REPLAY",
+      "original_GMM_state_contributions": null,
+      "daily_gain_concentration": {
+        "positive_days": 27,
+        "total_days": 122,
+        "top5_positive_day_share": 0.5044377997589152,
+        "largest_absolute_day_share": 0.06524239662226322,
+        "positive_gain_USDT": 735.037089941201,
+        "absolute_daily_net_delta_USDT": 1790.838848338004
+      },
+      "actual_exposure_by_learned_regime": {
+        "BULL": {
+          "minutes": 80640,
+          "mean_gross": 0.060959909514410174,
+          "max_gross": 0.1874587292112929,
+          "mean_net": 0.0609574812296273,
+          "min_net": -0.0970053384503789,
+          "max_net": 0.1874587292112929,
+          "exactly_flat_minutes": 30240
+        },
+        "BEAR": {
+          "minutes": 36000,
+          "mean_gross": 0.07388369886612925,
+          "max_gross": 0.1280134794330216,
+          "mean_net": -0.07370779094716759,
+          "min_net": -0.1280134794330216,
+          "max_net": 0.12466508268223299,
+          "exactly_flat_minutes": 7198
+        },
+        "SIDEWAYS": {
+          "minutes": 59040,
+          "mean_gross": 0.002915386745180188,
+          "max_gross": 0.12072317577627319,
+          "mean_net": -0.002894912938029947,
+          "min_net": -0.12072317577627319,
+          "max_net": 0.12024904649977974,
+          "exactly_flat_minutes": 53259
+        }
+      }
+    }
+  ],
+  "new_actual_short_open_legs": 592,
+  "new_accounts": 4,
+  "reused_accounts": 16,
+  "control_reuse": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/MARKET_REGIME_20261005_V1.json",
+    "sha256": "73db6e5078e925470bdd00bdd64702980208a11fe8ac14ee9c305dfa8eacb7e6",
+    "prediction_sha256": "a4a5308dd6ad624e317152eb89d5bc0c72713122b005fcddb2c46fc367b647a1",
+    "scope": "16 same122day completed controls, unchanged input/financial kernels, no account resimulation; old GMM states preserved and regrouped by fixed rule only for descriptive contributions",
+    "status": "REUSED_D086_BY_IMMUTABLE_REPORT_AND_IDENTICAL_INPUTS",
+    "reused_accounts": 16,
+    "probability_golden": "PASS_EXACT_1220_ROWS",
+    "new_accounts": 4
+  },
+  "booster_rounds": 120,
+  "actual_fitted_tree_count": 360,
+  "configurations": 1,
+  "comparisons": [
+    {
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "net_delta_USDT": -215.50914600627775,
+      "DD_delta": 0.030874944664604387,
+      "vol_delta": 0.011691233154913161,
+      "either_predeclared_benefit": false,
+      "short_contribution_positive": true,
+      "comparator": "XGB_REGIME_GATED",
+      "challenger": "XGB_TREND_GATED",
+      "bear_short_contribution_USDT": -18.626802574806888,
+      "scope": "PAIRED_MARKED_NAV_NOT_SUM_OF_INDEPENDENT_LONG_AND_SHORT_WALLETS"
+    },
+    {
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "net_delta_USDT": -211.78332266497443,
+      "DD_delta": 0.03067343958877078,
+      "vol_delta": 0.011688845049308276,
+      "either_predeclared_benefit": false,
+      "short_contribution_positive": true,
+      "comparator": "XGB_REGIME_GATED",
+      "challenger": "XGB_TREND_GATED",
+      "bear_short_contribution_USDT": -19.90371949251032,
+      "scope": "PAIRED_MARKED_NAV_NOT_SUM_OF_INDEPENDENT_LONG_AND_SHORT_WALLETS"
+    },
+    {
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "net_delta_USDT": -247.40468446714377,
+      "DD_delta": 0.03312730663480612,
+      "vol_delta": 0.011666228662440943,
+      "either_predeclared_benefit": false,
+      "short_contribution_positive": true,
+      "comparator": "XGB_REGIME_GATED",
+      "challenger": "XGB_TREND_GATED",
+      "bear_short_contribution_USDT": -32.24577855080385,
+      "scope": "PAIRED_MARKED_NAV_NOT_SUM_OF_INDEPENDENT_LONG_AND_SHORT_WALLETS"
+    },
+    {
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "net_delta_USDT": -243.6989610335431,
+      "DD_delta": 0.03292646258437204,
+      "vol_delta": 0.011662386928242785,
+      "either_predeclared_benefit": false,
+      "short_contribution_positive": true,
+      "comparator": "XGB_REGIME_GATED",
+      "challenger": "XGB_TREND_GATED",
+      "bear_short_contribution_USDT": -33.52046991861769,
+      "scope": "PAIRED_MARKED_NAV_NOT_SUM_OF_INDEPENDENT_LONG_AND_SHORT_WALLETS"
+    }
+  ],
+  "secondary_raw_comparisons": [
+    {
+      "cost": "BASE27",
+      "unit": "RAW_AS_FRACTION",
+      "comparator": "XGB_LONG_SHORT",
+      "challenger": "XGB_TREND_GATED",
+      "net_delta_USDT": 657.5169770179766,
+      "DD_delta": -0.06792114838557572,
+      "vol_delta": -0.043595665792114484
+    },
+    {
+      "cost": "BASE27",
+      "unit": "RAW_AS_PERCENT",
+      "comparator": "XGB_LONG_SHORT",
+      "challenger": "XGB_TREND_GATED",
+      "net_delta_USDT": 661.7263024087497,
+      "DD_delta": -0.06829538870626706,
+      "vol_delta": -0.04363052514846989
+    },
+    {
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "comparator": "XGB_LONG_SHORT",
+      "challenger": "XGB_TREND_GATED",
+      "net_delta_USDT": 746.2092646109171,
+      "DD_delta": -0.07721883935255347,
+      "vol_delta": -0.04367012339602986
+    },
+    {
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "comparator": "XGB_LONG_SHORT",
+      "challenger": "XGB_TREND_GATED",
+      "net_delta_USDT": 750.3846243425018,
+      "DD_delta": -0.07756902761044893,
+      "vol_delta": -0.04370399358597517
+    }
+  ],
+  "asset_contributions": [
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": -11.958440269000363,
+      "fee": 12.768208512022264,
+      "execution": 18.571932000448793,
+      "funding": -0.09685241973312322,
+      "legs": 162,
+      "net": -43.39543320120454
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -11.829933061999512,
+      "fee": 12.72404593865099,
+      "execution": 18.50769561233521,
+      "funding": -0.4856961501402821,
+      "legs": 159,
+      "net": -43.547370763126
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": 49.51458628309972,
+      "fee": 11.603795670600471,
+      "execution": 16.878279937481356,
+      "funding": -0.019726480292711804,
+      "legs": 154,
+      "net": 21.01278419472518
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -97.14502972061155,
+      "fee": 11.069088908381623,
+      "execution": 16.10043078482698,
+      "funding": 1.0416575614631596,
+      "legs": 154,
+      "net": -123.27289185235699
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": 77.51591805125821,
+      "fee": 11.058589867529703,
+      "execution": 16.085271235685312,
+      "funding": -0.6100881727466614,
+      "legs": 150,
+      "net": 49.76196877529653
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": -152.7909660974209,
+      "fee": 12.962745011038498,
+      "execution": 18.854804048019506,
+      "funding": -0.8550851189907296,
+      "legs": 243,
+      "net": -185.46360027546962
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -255.87372946232585,
+      "fee": 11.155385584253604,
+      "execution": 16.225851636091132,
+      "funding": 0.838577492951364,
+      "legs": 290,
+      "net": -282.41638918971927
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": -34.89790769091945,
+      "fee": 12.811798185693252,
+      "execution": 18.63532048089289,
+      "funding": -0.3812681791630206,
+      "legs": 173,
+      "net": -66.7262945366686
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": -50.80325277563455,
+      "fee": 6.75942971119538,
+      "execution": 9.83197075156581,
+      "funding": 1.4362238022373515,
+      "legs": 369,
+      "net": -65.95842943615838
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -158.04498752611883,
+      "fee": 9.277375897699013,
+      "execution": 13.494303065027786,
+      "funding": 0.9895311083555384,
+      "legs": 339,
+      "net": -179.8271353804901
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": -11.948852641000158,
+      "fee": 12.767664968081712,
+      "execution": 18.5711413972168,
+      "funding": -0.0009684865460220165,
+      "legs": 162,
+      "net": -43.28862749284469
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -11.819232522599691,
+      "fee": 12.72350195929539,
+      "execution": 18.506904376484474,
+      "funding": -0.0048564076954382834,
+      "legs": 159,
+      "net": -43.05449526607499
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": 49.5258843793998,
+      "fee": 11.603349895189075,
+      "execution": 16.877631544113758,
+      "funding": -0.00019657229971036097,
+      "legs": 154,
+      "net": 21.044706367797254
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -97.13896059073569,
+      "fee": 11.068667856330865,
+      "execution": 16.09981834936465,
+      "funding": 0.010415775680345156,
+      "legs": 154,
+      "net": -124.29703102075086
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": 77.52396676175185,
+      "fee": 11.058057096606722,
+      "execution": 16.08449630131215,
+      "funding": -0.006100196702534714,
+      "legs": 150,
+      "net": 50.37531316713045
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": -152.77276680552598,
+      "fee": 12.962323214837324,
+      "execution": 18.854190537919898,
+      "funding": -0.00854942235038224,
+      "legs": 243,
+      "net": -184.59782998063355
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -255.8623933947011,
+      "fee": 11.154955681733126,
+      "execution": 16.225226330589138,
+      "funding": 0.008385453547096534,
+      "legs": 290,
+      "net": -283.23418995347623
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": -34.88423761239815,
+      "fee": 12.811372700097053,
+      "execution": 18.63470160150183,
+      "funding": -0.003812732219982896,
+      "legs": 173,
+      "net": -66.33412464621702
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": -50.80620853485891,
+      "fee": 6.759334375440452,
+      "execution": 9.831832051915791,
+      "funding": 0.014359977350301067,
+      "legs": 369,
+      "net": -67.38301498486486
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_BASE27_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -158.0423130704711,
+      "fee": 9.277254583368187,
+      "execution": 13.494126596329169,
+      "funding": 0.009894265259735753,
+      "legs": 339,
+      "net": -180.80379998490872
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": -11.806692403999861,
+      "fee": 12.667314389372416,
+      "execution": 36.85033890758719,
+      "funding": -0.09652358755848711,
+      "legs": 162,
+      "net": -61.42086928851795
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -10.946477621699799,
+      "fee": 12.61828599957338,
+      "execution": 36.707713066685265,
+      "funding": -0.48140393738882203,
+      "legs": 159,
+      "net": -60.753880625347264
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": 50.036797115400034,
+      "fee": 11.509640321242918,
+      "execution": 33.482718119634555,
+      "funding": -0.018152734662600582,
+      "legs": 154,
+      "net": 5.026285939859959
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -96.15069462659226,
+      "fee": 10.972187166621794,
+      "execution": 31.918843793485152,
+      "funding": 1.0318718552510118,
+      "legs": 153,
+      "net": -138.0098537314482
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": 78.16238970104024,
+      "fee": 10.966677617101162,
+      "execution": 31.903262254557387,
+      "funding": -0.6052557688674914,
+      "legs": 150,
+      "net": 34.68719406051419
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": -150.78336714933727,
+      "fee": 12.872664957897547,
+      "execution": 37.44736659937292,
+      "funding": -0.8456902222296833,
+      "legs": 242,
+      "net": -201.9490889288374
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -254.51332462334457,
+      "fee": 11.067950974784186,
+      "execution": 32.19702400889751,
+      "funding": 0.8375509142851675,
+      "legs": 289,
+      "net": -296.9407486927411
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": -34.14057888302197,
+      "fee": 12.704879891390897,
+      "execution": 36.95956319325523,
+      "funding": -0.3795034113947631,
+      "legs": 173,
+      "net": -84.18452537906286
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": -50.64994673038859,
+      "fee": 6.73058699544184,
+      "execution": 19.58017177711428,
+      "funding": 1.4184617847510876,
+      "legs": 369,
+      "net": -75.54224371819362
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -155.23677314050494,
+      "fee": 9.229288166681632,
+      "execution": 26.848593094968013,
+      "funding": 0.9766344923664969,
+      "legs": 337,
+      "net": -190.3380199097881
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": -11.797282856000038,
+      "fee": 12.666775179002215,
+      "execution": 36.848770319689606,
+      "funding": -0.0009652048557330232,
+      "legs": 162,
+      "net": -61.31379355954759
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -10.935844050499739,
+      "fee": 12.617746376543549,
+      "execution": 36.70614328145681,
+      "funding": -0.004813491464033179,
+      "legs": 159,
+      "net": -60.264547199964134
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": 50.04806226469967,
+      "fee": 11.50919868712145,
+      "execution": 33.481433394665444,
+      "funding": -0.00018084216624502926,
+      "legs": 154,
+      "net": 5.057249340746523
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -96.14493566921476,
+      "fee": 10.971753163674725,
+      "execution": 31.917581254200247,
+      "funding": 0.010317954314289036,
+      "legs": 153,
+      "net": -139.02395213277543
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": 78.17037923395783,
+      "fee": 10.96614953810589,
+      "execution": 31.90172604520617,
+      "funding": -0.006051880137924088,
+      "legs": 150,
+      "net": 35.296451770507836
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": -150.76423480142688,
+      "fee": 12.872261218843663,
+      "execution": 37.44619213474048,
+      "funding": -0.008455488458192651,
+      "legs": 242,
+      "net": -201.09114364346922
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -254.501712635438,
+      "fee": 11.067526574012952,
+      "execution": 32.19578941819878,
+      "funding": 0.008375137319957017,
+      "legs": 289,
+      "net": -297.75665349032977
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": -34.12776134493343,
+      "fee": 12.704330523149755,
+      "execution": 36.95796506391207,
+      "funding": -0.0037949722893524207,
+      "legs": 173,
+      "net": -83.79385190428461
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": -50.65424743175021,
+      "fee": 6.730497590798378,
+      "execution": 19.579911570842466,
+      "funding": 0.014182391596465057,
+      "legs": 369,
+      "net": -76.95047420179459
+    },
+    {
+      "case_id": "XGB_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -155.24058501974923,
+      "fee": 9.229256716719643,
+      "execution": 26.848501542073993,
+      "funding": 0.009765501348979954,
+      "legs": 337,
+      "net": -191.30857777719388
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 5.360533330999942,
+      "fee": 2.762221428762585,
+      "execution": 4.017780054396001,
+      "funding": 0.2221270313448145,
+      "legs": 32,
+      "net": -1.1973411208138287
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": 16.575204698300013,
+      "fee": 1.593179219094288,
+      "execution": 2.3173621995408804,
+      "funding": 0.10762668065781503,
+      "legs": 26,
+      "net": 12.772289960322658
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -16.373252139199977,
+      "fee": 1.2068509450230813,
+      "execution": 1.7554090775158402,
+      "funding": -0.006230011609979245,
+      "legs": 20,
+      "net": -19.341742173348877
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": 15.686662533689855,
+      "fee": 1.7571887065203637,
+      "execution": 2.555920885311822,
+      "funding": 0.14467497202089757,
+      "legs": 28,
+      "net": 11.518227913878567
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -2.7590795670069213,
+      "fee": 2.2172520468737233,
+      "execution": 3.2250921205508565,
+      "funding": -0.18538366278000282,
+      "legs": 26,
+      "net": -8.386807397211504
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": -18.4161795849961,
+      "fee": 2.1696409124992515,
+      "execution": 3.155829540916705,
+      "funding": -0.2004138778452474,
+      "legs": 40,
+      "net": -23.942063916257304
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -23.522410885324057,
+      "fee": 2.2163810785387232,
+      "execution": 3.223811968986086,
+      "funding": 0.2655774234137055,
+      "legs": 66,
+      "net": -28.69702650943516
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 16.18315359170782,
+      "fee": 1.7706373056014126,
+      "execution": 2.5754828017294433,
+      "funding": 0.11244235569080217,
+      "legs": 29,
+      "net": 11.949475840067768
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 11.020067019108922,
+      "fee": 1.9236456523507537,
+      "execution": 2.7981127199607165,
+      "funding": 0.516568208306739,
+      "legs": 132,
+      "net": 6.814876855104191
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -2.7312164056143757,
+      "fee": 2.3884491590653973,
+      "execution": 3.474152591929705,
+      "funding": 0.2972600633854288,
+      "legs": 104,
+      "net": -8.29655809322405
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 5.3599118829998815,
+      "fee": 2.7621156535596216,
+      "execution": 4.0176261991576006,
+      "funding": 0.002221169617500407,
+      "legs": 32,
+      "net": -1.4176088000998401
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": 16.575065484500044,
+      "fee": 1.593105498724032,
+      "execution": 2.31725496982232,
+      "funding": 0.001076198457756763,
+      "legs": 26,
+      "net": 12.665781214411448
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -16.371966491399945,
+      "fee": 1.206787394377286,
+      "execution": 1.75531664103568,
+      "funding": -6.229882478816071e-05,
+      "legs": 20,
+      "net": -19.3341328256377
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": 15.685508591239113,
+      "fee": 1.7570837535939106,
+      "execution": 2.555768225771186,
+      "funding": 0.0014466631210408836,
+      "legs": 28,
+      "net": 11.374103274995058
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -2.7583926765778983,
+      "fee": 2.217163078362793,
+      "execution": 3.2249627122472946,
+      "funding": -0.0018538156598999155,
+      "legs": 26,
+      "net": -8.202372282847886
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": -18.417149514473017,
+      "fee": 2.1695451306813496,
+      "execution": 3.1556902212880913,
+      "funding": -0.0020039856771478562,
+      "legs": 40,
+      "net": -23.744388852119606
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -23.522749680737967,
+      "fee": 2.2162924920332507,
+      "execution": 3.223683115670387,
+      "funding": 0.002655717702861691,
+      "legs": 66,
+      "net": -28.960069570738742
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 16.182510235118798,
+      "fee": 1.7705618801120506,
+      "execution": 2.5753730915149875,
+      "funding": 0.0011243688384290418,
+      "legs": 29,
+      "net": 11.837699632330189
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 11.022677302892475,
+      "fee": 1.9235832586173602,
+      "execution": 2.7980219671099986,
+      "funding": 0.005165537256090321,
+      "legs": 132,
+      "net": 6.306237614421208
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -2.7292942915473333,
+      "fee": 2.388365459822507,
+      "execution": 3.4740308395761366,
+      "funding": 0.0029724651132661947,
+      "legs": 104,
+      "net": -8.58871812583271
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 5.337466328999938,
+      "fee": 2.7588070766040813,
+      "execution": 8.0256342503984,
+      "funding": 0.22178835375327624,
+      "legs": 32,
+      "net": -5.225186644249268
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": 16.568613353300037,
+      "fee": 1.590787379382704,
+      "execution": 4.627787519308961,
+      "funding": 0.10742135198035103,
+      "legs": 26,
+      "net": 10.457459806588725
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -16.340441178799963,
+      "fee": 1.2050355186903472,
+      "execution": 3.5055160410243196,
+      "funding": -0.006244214418885216,
+      "legs": 20,
+      "net": -21.057236952933515
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": 15.656393148563708,
+      "fee": 1.7540491261592437,
+      "execution": 5.102728447375169,
+      "funding": 0.14436460838980145,
+      "legs": 28,
+      "net": 8.943980183419098
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -2.750397392442892,
+      "fee": 2.2148916139861266,
+      "execution": 6.443314017851407,
+      "funding": -0.18537275562021108,
+      "legs": 26,
+      "net": -11.593975779900635
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": -18.45337830487498,
+      "fee": 2.166855102021166,
+      "execution": 6.303531237958567,
+      "funding": -0.19998226157116422,
+      "legs": 40,
+      "net": -27.12374690642588
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -23.527303096860987,
+      "fee": 2.213598340516497,
+      "execution": 6.4394985788793395,
+      "funding": 0.26537600258797917,
+      "legs": 66,
+      "net": -31.915024013668848
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 16.166935759049096,
+      "fee": 1.7681698369545187,
+      "execution": 5.1438081857686875,
+      "funding": 0.1122343377260663,
+      "legs": 29,
+      "net": 9.367192074051957
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 11.073595383666657,
+      "fee": 1.9219651928335144,
+      "execution": 5.59150232780495,
+      "funding": 0.5161996053034452,
+      "legs": 131,
+      "net": 4.0763274683316375
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -2.7106364064257065,
+      "fee": 2.3861264426344877,
+      "execution": 6.941636800858897,
+      "funding": 0.296809219204359,
+      "legs": 104,
+      "net": -11.741590430714734
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 5.336885511999839,
+      "fee": 2.7587014500326483,
+      "execution": 8.025326971612799,
+      "funding": 0.0022177828066016225,
+      "legs": 32,
+      "net": -5.444925126839006
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": 16.568474035400016,
+      "fee": 1.5907137265080287,
+      "execution": 4.62757325604416,
+      "funding": 0.001074145236519325,
+      "legs": 26,
+      "net": 10.351261198084346
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -16.339157445699968,
+      "fee": 1.2049720667900372,
+      "execution": 3.5053314569643197,
+      "funding": -6.244084866688684e-05,
+      "legs": 20,
+      "net": -21.049523410302992
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": 15.655241541389984,
+      "fee": 1.7539443511872046,
+      "execution": 5.102423644508395,
+      "funding": 0.0014435596381745387,
+      "legs": 28,
+      "net": 8.800317105332558
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -2.749711490070041,
+      "fee": 2.214802758405764,
+      "execution": 6.443055530646263,
+      "funding": -0.0018537065518585646,
+      "legs": 26,
+      "net": -11.409423485673926
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": -18.45434717356393,
+      "fee": 2.1667594721873416,
+      "execution": 6.303253039598046,
+      "funding": -0.001999669727776652,
+      "legs": 40,
+      "net": -26.926359355077096
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -23.527641016974098,
+      "fee": 2.213509898842031,
+      "execution": 6.4392412931430885,
+      "funding": 0.002653703567771755,
+      "legs": 66,
+      "net": -32.177738505391446
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 16.166293400263243,
+      "fee": 1.768094526863266,
+      "execution": 5.143589100222424,
+      "funding": 0.001122288752269315,
+      "legs": 29,
+      "net": 9.255732061929821
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 11.076200983417351,
+      "fee": 1.921902901681913,
+      "execution": 5.5913211238524445,
+      "funding": 0.005161884968498856,
+      "legs": 131,
+      "net": 3.568138842851493
+    },
+    {
+      "case_id": "XGB_REGIME_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -2.7087181140049097,
+      "fee": 2.3860428882451,
+      "execution": 6.941393701612673,
+      "funding": 0.002967956889700206,
+      "legs": 104,
+      "net": -12.033186746972984
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 31.514760570999997,
+      "fee": 0.31184012945609874,
+      "execution": 0.4536058122920001,
+      "funding": -1.113838576638546,
+      "legs": 47,
+      "net": 29.635476052613352
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": 28.506916015100003,
+      "fee": 0.35563151710299834,
+      "execution": 0.51730045112152,
+      "funding": -1.3504043873717069,
+      "legs": 46,
+      "net": 26.283579659503776
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": 26.540530544599946,
+      "fee": 0.36552296349303043,
+      "execution": 0.53168675102032,
+      "funding": -0.12821138801389598,
+      "legs": 45,
+      "net": 25.5151094420727
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": 51.704644906872105,
+      "fee": 0.43444853005125095,
+      "execution": 0.6319582255927417,
+      "funding": -1.1210273693497745,
+      "legs": 53,
+      "net": 49.51721078187834
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": 31.622555579148994,
+      "fee": 0.36617603297121853,
+      "execution": 0.5326399227573433,
+      "funding": -0.608261400239605,
+      "legs": 48,
+      "net": 30.115478223180826
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 91.29544245120698,
+      "fee": 0.5316847778539416,
+      "execution": 0.7734181059616296,
+      "funding": 0.4163361597149575,
+      "legs": 62,
+      "net": 90.40667572710638
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": 4.800372296359111,
+      "fee": 0.4601660432661622,
+      "execution": 0.6693343138687665,
+      "funding": -1.2266338687192027,
+      "legs": 61,
+      "net": 2.444238070504979
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 3.035133458096567,
+      "fee": 0.3821626785951257,
+      "execution": 0.5558749295328687,
+      "funding": -1.3346997566657297,
+      "legs": 43,
+      "net": 0.7623960933028431
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": -96.77663226462886,
+      "fee": 0.4089590294505826,
+      "execution": 0.5947096982282661,
+      "funding": -1.9845144351787087,
+      "legs": 66,
+      "net": -99.76481542748643
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -22.15229202939662,
+      "fee": 0.4059453598597843,
+      "execution": 0.5904074563264563,
+      "funding": -1.5140350816092616,
+      "legs": 63,
+      "net": -24.662679927192123
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 31.52415926400002,
+      "fee": 0.3119576634067238,
+      "execution": 0.4537767767808,
+      "funding": -0.011143761204203568,
+      "legs": 46,
+      "net": 30.747281062608295
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": 28.521696384499975,
+      "fee": 0.35574440629188575,
+      "execution": 0.51746466303752,
+      "funding": -0.013511223814044465,
+      "legs": 46,
+      "net": 27.634976091356524
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": 26.54679296839997,
+      "fee": 0.365652329823784,
+      "execution": 0.53187492423664,
+      "funding": -0.0012850900361085881,
+      "legs": 45,
+      "net": 25.647980624303436
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": 51.71585498365795,
+      "fee": 0.43459826740813157,
+      "execution": 0.632176032559017,
+      "funding": -0.011216424555011454,
+      "legs": 53,
+      "net": 50.63786425913579
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": 31.624418397930057,
+      "fee": 0.36629170201724187,
+      "execution": 0.5328081698346719,
+      "funding": -0.0060891167696554204,
+      "legs": 48,
+      "net": 30.719229409308486
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 91.335461161594,
+      "fee": 0.5318847229792265,
+      "execution": 0.7737089608467458,
+      "funding": 0.004167107080617843,
+      "legs": 62,
+      "net": 90.03403458484864
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": 4.79696867267499,
+      "fee": 0.46028804627505904,
+      "execution": 0.6695116892094403,
+      "funding": -0.012268667033143848,
+      "legs": 61,
+      "net": 3.654900270157347
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 3.026021572972354,
+      "fee": 0.38230495195170106,
+      "execution": 0.5560818667653719,
+      "funding": -0.013353510184790323,
+      "legs": 43,
+      "net": 2.074281244070491
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": -96.79409760346455,
+      "fee": 0.4090602860477887,
+      "execution": 0.5948568973116052,
+      "funding": -0.019851672277874773,
+      "legs": 66,
+      "net": -97.81786645910182
+    },
+    {
+      "case_id": "HOLD_BASE27_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -22.15906694126113,
+      "fee": 0.40601441417043227,
+      "execution": 0.590507821277248,
+      "funding": -0.015146834425287813,
+      "legs": 63,
+      "net": -23.1707360111341
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 31.507498211999945,
+      "fee": 0.3117551923039734,
+      "execution": 0.9070048549888,
+      "funding": -1.1134654650699067,
+      "legs": 47,
+      "net": 29.175272699637265
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": 28.496670517999988,
+      "fee": 0.3555353392737141,
+      "execution": 1.03435757481824,
+      "funding": -1.3499463687539737,
+      "legs": 46,
+      "net": 25.75683123515406
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": 26.5348047385,
+      "fee": 0.3654297782180751,
+      "execution": 1.0631363748254399,
+      "funding": -0.12808905926907607,
+      "legs": 45,
+      "net": 24.97814952618741
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": 51.69973080192062,
+      "fee": 0.4343143591143391,
+      "execution": 1.2635923050980207,
+      "funding": -1.1206268295274555,
+      "legs": 53,
+      "net": 48.88119730818081
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": 31.617860692622997,
+      "fee": 0.36608402540281043,
+      "execution": 1.0650526519860946,
+      "funding": -0.6079293710063908,
+      "legs": 48,
+      "net": 29.578794644227703
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 91.26484346769195,
+      "fee": 0.5315112319870857,
+      "execution": 1.5464481310526177,
+      "funding": 0.41615335558295496,
+      "legs": 62,
+      "net": 89.6030374602352
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": 4.797562535784857,
+      "fee": 0.46007948473390153,
+      "execution": 1.3384207527889649,
+      "funding": -1.2263457268417775,
+      "legs": 61,
+      "net": 1.772716571420213
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 3.0363715482822613,
+      "fee": 0.382070267153855,
+      "execution": 1.1114849139223781,
+      "funding": -1.334257276769437,
+      "legs": 43,
+      "net": 0.20855909043659104
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": -96.75861310351299,
+      "fee": 0.40897327127206906,
+      "execution": 1.1891814256691269,
+      "funding": -1.983975317045272,
+      "legs": 66,
+      "net": -100.34074311749947
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": -22.151414610878987,
+      "fee": 0.405906444232109,
+      "execution": 1.180584815822448,
+      "funding": -1.5135594311402596,
+      "legs": 63,
+      "net": -25.251465302073804
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 31.516917835000015,
+      "fee": 0.31187275461455516,
+      "execution": 0.907346878552,
+      "funding": -0.011140042161823158,
+      "legs": 47,
+      "net": 30.286558159671635
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": 28.511446487300006,
+      "fee": 0.3556483850541161,
+      "execution": 1.0346864730968,
+      "funding": -0.013506649603776769,
+      "legs": 46,
+      "net": 27.10760497954531
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": 26.54107523399999,
+      "fee": 0.36555943824456405,
+      "execution": 1.06351358368224,
+      "funding": -0.0012838707936196124,
+      "legs": 45,
+      "net": 25.110718341279565
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": 51.70282717983986,
+      "fee": 0.43446887247894006,
+      "execution": 1.2640418064490426,
+      "funding": -0.011212423141242574,
+      "legs": 53,
+      "net": 49.99310407777063
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": 31.619732120646063,
+      "fee": 0.36619980055456314,
+      "execution": 1.0653894572184126,
+      "funding": -0.006085803216914975,
+      "legs": 48,
+      "net": 30.18205705965617
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 91.304863802149,
+      "fee": 0.5317114975223247,
+      "execution": 1.547030824152642,
+      "funding": 0.004165286967708266,
+      "legs": 62,
+      "net": 89.23028676744174
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": 4.821576306466785,
+      "fee": 0.46018663226678425,
+      "execution": 1.338732190061816,
+      "funding": -0.012265783176092214,
+      "legs": 61,
+      "net": 3.010391700962092
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 3.0272322800272775,
+      "fee": 0.3822128360738707,
+      "execution": 1.111899636474988,
+      "funding": -0.013349090699547728,
+      "legs": 43,
+      "net": 1.5197707167788712
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": -96.77609146084396,
+      "fee": 0.4090747676405165,
+      "execution": 1.1894763543624667,
+      "funding": -0.01984628824656534,
+      "legs": 66,
+      "net": -98.39448887109351
+    },
+    {
+      "case_id": "HOLD_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": -22.158204730994868,
+      "fee": 0.4059757168579752,
+      "execution": 1.180786024933008,
+      "funding": -0.015142082118012748,
+      "legs": 63,
+      "net": -23.76010855490386
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 82.37912345699979,
+      "fee": 0.719953762728329,
+      "execution": 1.0472581956984,
+      "funding": -1.988343584922079,
+      "legs": 25,
+      "net": 78.62356791365099
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -88.3535341265,
+      "fee": 0.6491981112318906,
+      "execution": 0.94423161553,
+      "funding": -0.8177679399778166,
+      "legs": 6,
+      "net": -90.7647317932397
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -55.60618524380004,
+      "fee": 0.7020868640598974,
+      "execution": 1.0211816688558402,
+      "funding": -0.6300975499231408,
+      "legs": 13,
+      "net": -57.95955132663892
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -89.98325428570973,
+      "fee": 0.3517071233216138,
+      "execution": 0.511516408275968,
+      "funding": -0.42497877863904976,
+      "legs": 6,
+      "net": -91.27145659594636
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -191.8968756346889,
+      "fee": 1.6526256732608549,
+      "execution": 2.403696347106292,
+      "funding": -0.018431943040776486,
+      "legs": 37,
+      "net": -195.97162959809683
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 82.36605409400019,
+      "fee": 0.7198763696006986,
+      "execution": 1.047145615512,
+      "funding": -0.019883933859866285,
+      "legs": 25,
+      "net": 80.57914817502763
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -88.38243980870016,
+      "fee": 0.6494145005164009,
+      "execution": 0.94454634508056,
+      "funding": -0.008180403528358377,
+      "legs": 6,
+      "net": -89.98458105782547
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -55.61312759070006,
+      "fee": 0.7020898887407749,
+      "execution": 1.02118606394856,
+      "funding": -0.00630136550237139,
+      "legs": 13,
+      "net": -57.34270490889177
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -90.00396842842264,
+      "fee": 0.3517760406765358,
+      "execution": 0.5116166384442579,
+      "funding": -0.0042506907785493505,
+      "legs": 6,
+      "net": -90.87161179832198
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -191.90346856886794,
+      "fee": 1.652533621083605,
+      "execution": 2.403562448810814,
+      "funding": -0.00018565142068104808,
+      "legs": 37,
+      "net": -195.95975029018302
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_BASE27_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": 82.36195438599972,
+      "fee": 0.7197803547808403,
+      "execution": 2.0941173332383998,
+      "funding": -1.9877628713140263,
+      "legs": 25,
+      "net": 77.56029382666645
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -88.30610560280013,
+      "fee": 0.6488758667312704,
+      "execution": 1.88741282140608,
+      "funding": -0.8173233599362048,
+      "legs": 6,
+      "net": -91.65971765087369
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -55.58730337410003,
+      "fee": 0.7019003230857743,
+      "execution": 2.0417495454801604,
+      "funding": -0.62990808360204,
+      "legs": 13,
+      "net": -58.960861326268
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -89.95036636349204,
+      "fee": 0.35160682086996786,
+      "execution": 1.0226259332292886,
+      "funding": -0.42481677091830916,
+      "legs": 6,
+      "net": -91.7494158885096
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -191.880300115414,
+      "fee": 1.652444846945994,
+      "execution": 4.8066210684564155,
+      "funding": -0.01808172343935663,
+      "legs": 37,
+      "net": -198.3574477542558
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": 82.34879600400026,
+      "fee": 0.7197029185216164,
+      "execution": 2.0938920304351996,
+      "funding": -0.019878130947391277,
+      "legs": 25,
+      "net": 79.51532292409605
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -88.33499818870007,
+      "fee": 0.649092183780591,
+      "execution": 1.88804203340272,
+      "funding": -0.008175956511600005,
+      "legs": 6,
+      "net": -90.88030836239498
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -55.594243267200056,
+      "fee": 0.7019033544360351,
+      "execution": 2.04175834618752,
+      "funding": -0.006299470776561162,
+      "legs": 13,
+      "net": -58.34420443860017
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -89.97107483235459,
+      "fee": 0.3516757281356394,
+      "execution": 1.022826337715744,
+      "funding": -0.004249070451622212,
+      "legs": 6,
+      "net": -91.3498259686576
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -191.88689067881882,
+      "fee": 1.6523528156184233,
+      "execution": 4.806353324086183,
+      "funding": -0.0001821490239037231,
+      "legs": 37,
+      "net": -198.34577896754735
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "DONCHIAN_EXIT10_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": 0.0,
+      "fee": 0.0,
+      "execution": 0.0,
+      "funding": 0.0,
+      "legs": 0,
+      "net": 0.0
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": -11.879770091000012,
+      "fee": 6.234425215585089,
+      "execution": 9.06824725598,
+      "funding": -0.18250191361788917,
+      "legs": 57,
+      "net": -27.36494447618299
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -3.0436258988999043,
+      "fee": 4.911608173898811,
+      "execution": 7.144155395932242,
+      "funding": -0.5584578765293322,
+      "legs": 54,
+      "net": -15.65784734526029
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -27.97647343730023,
+      "fee": 5.524954566544627,
+      "execution": 8.036279646394641,
+      "funding": -0.40983471480455064,
+      "legs": 54,
+      "net": -41.94754236504405
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -38.17048273801096,
+      "fee": 2.5129771429027596,
+      "execution": 3.6552150514768806,
+      "funding": 0.017734955082511997,
+      "legs": 39,
+      "net": -44.32093997730809
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -58.00199175541604,
+      "fee": 6.03734014976899,
+      "execution": 8.781548551116533,
+      "funding": -1.1031262621119287,
+      "legs": 57,
+      "net": -73.9240067184135
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 11.358722394089938,
+      "fee": 3.041586348863112,
+      "execution": 4.424132867928676,
+      "funding": -0.2928451520743317,
+      "legs": 54,
+      "net": 3.600158025223819
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -35.76170156074093,
+      "fee": 4.300297652470819,
+      "execution": 6.254955516104921,
+      "funding": -0.20882252745545465,
+      "legs": 103,
+      "net": -46.52577725677212
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": -22.661372765117868,
+      "fee": 4.175688000440865,
+      "execution": 6.073713497362688,
+      "funding": -0.3005232626727378,
+      "legs": 56,
+      "net": -33.21129752559416
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 20.56482650459612,
+      "fee": 2.981331032164861,
+      "execution": 4.336494662819667,
+      "funding": 0.5564498703114085,
+      "legs": 147,
+      "net": 13.803450679923
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": 10.263244278180254,
+      "fee": 2.838459645792912,
+      "execution": 4.128675144175119,
+      "funding": -0.06317717597911315,
+      "legs": 118,
+      "net": 3.23293231223311
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": -11.880359612999726,
+      "fee": 6.23451192425968,
+      "execution": 9.068373377311199,
+      "funding": -0.001825563942635621,
+      "legs": 57,
+      "net": -27.185070478513236
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -3.0453212327998926,
+      "fee": 4.9119059113122825,
+      "execution": 7.144588467448639,
+      "funding": -0.005585234501273685,
+      "legs": 54,
+      "net": -15.107400846062086
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -27.974718714100163,
+      "fee": 5.5252711984880705,
+      "execution": 8.03674020307176,
+      "funding": -0.004098678665113449,
+      "legs": 54,
+      "net": -41.54082879432511
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -38.1757997455437,
+      "fee": 2.5129288936840344,
+      "execution": 3.6551448673922144,
+      "funding": 0.00017727259066369487,
+      "legs": 39,
+      "net": -44.34369623402929
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -57.99876471448795,
+      "fee": 6.037753337749198,
+      "execution": 8.782149553880323,
+      "funding": -0.011032376633197602,
+      "legs": 57,
+      "net": -72.82969998275065
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 11.343730177813882,
+      "fee": 3.041525344198284,
+      "execution": 4.424044124275728,
+      "funding": -0.0029282056020177643,
+      "legs": 54,
+      "net": 3.875232503737852
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -35.771690896327044,
+      "fee": 4.300140871864919,
+      "execution": 6.254727465194075,
+      "funding": -0.0020879350136829814,
+      "legs": 103,
+      "net": -46.32864716839972
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": -22.664778240106152,
+      "fee": 4.1757752416986085,
+      "execution": 6.073840391558085,
+      "funding": -0.003005376959467116,
+      "legs": 56,
+      "net": -32.91739925032231
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 20.56031481822719,
+      "fee": 2.9812374345357977,
+      "execution": 4.336358517926276,
+      "funding": 0.005564471683205747,
+      "legs": 147,
+      "net": 13.248283337448322
+    },
+    {
+      "case_id": "XGB_TREND_GATED_BASE27_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": 10.25009948145013,
+      "fee": 2.838417793324247,
+      "execution": 4.128614259444389,
+      "funding": -0.0006319015581742446,
+      "legs": 118,
+      "net": 3.2824355271233197
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "BTCUSDT",
+      "gross": -11.913602750999814,
+      "fee": 6.21806896398567,
+      "execution": 18.088897396407997,
+      "funding": -0.18099145210849016,
+      "legs": 57,
+      "net": -36.401560563501974
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ETHUSDT",
+      "gross": -3.055754208200028,
+      "fee": 4.893066817123503,
+      "execution": 14.2343683725376,
+      "funding": -0.5557143231331602,
+      "legs": 54,
+      "net": -22.73890372099429
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "SOLUSDT",
+      "gross": -27.912747914200054,
+      "fee": 5.503939562238514,
+      "execution": 16.0113890880592,
+      "funding": -0.4081467498741593,
+      "legs": 54,
+      "net": -49.83622331437193
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000PEPEUSDT",
+      "gross": -38.03289267271384,
+      "fee": 2.507271727493743,
+      "execution": 7.293784024867467,
+      "funding": 0.01785539226788069,
+      "legs": 39,
+      "net": -47.81609303280717
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "XRPUSDT",
+      "gross": -57.99900287553419,
+      "fee": 6.016115285108596,
+      "execution": 17.50127780650492,
+      "funding": -1.0984640199533406,
+      "legs": 57,
+      "net": -82.61485998710104
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WIFUSDT",
+      "gross": 11.418298890144968,
+      "fee": 3.0337696089876722,
+      "execution": 8.82554082062748,
+      "funding": -0.29192091629945116,
+      "legs": 54,
+      "net": -0.7329324557696366
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "WLDUSDT",
+      "gross": -35.670762422451986,
+      "fee": 4.291994010907582,
+      "execution": 12.485709441852075,
+      "funding": -0.20758900052180224,
+      "legs": 103,
+      "net": -52.65605487573344
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "DOGEUSDT",
+      "gross": -22.56417589617925,
+      "fee": 4.161843881196501,
+      "execution": 12.107124435554072,
+      "funding": -0.2992053013462128,
+      "legs": 56,
+      "net": -39.13234951427604
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "1000SATSUSDT",
+      "gross": 20.61406669148102,
+      "fee": 2.9784570931951357,
+      "execution": 8.664655224942036,
+      "funding": 0.5558854025981416,
+      "legs": 147,
+      "net": 9.52683977594199
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_FRACTION",
+      "symbol": "ORDIUSDT",
+      "gross": 10.324195420950213,
+      "fee": 2.8333926437923234,
+      "execution": 8.24262321188158,
+      "funding": -0.06252753930787346,
+      "legs": 118,
+      "net": -0.8143479740315647
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "BTCUSDT",
+      "gross": -11.91425490500012,
+      "fee": 6.218152526260868,
+      "execution": 18.0891404849936,
+      "funding": -0.0018104605336214216,
+      "legs": 57,
+      "net": -36.223358376788205
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ETHUSDT",
+      "gross": -3.0574431722999975,
+      "fee": 4.893362263383316,
+      "execution": 14.235227848242397,
+      "funding": -0.005557795373552829,
+      "legs": 54,
+      "net": -22.19159107929926
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "SOLUSDT",
+      "gross": -27.910997740000028,
+      "fee": 5.504253668185571,
+      "execution": 16.012302855294724,
+      "funding": -0.004081796835288448,
+      "legs": 54,
+      "net": -49.431636060315604
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000PEPEUSDT",
+      "gross": -38.03818058160205,
+      "fee": 2.5072231289596543,
+      "execution": 7.293642633776704,
+      "funding": 0.0001784772322405964,
+      "legs": 39,
+      "net": -47.83886786710617
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "XRPUSDT",
+      "gross": -57.99579564449789,
+      "fee": 6.016525125006796,
+      "execution": 17.50247007623746,
+      "funding": -0.01098574614092054,
+      "legs": 57,
+      "net": -81.52577659188306
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WIFUSDT",
+      "gross": 11.403368550008082,
+      "fee": 3.033708290464647,
+      "execution": 8.825362401247915,
+      "funding": -0.002918963760429134,
+      "legs": 54,
+      "net": -0.4586211054649089
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "WLDUSDT",
+      "gross": -35.68071556759608,
+      "fee": 4.291837182045625,
+      "execution": 12.485253186955426,
+      "funding": -0.002075600347291798,
+      "legs": 103,
+      "net": -52.45988153694442
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "DOGEUSDT",
+      "gross": -22.56756518888474,
+      "fee": 4.161929886482026,
+      "execution": 12.107374624071742,
+      "funding": -0.0029921958182387615,
+      "legs": 56,
+      "net": -38.839861895256746
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "1000SATSUSDT",
+      "gross": 20.607531370929117,
+      "fee": 2.9783713978325617,
+      "execution": 8.664405912611395,
+      "funding": 0.005558882126329434,
+      "legs": 147,
+      "net": 8.970312942611491
+    },
+    {
+      "case_id": "XGB_TREND_GATED_STRESS43_RAW_AS_PERCENT",
+      "symbol": "ORDIUSDT",
+      "gross": 10.311089896230191,
+      "fee": 2.833350576375075,
+      "execution": 8.242500800390351,
+      "funding": -0.0006254046197465534,
+      "legs": 118,
+      "net": -0.7653868851549813
+    }
+  ],
+  "decision": "PAUSE_THIS_FIXED_RECIPE",
+  "qualified_investment": "NONE/CASH",
+  "long_term_APR": "NOT_EVALUABLE",
+  "bear_short_positive_in_all_conditional_scenarios": false,
+  "short_alpha_qualified": false,
+  "learned_regime_HMM": "NOT_RUN",
+  "learned_regime_clustering": "REUSED_GMM_CONTROL_NO_NEW_FIT",
+  "meta_labeling": "NOT_RUN",
+  "new_unseen_evidence": false,
+  "derivative_features": {
+    "funding": "EXCLUDED_PUBLICATION_AND_UNIT_UNKNOWN",
+    "basis": "NOT_AVAILABLE_CERTIFIED_INDEX_BASIS",
+    "open_interest": "NOT_IN_ACCEPTED_INPUTS"
+  },
+  "classification": {
+    "VALIDATION": {
+      "accuracy": 0.4642857142857143,
+      "log_loss": 0.8777048587799072,
+      "confusion_SHORT_CASH_LONG": [
+        [
+          128,
+          0,
+          142
+        ],
+        [
+          14,
+          0,
+          7
+        ],
+        [
+          137,
+          0,
+          132
+        ]
+      ],
+      "predictions": {
+        "SHORT": 279,
+        "CASH": 0,
+        "LONG": 281
+      },
+      "missing_future_labels": 0,
+      "role": "DIAGNOSTIC_NOT_ADOPTION_METRIC"
+    },
+    "ECONOMICS": {
+      "accuracy": 0.47435897435897434,
+      "log_loss": 0.8661078214645386,
+      "confusion_SHORT_CASH_LONG": [
+        [
+          331,
+          0,
+          283
+        ],
+        [
+          29,
+          0,
+          17
+        ],
+        [
+          286,
+          0,
+          224
+        ]
+      ],
+      "predictions": {
+        "SHORT": 690,
+        "CASH": 0,
+        "LONG": 530
+      },
+      "missing_future_labels": 50,
+      "role": "DIAGNOSTIC_NOT_ADOPTION_METRIC"
+    }
+  },
+  "resources": {
+    "elapsed_seconds": 337.8372835200007,
+    "peak_RSS_bytes": 565260288,
+    "shared_RAM_sampled_peak_bytes": 1256304640,
+    "owned_bytes": 78333339,
+    "GPU_hours": 0.0,
+    "disk_before": {
+      "project_bytes": 4499862397,
+      "wsl_vhd_bytes": 25387073536,
+      "total_bytes": 29886935933,
+      "reserved_bytes": 250000000,
+      "d_free_bytes": 351467995136,
+      "status": "OK",
+      "hard_limit_bytes": 40000000000,
+      "measured_utc": "2026-10-05T09:17:18.322126+00:00"
+    }
+  },
+  "resource_peak_scope": "PROCESS_RSS_AND_PER_RUN_SHARED_SAMPLES_NOT_RESET_KERNEL_LIFETIME_PEAK",
+  "maximum_independent_NAV_error_USDT": 1.8189894035458565e-12,
+  "maximum_independent_wallet_error_USDT": 1.8189894035458565e-12,
+  "original_failure_preserved": null,
+  "created_utc": "2026-10-05T09:22:54.148437+00:00"
+}

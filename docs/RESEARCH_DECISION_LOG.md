@@ -1316,3 +1316,12 @@ D086连续Mar–Jun2025共122日、10币同资本10k，完成16账户。BASE27/R
 采用：正常状态门控能力；保留GMM防御性研究组件；暂停其熊市short-alpha配方和原argmax方向配方。reopen：不同可得信息或状态机制在固定成本下产生可信净short增量/风险收益改善，并补足独立证据；不以换seed/调后验阈值重跑。投资候选仍NONE/CASH；元标签未运行，锁集未动，proxy与未知funding单位仍阻止晋级。
 
 下一有限主任务是同一固定XGB的绝对过去趋势门控对照：用已有BTC SMA200/20d状态替代相对GMM状态，保留同账户、日期、成本和caps，最多新增4个账户、零direction fit/零搜索。本轮GMM全窗BULL=0，无法分辨过滤错误牛市空头与长期排除全部多头；此对照优先排除状态语义/覆盖错误，之后再决定是否值得做共享execute/reject meta-labeling。状态不是收益真值，过去BEAR桶中的short也不保证赚钱，不据结果改规则。
+
+
+## D087 — direction regime comparison, 2026-10-05
+
+D087固定既有过去BTC SMA200/20d状态，新增4个连续122日10币共享账户；16个D086对照按报告/全部artifacts SHA复用，不重跑或拼接钱包。BASE27/RAW_AS_PERCENT：固定趋势门控净-259.85，GMM净-48.06，未门控净-921.57USDT。新配方毛-155.36，费用/执行104.46，funding -0.03；LONG贡献-303.11、SHORT贡献43.26，BEAR桶SHORT -19.90，归因不是独立short账户收益。固定/GMM分钟DD 5.20%/2.13%，实际vol 5.44%/4.27%，平均gross 4.41%/2.12%。HOLD 140.16、Donchian -353.58；固定状态BULL56/BEAR25/SIDEWAYS41/CRASH0。预先配对决定 PAUSE_THIS_FIXED_RECIPE；新4情景SHORT均正=True，没有新unseen证据。所有新fit=0，2项新状态回归fit=0；全1220行预测及旧3方向目标精确golden，独立新目标/分钟NAV/钱包验收通过。
+
+采用门控能力，保留GMM防御参照；本固定双向趋势配方 PAUSE_THIS_FIXED_RECIPE，未晋级投资。有成本后正SHORT归因只支持下一独立short反事实，不证明可投资alpha。暂停配方reopen需不同可得机制带来固定成本下可复现净/风险改善；无独立证据不晋级。投资候选仍NONE/CASH；UNKNOWN资金费两解释与proxy、真实残仓保留。
+
+下一有限主任务：同固定BTC趋势规则/同XGB预测仅切SHORT_ONLY，对照当前LONG_SHORT/GMM/HOLD/CASH。新增4个真实共享账户、零拟合/零搜索，判断组合内正SHORT贡献能否成为独立、完整资本、真实风险与成本后的净增量。只改变方向mask，既有必要风控、费用、容量和残仓规则不变；不能把LONG_SHORT中的SHORT贡献当作独立收益。

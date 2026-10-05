@@ -43,6 +43,7 @@ def main():
         '29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d', 'Lock SHA only')
     symbols = tuple(spec['symbols'])
     regime_spec=spec.get('regime')
+    is_anchor=bool(regime_spec and regime_spec.get('kind')=='FIXED_PAST_TREND')
     reuse_spec=spec.get('direction_model_reuse')
     train_start=stamp(spec['split']['train_decisions_start'])
     train_end=stamp(spec['split']['training_label_maturity_before'])
@@ -68,13 +69,13 @@ def main():
         event_id=spec['experiment_id']+':'+run.name+':START', git_commit=binding['git_commit'],
         data_manifest_hash=binding['input_manifest_sha256'], protocol_hash=binding['protocol_sha256'],
         feature_set='PAST_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_ONEHOT_SHARED', labels=spec['labels'],
-        model_family='XGB_FIXED_PLUS_TRAIN_ONLY_GMM' if regime_spec else 'XGBOOST_SHARED_THREE_CLASS',
+        model_family='REUSED_XGB_FIXED_PAST_TREND' if is_anchor else 'XGB_FIXED_PLUS_TRAIN_ONLY_GMM' if regime_spec else 'XGBOOST_SHARED_THREE_CLASS',
         hyperparameters=dict(direction=model.MODEL,regime=regime_spec), seed=20261005,
         thresholds='ARGMAX_FIXED_37BP_LABEL_BAND', cost_assumptions='BYBIT_SNAPSHOT_TWO_COSTS_TWO_UNKNOWN_FUNDING_UNITS',
         all_folds=spec['split'], success_failure='START_BEFORE_FIT_OR_ACCOUNT_RESULTS',
         reason_for_next_experiment=spec['question'], result_influenced_later_choice=False,
-        direction_fits=0 if args.resume_input or reuse_spec else 1,regime_fits=1 if regime_spec else 0,
-        normalizer_fits=1 if regime_spec else 0)
+        direction_fits=0 if args.resume_input or reuse_spec else 1,regime_fits=1 if regime_spec and not is_anchor else 0,
+        normalizer_fits=1 if regime_spec and not is_anchor else 0)
     append_event(ROOT/'reports/experiment_registry.jsonl', event)
     progress = Progress(); progress.value['detail'] = '共享三分类方向与真实成本账户对照；已见历史开发筛选'
     began = time.monotonic(); shared_peak = 0
@@ -177,12 +178,20 @@ def main():
         regime_map=None
         if regime_spec:
             from scripts.investment import market_regime
-            engine.need(regime_spec['parameters']==market_regime.PARAMETERS and regime_spec['features']==list(market_regime.FEATURES), 'One declared GMM config')
-            progress.update('训练期市场分群，一个固定配置',0,1,'分群')
-            regime_frame,receipt,scaler,gmm=market_regime.fit_predict(features,train_start,train_end,score_start,score_end)
+            if is_anchor:
+                engine.need(regime_spec['rule']=='BTC_SMA200_AND_RETURN20_ZERO_BOUNDARY_WITH_PAST_CRASH_OVERRIDE', 'One fixed prior descriptive rule')
+                progress.update('固定过去趋势状态；无拟合',0,1,'规则')
+                regime_frame=market_regime.rule_states(features,score_start,score_end)
+                receipt=dict(kind='FIXED_PAST_TREND',regime_fits=0,normalizer_fits=0,direction_fits=0,
+                    future_labels_or_account_results_used=False,rule=regime_spec['rule'],
+                    semantics='CURRENT_COMPLETED_PRICE_TREND_NOT_FUTURE_RETURN_TRUTH')
+            else:
+                engine.need(regime_spec['parameters']==market_regime.PARAMETERS and regime_spec['features']==list(market_regime.FEATURES), 'One declared GMM config')
+                progress.update('训练期市场分群，一个固定配置',0,1,'分群')
+                regime_frame,receipt,scaler,gmm=market_regime.fit_predict(features,train_start,train_end,score_start,score_end)
+                import joblib
+                joblib.dump(dict(scaler=scaler,gmm=gmm,receipt=receipt),run/'regime_model.joblib')
             regime_frame.write_parquet(run/'market_regimes.parquet',compression='zstd')
-            import joblib
-            joblib.dump(dict(scaler=scaler,gmm=gmm,receipt=receipt),run/'regime_model.joblib')
             write(run/'regime_fit.json',receipt); result['regime_fit']=receipt
             regime_map=dict(zip(regime_frame['available_us'],regime_frame['regime'],strict=True))
             result['regime_counts']={label:regime_frame.filter(pl.col('regime')==label).height for label in ('BULL','BEAR','SIDEWAYS','HIGH_VOL_CRASH')}
@@ -197,16 +206,32 @@ def main():
             'BEAR' if r['ma200_distance'] < 0 and r['return_20d'] < 0 else 'SIDEWAYS')
             for r in btc.filter(pl.col('close_us')>=score_start).iter_rows(named=True)}
         result['regime_definition'] = 'PAST_BTC_SMA200_AND20D_RETURN_CRASH_1D_LT_MINUS5PCT_VOL30_GT80PCT_DESCRIPTIVE_NOT_HMM'
+        if is_anchor:
+            control=spec['control_reuse'];path=Path(control['path'])
+            engine.need(path.resolve().is_relative_to(ROOT/'reports') and sha(path)==control['sha256'], 'Immutable accepted control report')
+            old=json.loads(path.read_bytes())
+            engine.need(old['status']=='COMPLETE_FIXED_DIRECTION_REGIME_PAIRED_ECONOMICS_CONDITIONAL_PROXY' and len(old['cases'])==16, '16 completed prior controls')
+            for key in ('split','symbols','risk','labels','cost','data_manifest','signal_execution'):
+                engine.need(old['protocol'][key]==spec[key], 'Matched control field '+key)
+            for source,digest in old['binding']['source_hashes'].items():
+                if source not in ('scripts/investment/run_shared_direction.py','scripts/investment/market_regime.py'):
+                    engine.need(sha(ROOT/source)==digest,'Unchanged control finance/data/targets '+source)
+            old_prediction=Path(old['run_dir'])/'ECONOMICS_predictions.parquet'
+            engine.need(sha(old_prediction)==control['prediction_sha256'] and predictions.equals(pl.read_parquet(old_prediction)), 'Exact all122 day probabilities and labels')
+            engine.need(regime_map=={k:v for k,v in regimes.items() if k<score_end},'Fixed decision states equal previous descriptive state definition')
+            result['control_reuse']=dict(**control,status='REUSED_D086_BY_IMMUTABLE_REPORT_AND_IDENTICAL_INPUTS',
+                reused_accounts=16,probability_golden='PASS_EXACT_1220_ROWS',new_accounts=4)
         strategies = [('XGB_LONG_SHORT','LONG_SHORT'),('XGB_LONG_ONLY','LONG_ONLY'),
             ('XGB_SHORT_ONLY','SHORT_ONLY'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
         if regime_spec:
             strategies=[('XGB_LONG_SHORT','LONG_SHORT'),('XGB_REGIME_GATED','LONG_SHORT'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
+        if is_anchor: strategies=[('XGB_TREND_GATED','LONG_SHORT')]
         result['required_accounts'] = len(strategies)*4
         for name, mode in strategies:
             if name == 'HOLD': factory=lambda b,d,m:hold.fixed_targets(b,d,m,symbols=symbols)
             elif name == 'DONCHIAN_EXIT10': factory=lambda b,d,m:donchian.fixed_targets(b,d,m,symbols=symbols,exit_period=10)
             else: factory=lambda b,d,m:model.targets(predictions,b,d,m,symbols,
-                regimes=regime_map if name=='XGB_REGIME_GATED' else None)
+                regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED') else None)
             for cost_legacy in engine.COSTS:
                 cost = snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json', symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols}, scenario_id=cost_legacy['id'],
@@ -232,7 +257,7 @@ def main():
                     if name.startswith('XGB'):
                         checked['target_reference']=independent.verify_direction_targets(
                             pl.read_parquet(case_dir/'targets.parquet'),predictions,bars,symbols,mode,
-                            regimes=regime_map if name=='XGB_REGIME_GATED' else None)
+                            regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED') else None)
                     by_regime={}
                     for day in checked['daily_direction_contributions']:
                         regime=regimes[day['day_end_us']-model.DAY]
@@ -257,7 +282,7 @@ def main():
                     write(run/'CHECKPOINT.json',result); del actual; gc.collect(); guard()
         result['cash_benchmark'] = dict(initial_capital_USDT=10000, net_PnL=0, costs=0, volatility=0, drawdown=0,
             role='ANALYTIC_FLAT_ACCOUNT_NOT_A_FAKE_REPLAY')
-        result['status']=('COMPLETE_FIXED_DIRECTION_REGIME_PAIRED_ECONOMICS_CONDITIONAL_PROXY' if regime_spec else
+        result['status']=('COMPLETE_FIXED_PAST_TREND_GATE_NEW4_REUSED16_CONDITIONAL_PROXY' if is_anchor else 'COMPLETE_FIXED_DIRECTION_REGIME_PAIRED_ECONOMICS_CONDITIONAL_PROXY' if regime_spec else
             'COMPLETE_ONE_SHARED_FIT_MATCHED_DIRECTION_AND_RULE_ECONOMICS_CONDITIONAL_PROXY')
     except Exception as e:
         result.update(error_type=type(e).__name__,reason=str(e)); raise
