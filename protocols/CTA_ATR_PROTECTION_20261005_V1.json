@@ -1,0 +1,82 @@
+{
+  "experiment_id": "D092_FROZEN_TSMOM_INITIAL_ATR_PROTECTION_20261005",
+  "question": "固定12m慢信号的初始2ATR保护退出，能否避免逐仓停止并改善成本后风险/收益？只改变保护退出；对照旧停止前共同前缀与完整LO/HOLD/ensemble。",
+  "data_role": "PREVIOUSLY_SEEN_DEVELOPMENT_NOT_UNSEEN_OR_LOCKED",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "original_result": {
+    "path": "reports/fast_research/CTA_LEADERBOARD_20261005_V2.json",
+    "sha256": "b6bc76627695609202644aaf77883e85f8baa7f684356c7a0ecdac76cf0fd3b8"
+  },
+  "original_signal_sha256": "8ed5b064be670ce6802d6f670f4059fdaeecea09f70f4a5557e3292f3fb9e6d0",
+  "original_targets_by_scenario": {
+    "BASE27_RAW_AS_FRACTION": "3f2d099b44a47d46871814bd87f9a9f292ca0ff8e0bdef56d39f710e2ffd03e0",
+    "BASE27_RAW_AS_PERCENT": "3f2d099b44a47d46871814bd87f9a9f292ca0ff8e0bdef56d39f710e2ffd03e0",
+    "STRESS43_RAW_AS_FRACTION": "3f2d099b44a47d46871814bd87f9a9f292ca0ff8e0bdef56d39f710e2ffd03e0",
+    "STRESS43_RAW_AS_PERCENT": "3f2d099b44a47d46871814bd87f9a9f292ca0ff8e0bdef56d39f710e2ffd03e0"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "protection": {
+    "ATR_period": 20,
+    "ATR_multiplier": 2,
+    "anchor": "FIRST_ACTUAL_FILL_PRICE",
+    "indicator": "PINNED_JESSE_RUST1.3.0_ORIGINAL_SCALAR_LAST240_DAILY_CANDLES",
+    "stop": "FIXED_INITIAL_NO_TRAIL_NO_ADD_REARM",
+    "symmetric": true,
+    "observation": "COMPLETED_TRADE_MINUTE_HIGH_LOW_ARMED_BEFORE_OPEN",
+    "execution": "ORIGINAL_DELAY_REAL_OPEN_CAPACITY_PAID_REDUCE_ONLY_PERSIST",
+    "reentry": "NEXT_UTC_MONTH_DECISION_AND_ACTUAL_FLAT",
+    "full_Turtle_replication": false
+  },
+  "accounts": 4,
+  "workers": 2,
+  "models_fit": 0,
+  "search": 0,
+  "budget": {
+    "wall_seconds": 1800,
+    "RSS_bytes_per_worker": 1500000000,
+    "owned_bytes": 400000000,
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "GPU": 0
+  },
+  "stopping": "ONE_FIXED_2ATR_ONLY_NO_THRESHOLD_SEARCH; EXPLICIT_ACCOUNT_HALTS_RETAINED",
+  "adoption": "Capability retained if causal/financial checks pass; recipe retained as contender only if all4 complete and no adverse cost sensitivity; no investment promotion. Compare common stopped prefixes separately from complete122D controls, report actual risk and initial-stop/cooldown joint semantics.",
+  "regression": {
+    "path": "reports/CTA_ATR_PROTECTION_TESTS_20261005_V2.xml",
+    "sha256": "acfff5695c5e453004465d912d16ab735567e7386e81f13eb7f6a8b577648a5a",
+    "tests": 6
+  },
+  "source_hashes": {
+    "scripts/investment/cta_atr_protection.py": "2208b6a055f228d3e8341170edab18f626d6429d9e99d3f3d0347fa7c807fb5f",
+    "scripts/investment/run_cta_atr_protection.py": "cfdaa41ccc48507338cdb442c802a01457ff50db25f9100165935f3c91c2b4b5",
+    "scripts/investment/cta_classics.py": "907b03eff9799ffc9d1964e4d255b3c63453a415cfcd9d2e62dcc069870a696e",
+    "scripts/investment/perpetual_directional.py": "2fb9f34d01d7e805e1407dd0d8e76bfc5463218a7b7825a6243dc4b50fcededd",
+    "scripts/investment/multi_asset_data.py": "9df0fdaa7de26e212ba6ba644a9790393d226721eae3d921ac5a0e819eb07cb1",
+    "scripts/investment/turtle_perpetual_bridge.py": "adf08e2335698b434a30670e1f09e3186d5c2114bdac2dbbc6f3d375fc78372b",
+    "scripts/investment/public_rsi2_indicator.py": "417b9044ff1b2cb32326d4648d1239ebc2b7f872bf7da123901b0fe1bf0a2315",
+    "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+    "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "scripts/investment/audit_shared_direction.py": "3b63cd09a176ae5aaef8457f4101c14ec4be6e8c502e060a5e5d0db24fa748bf",
+    "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+    "tests/test_cta_atr_protection.py": "767c1752eb797269a9700dfcf49db0db88825fb0f3fd12bce105a4e6c9ea5e3b",
+    "tests/test_cash_close_retry.py": "38c57d10a568881f32b7d42e92f0c953cbdfc0c298cb25a40dcf7a21553ee669",
+    "docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd"
+  },
+  "parent_commit": "bf2393552b92ead59ec5dcfac9c8006898b1e505"
+}

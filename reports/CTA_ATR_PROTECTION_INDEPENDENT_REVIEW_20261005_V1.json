@@ -1,0 +1,118 @@
+{
+  "status": "PASS_INDEPENDENT_OFFICIAL_ATR_REFERENCE_AND_READ_ONLY_ACTIVITY_SCOPE",
+  "created_utc": "2026-10-05T13:18:34.156579+00:00",
+  "writer_task_id": "491640e1720642c3bd9830488a4a5ee1",
+  "source_SHA_observation_scope": "Current source bytes read at this report creation. Exact source hashes at earlier independent reference execution were NOT_CAPTURED; no claim latest engine/runner was exercised by that earlier ATR-only reference.",
+  "current_sources": [
+    {
+      "path": "/mnt/d/codex/coin/scripts/investment/cta_atr_protection.py",
+      "sha256": "2208b6a055f228d3e8341170edab18f626d6429d9e99d3f3d0347fa7c807fb5f",
+      "bytes": 5061
+    },
+    {
+      "path": "/mnt/d/codex/coin/scripts/investment/perpetual_directional.py",
+      "sha256": "2fb9f34d01d7e805e1407dd0d8e76bfc5463218a7b7825a6243dc4b50fcededd",
+      "bytes": 52420
+    },
+    {
+      "path": "/mnt/d/codex/coin/scripts/investment/multi_asset_data.py",
+      "sha256": "9df0fdaa7de26e212ba6ba644a9790393d226721eae3d921ac5a0e819eb07cb1",
+      "bytes": 111951
+    },
+    {
+      "path": "/mnt/d/codex/coin/scripts/investment/run_cta_atr_protection.py",
+      "sha256": "cfdaa41ccc48507338cdb442c802a01457ff50db25f9100165935f3c91c2b4b5",
+      "bytes": 8377
+    },
+    {
+      "path": "/mnt/d/codex/coin/scripts/investment/turtle_perpetual_bridge.py",
+      "sha256": "adf08e2335698b434a30670e1f09e3186d5c2114bdac2dbbc6f3d375fc78372b",
+      "bytes": 41520
+    },
+    {
+      "path": "/mnt/d/codex/coin/tests/test_cta_atr_protection.py",
+      "sha256": "767c1752eb797269a9700dfcf49db0db88825fb0f3fd12bce105a4e6c9ea5e3b",
+      "bytes": 5299
+    },
+    {
+      "path": "/mnt/d/codex/coin/tests/test_cash_close_retry.py",
+      "sha256": "38c57d10a568881f32b7d42e92f0c953cbdfc0c298cb25a40dcf7a21553ee669",
+      "bytes": 4833
+    },
+    {
+      "path": "/mnt/d/codex/coin/third_party/jesse_example_turtle_rules/atr_indicator_original.py",
+      "sha256": "398a12258dbc59b350c8c9ed8a1199a57cd89e7503c7dcd3fa002030c77df06c",
+      "bytes": 1144
+    },
+    {
+      "path": "/mnt/d/codex/coin/third_party/jesse_example_turtle_rules/turtle_rules_original.py",
+      "sha256": "35e4c3cd69010ca81402277693cb6f7deaf52a284153f20f25d4cf605701408a",
+      "bytes": 8142
+    },
+    {
+      "path": "/mnt/d/codex/coin/third_party/jesse_example_turtle_rules/LICENSE",
+      "sha256": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "bytes": 1065
+    }
+  ],
+  "original_reference_task": {
+    "task_id": "577814427a464cd39f29f98c538ad530",
+    "title": "ATR生产kernel独立参考",
+    "started_at": 1791206101.0213532,
+    "ended_at": 1791206129.4415362,
+    "status": "completed",
+    "exit_code": 0,
+    "progress_record": {
+      "path": "/home/xflops/coin-state/task-progress/task-577814427a464cd39f29f98c538ad530.json",
+      "sha256": "b1039c8095ce9cbb49e2ee09d758423c7c7f206a20565e93b0ed87791d435a85",
+      "bytes": 393
+    }
+  },
+  "actual_reference_command": "PowerShell in-memory Python input piped to wsl -d hpc_linux --cd /mnt/d/codex/coin -- scripts/with_task_progress.sh --title ATR生产kernel独立参考 -- env POLARS_MAX_THREADS=2 /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B -",
+  "reference_inputs": {
+    "rows": 301,
+    "symbol": "BTCUSDT",
+    "origin": "1730000000000000//DAY*DAY",
+    "stamps": "origin+arange(301)*DAY",
+    "close": "100+arange(301)*0.03+sin(arange(301)/7)",
+    "open": "close+0.1",
+    "high": "close+1+(arange(301)%3)*0.3",
+    "low": "close-1-(arange(301)%5)*0.2",
+    "volume": 100,
+    "decision_us": 1755820800000000,
+    "feature_available_us": 1755820800000000,
+    "production": "InitialATRProtection.prepare(...,decision,decision+DAY); values[(BTCUSDT,decision)][atr]",
+    "independent_reference": "jesse_rust.atr(candles[:300][-240:],20)[-1], official vector path independent from production scalar ATR/property path",
+    "future_perturbation": "Multiply open/close/high/low by1.3 only where close_us>decision; prepare again; assert entire values dictionary equal"
+  },
+  "observed_reference_result": {
+    "official_vector_ATR": 2.730747742348361,
+    "production_scalar_ATR": 2.730747742348361,
+    "absolute_error": 0.0,
+    "future_daily_perturbation": "UNCHANGED",
+    "new_accounts": 0,
+    "new_fits": 0,
+    "new_downloads": 0
+  },
+  "reference_scope": "Finite varying synthetic daily bars verify existing pinned official kernel usage and past input invariance. This is not independent economic backtest or an account execution.",
+  "latest_read_only_findings": [
+    "Regular scheduler execute_fill hook not event bridge invokes on_fills for both reduce and increase phases.",
+    "First actual flat-to-position fill arms fixed initial2ATR stop; subsequent increases do not rearm; flat close removes old stop.",
+    "Observed trade-minute range considered only when stop armed before minute open; entry-minute intrabar ordering not inferred.",
+    "Protective orders never increase inventory; use original reduce-only actual open, fee, latency and capacity path, persist retries while no overriding hard-risk/terminal condition.",
+    "HALT from mark/funding/account is evaluated before stop observation; stop cannot rescue an already halted isolated leg.",
+    "Latest engine explicitly excludes pending RISK_REDUCTION from protective supersession; blocked waiting close scheduled only absent pending order. Hard-risk retry expiry/halt path retained; related new counterexample read, not rerun by reviewer.",
+    "Runner explicitly wraps real minute_blocks(start,end,trade_ranges=True), resolving previous schema wiring requirement.",
+    "Original frozen alpha targets remain separate from stop/cooldown actual order policy; cooldown releases only at next UTC month decision and actually flat; actual exposure and terminal residual must be reported."
+  ],
+  "scope_limits": [
+    "No native intrabar stop-price fill, exchange liquidation or guaranteedrisk/return implied.",
+    "Current source SHA does not retroactively bind earlier reference execution SHA, which was not captured.",
+    "No economic results from four production accounts reviewed yet; marked versus paid-flat, stop fill timing and costs require postrun read-only inspection.",
+    "Protection official_context receipt is computed in prepare but not currently stored as separate account artifact; source pins/kernel reuse are checked by existing context."
+  ],
+  "new_accounts": 0,
+  "new_fits": 0,
+  "new_downloads": 0,
+  "review_write_scope": "Only this small JSON; no production/source modifications; no locked contents or keys read."
+}

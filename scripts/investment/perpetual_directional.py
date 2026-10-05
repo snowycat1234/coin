@@ -134,12 +134,14 @@ def journals_frame(rows,schema):
     return pl.DataFrame([{k:r.get(k) for k in schema} for r in rows],schema=schema)
 
 def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None,event_strategy=None,
-             persist_cash_close=False):
+             persist_cash_close=False,position_protection=None):
     """Only event scheduling and output bookkeeping; finances belong to account."""
     symbols=strategy.symbol_order(window.get('symbols',SYMBOLS))
     need(type(persist_cash_close) is bool and (not persist_cash_close or event_strategy is None),
          'Explicit cash-close retry policy only for the daily target scheduler')
     start,end=window['start'],window['end']
+    need(position_protection is None or event_strategy is None,'One order scheduler, explicit protection adapter')
+    if position_protection is not None:position_protection.prepare(window['daily'],symbols,start,end)
     times=np.arange(start,end,MINUTE,dtype=np.int64);n=len(times)
     target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
     account_factory=account_factory or USDTLinearPerpetualAccount
@@ -199,13 +201,16 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                         peak_NAV=peak,max_drawdown=mdd,account_status=account.status))
         return nav
 
-    def schedule(target,signal,kind):
+    def schedule(target,signal,kind,only_symbols=None):
         nonlocal sequence
         if bridge is not None:
             bridge.force_targets(target,int(signal),kind)
             return
-        for s in symbols:
+        for s in symbols if only_symbols is None else only_symbols:
             order_kind=kind[s] if isinstance(kind,dict) else kind
+            if position_protection is not None and position_protection.blocked(s):
+                target=dict(target);target[s]=ZERO
+                if order_kind=='DAILY_TARGET':order_kind='PROTECTIVE_STOP'
             if s in pending:rejections.append(dict(symbol=s,event_us=int(signal),
                 reason='SUPERSEDED_BY_'+order_kind,old_signal_us=pending[s]['signal_us']))
             sequence+=1
@@ -304,7 +309,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                         step=account.instrument_profiles[s].quantity_step
                         requested=min(abs(position),(requested/step).to_integral_value(rounding=ROUND_CEILING)*step)
                 else:
-                    if reducing or order['kind'] in ('RISK_REDUCTION','TERMINAL','POOL_EXIT','DATA_GAP_EXIT'):continue
+                    if reducing or order['kind'] in ('RISK_REDUCTION','TERMINAL','POOL_EXIT','DATA_GAP_EXIT','PROTECTIVE_STOP'):continue
                     if account.status!='ACTIVE':
                         rejections.append(dict(symbol=s,event_us=event,reason='RISK_PRIORITY_NO_INCREASE',order_id=order['order_id']));continue
                     requested=abs(delta);reduce_only=False
@@ -317,6 +322,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                     available_quantity=capacity[s],reduce_only=reduce_only)
                 used=sum((D(r['decimal_strings']['quantity']) for r in account.trades[before:]),ZERO)
                 capacity[s]=max(ZERO,capacity[s]-used)
+                if position_protection is not None:
+                    position_protection.on_fills(account.trades[before:],order['kind'])
                 if used>0 and order['kind']=='RISK_REDUCTION':
                     witness=next(r for r in reversed(breaches) if r['signal_us']==order['signal_us'])
                     if 'first_reduction_fill_us' not in witness:
@@ -335,6 +342,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                      and abs(account.positions[s].quantity)<=abs(order['target'])))
             if reached:pending.pop(s,None)
             elif order['attempts']>=5:
+                if order['kind']=='PROTECTIVE_STOP':continue
                 if persist_cash_close and order['kind']=='DAILY_TARGET' and order['target']==ZERO:
                     # Still capacity limited and reduce-only. A newer target,
                     # hard-risk instruction or terminal order may supersede it.
@@ -350,7 +358,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     def market_rows():
         if 'minute_blocks' not in window:
             columns=('open','close','quote_volume','mark')
-            if bridge is not None:columns+=('high','low','volume')
+            if bridge is not None or position_protection is not None:columns+=('high','low','volume')
             for i,t in enumerate(times):
                 yield int(t),{s:{k:window['market'][s][k][i] for k in
                     columns} for s in symbols}
@@ -365,7 +373,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             need(set(block['market'])<=set(symbols),'Block symbol outside configured account')
             for s,values_for_asset in block['market'].items():
                 columns={'open','close','quote_volume','mark'}
-                if bridge is not None:columns|={'high','low','volume'}
+                if bridge is not None or position_protection is not None:columns|={'high','low','volume'}
                 need(set(values_for_asset)==columns
                     and all(len(v)==len(stamps) for v in values_for_asset.values()),
                     'Actual execution block schema and lengths')
@@ -388,6 +396,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                  for row in market_row.values() for k,v in row.items()),'Finite actual block values')
         t=int(t);close=t+MINUTE
         if t in weights and not terminal:
+            if position_protection is not None:position_protection.on_decision(t,account.positions)
             # All signal quantities freeze before rates later than this decision and future opens.
             nav=account.nav()
             desired={s:D(str(weights[t][s]))*D('.99')*nav/D(str(daily_prices[s][t]))
@@ -414,6 +423,16 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
         if bridge is not None and not terminal:
             bridge.observe_stop(close,{s:dict(open_us=t,available_us=close,
                 high=market_row[s]['high'],low=market_row[s]['low']) for s in symbols})
+        if position_protection is not None and not terminal:
+            stopped=position_protection.observe(close,market_row,account.positions)
+            # Existing hard-risk orders retain their bounded retry/halt path.
+            # A stop persists after those orders finish; it cannot replace an
+            # unexecutable risk reduction with unlimited retries.
+            stopped=[s for s in stopped if s not in pending or pending[s]['kind']!='RISK_REDUCTION']
+            if stopped:schedule(dict.fromkeys(stopped,ZERO),close,'PROTECTIVE_STOP',only_symbols=stopped)
+            waiting=[s for s in symbols if position_protection.blocked(s) and
+                account.positions[s].quantity and s not in pending]
+            if waiting:schedule(dict.fromkeys(waiting,ZERO),close,'PROTECTIVE_STOP',only_symbols=waiting)
         nav=account.nav();signed={s:account.positions[s].quantity*account.marks[s][-1]['price']
                                  if account.positions[s].quantity else ZERO for s in symbols}
         equities={s:account.positions[s].isolated_balance+account.positions[s].quantity*
@@ -473,8 +492,12 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     summary['maximum_observed_first_risk_reduction_latency_us']=max(delays) if delays else None
     if bridge is not None:
         targets,meta=bridge.targets_frame(),bridge.meta()
-    return dict(summary=summary,targets=targets,target_meta=meta,minute=minute,trades=account.trades,
+    result=dict(summary=summary,targets=targets,target_meta=meta,minute=minute,trades=account.trades,
         funding=funding_journal,rejections=rejections,breaches=breaches,extrema=extrema)
+    if position_protection is not None:
+        summary['position_protection']=position_protection.rules
+        result['protection_journal']=position_protection.journal
+    return result
 
 def save_case(case,directory):
     directory.mkdir();artifacts={}
@@ -543,7 +566,8 @@ def save_case(case,directory):
     for name,frame in [('minute_nav_inventory',minute),('daily_nav',daily),('targets',case['targets'])]:
         path=directory/(name+'.parquet');frame.write_parquet(path,compression='zstd')
         artifacts[path.name]=dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size,rows=frame.height)
-    for name in ('trades','funding','rejections','breaches','extrema','target_meta'):
+    for name in ('trades','funding','rejections','breaches','extrema','target_meta')+(
+            ('protection_journal',) if 'protection_journal' in case else ()):
         path=directory/(name+'.json');write(path,case[name]);artifacts[path.name]=dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size)
     trade_schema={'symbol':pl.String,'side':pl.String,'leg':pl.String,'event_us':pl.Int64,'signal_us':pl.Int64,
         'quantity':pl.Float64,'position_delta':pl.Float64,'mid_price':pl.Float64,'fill_price':pl.Float64,

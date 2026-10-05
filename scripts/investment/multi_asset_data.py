@@ -719,7 +719,8 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
                     reported_interval_hours=float(row['funding_interval_hours'])))
     events.sort(key=lambda r: (r['event_us'], r['symbol']))
     require(len(events) == len({(r['symbol'], r['event_us']) for r in events}), 'Funding identity exactly once')
-    def minute_blocks(block_start_us=start_us, block_end_us=end_us):
+    def minute_blocks(block_start_us=start_us, block_end_us=end_us, *, trade_ranges=False):
+        require(type(trade_ranges) is bool, 'Explicit real trade range request')
         require(type(block_start_us) is int and type(block_end_us) is int and
             start_us <= block_start_us < block_end_us <= end_us and
             block_start_us % DAY == block_end_us % DAY == 0,
@@ -738,6 +739,13 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
                 require(np.isfinite(values).all() and np.all(values[:, :2] > 0) and np.all(values[:, 2] >= 0)
                     and np.isfinite(marks).all() and np.all(marks > 0), 'Finite observed day, no zero prices')
                 market[symbol] = dict(open=values[:, 0], close=values[:, 1], quote_volume=values[:, 2], mark=marks)
+                if trade_ranges:
+                    ranges=t.select('high','low','volume').to_numpy()
+                    require(np.isfinite(ranges).all() and np.all(ranges[:,:2]>0) and
+                        np.all(ranges[:,0]>=np.maximum(values[:,0],values[:,1])) and
+                        np.all(ranges[:,1]<=np.minimum(values[:,0],values[:,1])) and
+                        np.all(ranges[:,2]>=0), 'Actual complete trade ranges, no synthetic extremes')
+                    market[symbol].update(high=ranges[:,0],low=ranges[:,1],volume=ranges[:,2])
             yield dict(times=times, market=market)
     return dict(start=start_us, end=end_us, symbols=symbols, selected_symbols=list(selected),
         control_symbols=['BTCUSDT', 'ETHUSDT'], daily=daily, events=events,
