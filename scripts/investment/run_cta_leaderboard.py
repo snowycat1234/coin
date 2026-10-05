@@ -106,7 +106,10 @@ def main():
         from scripts.investment.market_regime import past_state
         btc=feature_table(bars,symbols)[0].filter((pl.col('symbol')=='BTCUSDT')&(pl.col('close_us')>=start)&(pl.col('close_us')<end))
         states={v['close_us']:past_state(v) for v in btc.iter_rows(named=True)};r['descriptive_past_states']=states
-        plans=[(f,m) for f in spec['families'] for m in ('LONG_ONLY','SHORT_ONLY','LONG_SHORT')]
+        account_modes=spec.get('account_modes',['LONG_ONLY','SHORT_ONLY','LONG_SHORT'])
+        assert account_modes and len(set(account_modes))==len(account_modes)
+        assert set(account_modes)<= {'LONG_ONLY','SHORT_ONLY','LONG_SHORT'}
+        plans=[(f,m) for f in spec['families'] for m in account_modes]
         if spec.get('include_controls',True):plans += [('CASH','CASH'),('HOLD','LONG_ONLY')]
         r['required_accounts']=len(plans)*len(costs)*len(engine.UNITS)
         for family,mode in plans:

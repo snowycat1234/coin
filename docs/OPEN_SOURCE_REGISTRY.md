@@ -405,3 +405,5 @@ D094运行前：继续复用D091已登记Jesse MIT commit417f8765225e3bfc12043d4
 
 
 D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有共享永续账户及Jesse对照。repo/version/license/vendor修改均沿用既有登记，无新依赖或策略内核。SMA200 signed不是Faber原10月long/cash策略完整复现；本轮仅扩同窗观察并使现有只读汇总接受SMA200 family，不改财务或信号。
+
+- D096 selective short: reuse existing MIT Jesse pinned20/10 and55/20 kernels; Goulding/Harvey/Mazzoleni2023 DOI10.1016/j.jfineco.2023.05.007 and Daniel/Moskowitz Momentum Crashes as research design references, no paper/code copied and no claimed crypto profit replication. Owned DC_CONFIRMED_SHORT adapter only; zero training/search, positive forecast unchanged, simultaneous negative confirmation and veto.

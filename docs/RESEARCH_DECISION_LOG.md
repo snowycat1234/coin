@@ -1409,3 +1409,13 @@ D095复用已有SMA200 signed，完成同303日12个新方向账户（完整4、
 表中停机行的LONG/SHORT、毛损益、费用、资金费与残仓均为停止前缀，不是完整303日收益。有限独立复核：保存的原子agent机制证据核对共同122日1220行目标完全相同；但303日起始持仓、成本基础和NAV不同。原122日WIF空头于05-12 02:02触及假设MMR，新账户同分钟equity18.72高于MMR0.50，仍在06:24停机，只延后262分钟。不得称作规避清算。原机制stdin源码NOT_RETAINED；有限只读源本轮真实运行，复核公式、目标、四LO净桥和八停机范围，不重跑账户。子agent最终复核因额度失败，主agent只接管未完成有限核验；两次检查失败（时间列名、REUSED元标签）保留任务记录，成功task f49cdc8de1294e67bfe02eb80b47e512。源码默认静态核对与synthetic golden不证明完整历史代码因果相等。
 
 采集恢复已保留原库/WAL/SHM、checkpoint、audit head及闭合备份；旧public库绑定扩容前源码，原库不重写，新独立collector_public_v3_20261006.sqlite3绑定现行8GB/150GB并沿用原公开来源范围。micro原库按同一实现新会话续写，RESTART_GAP保留；实际前后两次同PID/start_ticks、heartbeat/事件进展见 reports/CTA_COLLECTOR_RECOVERY_ACCEPTED_20261006_V1.json。退出原因UNKNOWN，断档不计健康时间；8765服务已恢复。不是连续72h/alpha资格。
+
+
+## D096 SHORT机制与单一改变（运行前）
+
+用户要求优先什么时候short，暂停未运行的旧数据扩窗draft。已有dual LS BASE/PCT实际40个空头episode：FAST_ONLY34净-654.75、BOTH_SHORT5净369.85、SLOW_ONLY1净131.66；SHORT_ONLY同向-502.17/+220.08/+107.35，包含未平仓mark，合计与旧真实SHORT账本桥接。全episode按入场信号分组是关联，非删除旧成本后的可实现收益；过去BTC BEAR标签不证明未来熊市，禁止机械BEAR gate。采用唯一候选DC_CONFIRMED_SHORT：负forecast须两个旧通道同时负，否则cash；正forecast原样，真实资本竞争/cov/延迟/清仓/费用全部重跑。两BASE单位解读先行；只有两者通过事前经济/实际风险/状态门槛才再跑两STRESS，总计最多4账户0训练/新数据/搜参。具体协议 `protocols/SHORT_CONFIRMATION_BASE27_20261006_V1.json`。
+
+
+## D096结果与决定
+
+RETAIN_DEVELOPMENT_SHORT_CHALLENGER_NOT_INVESTMENT；4/4完整账户、1固定配方、0训练/搜参/行情下载，事前四情景通过=True。BASE/PCT净1578.24（原1058.97）；SHORT 572.59（原-153.24）；vol 9.67% DD 5.39%。SHORT增量725.83、LONG增量-206.55，不把全部变化当独立short alpha。BEAR分类SHORT仍-206.17，最大单日-192.06；8/10币增量正，未换池。保留DC_CONFIRMED_SHORT为已见开发主挑战者、原20/10仅多为稳定参照；投资NONE/CASH。下一有限工作先只读检查熊市分类下急反弹亏损的信号/订单时点，使用当时已知的单币价格而非BTC慢状态，识别每日确认退出是否过迟及可执行的有限改善空间；确认机制后才决定一个保护退出对照，不扫描倍数、不强制每段都做空。新的独立周期/原生规则仍是晋级证据缺口；不在当前303日继续优化入场阈值。 工件 `reports/SHORT_SELECTION_ACCEPTED_20261006_V1.json` SHA 500e81bd0cb24531601270bcafaee83e17b8ba0874f28de19d4cd3f2d34586fd。

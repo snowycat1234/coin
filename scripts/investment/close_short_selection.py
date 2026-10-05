@@ -1,0 +1,79 @@
+"""Close one preregistered short-rule comparison and existing progress documents."""
+import json,hashlib,os,subprocess
+from pathlib import Path
+from datetime import UTC,datetime
+from quant.paths import ROOT,STATE
+from quant import disk,resources
+from scripts.research_v8.registry import FIELDS,append_event
+
+def sha(p):
+ with Path(p).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+def read(p):return json.loads((ROOT/p).read_bytes())
+def write(p,v):
+ dest=ROOT/p;assert not dest.exists()
+ dest.write_text(json.dumps(v,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
+def f(x):return f'{x:.2f}'
+reviews=[];raws=[];rows=[];intervals=[]
+for cost in ('BASE27','STRESS43'):
+ name=f'reports/SHORT_CONFIRMATION_{cost}_REVIEW_20261006_V1.json';v=read(name);assert v['status']=='PASS_PAIRED_SHORT_RULE_REVIEW_NOT_INVESTMENT' and len(v['pairs'])==2
+ p=Path(v['producer']['path']);assert sha(p)==v['producer']['sha256'];raw=json.loads(p.read_bytes());assert raw['models_fit']==raw['search_configurations']==0
+ task=STATE/'task-progress'/('task-'+raw['binding']['task_id']+'.json');t=json.loads(task.read_bytes());assert t['status']=='completed' and t['exit_code']==0 and sha(task)==v['producer']['task_sha256'];intervals.append((t['started_at'],t['ended_at']))
+ for x,h in raw['binding']['source_hashes'].items():assert sha(ROOT/x)==h,x
+ raws.append(raw);reviews.append(dict(path=name,sha256=sha(ROOT/name),all_pass=v['all_pass']))
+ for z in v['pairs']:
+  c=next(c for c in raw['cases'] if c['id']==z['id']);s=c['summary'];assert z['complete']
+  rows.append({k:z[k] for k in ('id','unit','complete','net','gross','fees','execution','funding','LONG','SHORT','vol','DD','residual','risk','regimes','delta','passes_predeclared')}|dict(cost=cost,turnover=s['normalized_total_turnover'],Sharpe=s['daily_metrics']['sharpe'],paid_flat=s['terminal_cash_realized'],actual_short_open_or_add_legs=c['independent']['actual_short_open_legs'],maximum_independent_NAV_error=c['independent']['maximum_NAV_error_USDT'],daily_concentration=s['daily_net_gain_concentration'],reference={k:z['reference'][k] for k in ('id','net_USDT','LONG','SHORT','gross_USDT','fees_USDT','execution_USDT','funding_USDT','DD','vol','turnover','residual','risk','by_past_regime')}))
+proto=raws[0]['protocol'];stress=raws[1]['protocol']
+for k in proto:
+ if k not in ('cost_ids','created_utc'):assert proto[k]==stress[k],k
+attribution=read('reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json');assert attribution['status'].startswith('PASS')
+primary=next(x for x in rows if x['cost']=='BASE27' and x['unit']=='RAW_AS_PERCENT');old=primary['reference']
+periods=[]
+for lo,hi in [('2024-09-01','2024-12-01'),('2024-12-01','2025-03-01'),('2025-03-01','2025-07-01')]:
+ begin=int(datetime.fromisoformat(lo).replace(tzinfo=UTC).timestamp())*1000000;end=int(datetime.fromisoformat(hi).replace(tzinfo=UTC).timestamp())*1000000
+ # Bind by identity, not position in the producer case list.
+ case=next(c for c in raws[0]['cases'] if c['unit']=='RAW_AS_PERCENT')
+ days=[v for v in case['independent']['daily_direction_contributions'] if begin<v['day_end_us']<=end]
+ periods.append(dict(start=lo,end_exclusive=hi,days=len(days),LONG=sum(v['LONG'] for v in days),SHORT=sum(v['SHORT'] for v in days),net=sum(v['LONG']+v['SHORT'] for v in days),scope='SAME_CONTINUOUS_WALLET_SUBPERIOD_NOT_NEW_ACCOUNT_OR_UNSEEN'))
+assert abs(sum(v['net'] for v in periods)-primary['net'])<1e-7
+passed=all(x['passes_predeclared'] for x in rows)
+next_action='保留DC_CONFIRMED_SHORT为已见开发主挑战者、原20/10仅多为稳定参照；投资NONE/CASH。下一有限工作先只读检查熊市分类下急反弹亏损的信号/订单时点，使用当时已知的单币价格而非BTC慢状态，识别每日确认退出是否过迟及可执行的有限改善空间；确认机制后才决定一个保护退出对照，不扫描倍数、不强制每段都做空。新的独立周期/原生规则仍是晋级证据缺口；不在当前303日继续优化入场阈值。'
+choice='RETAIN_DEVELOPMENT_SHORT_CHALLENGER_NOT_INVESTMENT' if passed else 'PAUSE_RECIPE_PROMOTION_RETAIN_CAPABILITY'
+result=dict(status='ACCEPTED_ONE_PREREGISTERED_SHORT_RULE_FOUR_ACTUAL_ACCOUNTS',created_utc=datetime.now(UTC).isoformat(),choice=choice,all_four_predeclared_checks_pass=passed,qualified_investment='NONE/CASH',long_term_APR='NOT_EVALUABLE',actual_days=303,initial_capital_per_counterfactual_USDT=10000,rows=rows,primary_periods=periods,reviews=reviews,attribution=dict(path='reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json',sha256=sha(ROOT/'reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json')),recipe_configurations=1,accounts=4,fits=0,search=0,new_market_downloads=0,orders_sent=0,locked_body_read=False,next_action=next_action,limitations=read(reviews[0]['path'])['limitations'])
+accepted='reports/SHORT_SELECTION_ACCEPTED_20261006_V1.json';write(accepted,result)
+lines=['# SHORT选择：双通道确认，单一配方','', 'D096：公开趋势内核复用后的最小适配；参数20/10与55/20沿用已冻结公开通道，没有训练或参数搜索。论文提供机制参考，不宣称完整复制论文策略。', '', '## 实际改动与收益来源','', '每币独立判断：只有20日/55日两个虚拟趋势通道都处于空头状态才允许负目标；任何确认消失，取消新空头意图并按已有延迟/部分成交/持久reduce-only退出。正forecast保持原规则，资金竞争与signed covariance会使实际多头仓位和损益变化。不是把做多信号取反，也没有删除旧成本保留毛收益。', '', '同一2024-09-01至2025-07-01、303日、10币、完整共享10k、abs30%/gross60%、逐仓1x、无自动加保证金；每日闭合信号、真实逐分钟账户。先两BASE情景均通过事前门槛，才按原政策补两STRESS情景。4个反事实账户分别用完整10k，不能相加钱包。', '', '|成本|资金费解释|净USDT|原双周期净|LONG|SHORT|原SHORT|费+执行|vol%|分钟DD%|原DD%|', '|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
+for x in rows:lines.append('|'+ '|'.join([x['cost'],x['unit'],f(x['net']),f(x['reference']['net_USDT']),f(x['LONG']),f(x['SHORT']),f(x['reference']['SHORT']),f(x['fees']+x['execution']),f(x['vol']*100),f(x['DD']*100),f(x['reference']['DD']*100)])+'|')
+lines+=['','BASE/PCT主要桥：价格毛损益'+f(primary['gross'])+'；费用'+f(primary['fees'])+'；执行'+f(primary['execution'])+'；资金费'+f(primary['funding'])+'；净'+f(primary['net'])+'。SHORT改善'+f(primary['delta']['SHORT'])+'，实际LONG减少'+f(-primary['delta']['LONG'])+'，组合净增'+f(primary['delta']['net'])+'。新账户已实际付费平仓，残仓0；旧双周期含marked残仓'+f(old['residual'])+'，按同一marked NAV比较，不能当作旧账户已清仓。','','实际风险并非同caps即相等：新平均/峰值gross '+f(primary['risk']['minute_mean_gross_weight']*100)+'%/'+f(primary['risk']['minute_max_gross_weight']*100)+'%；平均net '+f(primary['risk']['minute_mean_net_signed_weight']*100)+'%；平均/峰值保证金占NAV '+f(primary['risk']['minute_mean_isolated_collateral_over_NAV']*100)+'%/'+f(primary['risk']['minute_max_isolated_collateral_over_NAV']*100)+'%；实际vol '+f(primary['vol']*100)+'%；归一化换手'+f(primary['turnover'])+'。新日收益正向前5日占比'+f(primary['daily_concentration']['top5_positive_day_share']*100)+'%。不是事后风险缩放。','','## 熊市问题仍未解决','','旧账本实际40个连续空头episode按入场信号关联分组：FAST_ONLY34净-654.75、BOTH_SHORT5净369.85、SLOW_ONLY1净131.66；含残仓及实际费用，和原SHORT桥接。该关联用于提出新规则，不是删除交易后的可实现收益。新4账户全部独立完整重跑，独立Decimal资金/持仓/NAV核对及标的排序目标核对PASS。','','既有过去BTC状态只是滞后描述，不是每币的真实熊牛周期；尤其BTC标BULL时部分币仍可下跌。不能从分组金额推断未来牛熊状态或机械BEAR gate。', '', '|过去BTC状态|日数|原SHORT|新SHORT|新LONG|新组合净|', '|---|---:|---:|---:|---:|---:|']
+for label in ('BULL','BEAR','SIDEWAYS'):
+ z=primary['regimes'][label];lines.append('|'+ '|'.join([label,str(z['days']),f(old['by_past_regime'][label]['SHORT']),f(z['SHORT']),f(z['LONG']),f(z['net'])])+'|')
+lines+=['','BEAR分类的空头仍负，改善不等于已经实现熊市赚钱。只读逐币核对：8/10币SHORT增量正，未按事后收益换币。4月9日新SHORT -192.06 USDT，是BEAR分类最大亏损日；反弹退出时点需继续核对，当前不声称已能提前预测反弹。按原D093预定日历段的同钱包贡献如下（不是新风险匹配或独立账户）：','','|日期|日数|LONG|SHORT|组合净|','|---|---:|---:|---:|---:|']
+for z in periods:lines.append('|'+ '|'.join([z['start']+'至'+z['end_exclusive'],str(z['days']),f(z['LONG']),f(z['SHORT']),f(z['net'])])+'|')
+lines+=['','## 采用范围、局限及下一步','',choice+'。四情景事前门槛结果 '+str(passed)+'：净与SHORT贡献提高、成本/实际vol/DD不增、BEAR SHORT改善、BULL SHORT累计非负。该门槛只选择开发挑战者，不能证明长期收益或真钱资格。', '',next_action,'','Binance USD-M交易/mark/funding配Bybit用户费用仍为跨场所代理；资金费原始单位UNKNOWN保留RAW_AS_FRACTION与RAW_AS_PERCENT，不选择更盈利的解释。MMR假设未原生认证；该已见窗口不包含完整独立2022熊市。特征/目标因果及minute reference不是原生成交证明；新SHORT已产生真实本地模拟开仓/加仓成交，独立资金流核对，不是发单。','', '## 复现与工件','', '全部Python通过hpc_linux的 `scripts/with_task_progress.sh` → `scripts/bounded.sh`，环境在D盘STATE，线程2。复现需新的独立run-dir/output，旧证据不覆盖。', '', '```bash','scripts/with_task_progress.sh --title "SHORT确认复现" -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/run_cta_leaderboard.py --protocol protocols/SHORT_CONFIRMATION_BASE27_20261006_V1.json --run-dir /home/xflops/coin-state/REPLACE_WITH_UNUSED_RUN_DIRECTORY --output reports/fast_research/REPLACE_WITH_UNUSED_REPORT.json','```','', 'BASE与STRESS协议源哈希冻结；信号黄金与CASH/HOLD目标复用范围显式绑定，未重跑不受影响的钱包。4规则反例含下跌/反弹、未来扰动、顺序及独立目标；独立NAV最大误差约1.82e-12USDT，目标约5.56e-17。', '']
+for name in [accepted,*[v['path'] for v in reviews],'reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json','reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json']:
+ lines.append('`'+name+'` SHA256 `'+sha(ROOT/name)+'`。')
+(ROOT/'docs/SHORT_SELECTION.md').write_text('\n'.join(lines)+'\n')
+with (ROOT/'docs/CTA_LEADERBOARD.md').open('a') as f1:f1.write('\n\n## D096：一项SHORT确认适配\n\n同303日BASE/PCT，新多空净'+f(primary['net'])+'，SHORT '+f(primary['SHORT'])+'，vol '+f(primary['vol']*100)+'%，分钟DD '+f(primary['DD']*100)+'%；原双周期净'+f(old['net_USDT'])+'、SHORT '+f(old['SHORT'])+'、DD '+f(old['DD']*100)+'%。四情景完整配对与状态/成本/真实风险见 [SHORT选择](SHORT_SELECTION.md)。没有新训练或参数搜索；仅列已见开发，投资NONE/CASH。BEAR分类SHORT仍亏，不能宣称熊市问题已解决。\n')
+with (ROOT/'docs/RESEARCH_DECISION_LOG.md').open('a') as f1:f1.write('\n\n## D096结果与决定\n\n'+choice+'；4/4完整账户、1固定配方、0训练/搜参/行情下载，事前四情景通过='+str(passed)+'。BASE/PCT净'+f(primary['net'])+'（原'+f(old['net_USDT'])+'）；SHORT '+f(primary['SHORT'])+'（原'+f(old['SHORT'])+'）；vol '+f(primary['vol']*100)+'% DD '+f(primary['DD']*100)+'%。SHORT增量'+f(primary['delta']['SHORT'])+'、LONG增量'+f(primary['delta']['LONG'])+'，不把全部变化当独立short alpha。BEAR分类SHORT仍'+f(primary['regimes']['BEAR']['SHORT'])+'，最大单日-192.06；8/10币增量正，未换池。'+next_action+' 工件 `'+accepted+'` SHA '+sha(ROOT/accepted)+'。\n')
+ops='8765服务沿用，原public/micro断档已保存证据后有限恢复；旧public库不改，新collector_public_v3_20261006.sqlite3，micro同实现新会话RESTART_GAP；两采集任务存活需按当下状态核验。恢复不是72h连续或alpha证据，退出原因UNKNOWN。'
+(ROOT/'docs/RESEARCH_STATUS.md').write_text('# COIN 当前研究状态\n\n投资资格 **NONE/CASH**；长期净APR **NOT_EVALUABLE**。\n\n## 当前SHORT主线与实际结果\n\nD096完成一个固定适配：每币20/10和55/20通道共同确认才允许SHORT，任一确认消失退出；多头forecast保持原规则，实际资本/covariance完整重跑。4个303日10币共享10k账户、0训练/搜参/新行情下载；两BASE门槛通过才补两STRESS，不扩大配方。四情景通过事前开发挑战者门槛='+str(passed)+'。\n\n|BASE/PCT 同产品/日期|净USDT|SHORT贡献|实际vol%|分钟DD%|\n|---|---:|---:|---:|---:|\n|原双周期多空|'+f(old['net_USDT'])+'|'+f(old['SHORT'])+'|'+f(old['vol']*100)+'|'+f(old['DD']*100)+'|\n|双通道SHORT确认|'+f(primary['net'])+'|'+f(primary['SHORT'])+'|'+f(primary['vol']*100)+'|'+f(primary['DD']*100)+'|\n\nSHORT增量'+f(primary['delta']['SHORT'])+'，实际LONG减少'+f(-primary['delta']['LONG'])+'；不是删除交易保留毛收益。8/10币SHORT增量正；新账户付费平仓残仓0，旧双周期为含marked残仓NAV。BEAR过去BTC标签下SHORT仍'+f(primary['regimes']['BEAR']['SHORT'])+'，改进不等于解决熊市赚钱；BULL/BEAR/SIDEWAYS只是滞后描述，不是每币状态。\n\n采用为已见开发SHORT主挑战者，原20/10仅多保留透明稳定参照；HOLD/CASH及旧负结果保留。不能从SMA200或ML失败推断所有SHORT无alpha。\n\n[SHORT结果与复现](SHORT_SELECTION.md)；[统一经典榜单](CTA_LEADERBOARD.md)。实际账本/独立资金与目标核对、规则测试、日历/状态与逐币来源由 `'+accepted+'` 及其SHA引用。\n\n## 下一有限工作\n\n'+next_action+' 未执行新的保护退出账户；不虚报后台研究。未运行历史扩窗draft暂停，先定位short急反弹机制。暂停ML救活/同窗入场阈值搜索；reopen需对稳定benchmark的可证伪净风险增量。SMA200配方reopen需不同独立周期或新的可执行风险机制；固定初始2ATR+次月冷却已有负结果，不机械重跑倍数。\n\n## 数据、风险与资源\n\nBinance行情/funding配Bybit用户费用是跨场所代理；funding单位UNKNOWN保留两解释、MMR假设未原生认证。全部已见开发，不启封locked，不拼接独立账户，不把少数天年化成长期APR。完整资本10k、abs单币30%/gross60%、逐仓1x、无自动加保证金；新平均/峰值gross '+f(primary['risk']['minute_mean_gross_weight']*100)+'%/'+f(primary['risk']['minute_max_gross_weight']*100)+'%，同caps并不等风险。\n\n共享RAM8,000,000,000B、CPU多核、D项目+整个WSL VHD150GB（120预警/135停新增/15预留）、swap0/GPU0；全部Python在hpc_linux经现有progress/bounded，新账户每任务2线程。真实运行区间/内存峰值/工件增长及整盘最新实扫见模块close。无真钱/密钥/发单/封存正文/付费服务。\n\n## 运维\n\n'+ops+' 见 `reports/CTA_COLLECTOR_RECOVERY_ACCEPTED_20261006_V1.json`；本次收尾将附当下PID/start_ticks。\n')
+event=dict.fromkeys(FIELDS);event.update(experiment_id=proto['experiment_id'],event_id='D096:DECISION',event_type='OPERATIONAL_RESEARCH_DECISION',git_commit=raws[0]['binding']['git_commit'],model_family='PUBLIC_CHANNEL_SHORT_CONFIRMATION',models_fit=0,success_failure=choice,artifact_path=accepted,artifact_sha256=sha(ROOT/accepted),result_influenced_later_choice=True,reason_for_next_experiment=next_action);append_event(ROOT/'reports/experiment_registry.jsonl',event)
+print('SHORT收尾磁盘实扫；总量未知',flush=True)
+scan=dict(disk.check(),measured_utc=datetime.now(UTC).isoformat());res=resources.status()
+ordered=sorted(intervals);merged=[]
+for b,e in ordered:
+ if merged and b<=merged[-1][1]:merged[-1][1]=max(e,merged[-1][1])
+ else:merged.append([b,e])
+collectors=[]
+for task_id in ('6bdd0c138a17454c839337f801cce546','c41e7e27d56e4ad19e761a873701bcf7'):
+ t=json.loads((STATE/'task-progress'/('task-'+task_id+'.json')).read_bytes());p=Path('/proc')/str(t['pid'])/'stat';live=p.exists();start=int(p.read_text().split(')')[1].split()[19]) if live else None
+ collectors.append(dict(task_id=task_id,pid=t['pid'],current_start_ticks=start,expected_start_ticks=t['start_ticks'],same_process_live=live and start==t['start_ticks'],scope='PROCESS_IDENTITY_ONLY_NOT_DATABASE_HEALTH_OR_CONTINUITY'))
+closed='reports/SHORT_SELECTION_MODULE_CLOSED_20261006_V1.json'
+write(closed,dict(status='COMPLETE_ONE_SHORT_RULE_FOUR_ACCOUNTS_NOT_INVESTMENT',accepted_sha256=sha(ROOT/accepted),source_hashes=raws[0]['binding']['source_hashes'],new_account_task_intervals=intervals,task_intervals_union_seconds=sum(e-b for b,e in merged),producer_computation_seconds=sum(v['elapsed_seconds'] for v in raws),maximum_process_RSS=max(v['peak_RSS_bytes'] for v in raws),shared_sampled_peak=max(v['shared_RAM_sampled_peak_bytes'] for v in raws),owned_new_replay_bytes=sum(v['owned_bytes'] for v in raws),resources_at_close=res,disk_scan=scan,collectors_at_close=collectors,recipe_configurations=1,accounts=4,zero_fits_or_search=True,choice=choice,next_action=next_action))
+p=STATE/'task-progress/last-disk.json';temp=p.with_suffix('.D096.tmp');temp.write_text(json.dumps(dict(ledger=scan,measured_at=datetime.fromisoformat(scan['measured_utc']).timestamp(),source=closed)));temp.replace(p)
+paths=['docs/OPEN_SOURCE_REGISTRY.md','docs/RESEARCH_DECISION_LOG.md','docs/RESEARCH_STATUS.md','docs/CTA_LEADERBOARD.md','docs/SHORT_SELECTION.md','reports/experiment_registry.jsonl',accepted,closed,'reports/SHORT_SELECTION_ATTRIBUTION_20261006_V1.json','reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json','reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml','reports/GITHUB_CTA_SMA200_SYNC_VERIFIED_20261005_V1.json','tests/test_cta_classics.py']
+paths+=['scripts/investment/'+p+'.py' for p in ('cta_classics','audit_cta_classics','run_cta_leaderboard','short_entry_diagnostic','review_short_confirmation','short_selection_diagnostic','close_short_selection')]
+for cost in ('BASE27','STRESS43'):paths.extend([f'protocols/SHORT_CONFIRMATION_{cost}_20261006_V1.json',f'reports/fast_research/SHORT_CONFIRMATION_{cost}_20261006_V1.json',f'reports/SHORT_CONFIRMATION_{cost}_REVIEW_20261006_V1.json'])
+binding='reports/GITHUB_SHORT_SELECTION_SOURCE_BINDING_20261006_V1.json';prior=read('reports/GITHUB_CTA_SMA200_SOURCE_BINDING_20261005_V1.json')['prior_WIP_preserved']
+write(binding,dict(status='ACCEPTED_MODULE_SOURCE_BINDING',parent_commit=raws[0]['binding']['git_commit'],selected_module_paths=paths+[binding],source_hashes={p:sha(ROOT/p) for p in sorted(set(paths)|set(raws[0]['binding']['source_hashes']))},prior_WIP_preserved=prior,locked_body_read=False))
+ps="$ErrorActionPreference = 'Stop'\n$paths = @(\n"+',\n'.join("'"+p+"'" for p in paths+[binding])+"\n)\n& git.exe -C 'D:/codex/coin' add -- $paths\nif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }\n";(ROOT/'.cache/stage_selected_short.ps1').write_text(ps)
+print(json.dumps(dict(choice=choice,four_case_pass=passed,primary_net=primary['net'],disk_bytes=scan['total_bytes'],producer_seconds=sum(v['elapsed_seconds'] for v in raws)),ensure_ascii=False))

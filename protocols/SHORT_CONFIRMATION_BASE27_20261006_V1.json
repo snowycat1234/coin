@@ -1,0 +1,131 @@
+{
+  "experiment_id": "D096_ASYMMETRIC_DC_SHORT_CONFIRMATION",
+  "question": "Can vetoing unconfirmed downtrend forecasts reduce false short entry and stale-short rebound losses while preserving strong downtrend shorts? ONE fixed short-only decision change; actual same303d shared accounts, no mask of old PnL.",
+  "models_fit": 0,
+  "families": [
+    "DC_CONFIRMED_SHORT"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2024-09-01",
+  "economics_start": "2024-09-01",
+  "economics_end_exclusive": "2025-07-01",
+  "data_role": "PREVIOUSLY_SEEN303D_DEVELOPMENT; ENTRY_DIAGNOSTIC_INFLUENCED_THIS_RECIPE_SELECTION_NOT_UNSEEN",
+  "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "OWN_SHORT_CONFIRMATION_ADAPTER_OF_EXISTING_PINNED_JESSE_20_10_55_20; MOTIVATED_BY_Goulding_Harvey_Mazzoleni2023_TURNING_POINTS_NOT_FULL_DYN_REPLICATION",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://www.nber.org/papers/w20439",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "One task, two sequential actual accounts, two CPU threads, no new data; at most4 accounts conditional stress continuation preregistered. Reuse all unaffected public baseline accounts. Short masking changes future exposure and covariance, so recompute actual entire wallet, costs and long contribution.",
+  "budget": {
+    "wall_seconds": 1200,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 300000000,
+    "GPU": 0
+  },
+  "stopping": "TWO_BASE27_LS_ACCOUNTS_RAW1_AND.01_THEN_STOP_IF_NO_CANDIDATE; MAX_TWO_STRESS43_ONLY_IF_BASE_BOTH_PASS; NO_RECIPE_OR_THRESHOLD_SEARCH",
+  "adoption": "BASE contender only if BOTH complete interpretations beat same-unit DC_TWO_SPEED LONG_SHORT net and SHORT contribution; DD/vol/cost no worse; BEAR short contribution improves and BULL short cumulative >=0 under same fixed past-BTC descriptive regimes. If fail pause recipe and do not spend on STRESS. If pass run two STRESS units; no adoption claim until allfour. No guaranteed future bear gains/native/unseen/longAPR.",
+  "regression": {
+    "path": "reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml",
+    "sha256": "6c8b5ae93c4ce1725a3f56426abb2ab40bdc21480943aa9cd9e6f9b575d3131b",
+    "source_sha256": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+    "tests": 4,
+    "reuse_scope": "ACTUAL4_RULE_TESTS; GOLDEN_DEFAULT_AND_PRIOR_DUAL_FORECAST; OWN_DOWN_TREND_ENTRY_REBOUND_EXIT_VETO_FUTURE_PERTURBATION_SYMBOL_ORDER_AND_INDEPENDENT_TARGETS; no account repeat"
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+    "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+    "scripts/investment/run_cta_leaderboard.py": "c126577ecd8e6bdb177c27b6ae26144d1271cad33341aa94cb9617f7be0b0166",
+    "scripts/investment/summarize_cta_leaderboard.py": "e63f774aa5813429496601dafbf99550c3e4b1d39199914669ae33b231fca140"
+  },
+  "operational_correction": "User steered to intelligent selective short. Unrun Jan2022 acquisition draft paused, preserved only under .cache. Already accepted data reused; no new network.",
+  "cost_ids": [
+    "BASE27"
+  ],
+  "coverage": {
+    "path": "reports/CTA_EXISTING_CYCLE_COVERAGE_20261005_V1.json",
+    "sha256": "ca560f7ad6a2c569ee329111c6e2edfd2f9f441d7f32f3d6b9f7b8cf957c291c"
+  },
+  "parallel_scope": "Two bounded tasks share coin.slice8GB; explicit2 threads per task; full accounts independent counterfactuals not summed; stage durations task interval union not sum",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "baseline": {
+    "path": "reports/CTA_DONCHIAN_303D_ACCEPTED_20261005_V1.json",
+    "sha256": "b9fc313e5add7d975a084b3cf41d1608301ed676b5e050076b1d1360a6c9377e"
+  },
+  "legacy_control_targets": [
+    {
+      "family": "SMA200_SIGNED",
+      "mode": "CASH",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/CASH_CASH_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "254307917ff18d09d4e392cf5cd4da79e538dd581e018e9ab417e752cad68924"
+    },
+    {
+      "family": "HOLD",
+      "mode": "LONG_ONLY",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/HOLD_LONG_ONLY_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "a0e84c9ad734ca26a756028af954577d08dd81231cf64251027b1c9340515a7b"
+    }
+  ],
+  "created_utc": "2026-10-05T14:40:10.803827+00:00",
+  "legacy_signal_golden": {
+    "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/frozen_signals.parquet",
+    "sha256": "8ed5b064be670ce6802d6f670f4059fdaeecea09f70f4a5557e3292f3fb9e6d0"
+  },
+  "account_modes": [
+    "LONG_SHORT"
+  ],
+  "research_primary_reference": {
+    "path": "reports/CTA_TWO_SPEED_ACCEPTED_20261005_V1.json",
+    "sha256": "9f8a39aed569ad2e082ee9f57293ef358ec002abd42226b7aa9077afeec683e7"
+  },
+  "entry_diagnostic": {
+    "path": "reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json",
+    "sha256": "938362b3d9cfa897843ba0f1e12f1ce773eb2f18403ab09a0189d18a7bc577b9"
+  },
+  "conditional_stress": "Generate identical STRESS43 cost-only protocol if BOTH BASE cases satisfy above gate; no cost/threshold/date/recipe alteration after results."
+}

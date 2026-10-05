@@ -60,3 +60,31 @@ def test_two_speed_reuses_channels_preserves_default_and_is_causal():
         reversed_,_=cta.targets(extended,b,t,mode,symbols[::-1],'DC_TWO_SPEED')
         assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
             reversed_.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)
+
+
+def test_confirmed_short_keeps_downtrends_vetoes_divergence_and_preserves_long():
+    b,t=fixture();symbols=('BTCUSDT','ETHUSDT')
+    # Rise, sustained decline, then rebound: actual entry and exit states.
+    days=(pl.col('close_us')-b['close_us'].min())/cta.DAY
+    price=pl.when(days<200).then(100+days*.3).when(days<350).then(160-(days-200)*.5).otherwise(85+(days-350)*.7)
+    b=b.with_columns(price.alias('close'),price.alias('open'),(price+.01).alias('high'),(price-.01).alias('low'))
+    old,_=cta.signals(b,t,symbols);f,_=cta.signals(b,t,symbols,include_components=True)
+    assert f.select(old.columns).equals(old)
+    ref.verify_signals(f,b,t,symbols)
+    both=f.filter((pl.col('DONCHIAN20_10')<0)&(pl.col('DONCHIAN55_20')<0))
+    disagreement=f.filter((pl.col('DC_TWO_SPEED')<0)&~((pl.col('DONCHIAN20_10')<0)&(pl.col('DONCHIAN55_20')<0)))
+    assert both.height>0 and both['DC_CONFIRMED_SHORT'].max()==-1
+    assert disagreement.height>0 and disagreement['DC_CONFIRMED_SHORT'].abs().sum()==0
+    pos=f.filter(pl.col('DC_TWO_SPEED')>=0)
+    assert pos['DC_CONFIRMED_SHORT'].equals(pos['DC_TWO_SPEED'])
+    cutoff=int(t[100]);changed=b.with_columns(*[
+        pl.when(pl.col('close_us')>cutoff).then(pl.col(k)*2).otherwise(pl.col(k)).alias(k)
+        for k in ('open','close','high','low')])
+    future,_=cta.signals(changed,t,symbols,include_components=True)
+    assert f.filter(pl.col('close_us')<=cutoff).equals(future.filter(pl.col('close_us')<=cutoff))
+    for mode in cta.MODES:
+        target,_=cta.targets(f,b,t,mode,symbols,'DC_CONFIRMED_SHORT')
+        ref.verify_targets(target,f,b,symbols,'DC_CONFIRMED_SHORT',mode)
+        swapped,_=cta.targets(f,b,t,mode,symbols[::-1],'DC_CONFIRMED_SHORT')
+        assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
+                           swapped.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)

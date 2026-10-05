@@ -31,6 +31,10 @@ def verify_signals(frame,bars,decisions,symbols):
             if 'DC_TWO_SPEED' in frame.columns:
                 values.update(DONCHIAN55_20=float(states[1]) if valid else None,
                     DC_TWO_SPEED=sum(states)/2 if valid else None)
+            if 'DC_CONFIRMED_SHORT' in frame.columns:
+                average=sum(states)/2
+                values['DC_CONFIRMED_SHORT']=(None if not valid else
+                    -1. if states==[-1,-1] else max(0.,average))
             for f,v in values.items():
                 actual=observed[(int(t),s)][f]
                 assert (actual is None)==(v is None),(s,t,f)

@@ -1,0 +1,5896 @@
+{
+  "status": "COMPLETE_FROZEN_CTA_2_ACTUAL_ACCOUNTS_OR_EXPLICIT_HALTS",
+  "binding": {
+    "task_id": "9353f98c9e3447f58ba6c93297477d26",
+    "git_commit": "7b0d9ad911310684d5498beb910c5a137f29f59a",
+    "protocol_sha256": "83f94748d1b31a03e35ee192e721842f4f384653904861fd63270ea99f44d784",
+    "source_hashes": {
+      "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+      "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+      "scripts/investment/run_cta_leaderboard.py": "c126577ecd8e6bdb177c27b6ae26144d1271cad33341aa94cb9617f7be0b0166",
+      "scripts/investment/multi_asset_data.py": "9df0fdaa7de26e212ba6ba644a9790393d226721eae3d921ac5a0e819eb07cb1",
+      "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+      "scripts/investment/perpetual_directional.py": "2fb9f34d01d7e805e1407dd0d8e76bfc5463218a7b7825a6243dc4b50fcededd",
+      "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+      "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "scripts/investment/audit_shared_direction.py": "3b63cd09a176ae5aaef8457f4101c14ec4be6e8c502e060a5e5d0db24fa748bf",
+      "scripts/investment/market_regime.py": "c4a26e89f60f577e5c455cd6981f3414678d20f79d638ee457072a81889b67e5",
+      "scripts/investment/shared_direction_model.py": "f918bb99c8062e9b74cf3b05b2abaae0c60b64107f846ef0679f852cf82e3c85",
+      "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+      "tests/test_cta_classics.py": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+      "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+      "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+      "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+      "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4"
+    },
+    "input_manifest_sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab",
+    "reused_controls_baseline": {
+      "path": "reports/CTA_DONCHIAN_303D_ACCEPTED_20261005_V1.json",
+      "sha256": "b9fc313e5add7d975a084b3cf41d1608301ed676b5e050076b1d1360a6c9377e"
+    }
+  },
+  "protocol": {
+    "experiment_id": "D096_ASYMMETRIC_DC_SHORT_CONFIRMATION",
+    "question": "Can vetoing unconfirmed downtrend forecasts reduce false short entry and stale-short rebound losses while preserving strong downtrend shorts? ONE fixed short-only decision change; actual same303d shared accounts, no mask of old PnL.",
+    "models_fit": 0,
+    "families": [
+      "DC_CONFIRMED_SHORT"
+    ],
+    "modes": [
+      "LONG_ONLY",
+      "SHORT_ONLY",
+      "LONG_SHORT",
+      "CASH"
+    ],
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "data_manifest": {
+      "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+      "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+    },
+    "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+    "preparation_start": "2024-09-01",
+    "economics_start": "2024-09-01",
+    "economics_end_exclusive": "2025-07-01",
+    "data_role": "PREVIOUSLY_SEEN303D_DEVELOPMENT; ENTRY_DIAGNOSTIC_INFLUENCED_THIS_RECIPE_SELECTION_NOT_UNSEEN",
+    "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+    "rules": {
+      "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+      "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+      "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+      "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+      "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+      "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+      "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+      "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+      "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+      "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+      "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+      "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+    },
+    "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+    "source_scope": "OWN_SHORT_CONFIRMATION_ADAPTER_OF_EXISTING_PINNED_JESSE_20_10_55_20; MOTIVATED_BY_Goulding_Harvey_Mazzoleni2023_TURNING_POINTS_NOT_FULL_DYN_REPLICATION",
+    "sources": [
+      "https://doi.org/10.1016/j.jfineco.2023.05.007",
+      "https://www.nber.org/papers/w20439",
+      "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+    ],
+    "budgets_estimation": "One task, two sequential actual accounts, two CPU threads, no new data; at most4 accounts conditional stress continuation preregistered. Reuse all unaffected public baseline accounts. Short masking changes future exposure and covariance, so recompute actual entire wallet, costs and long contribution.",
+    "budget": {
+      "wall_seconds": 1200,
+      "RSS_bytes": 1200000000,
+      "owned_bytes": 300000000,
+      "GPU": 0
+    },
+    "stopping": "TWO_BASE27_LS_ACCOUNTS_RAW1_AND.01_THEN_STOP_IF_NO_CANDIDATE; MAX_TWO_STRESS43_ONLY_IF_BASE_BOTH_PASS; NO_RECIPE_OR_THRESHOLD_SEARCH",
+    "adoption": "BASE contender only if BOTH complete interpretations beat same-unit DC_TWO_SPEED LONG_SHORT net and SHORT contribution; DD/vol/cost no worse; BEAR short contribution improves and BULL short cumulative >=0 under same fixed past-BTC descriptive regimes. If fail pause recipe and do not spend on STRESS. If pass run two STRESS units; no adoption claim until allfour. No guaranteed future bear gains/native/unseen/longAPR.",
+    "regression": {
+      "path": "reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml",
+      "sha256": "6c8b5ae93c4ce1725a3f56426abb2ab40bdc21480943aa9cd9e6f9b575d3131b",
+      "source_sha256": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+      "tests": 4,
+      "reuse_scope": "ACTUAL4_RULE_TESTS; GOLDEN_DEFAULT_AND_PRIOR_DUAL_FORECAST; OWN_DOWN_TREND_ENTRY_REBOUND_EXIT_VETO_FUTURE_PERTURBATION_SYMBOL_ORDER_AND_INDEPENDENT_TARGETS; no account repeat"
+    },
+    "frozen_source_hashes": {
+      "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+      "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+      "scripts/investment/run_cta_leaderboard.py": "c126577ecd8e6bdb177c27b6ae26144d1271cad33341aa94cb9617f7be0b0166",
+      "scripts/investment/summarize_cta_leaderboard.py": "e63f774aa5813429496601dafbf99550c3e4b1d39199914669ae33b231fca140"
+    },
+    "operational_correction": "User steered to intelligent selective short. Unrun Jan2022 acquisition draft paused, preserved only under .cache. Already accepted data reused; no new network.",
+    "cost_ids": [
+      "STRESS43"
+    ],
+    "coverage": {
+      "path": "reports/CTA_EXISTING_CYCLE_COVERAGE_20261005_V1.json",
+      "sha256": "ca560f7ad6a2c569ee329111c6e2edfd2f9f441d7f32f3d6b9f7b8cf957c291c"
+    },
+    "parallel_scope": "Two bounded tasks share coin.slice8GB; explicit2 threads per task; full accounts independent counterfactuals not summed; stage durations task interval union not sum",
+    "resources": {
+      "shared_RAM_bytes": 8000000000,
+      "D_bytes": 150000000000,
+      "capital_USDT": 10000,
+      "abs_asset_cap": 0.3,
+      "gross_cap": 0.6
+    },
+    "include_controls": false,
+    "baseline": {
+      "path": "reports/CTA_DONCHIAN_303D_ACCEPTED_20261005_V1.json",
+      "sha256": "b9fc313e5add7d975a084b3cf41d1608301ed676b5e050076b1d1360a6c9377e"
+    },
+    "legacy_control_targets": [
+      {
+        "family": "SMA200_SIGNED",
+        "mode": "CASH",
+        "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/CASH_CASH_BASE27_RAW_AS_FRACTION/targets.parquet",
+        "sha256": "254307917ff18d09d4e392cf5cd4da79e538dd581e018e9ab417e752cad68924"
+      },
+      {
+        "family": "HOLD",
+        "mode": "LONG_ONLY",
+        "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/HOLD_LONG_ONLY_BASE27_RAW_AS_FRACTION/targets.parquet",
+        "sha256": "a0e84c9ad734ca26a756028af954577d08dd81231cf64251027b1c9340515a7b"
+      }
+    ],
+    "created_utc": "2026-10-05T16:57:42.579855+00:00",
+    "legacy_signal_golden": {
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/frozen_signals.parquet",
+      "sha256": "8ed5b064be670ce6802d6f670f4059fdaeecea09f70f4a5557e3292f3fb9e6d0"
+    },
+    "account_modes": [
+      "LONG_SHORT"
+    ],
+    "research_primary_reference": {
+      "path": "reports/CTA_TWO_SPEED_ACCEPTED_20261005_V1.json",
+      "sha256": "9f8a39aed569ad2e082ee9f57293ef358ec002abd42226b7aa9077afeec683e7"
+    },
+    "entry_diagnostic": {
+      "path": "reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json",
+      "sha256": "938362b3d9cfa897843ba0f1e12f1ce773eb2f18403ab09a0189d18a7bc577b9"
+    },
+    "conditional_stress": "Generate identical STRESS43 cost-only protocol if BOTH BASE cases satisfy above gate; no cost/threshold/date/recipe alteration after results.",
+    "conditional_stress_authorization": {
+      "base_protocol_sha256": "0b0db13edb842f02d1d0cb91b0f5b4af495c2c04cc6a4f1712681c96b76a68f0",
+      "base_review_path": "/mnt/d/codex/coin/reports/SHORT_CONFIRMATION_BASE27_REVIEW_20261006_V1.json",
+      "base_review_sha256": "7139ca2d0b4fc82a000bf464ac4351d17921826f9cc997788edb4f8a21d41dd1",
+      "scope": "PREDECLARED_TWO_COST_ONLY_ACCOUNTS; BASE_PAIRED_GATE_BOTH_PASS; RECIPE_DATES_AND_FINANCIAL_RULES_UNCHANGED"
+    }
+  },
+  "run_dir": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1",
+  "cases": [
+    {
+      "id": "DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION",
+      "strategy": "DC_CONFIRMED_SHORT",
+      "mode": "LONG_SHORT",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_FRACTION",
+      "elapsed_seconds": 163.85691055699863,
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 43.0,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "cost_provenance": {
+            "exchange": "Bybit",
+            "product": "LINEAR_USDT_PERPETUAL",
+            "settlement_asset": "USDT",
+            "liquidity_role": "TAKER",
+            "fee_rate_fraction": "0.00055",
+            "fee_zone_by_symbol": {
+              "BTCUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ETHUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "SOLUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000PEPEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "XRPUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WIFUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WLDUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "DOGEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000SATSUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ORDIUSDT": "DERIVATIVES_CRYPTO_STANDARD"
+            },
+            "fee_source_ref": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json",
+            "fee_source_sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+            "fee_time_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+            "native_fee_zone_certified": false,
+            "symbol_zone_status": "EXPLICIT_RESEARCH_SCENARIO_NOT_NATIVE_OR_HISTORICAL_CLASSIFICATION",
+            "historical_execution_certified": false,
+            "execution_source_ref": "ACCEPTED_BINANCE_USDM_PROXY",
+            "execution_status": "FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO"
+          },
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1751328000000000,
+        "NAV": 11457.949211195668,
+        "free_cash": 11457.949211195668,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 1457.9492111956677,
+        "gross_PnL_same_quantities": 1670.0986816585985,
+        "realized_PnL": 1555.345650887245,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 39.44488464081287,
+        "execution_cost_USDT": 114.75303077135341,
+        "funding_USDT": -57.951555050764554,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": 1.12e-34,
+        "gross_fill_turnover_USDT": 71717.97207420523,
+        "configured_nominal_roundtrip_bps": 43.0,
+        "trade_legs": 1421,
+        "funding_events": 11807,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "11457.94921119566767730937737700000000012",
+          "free_cash": "11457.94921119566767730937737700000000012",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "1457.94921119566767730937737700000000012",
+          "gross_PnL_same_quantities": "1670.098681658598513000000000000000000008",
+          "realized_PnL": "1555.345650887245104035200000000000000008",
+          "unrealized_PnL": "0",
+          "fees_USDT": "39.444884640812874764958560",
+          "execution_cost_USDT": "114.7530307713534089648",
+          "funding_USDT": "-57.9515550507645519608640630",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "1.12E-34",
+          "gross_fill_turnover_USDT": "71717.9720742052268453792",
+          "configured_nominal_roundtrip_bps": "43.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_SHORT",
+        "cost_scenario": {
+          "id": "STRESS43",
+          "fee_rate_fraction": "0.00055",
+          "half_spread_bps": "8",
+          "slippage_bps": "8",
+          "roundtrip_bps": "43.00000",
+          "provenance": {
+            "exchange": "Bybit",
+            "product": "LINEAR_USDT_PERPETUAL",
+            "settlement_asset": "USDT",
+            "liquidity_role": "TAKER",
+            "fee_rate_fraction": "0.00055",
+            "fee_zone_by_symbol": {
+              "BTCUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ETHUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "SOLUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000PEPEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "XRPUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WIFUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WLDUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "DOGEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000SATSUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ORDIUSDT": "DERIVATIVES_CRYPTO_STANDARD"
+            },
+            "fee_source_ref": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json",
+            "fee_source_sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+            "fee_time_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+            "native_fee_zone_certified": false,
+            "symbol_zone_status": "EXPLICIT_RESEARCH_SCENARIO_NOT_NATIVE_OR_HISTORICAL_CLASSIFICATION",
+            "historical_execution_certified": false,
+            "execution_source_ref": "ACCEPTED_BINANCE_USDM_PROXY",
+            "execution_status": "FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO"
+          }
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_FRACTION",
+          "scale": 1.0
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 436320,
+        "required_minutes": 436320,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.05544877225424971,
+        "maximum_actual_gross_weight": 0.4036630603925933,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.12609851964844823,
+          "ETHUSDT": 0.07945303037219381,
+          "SOLUSDT": 0.07342507167704355,
+          "1000PEPEUSDT": 0.035678612713731295,
+          "XRPUSDT": 0.11866002249002747,
+          "WIFUSDT": 0.051113491122273584,
+          "WLDUSDT": 0.06713008056830838,
+          "DOGEUSDT": 0.0635254306086297,
+          "1000SATSUSDT": 0.06927557717192852,
+          "ORDIUSDT": 0.044896466791423416
+        },
+        "funding_original_events": 11817,
+        "funding_observed_events": 11817,
+        "funding_account_applied_events": 11807,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 6896,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1726704060000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 107107.33111594,
+          "ETHUSDT": 2484.52946124,
+          "SOLUSDT": 154.74,
+          "1000PEPEUSDT": 0.00974134,
+          "XRPUSDT": 2.23627092,
+          "WIFUSDT": 0.8665,
+          "WLDUSDT": 0.8983903,
+          "DOGEUSDT": 0.16508516,
+          "1000SATSUSDT": 3.78e-05,
+          "ORDIUSDT": 7.44062892
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 6150.235419366149,
+        "cash_close_retry_policy": "PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL",
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 303,
+          "initial_nav": 10000.0,
+          "final_nav": 11457.949211195668,
+          "total_return": 0.14579492111956682,
+          "annual_return": 0.17815212952180537,
+          "annual_volatility": 0.09660011276139022,
+          "sharpe": 1.7456876579013174,
+          "max_drawdown": 0.05058485280879965,
+          "fees": 39.44488464081287,
+          "execution_costs": 114.7530307713534,
+          "turnover": 71717.97207420523
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.05544877225424971,
+        "normalized_total_turnover": 7.171797207420523,
+        "net_return_on_full_initial_capital_percent": 14.579492111956677,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.15314817039749906,
+          "minute_max_gross_weight": 0.40366306039259325,
+          "minute_mean_net_signed_weight": 0.04762513474341251,
+          "minute_min_net_signed_weight": -0.17103707706221638,
+          "minute_max_net_signed_weight": 0.2084806755202139,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.16825517406894883,
+          "minute_max_isolated_collateral_over_initial_capital": 0.4010805215358656,
+          "minute_mean_isolated_collateral_over_NAV": 0.15123870869663592,
+          "minute_max_isolated_collateral_over_NAV": 0.39201130812004303,
+          "minimum_recorded_minute_free_cash_USDT": 6150.3491617197415,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 151,
+          "total_days": 303,
+          "top5_positive_day_share": 0.12108341796640751,
+          "largest_absolute_day_share": 0.018500640009135566,
+          "positive_gain_USDT": 6862.2672289667935,
+          "absolute_daily_net_delta_USDT": 12266.585246737919
+        },
+        "months": [
+          {
+            "month": "2024-09",
+            "days": 30,
+            "net_PnL": 142.4003336425667,
+            "fees": 2.2517339976971154,
+            "spread_cost": 3.273423742471624,
+            "slippage_cost": 3.273423742471624,
+            "funding_USDT": -3.7490495418222896,
+            "gross_PnL": 154.94796466702934,
+            "ending_NAV": 10142.400333642567,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00349716,
+              "ETHUSDT": 0.06677139,
+              "SOLUSDT": 0.93713047,
+              "1000PEPEUSDT": 17177.05378489,
+              "XRPUSDT": 309.49503979,
+              "WIFUSDT": 71.2321407,
+              "WLDUSDT": 44.22492857,
+              "DOGEUSDT": 2184.55518883,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 4.48330042
+            }
+          },
+          {
+            "month": "2024-10",
+            "days": 31,
+            "net_PnL": 171.14455549727245,
+            "fees": 4.399629801518142,
+            "spread_cost": 6.400026056041697,
+            "slippage_cost": 6.400026056041697,
+            "funding_USDT": -11.0853541469475,
+            "gross_PnL": 199.42959155782148,
+            "ending_NAV": 10313.54488913984,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.01571414,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 4.0506388,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": -1700.62976699,
+              "WIFUSDT": 71.59228815,
+              "WLDUSDT": 78.91862835,
+              "DOGEUSDT": 3129.80959478,
+              "1000SATSUSDT": -1726022.49528451,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 935.349544435494,
+            "fees": 4.905845634841254,
+            "spread_cost": 7.13691035818702,
+            "slippage_cost": 7.13691035818702,
+            "funding_USDT": -21.801180498068334,
+            "gross_PnL": 976.3303912847776,
+            "ending_NAV": 11248.894433575333,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00299949,
+              "ETHUSDT": 0.06112066,
+              "SOLUSDT": 0.88181746,
+              "1000PEPEUSDT": 4423.76969985,
+              "XRPUSDT": 70.60520268,
+              "WIFUSDT": 33.46685036,
+              "WLDUSDT": 46.697752,
+              "DOGEUSDT": 271.1540166,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 1.99594368
+            }
+          },
+          {
+            "month": "2024-12",
+            "days": 31,
+            "net_PnL": -411.91637576026733,
+            "fees": 3.4362386056823375,
+            "spread_cost": 4.998415744769748,
+            "slippage_cost": 4.998415744769748,
+            "funding_USDT": -19.32078428023913,
+            "gross_PnL": -379.1625213848064,
+            "ending_NAV": 10836.978057815066,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.01327874,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 196.5360223,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -2308280.37508621,
+              "ORDIUSDT": -14.24159165
+            }
+          },
+          {
+            "month": "2025-01",
+            "days": 31,
+            "net_PnL": 347.77891484030624,
+            "fees": 4.258066400308625,
+            "spread_cost": 6.194992560513089,
+            "slippage_cost": 6.194992560513089,
+            "funding_USDT": -5.296445609263756,
+            "gross_PnL": 369.7234119709048,
+            "ending_NAV": 11184.756972655372,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0074649,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 1.3866901,
+              "1000PEPEUSDT": -21676.38324101,
+              "XRPUSDT": 106.45422924,
+              "WIFUSDT": -212.97051815,
+              "WLDUSDT": -148.25126622,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -1491496.29517596,
+              "ORDIUSDT": -15.0673005
+            }
+          },
+          {
+            "month": "2025-02",
+            "days": 28,
+            "net_PnL": 334.7789319270123,
+            "fees": 2.875589112637517,
+            "spread_cost": 4.1852722642180495,
+            "slippage_cost": 4.1852722642180495,
+            "funding_USDT": 3.475503834490276,
+            "gross_PnL": 342.5495617335956,
+            "ending_NAV": 11519.535904582384,
+            "ending_signed_quantities": {
+              "BTCUSDT": -0.00625806,
+              "ETHUSDT": -0.12522652,
+              "SOLUSDT": -1.79287781,
+              "1000PEPEUSDT": -21301.43855382,
+              "XRPUSDT": 56.5124179,
+              "WIFUSDT": -222.36549525,
+              "WLDUSDT": -164.89799331,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": -11.79527647
+            }
+          },
+          {
+            "month": "2025-03",
+            "days": 31,
+            "net_PnL": 22.132017015708698,
+            "fees": 4.269672928117231,
+            "spread_cost": 6.2098273695143575,
+            "slippage_cost": 6.2098273695143575,
+            "funding_USDT": 3.9029544343017193,
+            "gross_PnL": 34.918390248552925,
+            "ending_NAV": 11541.667921598093,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 113.61309427,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": -876.95758405,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -8942268.73999968,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2025-04",
+            "days": 30,
+            "net_PnL": 65.93973548035683,
+            "fees": 5.427327983691246,
+            "spread_cost": 7.891419987323928,
+            "slippage_cost": 7.891419987323928,
+            "funding_USDT": 2.8195155930701716,
+            "gross_PnL": 84.33038784562575,
+            "ending_NAV": 11607.60765707845,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00418701,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 1.57202309,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 226.76442817,
+              "WLDUSDT": 140.89772471,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 3021513.56047515,
+              "ORDIUSDT": 22.68633257
+            }
+          },
+          {
+            "month": "2025-05",
+            "days": 31,
+            "net_PnL": 147.9126971650512,
+            "fees": 3.508746228583483,
+            "spread_cost": 5.103552585350734,
+            "slippage_cost": 5.103552585350734,
+            "funding_USDT": -5.762654982397983,
+            "gross_PnL": 167.39120354673412,
+            "ending_NAV": 11755.520354243501,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00586292,
+              "ETHUSDT": 0.18363797,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 128.16521318,
+              "WLDUSDT": 258.24747072,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2025-06",
+            "days": 30,
+            "net_PnL": -297.5711430478332,
+            "fees": 4.112033947735924,
+            "spread_cost": 5.982674717286457,
+            "slippage_cost": 5.982674717286457,
+            "funding_USDT": -1.1340598538877273,
+            "gross_PnL": -280.3596998116366,
+            "ending_NAV": 11457.949211195668,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 8,
+        "total_month_count": 10,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 1062.5157911532265,
+            "fees": 22.989558256217077,
+            "execution_cost": 66.88143496760229,
+            "funding": -86.33953489727776,
+            "net_contribution": 886.3052630321292
+          },
+          "SHORT": {
+            "gross": 607.5828905053728,
+            "fees": 16.455326384595807,
+            "execution_cost": 47.871595803751134,
+            "funding": 28.387979846513403,
+            "net_contribution": 571.6439481635393
+          }
+        },
+        "spread_cost_USDT": 57.376515385676704,
+        "slippage_cost_USDT": 57.376515385676704
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/minute_nav_inventory.parquet",
+          "sha256": "051570711e09717c65e9eb185826671cb092e2abe8ba81674f9e614696f8f9bf",
+          "bytes": 67576802,
+          "rows": 436320
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/daily_nav.parquet",
+          "sha256": "2e9572f73f084742ded741a183ee356870eaf9c978199d86d7ffcf98dd19f7f1",
+          "bytes": 11316,
+          "rows": 303
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/targets.parquet",
+          "sha256": "58fca903e8c3199f38b8f81bdef22e58feae69ee13f16e3481f8c61861e03303",
+          "bytes": 31950,
+          "rows": 3030
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/trades.json",
+          "sha256": "79f35946903b3ee4cb0f0c19ec97732ca69d8243a26684c00d2178dbb8c6821e",
+          "bytes": 2784375
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/funding.json",
+          "sha256": "987e8ef456bd52d2613ccd1b10fb080f2865bb11617c65a5141e16bb7b77f031",
+          "bytes": 10288145
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/rejections.json",
+          "sha256": "d55f25fd6c371ff7c2f0a69645331e661cfbdaa1f923d59d7cd834c6c4de30ed",
+          "bytes": 6091266
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/extrema.json",
+          "sha256": "08372cb35aab5ad8eda297e65e6f3024a6cb96e7a3f26645ea24bad08ca27e84",
+          "bytes": 707
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/target_meta.json",
+          "sha256": "8eb59527e2d001944ac48c12e007d2ee1040b38eb5c03c39d13815c2b79e7962",
+          "bytes": 249752
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/trades.parquet",
+          "sha256": "d4bd170466b54943d6c23fff5f0252670fc2c65fdc447250e65f2d89d259a3af",
+          "bytes": 94476,
+          "rows": 1421
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_FRACTION/funding.parquet",
+          "sha256": "0f721450af36bdd9dcb6b74f22cc742b207b30994469ce2a7213a2e9c151d56a",
+          "bytes": 224266,
+          "rows": 11817
+        }
+      },
+      "independent": {
+        "status": "PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY",
+        "minutes": 436320,
+        "maximum_NAV_error_USDT": 1.8189894035458565e-12,
+        "maximum_wallet_error_USDT": 1.8189894035458565e-12,
+        "terminal_cash_realized": true,
+        "liquidated_return_scope": "EVALUABLE",
+        "actual_short_open_legs": 243,
+        "daily_direction_contributions": [
+          {
+            "day_end_us": 1725235200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725321600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725408000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725494400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725580800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725667200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725753600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725840000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725926400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726012800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726099200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726185600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726272000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726358400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726444800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726531200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726617600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726704000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726790400000000,
+            "LONG": 7.828250190099766,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726876800000000,
+            "LONG": 8.16479233086875,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726963200000000,
+            "LONG": 13.315377166022472,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727049600000000,
+            "LONG": -36.168920910531256,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727136000000000,
+            "LONG": 20.005792010166715,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727222400000000,
+            "LONG": 44.3454367376396,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727308800000000,
+            "LONG": -2.0559743146577603,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727395200000000,
+            "LONG": 88.05034511038434,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727481600000000,
+            "LONG": 53.76800003576591,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727568000000000,
+            "LONG": 22.352003475236643,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727654400000000,
+            "LONG": 4.419490257834468,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727740800000000,
+            "LONG": -81.62425844626273,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727827200000000,
+            "LONG": -96.26676195152004,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727913600000000,
+            "LONG": -65.53426576681659,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728000000000000,
+            "LONG": -40.78234284922428,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728086400000000,
+            "LONG": 89.0107251377865,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728172800000000,
+            "LONG": 2.7218269931513532,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728259200000000,
+            "LONG": 94.33313331909994,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728345600000000,
+            "LONG": -33.08881800257723,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728432000000000,
+            "LONG": -28.58163227270279,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728518400000000,
+            "LONG": -38.40820642619451,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728604800000000,
+            "LONG": 8.219743510103626,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728691200000000,
+            "LONG": 88.62140006403342,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728777600000000,
+            "LONG": 8.547301856214972,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728864000000000,
+            "LONG": -6.098134455200125,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728950400000000,
+            "LONG": 105.323965695266,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729036800000000,
+            "LONG": -29.64773903196499,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729123200000000,
+            "LONG": 9.381476821118326,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729209600000000,
+            "LONG": -19.121065704135844,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729296000000000,
+            "LONG": 69.12596135504828,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729382400000000,
+            "LONG": 18.22643614087292,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729468800000000,
+            "LONG": 11.092560631513834,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729555200000000,
+            "LONG": -52.10167671214663,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729641600000000,
+            "LONG": -12.180194205093585,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729728000000000,
+            "LONG": -14.825250124084505,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729814400000000,
+            "LONG": 28.972019890336696,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729900800000000,
+            "LONG": -111.80321432777964,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729987200000000,
+            "LONG": 63.86427659415426,
+            "SHORT": -23.3301230814684,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730073600000000,
+            "LONG": 81.77480781724489,
+            "SHORT": -20.03702883225492,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730160000000000,
+            "LONG": 105.84117736610506,
+            "SHORT": -9.747095995199516,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730246400000000,
+            "LONG": 111.6570261817219,
+            "SHORT": -42.30194118373993,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730332800000000,
+            "LONG": -58.565817101339235,
+            "SHORT": 21.32370226729313,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730419200000000,
+            "LONG": -99.1622883476457,
+            "SHORT": 54.690610227295565,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730505600000000,
+            "LONG": -50.809205760662735,
+            "SHORT": 12.078675976529894,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730592000000000,
+            "LONG": -8.253927851596018,
+            "SHORT": 14.217226676446444,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730678400000000,
+            "LONG": -64.28465446320797,
+            "SHORT": 57.61388063811114,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730764800000000,
+            "LONG": -13.654078426681053,
+            "SHORT": 12.506650129954778,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730851200000000,
+            "LONG": 94.43980498365977,
+            "SHORT": -52.62095881106461,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730937600000000,
+            "LONG": 242.06088775433386,
+            "SHORT": -144.81200260561195,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731024000000000,
+            "LONG": 29.501392663770048,
+            "SHORT": 3.5995696455857455,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731110400000000,
+            "LONG": 44.38256103805884,
+            "SHORT": 4.323069222945236,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731196800000000,
+            "LONG": 67.36618469312407,
+            "SHORT": -27.9417648717355,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731283200000000,
+            "LONG": 186.84789427879468,
+            "SHORT": -24.692498679742414,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731369600000000,
+            "LONG": 148.73429474211378,
+            "SHORT": 0.6471498444503823,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731456000000000,
+            "LONG": 11.15794160882649,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731542400000000,
+            "LONG": 101.6798723968825,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731628800000000,
+            "LONG": -32.64465401591701,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731715200000000,
+            "LONG": 89.625451992217,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731801600000000,
+            "LONG": 28.194853174403534,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731888000000000,
+            "LONG": 3.9097535098474054,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731974400000000,
+            "LONG": 19.879199188624625,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732060800000000,
+            "LONG": -13.7709620059793,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732147200000000,
+            "LONG": -24.299282713269122,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732233600000000,
+            "LONG": 110.16021332572723,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732320000000000,
+            "LONG": 36.73484751380124,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732406400000000,
+            "LONG": 8.559467627354934,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732492800000000,
+            "LONG": -15.356732938854293,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732579200000000,
+            "LONG": -52.80397441258333,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732665600000000,
+            "LONG": -33.33514237934014,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732752000000000,
+            "LONG": 81.51183281106182,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732838400000000,
+            "LONG": -1.95330679634435,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732924800000000,
+            "LONG": 47.36782825536943,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733011200000000,
+            "LONG": 39.48218747608803,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733097600000000,
+            "LONG": 37.38997758945857,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733184000000000,
+            "LONG": -25.679414367328263,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733270400000000,
+            "LONG": 9.533262101368791,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733356800000000,
+            "LONG": 18.979036806850218,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733443200000000,
+            "LONG": 8.450294441075584,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733529600000000,
+            "LONG": 48.14206175005074,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733616000000000,
+            "LONG": 45.1786276342234,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733702400000000,
+            "LONG": 8.077960470347534,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733788800000000,
+            "LONG": -184.81572222368527,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733875200000000,
+            "LONG": -49.71469792063135,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733961600000000,
+            "LONG": 83.92673049338941,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734048000000000,
+            "LONG": -17.41628936936513,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734134400000000,
+            "LONG": 13.218362325622593,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734220800000000,
+            "LONG": -39.67318797894063,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734307200000000,
+            "LONG": 41.220904545647045,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734393600000000,
+            "LONG": -19.08108504411939,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734480000000000,
+            "LONG": -17.591023397548042,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734566400000000,
+            "LONG": -153.96029774734666,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734652800000000,
+            "LONG": -107.7184825659931,
+            "SHORT": 29.894808721365877,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734739200000000,
+            "LONG": 8.146078063320374,
+            "SHORT": -70.24387327116355,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734825600000000,
+            "LONG": -13.115297181277583,
+            "SHORT": 45.26022357582008,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734912000000000,
+            "LONG": -33.39634057042031,
+            "SHORT": -10.803156001673415,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734998400000000,
+            "LONG": 5.9083475666927825,
+            "SHORT": -32.88559561004831,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735084800000000,
+            "LONG": 57.9149029353473,
+            "SHORT": -15.293753335957263,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735171200000000,
+            "LONG": 3.7106610476723745,
+            "SHORT": 21.62545150341657,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735257600000000,
+            "LONG": -72.25744919884755,
+            "SHORT": 52.46155357530574,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735344000000000,
+            "LONG": -21.42135149700698,
+            "SHORT": -27.424630446962738,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735430400000000,
+            "LONG": 19.408476407607623,
+            "SHORT": -25.184888957655744,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735516800000000,
+            "LONG": -36.6612798593967,
+            "SHORT": 27.84169128046824,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735603200000000,
+            "LONG": -19.948819110496174,
+            "SHORT": -18.54600017608618,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735689600000000,
+            "LONG": 15.20352366164559,
+            "SHORT": -0.5766764250123515,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735776000000000,
+            "LONG": 70.57125980250521,
+            "SHORT": -11.988922088073537,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735862400000000,
+            "LONG": 48.41418119689433,
+            "SHORT": -14.9633240852462,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735948800000000,
+            "LONG": 27.36461569767721,
+            "SHORT": -44.5156889572246,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736035200000000,
+            "LONG": -8.113953402056268,
+            "SHORT": -1.5532895511320248,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736121600000000,
+            "LONG": -3.5340311755601306,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736208000000000,
+            "LONG": 56.44708944336344,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736294400000000,
+            "LONG": -104.34266570816317,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736380800000000,
+            "LONG": 3.612239093803055,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736467200000000,
+            "LONG": -61.29328971373252,
+            "SHORT": 31.0506022284618,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736553600000000,
+            "LONG": 48.042780119247254,
+            "SHORT": -33.71276047468348,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736640000000000,
+            "LONG": 66.80162100719463,
+            "SHORT": 0.04625566864069697,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736726400000000,
+            "LONG": -19.311248557331965,
+            "SHORT": 23.136606920909003,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736812800000000,
+            "LONG": 4.271515232263027,
+            "SHORT": 44.899123014055476,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736899200000000,
+            "LONG": 62.16930688983257,
+            "SHORT": -39.31312008080681,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736985600000000,
+            "LONG": 161.72357208142785,
+            "SHORT": -93.41883511529272,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737072000000000,
+            "LONG": 10.180500217550616,
+            "SHORT": 29.01526537052655,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737158400000000,
+            "LONG": 60.76978387407735,
+            "SHORT": -58.328544742012355,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737244800000000,
+            "LONG": -12.146497494210507,
+            "SHORT": 94.21446182175703,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737331200000000,
+            "LONG": -137.93932118618204,
+            "SHORT": 125.09776154210999,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737417600000000,
+            "LONG": 10.986411707178377,
+            "SHORT": 80.57875870423436,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737504000000000,
+            "LONG": 82.14141727224614,
+            "SHORT": -85.9254765368928,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737590400000000,
+            "LONG": -18.322269584511787,
+            "SHORT": -16.39973578774311,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737676800000000,
+            "LONG": -24.324325875496697,
+            "SHORT": -12.45461540398992,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737763200000000,
+            "LONG": 6.492628386819206,
+            "SHORT": 60.81672260410096,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737849600000000,
+            "LONG": 7.83409180380113,
+            "SHORT": -43.916331842139016,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737936000000000,
+            "LONG": -81.6056220761493,
+            "SHORT": 67.2316654479364,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738022400000000,
+            "LONG": -13.767521459322552,
+            "SHORT": 46.219406676160816,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738108800000000,
+            "LONG": -22.09027810721227,
+            "SHORT": 171.64772459743358,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738195200000000,
+            "LONG": 21.12223405719851,
+            "SHORT": -126.2666398620845,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738281600000000,
+            "LONG": 28.03315716654879,
+            "SHORT": -52.275719197355784,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738368000000000,
+            "LONG": -36.29736932421201,
+            "SHORT": -25.032447416831246,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738454400000000,
+            "LONG": -56.66365845976452,
+            "SHORT": 137.18686161708047,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738540800000000,
+            "LONG": -64.55095662284543,
+            "SHORT": 131.46407947355465,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738627200000000,
+            "LONG": 22.07074593213474,
+            "SHORT": 9.905073399156663,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738713600000000,
+            "LONG": -22.732894423554626,
+            "SHORT": 76.62007226690707,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738800000000000,
+            "LONG": -15.149554073472927,
+            "SHORT": 8.567639389534861,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738886400000000,
+            "LONG": -6.343733069807513,
+            "SHORT": 78.01471410533077,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738972800000000,
+            "LONG": 4.695917641971846,
+            "SHORT": 24.815797805461216,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739059200000000,
+            "LONG": 5.513187393350563,
+            "SHORT": -55.62448194167655,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739145600000000,
+            "LONG": -0.5814078842913659,
+            "SHORT": 22.36856620076196,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739232000000000,
+            "LONG": 4.562936114142076,
+            "SHORT": -9.562720340552914,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739318400000000,
+            "LONG": -7.23024434717604,
+            "SHORT": 33.31661199608561,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739404800000000,
+            "LONG": 9.120779713028242,
+            "SHORT": -44.556116281963114,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739491200000000,
+            "LONG": -1.2005482636209308,
+            "SHORT": 33.94768865376477,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739577600000000,
+            "LONG": 15.022858090322188,
+            "SHORT": -91.69056343983561,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739664000000000,
+            "LONG": -1.5093167417471705,
+            "SHORT": 39.29197776417982,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739750400000000,
+            "LONG": -11.155372464288803,
+            "SHORT": 25.574796289475444,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739836800000000,
+            "LONG": -12.60147600875257,
+            "SHORT": -16.604169445392017,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739923200000000,
+            "LONG": -16.551945886018984,
+            "SHORT": 59.03379938827493,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740009600000000,
+            "LONG": 15.864951783198649,
+            "SHORT": -22.714551027544985,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740096000000000,
+            "LONG": 3.1519750160116473,
+            "SHORT": -38.4225828211795,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740182400000000,
+            "LONG": -16.16782868749692,
+            "SHORT": 29.318943868910083,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740268800000000,
+            "LONG": 1.6629902871945887,
+            "SHORT": -69.91205952240375,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740355200000000,
+            "LONG": -1.0514606409126372,
+            "SHORT": 21.313198620933008,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740441600000000,
+            "LONG": -38.25887977851585,
+            "SHORT": 178.62635372555246,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740528000000000,
+            "LONG": 2.7669918799117568,
+            "SHORT": -34.32072320219413,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740614400000000,
+            "LONG": -5.925010616433838,
+            "SHORT": 18.83817523636685,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740700800000000,
+            "LONG": -0.136930915718267,
+            "SHORT": -14.688801819321952,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740787200000000,
+            "LONG": -2.9813039272382866,
+            "SHORT": 1.0305409281361335,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740873600000000,
+            "LONG": 2.584108366324699,
+            "SHORT": 23.001485156173658,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740960000000000,
+            "LONG": 42.3238704582368,
+            "SHORT": -269.26354824950795,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741046400000000,
+            "LONG": -31.29448850992526,
+            "SHORT": 214.8179503608958,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741132800000000,
+            "LONG": 4.398616505938662,
+            "SHORT": 14.893683220616595,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741219200000000,
+            "LONG": 2.9557799998785868,
+            "SHORT": -29.93264676756712,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741305600000000,
+            "LONG": 6.363368358904154,
+            "SHORT": 28.178643266390964,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741392000000000,
+            "LONG": -13.245026301115558,
+            "SHORT": 48.48133511176934,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741478400000000,
+            "LONG": -4.008622168270904,
+            "SHORT": 18.144062924124455,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741564800000000,
+            "LONG": -12.563887502070656,
+            "SHORT": 136.5181114636714,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741651200000000,
+            "LONG": -6.2737414385258035,
+            "SHORT": 53.04906681428224,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741737600000000,
+            "LONG": 8.101563197813448,
+            "SHORT": -70.9333461070612,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741824000000000,
+            "LONG": 3.5501761416762747,
+            "SHORT": -44.27048831775278,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741910400000000,
+            "LONG": 0.6336285069710357,
+            "SHORT": 32.499640517412445,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741996800000000,
+            "LONG": 5.170382866470163,
+            "SHORT": -58.49032085060321,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742083200000000,
+            "LONG": 1.6563598123457268,
+            "SHORT": -15.147779450220469,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742169600000000,
+            "LONG": -4.506190498160777,
+            "SHORT": 55.88317080826346,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742256000000000,
+            "LONG": 2.039299474383597,
+            "SHORT": -52.62113834856723,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742342400000000,
+            "LONG": -2.4101739403158717,
+            "SHORT": 28.333978365454414,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742428800000000,
+            "LONG": 12.14403657097887,
+            "SHORT": -74.96109173097784,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742515200000000,
+            "LONG": -6.365788650155764,
+            "SHORT": 33.23715294990802,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742601600000000,
+            "LONG": -4.098625204213249,
+            "SHORT": 22.218408849689013,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742688000000000,
+            "LONG": -0.6831165076225716,
+            "SHORT": -12.194709617119088,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742774400000000,
+            "LONG": 5.007855547117742,
+            "SHORT": -22.7207771303365,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742860800000000,
+            "LONG": 13.891895946801924,
+            "SHORT": -80.04402884927003,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742947200000000,
+            "LONG": -83.24320925349548,
+            "SHORT": -21.755915914167986,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743033600000000,
+            "LONG": -75.01871050081115,
+            "SHORT": 2.897360575631751,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743120000000000,
+            "LONG": -7.453620766335121,
+            "SHORT": -14.547361574171873,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743206400000000,
+            "LONG": -49.19761062804287,
+            "SHORT": 87.70797149521968,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743292800000000,
+            "LONG": -28.80392844153664,
+            "SHORT": 114.64735492803561,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743379200000000,
+            "LONG": -10.11172883089614,
+            "SHORT": -7.05782977376316,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743465600000000,
+            "LONG": -5.061838168086979,
+            "SHORT": 115.08298844499495,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743552000000000,
+            "LONG": 5.603308006170778,
+            "SHORT": 26.131122127743993,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743638400000000,
+            "LONG": -17.716540390247133,
+            "SHORT": 144.609147064514,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743724800000000,
+            "LONG": -1.3154766838620162,
+            "SHORT": -12.933638733927182,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743811200000000,
+            "LONG": 0.0,
+            "SHORT": 10.173547804002283,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743897600000000,
+            "LONG": 0.0,
+            "SHORT": 23.254805849415334,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743984000000000,
+            "LONG": 0.0,
+            "SHORT": 174.18814097595964,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744070400000000,
+            "LONG": 0.0,
+            "SHORT": -31.438020039372304,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744156800000000,
+            "LONG": 0.0,
+            "SHORT": 76.11901447223181,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744243200000000,
+            "LONG": 0.0,
+            "SHORT": -190.25280546127715,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744329600000000,
+            "LONG": 0.0,
+            "SHORT": 50.25385028748019,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744416000000000,
+            "LONG": 0.0,
+            "SHORT": -64.11367306545935,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744502400000000,
+            "LONG": 0.0,
+            "SHORT": -72.34011303954117,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744588800000000,
+            "LONG": 0.0,
+            "SHORT": 62.2348367130744,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744675200000000,
+            "LONG": 0.0,
+            "SHORT": -9.117276881246653,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744761600000000,
+            "LONG": 0.0,
+            "SHORT": 37.43761732082112,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744848000000000,
+            "LONG": 0.0,
+            "SHORT": 8.693732676335912,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744934400000000,
+            "LONG": 0.0,
+            "SHORT": -12.942742383275117,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745020800000000,
+            "LONG": 0.0,
+            "SHORT": -9.91992034250893,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745107200000000,
+            "LONG": 0.0,
+            "SHORT": -45.66202920403157,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745193600000000,
+            "LONG": 0.0,
+            "SHORT": -10.051917652822112,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745280000000000,
+            "LONG": 0.0,
+            "SHORT": -7.816454493168067,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745366400000000,
+            "LONG": 0.0,
+            "SHORT": -127.66898269896114,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745452800000000,
+            "LONG": 19.81615774446084,
+            "SHORT": -40.33676411950671,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745539200000000,
+            "LONG": 21.393417178880895,
+            "SHORT": 5.013491332046328,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745625600000000,
+            "LONG": 65.01869452051972,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745712000000000,
+            "LONG": 42.113777518168376,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745798400000000,
+            "LONG": -57.067511436221594,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745884800000000,
+            "LONG": 11.499993623040837,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745971200000000,
+            "LONG": -24.782185558363267,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746057600000000,
+            "LONG": 17.861132449281968,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746144000000000,
+            "LONG": 4.4915703802392954,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746230400000000,
+            "LONG": -1.4654711484899963,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746316800000000,
+            "LONG": -63.581685267048215,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746403200000000,
+            "LONG": -32.46328327814149,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746489600000000,
+            "LONG": -1.2852798636594116,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746576000000000,
+            "LONG": 29.623913796659963,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746662400000000,
+            "LONG": 7.891353875781306,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746748800000000,
+            "LONG": 161.4823261659667,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746835200000000,
+            "LONG": 53.98477199556862,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746921600000000,
+            "LONG": 133.0948773117807,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747008000000000,
+            "LONG": -44.29074956153818,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747094400000000,
+            "LONG": 34.394812885813735,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747180800000000,
+            "LONG": 64.23072975592731,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747267200000000,
+            "LONG": -46.791866882633485,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747353600000000,
+            "LONG": -73.97994679041199,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747440000000000,
+            "LONG": -17.764629936813662,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747526400000000,
+            "LONG": -29.454068275154896,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747612800000000,
+            "LONG": 92.2087454063851,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747699200000000,
+            "LONG": -41.59929121716982,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747785600000000,
+            "LONG": 5.37109596846426,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747872000000000,
+            "LONG": 55.546505263088875,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747958400000000,
+            "LONG": 92.93347782968067,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748044800000000,
+            "LONG": -96.91136062757596,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748131200000000,
+            "LONG": 13.701943776408825,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748217600000000,
+            "LONG": 2.9395538791036415,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748304000000000,
+            "LONG": -2.4465480336950804,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748390400000000,
+            "LONG": 15.307296147831039,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748476800000000,
+            "LONG": -14.641680614619418,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748563200000000,
+            "LONG": -42.297695580069785,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748649600000000,
+            "LONG": -108.29613052689001,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748736000000000,
+            "LONG": -2.0205896697375465,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748822400000000,
+            "LONG": 17.938303446909686,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748908800000000,
+            "LONG": 22.332970801389365,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748995200000000,
+            "LONG": -6.380964321102056,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749081600000000,
+            "LONG": -18.623989927945104,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749168000000000,
+            "LONG": -93.79775150852481,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749254400000000,
+            "LONG": 6.444912305801381,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749340800000000,
+            "LONG": 6.461142289561053,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749427200000000,
+            "LONG": -2.730130831911538,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749513600000000,
+            "LONG": 28.91045528878749,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749600000000000,
+            "LONG": 23.050713512011725,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749686400000000,
+            "LONG": -14.854074888779905,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749772800000000,
+            "LONG": -40.494448510958705,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749859200000000,
+            "LONG": -22.115142370640115,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749945600000000,
+            "LONG": -16.927258936362364,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750032000000000,
+            "LONG": 5.575410755228063,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750118400000000,
+            "LONG": -1.1529866455481397,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750204800000000,
+            "LONG": -12.262552818339373,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750291200000000,
+            "LONG": 4.939168097858328,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750377600000000,
+            "LONG": -1.454982322038859,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750464000000000,
+            "LONG": -39.17627352395357,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750550400000000,
+            "LONG": -19.860016411802917,
+            "SHORT": 56.9927873502088,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750636800000000,
+            "LONG": 0.7980557307982963,
+            "SHORT": 43.116679860233035,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750723200000000,
+            "LONG": 0.0,
+            "SHORT": -164.39118708219917,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750809600000000,
+            "LONG": 0.0,
+            "SHORT": -17.79963075500791,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750896000000000,
+            "LONG": 0.0,
+            "SHORT": 25.83893796537427,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750982400000000,
+            "LONG": 0.0,
+            "SHORT": 35.197680994540406,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751068800000000,
+            "LONG": 0.0,
+            "SHORT": -15.991223104937035,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751155200000000,
+            "LONG": 0.0,
+            "SHORT": -56.04464034284024,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751241600000000,
+            "LONG": 0.0,
+            "SHORT": -44.758263727016356,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751328000000000,
+            "LONG": 0.0,
+            "SHORT": 13.647156583373771,
+            "CASH": 0.0
+          }
+        ],
+        "partial_stop_direction_contribution": null,
+        "scope": "RECORDED_FILLS_ACCOUNTING_NOT_INDEPENDENT_ORDER_SIZING_OR_NATIVE_RULES",
+        "target_reference": {
+          "status": "PASS_INDEPENDENT_ORDERED_INVERSE_VOL_SIGNED_COV_TARGETS",
+          "rows": 3030,
+          "maximum_error": 5.551115123125783e-17
+        },
+        "by_past_regime": {
+          "SIDEWAYS": {
+            "days": 109,
+            "LONG": 97.400432089589,
+            "SHORT": 194.85263822674358,
+            "CASH": 0.0,
+            "net": 292.2530703163326
+          },
+          "BEAR": {
+            "days": 45,
+            "LONG": 203.96131294281463,
+            "SHORT": -203.84916676402327,
+            "CASH": 0.0,
+            "net": 0.11214617879136313
+          },
+          "BULL": {
+            "days": 149,
+            "LONG": 584.9435179997267,
+            "SHORT": 580.640476700817,
+            "CASH": 0.0,
+            "net": 1165.5839947005438
+          }
+        }
+      }
+    },
+    {
+      "id": "DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT",
+      "strategy": "DC_CONFIRMED_SHORT",
+      "mode": "LONG_SHORT",
+      "cost": "STRESS43",
+      "unit": "RAW_AS_PERCENT",
+      "elapsed_seconds": 166.91343657099787,
+      "summary": {
+        "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+        "contract": {
+          "version": "usdt_linear_perpetual_closing_exempt_account_v2",
+          "target_exchange": "Bybit",
+          "market_type": "LINEAR_USDT_PERPETUAL",
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "1000PEPEUSDT",
+            "XRPUSDT",
+            "WIFUSDT",
+            "WLDUSDT",
+            "DOGEUSDT",
+            "1000SATSUSDT",
+            "ORDIUSDT"
+          ],
+          "symbol_order_is_account_identity": true,
+          "instrument_profiles": {
+            "BTCUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ETHUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "SOLUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000PEPEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "XRPUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WIFUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "WLDUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "DOGEUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "1000SATSUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            },
+            "ORDIUSDT": {
+              "quantity_step": "1E-8",
+              "min_notional": "10",
+              "quantity_asset": "BASE",
+              "contract_multiplier": "1",
+              "settlement_asset": "USDT",
+              "market_type": "LINEAR_USDT_PERPETUAL",
+              "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+              "native_filters_certified": false
+            }
+          },
+          "settlement_asset": "USDT",
+          "quantity_asset": "BASE",
+          "contract_multiplier": 1,
+          "position_mode": "ONE_WAY",
+          "margin_mode": "ISOLATED",
+          "leverage": 1,
+          "fee_asset": "USDT",
+          "taker_fee_bps_per_side": 5.5,
+          "nominal_roundtrip_bps": 43.0,
+          "mmr_assumption": "0.005_NOT_NATIVE_RISK_TIER",
+          "quantity_step_assumption": "1E-8",
+          "min_notional_assumption_USDT": 10.0,
+          "closing_min_notional_exempt": true,
+          "min_notional_scope": "OPENING_LEGS_ONLY",
+          "quantity_profile_status": "UNCERTIFIED_PROXY_NOT_API_PROFILE",
+          "historical_filters_certified": false,
+          "execution_clock_source": "ExecutionContractV2.earliest_execution_us_PLUS_1US_ONLY",
+          "annual_vol_target": "0.10_EXTERNAL_SIGNED_COVARIANCE_CONTROLLER_NOT_ENFORCED_HERE",
+          "native_filters_certified": false,
+          "native_liquidation_certified": false,
+          "funding_publication_certified": false,
+          "mixed_product_supported": false,
+          "cost_provenance": {
+            "exchange": "Bybit",
+            "product": "LINEAR_USDT_PERPETUAL",
+            "settlement_asset": "USDT",
+            "liquidity_role": "TAKER",
+            "fee_rate_fraction": "0.00055",
+            "fee_zone_by_symbol": {
+              "BTCUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ETHUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "SOLUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000PEPEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "XRPUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WIFUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WLDUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "DOGEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000SATSUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ORDIUSDT": "DERIVATIVES_CRYPTO_STANDARD"
+            },
+            "fee_source_ref": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json",
+            "fee_source_sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+            "fee_time_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+            "native_fee_zone_certified": false,
+            "symbol_zone_status": "EXPLICIT_RESEARCH_SCENARIO_NOT_NATIVE_OR_HISTORICAL_CLASSIFICATION",
+            "historical_execution_certified": false,
+            "execution_source_ref": "ACCEPTED_BINANCE_USDM_PROXY",
+            "execution_status": "FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO"
+          },
+          "filter_profile_id": "CLOSING_MIN_NOTIONAL_EXEMPT_CONFIGURED_INSTRUMENT_PROFILE_V2",
+          "opening_min_notional_assumption_USDT": 10.0,
+          "min_quantity_assumption": "1E-8",
+          "instrument_API_profile_available": false,
+          "closing_semantics_source": "https://www.bybit.com/en/help-center/article/Futures-Trading-Rules",
+          "closing_semantics_scope": "CURRENT_PUBLIC_RULE_NOT_HISTORICAL_INSTRUMENT_CERTIFICATION"
+        },
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT",
+          "1000PEPEUSDT",
+          "XRPUSDT",
+          "WIFUSDT",
+          "WLDUSDT",
+          "DOGEUSDT",
+          "1000SATSUSDT",
+          "ORDIUSDT"
+        ],
+        "account_status": "ACTIVE",
+        "clock_us": 1751328000000000,
+        "NAV": 11518.295871046865,
+        "free_cash": 11518.295871046865,
+        "isolated_balance": 0.0,
+        "unpaid_liability": 0.0,
+        "net_PnL": 1518.2958710468652,
+        "gross_PnL_same_quantities": 1673.69190923733,
+        "realized_PnL": 1558.4796616509468,
+        "unrealized_PnL": 0.0,
+        "fees_USDT": 39.602737258939115,
+        "execution_cost_USDT": 115.21224758638324,
+        "funding_USDT": -0.5810533451424267,
+        "gross_notional": 0.0,
+        "net_signed_notional": 0.0,
+        "gross_weight": 0.0,
+        "asset_weights": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0,
+          "decimal_strings": {
+            "BTCUSDT": "0E+35",
+            "ETHUSDT": "0E+35",
+            "SOLUSDT": "0E+35",
+            "1000PEPEUSDT": "0E+35",
+            "XRPUSDT": "0E+35",
+            "WIFUSDT": "0E+35",
+            "WLDUSDT": "0E+35",
+            "DOGEUSDT": "0E+35",
+            "1000SATSUSDT": "0E+35",
+            "ORDIUSDT": "0E+35"
+          }
+        },
+        "positions": {
+          "BTCUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ETHUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "SOLUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000PEPEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "XRPUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WIFUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "WLDUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "DOGEUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "1000SATSUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          },
+          "ORDIUSDT": {
+            "quantity": 0.0,
+            "entry_price": 0.0,
+            "isolated_balance": 0.0,
+            "opened_us": null,
+            "decimal_strings": {
+              "quantity": "0E-8",
+              "entry_price": "0",
+              "isolated_balance": "0"
+            }
+          }
+        },
+        "accounting_bridge_error_USDT": -2.5e-35,
+        "gross_fill_turnover_USDT": 72004.97683443475,
+        "configured_nominal_roundtrip_bps": 43.0,
+        "trade_legs": 1423,
+        "funding_events": 11807,
+        "halt_witness": null,
+        "candidate": "NO_QUALIFIED_CANDIDATE",
+        "long_term_APR": "NOT_EVALUABLE",
+        "decimal_strings": {
+          "NAV": "11518.29587104686517006691281060999999998",
+          "free_cash": "11518.29587104686517006691281060999999998",
+          "isolated_balance": "0",
+          "unpaid_liability": "0",
+          "net_PnL": "1518.29587104686517006691281060999999998",
+          "gross_PnL_same_quantities": "1673.691909237329953000000000000000000005",
+          "realized_PnL": "1558.479661650946708300800000000000000005",
+          "unrealized_PnL": "0",
+          "fees_USDT": "39.602737258939111514991360",
+          "execution_cost_USDT": "115.2122475863832446992",
+          "funding_USDT": "-0.58105334514242671889582939",
+          "gross_notional": "0",
+          "net_signed_notional": "0",
+          "gross_weight": "0E+35",
+          "accounting_bridge_error_USDT": "-2.5E-35",
+          "gross_fill_turnover_USDT": "72004.9768344347482090752",
+          "configured_nominal_roundtrip_bps": "43.00000"
+        },
+        "completion": "COMPLETE_CONDITIONAL_ACCOUNT",
+        "mode": "LONG_SHORT",
+        "cost_scenario": {
+          "id": "STRESS43",
+          "fee_rate_fraction": "0.00055",
+          "half_spread_bps": "8",
+          "slippage_bps": "8",
+          "roundtrip_bps": "43.00000",
+          "provenance": {
+            "exchange": "Bybit",
+            "product": "LINEAR_USDT_PERPETUAL",
+            "settlement_asset": "USDT",
+            "liquidity_role": "TAKER",
+            "fee_rate_fraction": "0.00055",
+            "fee_zone_by_symbol": {
+              "BTCUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ETHUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "SOLUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000PEPEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "XRPUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WIFUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "WLDUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "DOGEUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "1000SATSUSDT": "DERIVATIVES_CRYPTO_STANDARD",
+              "ORDIUSDT": "DERIVATIVES_CRYPTO_STANDARD"
+            },
+            "fee_source_ref": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json",
+            "fee_source_sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+            "fee_time_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+            "native_fee_zone_certified": false,
+            "symbol_zone_status": "EXPLICIT_RESEARCH_SCENARIO_NOT_NATIVE_OR_HISTORICAL_CLASSIFICATION",
+            "historical_execution_certified": false,
+            "execution_source_ref": "ACCEPTED_BINANCE_USDM_PROXY",
+            "execution_status": "FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO"
+          }
+        },
+        "unit_scenario": {
+          "id": "RAW_AS_PERCENT",
+          "scale": 0.01
+        },
+        "funding_rate_unit": "UNCONFIRMED",
+        "unit_certified": false,
+        "publication_certified": false,
+        "completed_minutes": 436320,
+        "required_minutes": 436320,
+        "stop_us": null,
+        "all_observation_max_drawdown": 0.054361122083029345,
+        "maximum_actual_gross_weight": 0.40366187487495386,
+        "maximum_actual_asset_weights": {
+          "BTCUSDT": 0.12609009271714744,
+          "ETHUSDT": 0.07945093175521958,
+          "SOLUSDT": 0.0734252357245034,
+          "1000PEPEUSDT": 0.035678612403993504,
+          "XRPUSDT": 0.1186588198242007,
+          "WIFUSDT": 0.05111313725246792,
+          "WLDUSDT": 0.0671308515994013,
+          "DOGEUSDT": 0.06352407140678015,
+          "1000SATSUSDT": 0.06927681923047689,
+          "ORDIUSDT": 0.04489675146542342
+        },
+        "funding_original_events": 11817,
+        "funding_observed_events": 11817,
+        "funding_account_applied_events": 11807,
+        "fresh_flat_no_past_mark_events": 10,
+        "funding_owned_events": 6896,
+        "funding_deferred_after_halt_events": 0,
+        "first_entry_us": 1726704060000001,
+        "terminal_marked_notional": 0.0,
+        "terminal_mark_prices": {
+          "BTCUSDT": 107107.33111594,
+          "ETHUSDT": 2484.52946124,
+          "SOLUSDT": 154.74,
+          "1000PEPEUSDT": 0.00974134,
+          "XRPUSDT": 2.23627092,
+          "WIFUSDT": 0.8665,
+          "WLDUSDT": 0.8983903,
+          "DOGEUSDT": 0.16508516,
+          "1000SATSUSDT": 3.78e-05,
+          "ORDIUSDT": 7.44062892
+        },
+        "terminal_signed_marked_notional": {
+          "BTCUSDT": 0.0,
+          "ETHUSDT": 0.0,
+          "SOLUSDT": 0.0,
+          "1000PEPEUSDT": 0.0,
+          "XRPUSDT": 0.0,
+          "WIFUSDT": 0.0,
+          "WLDUSDT": 0.0,
+          "DOGEUSDT": 0.0,
+          "1000SATSUSDT": 0.0,
+          "ORDIUSDT": 0.0
+        },
+        "terminal_cash_realized": true,
+        "terminal_not_forced_free_fill": true,
+        "pending_orders_at_stop": {},
+        "funding_fill_5second_uncertainty_witnesses": [],
+        "minimum_actual_free_cash_all_observations_USDT": 6159.903098958986,
+        "cash_close_retry_policy": "PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL",
+        "actual_caps_instantaneously_guaranteed": false,
+        "margin_risk_observation_scope": "CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS",
+        "risk_reduction_signal_count": 0,
+        "maximum_observed_first_risk_reduction_latency_us": null,
+        "daily_metrics": {
+          "days": 303,
+          "initial_nav": 10000.0,
+          "final_nav": 11518.295871046865,
+          "total_return": 0.15182958710468641,
+          "annual_return": 0.1856309237164797,
+          "annual_volatility": 0.09668853219634967,
+          "sharpe": 1.8096540147793767,
+          "max_drawdown": 0.04995510839094086,
+          "fees": 39.602737258939115,
+          "execution_costs": 115.21224758638324,
+          "turnover": 72004.97683443475
+        },
+        "annual_return_role": "DESCRIPTIVE_EXTRAPOLATION_NOT_LONG_TERM_APR",
+        "minute_max_drawdown": 0.054361122083029345,
+        "normalized_total_turnover": 7.2004976834434755,
+        "net_return_on_full_initial_capital_percent": 15.18295871046865,
+        "realized_exposure": {
+          "minute_mean_gross_weight": 0.15314898811199648,
+          "minute_max_gross_weight": 0.4036618748749539,
+          "minute_mean_net_signed_weight": 0.04762486674674072,
+          "minute_min_net_signed_weight": -0.17103936045582976,
+          "minute_max_net_signed_weight": 0.2084698783473336,
+          "minute_mean_isolated_collateral_over_initial_capital": 0.16896084704844033,
+          "minute_max_isolated_collateral_over_initial_capital": 0.40168270281427987,
+          "minute_mean_isolated_collateral_over_NAV": 0.15124182549580947,
+          "minute_max_isolated_collateral_over_NAV": 0.3920080737184997,
+          "minimum_recorded_minute_free_cash_USDT": 6159.9042380943465,
+          "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+        },
+        "daily_net_gain_concentration": {
+          "positive_days": 151,
+          "total_days": 303,
+          "top5_positive_day_share": 0.12061943010453346,
+          "largest_absolute_day_share": 0.018500510371559614,
+          "positive_gain_USDT": 6929.233543333607,
+          "absolute_daily_net_delta_USDT": 12340.171215620348
+        },
+        "months": [
+          {
+            "month": "2024-09",
+            "days": 30,
+            "net_PnL": 146.12406316194938,
+            "fees": 2.2518654067748334,
+            "spread_cost": 3.2736143268471407,
+            "slippage_cost": 3.2736143268471407,
+            "funding_USDT": -0.03749637110860312,
+            "gross_PnL": 154.9606535935271,
+            "ending_NAV": 10146.12406316195,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00349809,
+              "ETHUSDT": 0.06678929,
+              "SOLUSDT": 0.93738178,
+              "1000PEPEUSDT": 17181.66011127,
+              "XRPUSDT": 309.59439644,
+              "WIFUSDT": 71.25500822,
+              "WLDUSDT": 44.23912602,
+              "DOGEUSDT": 2185.14101538,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 4.48450269
+            }
+          },
+          {
+            "month": "2024-10",
+            "days": 31,
+            "net_PnL": 182.3190577503774,
+            "fees": 4.403480701257774,
+            "spread_cost": 6.405625861111413,
+            "slippage_cost": 6.405625861111413,
+            "funding_USDT": -0.11094982477128049,
+            "gross_PnL": 199.64473999862926,
+            "ending_NAV": 10328.443120912327,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.01573622,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 4.05617011,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": -1703.01887998,
+              "WIFUSDT": 71.69286387,
+              "WLDUSDT": 79.01989324,
+              "DOGEUSDT": 3134.20647697,
+              "1000SATSUSDT": -1728447.28099273,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2024-11",
+            "days": 30,
+            "net_PnL": 958.1246267892602,
+            "fees": 4.914958653407685,
+            "spread_cost": 7.150163631457824,
+            "slippage_cost": 7.150163631457824,
+            "funding_USDT": -0.218575658415405,
+            "gross_PnL": 977.5584883639989,
+            "ending_NAV": 11286.567747701587,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00300932,
+              "ETHUSDT": 0.06131635,
+              "SOLUSDT": 0.8847078,
+              "1000PEPEUSDT": 4438.26948502,
+              "XRPUSDT": 70.83662528,
+              "WIFUSDT": 33.57654462,
+              "WLDUSDT": 46.8472678,
+              "DOGEUSDT": 272.04277783,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 2.00233425
+            }
+          },
+          {
+            "month": "2024-12",
+            "days": 31,
+            "net_PnL": -394.7353612283259,
+            "fees": 3.4522744712785727,
+            "spread_cost": 5.021738666105733,
+            "slippage_cost": 5.021738666105733,
+            "funding_USDT": -0.1939938497349754,
+            "gross_PnL": -381.0456155751009,
+            "ending_NAV": 10891.832386473261,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.01334578,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 197.52496399,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -2319933.58191042,
+              "ORDIUSDT": -14.31348942
+            }
+          },
+          {
+            "month": "2025-01",
+            "days": 31,
+            "net_PnL": 354.93204572242394,
+            "fees": 4.280869763638687,
+            "spread_cost": 6.228168463360866,
+            "slippage_cost": 6.228168463360866,
+            "funding_USDT": -0.05324441508818356,
+            "gross_PnL": 371.72249682787253,
+            "ending_NAV": 11246.764432195685,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00750638,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 1.39439516,
+              "1000PEPEUSDT": -21796.82674499,
+              "XRPUSDT": 107.04573568,
+              "WIFUSDT": -214.15390948,
+              "WLDUSDT": -149.07501535,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -1499783.70354859,
+              "ORDIUSDT": -15.15102104
+            }
+          },
+          {
+            "month": "2025-02",
+            "days": 28,
+            "net_PnL": 333.13137169482434,
+            "fees": 2.891221200451632,
+            "spread_cost": 4.20802365521083,
+            "slippage_cost": 4.20802365521083,
+            "funding_USDT": 0.034943026256971654,
+            "gross_PnL": 344.40369717944066,
+            "ending_NAV": 11579.89580389051,
+            "ending_signed_quantities": {
+              "BTCUSDT": -0.00629102,
+              "ETHUSDT": -0.12589028,
+              "SOLUSDT": -1.80232004,
+              "1000PEPEUSDT": -21413.62310409,
+              "XRPUSDT": 56.81004194,
+              "WIFUSDT": -223.54841653,
+              "WLDUSDT": -165.77203624,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": -11.85739658
+            }
+          },
+          {
+            "month": "2025-03",
+            "days": 31,
+            "net_PnL": 18.156940498276526,
+            "fees": 4.301305553130806,
+            "spread_cost": 6.2558345305215965,
+            "slippage_cost": 6.2558345305215965,
+            "funding_USDT": 0.03924853515274773,
+            "gross_PnL": 34.93066657729777,
+            "ending_NAV": 11598.052744388786,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 114.1712545,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": -881.2659153,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": -8986200.46096536,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2025-04",
+            "days": 30,
+            "net_PnL": 63.83028264843597,
+            "fees": 5.448902385367642,
+            "spread_cost": 7.922789831353391,
+            "slippage_cost": 7.922789831353391,
+            "funding_USDT": 0.028329752217199355,
+            "gross_PnL": 85.0964349442932,
+            "ending_NAV": 11661.883027037222,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00418857,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 1.57935368,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 227.81916688,
+              "WLDUSDT": 141.55307566,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 3035603.3500577,
+              "ORDIUSDT": 22.79185244
+            }
+          },
+          {
+            "month": "2025-05",
+            "days": 31,
+            "net_PnL": 154.24064177530818,
+            "fees": 3.5263160732565026,
+            "spread_cost": 5.129105141407813,
+            "slippage_cost": 5.129105141407813,
+            "funding_USDT": -0.05790992825591712,
+            "gross_PnL": 168.08307805963625,
+            "ending_NAV": 11816.12366881253,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.00589314,
+              "ETHUSDT": 0.18458469,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 128.82594622,
+              "WLDUSDT": 259.57881979,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          },
+          {
+            "month": "2025-06",
+            "days": 30,
+            "net_PnL": -297.8277977656653,
+            "fees": 4.1315430503749795,
+            "spread_cost": 6.011059685815013,
+            "slippage_cost": 6.011059685815013,
+            "funding_USDT": -0.011404611394980724,
+            "gross_PnL": -281.6627307322653,
+            "ending_NAV": 11518.295871046865,
+            "ending_signed_quantities": {
+              "BTCUSDT": 0.0,
+              "ETHUSDT": 0.0,
+              "SOLUSDT": 0.0,
+              "1000PEPEUSDT": 0.0,
+              "XRPUSDT": 0.0,
+              "WIFUSDT": 0.0,
+              "WLDUSDT": 0.0,
+              "DOGEUSDT": 0.0,
+              "1000SATSUSDT": 0.0,
+              "ORDIUSDT": 0.0
+            }
+          }
+        ],
+        "monthly_table_scope": "COMPLETE_UTC_DAY_ENDPOINTS_ONLY_NO_PARTIAL_DAY_INVENTION",
+        "positive_month_count": 8,
+        "total_month_count": 10,
+        "long_short_marked_contribution": {
+          "LONG": {
+            "gross": 1062.3757004137597,
+            "fees": 23.064969976053174,
+            "execution_cost": 67.10081415758413,
+            "funding": -0.8662007045210685,
+            "net_contribution": 971.3437155756013
+          },
+          "SHORT": {
+            "gross": 611.3162088235682,
+            "fees": 16.537767282885934,
+            "execution_cost": 48.11143342879912,
+            "funding": 0.2851473593786415,
+            "net_contribution": 546.9521554712618
+          }
+        },
+        "spread_cost_USDT": 57.60612379319162,
+        "slippage_cost_USDT": 57.60612379319162
+      },
+      "artifacts": {
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/minute_nav_inventory.parquet",
+          "sha256": "2c741a9037196cf27ed6c39b87a0efde9b581ffa82230622a921863ed26df338",
+          "bytes": 67573775,
+          "rows": 436320
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/daily_nav.parquet",
+          "sha256": "3a49ad2577508b468bf5e4fe60f3721bfb8adfc173c10e3d9457d27b5a24de09",
+          "bytes": 11324,
+          "rows": 303
+        },
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/targets.parquet",
+          "sha256": "58fca903e8c3199f38b8f81bdef22e58feae69ee13f16e3481f8c61861e03303",
+          "bytes": 31950,
+          "rows": 3030
+        },
+        "trades.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/trades.json",
+          "sha256": "ce1d8c0f3bd97b6c3b2b9bb900dacd88ab4df3996f9ea73d3d4837618d5d37bb",
+          "bytes": 2786958
+        },
+        "funding.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/funding.json",
+          "sha256": "003e9eca7238251710c58138413f4a04919d01711428bedf83794da0d274f563",
+          "bytes": 10264434
+        },
+        "rejections.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/rejections.json",
+          "sha256": "7ed4308bfe1ef30d2d50f2e32327c4ab7413e7d7a82884a5485f621acca7d1d7",
+          "bytes": 6071167
+        },
+        "breaches.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/breaches.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3
+        },
+        "extrema.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/extrema.json",
+          "sha256": "72c15a4aa4e6dd370634c0a952d18829d532f1905b13cbb0d849c5f83ca23550",
+          "bytes": 710
+        },
+        "target_meta.json": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/target_meta.json",
+          "sha256": "8eb59527e2d001944ac48c12e007d2ee1040b38eb5c03c39d13815c2b79e7962",
+          "bytes": 249752
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/trades.parquet",
+          "sha256": "e36173857fa1de544615a6f794b8a4734bfbf191bfad357cf4dbd8852e58a43e",
+          "bytes": 94603,
+          "rows": 1423
+        },
+        "funding.parquet": {
+          "path": "/home/xflops/coin-state/d096-short-confirmation-stress43-v1/DC_CONFIRMED_SHORT_LONG_SHORT_STRESS43_RAW_AS_PERCENT/funding.parquet",
+          "sha256": "e24c7d39a9e845774abb6c96f17969cb091b343f32d5ae223980249b5ec95063",
+          "bytes": 224627,
+          "rows": 11817
+        }
+      },
+      "independent": {
+        "status": "PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY",
+        "minutes": 436320,
+        "maximum_NAV_error_USDT": 1.8189894035458565e-12,
+        "maximum_wallet_error_USDT": 1.8189894035458565e-12,
+        "terminal_cash_realized": true,
+        "liquidated_return_scope": "EVALUABLE",
+        "actual_short_open_legs": 244,
+        "daily_direction_contributions": [
+          {
+            "day_end_us": 1725235200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725321600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725408000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725494400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725580800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725667200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725753600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725840000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1725926400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726012800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726099200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726185600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726272000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726358400000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726444800000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726531200000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726617600000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726704000000000,
+            "LONG": 0.0,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726790400000000,
+            "LONG": 7.895241005648529,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726876800000000,
+            "LONG": 8.30054236696111,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1726963200000000,
+            "LONG": 13.62007836557052,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727049600000000,
+            "LONG": -35.90232215580943,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727136000000000,
+            "LONG": 20.252067479971856,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727222400000000,
+            "LONG": 44.63118197032895,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727308800000000,
+            "LONG": -1.8737616046098537,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727395200000000,
+            "LONG": 88.60503716744279,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727481600000000,
+            "LONG": 54.17893429548576,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727568000000000,
+            "LONG": 22.63866818177098,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727654400000000,
+            "LONG": 4.961125725162674,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727740800000000,
+            "LONG": -81.18272963597451,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727827200000000,
+            "LONG": -95.9489483455825,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1727913600000000,
+            "LONG": -65.2987676266223,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728000000000000,
+            "LONG": -40.6707020781796,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728086400000000,
+            "LONG": 89.07473899120805,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728172800000000,
+            "LONG": 2.981744512327623,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728259200000000,
+            "LONG": 94.7293763860414,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728345600000000,
+            "LONG": -32.77902238807451,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728432000000000,
+            "LONG": -28.401056925335524,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728518400000000,
+            "LONG": -38.15766252063372,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728604800000000,
+            "LONG": 8.365458987001603,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728691200000000,
+            "LONG": 88.92739136410205,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728777600000000,
+            "LONG": 8.901157815373836,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728864000000000,
+            "LONG": -5.788286386057507,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1728950400000000,
+            "LONG": 105.77207950716934,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729036800000000,
+            "LONG": -29.32131947948153,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729123200000000,
+            "LONG": 9.837086138042537,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729209600000000,
+            "LONG": -18.819304584063502,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729296000000000,
+            "LONG": 69.76591754977221,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729382400000000,
+            "LONG": 18.71338491005008,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729468800000000,
+            "LONG": 11.557176552651526,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729555200000000,
+            "LONG": -51.65897049848695,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729641600000000,
+            "LONG": -11.71150059793672,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729728000000000,
+            "LONG": -14.337760943725243,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729814400000000,
+            "LONG": 29.507802500864955,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729900800000000,
+            "LONG": -111.61682877469275,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1729987200000000,
+            "LONG": 64.65655041004175,
+            "SHORT": -23.67435725207247,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730073600000000,
+            "LONG": 82.56210604910075,
+            "SHORT": -20.35559216136403,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730160000000000,
+            "LONG": 106.73275351534312,
+            "SHORT": -10.114868328709235,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730246400000000,
+            "LONG": 112.63932622751281,
+            "SHORT": -42.73934500910559,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730332800000000,
+            "LONG": -57.852776098520735,
+            "SHORT": 20.96688027060918,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730419200000000,
+            "LONG": -98.50698689017554,
+            "SHORT": 54.38218295198385,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730505600000000,
+            "LONG": -50.11461844327823,
+            "SHORT": 11.704592134265567,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730592000000000,
+            "LONG": -7.587685628820509,
+            "SHORT": 13.804835645663388,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730678400000000,
+            "LONG": -63.759253015121885,
+            "SHORT": 57.34460913055568,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730764800000000,
+            "LONG": -13.159796141236484,
+            "SHORT": 12.091397612605078,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730851200000000,
+            "LONG": 95.05119479973723,
+            "SHORT": -53.193207780090006,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1730937600000000,
+            "LONG": 243.13605058601934,
+            "SHORT": -145.5427621660201,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731024000000000,
+            "LONG": 30.193263702995637,
+            "SHORT": 3.4791258198696937,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731110400000000,
+            "LONG": 45.15213917749065,
+            "SHORT": 4.227696213992402,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731196800000000,
+            "LONG": 68.19063220147359,
+            "SHORT": -28.112143456305716,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731283200000000,
+            "LONG": 188.32356474816925,
+            "SHORT": -25.3311638600525,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731369600000000,
+            "LONG": 150.3578648092348,
+            "SHORT": 0.593994857561313,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731456000000000,
+            "LONG": 13.479952832747358,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731542400000000,
+            "LONG": 102.60812241694339,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731628800000000,
+            "LONG": -31.870571922964245,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731715200000000,
+            "LONG": 90.15749006818214,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731801600000000,
+            "LONG": 29.15128439931277,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731888000000000,
+            "LONG": 4.824154676095986,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1731974400000000,
+            "LONG": 21.061933321831475,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732060800000000,
+            "LONG": -13.128050638855711,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732147200000000,
+            "LONG": -24.5916802624306,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732233600000000,
+            "LONG": 111.35374402551724,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732320000000000,
+            "LONG": 37.76305180159716,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732406400000000,
+            "LONG": 9.579326603504796,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732492800000000,
+            "LONG": -14.26468893295737,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732579200000000,
+            "LONG": -52.08852644040371,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732665600000000,
+            "LONG": -32.73747527661999,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732752000000000,
+            "LONG": 82.45850184743335,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732838400000000,
+            "LONG": -1.2672228602982614,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1732924800000000,
+            "LONG": 48.370526999770846,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733011200000000,
+            "LONG": 40.41442318214558,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733097600000000,
+            "LONG": 38.012573012891835,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733184000000000,
+            "LONG": -24.269625168734592,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733270400000000,
+            "LONG": 10.906425793193193,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733356800000000,
+            "LONG": 20.082342502505526,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733443200000000,
+            "LONG": 11.161414523855,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733529600000000,
+            "LONG": 49.767491357128165,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733616000000000,
+            "LONG": 47.19102955893891,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733702400000000,
+            "LONG": 9.499761452855864,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733788800000000,
+            "LONG": -185.08457940343783,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733875200000000,
+            "LONG": -49.42377878440493,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1733961600000000,
+            "LONG": 84.54911160442134,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734048000000000,
+            "LONG": -16.867262242436937,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734134400000000,
+            "LONG": 13.744473406478164,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734220800000000,
+            "LONG": -39.372361752161396,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734307200000000,
+            "LONG": 41.85738956692785,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734393600000000,
+            "LONG": -18.709525314016673,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734480000000000,
+            "LONG": -17.18097174208856,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734566400000000,
+            "LONG": -154.3985835184344,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734652800000000,
+            "LONG": -107.89345590728749,
+            "SHORT": 30.099163632056303,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734739200000000,
+            "LONG": 8.651919690915065,
+            "SHORT": -70.55247950976533,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734825600000000,
+            "LONG": -12.819789517397567,
+            "SHORT": 45.249959207561915,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734912000000000,
+            "LONG": -33.09845742397306,
+            "SHORT": -11.010153078620533,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1734998400000000,
+            "LONG": 6.36063084768216,
+            "SHORT": -33.28439333117467,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735084800000000,
+            "LONG": 58.52028826838705,
+            "SHORT": -15.534006047183084,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735171200000000,
+            "LONG": 4.333326372337751,
+            "SHORT": 21.464723115941524,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735257600000000,
+            "LONG": -72.31576837956345,
+            "SHORT": 52.55404180959533,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735344000000000,
+            "LONG": -21.241661555892506,
+            "SHORT": -27.701615476134634,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735430400000000,
+            "LONG": 20.04035243398198,
+            "SHORT": -25.589538912414355,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735516800000000,
+            "LONG": -36.52981075784896,
+            "SHORT": 27.759935143576172,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735603200000000,
+            "LONG": -19.627098244839317,
+            "SHORT": -18.88202183438443,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735689600000000,
+            "LONG": 15.563136374059695,
+            "SHORT": -0.7179130014211523,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735776000000000,
+            "LONG": 71.6320897648352,
+            "SHORT": -12.339635487997612,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735862400000000,
+            "LONG": 49.21893210100825,
+            "SHORT": -15.295030205974285,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1735948800000000,
+            "LONG": 27.972790625194648,
+            "SHORT": -45.03915202049416,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736035200000000,
+            "LONG": -7.71065680954689,
+            "SHORT": -1.555494153378163,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736121600000000,
+            "LONG": -3.0074177001422413,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736208000000000,
+            "LONG": 57.32638211549215,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736294400000000,
+            "LONG": -104.56136660690413,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736380800000000,
+            "LONG": 4.267905955613287,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736467200000000,
+            "LONG": -61.34479364907338,
+            "SHORT": 31.27827129055754,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736553600000000,
+            "LONG": 48.664489099733146,
+            "SHORT": -34.17672919373081,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736640000000000,
+            "LONG": 67.51171181367363,
+            "SHORT": -0.23277548298881356,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736726400000000,
+            "LONG": -19.05045664996601,
+            "SHORT": 22.98095833814341,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736812800000000,
+            "LONG": 4.633495899156742,
+            "SHORT": 44.951066207304166,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736899200000000,
+            "LONG": 63.001706996068606,
+            "SHORT": -39.774525113600134,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1736985600000000,
+            "LONG": 162.99009798802626,
+            "SHORT": -94.2237453099143,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737072000000000,
+            "LONG": 10.50164363678914,
+            "SHORT": 28.97485225845378,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737158400000000,
+            "LONG": 61.529144896634534,
+            "SHORT": -58.92226549691895,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737244800000000,
+            "LONG": -11.609923672481273,
+            "SHORT": 94.45773026783024,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737331200000000,
+            "LONG": -138.4531517241221,
+            "SHORT": 125.53701569861369,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737417600000000,
+            "LONG": 11.479766224818604,
+            "SHORT": 80.63021530979267,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737504000000000,
+            "LONG": 83.16495331226452,
+            "SHORT": -86.80057894794754,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737590400000000,
+            "LONG": -18.039880118464907,
+            "SHORT": -16.824569965981937,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737676800000000,
+            "LONG": -23.885679528917763,
+            "SHORT": -12.985608421409324,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737763200000000,
+            "LONG": 7.004621720301429,
+            "SHORT": 60.77204025214678,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737849600000000,
+            "LONG": 8.263342697152893,
+            "SHORT": -44.548393161094054,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1737936000000000,
+            "LONG": -81.6241792409719,
+            "SHORT": 67.23496869552446,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738022400000000,
+            "LONG": -13.730683352233427,
+            "SHORT": 46.20558172321421,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738108800000000,
+            "LONG": -21.8247095101799,
+            "SHORT": 172.30966197646694,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738195200000000,
+            "LONG": 21.50967104991173,
+            "SHORT": -127.32206393330193,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738281600000000,
+            "LONG": 28.493306262332453,
+            "SHORT": -52.87234913135171,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738368000000000,
+            "LONG": -36.25488733973975,
+            "SHORT": -25.555666525803417,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738454400000000,
+            "LONG": -56.89151217821791,
+            "SHORT": 137.6924976370492,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738540800000000,
+            "LONG": -64.68475745041633,
+            "SHORT": 131.92329864736735,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738627200000000,
+            "LONG": 22.110806722326288,
+            "SHORT": 10.210653901830256,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738713600000000,
+            "LONG": -22.833166584457103,
+            "SHORT": 77.01502036139846,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738800000000000,
+            "LONG": -15.258512938145486,
+            "SHORT": 8.39193370567341,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738886400000000,
+            "LONG": -6.323606853166666,
+            "SHORT": 78.38727534495911,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1738972800000000,
+            "LONG": 4.745657800379604,
+            "SHORT": 24.899748670805366,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739059200000000,
+            "LONG": 5.565712989277927,
+            "SHORT": -56.17570592232619,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739145600000000,
+            "LONG": -0.6082394248796845,
+            "SHORT": 22.326198407926086,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739232000000000,
+            "LONG": 4.6535007927896,
+            "SHORT": -9.801516131034532,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739318400000000,
+            "LONG": -7.317513706217596,
+            "SHORT": 33.60884534973002,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739404800000000,
+            "LONG": 9.21491478111193,
+            "SHORT": -44.87313722262252,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739491200000000,
+            "LONG": -1.1320309403668034,
+            "SHORT": 33.86810850001484,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739577600000000,
+            "LONG": 15.195315008164016,
+            "SHORT": -92.4891120843979,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739664000000000,
+            "LONG": -1.4710743435771292,
+            "SHORT": 39.35994523888803,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739750400000000,
+            "LONG": -11.211190867516734,
+            "SHORT": 25.62266038654866,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739836800000000,
+            "LONG": -12.606334366960027,
+            "SHORT": -16.841166245031673,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1739923200000000,
+            "LONG": -16.52395254040016,
+            "SHORT": 59.38984410148714,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740009600000000,
+            "LONG": 16.000929472828375,
+            "SHORT": -23.088692961930064,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740096000000000,
+            "LONG": 3.221429209001826,
+            "SHORT": -38.8366436464612,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740182400000000,
+            "LONG": -16.2465728702648,
+            "SHORT": 29.064017905333003,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740268800000000,
+            "LONG": 1.6974634420491839,
+            "SHORT": -70.5948792028912,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740355200000000,
+            "LONG": -1.0534318193263061,
+            "SHORT": 21.174857887086546,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740441600000000,
+            "LONG": -38.37097521235455,
+            "SHORT": 179.6077068174152,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740528000000000,
+            "LONG": 2.7337971739032128,
+            "SHORT": -34.51239992925798,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740614400000000,
+            "LONG": -5.952888774925896,
+            "SHORT": 18.713143768535247,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740700800000000,
+            "LONG": -0.1229860916130292,
+            "SHORT": -15.172855305150733,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740787200000000,
+            "LONG": -2.997107430892356,
+            "SHORT": 0.7280507157470311,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740873600000000,
+            "LONG": 2.588416273986695,
+            "SHORT": 23.050004011393185,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1740960000000000,
+            "LONG": 42.55582016434505,
+            "SHORT": -270.8552857257512,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741046400000000,
+            "LONG": -31.433259260388013,
+            "SHORT": 215.80132184830063,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741132800000000,
+            "LONG": 4.398850288334643,
+            "SHORT": 15.228419204944885,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741219200000000,
+            "LONG": 2.942725923679518,
+            "SHORT": -30.128912531218475,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741305600000000,
+            "LONG": 6.375139028448302,
+            "SHORT": 28.27130925880374,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741392000000000,
+            "LONG": -13.34521252490731,
+            "SHORT": 48.61817731792871,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741478400000000,
+            "LONG": -4.0350207927308475,
+            "SHORT": 18.196273471794257,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741564800000000,
+            "LONG": -12.668458017315515,
+            "SHORT": 137.21463317468897,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741651200000000,
+            "LONG": -6.342649891994824,
+            "SHORT": 53.289946628304506,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741737600000000,
+            "LONG": 8.134857246652018,
+            "SHORT": -71.92802308738032,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741824000000000,
+            "LONG": 3.5526328931516673,
+            "SHORT": -44.62478492068044,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741910400000000,
+            "LONG": 0.6188100164722528,
+            "SHORT": 32.520105687186515,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1741996800000000,
+            "LONG": 5.19806989595827,
+            "SHORT": -58.98096564765433,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742083200000000,
+            "LONG": 1.6515110057644051,
+            "SHORT": -15.322117354816555,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742169600000000,
+            "LONG": -4.527037571678193,
+            "SHORT": 56.1334646727571,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742256000000000,
+            "LONG": 2.0392384108206443,
+            "SHORT": -53.01404641604995,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742342400000000,
+            "LONG": -2.472583819234842,
+            "SHORT": 28.50994014087337,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742428800000000,
+            "LONG": 12.202171374335421,
+            "SHORT": -75.61006093031438,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742515200000000,
+            "LONG": -6.401654184907329,
+            "SHORT": 33.316137607128894,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742601600000000,
+            "LONG": -4.120991508851148,
+            "SHORT": 22.353630469007612,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742688000000000,
+            "LONG": -0.7234041651024654,
+            "SHORT": -12.360057509498574,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742774400000000,
+            "LONG": 5.050552654059857,
+            "SHORT": -22.86766324689779,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742860800000000,
+            "LONG": 13.973831214684196,
+            "SHORT": -80.65757903057056,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1742947200000000,
+            "LONG": -83.15142934362416,
+            "SHORT": -22.12032568787845,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743033600000000,
+            "LONG": -75.10998585328343,
+            "SHORT": 2.774677565482989,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743120000000000,
+            "LONG": -7.708617189462302,
+            "SHORT": -14.82126331572374,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743206400000000,
+            "LONG": -49.540658690109694,
+            "SHORT": 87.84685977920628,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743292800000000,
+            "LONG": -28.931340104859714,
+            "SHORT": 115.06535160457338,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743379200000000,
+            "LONG": -10.371120497123798,
+            "SHORT": -7.385825387832028,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743465600000000,
+            "LONG": -5.141850870344115,
+            "SHORT": 115.38624674339303,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743552000000000,
+            "LONG": 5.6056361397788805,
+            "SHORT": 26.231604910078886,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743638400000000,
+            "LONG": -17.900003765408883,
+            "SHORT": 145.13953186438357,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743724800000000,
+            "LONG": -1.3218972819857981,
+            "SHORT": -12.935554278176596,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743811200000000,
+            "LONG": 0.0,
+            "SHORT": 10.096580359384006,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743897600000000,
+            "LONG": 0.0,
+            "SHORT": 23.12193582617647,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1743984000000000,
+            "LONG": 0.0,
+            "SHORT": 175.0512025855253,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744070400000000,
+            "LONG": 0.0,
+            "SHORT": -31.728624729112425,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744156800000000,
+            "LONG": 0.0,
+            "SHORT": 76.50142218261249,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744243200000000,
+            "LONG": 0.0,
+            "SHORT": -191.46384882003827,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744329600000000,
+            "LONG": 0.0,
+            "SHORT": 50.32744755467411,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744416000000000,
+            "LONG": 0.0,
+            "SHORT": -64.6348892952492,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744502400000000,
+            "LONG": 0.0,
+            "SHORT": -72.78426964625032,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744588800000000,
+            "LONG": 0.0,
+            "SHORT": 62.252012211821466,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744675200000000,
+            "LONG": 0.0,
+            "SHORT": -9.24348747111435,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744761600000000,
+            "LONG": 0.0,
+            "SHORT": 37.531210532678415,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744848000000000,
+            "LONG": 0.0,
+            "SHORT": 8.69211581206605,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1744934400000000,
+            "LONG": 0.0,
+            "SHORT": -13.205688501189798,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745020800000000,
+            "LONG": 0.0,
+            "SHORT": -10.145141315552337,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745107200000000,
+            "LONG": 0.0,
+            "SHORT": -46.0730600479078,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745193600000000,
+            "LONG": 0.0,
+            "SHORT": -10.272752181038413,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745280000000000,
+            "LONG": 0.0,
+            "SHORT": -8.070133707557034,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745366400000000,
+            "LONG": 0.0,
+            "SHORT": -128.54584935148932,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745452800000000,
+            "LONG": 20.042979726264207,
+            "SHORT": -40.61878098751822,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745539200000000,
+            "LONG": 21.577670271845136,
+            "SHORT": 5.0330819607912645,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745625600000000,
+            "LONG": 65.51993694859914,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745712000000000,
+            "LONG": 42.32910274446215,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745798400000000,
+            "LONG": -57.16489661898504,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745884800000000,
+            "LONG": 11.691733306913193,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1745971200000000,
+            "LONG": -24.856287281894083,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746057600000000,
+            "LONG": 18.050242990848346,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746144000000000,
+            "LONG": 4.476622582543655,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746230400000000,
+            "LONG": -1.6823272203437227,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746316800000000,
+            "LONG": -63.96397736804988,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746403200000000,
+            "LONG": -32.71183660073939,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746489600000000,
+            "LONG": -1.2797518975810362,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746576000000000,
+            "LONG": 29.871388945346098,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746662400000000,
+            "LONG": 8.126849943848583,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746748800000000,
+            "LONG": 162.43667532976372,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746835200000000,
+            "LONG": 54.68919200485584,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1746921600000000,
+            "LONG": 134.31431280676748,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747008000000000,
+            "LONG": -44.2579949277615,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747094400000000,
+            "LONG": 35.0157789787786,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747180800000000,
+            "LONG": 64.81580413834922,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747267200000000,
+            "LONG": -46.57976761388613,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747353600000000,
+            "LONG": -74.16763431526078,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747440000000000,
+            "LONG": -17.644824703608265,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747526400000000,
+            "LONG": -29.473521696667376,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747612800000000,
+            "LONG": 92.82851996181103,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747699200000000,
+            "LONG": -41.75429437804041,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747785600000000,
+            "LONG": 5.535594521296844,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747872000000000,
+            "LONG": 56.03864239504287,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1747958400000000,
+            "LONG": 93.79062960355691,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748044800000000,
+            "LONG": -96.97633675886595,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748131200000000,
+            "LONG": 13.934607824927753,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748217600000000,
+            "LONG": 3.1072751805265852,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748304000000000,
+            "LONG": -2.2252664693326096,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748390400000000,
+            "LONG": 15.597471317549662,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748476800000000,
+            "LONG": -14.578171790789838,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748563200000000,
+            "LONG": -42.30268182170812,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748649600000000,
+            "LONG": -108.70914253670207,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748736000000000,
+            "LONG": -2.031193660318422,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748822400000000,
+            "LONG": 18.16118805780843,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748908800000000,
+            "LONG": 22.666656723972437,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1748995200000000,
+            "LONG": -6.201724192995016,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749081600000000,
+            "LONG": -18.560938622352978,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749168000000000,
+            "LONG": -94.07846598976562,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749254400000000,
+            "LONG": 6.439946345438557,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749340800000000,
+            "LONG": 6.570236574780893,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749427200000000,
+            "LONG": -2.6770308316463343,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749513600000000,
+            "LONG": 29.15261574523356,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749600000000000,
+            "LONG": 23.31067096406605,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749686400000000,
+            "LONG": -14.754539616780221,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749772800000000,
+            "LONG": -40.536647361672294,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749859200000000,
+            "LONG": -22.182970952847654,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1749945600000000,
+            "LONG": -16.99568638990013,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750032000000000,
+            "LONG": 5.797353517329157,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750118400000000,
+            "LONG": -1.0488696105678628,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750204800000000,
+            "LONG": -12.188200542824688,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750291200000000,
+            "LONG": 5.095960124483554,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750377600000000,
+            "LONG": -1.2642265730755753,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750464000000000,
+            "LONG": -39.287255489408835,
+            "SHORT": 0.0,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750550400000000,
+            "LONG": -19.992588960037892,
+            "SHORT": 57.30011492190522,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750636800000000,
+            "LONG": 0.7992722092034228,
+            "SHORT": 43.25909184521356,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750723200000000,
+            "LONG": 0.0,
+            "SHORT": -165.15683475858168,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750809600000000,
+            "LONG": 0.0,
+            "SHORT": -18.1077187237629,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750896000000000,
+            "LONG": 0.0,
+            "SHORT": 25.651695098840264,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1750982400000000,
+            "LONG": 0.0,
+            "SHORT": 35.42376415653439,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751068800000000,
+            "LONG": 0.0,
+            "SHORT": -16.16321576324458,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751155200000000,
+            "LONG": 0.0,
+            "SHORT": -56.64237656352225,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751241600000000,
+            "LONG": 0.0,
+            "SHORT": -45.277085580230505,
+            "CASH": 0.0
+          },
+          {
+            "day_end_us": 1751328000000000,
+            "LONG": 0.0,
+            "SHORT": 13.660012472741641,
+            "CASH": 0.0
+          }
+        ],
+        "partial_stop_direction_contribution": null,
+        "scope": "RECORDED_FILLS_ACCOUNTING_NOT_INDEPENDENT_ORDER_SIZING_OR_NATIVE_RULES",
+        "target_reference": {
+          "status": "PASS_INDEPENDENT_ORDERED_INVERSE_VOL_SIGNED_COV_TARGETS",
+          "rows": 3030,
+          "maximum_error": 5.551115123125783e-17
+        },
+        "by_past_regime": {
+          "SIDEWAYS": {
+            "days": 109,
+            "LONG": 114.03912324679152,
+            "SHORT": 184.40853302185667,
+            "CASH": 0.0,
+            "net": 298.4476562686482
+          },
+          "BEAR": {
+            "days": 45,
+            "LONG": 205.36999041230308,
+            "SHORT": -208.4732119891794,
+            "CASH": 0.0,
+            "net": -3.103221576876308
+          },
+          "BULL": {
+            "days": 149,
+            "LONG": 651.934601916507,
+            "SHORT": 571.0168344385863,
+            "CASH": 0.0,
+            "net": 1222.9514363550932
+          }
+        }
+      }
+    }
+  ],
+  "models_fit": 0,
+  "search_configurations": 0,
+  "GPU_hours": 0.0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "disk_before": {
+    "project_bytes": 4617114399,
+    "wsl_vhd_bytes": 31493980160,
+    "total_bytes": 36111094559,
+    "reserved_bytes": 300000000,
+    "d_free_bytes": 345884061696,
+    "status": "OK",
+    "hard_limit_bytes": 150000000000,
+    "warning_limit_bytes": 120000000000,
+    "intake_limit_bytes": 135000000000,
+    "emergency_buffer_bytes": 15000000000,
+    "measured_utc": "2026-10-05T16:59:40.331014+00:00"
+  },
+  "actual_days": 303,
+  "signal_reference": {
+    "status": "PASS_INDEPENDENT_SCALAR_PRIOR_CHANNEL_MONTHLY_12M_SMA200_SIGNALS",
+    "rows": 3030,
+    "maximum_error": 0.0
+  },
+  "legacy_signal_golden": {
+    "status": "PASS_SAME_ORIGINAL_SIGNAL_COLUMNS_ALL_DECISIONS",
+    "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/frozen_signals.parquet",
+    "sha256": "8ed5b064be670ce6802d6f670f4059fdaeecea09f70f4a5557e3292f3fb9e6d0"
+  },
+  "legacy_control_targets_status": "PASS_SAME_CASH_AND_HOLD_ALL303D_ORDERED_TARGETS",
+  "descriptive_past_states": {
+    "1725148800000000": "SIDEWAYS",
+    "1725235200000000": "BEAR",
+    "1725321600000000": "BEAR",
+    "1725408000000000": "BEAR",
+    "1725494400000000": "SIDEWAYS",
+    "1725580800000000": "BEAR",
+    "1725667200000000": "BEAR",
+    "1725753600000000": "BEAR",
+    "1725840000000000": "BEAR",
+    "1725926400000000": "BEAR",
+    "1726012800000000": "BEAR",
+    "1726099200000000": "BEAR",
+    "1726185600000000": "BEAR",
+    "1726272000000000": "BEAR",
+    "1726358400000000": "BEAR",
+    "1726444800000000": "BEAR",
+    "1726531200000000": "BEAR",
+    "1726617600000000": "SIDEWAYS",
+    "1726704000000000": "SIDEWAYS",
+    "1726790400000000": "SIDEWAYS",
+    "1726876800000000": "SIDEWAYS",
+    "1726963200000000": "SIDEWAYS",
+    "1727049600000000": "SIDEWAYS",
+    "1727136000000000": "SIDEWAYS",
+    "1727222400000000": "BULL",
+    "1727308800000000": "SIDEWAYS",
+    "1727395200000000": "BULL",
+    "1727481600000000": "BULL",
+    "1727568000000000": "BULL",
+    "1727654400000000": "BULL",
+    "1727740800000000": "SIDEWAYS",
+    "1727827200000000": "SIDEWAYS",
+    "1727913600000000": "SIDEWAYS",
+    "1728000000000000": "SIDEWAYS",
+    "1728086400000000": "SIDEWAYS",
+    "1728172800000000": "SIDEWAYS",
+    "1728259200000000": "SIDEWAYS",
+    "1728345600000000": "SIDEWAYS",
+    "1728432000000000": "SIDEWAYS",
+    "1728518400000000": "BEAR",
+    "1728604800000000": "BEAR",
+    "1728691200000000": "BEAR",
+    "1728777600000000": "BEAR",
+    "1728864000000000": "BEAR",
+    "1728950400000000": "BULL",
+    "1729036800000000": "BULL",
+    "1729123200000000": "BULL",
+    "1729209600000000": "BULL",
+    "1729296000000000": "BULL",
+    "1729382400000000": "BULL",
+    "1729468800000000": "BULL",
+    "1729555200000000": "BULL",
+    "1729641600000000": "BULL",
+    "1729728000000000": "BULL",
+    "1729814400000000": "BULL",
+    "1729900800000000": "BULL",
+    "1729987200000000": "BULL",
+    "1730073600000000": "BULL",
+    "1730160000000000": "BULL",
+    "1730246400000000": "BULL",
+    "1730332800000000": "BULL",
+    "1730419200000000": "BULL",
+    "1730505600000000": "BULL",
+    "1730592000000000": "BULL",
+    "1730678400000000": "BULL",
+    "1730764800000000": "BULL",
+    "1730851200000000": "BULL",
+    "1730937600000000": "BULL",
+    "1731024000000000": "BULL",
+    "1731110400000000": "BULL",
+    "1731196800000000": "BULL",
+    "1731283200000000": "BULL",
+    "1731369600000000": "BULL",
+    "1731456000000000": "BULL",
+    "1731542400000000": "BULL",
+    "1731628800000000": "BULL",
+    "1731715200000000": "BULL",
+    "1731801600000000": "BULL",
+    "1731888000000000": "BULL",
+    "1731974400000000": "BULL",
+    "1732060800000000": "BULL",
+    "1732147200000000": "BULL",
+    "1732233600000000": "BULL",
+    "1732320000000000": "BULL",
+    "1732406400000000": "BULL",
+    "1732492800000000": "BULL",
+    "1732579200000000": "BULL",
+    "1732665600000000": "BULL",
+    "1732752000000000": "BULL",
+    "1732838400000000": "BULL",
+    "1732924800000000": "BULL",
+    "1733011200000000": "BULL",
+    "1733097600000000": "BULL",
+    "1733184000000000": "BULL",
+    "1733270400000000": "BULL",
+    "1733356800000000": "BULL",
+    "1733443200000000": "BULL",
+    "1733529600000000": "BULL",
+    "1733616000000000": "BULL",
+    "1733702400000000": "BULL",
+    "1733788800000000": "BULL",
+    "1733875200000000": "BULL",
+    "1733961600000000": "BULL",
+    "1734048000000000": "BULL",
+    "1734134400000000": "BULL",
+    "1734220800000000": "BULL",
+    "1734307200000000": "BULL",
+    "1734393600000000": "BULL",
+    "1734480000000000": "BULL",
+    "1734566400000000": "BULL",
+    "1734652800000000": "SIDEWAYS",
+    "1734739200000000": "BULL",
+    "1734825600000000": "SIDEWAYS",
+    "1734912000000000": "SIDEWAYS",
+    "1734998400000000": "SIDEWAYS",
+    "1735084800000000": "SIDEWAYS",
+    "1735171200000000": "BULL",
+    "1735257600000000": "SIDEWAYS",
+    "1735344000000000": "SIDEWAYS",
+    "1735430400000000": "SIDEWAYS",
+    "1735516800000000": "SIDEWAYS",
+    "1735603200000000": "SIDEWAYS",
+    "1735689600000000": "SIDEWAYS",
+    "1735776000000000": "SIDEWAYS",
+    "1735862400000000": "SIDEWAYS",
+    "1735948800000000": "SIDEWAYS",
+    "1736035200000000": "SIDEWAYS",
+    "1736121600000000": "SIDEWAYS",
+    "1736208000000000": "SIDEWAYS",
+    "1736294400000000": "SIDEWAYS",
+    "1736380800000000": "SIDEWAYS",
+    "1736467200000000": "SIDEWAYS",
+    "1736553600000000": "SIDEWAYS",
+    "1736640000000000": "SIDEWAYS",
+    "1736726400000000": "SIDEWAYS",
+    "1736812800000000": "SIDEWAYS",
+    "1736899200000000": "SIDEWAYS",
+    "1736985600000000": "BULL",
+    "1737072000000000": "BULL",
+    "1737158400000000": "BULL",
+    "1737244800000000": "BULL",
+    "1737331200000000": "BULL",
+    "1737417600000000": "BULL",
+    "1737504000000000": "BULL",
+    "1737590400000000": "BULL",
+    "1737676800000000": "BULL",
+    "1737763200000000": "BULL",
+    "1737849600000000": "BULL",
+    "1737936000000000": "BULL",
+    "1738022400000000": "BULL",
+    "1738108800000000": "BULL",
+    "1738195200000000": "BULL",
+    "1738281600000000": "BULL",
+    "1738368000000000": "BULL",
+    "1738454400000000": "BULL",
+    "1738540800000000": "BULL",
+    "1738627200000000": "BULL",
+    "1738713600000000": "SIDEWAYS",
+    "1738800000000000": "SIDEWAYS",
+    "1738886400000000": "SIDEWAYS",
+    "1738972800000000": "SIDEWAYS",
+    "1739059200000000": "SIDEWAYS",
+    "1739145600000000": "SIDEWAYS",
+    "1739232000000000": "SIDEWAYS",
+    "1739318400000000": "SIDEWAYS",
+    "1739404800000000": "SIDEWAYS",
+    "1739491200000000": "SIDEWAYS",
+    "1739577600000000": "SIDEWAYS",
+    "1739664000000000": "SIDEWAYS",
+    "1739750400000000": "SIDEWAYS",
+    "1739836800000000": "SIDEWAYS",
+    "1739923200000000": "SIDEWAYS",
+    "1740009600000000": "SIDEWAYS",
+    "1740096000000000": "SIDEWAYS",
+    "1740182400000000": "SIDEWAYS",
+    "1740268800000000": "SIDEWAYS",
+    "1740355200000000": "SIDEWAYS",
+    "1740441600000000": "SIDEWAYS",
+    "1740528000000000": "SIDEWAYS",
+    "1740614400000000": "SIDEWAYS",
+    "1740700800000000": "SIDEWAYS",
+    "1740787200000000": "SIDEWAYS",
+    "1740873600000000": "SIDEWAYS",
+    "1740960000000000": "SIDEWAYS",
+    "1741046400000000": "SIDEWAYS",
+    "1741132800000000": "SIDEWAYS",
+    "1741219200000000": "SIDEWAYS",
+    "1741305600000000": "SIDEWAYS",
+    "1741392000000000": "SIDEWAYS",
+    "1741478400000000": "SIDEWAYS",
+    "1741564800000000": "BEAR",
+    "1741651200000000": "BEAR",
+    "1741737600000000": "BEAR",
+    "1741824000000000": "SIDEWAYS",
+    "1741910400000000": "BEAR",
+    "1741996800000000": "SIDEWAYS",
+    "1742083200000000": "SIDEWAYS",
+    "1742169600000000": "BEAR",
+    "1742256000000000": "BEAR",
+    "1742342400000000": "BEAR",
+    "1742428800000000": "BULL",
+    "1742515200000000": "BEAR",
+    "1742601600000000": "BEAR",
+    "1742688000000000": "BEAR",
+    "1742774400000000": "SIDEWAYS",
+    "1742860800000000": "BULL",
+    "1742947200000000": "SIDEWAYS",
+    "1743033600000000": "SIDEWAYS",
+    "1743120000000000": "BULL",
+    "1743206400000000": "BEAR",
+    "1743292800000000": "SIDEWAYS",
+    "1743379200000000": "SIDEWAYS",
+    "1743465600000000": "BEAR",
+    "1743552000000000": "SIDEWAYS",
+    "1743638400000000": "SIDEWAYS",
+    "1743724800000000": "BEAR",
+    "1743811200000000": "BEAR",
+    "1743897600000000": "SIDEWAYS",
+    "1743984000000000": "BEAR",
+    "1744070400000000": "BEAR",
+    "1744156800000000": "BEAR",
+    "1744243200000000": "BEAR",
+    "1744329600000000": "BEAR",
+    "1744416000000000": "BEAR",
+    "1744502400000000": "BEAR",
+    "1744588800000000": "BEAR",
+    "1744675200000000": "BEAR",
+    "1744761600000000": "BEAR",
+    "1744848000000000": "BEAR",
+    "1744934400000000": "SIDEWAYS",
+    "1745020800000000": "SIDEWAYS",
+    "1745107200000000": "SIDEWAYS",
+    "1745193600000000": "SIDEWAYS",
+    "1745280000000000": "SIDEWAYS",
+    "1745366400000000": "BULL",
+    "1745452800000000": "BULL",
+    "1745539200000000": "BULL",
+    "1745625600000000": "BULL",
+    "1745712000000000": "BULL",
+    "1745798400000000": "BULL",
+    "1745884800000000": "BULL",
+    "1745971200000000": "BULL",
+    "1746057600000000": "BULL",
+    "1746144000000000": "BULL",
+    "1746230400000000": "BULL",
+    "1746316800000000": "BULL",
+    "1746403200000000": "BULL",
+    "1746489600000000": "BULL",
+    "1746576000000000": "BULL",
+    "1746662400000000": "BULL",
+    "1746748800000000": "BULL",
+    "1746835200000000": "BULL",
+    "1746921600000000": "BULL",
+    "1747008000000000": "BULL",
+    "1747094400000000": "BULL",
+    "1747180800000000": "BULL",
+    "1747267200000000": "BULL",
+    "1747353600000000": "BULL",
+    "1747440000000000": "BULL",
+    "1747526400000000": "BULL",
+    "1747612800000000": "BULL",
+    "1747699200000000": "BULL",
+    "1747785600000000": "BULL",
+    "1747872000000000": "BULL",
+    "1747958400000000": "BULL",
+    "1748044800000000": "BULL",
+    "1748131200000000": "BULL",
+    "1748217600000000": "BULL",
+    "1748304000000000": "BULL",
+    "1748390400000000": "BULL",
+    "1748476800000000": "BULL",
+    "1748563200000000": "BULL",
+    "1748649600000000": "SIDEWAYS",
+    "1748736000000000": "BULL",
+    "1748822400000000": "BULL",
+    "1748908800000000": "BULL",
+    "1748995200000000": "BULL",
+    "1749081600000000": "BULL",
+    "1749168000000000": "SIDEWAYS",
+    "1749254400000000": "BULL",
+    "1749340800000000": "SIDEWAYS",
+    "1749427200000000": "BULL",
+    "1749513600000000": "BULL",
+    "1749600000000000": "BULL",
+    "1749686400000000": "SIDEWAYS",
+    "1749772800000000": "SIDEWAYS",
+    "1749859200000000": "SIDEWAYS",
+    "1749945600000000": "SIDEWAYS",
+    "1750032000000000": "SIDEWAYS",
+    "1750118400000000": "SIDEWAYS",
+    "1750204800000000": "SIDEWAYS",
+    "1750291200000000": "SIDEWAYS",
+    "1750377600000000": "BULL",
+    "1750464000000000": "SIDEWAYS",
+    "1750550400000000": "SIDEWAYS",
+    "1750636800000000": "SIDEWAYS",
+    "1750723200000000": "SIDEWAYS",
+    "1750809600000000": "BULL",
+    "1750896000000000": "BULL",
+    "1750982400000000": "BULL",
+    "1751068800000000": "BULL",
+    "1751155200000000": "BULL",
+    "1751241600000000": "SIDEWAYS"
+  },
+  "required_accounts": 2,
+  "elapsed_seconds": 423.1008644330068,
+  "shared_RAM_sampled_peak_bytes": 1849921536,
+  "peak_RSS_bytes": 999129088,
+  "owned_bytes": 175611234,
+  "created_utc": "2026-10-05T17:05:21.832142+00:00"
+}
