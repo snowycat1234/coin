@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="28.393" timestamp="2026-10-05T10:38:16.133309+00:00" hostname="xflops"><testcase classname="tests.test_shared_signal_meta" name="test_fixed_intent_future_prefix_and_scalar_reference" time="0.171" /><testcase classname="tests.test_shared_signal_meta" name="test_label_maturity_cost_once_and_gate_never_inverts" time="0.089"><failure message="AssertionError: assert 10 == 12&#10; +  where 10 = null_count()&#10; +    where null_count = shape: (10,)\nSeries: 'execute_label' [i32]\n[\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n&#09;null\n].null_count">def test_label_maturity_cost_once_and_gate_never_inverts():
+        b=bars();symbols=('BTCUSDT','ETHUSDT')
+        _,intent,_=meta.public_intents(b,symbols,200*DAY,310*DAY)
+        f,columns=meta.common.feature_table(b,symbols)
+        table=meta.meta_table(f,b,intent)
+        columns+=['signal_direction']
+        train=meta.matured_train(table,columns,200*DAY,280*DAY)
+        assert train['label_available_us'].max()&lt;280*DAY and train['close_us'].max()&lt;=274*DAY
+        for r in table.iter_rows(named=True):
+            expected=None if r['intent']==0 or r['future_price_return'] is None else int(r['intent']*r['future_price_return']&gt;.0037)
+            assert r['execute_label']==expected
+&gt;       assert table.filter(pl.col('close_us')&gt;=305*DAY)['execute_label'].null_count()==12
+E       AssertionError: assert 10 == 12
+E        +  where 10 = null_count()
+E        +    where null_count = shape: (10,)\nSeries: 'execute_label' [i32]\n[\n	null\n	null\n	null\n	null\n	null\n	null\n	null\n	null\n	null\n	null\n].null_count
+
+tests/test_shared_signal_meta.py:37: AssertionError</failure></testcase></testsuite></testsuites>

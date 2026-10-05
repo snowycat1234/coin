@@ -1,0 +1,86 @@
+{
+  "experiment_id": "D090-FIXED-PUBLIC-SMA-SHARED-META-20261005",
+  "question": "Can one shared execute/reject model separate cost-tradable daily fixed SMA intent from losing intent, including independent short predicate, without changing account/cost/risk or primary parameters?",
+  "data_role": "ALREADY_SEEN_DEVELOPMENT_OUT_OF_FIT_NOT_UNSEEN_NOT_LOCKED",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "pool_rule": "REUSED_PRE_SEPTEMBER_2024_JULY_LIQUIDITY_AND200_DAY_ELIGIBILITY_NOT_RETURN_RANKING",
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "split": {
+    "all_symbols_same_cutoff": true,
+    "parameter_search": false,
+    "economics_start": "2025-03-01",
+    "economics_end_exclusive": "2025-07-01",
+    "training_labels_available_before": "2025-03-01",
+    "validation_early_stopping": false,
+    "train_start": "2024-09-01"
+  },
+  "fit_cutoff": "2025-03-01",
+  "economics_start": "2025-03-01",
+  "economics_end": "2025-07-01",
+  "features": "REUSED_CLOSED_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_ONEHOT_SYMBOL_PLUS_FIXED_SIGNAL_DIRECTION; NO_PRIMARY_MODEL_PROBABILITIES",
+  "labels": "execute iff fixed signed SMA intent * raw future5day trade-open proxy return >37bp; zero intent/unknown future excluded from fit; final50 unknown labels kept missing; future return is label only",
+  "label_band_bps": 37,
+  "threshold": 0.5,
+  "model": {
+    "n_estimators": 120,
+    "max_depth": 3,
+    "learning_rate": 0.05,
+    "min_child_weight": 20,
+    "subsample": 1.0,
+    "colsample_bytree": 1.0,
+    "reg_lambda": 10.0,
+    "tree_method": "hist",
+    "device": "cpu",
+    "n_jobs": 2,
+    "random_state": 20261005,
+    "objective": "binary:logistic",
+    "eval_metric": "logloss"
+  },
+  "cost": "SUPPLIED_BYBIT_STANDARD_USER_TAKER5.5BP_SIDE_BASE27_STRESS43_BINANCE_USDM_PROXY",
+  "risk": {
+    "full_capital_USDT": 10000,
+    "asset_absolute_cap": 0.3,
+    "portfolio_gross_cap": 0.6,
+    "annual_vol_target_max": 0.1,
+    "leverage": 1,
+    "margin": "ONE_WAY_ISOLATED_NO_AUTO_TOPUP",
+    "raw_direction_weights": "0.6/N_SIGNED; NO_REDISTRIBUTION_OF_CASH_BUDGET"
+  },
+  "execution_policy": "PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL",
+  "comparison": [
+    "PUBLIC_SMA_INTENT",
+    "PUBLIC_SMA_META",
+    "HOLD",
+    "ANALYTIC_CASH"
+  ],
+  "primary_signal": "Pinned MIT original should_long FAST50>SLOW200, should_short FAST50<SLOW200, held opposing trend closes then next daily decision reenters; equality keeps state. Prepared external intent from September; virtual signal state independent of filtered/account fills. COIN target intent adapter, not full native Jesse reproduction.",
+  "hypothesis": "Conditional state/vol/volume features may identify when trend-following intent survives trading cost; loses in sideways reversals, adverse directional drift and turnover. Meta does not invert signs or require short use.",
+  "adoption": "Adopt as development research challenger only if meta net positive under all four cost/funding-unit scenarios AND net improves versus raw fixed public intent in all four; report HOLD, cash, actual risk/DD/Sharpe and concentration. Otherwise pause this fitted recipe, retain capability. No post-result tuning, no investment qualification.",
+  "stopping": "One fixed binary fit, zero primary fits/OOF required for deterministic primary. Twelve fresh complete122day accounts: raw/meta/HOLD times 2 costs times 2 unknown funding scales, no wallet splicing. No extra configurations or seeds this round.",
+  "budget": {
+    "owned_bytes": 250000000,
+    "GPU": 0,
+    "wall_seconds": 2000,
+    "RSS_bytes": 2000000000
+  },
+  "regression": {
+    "sha256": "2a9d0148e96584693f63b40c899d59a906da5218ebc7acbc7a00c8777c497778",
+    "initial_fixture_failure_preserved": "reports/SHARED_META_TESTS_20261005_V1.xml",
+    "source_sha256": "68797777c2e9b46da632a6d145cee1940c15872277c6f1543e26b4b107187f48",
+    "path": "reports/SHARED_META_TESTS_20261005_V2.xml"
+  }
+}

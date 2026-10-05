@@ -135,19 +135,43 @@ def verify(directory, symbols, unit_scale):
         raise ValueError('Independent realized wallet/free plus isolated collateral identity')
     if bool(summary['terminal_cash_realized']) != (not any(q.values())):
         raise ValueError('True terminal liquidation scope')
-    if abs(nav[-1]-summary['NAV']) > 1e-7 or abs(nav[-1]-10000-summary['net_PnL']) > 1e-7:
+    complete=summary['completed_minutes']==summary['required_minutes']
+    terminal_nav=nav[-1]
+    terminal_dirs=None
+    if not complete:
+        # A halt can occur after a fill/funding/mark but before its snapshot.
+        # Verify that prefix separately, then retain the actual stopped mark;
+        # never claim a full calendar, simulated liquidation, or free closure.
+        terminal_notional=np.asarray([summary['terminal_signed_marked_notional'][s] for s in symbols])
+        for s in symbols:
+            if abs(float(q[s])-summary['positions'][s]['quantity'])>1e-8:
+                raise ValueError('Stopped inventory and final journal identity')
+        terminal_nav=states[-1][0]+terminal_notional.sum()
+        if abs(states[-1][4]-(summary['free_cash']+summary['isolated_balance']))>1e-7:
+            raise ValueError('Stopped free cash/collateral/realized wallet identity')
+        terminal_dirs=np.asarray(direction_states[-1])+np.asarray([np.maximum(terminal_notional,0).sum(),np.minimum(terminal_notional,0).sum()])
+    if abs(terminal_nav-summary['NAV']) > 1e-7 or abs(terminal_nav-10000-summary['net_PnL']) > 1e-7:
         raise ValueError('Full capital/terminal marked NAV identity')
     net_dir = dirs+np.column_stack((np.maximum(notionals, 0).sum(axis=1), np.minimum(notionals, 0).sum(axis=1)))
     endpoints = np.flatnonzero(times % 86_400_000_000 == 0)
     daily_direction = np.diff(np.vstack(([0., 0.], net_dir[endpoints])), axis=0)
+    final_dirs=net_dir[-1] if complete else terminal_dirs
     for i, label in enumerate(('LONG', 'SHORT')):
-        if abs(float(net_dir[-1, i])-summary['long_short_marked_contribution'][label]['net_contribution']) > 1e-7:
+        if abs(float(final_dirs[i])-summary['long_short_marked_contribution'][label]['net_contribution']) > 1e-7:
             raise ValueError('Independent long/short terminal attribution')
-    return dict(status='PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY',
+    daily=[dict(day_end_us=int(times[k]),LONG=float(v[0]),SHORT=float(v[1]),CASH=0.)
+           for k,v in zip(endpoints,daily_direction,strict=True)]
+    stopped_direction=None
+    if not complete:
+        before=net_dir[endpoints[-1]] if len(endpoints) else np.zeros(2)
+        last=final_dirs-before
+        stopped_direction=dict(stop_us=summary['stop_us'],LONG=float(last[0]),SHORT=float(last[1]),CASH=0.,
+            role='PARTIAL_STOP_DAY_NOT_COMPLETE_DAILY_RETURN')
+    return dict(status=('PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY' if complete else
+        'PASS_INDEPENDENT_PREFIX_AND_STOPPED_JOURNAL_WALLET_DECLARED_MARK_NOT_FULL_CALENDAR'),
         minutes=minute.height, maximum_NAV_error_USDT=max_error, maximum_wallet_error_USDT=wallet_error,
         terminal_cash_realized=summary['terminal_cash_realized'],
         liquidated_return_scope='EVALUABLE' if summary['terminal_cash_realized'] else 'NOT_EVALUABLE_RETAIN_REAL_RESIDUAL',
         actual_short_open_legs=short_open,
-        daily_direction_contributions=[dict(day_end_us=int(times[k]), LONG=float(v[0]), SHORT=float(v[1]), CASH=0.)
-            for k, v in zip(endpoints, daily_direction, strict=True)],
+        daily_direction_contributions=daily,partial_stop_direction_contribution=stopped_direction,
         scope='RECORDED_FILLS_ACCOUNTING_NOT_INDEPENDENT_ORDER_SIZING_OR_NATIVE_RULES')

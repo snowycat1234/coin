@@ -2,20 +2,18 @@
 
 投资资格：**NONE/CASH**；长期APR **NOT_EVALUABLE**。
 
-研究参照：Spot HOLD8与固定50/50 HOLD10+EXIT10，多空/N资产能力保持；模型方向暂未成为投资主力。
-
 ## 最新经济证据与决定
 
-D089只改变日常零目标的平仓重试，4个新完整122日/10币共享10k账户，24旧控制逐artifacts SHA复用；zero fit/search。BASE27/PCT净-22.69（旧5次过期43.56），毛9.59、费用/执行32.29、资金费0.01USDT；旧/新DD 1.95%/1.98%，vol 2.90%/2.65%，平均gross 1.62%/1.50%。四解释净范围-41.85至-21.50；新BEAR桶SHORT -20.85。零目标仍持仓的资产分钟旧13059/新210，新超五分钟真实平仓腿86；新零目标平空5次过期0，全部新q<=0/LONG=0；新4账户实付清仓=True。容量/费用/风险/终止覆盖不变；改动前默认完整账户golden、4项实际相关回归以及每分钟独立NAV/钱包/目标复核通过。第一次2项合成测试失败已保留，修正风险例未满仓及旧stub缺N资产关键字后4项通过；未按收益修改验收。
+D090固定公开SMA50/200原双向意图+一个共享execute/reject拟合；4原SMA账户均在103804分钟逐仓清算要求处停止，全122日净收益NOT_EVALUABLE，不补零。4过滤账户完整122日，净-84.26至-14.44USDT，BASE/PCT净-21.06、毛88.12、成本109.25、资金费0.07，DD5.48%、vol8.17%；同口径HOLD净140.16。原fit1次，恢复阶段fit0；最终恢复只新增2账户、10账本按SHA复用，整个实验实际独立账户12，未拼钱包。V1完整性断言错误和V2工件250MB停止保留，V3在同预算仅补缺两项。固定intent独立窗口参考、目标/每分钟NAV/资金费/钱包及停止参考通过；停止mark只核声明价格。
 
-采用可选持续平仓重试能力，不因它比过期退出少赚钱而退回旧机制；短策略决定 PAUSE_THIS_FIXED_RECIPE。已见开发/跨场所代理/资金费UNKNOWN及小样本收益集中保留，投资资格NONE/CASH、长期APR NOT_EVALUABLE。旧延迟退出结果不篡改，状态和现金成交归因仅关联描述，含风险/终止替代可能，不能作因果alpha。
+暂停本拟合配方与旧固定XGB门控配方，保留模型、多空和退出能力；本轮没有合格投资方案NONE/CASH。旧XGB负结果不能外推short无alpha，更不能外推所有公开CTA。重新开放ML需经典benchmark明确且提出可证伪的净/风险增量假设。
 
-报告：[D089](CASH_CLOSE_RETRY_20261005.md)；验收：`reports/CASH_CLOSE_RETRY_ACCEPTED_20261005_V1.json`。D085/D086原结果与D076单位审计按Git保留。
+报告：[D090](SHARED_META_20261005.md)；验收：`reports/SHARED_META_ACCEPTED_20261005_V1.json`。
 
-## 下一有限研究选择
+## 当前主线
 
-下一有限研究选择：共享execute/reject元标签，对既有固定双向公开信号作成本可交易性过滤；主问题是原方向模型未预测CASH和价格信号净收益弱，而非继续改变执行以挑利润。先核已登记公开信号完整语义与数据成熟，再预登记一个配置、共同时间切分、成本一致的完整账户对照。元模型只用闭合特征与固定公开signal，若使用方向模型概率须时间OOF/out-of-fit，不把训练内概率当独立链路；所有标签先成熟，已见评价仍是开发。不无限扫本XGB/state阈值；现固定多空配方暂停，reopen需不同可得预测机制带来真实净/风险改善并补独立证据。
+当前主线转为公开、冻结参数、零训练经典CTA leaderboard：真calendar12m TSMOM、SMA200 signed trend、Donchian20/10与20/10+55/20+12m等权forecast。各币独立信号，past30 inverse-vol和原signed covariance缩放进入同一个10币/10k账户。同Mar–Jun122日、两成本与两资金费解释，LONG_ONLY/SHORT_ONLY/LONG_SHORT/CASH/HOLD，最多56真实账户，零拟合/零搜参。有预热不足则UNKNOWN，不冒充短窗12m；本金/caps/逐仓1x/持续平仓/风险停止保持。先验证short增量与状态机制，再允许ML挑战。
 
-## 边界与运行
+## 边界
 
-市场账户回放已结束；原两个采集任务保持，存活与有效独立证据天数分开报告。Binance USD-M行情/mark/funding配Bybit用户费用为跨场所代理；funding两单位解释均报告。已见历史、相同caps非相同实际风险；未清仓liquidated return NOT_EVALUABLE。无账户密钥/发单/真钱/Testnet/mainnet/付费/GPU/locked正文；5GB RAM、swap0、D40GB、10k资本/abs30%/gross60%/逐仓1x不变。资源及当前磁盘扫描见本模块收尾凭证；不以本轮收益年化长期APR。
+已见开发/跨场所代理，不是unseen/Bybit原生；资金费UNKNOWN、历史规则假设和停止账户独立范围保留。5GB RAM、swap0/GPU0、D40GB、abs30%/gross60%不变；不读取钥匙/锁集正文、不发单。采集存活单独报告。当前磁盘收尾扫描见module closed凭证。

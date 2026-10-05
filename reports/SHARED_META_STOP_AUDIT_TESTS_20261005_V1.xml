@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="89.967" timestamp="2026-10-05T10:50:45.073089+00:00" hostname="xflops"><testcase classname="tests.test_stopped_account_audit" name="test_stopped_mark_reference_and_unchanged_full_calendar" time="0.050"><failure message="ValueError: daily_nav must contain at least one UTC daily valuation">tmp_path = PosixPath('/home/xflops/coin-state/d090-stop-audit-20261005-v1/test_stopped_mark_reference_an0')
+
+    def test_stopped_mark_reference_and_unchanged_full_calendar(tmp_path):
+        start=1_754_006_400_000_000;n=12;symbols=('BTCUSDT','ETHUSDT')
+        market={s:dict(open=np.full(n,100.),close=np.full(n,100.),mark=np.full(n,100.),quote_volume=np.full(n,1_000_000.)) for s in symbols}
+        bars=pl.DataFrame([dict(symbol=s,close_us=start,close=100.) for s in symbols])
+        def factory(b,d,m):return pl.DataFrame([dict(symbol=s,available_us=int(t),target_weight=-.1 if s=='BTCUSDT' else 0.) for t in d for s in symbols]),{}
+        window=dict(symbols=symbols,start=start,end=start+n*engine.MINUTE,daily=bars,market=market,events=[])
+        def check(label):
+            case=engine.simulate(window,'SHORT_ONLY',engine.COSTS[0],engine.UNITS[0],target_factory=factory)
+            directory=tmp_path/label;saved=engine.save_case(case,directory)
+            (directory/'summary.json').write_text(json.dumps(saved['summary']))
+            return case,audit.verify(directory,symbols,1.)
+&gt;       full,proof=check('full')
+                   ^^^^^^^^^^^^^
+
+tests/test_stopped_account_audit.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_stopped_account_audit.py:16: in check
+    directory=tmp_path/label;saved=engine.save_case(case,directory)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/investment/perpetual_directional.py:490: in save_case
+    summary['daily_metrics']=daily_metrics(daily,10000.)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+daily_nav = shape: (0, 5)
+┌────────────┬─────┬──────┬─────────────────┬──────────┐
+│ day_end_us ┆ nav ┆ fees ┆ execution_costs ┆ t...    │
+╞════════════╪═════╪══════╪═════════════════╪══════════╡
+└────────────┴─────┴──────┴─────────────────┴──────────┘
+initial_cash = 10000.0
+
+    def daily_metrics(daily_nav: pl.DataFrame, initial_cash: float) -&gt; dict[str, float | int]:
+        """Compute net mark-to-market statistics, including the initial cash observation."""
+        if daily_nav.is_empty():
+&gt;           raise ValueError("daily_nav must contain at least one UTC daily valuation")
+E           ValueError: daily_nav must contain at least one UTC daily valuation
+
+src/quant/metrics.py:14: ValueError</failure></testcase></testsuite></testsuites>
