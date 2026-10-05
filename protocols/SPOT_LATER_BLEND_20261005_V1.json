@@ -1,0 +1,96 @@
+{
+  "experiment_id": "D082_LATER_BLEND",
+  "parent_commit": "f6cdf43186a4f3aa9ea62a3eb738d9225ea4a36b",
+  "question": "Does actual Spot HOLD8 improve full-capital economics versus perpetual HOLD8 after its own native product price proxies, past risk, commission asset and residual inventory?",
+  "data_role": "SEEN_DEVELOPMENT_CHRONOLOGY_NOT_UNSEEN",
+  "start_us": 1764547200000000,
+  "end_us": 1772323200000000,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "warmup_start": "2025-05",
+  "last_source_month": "2026-02",
+  "annual_vol_target": 0.1,
+  "terminal_exit_minutes": 5,
+  "minimum_notional_USDT": 10,
+  "quantity_step": "1E-8",
+  "quantity_profile": "SHARED_UNCERTIFIED_RESEARCH_PROFILE_NOT_NATIVE_BYBIT_HISTORY",
+  "spot_source": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_LATER_SOURCE_WINDOW_20261005_V1.json",
+    "sha256": "beaeafb6c6bfec4c0e08ac7e9e977ae4c5a36b15c2d88578c658e4b8f436fa6c"
+  },
+  "fee_snapshot": {
+    "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+    "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+  },
+  "costs": [
+    {
+      "perpetual_cost_id": "BASE27",
+      "half_spread_bps": 4,
+      "id": "SPOT_BASE36",
+      "slippage_bps": 4,
+      "roundtrip_bps": 36
+    },
+    {
+      "perpetual_cost_id": "STRESS43",
+      "half_spread_bps": 8,
+      "id": "SPOT_STRESS52",
+      "slippage_bps": 8,
+      "roundtrip_bps": 52
+    }
+  ],
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "aac0476b1697deff84640be1d1314568fe2cd5c841cdc33cfcb9eeaec2ecf66a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "954b76e7a2668cb0e1c9a85ea250ac894ae00f8172e6fa34ba6dc2d252f48be4",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/task_progress_api.py": "659687f95b682c9ad97d189535ed5db6da5125770bb6b6fb20ea1e0d5367a83e",
+    "scripts/investment/accepted_spot_window.py": "ba9359daeb92d94fd83e6ecf37fbaf2b7dffcb34d2088edf0bd2e81c8102d7a3",
+    "scripts/investment/audit_daily_spot_targets.py": "70ad89024bce67318c5a290959460b66ca31b4f95481709fc6e7dc1d15080f65",
+    "scripts/investment/spot_saved_economic_diagnostics.py": "12f0a2bb99474ab81c9921bf4c17c2b1005809971f3a6f8b7abba04fe89653a1",
+    "scripts/investment/accept_spot_research.py": "8e93227563bf0ff53cf298e354342010a07ee4e7e4747e3516aa3de2107516aa"
+  },
+  "budget": {
+    "wall_seconds": 1200,
+    "owned_bytes": 100000000,
+    "actual_spot_wallets": 2,
+    "fits": 0,
+    "downloads": 0,
+    "API": 0,
+    "HPO": 0
+  },
+  "stop_rule": "Four real wallets only, same finite recipes and two original cost scenarios. Source, target, cash, fee or observed caps failure stops acceptance; preserve residue and all negative results.",
+  "primary_metrics": [
+    "full10k final marked net",
+    "actual daily/minute drawdown and daily volatility",
+    "funding/fee/execution/gross bridge",
+    "turnover",
+    "gross/net exposure",
+    "cash realized status and retained inventory"
+  ],
+  "comparison": "Same new90-day Spot account period, complete10k, previous-only200 daily warmup and risk, received-asset fees and full minute wallet. Not risk matched.",
+  "success_decision": "Before results: retain defense if it offers a net/risk tradeoff or dominates HOLD8 in both costs; pause it for this later-window evidence if HOLD8 dominates net, vol and minuteDD in both. CASH remains a reference, no investment adoption or period-grid.",
+  "locked_body_read": false,
+  "orders_sent": 0,
+  "funding_unit_certified": false,
+  "module": "D082_BLEND",
+  "recipe": "HALF_HOLD10_EXIT10",
+  "hypothesis": "Test two already fixed research recipes on later already-seen chronology; no parameter/cost/risk/asset changes. This cannot establish independent alpha.",
+  "execution_start_month": "2025-11",
+  "spot_control": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_LATER_HOLD8_20261005_V1.json",
+    "sha256": "f492aeb766d2400d1a424d86a394b238793285ab83edaca762b91db79c47c26c"
+  }
+}

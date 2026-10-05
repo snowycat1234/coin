@@ -25,7 +25,7 @@ from quant.backtest import BacktestConfig, run_backtest
 from quant.paths import ROOT, STATE
 from scripts.investment.vol_managed_perpetual_target import fixed_targets
 from scripts.investment import hold_donchian_blend_target as blend
-from scripts.research_v7.oracle_flow_ceiling import Progress
+from scripts.task_progress_api import Progress
 from scripts.research_v8.registry import FIELDS, append_event
 
 DAY = 86_400_000_000
@@ -235,11 +235,14 @@ def main():
     band=config.get('discretionary_rebalance_min_notional',0)
     assert band in (0,50) and (band==0 or recipe=='HALF_HOLD10_EXIT10')
     reference=read(config['economic_reference']) if config.get('economic_reference') else None
-    perpetual=read(config['perpetual_report']) if control is None else None
-    assert source['status']=='PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR'
-    assert (control or perpetual)['actual_calendar_days']==303
-    symbols=config['symbols']; assert symbols==['BTCUSDT','ETHUSDT']
-    start,end=config['start_us'],config['end_us']; assert end-start==303*DAY
+    perpetual=read(config['perpetual_report']) if control is None and config.get('perpetual_report') else None
+    assert source['status'] in ('PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR',
+        'PASS_ACCEPTED_SPOT_SOURCE_WINDOW_REUSED_QA_CURRENT_BYTES')
+    symbols=config['symbols']; assert symbols and len(set(symbols))==len(symbols)
+    start,end=config['start_us'],config['end_us']
+    assert start%DAY==end%DAY==0 and end>start
+    days=(end-start)//DAY
+    if control or perpetual:assert (control or perpetual)['actual_calendar_days']==days
     assert config['annual_vol_target']==(.08 if control is None else .10) and config['terminal_exit_minutes']==5
     assert config['minimum_notional_USDT']==10 and config['quantity_step']=='1E-8'
     run.mkdir(); progress=Progress(); began=time.monotonic()
@@ -251,14 +254,14 @@ def main():
         candidate='NONE',investment='CASH',long_term_APR='NOT_EVALUABLE',
         source_QA_reused=True,new_downloads=0,API_calls=0,new_model_fits=0,HPO=0,
         locked_consumed=False,orders_sent=0,native_Bybit_certified=False,
-        funding_unit_certified=False,actual_calendar_days=303,
+        funding_unit_certified=False,actual_calendar_days=days,
         spot_source=config['spot_source'],perpetual_report=config.get('perpetual_report'),
         spot_control=config.get('spot_control'),recipe=recipe)
     result['discretionary_rebalance_min_notional']=band
     result['economic_reference']=config.get('economic_reference')
     result['reference_comparisons']=[]
     module=config.get('module','D077')
-    if control is not None:
+    if control is not None or perpetual is None:
         result['price_source']='BINANCE_SPOT_WITH_USER_BYBIT_VIP0_COST_SCENARIOS'
     def guard():
         nonlocal peak
@@ -274,8 +277,13 @@ def main():
         result['disk_before']=disk.check(config['budget']['owned_bytes'])
         result['disk_before']['measured_utc']=datetime.now(UTC).isoformat()
         assert result['disk_before']['total_bytes']+config['budget']['owned_bytes']<32_000_000_000
-        rows=[x for x in source['sources'] if x['symbol'] in symbols and '2024-01'<=x['month']<='2025-06']
-        assert len(rows)==36 and len({(x['symbol'],x['month']) for x in rows})==36
+        first_month=config.get('warmup_start','2024-01')
+        last_month=config.get('last_source_month','2025-06')
+        rows=[x for x in source['sources'] if x['symbol'] in symbols and first_month<=x['month']<=last_month]
+        first=datetime.fromisoformat(first_month+'-01').replace(tzinfo=UTC)
+        last=datetime.fromisoformat(last_month+'-01').replace(tzinfo=UTC)
+        count=(last.year-first.year)*12+last.month-first.month+1
+        assert len(rows)==count*len(symbols) and len({(x['symbol'],x['month']) for x in rows})==len(rows)
         daily,execution,receipts=[],[],[]
         cols=['symbol','open_us','close_us','available_us','open','high','low','close','volume','quote_volume']
         for i,row in enumerate(rows if control is None else []):
@@ -287,7 +295,7 @@ def main():
             frame=pl.read_parquet(path,columns=cols)
             assert frame.height==row['rows']
             daily.append(daily_reduction(frame))
-            if row['month']>='2024-08': execution.append(frame)
+            if row['month']>=config.get('execution_start_month','2024-08'): execution.append(frame)
             receipts.append(dict(path=str(path),sha256=row['normalized_sha256'],symbol=row['symbol'],month=row['month'],rows=row['rows']))
             progress.update('复用已接受现货源及完整日线',i+1,len(rows),'文件')
             guard()
@@ -365,10 +373,10 @@ def main():
                 min_notional=10,lot_step_by_symbol={s:1e-8 for s in symbols},
                 liquidate_at_end=True,terminal_exit_minutes=5,discretionary_rebalance_min_notional=band)
             account=run_backtest(signal_bars,minutes,targets,bc)
-            assert account.daily_nav.height==303 and not account.daily_nav['stale_prices'].any()
+            assert account.daily_nav.height==days and not account.daily_nav['stale_prices'].any()
             path,risk=inventory_path(minutes,account.trades,symbols,start,end,account.summary)
             day_path=path.filter(pl.col('close_us')%DAY==0).rename({'close_us':'day_end_us'})
-            assert day_path.height==303
+            assert day_path.height==days
             assert np.max(np.abs(day_path['nav'].to_numpy()-account.daily_nav['nav'].to_numpy()))<=1e-7
             daily_frame=account.daily_nav.with_columns(pl.Series('day_end_us',day_path['day_end_us']))
             for name in day_path.columns:
@@ -391,7 +399,7 @@ def main():
             case['artifacts']['trades']=case['artifacts']['trades.parquet']
             case['artifacts']['daily_nav']=case['artifacts']['daily_nav.parquet']
             result['cases'].append(case)
-            for pc in (control or perpetual)['cases']:
+            for pc in (control or perpetual or {'cases':[]})['cases']:
                 if control is not None and pc['id']==case['id']:
                     result['comparisons'].append(spot_comparison(case,pc))
                 elif control is None and pc['cost_id']==cost['perpetual_cost_id']:
@@ -402,7 +410,7 @@ def main():
                 assert rc['fee_snapshot']==case['fee_snapshot'] and rc['symbols']==symbols
                 result['reference_comparisons'].append(spot_comparison(case,rc))
             guard();del account,path,daily_frame;gc.collect()
-        assert len(result['cases'])==2 and len(result['comparisons'])==(4 if control is None else 2)
+        assert len(result['cases'])==2 and len(result['comparisons'])==(2 if control else 4 if perpetual else 0)
         result['status']=(('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if control is None
                           else ('COMPLETE_SPOT_4H_DAILY_TREND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if daily_trend
                                 else 'COMPLETE_SPOT_4H_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if four_hour

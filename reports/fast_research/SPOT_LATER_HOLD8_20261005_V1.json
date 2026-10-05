@@ -1,0 +1,2476 @@
+{
+  "status": "COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR",
+  "task_id": "78816e49ebe945c7803c5f4d63cf3eb0",
+  "git_commit": "f6cdf43186a4f3aa9ea62a3eb738d9225ea4a36b",
+  "protocol_sha256": "a9aa7452d1f117e47a9aa647dc8636b15dc8436c533e26cee664581fa3f13712",
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "aac0476b1697deff84640be1d1314568fe2cd5c841cdc33cfcb9eeaec2ecf66a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "954b76e7a2668cb0e1c9a85ea250ac894ae00f8172e6fa34ba6dc2d252f48be4",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/task_progress_api.py": "659687f95b682c9ad97d189535ed5db6da5125770bb6b6fb20ea1e0d5367a83e",
+    "scripts/investment/accepted_spot_window.py": "ba9359daeb92d94fd83e6ecf37fbaf2b7dffcb34d2088edf0bd2e81c8102d7a3",
+    "scripts/investment/audit_daily_spot_targets.py": "70ad89024bce67318c5a290959460b66ca31b4f95481709fc6e7dc1d15080f65",
+    "scripts/investment/spot_saved_economic_diagnostics.py": "12f0a2bb99474ab81c9921bf4c17c2b1005809971f3a6f8b7abba04fe89653a1",
+    "scripts/investment/accept_spot_research.py": "8e93227563bf0ff53cf298e354342010a07ee4e7e4747e3516aa3de2107516aa"
+  },
+  "cases": [
+    {
+      "id": "SPOT_BASE36",
+      "cost_id": "BASE27",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "config": {
+        "initial_cash": 10000,
+        "fee_bps": 10.0,
+        "half_spread_bps": 4,
+        "slippage_bps": 4,
+        "fee_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "latency_minutes": 1,
+        "start_us": 1764547200000000,
+        "end_us": 1772323200000000,
+        "max_weight": 0.3,
+        "max_gross": 0.6,
+        "target_annual_vol": null,
+        "vol_window_days": 30,
+        "min_vol_days": 20,
+        "participation_rate": 0.001,
+        "max_order_wait_minutes": 5,
+        "liquidate_at_end": true,
+        "min_notional": 10,
+        "lot_step_by_symbol": {
+          "BTCUSDT": 1e-08,
+          "ETHUSDT": 1e-08
+        },
+        "fee_settlement": "RECEIVED_ASSET",
+        "terminal_exit_minutes": 5,
+        "discretionary_rebalance_min_notional": 0
+      },
+      "summary": {
+        "days": 90,
+        "initial_nav": 10000.0,
+        "final_nav": 9474.418993327026,
+        "total_return": -0.05255810066729738,
+        "annual_return": -0.1966446069026131,
+        "annual_volatility": 0.09824892844118967,
+        "sharpe": -2.179246808507188,
+        "max_drawdown": 0.08373732430424441,
+        "fees": 7.522474616238301,
+        "execution_costs": 6.020222643147944,
+        "turnover": 0.7604831365847847,
+        "start_utc": "2025-12-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+        "canonical_latency": true,
+        "trade_count": 119,
+        "round_trip_count": 0,
+        "open_positions": {
+          "BTCUSDT": 1.0300000026063766e-09,
+          "ETHUSDT": 7.309999789512078e-09
+        },
+        "gap_blocks": 0,
+        "capacity_limits": 3,
+        "expired_orders": 0,
+        "dust_orders": 182,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": true,
+        "drawdown_basis": "UTC_daily_observed_NAV",
+        "warmup_signals": 0,
+        "max_observed_weight": 0.13786776185919883,
+        "max_observed_gross": 0.2615313099224765,
+        "cost_rate_one_way_bps": 18.0,
+        "gross_pnl_before_costs": -512.0383094135874,
+        "fee_settlement": "RECEIVED_ASSET",
+        "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+        "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+        "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+        "fill_time_cost_addback_pnl_diagnostic": -512.0383094135874,
+        "inventory_rounding": "POSITIVE_SUBLOT_INVENTORY_RETAINED_AND_MARKED"
+      },
+      "terminal_marks": {
+        "BTCUSDT": {
+          "price": 66973.26,
+          "clock": 1772323200000000
+        },
+        "ETHUSDT": {
+          "price": 1964.51,
+          "clock": 1772323200000000
+        }
+      },
+      "risk": {
+        "minute_max_drawdown": 0.08994013278034696,
+        "minute_mean_gross_weight": 0.1586247579863373,
+        "minute_max_gross_weight": 0.27321475565206776,
+        "minute_mean_net_weight": 0.1586247579863373,
+        "minute_max_asset_weight": 0.13836661580687767,
+        "complete_minute_observations": 129600,
+        "reconstructed_NAV_final_error_USDT": 1.8189894035458565e-12,
+        "observed_caps_ok": true,
+        "scope": "POST_REPLAY_SAVED_FILL_MINUTE_CLOSE_MARKS_NOT_INTRAMINUTE_OR_NATIVE_RISK",
+        "continuous_drift_risk_reduction_implemented": false
+      },
+      "terminal_cash_realized": false,
+      "terminal_marked_inventory_USDT": 8.33430256610519e-05,
+      "liquidated_return": "NOT_EVALUABLE",
+      "turnover_over_full_initial_capital": 0.7525691151184455,
+      "funding_USDT": 0,
+      "fee_snapshot": {
+        "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+        "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+      },
+      "fee_historical_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+      "artifacts": {
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/targets.parquet",
+          "sha256": "0a93c69c3a3fe9a3bc5ca861109bef8cfe91df5d2043ce69b607a0ca761aba82",
+          "bytes": 3554,
+          "rows": 180
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/trades.parquet",
+          "sha256": "8188781895603ffb4528a1a9954d7cd939d379ace3dbb345af0a92aa5ccf409a",
+          "bytes": 24686,
+          "rows": 119
+        },
+        "orders.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/orders.parquet",
+          "sha256": "05385a42357886c5ddd663ff32196b64751f13e053bd966e6c920b76240cec2c",
+          "bytes": 13206,
+          "rows": 301
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/daily_nav.parquet",
+          "sha256": "ab8c2b043b4d826b339112bb2bed811b915d8f74aca4e7f8e78e68fa523d9205",
+          "bytes": 13178,
+          "rows": 90
+        },
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/minute_nav_inventory.parquet",
+          "sha256": "e4b7056a82d8a91e8daa2223e3377dcb9de5ad990c7ed438404503114c65028f",
+          "bytes": 3952762,
+          "rows": 129600
+        },
+        "trades": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/trades.parquet",
+          "sha256": "8188781895603ffb4528a1a9954d7cd939d379ace3dbb345af0a92aa5ccf409a",
+          "bytes": 24686,
+          "rows": 119
+        },
+        "daily_nav": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_BASE36/daily_nav.parquet",
+          "sha256": "ab8c2b043b4d826b339112bb2bed811b915d8f74aca4e7f8e78e68fa523d9205",
+          "bytes": 13178,
+          "rows": 90
+        }
+      }
+    },
+    {
+      "id": "SPOT_STRESS52",
+      "cost_id": "STRESS43",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "config": {
+        "initial_cash": 10000,
+        "fee_bps": 10.0,
+        "half_spread_bps": 8,
+        "slippage_bps": 8,
+        "fee_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "latency_minutes": 1,
+        "start_us": 1764547200000000,
+        "end_us": 1772323200000000,
+        "max_weight": 0.3,
+        "max_gross": 0.6,
+        "target_annual_vol": null,
+        "vol_window_days": 30,
+        "min_vol_days": 20,
+        "participation_rate": 0.001,
+        "max_order_wait_minutes": 5,
+        "liquidate_at_end": true,
+        "min_notional": 10,
+        "lot_step_by_symbol": {
+          "BTCUSDT": 1e-08,
+          "ETHUSDT": 1e-08
+        },
+        "fee_settlement": "RECEIVED_ASSET",
+        "terminal_exit_minutes": 5,
+        "discretionary_rebalance_min_notional": 0
+      },
+      "summary": {
+        "days": 90,
+        "initial_nav": 10000.0,
+        "final_nav": 9469.169710678552,
+        "total_return": -0.05308302893214478,
+        "annual_return": -0.19844819686582482,
+        "annual_volatility": 0.09816875284482236,
+        "sharpe": -2.2039872406949623,
+        "max_drawdown": 0.08377171193184751,
+        "fees": 7.510327222706062,
+        "execution_costs": 12.025484346168177,
+        "turnover": 0.7597788342715702,
+        "start_utc": "2025-12-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+        "canonical_latency": true,
+        "trade_count": 119,
+        "round_trip_count": 0,
+        "open_positions": {
+          "BTCUSDT": 8.049999999926172e-09,
+          "ETHUSDT": 9.789999796949722e-09
+        },
+        "gap_blocks": 0,
+        "capacity_limits": 3,
+        "expired_orders": 0,
+        "dust_orders": 182,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": true,
+        "drawdown_basis": "UTC_daily_observed_NAV",
+        "warmup_signals": 0,
+        "max_observed_weight": 0.13773971379815034,
+        "max_observed_gross": 0.26128062545088526,
+        "cost_rate_one_way_bps": 26.0,
+        "gross_pnl_before_costs": -511.2944777525734,
+        "fee_settlement": "RECEIVED_ASSET",
+        "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+        "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+        "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+        "fill_time_cost_addback_pnl_diagnostic": -511.2944777525734,
+        "inventory_rounding": "POSITIVE_SUBLOT_INVENTORY_RETAINED_AND_MARKED"
+      },
+      "terminal_marks": {
+        "BTCUSDT": {
+          "price": 66973.26,
+          "clock": 1772323200000000
+        },
+        "ETHUSDT": {
+          "price": 1964.51,
+          "clock": 1772323200000000
+        }
+      },
+      "risk": {
+        "minute_max_drawdown": 0.08997820775550414,
+        "minute_mean_gross_weight": 0.15847236880373033,
+        "minute_max_gross_weight": 0.2729569967059923,
+        "minute_mean_net_weight": 0.15847236880373033,
+        "minute_max_asset_weight": 0.13823560829114592,
+        "complete_minute_observations": 129600,
+        "reconstructed_NAV_final_error_USDT": 0.0,
+        "observed_caps_ok": true,
+        "scope": "POST_REPLAY_SAVED_FILL_MINUTE_CLOSE_MARKS_NOT_INTRAMINUTE_OR_NATIVE_RISK",
+        "continuous_drift_risk_reduction_implemented": false
+      },
+      "terminal_cash_realized": false,
+      "terminal_marked_inventory_USDT": 0.0005583672954961612,
+      "liquidated_return": "NOT_EVALUABLE",
+      "turnover_over_full_initial_capital": 0.7516752213403389,
+      "funding_USDT": 0,
+      "fee_snapshot": {
+        "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+        "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+      },
+      "fee_historical_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+      "artifacts": {
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/targets.parquet",
+          "sha256": "0a93c69c3a3fe9a3bc5ca861109bef8cfe91df5d2043ce69b607a0ca761aba82",
+          "bytes": 3554,
+          "rows": 180
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/trades.parquet",
+          "sha256": "f891d8f8ae4b2648882e6757a0660ea8acdfd68522e07774944cab78e1516639",
+          "bytes": 24665,
+          "rows": 119
+        },
+        "orders.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/orders.parquet",
+          "sha256": "ffbe632e5ad281bd49c6cbc4981d9f660dc521014e08ad3ce19a06ee89594f17",
+          "bytes": 13212,
+          "rows": 301
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/daily_nav.parquet",
+          "sha256": "bb939f4af1de8ad09bb8857469b2f6c3c2c0a82ec59c7091d937686cc9120b70",
+          "bytes": 13194,
+          "rows": 90
+        },
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/minute_nav_inventory.parquet",
+          "sha256": "36a454b751b581a73c6e5ce2c727e38bf0e892ef116b823ca99b6a1876a01105",
+          "bytes": 3949479,
+          "rows": 129600
+        },
+        "trades": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/trades.parquet",
+          "sha256": "f891d8f8ae4b2648882e6757a0660ea8acdfd68522e07774944cab78e1516639",
+          "bytes": 24665,
+          "rows": 119
+        },
+        "daily_nav": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/SPOT_STRESS52/daily_nav.parquet",
+          "sha256": "bb939f4af1de8ad09bb8857469b2f6c3c2c0a82ec59c7091d937686cc9120b70",
+          "bytes": 13194,
+          "rows": 90
+        }
+      }
+    }
+  ],
+  "comparisons": [],
+  "price_source": "BINANCE_SPOT_WITH_USER_BYBIT_VIP0_COST_SCENARIOS",
+  "candidate": "NONE",
+  "investment": "CASH",
+  "long_term_APR": "NOT_EVALUABLE",
+  "source_QA_reused": true,
+  "new_downloads": 0,
+  "API_calls": 0,
+  "new_model_fits": 0,
+  "HPO": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "native_Bybit_certified": false,
+  "funding_unit_certified": false,
+  "actual_calendar_days": 90,
+  "spot_source": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_LATER_SOURCE_WINDOW_20261005_V1.json",
+    "sha256": "beaeafb6c6bfec4c0e08ac7e9e977ae4c5a36b15c2d88578c658e4b8f436fa6c"
+  },
+  "perpetual_report": null,
+  "spot_control": null,
+  "recipe": "HOLD8",
+  "discretionary_rebalance_min_notional": 0,
+  "economic_reference": null,
+  "reference_comparisons": [],
+  "disk_before": {
+    "project_bytes": 4462411367,
+    "wsl_vhd_bytes": 24282923008,
+    "total_bytes": 28745334375,
+    "reserved_bytes": 100000000,
+    "d_free_bytes": 353380683776,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-05T05:46:48.693325+00:00"
+  },
+  "target_meta": {
+    "mode": "LONG_ONLY",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "risk": [
+      {
+        "decision_us": 1764547200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3262686822465478,
+        "net_target_weight": 0.14711801227593266,
+        "gross_target_weight": 0.14711801227593266,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1764633600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3398676231411917,
+        "net_target_weight": 0.1412314581670502,
+        "gross_target_weight": 0.1412314581670502,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1764720000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3716863548520072,
+        "net_target_weight": 0.12914114110837338,
+        "gross_target_weight": 0.12914114110837338,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1764806400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.37041607919303143,
+        "net_target_weight": 0.12958400754246474,
+        "gross_target_weight": 0.12958400754246474,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1764892800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.34472950720021306,
+        "net_target_weight": 0.13923960379789135,
+        "gross_target_weight": 0.13923960379789135,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1764979200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.34214544514904627,
+        "net_target_weight": 0.14029121439594242,
+        "gross_target_weight": 0.14029121439594242,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765065600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3383583926175324,
+        "net_target_weight": 0.14186141395421922,
+        "gross_target_weight": 0.14186141395421922,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765152000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3328971706678345,
+        "net_target_weight": 0.14418866914280418,
+        "gross_target_weight": 0.14418866914280418,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765238400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.33416226733134635,
+        "net_target_weight": 0.14364278882631737,
+        "gross_target_weight": 0.14364278882631737,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765324800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.33637879203726423,
+        "net_target_weight": 0.1426962731784902,
+        "gross_target_weight": 0.1426962731784902,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765411200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.33605484109888634,
+        "net_target_weight": 0.1428338298684877,
+        "gross_target_weight": 0.1428338298684877,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765497600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.32935657589534584,
+        "net_target_weight": 0.14573870240639178,
+        "gross_target_weight": 0.14573870240639178,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765584000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.33660937947005465,
+        "net_target_weight": 0.14259852198880918,
+        "gross_target_weight": 0.14259852198880918,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765670400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3291019133613338,
+        "net_target_weight": 0.14585147655248945,
+        "gross_target_weight": 0.14585147655248945,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765756800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3187516144319422,
+        "net_target_weight": 0.15058747258595814,
+        "gross_target_weight": 0.15058747258595814,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765843200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3211335025361605,
+        "net_target_weight": 0.14947054611530314,
+        "gross_target_weight": 0.14947054611530314,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1765929600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.31988116331116245,
+        "net_target_weight": 0.15005572539233356,
+        "gross_target_weight": 0.15005572539233356,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766016000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.32325024183490025,
+        "net_target_weight": 0.14849176825833885,
+        "gross_target_weight": 0.14849176825833885,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766102400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.32006062748369746,
+        "net_target_weight": 0.149971586250311,
+        "gross_target_weight": 0.149971586250311,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766188800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.32997833341722443,
+        "net_target_weight": 0.14546409609054187,
+        "gross_target_weight": 0.14546409609054187,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766275200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.30513906559059345,
+        "net_target_weight": 0.15730532538367875,
+        "gross_target_weight": 0.15730532538367875,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766361600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3013815943998821,
+        "net_target_weight": 0.1592665275249429,
+        "gross_target_weight": 0.1592665275249429,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766448000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.30127807583937,
+        "net_target_weight": 0.15932125119383653,
+        "gross_target_weight": 0.15932125119383653,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766534400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3011857665067628,
+        "net_target_weight": 0.1593700809859559,
+        "gross_target_weight": 0.1593700809859559,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766620800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.29208270014049487,
+        "net_target_weight": 0.16433701816955093,
+        "gross_target_weight": 0.16433701816955093,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766707200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.29271300447648085,
+        "net_target_weight": 0.16398314822345636,
+        "gross_target_weight": 0.16398314822345636,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766793600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2860917219714418,
+        "net_target_weight": 0.1677783602728339,
+        "gross_target_weight": 0.1677783602728339,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766880000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.28640610240245473,
+        "net_target_weight": 0.16759419438818704,
+        "gross_target_weight": 0.16759419438818704,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1766966400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.286415798074011,
+        "net_target_weight": 0.16758852103401295,
+        "gross_target_weight": 0.16758852103401295,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767052800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.28630401981673026,
+        "net_target_weight": 0.16765395061768917,
+        "gross_target_weight": 0.16765395061768917,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767139200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2877437917787173,
+        "net_target_weight": 0.16681506733223733,
+        "gross_target_weight": 0.16681506733223733,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767225600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.26277544109020784,
+        "net_target_weight": 0.18266547208847475,
+        "gross_target_weight": 0.18266547208847475,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767312000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2267684762610633,
+        "net_target_weight": 0.21166963235551678,
+        "gross_target_weight": 0.21166963235551678,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767398400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.214134248333172,
+        "net_target_weight": 0.22415844440407628,
+        "gross_target_weight": 0.22415844440407628,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767484800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.21178648546884227,
+        "net_target_weight": 0.22664335683997971,
+        "gross_target_weight": 0.22664335683997971,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767571200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.20017705820185877,
+        "net_target_weight": 0.23978771808903668,
+        "gross_target_weight": 0.23978771808903668,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767657600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.206517034653085,
+        "net_target_weight": 0.2324263472048792,
+        "gross_target_weight": 0.2324263472048792,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767744000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.20660184899814493,
+        "net_target_weight": 0.23233093136756483,
+        "gross_target_weight": 0.23233093136756483,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767830400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.21737450651496734,
+        "net_target_weight": 0.22081706254130107,
+        "gross_target_weight": 0.22081706254130107,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1767916800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.1988917639031884,
+        "net_target_weight": 0.24133729350082211,
+        "gross_target_weight": 0.24133729350082211,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768003200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.1990697852805122,
+        "net_target_weight": 0.2411214737201956,
+        "gross_target_weight": 0.2411214737201956,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768089600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.19810630756427008,
+        "net_target_weight": 0.24229415302401583,
+        "gross_target_weight": 0.24229415302401583,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768176000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.18418751736251307,
+        "net_target_weight": 0.2606039795059925,
+        "gross_target_weight": 0.2606039795059925,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768262400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.18408827155848623,
+        "net_target_weight": 0.26074447651462707,
+        "gross_target_weight": 0.26074447651462707,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768348800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.21718888812227513,
+        "net_target_weight": 0.22100578171833765,
+        "gross_target_weight": 0.22100578171833765,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768435200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.20878468206457387,
+        "net_target_weight": 0.2299019234809302,
+        "gross_target_weight": 0.2299019234809302,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768521600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.21142893461454473,
+        "net_target_weight": 0.2270266370471412,
+        "gross_target_weight": 0.2270266370471412,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768608000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.19860523172671918,
+        "net_target_weight": 0.24168547617138308,
+        "gross_target_weight": 0.24168547617138308,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768694400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.19778352648176917,
+        "net_target_weight": 0.24268957508159525,
+        "gross_target_weight": 0.24268957508159525,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768780800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.18313954227323143,
+        "net_target_weight": 0.2620952275199386,
+        "gross_target_weight": 0.2620952275199386,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768867200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.18920680753738436,
+        "net_target_weight": 0.2536906606307806,
+        "gross_target_weight": 0.2536906606307806,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1768953600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.23141612664929503,
+        "net_target_weight": 0.20741856107868714,
+        "gross_target_weight": 0.20741856107868714,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769040000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.23305277744284716,
+        "net_target_weight": 0.20596193071233107,
+        "gross_target_weight": 0.20596193071233107,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769126400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.23131337800103255,
+        "net_target_weight": 0.20751069572718675,
+        "gross_target_weight": 0.20751069572718675,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769212800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2312530582414864,
+        "net_target_weight": 0.20756482255848013,
+        "gross_target_weight": 0.20756482255848013,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769299200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.23024803025561566,
+        "net_target_weight": 0.20847083880244965,
+        "gross_target_weight": 0.20847083880244965,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769385600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.24352511053162493,
+        "net_target_weight": 0.1971049305560897,
+        "gross_target_weight": 0.1971049305560897,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769472000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2513396764323419,
+        "net_target_weight": 0.19097661253224824,
+        "gross_target_weight": 0.19097661253224824,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769558400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.25527464613239154,
+        "net_target_weight": 0.18803277461055046,
+        "gross_target_weight": 0.18803277461055046,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769644800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2549054170735483,
+        "net_target_weight": 0.18830513902397952,
+        "gross_target_weight": 0.18830513902397952,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769731200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2810342708695039,
+        "net_target_weight": 0.1707976747871025,
+        "gross_target_weight": 0.1707976747871025,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769817600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.2845130140180574,
+        "net_target_weight": 0.16870933010098987,
+        "gross_target_weight": 0.16870933010098987,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769904000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3261271014948312,
+        "net_target_weight": 0.14718188025462445,
+        "gross_target_weight": 0.14718188025462445,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1769990400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3309091471176547,
+        "net_target_weight": 0.1450549204157648,
+        "gross_target_weight": 0.1450549204157648,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770076800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3386310297674869,
+        "net_target_weight": 0.14174719910623101,
+        "gross_target_weight": 0.14174719910623101,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770163200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.34544171834741305,
+        "net_target_weight": 0.13895252788120419,
+        "gross_target_weight": 0.13895252788120419,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770249600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.3422328778215752,
+        "net_target_weight": 0.14025537319948855,
+        "gross_target_weight": 0.14025537319948855,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770336000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.43986352082220376,
+        "net_target_weight": 0.10912475740265347,
+        "gross_target_weight": 0.10912475740265347,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770422400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5281058391431398,
+        "net_target_weight": 0.09089087156824618,
+        "gross_target_weight": 0.09089087156824618,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770508800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5282973858141623,
+        "net_target_weight": 0.0908579169401471,
+        "gross_target_weight": 0.0908579169401471,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770595200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5295978463901644,
+        "net_target_weight": 0.09063480965260105,
+        "gross_target_weight": 0.09063480965260105,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770681600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5298858579641958,
+        "net_target_weight": 0.09058554645035147,
+        "gross_target_weight": 0.09058554645035147,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770768000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5298602567853727,
+        "net_target_weight": 0.0905899232586585,
+        "gross_target_weight": 0.0905899232586585,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770854400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5315712678007712,
+        "net_target_weight": 0.09029833421694648,
+        "gross_target_weight": 0.09029833421694648,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1770940800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5089919380455855,
+        "net_target_weight": 0.09430404769142159,
+        "gross_target_weight": 0.09430404769142159,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771027200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5212233541451476,
+        "net_target_weight": 0.09209103855049673,
+        "gross_target_weight": 0.09209103855049673,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771113600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5247583985198998,
+        "net_target_weight": 0.09147066561561616,
+        "gross_target_weight": 0.09147066561561616,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771200000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5268130415576585,
+        "net_target_weight": 0.09111391748783522,
+        "gross_target_weight": 0.09111391748783522,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771286400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5280490152785426,
+        "net_target_weight": 0.09090065242273067,
+        "gross_target_weight": 0.09090065242273067,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771372800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5280490652663782,
+        "net_target_weight": 0.09090064381760822,
+        "gross_target_weight": 0.09090064381760822,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771459200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5278879831461272,
+        "net_target_weight": 0.09092838165007612,
+        "gross_target_weight": 0.09092838165007612,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771545600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5176994890535893,
+        "net_target_weight": 0.09271788173434205,
+        "gross_target_weight": 0.09271788173434205,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771632000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5176276414289821,
+        "net_target_weight": 0.09273075113896433,
+        "gross_target_weight": 0.09273075113896433,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771718400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5180131735374524,
+        "net_target_weight": 0.09266173613349159,
+        "gross_target_weight": 0.09266173613349159,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771804800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5175348569418472,
+        "net_target_weight": 0.09274737605817636,
+        "gross_target_weight": 0.09274737605817636,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771891200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5231178093170328,
+        "net_target_weight": 0.09175753366658915,
+        "gross_target_weight": 0.09175753366658915,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1771977600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5203245589261182,
+        "net_target_weight": 0.09225011423459566,
+        "gross_target_weight": 0.09225011423459566,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1772064000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5526633697446545,
+        "net_target_weight": 0.08685214658278746,
+        "gross_target_weight": 0.08685214658278746,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1772150400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5486870920375534,
+        "net_target_weight": 0.0874815549637803,
+        "gross_target_weight": 0.0874815549637803,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      },
+      {
+        "decision_us": 1772236800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "unscaled_signed_covariance_annual_vol": 0.5510648188778288,
+        "net_target_weight": 0.0871040907633075,
+        "gross_target_weight": 0.0871040907633075,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true
+      }
+    ],
+    "original_long_and_short_and_exit_hooks_reused": false,
+    "whole_balance_sizing_replaced_by_capped_COINSizing": true,
+    "forbidden_directions_never_create_internal_positions": true,
+    "source": {
+      "smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+      "LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d"
+    },
+    "timeframe_minutes": 1440,
+    "complete_daily_warmup": 200,
+    "native_Jesse_or_Bybit_execution_replicated": false,
+    "fresh_flat_each_window": true,
+    "funding_rates_used_for_signal": false,
+    "candidate_status": "NO_QUALIFIED_CANDIDATE",
+    "strategy_id": "COIN_SPOT_HOLD8_1D_SHARED_CAPITAL",
+    "rules": {
+      "timeframe_minutes": 1440,
+      "completed_daily_eligibility_bars": 200,
+      "past_covariance_daily_returns": 30,
+      "annual_volatility_target": 0.08,
+      "absolute_target_per_asset": 0.3,
+      "gross_target_cap": 0.6,
+      "direction_is_constant": true,
+      "raw_allocation": "EQUAL_SHARE_OF_0.6_GROSS_TO_CONFIGURED_ELIGIBLE_MEMBERS",
+      "SMA_alpha_or_original_Jesse_hooks_used": false
+    },
+    "original_SMA_alpha_used": false,
+    "direction_context_is_Jesse_strategy": false,
+    "benchmark_scope": "SEEN_DEVELOPMENT_NOT_LONG_TERM_APR",
+    "target_caps_are_not_instantaneous_position_caps": true,
+    "source_target_builder_id": "COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE"
+  },
+  "source_records": [
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-05.parquet",
+      "sha256": "8ca6e26d35b158aee5db6e02e828be1ed50d8bf261331646db739d2baf4c66ad",
+      "symbol": "BTCUSDT",
+      "month": "2025-05",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-06.parquet",
+      "sha256": "c19438d6c8c3e4d93241e267cff2dfce0442c74221716cc1202770047ab546da",
+      "symbol": "BTCUSDT",
+      "month": "2025-06",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-07.parquet",
+      "sha256": "fac7f6e0490938f925a0f232d23789e5429372047376aef9937263d9a187e6a2",
+      "symbol": "BTCUSDT",
+      "month": "2025-07",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-08.parquet",
+      "sha256": "6ff8975d51326f66cb03efb41020a6302529fc8a0dafc61e20a0aa8663fa3565",
+      "symbol": "BTCUSDT",
+      "month": "2025-08",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-09.parquet",
+      "sha256": "280cb064f54b7df9ae5d357bdbe302495d3cf92f899c381e59e64ecd8ba2571f",
+      "symbol": "BTCUSDT",
+      "month": "2025-09",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-10.parquet",
+      "sha256": "b49c06f7fdb6f1ade1ba02f94ffa0aefddaa0a732d0f1f822965878788c7f183",
+      "symbol": "BTCUSDT",
+      "month": "2025-10",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-11.parquet",
+      "sha256": "1e8f9e6fed0617e7b95a88aa0d5e14531acfb18dd2af34162e87c64234acfec7",
+      "symbol": "BTCUSDT",
+      "month": "2025-11",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-12.parquet",
+      "sha256": "5e557e585a801bddf90ea79a18eb01b8bd70abe593291d618bf77c00d0ed75ef",
+      "symbol": "BTCUSDT",
+      "month": "2025-12",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2026-01.parquet",
+      "sha256": "5e89ae535197eb340ea6ac2345776b4c469fa3d0b740de2b2e50089c5a8724d5",
+      "symbol": "BTCUSDT",
+      "month": "2026-01",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2026-02.parquet",
+      "sha256": "cd1f3f270d5790308900066fe8317c6e337576c3606ad39cd281d44b2dd5098a",
+      "symbol": "BTCUSDT",
+      "month": "2026-02",
+      "rows": 40320
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-05.parquet",
+      "sha256": "0ac109a1c6a0f2a1d99e50fb9f2b0e9de137cb41980a57b70893487eb7570a63",
+      "symbol": "ETHUSDT",
+      "month": "2025-05",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-06.parquet",
+      "sha256": "ce5273e4e9878783cef1375b266f6639f4cd8a99a191bedc056a763d02a243e9",
+      "symbol": "ETHUSDT",
+      "month": "2025-06",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-07.parquet",
+      "sha256": "e5e95f899720dee3513197cc3c55006fb26642f3f0baddeedbf43fc705c9aac7",
+      "symbol": "ETHUSDT",
+      "month": "2025-07",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-08.parquet",
+      "sha256": "6068897f2dfd4bfb45f6ff4ff035056380c4d97ad635e3db5235c4a49a81fb42",
+      "symbol": "ETHUSDT",
+      "month": "2025-08",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-09.parquet",
+      "sha256": "1e18543912e63f2f81cec5fc4ead0c8ced8e57a7e3f9e54f0784b7a88582ee0e",
+      "symbol": "ETHUSDT",
+      "month": "2025-09",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-10.parquet",
+      "sha256": "99623579bfb41b6120f2f667be3a22bc1b5ee2f171546ae7c841478886c5b999",
+      "symbol": "ETHUSDT",
+      "month": "2025-10",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-11.parquet",
+      "sha256": "750de8962f805e36f868c07f652aaa02317b11211400804214507b5334cca1ed",
+      "symbol": "ETHUSDT",
+      "month": "2025-11",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-12.parquet",
+      "sha256": "b9d70dd6327d897d3eaa9d8b661bb67e9318eea861f811f5a0cc052f28b4aa8c",
+      "symbol": "ETHUSDT",
+      "month": "2025-12",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2026-01.parquet",
+      "sha256": "d7520cfb93ed03abc534432765e56b5dd4659c0924e05abb9a54b85bbbe39bf7",
+      "symbol": "ETHUSDT",
+      "month": "2026-01",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2026-02.parquet",
+      "sha256": "35a9f78a1f31b45860d275dbf05d79ee07038568115f7a9db87c9dbfd70692f3",
+      "symbol": "ETHUSDT",
+      "month": "2026-02",
+      "rows": 40320
+    }
+  ],
+  "market_minutes": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/source_minutes.parquet",
+    "sha256": "de7baa8dd2deb7643c7edb12747e05d496218d2a3ede8877976bf197974fe5bf",
+    "bytes": 11637707,
+    "rows": 345600
+  },
+  "daily_bars": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/source_daily_bars.parquet",
+    "sha256": "b810261ce199a751861f7777b1cb04f47e39a4a4406b9b5d10dc6d70b563a0bf",
+    "bytes": 22937,
+    "rows": 608
+  },
+  "target_artifact": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/targets.parquet",
+    "sha256": "0a93c69c3a3fe9a3bc5ca861109bef8cfe91df5d2043ce69b607a0ca761aba82",
+    "bytes": 3554,
+    "rows": 180
+  },
+  "elapsed_seconds": 73.53968273100145,
+  "process_peak_RSS_bytes": 410218496,
+  "shared_RAM_sampled_peak_bytes": 922578944,
+  "resources_after": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 909307904,
+    "ram_peak_bytes": 1302818816,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "owned_bytes": 19668580,
+  "created_utc": "2026-10-05T05:46:52.452205+00:00"
+}

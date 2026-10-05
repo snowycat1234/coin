@@ -51,13 +51,16 @@ def diagnose(case):
     assert abs(sum(x['net_USDT'] for x in per_asset)-net)<1e-7
     assert abs(sum(monthly.values())-net)<1e-7
     nav=daily['nav'].to_list();blocks=[];before=case['config']['initial_cash']
-    assert len(nav)==303
+    assert len(nav)>0
+    edges=[len(nav)*i//3 for i in range(4)]
     for i in range(3):
-        end=nav[(i+1)*101-1];blocks.append(dict(block=i+1,days=101,start_NAV=before,end_NAV=end,
+        assert edges[i+1]>edges[i]
+        end=nav[edges[i+1]-1];blocks.append(dict(block=i+1,days=edges[i+1]-edges[i],start_NAV=before,end_NAV=end,
             net_change_USDT=end-before,return_on_actual_start_NAV=end/before-1));before=end
     return dict(id=case['id'],net_USDT=net,assets=per_asset,
         trade_groups=[dict(symbol=k[0],side=k[1],reason=k[2],**v) for k,v in sorted(groups.items())],
-        monthly_net_contributions_USDT=dict(monthly),continuous_101_day_blocks=blocks,
+        monthly_net_contributions_USDT=dict(monthly),continuous_blocks=blocks,
+        **({'continuous_101_day_blocks':blocks} if len(nav)==303 else {}),
         reason_scope='Saved explicit target intent if present, plus first/terminal; unlabelled others UNKNOWN. Labels do not causally attribute whole-trade PnL.',
         gross_scope=case['summary'].get('gross_pnl_definition'),independent_accounts_not_combined=True)
 
@@ -73,7 +76,7 @@ def main():
         assert s['id']==h['id']
         pairs.append(dict(cost_id=s['id'],monthly_net_deltas_USDT={m:s['monthly_net_contributions_USDT'][m]-h['monthly_net_contributions_USDT'][m]
             for m in s['monthly_net_contributions_USDT']},continuous_block_net_deltas_USDT=[x['net_change_USDT']-y['net_change_USDT']
-                for x,y in zip(s['continuous_101_day_blocks'],h['continuous_101_day_blocks'],strict=True)]))
+                for x,y in zip(s['continuous_blocks'],h['continuous_blocks'],strict=True)]))
     write(a.output,dict(status='PASS_SAVED_SPOT_ASSET_MONTH_NET_AND_COST_BRIDGES',input_sha256=sha(a.input),
         control=v['spot_control'],cases=cases,pairs=pairs,elapsed_seconds=time.monotonic()-began,
         new_market_replays=0,scope='Descriptive saved-account bridge, not causal reason attribution or independent OOS'))

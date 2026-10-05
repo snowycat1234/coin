@@ -35,7 +35,7 @@ def main():
     assert private=='29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d'
     assert f['status']=='PASS_INDEPENDENT_SAVED_SPOT_WALLETS_NOT_NATIVE_OR_ALPHA_CERTIFICATION'
     assert t['status'].startswith('PASS_') and d['status']=='PASS_SAVED_SPOT_ASSET_MONTH_NET_AND_COST_BRIDGES'
-    target=t.get('actual_reference',t.get('actual_target_reference'))
+    target=t.get('actual_reference',t.get('actual_target_reference',t))
     assert target is not None and all(x['input_sha256']==sha(a.result) for x in (f,d,target))
     assert target['target_rows']==v['target_artifact']['rows'] and target['target_max_error']<=1e-12
     if 'current_sources' in t:

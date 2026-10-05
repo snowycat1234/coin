@@ -1,0 +1,4173 @@
+{
+  "status": "COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR",
+  "task_id": "78816e49ebe945c7803c5f4d63cf3eb0",
+  "git_commit": "f6cdf43186a4f3aa9ea62a3eb738d9225ea4a36b",
+  "protocol_sha256": "af38a62b8c16e1f09622360fe710c0b2ca4cf8a38587e14394ace9ba85db0a56",
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "aac0476b1697deff84640be1d1314568fe2cd5c841cdc33cfcb9eeaec2ecf66a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "954b76e7a2668cb0e1c9a85ea250ac894ae00f8172e6fa34ba6dc2d252f48be4",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/task_progress_api.py": "659687f95b682c9ad97d189535ed5db6da5125770bb6b6fb20ea1e0d5367a83e",
+    "scripts/investment/accepted_spot_window.py": "ba9359daeb92d94fd83e6ecf37fbaf2b7dffcb34d2088edf0bd2e81c8102d7a3",
+    "scripts/investment/audit_daily_spot_targets.py": "70ad89024bce67318c5a290959460b66ca31b4f95481709fc6e7dc1d15080f65",
+    "scripts/investment/spot_saved_economic_diagnostics.py": "12f0a2bb99474ab81c9921bf4c17c2b1005809971f3a6f8b7abba04fe89653a1",
+    "scripts/investment/accept_spot_research.py": "8e93227563bf0ff53cf298e354342010a07ee4e7e4747e3516aa3de2107516aa"
+  },
+  "cases": [
+    {
+      "id": "SPOT_BASE36",
+      "cost_id": "BASE27",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "config": {
+        "initial_cash": 10000,
+        "fee_bps": 10.0,
+        "half_spread_bps": 4,
+        "slippage_bps": 4,
+        "fee_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "latency_minutes": 1,
+        "start_us": 1764547200000000,
+        "end_us": 1772323200000000,
+        "max_weight": 0.3,
+        "max_gross": 0.6,
+        "target_annual_vol": null,
+        "vol_window_days": 30,
+        "min_vol_days": 20,
+        "participation_rate": 0.001,
+        "max_order_wait_minutes": 5,
+        "liquidate_at_end": true,
+        "min_notional": 10,
+        "lot_step_by_symbol": {
+          "BTCUSDT": 1e-08,
+          "ETHUSDT": 1e-08
+        },
+        "fee_settlement": "RECEIVED_ASSET",
+        "terminal_exit_minutes": 5,
+        "discretionary_rebalance_min_notional": 0
+      },
+      "summary": {
+        "days": 90,
+        "initial_nav": 10000.0,
+        "final_nav": 9669.296214091912,
+        "total_return": -0.03307037859080886,
+        "annual_return": -0.12749472172876974,
+        "annual_volatility": 0.06137024914699624,
+        "sharpe": -2.1915534782918855,
+        "max_drawdown": 0.05304421679322846,
+        "fees": 4.547314528254579,
+        "execution_costs": 3.639200274015024,
+        "turnover": 0.4578712922419424,
+        "start_utc": "2025-12-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+        "canonical_latency": true,
+        "trade_count": 92,
+        "round_trip_count": 0,
+        "open_positions": {
+          "BTCUSDT": 8.299999984182072e-10,
+          "ETHUSDT": 0.0048386733899999645
+        },
+        "gap_blocks": 0,
+        "capacity_limits": 1,
+        "expired_orders": 0,
+        "dust_orders": 182,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": true,
+        "drawdown_basis": "UTC_daily_observed_NAV",
+        "warmup_signals": 0,
+        "max_observed_weight": 0.08599772639755526,
+        "max_observed_gross": 0.16345645036677656,
+        "cost_rate_one_way_bps": 18.0,
+        "gross_pnl_before_costs": -322.51727110581874,
+        "fee_settlement": "RECEIVED_ASSET",
+        "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+        "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+        "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+        "fill_time_cost_addback_pnl_diagnostic": -322.51727110581874,
+        "inventory_rounding": "POSITIVE_SUBLOT_INVENTORY_RETAINED_AND_MARKED"
+      },
+      "terminal_marks": {
+        "BTCUSDT": {
+          "price": 66973.26,
+          "clock": 1772323200000000
+        },
+        "ETHUSDT": {
+          "price": 1964.51,
+          "clock": 1772323200000000
+        }
+      },
+      "risk": {
+        "minute_max_drawdown": 0.057055154706432964,
+        "minute_mean_gross_weight": 0.09898243582326494,
+        "minute_max_gross_weight": 0.17116097856813461,
+        "minute_mean_net_weight": 0.09898243582326494,
+        "minute_max_asset_weight": 0.08635085176615391,
+        "complete_minute_observations": 129600,
+        "reconstructed_NAV_final_error_USDT": 5.4569682106375694e-12,
+        "observed_caps_ok": true,
+        "scope": "POST_REPLAY_SAVED_FILL_MINUTE_CLOSE_MARKS_NOT_INTRAMINUTE_OR_NATIVE_RISK",
+        "continuous_drift_risk_reduction_implemented": false
+      },
+      "terminal_cash_realized": false,
+      "terminal_marked_inventory_USDT": 9.505677849194523,
+      "liquidated_return": "NOT_EVALUABLE",
+      "turnover_over_full_initial_capital": 0.4549267914264173,
+      "funding_USDT": 0,
+      "fee_snapshot": {
+        "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+        "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+      },
+      "fee_historical_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+      "artifacts": {
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/targets.parquet",
+          "sha256": "db5ce7e7829b06ff9b499f9b940f0dd757f86abb7ba3835eff93efb864040963",
+          "bytes": 3559,
+          "rows": 180
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/trades.parquet",
+          "sha256": "3a7afd7230cb4b4ff0a8140d74984ba543fa4915efbee2571a706c09771e058d",
+          "bytes": 21090,
+          "rows": 92
+        },
+        "orders.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/orders.parquet",
+          "sha256": "1d2ea91a54410111ffd8a3acd38408d6b96ed4665825edcf675dbf4823c7fa92",
+          "bytes": 12177,
+          "rows": 274
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/daily_nav.parquet",
+          "sha256": "5a17b6558139674f8fe85254c31c912b3215ff37eb45b23a65732613dfa735b6",
+          "bytes": 12563,
+          "rows": 90
+        },
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/minute_nav_inventory.parquet",
+          "sha256": "d5eb424234e6d64d5a1151c0b3f868e5a1c1faaf07c744457652ec26086401b8",
+          "bytes": 3946675,
+          "rows": 129600
+        },
+        "trades": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/trades.parquet",
+          "sha256": "3a7afd7230cb4b4ff0a8140d74984ba543fa4915efbee2571a706c09771e058d",
+          "bytes": 21090,
+          "rows": 92
+        },
+        "daily_nav": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_BASE36/daily_nav.parquet",
+          "sha256": "5a17b6558139674f8fe85254c31c912b3215ff37eb45b23a65732613dfa735b6",
+          "bytes": 12563,
+          "rows": 90
+        }
+      }
+    },
+    {
+      "id": "SPOT_STRESS52",
+      "cost_id": "STRESS43",
+      "symbols": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "config": {
+        "initial_cash": 10000,
+        "fee_bps": 10.0,
+        "half_spread_bps": 8,
+        "slippage_bps": 8,
+        "fee_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "latency_minutes": 1,
+        "start_us": 1764547200000000,
+        "end_us": 1772323200000000,
+        "max_weight": 0.3,
+        "max_gross": 0.6,
+        "target_annual_vol": null,
+        "vol_window_days": 30,
+        "min_vol_days": 20,
+        "participation_rate": 0.001,
+        "max_order_wait_minutes": 5,
+        "liquidate_at_end": true,
+        "min_notional": 10,
+        "lot_step_by_symbol": {
+          "BTCUSDT": 1e-08,
+          "ETHUSDT": 1e-08
+        },
+        "fee_settlement": "RECEIVED_ASSET",
+        "terminal_exit_minutes": 5,
+        "discretionary_rebalance_min_notional": 0
+      },
+      "summary": {
+        "days": 90,
+        "initial_nav": 10000.0,
+        "final_nav": 9666.076254475262,
+        "total_return": -0.0333923745524739,
+        "annual_return": -0.12867247147474947,
+        "annual_volatility": 0.06132140391543323,
+        "sharpe": -2.2153667100227343,
+        "max_drawdown": 0.053064488497200135,
+        "fees": 4.5410018610635605,
+        "execution_costs": 7.270992872081624,
+        "turnover": 0.4575055355541245,
+        "start_utc": "2025-12-01T00:00:00+00:00",
+        "end_utc": "2026-03-01T00:00:00+00:00",
+        "execution_contract_version": "execution_v2",
+        "execution_contract_sha256": "74a83007641c5243e6042df089ebabfd48e1dbf81b221795c64027cb96a066a2",
+        "canonical_latency": true,
+        "trade_count": 92,
+        "round_trip_count": 0,
+        "open_positions": {
+          "BTCUSDT": 5.659999996465714e-09,
+          "ETHUSDT": 0.004563218289999976
+        },
+        "gap_blocks": 0,
+        "capacity_limits": 1,
+        "expired_orders": 0,
+        "dust_orders": 182,
+        "valuation_gap_days": 0,
+        "exposed_valuation_gap_days": 0,
+        "daily_risk_observable": true,
+        "drawdown_basis": "UTC_daily_observed_NAV",
+        "warmup_signals": 0,
+        "max_observed_weight": 0.08591675808902255,
+        "max_observed_gross": 0.1632995396337197,
+        "cost_rate_one_way_bps": 26.0,
+        "gross_pnl_before_costs": -322.1117507915933,
+        "fee_settlement": "RECEIVED_ASSET",
+        "quantity_semantics": "GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+        "fee_summary_units": "USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+        "gross_pnl_definition": "SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+        "fill_time_cost_addback_pnl_diagnostic": -322.1117507915933,
+        "inventory_rounding": "POSITIVE_SUBLOT_INVENTORY_RETAINED_AND_MARKED"
+      },
+      "terminal_marks": {
+        "BTCUSDT": {
+          "price": 66973.26,
+          "clock": 1772323200000000
+        },
+        "ETHUSDT": {
+          "price": 1964.51,
+          "clock": 1772323200000000
+        }
+      },
+      "risk": {
+        "minute_max_drawdown": 0.05707743345844407,
+        "minute_mean_gross_weight": 0.09888726308257888,
+        "minute_max_gross_weight": 0.17099827432306042,
+        "minute_mean_net_weight": 0.09888726308257888,
+        "minute_max_asset_weight": 0.08626854500549057,
+        "complete_minute_observations": 129600,
+        "reconstructed_NAV_final_error_USDT": 3.637978807091713e-12,
+        "observed_caps_ok": true,
+        "scope": "POST_REPLAY_SAVED_FILL_MINUTE_CLOSE_MARKS_NOT_INTRAMINUTE_OR_NATIVE_RISK",
+        "continuous_drift_risk_reduction_implemented": false
+      },
+      "terminal_cash_realized": false,
+      "terminal_marked_inventory_USDT": 8.964867031539216,
+      "liquidated_return": "NOT_EVALUABLE",
+      "turnover_over_full_initial_capital": 0.4544904169948301,
+      "funding_USDT": 0,
+      "fee_snapshot": {
+        "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+        "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+      },
+      "fee_historical_scope": "CURRENT_ACCOUNT_RATE_SCENARIO_ON_HISTORICAL_PRICES_NOT_PROOF_OF_HISTORICAL_ACCOUNT_FEES",
+      "artifacts": {
+        "targets.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/targets.parquet",
+          "sha256": "db5ce7e7829b06ff9b499f9b940f0dd757f86abb7ba3835eff93efb864040963",
+          "bytes": 3559,
+          "rows": 180
+        },
+        "trades.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/trades.parquet",
+          "sha256": "414e1079015358128c53d2aaae88e24a21d1f0387a294b9046815f16a4f57034",
+          "bytes": 21067,
+          "rows": 92
+        },
+        "orders.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/orders.parquet",
+          "sha256": "de08c7b07f31729cce44c7ee8ce47abbcaa822cc85626795e1eb8b60344612ac",
+          "bytes": 12186,
+          "rows": 274
+        },
+        "daily_nav.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/daily_nav.parquet",
+          "sha256": "4d450ee0385ce4b1b11795b8d6044405846f0dfc328709db75be51702d9c3297",
+          "bytes": 12559,
+          "rows": 90
+        },
+        "minute_nav_inventory.parquet": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/minute_nav_inventory.parquet",
+          "sha256": "c2d5e585487a91abe9be265aa1d0bcf88ab0c7a6a91b3151b977dffa028f6680",
+          "bytes": 3948068,
+          "rows": 129600
+        },
+        "trades": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/trades.parquet",
+          "sha256": "414e1079015358128c53d2aaae88e24a21d1f0387a294b9046815f16a4f57034",
+          "bytes": 21067,
+          "rows": 92
+        },
+        "daily_nav": {
+          "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/SPOT_STRESS52/daily_nav.parquet",
+          "sha256": "4d450ee0385ce4b1b11795b8d6044405846f0dfc328709db75be51702d9c3297",
+          "bytes": 12559,
+          "rows": 90
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "challenger_id": "SPOT_BASE36",
+      "control_id": "SPOT_BASE36",
+      "net_delta_USDT": 194.87722076488535,
+      "gross_delta_USDT": 189.52103830776866,
+      "fee_delta_USDT": -2.9751600879837223,
+      "execution_delta_USDT": -2.38102236913292,
+      "funding_delta_USDT": 0,
+      "actual_risk_matched": false,
+      "comparison_basis": "SAME_SPOT_INPUT_COST_ACCOUNT_FULL_CAPITAL_DIFFERENT_FIXED_TARGET_RECIPE",
+      "challenger_daily_vol": 0.06137024914699624,
+      "control_daily_vol": 0.09824892844118967,
+      "challenger_daily_MDD": 0.05304421679322846,
+      "control_daily_MDD": 0.08373732430424441,
+      "challenger_minute_MDD": 0.057055154706432964,
+      "control_minute_MDD": 0.08994013278034696,
+      "challenger_turnover": 0.4549267914264173,
+      "control_turnover": 0.7525691151184455,
+      "challenger_band_USDT": 0,
+      "control_band_USDT": 0
+    },
+    {
+      "challenger_id": "SPOT_STRESS52",
+      "control_id": "SPOT_STRESS52",
+      "net_delta_USDT": 196.90654379670923,
+      "gross_delta_USDT": 189.18272696098012,
+      "fee_delta_USDT": -2.9693253616425013,
+      "execution_delta_USDT": -4.754491474086553,
+      "funding_delta_USDT": 0,
+      "actual_risk_matched": false,
+      "comparison_basis": "SAME_SPOT_INPUT_COST_ACCOUNT_FULL_CAPITAL_DIFFERENT_FIXED_TARGET_RECIPE",
+      "challenger_daily_vol": 0.06132140391543323,
+      "control_daily_vol": 0.09816875284482236,
+      "challenger_daily_MDD": 0.053064488497200135,
+      "control_daily_MDD": 0.08377171193184751,
+      "challenger_minute_MDD": 0.05707743345844407,
+      "control_minute_MDD": 0.08997820775550414,
+      "challenger_turnover": 0.4544904169948301,
+      "control_turnover": 0.7516752213403389,
+      "challenger_band_USDT": 0,
+      "control_band_USDT": 0
+    }
+  ],
+  "price_source": "BINANCE_SPOT_WITH_USER_BYBIT_VIP0_COST_SCENARIOS",
+  "candidate": "NONE",
+  "investment": "CASH",
+  "long_term_APR": "NOT_EVALUABLE",
+  "source_QA_reused": true,
+  "new_downloads": 0,
+  "API_calls": 0,
+  "new_model_fits": 0,
+  "HPO": 0,
+  "locked_consumed": false,
+  "orders_sent": 0,
+  "native_Bybit_certified": false,
+  "funding_unit_certified": false,
+  "actual_calendar_days": 90,
+  "spot_source": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_LATER_SOURCE_WINDOW_20261005_V1.json",
+    "sha256": "beaeafb6c6bfec4c0e08ac7e9e977ae4c5a36b15c2d88578c658e4b8f436fa6c"
+  },
+  "perpetual_report": null,
+  "spot_control": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_LATER_HOLD8_20261005_V1.json",
+    "sha256": "f492aeb766d2400d1a424d86a394b238793285ab83edaca762b91db79c47c26c"
+  },
+  "recipe": "HALF_HOLD10_EXIT10",
+  "discretionary_rebalance_min_notional": 0,
+  "economic_reference": null,
+  "reference_comparisons": [],
+  "disk_before": {
+    "project_bytes": 4462685668,
+    "wsl_vhd_bytes": 24316477440,
+    "total_bytes": 28779163108,
+    "reserved_bytes": 100000000,
+    "d_free_bytes": 353346772992,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-05T05:48:44.806157+00:00"
+  },
+  "target_meta": {
+    "strategy_id": "COIN_SPOT_HALF_HOLD10_EXIT10_1D_SHARED_CAPITAL",
+    "allocation": "HALF_HOLD_HALF_ACTIVE_EQUAL_EXIT10",
+    "mode": "LONG_ONLY",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "rules": {
+      "hold_weight": 0.5,
+      "donchian_weight": 0.5,
+      "hold_strategy_id": "COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+      "donchian_strategy_id": "COIN_JESSE_DONCHIAN20_SMA200_EXIT10_1D_USDM_CONFIGURED_POOL_VARIANT",
+      "hold_allocation": "EQUAL",
+      "donchian_allocation": "ACTIVE_EQUAL",
+      "annual_volatility_target": 0.1,
+      "exit_period": 10,
+      "reentry_period": 20,
+      "blend_stage": "AFTER_COMPONENT_RISK_SCALING_NO_EXTRA_RESCALE",
+      "separate_component_capital": false,
+      "timeframe_minutes": 1440,
+      "completed_daily_eligibility_bars": 200,
+      "past_covariance_daily_returns": 30,
+      "absolute_target_per_asset": 0.3,
+      "gross_target_cap": 0.6,
+      "blend_weights_fitted": false,
+      "component_NAVs_averaged": false,
+      "component_signal_states_independent_of_executed_blended_position": true
+    },
+    "risk": [
+      {
+        "decision_us": 1764547200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09194875767245793,
+          0.09194875767245793
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3262686822465478,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09194875767245793,
+        "gross_target_weight": 0.09194875767245793
+      },
+      {
+        "decision_us": 1764633600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08826966135440638,
+          0.08826966135440638
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3398676231411917,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08826966135440638,
+        "gross_target_weight": 0.08826966135440638
+      },
+      {
+        "decision_us": 1764720000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08071321319273338,
+          0.08071321319273338
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3716863548520072,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08071321319273338,
+        "gross_target_weight": 0.08071321319273338
+      },
+      {
+        "decision_us": 1764806400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08099000471404046,
+          0.08099000471404046
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.37041607919303143,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08099000471404046,
+        "gross_target_weight": 0.08099000471404046
+      },
+      {
+        "decision_us": 1764892800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08702475237368211,
+          0.08702475237368211
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.34472950720021306,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08702475237368211,
+        "gross_target_weight": 0.08702475237368211
+      },
+      {
+        "decision_us": 1764979200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.087682008997464,
+          0.087682008997464
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.34214544514904627,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.087682008997464,
+        "gross_target_weight": 0.087682008997464
+      },
+      {
+        "decision_us": 1765065600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.088663383721387,
+          0.088663383721387
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3383583926175324,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.088663383721387,
+        "gross_target_weight": 0.088663383721387
+      },
+      {
+        "decision_us": 1765152000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09011791821425261,
+          0.09011791821425261
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3328971706678345,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09011791821425261,
+        "gross_target_weight": 0.09011791821425261
+      },
+      {
+        "decision_us": 1765238400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08977674301644836,
+          0.08977674301644836
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.33416226733134635,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08977674301644836,
+        "gross_target_weight": 0.08977674301644836
+      },
+      {
+        "decision_us": 1765324800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08918517073655638,
+          0.08918517073655638
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.33637879203726423,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08918517073655638,
+        "gross_target_weight": 0.08918517073655638
+      },
+      {
+        "decision_us": 1765411200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08927114366780482,
+          0.08927114366780482
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.33605484109888634,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08927114366780482,
+        "gross_target_weight": 0.08927114366780482
+      },
+      {
+        "decision_us": 1765497600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09108668900399487,
+          0.09108668900399487
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.32935657589534584,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09108668900399487,
+        "gross_target_weight": 0.09108668900399487
+      },
+      {
+        "decision_us": 1765584000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08912407624300574,
+          0.08912407624300574
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.33660937947005465,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08912407624300574,
+        "gross_target_weight": 0.08912407624300574
+      },
+      {
+        "decision_us": 1765670400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09115717284530592,
+          0.09115717284530592
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3291019133613338,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09115717284530592,
+        "gross_target_weight": 0.09115717284530592
+      },
+      {
+        "decision_us": 1765756800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09411717036622384,
+          0.09411717036622384
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3187516144319422,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09411717036622384,
+        "gross_target_weight": 0.09411717036622384
+      },
+      {
+        "decision_us": 1765843200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09341909132206447,
+          0.09341909132206447
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3211335025361605,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09341909132206447,
+        "gross_target_weight": 0.09341909132206447
+      },
+      {
+        "decision_us": 1765929600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09378482837020848,
+          0.09378482837020848
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.31988116331116245,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09378482837020848,
+        "gross_target_weight": 0.09378482837020848
+      },
+      {
+        "decision_us": 1766016000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09280735516146178,
+          0.09280735516146178
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.32325024183490025,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09280735516146178,
+        "gross_target_weight": 0.09280735516146178
+      },
+      {
+        "decision_us": 1766102400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.0937322414064444,
+          0.0937322414064444
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.32006062748369746,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.0937322414064444,
+        "gross_target_weight": 0.0937322414064444
+      },
+      {
+        "decision_us": 1766188800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09091506005658868,
+          0.09091506005658868
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.32997833341722443,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09091506005658868,
+        "gross_target_weight": 0.09091506005658868
+      },
+      {
+        "decision_us": 1766275200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09831582836479923,
+          0.09831582836479923
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.30513906559059345,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09831582836479923,
+        "gross_target_weight": 0.09831582836479923
+      },
+      {
+        "decision_us": 1766361600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09954157970308931,
+          0.09954157970308931
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3013815943998821,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09954157970308931,
+        "gross_target_weight": 0.09954157970308931
+      },
+      {
+        "decision_us": 1766448000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09957578199614785,
+          0.09957578199614785
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.30127807583937,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09957578199614785,
+        "gross_target_weight": 0.09957578199614785
+      },
+      {
+        "decision_us": 1766534400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09960630061622246,
+          0.09960630061622246
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3011857665067628,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09960630061622246,
+        "gross_target_weight": 0.09960630061622246
+      },
+      {
+        "decision_us": 1766620800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10271063635596933,
+          0.10271063635596933
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.29208270014049487,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10271063635596933,
+        "gross_target_weight": 0.10271063635596933
+      },
+      {
+        "decision_us": 1766707200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10248946763966023,
+          0.10248946763966023
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.29271300447648085,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10248946763966023,
+        "gross_target_weight": 0.10248946763966023
+      },
+      {
+        "decision_us": 1766793600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1048614751705212,
+          0.1048614751705212
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2860917219714418,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1048614751705212,
+        "gross_target_weight": 0.1048614751705212
+      },
+      {
+        "decision_us": 1766880000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1047463714926169,
+          0.1047463714926169
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.28640610240245473,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1047463714926169,
+        "gross_target_weight": 0.1047463714926169
+      },
+      {
+        "decision_us": 1766966400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1047428256462581,
+          0.1047428256462581
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.286415798074011,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1047428256462581,
+        "gross_target_weight": 0.1047428256462581
+      },
+      {
+        "decision_us": 1767052800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10478371913605573,
+          0.10478371913605573
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.28630401981673026,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10478371913605573,
+        "gross_target_weight": 0.10478371913605573
+      },
+      {
+        "decision_us": 1767139200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10425941708264834,
+          0.10425941708264834
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2877437917787173,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10425941708264834,
+        "gross_target_weight": 0.10425941708264834
+      },
+      {
+        "decision_us": 1767225600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.11416592005529672,
+          0.11416592005529672
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.26277544109020784,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.11416592005529672,
+        "gross_target_weight": 0.11416592005529672
+      },
+      {
+        "decision_us": 1767312000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.13229352022219798,
+          0.13229352022219798
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2267684762610633,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.13229352022219798,
+        "gross_target_weight": 0.13229352022219798
+      },
+      {
+        "decision_us": 1767398400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14009902775254768,
+          0.14009902775254768
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.214134248333172,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14009902775254768,
+        "gross_target_weight": 0.14009902775254768
+      },
+      {
+        "decision_us": 1767484800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14165209802498735,
+          0.14165209802498735
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.21178648546884227,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14165209802498735,
+        "gross_target_weight": 0.14165209802498735
+      },
+      {
+        "decision_us": 1767571200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14986732380564793,
+          0.14986732380564793
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.20017705820185877,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14986732380564793,
+        "gross_target_weight": 0.14986732380564793
+      },
+      {
+        "decision_us": 1767657600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14526646700304952,
+          0.14526646700304952
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.206517034653085,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14526646700304952,
+        "gross_target_weight": 0.14526646700304952
+      },
+      {
+        "decision_us": 1767744000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.145206832104728,
+          0.145206832104728
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.20660184899814493,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.145206832104728,
+        "gross_target_weight": 0.145206832104728
+      },
+      {
+        "decision_us": 1767830400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.13801066408831317,
+          0.13801066408831317
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.21737450651496734,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.13801066408831317,
+        "gross_target_weight": 0.13801066408831317
+      },
+      {
+        "decision_us": 1767916800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.15083580843801384,
+          0.15083580843801384
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.1988917639031884,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.15083580843801384,
+        "gross_target_weight": 0.15083580843801384
+      },
+      {
+        "decision_us": 1768003200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.15070092107512226,
+          0.15070092107512226
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.1990697852805122,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.15070092107512226,
+        "gross_target_weight": 0.15070092107512226
+      },
+      {
+        "decision_us": 1768089600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.15143384564000992,
+          0.15143384564000992
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.19810630756427008,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.15143384564000992,
+        "gross_target_weight": 0.15143384564000992
+      },
+      {
+        "decision_us": 1768176000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.16287748719124534,
+          0.16287748719124534
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.18418751736251307,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.16287748719124534,
+        "gross_target_weight": 0.16287748719124534
+      },
+      {
+        "decision_us": 1768262400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1629652978216419,
+          0.1629652978216419
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.18408827155848623,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1629652978216419,
+        "gross_target_weight": 0.1629652978216419
+      },
+      {
+        "decision_us": 1768348800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.13812861357396106,
+          0.13812861357396106
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.21718888812227513,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.13812861357396106,
+        "gross_target_weight": 0.13812861357396106
+      },
+      {
+        "decision_us": 1768435200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14368870217558138,
+          0.14368870217558138
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.20878468206457387,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14368870217558138,
+        "gross_target_weight": 0.14368870217558138
+      },
+      {
+        "decision_us": 1768521600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.14189164815446326,
+          0.14189164815446326
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.21142893461454473,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.14189164815446326,
+        "gross_target_weight": 0.14189164815446326
+      },
+      {
+        "decision_us": 1768608000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.15105342260711443,
+          0.15105342260711443
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.19860523172671918,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.15105342260711443,
+        "gross_target_weight": 0.15105342260711443
+      },
+      {
+        "decision_us": 1768694400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.15168098442599703,
+          0.15168098442599703
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.19778352648176917,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.15168098442599703,
+        "gross_target_weight": 0.15168098442599703
+      },
+      {
+        "decision_us": 1768780800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.16380951719996162,
+          0.16380951719996162
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.18313954227323143,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.16380951719996162,
+        "gross_target_weight": 0.16380951719996162
+      },
+      {
+        "decision_us": 1768867200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1585566628942379,
+          0.1585566628942379
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.18920680753738436,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1585566628942379,
+        "gross_target_weight": 0.1585566628942379
+      },
+      {
+        "decision_us": 1768953600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.12963660067417945,
+          0.12963660067417945
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.23141612664929503,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.12963660067417945,
+        "gross_target_weight": 0.12963660067417945
+      },
+      {
+        "decision_us": 1769040000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1287262066952069,
+          0.1287262066952069
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.23305277744284716,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1287262066952069,
+        "gross_target_weight": 0.1287262066952069
+      },
+      {
+        "decision_us": 1769126400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.12969418482949172,
+          0.12969418482949172
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.23131337800103255,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.12969418482949172,
+        "gross_target_weight": 0.12969418482949172
+      },
+      {
+        "decision_us": 1769212800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.1297280140990501,
+          0.1297280140990501
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2312530582414864,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.1297280140990501,
+        "gross_target_weight": 0.1297280140990501
+      },
+      {
+        "decision_us": 1769299200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.13029427425153103,
+          0.13029427425153103
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.23024803025561566,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.13029427425153103,
+        "gross_target_weight": 0.13029427425153103
+      },
+      {
+        "decision_us": 1769385600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.12319058159755607,
+          0.12319058159755607
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.24352511053162493,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.12319058159755607,
+        "gross_target_weight": 0.12319058159755607
+      },
+      {
+        "decision_us": 1769472000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.11936038283265515,
+          0.11936038283265515
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2513396764323419,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.11936038283265515,
+        "gross_target_weight": 0.11936038283265515
+      },
+      {
+        "decision_us": 1769558400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.11752048413159402,
+          0.11752048413159402
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.25527464613239154,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.11752048413159402,
+        "gross_target_weight": 0.11752048413159402
+      },
+      {
+        "decision_us": 1769644800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.11769071188998721,
+          0.11769071188998721
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2549054170735483,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.11769071188998721,
+        "gross_target_weight": 0.11769071188998721
+      },
+      {
+        "decision_us": 1769731200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10674854674193908,
+          0.10674854674193908
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2810342708695039,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10674854674193908,
+        "gross_target_weight": 0.10674854674193908
+      },
+      {
+        "decision_us": 1769817600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.10544333131311867,
+          0.10544333131311867
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.2845130140180574,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.10544333131311867,
+        "gross_target_weight": 0.10544333131311867
+      },
+      {
+        "decision_us": 1769904000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.09198867515914028,
+          0.09198867515914028
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3261271014948312,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.09198867515914028,
+        "gross_target_weight": 0.09198867515914028
+      },
+      {
+        "decision_us": 1769990400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.090659325259853,
+          0.090659325259853
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3309091471176547,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.090659325259853,
+        "gross_target_weight": 0.090659325259853
+      },
+      {
+        "decision_us": 1770076800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08859199944139438,
+          0.08859199944139438
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3386310297674869,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08859199944139438,
+        "gross_target_weight": 0.08859199944139438
+      },
+      {
+        "decision_us": 1770163200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08684532992575263,
+          0.08684532992575263
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.34544171834741305,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08684532992575263,
+        "gross_target_weight": 0.08684532992575263
+      },
+      {
+        "decision_us": 1770249600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.08765960824968035,
+          0.08765960824968035
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.3422328778215752,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.08765960824968035,
+        "gross_target_weight": 0.08765960824968035
+      },
+      {
+        "decision_us": 1770336000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.06820297337665841,
+          0.06820297337665841
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.43986352082220376,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.06820297337665841,
+        "gross_target_weight": 0.06820297337665841
+      },
+      {
+        "decision_us": 1770422400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05680679473015387,
+          0.05680679473015387
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5281058391431398,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05680679473015387,
+        "gross_target_weight": 0.05680679473015387
+      },
+      {
+        "decision_us": 1770508800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05678619808759193,
+          0.05678619808759193
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5282973858141623,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05678619808759193,
+        "gross_target_weight": 0.05678619808759193
+      },
+      {
+        "decision_us": 1770595200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05664675603287565,
+          0.05664675603287565
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5295978463901644,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05664675603287565,
+        "gross_target_weight": 0.05664675603287565
+      },
+      {
+        "decision_us": 1770681600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.056615966531469664,
+          0.056615966531469664
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5298858579641958,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.056615966531469664,
+        "gross_target_weight": 0.056615966531469664
+      },
+      {
+        "decision_us": 1770768000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.056618702036661556,
+          0.056618702036661556
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5298602567853727,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.056618702036661556,
+        "gross_target_weight": 0.056618702036661556
+      },
+      {
+        "decision_us": 1770854400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05643645888559155,
+          0.05643645888559155
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5315712678007712,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05643645888559155,
+        "gross_target_weight": 0.05643645888559155
+      },
+      {
+        "decision_us": 1770940800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05894002980713849,
+          0.05894002980713849
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5089919380455855,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05894002980713849,
+        "gross_target_weight": 0.05894002980713849
+      },
+      {
+        "decision_us": 1771027200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.057556899094060456,
+          0.057556899094060456
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5212233541451476,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.057556899094060456,
+        "gross_target_weight": 0.057556899094060456
+      },
+      {
+        "decision_us": 1771113600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.0571691660097601,
+          0.0571691660097601
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5247583985198998,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.0571691660097601,
+        "gross_target_weight": 0.0571691660097601
+      },
+      {
+        "decision_us": 1771200000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05694619842989701,
+          0.05694619842989701
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5268130415576585,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05694619842989701,
+        "gross_target_weight": 0.05694619842989701
+      },
+      {
+        "decision_us": 1771286400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.056812907764206666,
+          0.056812907764206666
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5280490152785426,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.056812907764206666,
+        "gross_target_weight": 0.056812907764206666
+      },
+      {
+        "decision_us": 1771372800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.056812902386005136,
+          0.056812902386005136
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5280490652663782,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.056812902386005136,
+        "gross_target_weight": 0.056812902386005136
+      },
+      {
+        "decision_us": 1771459200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.056830238531297574,
+          0.056830238531297574
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5278879831461272,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.056830238531297574,
+        "gross_target_weight": 0.056830238531297574
+      },
+      {
+        "decision_us": 1771545600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.057948676083963785,
+          0.057948676083963785
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5176994890535893,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.057948676083963785,
+        "gross_target_weight": 0.057948676083963785
+      },
+      {
+        "decision_us": 1771632000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.0579567194618527,
+          0.0579567194618527
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5176276414289821,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.0579567194618527,
+        "gross_target_weight": 0.0579567194618527
+      },
+      {
+        "decision_us": 1771718400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.057913585083432244,
+          0.057913585083432244
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5180131735374524,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.057913585083432244,
+        "gross_target_weight": 0.057913585083432244
+      },
+      {
+        "decision_us": 1771804800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05796711003636022,
+          0.05796711003636022
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5175348569418472,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05796711003636022,
+        "gross_target_weight": 0.05796711003636022
+      },
+      {
+        "decision_us": 1771891200000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05734845854161822,
+          0.05734845854161822
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5231178093170328,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05734845854161822,
+        "gross_target_weight": 0.05734845854161822
+      },
+      {
+        "decision_us": 1771977600000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.05765632139662228,
+          0.05765632139662228
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5203245589261182,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.05765632139662228,
+        "gross_target_weight": 0.05765632139662228
+      },
+      {
+        "decision_us": 1772064000000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.054282591614242176,
+          0.054282591614242176
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5526633697446545,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.054282591614242176,
+        "gross_target_weight": 0.054282591614242176
+      },
+      {
+        "decision_us": 1772150400000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.054675971852362684,
+          0.054675971852362684
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5486870920375534,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.054675971852362684,
+        "gross_target_weight": 0.054675971852362684
+      },
+      {
+        "decision_us": 1772236800000000,
+        "symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "covariance_symbol_order": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "eligibility": {
+          "BTCUSDT": "ELIGIBLE",
+          "ETHUSDT": "ELIGIBLE"
+        },
+        "component_HOLD_target": [
+          0.054440056727067185,
+          0.054440056727067185
+        ],
+        "component_EXIT10_target": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_raw": [
+          0.3,
+          0.3
+        ],
+        "component_EXIT10_raw": [
+          0.0,
+          0.0
+        ],
+        "component_HOLD_unscaled_vol": 0.5510648188778288,
+        "component_EXIT10_unscaled_vol": 0.0,
+        "covariance_observations": 30,
+        "covariance_assets": 2,
+        "past_only": true,
+        "net_target_weight": 0.054440056727067185,
+        "gross_target_weight": 0.054440056727067185
+      }
+    ],
+    "components": {
+      "HOLD": {
+        "mode": "LONG_ONLY",
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "original_long_and_short_and_exit_hooks_reused": false,
+        "whole_balance_sizing_replaced_by_capped_COINSizing": true,
+        "forbidden_directions_never_create_internal_positions": true,
+        "source": {
+          "smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+          "LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d"
+        },
+        "timeframe_minutes": 1440,
+        "complete_daily_warmup": 200,
+        "native_Jesse_or_Bybit_execution_replicated": false,
+        "fresh_flat_each_window": true,
+        "funding_rates_used_for_signal": false,
+        "candidate_status": "NO_QUALIFIED_CANDIDATE",
+        "strategy_id": "COIN_PAST30_COVARIANCE_CONSTANT_LONG_USDM_REFERENCE",
+        "rules": {
+          "timeframe_minutes": 1440,
+          "completed_daily_eligibility_bars": 200,
+          "past_covariance_daily_returns": 30,
+          "annual_volatility_target": 0.1,
+          "absolute_target_per_asset": 0.3,
+          "gross_target_cap": 0.6,
+          "direction_is_constant": true,
+          "raw_allocation": "EQUAL_SHARE_OF_0.6_GROSS_TO_CONFIGURED_ELIGIBLE_MEMBERS",
+          "SMA_alpha_or_original_Jesse_hooks_used": false
+        },
+        "original_SMA_alpha_used": false,
+        "direction_context_is_Jesse_strategy": false,
+        "benchmark_scope": "SEEN_DEVELOPMENT_NOT_LONG_TERM_APR",
+        "target_caps_are_not_instantaneous_position_caps": true
+      },
+      "EXIT10": {
+        "mode": "LONG_ONLY",
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "original_long_and_short_and_exit_hooks_reused": false,
+        "whole_balance_sizing_replaced_by_capped_COINSizing": true,
+        "close_then_wait_next_daily_decision_to_reenter": true,
+        "forbidden_directions_never_create_internal_positions": true,
+        "timeframe_minutes": 1440,
+        "complete_daily_warmup": 200,
+        "native_Jesse_or_Bybit_execution_replicated": false,
+        "fresh_flat_each_window": true,
+        "funding_rates_used_for_signal": false,
+        "candidate_status": "NO_QUALIFIED_CANDIDATE",
+        "strategy_id": "COIN_JESSE_DONCHIAN20_SMA200_EXIT10_1D_USDM_CONFIGURED_POOL_VARIANT",
+        "rules": {
+          "timeframe_minutes": 1440,
+          "completed_daily_eligibility_bars": 200,
+          "donchian_period": 20,
+          "trend_SMA_period": 200,
+          "channel_excludes_current_completed_day": true,
+          "SMA_includes_current_completed_day": true,
+          "entry_predicate": "CLOSE_GT_PREVIOUS20_HIGH_AND_CLOSE_GT_CURRENT_SMA200",
+          "exit_predicate": "HELD_LONG_AND_CLOSE_LT_PREVIOUS10_LOW",
+          "trend_filter_applies_only_to_entry": true,
+          "strict_inequalities": true,
+          "original_short_entry_is_false": true,
+          "short_entries_allowed": false,
+          "original_long_entry_filter_and_exit_hooks_used": false,
+          "original_whole_balance_order_hooks_called": false,
+          "upstream_timeframe_prescribed": false,
+          "fixed_daily_timeframe_is_COIN_adaptation": true,
+          "close_then_wait_next_daily_decision_to_reenter": true,
+          "strategy_stop_or_take_profit_added": false,
+          "pyramiding_added": false,
+          "past_covariance_daily_returns": 30,
+          "annual_volatility_target": 0.1,
+          "absolute_target_per_asset": 0.3,
+          "gross_target_cap": 0.6,
+          "raw_allocation": "MIN_0.3_0.6_DIVIDED_BY_ACTIVE_ELIGIBLE_SIGNALS",
+          "inactive_signal_budget_redistributed": true,
+          "allocation": "ACTIVE_EQUAL",
+          "fresh_flat_each_window": true,
+          "missing_or_exited_member_state": "RESET_FLAT_KEEP_SYMBOL_IDENTITY",
+          "native_Jesse_or_Bybit_execution_replicated": false,
+          "funding_rates_used_for_signal": false,
+          "daily_availability": "EXCLUSIVE_UTC_DAY_CLOSE_PROXY_NOT_PUBLICATION_CERTIFIED",
+          "active_signal_zero_is_cash": true,
+          "clipped_budget_not_redistributed": true,
+          "exit_period": 10,
+          "original_long_entry_filter_hooks_used": true,
+          "original_exit_hook_used": false,
+          "exit_period_is_COIN_adaptation": true
+        },
+        "allocation": "ACTIVE_EQUAL",
+        "original_long_entry_filter_and_exit_hooks_reused": false,
+        "original_short_entry_is_false": true,
+        "original_whole_balance_order_hooks_called": false,
+        "original_SMA50_200_alpha_used": false,
+        "direction_context_is_Jesse_strategy": true,
+        "original_example_commit": "7c91e0a37bf62165790120d730442e4f6eb00364",
+        "original_indicator_commit": "417f8765225e3bfc12043d4b712f19fe15a3c078",
+        "public_upstream_license": "MIT",
+        "public_upstream_sha256": {
+          "donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+          "donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+          "LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+          "JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4"
+        },
+        "upstream_timeframe_prescribed": false,
+        "fixed_daily_timeframe_is_COIN_adaptation": true,
+        "original_cancel_entry_hook_called": false,
+        "sizing_and_pending_order_policy": "EXISTING_COIN_SHARED_PORTFOLIO_NOT_JESSE_FULL_BALANCE",
+        "reused_target_api": "public_sma_perpetual.fixed_targets(direction_factory,completed_bar_count=200)",
+        "benchmark_scope": "SEEN_DEVELOPMENT_NOT_LONG_TERM_APR",
+        "target_caps_are_not_instantaneous_position_caps": true,
+        "exit_period": 10,
+        "original_exit_hook_reused": false,
+        "original_long_entry_filter_hooks_reused": true,
+        "exit_is_COIN_variant": true
+      }
+    },
+    "complete_daily_warmup": 200,
+    "funding_rates_used_for_signal": false,
+    "native_Jesse_or_Bybit_execution_replicated": false,
+    "target_caps_are_not_instantaneous_position_caps": true,
+    "benchmark_scope": "SEEN_DEVELOPMENT_NOT_LONG_TERM_APR",
+    "sizing_and_execution": "COMBINED_TARGET_ONE_SHARED_ACCOUNT_NORMAL_RISK_AND_PAID_FILLS",
+    "source_target_builder_id": "COIN_HALF_HOLD10_HALF_EXIT10_ACTIVE_EQUAL_1D_USDM_CONFIGURED_POOL_BLEND"
+  },
+  "source_records": [
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-05.parquet",
+      "sha256": "8ca6e26d35b158aee5db6e02e828be1ed50d8bf261331646db739d2baf4c66ad",
+      "symbol": "BTCUSDT",
+      "month": "2025-05",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-06.parquet",
+      "sha256": "c19438d6c8c3e4d93241e267cff2dfce0442c74221716cc1202770047ab546da",
+      "symbol": "BTCUSDT",
+      "month": "2025-06",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-07.parquet",
+      "sha256": "fac7f6e0490938f925a0f232d23789e5429372047376aef9937263d9a187e6a2",
+      "symbol": "BTCUSDT",
+      "month": "2025-07",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-08.parquet",
+      "sha256": "6ff8975d51326f66cb03efb41020a6302529fc8a0dafc61e20a0aa8663fa3565",
+      "symbol": "BTCUSDT",
+      "month": "2025-08",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-09.parquet",
+      "sha256": "280cb064f54b7df9ae5d357bdbe302495d3cf92f899c381e59e64ecd8ba2571f",
+      "symbol": "BTCUSDT",
+      "month": "2025-09",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-10.parquet",
+      "sha256": "b49c06f7fdb6f1ade1ba02f94ffa0aefddaa0a732d0f1f822965878788c7f183",
+      "symbol": "BTCUSDT",
+      "month": "2025-10",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-11.parquet",
+      "sha256": "1e8f9e6fed0617e7b95a88aa0d5e14531acfb18dd2af34162e87c64234acfec7",
+      "symbol": "BTCUSDT",
+      "month": "2025-11",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2025-12.parquet",
+      "sha256": "5e557e585a801bddf90ea79a18eb01b8bd70abe593291d618bf77c00d0ed75ef",
+      "symbol": "BTCUSDT",
+      "month": "2025-12",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2026-01.parquet",
+      "sha256": "5e89ae535197eb340ea6ac2345776b4c469fa3d0b740de2b2e50089c5a8724d5",
+      "symbol": "BTCUSDT",
+      "month": "2026-01",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/BTCUSDT/1m/2026-02.parquet",
+      "sha256": "cd1f3f270d5790308900066fe8317c6e337576c3606ad39cd281d44b2dd5098a",
+      "symbol": "BTCUSDT",
+      "month": "2026-02",
+      "rows": 40320
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-05.parquet",
+      "sha256": "0ac109a1c6a0f2a1d99e50fb9f2b0e9de137cb41980a57b70893487eb7570a63",
+      "symbol": "ETHUSDT",
+      "month": "2025-05",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-06.parquet",
+      "sha256": "ce5273e4e9878783cef1375b266f6639f4cd8a99a191bedc056a763d02a243e9",
+      "symbol": "ETHUSDT",
+      "month": "2025-06",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-07.parquet",
+      "sha256": "e5e95f899720dee3513197cc3c55006fb26642f3f0baddeedbf43fc705c9aac7",
+      "symbol": "ETHUSDT",
+      "month": "2025-07",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-08.parquet",
+      "sha256": "6068897f2dfd4bfb45f6ff4ff035056380c4d97ad635e3db5235c4a49a81fb42",
+      "symbol": "ETHUSDT",
+      "month": "2025-08",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-09.parquet",
+      "sha256": "1e18543912e63f2f81cec5fc4ead0c8ced8e57a7e3f9e54f0784b7a88582ee0e",
+      "symbol": "ETHUSDT",
+      "month": "2025-09",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-10.parquet",
+      "sha256": "99623579bfb41b6120f2f667be3a22bc1b5ee2f171546ae7c841478886c5b999",
+      "symbol": "ETHUSDT",
+      "month": "2025-10",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-11.parquet",
+      "sha256": "750de8962f805e36f868c07f652aaa02317b11211400804214507b5334cca1ed",
+      "symbol": "ETHUSDT",
+      "month": "2025-11",
+      "rows": 43200
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2025-12.parquet",
+      "sha256": "b9d70dd6327d897d3eaa9d8b661bb67e9318eea861f811f5a0cc052f28b4aa8c",
+      "symbol": "ETHUSDT",
+      "month": "2025-12",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2026-01.parquet",
+      "sha256": "d7520cfb93ed03abc534432765e56b5dd4659c0924e05abb9a54b85bbbe39bf7",
+      "symbol": "ETHUSDT",
+      "month": "2026-01",
+      "rows": 44640
+    },
+    {
+      "path": "/mnt/d/codex/coin/data/normalized/spot/ETHUSDT/1m/2026-02.parquet",
+      "sha256": "35a9f78a1f31b45860d275dbf05d79ee07038568115f7a9db87c9dbfd70692f3",
+      "symbol": "ETHUSDT",
+      "month": "2026-02",
+      "rows": 40320
+    }
+  ],
+  "market_minutes": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/source_minutes.parquet",
+    "sha256": "de7baa8dd2deb7643c7edb12747e05d496218d2a3ede8877976bf197974fe5bf",
+    "bytes": 11637707,
+    "rows": 345600
+  },
+  "daily_bars": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/hold/source_daily_bars.parquet",
+    "sha256": "b810261ce199a751861f7777b1cb04f47e39a4a4406b9b5d10dc6d70b563a0bf",
+    "bytes": 22937,
+    "rows": 608
+  },
+  "target_artifact": {
+    "path": "/home/xflops/coin-state/d082-later-spot-20261005-v1/blend/targets.parquet",
+    "sha256": "db5ce7e7829b06ff9b499f9b940f0dd757f86abb7ba3835eff93efb864040963",
+    "bytes": 3559,
+    "rows": 180
+  },
+  "elapsed_seconds": 79.56054000699987,
+  "process_peak_RSS_bytes": 405966848,
+  "shared_RAM_sampled_peak_bytes": 932171776,
+  "resources_after": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 921980928,
+    "ram_peak_bytes": 1302818816,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "owned_bytes": 7989944,
+  "created_utc": "2026-10-05T05:48:45.530013+00:00"
+}
