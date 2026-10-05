@@ -95,3 +95,7 @@ D074保存四条件八份303日连续日账本已核验；固定组合相对HOLD
 ## D075原采集恢复已验收
 
 D075原两路公开采集再次退出后已保存49.37MB原文件/两闭合库，2256来源文件108.03MB streaming SHA全同；单次原.venv/defaultDB/store/source恢复，新两次实际观测同PID、新session、闭合bars/heartbeat与L1检查点推进，errors[]。断档约public31.3分钟/L130.6分钟，不拼健康时间；原退出UNKNOWN。保存与恢复间boot_id变化已证实，systemd服务本身不维持WSL实例存活是官方限制，闲置退出仅可能机制；新增一个正常Windows隐藏WSL前台客户端，内部sleep仍经原bounded共享5GB，重复调用复用同客户端树，未改系统电源/资源/自动登录，未声称跨Windows重启或72h可靠。N/signed/共享账户与D074负增量结论保持；投资NONE/CASH、APR不可评价。最近实扫采用启动前容量检查，细节见docs/PUBLIC_COLLECTOR_RUNTIME_RESTORE_20261005.md。下一有限资金费来源/解析/归一化/结算核对，未启动，不继续混合权重网格。
+
+## D076资金费链路已验收
+
+D076已独立读20份BTC/ETH原资金费归档、1818原事件，与HOLD8/固定组合8保存钱包14544条资金费/真实先前成交逐项核对；缩放一次、ms原clock、符号、event前仓位与严格过去mark时间/总资金费及净桥一致。另按BUY/SELL gross量/首持仓clock重建quantity，10k+成交cash_delta+资金费重建8末NAV，未将抵押物记利润。未发现错误，原账户/策略不改；单位物理定义/官方结算发布clock仍UNCONFIRMED，source校验与条件账本通过不能升级原生/单位认证，已有403/451不重试。BASE/F组合比HOLD8多付14.05USDT资金费，四情景净仍低，非重复入账或符号问题。保留HOLD8收益参照/组合防御挑战者，投资NONE/CASH、长期APR不可评价。主0.817s/RSS75.37MB，独立0.351s/RSS29.74MB；0新回放/fit/HPO/API/下载，原5GB/swap0/GPU0/40GB保持。停止无新来源证据的单位调查；下一先核对同窗BTC/ETH Spot源与现有库存/收到资产扣费入口，齐全后以真实产品价格和完整本金做一组有限Spot/永续HOLD对照，判断资金费负担与额外现货成本/基差影响，不把旧永续账本删除资金费改叫现货。尚未启动。
