@@ -75,6 +75,44 @@ def summarize_slice(left, right, dates, start, end):
                 scope='ACTUAL_CONTINUOUS_WALLETS_NOT_RESET_ACCOUNTS_NOT_MATCHED_RISK')
 
 
+def drawdown_episodes(nav, dates, capital, start_us):
+    """Daily endpoint episodes, including initial capital and censored endings."""
+    episodes, pending = [], None
+    peak = float(capital)
+    peak_us = start_us
+    peak_date = datetime.fromtimestamp(start_us/1e6, UTC).date().isoformat()
+    peak_origin = 'INITIAL_CAPITAL_BEFORE_WINDOW'
+    for i, value in enumerate(nav):
+        value = float(value)
+        endpoint = start_us+(i+1)*DAY
+        if value >= peak:
+            if pending is not None:
+                pending.update(recovered=True, right_censored=False,
+                    recovery_date=dates[i], recovery_endpoint_us=endpoint,
+                    last_date=dates[i], last_endpoint_us=endpoint, last_NAV=value,
+                    duration_days=(endpoint-pending['peak_endpoint_us'])/DAY)
+                episodes.append(pending)
+                pending = None
+            peak, peak_us, peak_date, peak_origin = value, endpoint, dates[i], 'DAILY_ENDPOINT'
+            continue
+        if pending is None:
+            pending = dict(peak_NAV=peak, peak_date=peak_date, peak_endpoint_us=peak_us,
+                peak_origin=peak_origin, start_date=dates[i], start_endpoint_us=endpoint,
+                trough_NAV=value, trough_date=dates[i], trough_endpoint_us=endpoint,
+                underwater_observations=0, recovered=False, right_censored=True,
+                recovery_date=None, recovery_endpoint_us=None,
+                scope='DAILY_ENDPOINTS_NOT_MINUTE_DRAWDOWN')
+        if value < pending['trough_NAV']:
+            pending.update(trough_NAV=value, trough_date=dates[i], trough_endpoint_us=endpoint)
+        pending.update(last_NAV=value, last_date=dates[i], last_endpoint_us=endpoint,
+            duration_days=(endpoint-pending['peak_endpoint_us'])/DAY,
+            depth_fraction=1-pending['trough_NAV']/pending['peak_NAV'],
+            underwater_observations=pending['underwater_observations']+1)
+    if pending is not None:
+        episodes.append(pending)
+    return episodes
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--protocol', type=Path, required=True)
@@ -112,7 +150,9 @@ def main():
         challenger = read(protocol['challenger_report'])
         for receipt in protocol['accepted_financial_reports']:
             assert read(receipt)['status'].startswith('PASS_CONFIGURED_N_')
-        assert read(protocol['accepted_pair_diagnostic'])['status'] == 'COMPLETE_EXIT10_SAVED_PAIRED_DIAGNOSTIC_NOT_APR'
+        assert read(protocol['accepted_pair_diagnostic'])['status'] in {
+            'COMPLETE_EXIT10_SAVED_PAIRED_DIAGNOSTIC_NOT_APR',
+            'COMPLETE_FIXED_BLEND_SHARED_WALLET_PAIRED_DIAGNOSTIC_NOT_APR'}
         dates = [datetime.fromtimestamp((protocol['start_us']+i*DAY)/1e6, UTC).date().isoformat()
                  for i in range(303)]
         expected = np.arange(protocol['start_us']+DAY, protocol['end_us']+1, DAY, dtype=np.int64)
@@ -158,6 +198,16 @@ def main():
                 challenger_actual_volatility=case['summary']['daily_metrics']['annual_volatility'],
                 saved_daily_identities=dict(baseline=control['artifacts']['daily_nav.parquet'],
                                            challenger=case['artifacts']['daily_nav.parquet'])))
+            if protocol.get('include_drawdown_episodes', False):
+                pair = result['pairs'][-1]
+                for name, wallet, original in (('baseline', left, control), ('challenger', right, case)):
+                    episodes = drawdown_episodes(wallet[0], dates, protocol['full_capital_USDT'], protocol['start_us'])
+                    pair[name+'_drawdown_episodes'] = episodes
+                    pair[name+'_daily_max_drawdown'] = max((e['depth_fraction'] for e in episodes), default=0.)
+                    pair[name+'_saved_minute_max_drawdown'] = original['summary']['minute_max_drawdown']
+                pair['drawdown_clock_scope'] = ('Dates label completed UTC score days; real endpoint_us clocks govern duration. '
+                    'Initial capital is at start_us; recovery ends an episode and is not an underwater observation. '
+                    'Equality recovers and updates the latest peak; unrecovered endings are right censored.')
             shared_peak = max(shared_peak, resources.status()['ram_current_bytes'])
             assert time.monotonic()-began <= protocol['budget']['wall_seconds']
             assert resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 <= protocol['budget']['RSS_bytes']

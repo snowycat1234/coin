@@ -1,0 +1,73 @@
+{
+    "experiment_id":  "D074-HOLD-EXIT-BLEND-TIME-20261005-V1",
+    "git_parent":  "748b4bc1d80fdba5c2f9b794b91f1ada9ed82810",
+    "question":  "Does the fixed shared-wallet blend versus HOLD8 reduce drawdown across time, or depend on a few seen intervals?",
+    "data_role":  "SEEN_DEVELOPMENT_SAVED_PAIRED_WALLETS_POST_SELECTION",
+    "start_us":  1725148800000000,
+    "end_us":  1751328000000000,
+    "full_capital_USDT":  10000,
+    "fixed_tranche_indices":  [
+                                  [
+                                      0,
+                                      101
+                                  ],
+                                  [
+                                      101,
+                                      202
+                                  ],
+                                  [
+                                      202,
+                                      303
+                                  ]
+                              ],
+    "blocks_days":  [
+                        7,
+                        30,
+                        60
+                    ],
+    "primary_block_days":  60,
+    "samples_per_case_per_block":  2000,
+    "seed":  20261005,
+    "budget":  {
+                   "RSS_bytes":  600000000,
+                   "output_bytes":  1000000,
+                   "wall_seconds":  120
+               },
+    "source_hashes":  {
+                          "scripts/investment/donchian_time_stability.py":  "e6c99eeee581bcfd64e1523490a9c632330b28c57d758c24f5dcedd9a1715d83",
+                          "src/quant/metrics.py":  "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+                          "src/quant/resources.py":  "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+                          "src/quant/paths.py":  "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+                          "scripts/research_v8/registry.py":  "081f881f2cb1cdc84b8c098606e9f3235c92fcdd04c0120527bee0d8493068ab",
+                          "environments/v8/uv.lock":  "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6"
+                      },
+    "baseline_report":  {
+                            "sha256":  "56fb6a04e3d342011173409b7f965edca61b4f2c9c5feb8fe3ad5c6bf7c6aafb",
+                            "path":  "/mnt/d/codex/coin/reports/fast_research/HOLD_RISK8_20261005_V1.json"
+                        },
+    "challenger_report":  {
+                              "sha256":  "37c79336605489be7d9d41c145e3077f87536fc5ebed670c9bb50702facc7cea",
+                              "path":  "/mnt/d/codex/coin/reports/fast_research/HOLD_EXIT_BLEND_20261005_V1.json"
+                          },
+    "accepted_financial_reports":  [
+                                       {
+                                           "sha256":  "1d0d3a6d4f00cec3f8a36cc98c3d04029cf07c8cda49ddd51f21038c27c05bea",
+                                           "path":  "/mnt/d/codex/coin/reports/fast_research/HOLD_RISK8_20261005_V1_FINANCIAL.json"
+                                       },
+                                       {
+                                           "sha256":  "f87bdec267e586a78a6d918355bc34c5aa32b0f713bdddb31071a6ce399dfbd6",
+                                           "path":  "/mnt/d/codex/coin/reports/fast_research/HOLD_EXIT_BLEND_20261005_V1_FINANCIAL.json"
+                                       }
+                                   ],
+    "accepted_pair_diagnostic":  {
+                                     "sha256":  "e407def7c2c6a4f12a8a2972fc5459a17ed14596cc5b97b4f2bb8ce1d41ef124",
+                                     "path":  "/mnt/d/codex/coin/reports/fast_research/HOLD_EXIT_BLEND_20261005_V1_DIAGNOSTIC.json"
+                                 },
+    "scope":  "NO_MARKET_REPLAY_NO_FIT_NO_NAV_RESCALE_NO_DATE_SELECTION_NO_SELECTION_CORRECTION_NO_NEW_OOS",
+    "bootstrap_library":  "existing quant.metrics.block_bootstrap_mean_ci unchanged",
+    "rejection":  "Incomplete dates/nonpositive NAV/mismatched identity/terminal bridge fail =\u003e no conclusion",
+    "decision":  "No stability or independent alpha claim if intervals include zero or tranches reverse; retain defensive capability only, without weight search or investment promotion.",
+    "created_utc":  "2026-10-05T01:49:54.4790939Z",
+    "include_drawdown_episodes":  true,
+    "drawdown_semantics":  "Daily endpoint episodes; initial capital at start_us; real endpoint clocks for duration; equality recovers/updates latest peak; recovery excluded from underwater count; unresolved endings right censored; not minute MDD."
+}
