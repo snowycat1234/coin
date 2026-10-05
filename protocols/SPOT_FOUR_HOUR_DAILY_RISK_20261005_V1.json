@@ -1,0 +1,102 @@
+{
+  "experiment_id": "D080_SPOT_FOUR_HOUR_DAILY_RISK",
+  "parent_commit": "72e1a8b7102dba864e2b34178c93cda7a0bf5c20",
+  "question": "Does one fixed four-hour Donchian horizon and combined target cadence improve same Spot daily defensive recipe economics using unchanged daily risk?",
+  "data_role": "SEEN_DEVELOPMENT_NOT_UNSEEN",
+  "start_us": 1725148800000000,
+  "end_us": 1751328000000000,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "warmup_start": "2024-01",
+  "last_source_month": "2025-06",
+  "annual_vol_target": 0.1,
+  "terminal_exit_minutes": 5,
+  "minimum_notional_USDT": 10,
+  "quantity_step": "1E-8",
+  "quantity_profile": "SHARED_UNCERTIFIED_RESEARCH_PROFILE_NOT_NATIVE_BYBIT_HISTORY",
+  "spot_source": {
+    "sha256": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+    "path": "/mnt/d/codex/coin/reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json"
+  },
+  "fee_snapshot": {
+    "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+    "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+  },
+  "costs": [
+    {
+      "perpetual_cost_id": "BASE27",
+      "half_spread_bps": 4,
+      "id": "SPOT_BASE36",
+      "slippage_bps": 4,
+      "roundtrip_bps": 36
+    },
+    {
+      "perpetual_cost_id": "STRESS43",
+      "half_spread_bps": 8,
+      "id": "SPOT_STRESS52",
+      "slippage_bps": 8,
+      "roundtrip_bps": 52
+    }
+  ],
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "ac19c98cfab0a3db94fd35bbb84fc0c1f44140471c96892c11730b7e308f249c",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "2a45228d666f22210f6d11a234f5625c1b0011fecbcc9a46dd8f6e5219948667",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "2f64ab6c4814079a27e054d3f5d5c364f5f29ffbf4820fb4511b9359275639dc",
+    "scripts/investment/donchian_daily_pool_target.py": "cf293cdfe557bf5e39347d8d6986fe551ad78e422a4f218d1129b256777a9c28",
+    "tests/test_spot_discretionary_band.py": "3e31c6598754ffdf7f9ccb7b9524b87a53a0e72998487fca9735dc92b770409a",
+    "scripts/investment/spot_saved_economic_diagnostics.py": "b261d1643442eee2e875af4feecb6945a24b8c23cb64fdb9c5f2d399787446e6",
+    "tests/test_four_hour_signal_daily_risk.py": "2af9ab0449ca18f96d735ee3e6e8bd48f4fce607eacca6fe30618608e290112f"
+  },
+  "budget": {
+    "actual_spot_wallets": 2,
+    "saved_controls": 4,
+    "fits": 0,
+    "downloads": 0,
+    "API": 0,
+    "HPO": 0,
+    "wall_seconds": 1800,
+    "owned_bytes": 100000000
+  },
+  "stop_rule": "One4h recipe, two wallets. Source/cadence/warmup/causal/account/caps mismatch stops. Component eligibility disagreement fails closed. No horizon grid/no new data/API/fits/no free liquidation.",
+  "primary_metrics": [
+    "full10k final marked net",
+    "actual daily/minute drawdown and daily volatility",
+    "funding/fee/execution/gross bridge",
+    "turnover",
+    "gross/net exposure",
+    "cash realized status and retained inventory"
+  ],
+  "comparison": "Same303 days/Spot prices/fees/10k/caps. HOLD10 daily target forward-carried; Donchian20/SMA200/exit10/reentry20 interpreted in4h bars. Entire combined wallet refreshed4h; both signal horizon and execution cadence change. Not signal-only or matched-risk alpha.",
+  "success_decision": "Adopt development challenger only if marked net exceeds daily blend at both costs and daily realized volatility and minute drawdown do not worsen; otherwise retain daily blend. No native or investment certification.",
+  "locked_body_read": false,
+  "orders_sent": 0,
+  "funding_unit_certified": false,
+  "module": "D080",
+  "recipe": "HALF_HOLD10_EXIT10_4H",
+  "spot_control": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_DEFENSIVE_BLEND_20261005_V1.json",
+    "sha256": "8b894e36ab73a640caf30b0fe2603db858e8e1e173adc3f068d866858f2413cc"
+  },
+  "hypothesis": "Faster completed-bar trend participation may change timing losses; test one fixed horizon with actual incremental cost/risk, not threshold grid.",
+  "discretionary_rebalance_min_notional": 0,
+  "economic_reference": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_PERPETUAL_PRODUCT_20261005_V1.json",
+    "sha256": "fe9343b6ab520209030a75ee874841c94dfd8fcb5d5761922a9bdebb31893741"
+  },
+  "signal_interval_minutes": 240,
+  "risk_interval_minutes": 1440,
+  "hold_interval_minutes": 1440
+}

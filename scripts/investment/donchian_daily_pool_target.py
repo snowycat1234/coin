@@ -155,12 +155,14 @@ def _load_public_hooks(exit_period=20, reentry_period=20):
 
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
-                  eligible_by_decision=None, allocation='EQUAL', exit_period=20, reentry_period=20):
+                  eligible_by_decision=None, allocation='EQUAL', exit_period=20, reentry_period=20,
+                  signal_interval_minutes=1440, risk_bars=None):
     shared.require(mode in MODES and allocation in ('EQUAL', 'ACTIVE_EQUAL'),
         'Fixed daily Donchian LONG_ONLY/CASH and equal allocation required')
     frame, meta = shared.fixed_targets(bars, decisions, mode, symbols=symbols,
         direction_factory=_load_public_hooks(exit_period, reentry_period), eligible_by_decision=eligible_by_decision,
-        allocation=allocation, completed_bar_count=200)
+        allocation=allocation, completed_bar_count=200,
+        signal_interval_minutes=signal_interval_minutes, risk_bars=risk_bars)
     for key in ('fast_period', 'slow_period', 'equality_holds_current_position', 'source'):
         meta.pop(key, None)
     rules = strategy_rules(allocation, exit_period, reentry_period)
@@ -184,4 +186,12 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
     if reentry_period == 10:
         meta.update(reentry_period=10, initial_entry_period=20, reentry_is_COIN_variant=True,
             original_long_entry_filter_hooks_reused=False, original_SMA200_filter_reused=True)
+    if signal_interval_minutes == 240:
+        meta['strategy_id'] = meta['strategy_id'].replace('_1D_', '_4H_')
+        meta['rules'] = dict(meta['rules'], timeframe_minutes=240,
+            signal_periods_in_four_hour_bars=True, completed_signal_eligibility_bars=200,
+            daily_risk_eligibility_bars=200, past_covariance_daily_returns=30,
+            close_then_wait_next_daily_decision_to_reenter=False,
+            close_then_wait_next_four_hour_decision_to_reenter=True)
+        meta['fixed_daily_timeframe_is_COIN_adaptation'] = False
     return frame, meta

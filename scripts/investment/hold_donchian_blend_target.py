@@ -30,15 +30,35 @@ RULES = dict(hold_weight=.5, donchian_weight=.5,
 
 
 def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
-                  eligible_by_decision=None, allocation=ALLOCATION):
+                  eligible_by_decision=None, allocation=ALLOCATION,
+                  signal_interval_minutes=1440, risk_bars=None):
     shared.require(mode == 'LONG_ONLY' and allocation == ALLOCATION,
         'Only the predeclared half HOLD10 / half ACTIVE_EQUAL EXIT10 target blend')
     symbols = shared.symbol_order(symbols)
     common = dict(symbols=symbols, eligible_by_decision=eligible_by_decision)
-    h, hm = hold.fixed_targets(bars, decisions, mode, allocation='EQUAL',
-        annual_vol_target=.10, **common)
+    if signal_interval_minutes == 1440:
+        h, hm = hold.fixed_targets(bars, decisions, mode, allocation='EQUAL',
+            annual_vol_target=.10, **common)
+    else:
+        shared.require(signal_interval_minutes == 240 and risk_bars is not None,
+            'Four-hour blend requires separate daily HOLD/risk bars')
+        daily_times = np.unique(np.asarray(decisions, dtype=np.int64)//DAY_US*DAY_US)
+        hd, hdm = hold.fixed_targets(risk_bars, daily_times, mode, allocation='EQUAL',
+            annual_vol_target=.10, **common)
+        positions = {int(t):i for i,t in enumerate(daily_times)}
+        carried, carried_risk = [], []
+        for t in decisions:
+            i = positions[int(t//DAY_US*DAY_US)]
+            carried.append(hd.slice(i*len(symbols),len(symbols)).with_columns(
+                pl.lit(int(t)).cast(pl.Int64).alias('available_us')))
+            r = dict(hdm['risk'][i], decision_us=int(t),
+                original_daily_hold_decision_us=int(daily_times[i]))
+            carried_risk.append(r)
+        h = pl.concat(carried)
+        hm = dict(hdm, risk=carried_risk)
     d, dm = donchian.fixed_targets(bars, decisions, mode, allocation='ACTIVE_EQUAL',
-        exit_period=10, reentry_period=20, **common)
+        exit_period=10, reentry_period=20, signal_interval_minutes=signal_interval_minutes,
+        risk_bars=risk_bars, **common)
     keys = ('available_us', 'symbol', 'mode', 'eligibility_reason')
     shared.require(h.columns == d.columns and h.height == d.height and all(
         h[k].to_list() == d[k].to_list() for k in keys),
@@ -80,4 +100,14 @@ def fixed_targets(bars, decisions, mode='LONG_ONLY', *, symbols=shared.SYMBOLS,
         target_caps_are_not_instantaneous_position_caps=True,
         benchmark_scope='SEEN_DEVELOPMENT_NOT_LONG_TERM_APR',
         sizing_and_execution='COMBINED_TARGET_ONE_SHARED_ACCOUNT_NORMAL_RISK_AND_PAID_FILLS')
+    if signal_interval_minutes == 240:
+        meta['strategy_id'] = STRATEGY_ID.replace('_1D_', '_4H_')
+        meta['rules'] = dict(RULES, timeframe_minutes=240, hold_timeframe_minutes=1440,
+            signal_periods_in_four_hour_bars=True, risk_timeframe_minutes=1440,
+            combined_target_refresh_minutes=240, daily_HOLD_target_forward_carried=True,
+            donchian_strategy_id=dm['strategy_id'], missing_component_policy='STOP_BLEND_ON_ELIGIBILITY_MISMATCH')
+        meta['attribution_limit'] = 'SIGNAL_HORIZON_AND_COMBINED_REBALANCE_CADENCE_CHANGED_NOT_SIGNAL_ONLY'
+        for r in risk:
+            r.update(daily_risk_close_us=r['decision_us']//DAY_US*DAY_US,
+                original_daily_hold_decision_us=r['decision_us']//DAY_US*DAY_US)
     return frame, meta

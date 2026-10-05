@@ -69,6 +69,21 @@ def daily_reduction(frame):
         pl.Series('available_us',one['day']+DAY), pl.lit('1d').alias('interval'))
 
 
+def four_hour_reduction(frame):
+    interval = 240*MINUTE
+    one = (frame.sort('open_us').with_columns((pl.col('open_us')//interval*interval).alias('block'))
+        .group_by(['symbol','block']).agg(pl.col('open').first(), pl.col('high').max(),
+            pl.col('low').min(), pl.col('close').last(), pl.col('volume').sum(),
+            pl.len().alias('rows'), pl.col('open_us').first().alias('first_open'),
+            pl.col('open_us').last().alias('last_open'), pl.col('available_us').max().alias('last_available')))
+    assert one['rows'].eq(240).all() and one['first_open'].eq(one['block']).all()
+    assert one['last_open'].eq(one['block']+interval-MINUTE).all()
+    assert one['last_available'].eq(one['block']+interval).all()
+    return one.select('symbol','open','high','low','close','volume').with_columns(
+        pl.Series('open_us',one['block']), pl.Series('close_us',one['block']+interval),
+        pl.Series('available_us',one['block']+interval), pl.lit('4h').alias('interval'))
+
+
 def inventory_path(minutes, trades, symbols, start, end, summary):
     """Saved fills marked on every actual minute close, without simulating fills."""
     times = np.arange(start+MINUTE,end+1,MINUTE,dtype=np.int64)
@@ -212,8 +227,9 @@ def main():
     assert sha(ROOT/'state/dataset_lock.json')=='29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d'
     source=read(config['spot_source'])
     recipe=config.get('recipe','HOLD8')
-    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10')
-    control=read(config['spot_control']) if recipe=='HALF_HOLD10_EXIT10' else None
+    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_4H')
+    four_hour = recipe=='HALF_HOLD10_EXIT10_4H'
+    control=read(config['spot_control']) if recipe!='HOLD8' else None
     band=config.get('discretionary_rebalance_min_notional',0)
     assert band in (0,50) and (band==0 or recipe=='HALF_HOLD10_EXIT10')
     reference=read(config['economic_reference']) if config.get('economic_reference') else None
@@ -287,17 +303,37 @@ def main():
                 and c['risk']['observed_caps_ok'] for c in control['cases'])
             progress.update('已接受现货缓存SHA匹配，无复制',2,2,'工件')
         del daily,execution;gc.collect()
-        decisions=np.arange(start,end,DAY,dtype=np.int64)
+        signal_bars = bars
+        if four_hour:
+            warm = [r for r in rows if r['month']=='2024-07']
+            assert len(warm)==len(symbols)
+            reduced = [four_hour_reduction(minutes)]
+            for row in warm:
+                path=Path(row['normalized_path'])
+                expected=ROOT/'data/normalized/spot'/row['symbol']/'1m'/'2024-07.parquet'
+                assert path==expected and path.resolve()==expected and not path.is_symlink()
+                assert path.stat().st_size==row['old_quality']['normalized_bytes'] and sha(path)==row['normalized_sha256']
+                frame=pl.read_parquet(path,columns=cols)
+                assert frame.height==row['rows']
+                reduced.append(four_hour_reduction(frame));del frame
+            signal_bars=pl.concat(reduced).sort(['symbol','open_us'])
+            result['four_hour_bars']=save_frame(signal_bars,run/'source_four_hour_bars.parquet')
+            result['signal_interval_minutes']=240
+            result['risk_interval_minutes']=1440
+            result['attribution_limit']='SIGNAL_HORIZON_AND_COMBINED_REBALANCE_CADENCE_CHANGED_NOT_SIGNAL_ONLY'
+            guard()
+        decisions=np.arange(start,end,240*MINUTE if four_hour else DAY,dtype=np.int64)
         if control is None:
             targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
         else:
-            targets,meta=blend.fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols)
+            targets,meta=blend.fixed_targets(signal_bars,decisions,'LONG_ONLY',symbols=symbols,
+                signal_interval_minutes=240 if four_hour else 1440,risk_bars=bars if four_hour else None)
             if band:
                 targets=discretionary_targets(targets,meta)
                 meta['band_policy']='UNCHANGED_COMPONENT_RAW_AND_ELIGIBILITY_NONDECREASING_COMPONENT_RISK_TARGETS_ONLY'
         meta['source_target_builder_id']=meta['strategy_id']
-        meta['strategy_id']='COIN_SPOT_'+recipe+'_1D_SHARED_CAPITAL'
-        assert targets.height==303*len(symbols)
+        meta['strategy_id']='COIN_SPOT_'+recipe+('_4H_' if four_hour else '_1D_')+'SHARED_CAPITAL'
+        assert targets.height==len(decisions)*len(symbols)
         assert targets['target_weight'].is_finite().all()
         result['target_meta']=meta; result['source_records']=receipts
         result['market_minutes']=save_frame(minutes,run/'source_minutes.parquet') if control is None else control['market_minutes']
@@ -315,7 +351,7 @@ def main():
                 start_us=start,end_us=end,target_annual_vol=None,latency_minutes=1,max_order_wait_minutes=5,
                 min_notional=10,lot_step_by_symbol={s:1e-8 for s in symbols},
                 liquidate_at_end=True,terminal_exit_minutes=5,discretionary_rebalance_min_notional=band)
-            account=run_backtest(bars,minutes,targets,bc)
+            account=run_backtest(signal_bars,minutes,targets,bc)
             assert account.daily_nav.height==303 and not account.daily_nav['stale_prices'].any()
             path,risk=inventory_path(minutes,account.trades,symbols,start,end,account.summary)
             day_path=path.filter(pl.col('close_us')%DAY==0).rename({'close_us':'day_end_us'})
@@ -355,7 +391,8 @@ def main():
             guard();del account,path,daily_frame;gc.collect()
         assert len(result['cases'])==2 and len(result['comparisons'])==(4 if control is None else 2)
         result['status']=(('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if control is None
-                          else ('COMPLETE_SPOT_BAND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if band
+                          else ('COMPLETE_SPOT_4H_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if four_hour
+                                else 'COMPLETE_SPOT_BAND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if band
                                 else 'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR'))
             if all(c['risk']['observed_caps_ok'] for c in result['cases'])
             else 'FAILED_OBSERVED_CAPS_PRODUCT_COMPARISON_LIMITED_DIAGNOSTIC')

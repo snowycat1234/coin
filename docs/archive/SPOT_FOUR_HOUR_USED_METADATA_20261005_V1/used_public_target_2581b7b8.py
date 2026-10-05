@@ -249,7 +249,5 @@ def fixed_targets(bars, decisions, mode, *, symbols=SYMBOLS,
     if intraday:
         meta.update(timeframe_minutes=240, complete_signal_warmup=completed_bar_count,
             complete_daily_warmup=200, risk_daily_warmup=200,
-            covariance_return_interval_minutes=1440,
-            close_then_wait_next_daily_decision_to_reenter=False,
-            close_then_wait_next_four_hour_decision_to_reenter=True)
+            covariance_return_interval_minutes=1440)
     return pl.DataFrame(targets), meta
