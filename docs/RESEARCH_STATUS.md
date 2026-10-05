@@ -2,20 +2,18 @@
 
 投资资格：**NONE/CASH**；长期APR **NOT_EVALUABLE**。
 
-研究参照：Spot HOLD8；防御挑战者：Spot日线固定50/50 HOLD10+EXIT10；N资产和永续signed能力保留。
+研究参照：Spot HOLD8与日线固定50/50 HOLD10+EXIT10；多空/N资产共享资本能力保留。本轮XGBoost固定配方未采用。
 
 ## 最新证据与决定
 
-D084完成唯一HOLD腿过去close>SMA200门控的四个真实Spot钱包。原303日净330.09/307.83USDT，比原日线组合少300.64/301.40；日vol约8.12%→6.33%、分钟DD约6.82%→4.64%（stress4.75%）。后90日HOLD及Donchian皆零目标，真实全程CASH：净/fee/turnover/vol/DD均0，比原组合少亏330.70/333.92，但这不是新增价格alpha。事前两窗联合净改善标准未通过，不替换日线组合/HOLD8；门控能力保留、固定配方暂停，投资NONE/CASH。两路采集在WSL进程丢失后已保存三件套并单次恢复，新会话/断档真实记录，两次观测推进，非有效天认证。
+D085已完成一个共享10币XGBoost三分类fit和20配对账户（May–Jun2025共61日、资本10k）。BASE27/RAW_AS_PERCENT：双向净-944.78、同模型多头-270.34、HOLD 164.49、DonchianEXIT10 -224.35USDT；双向SHORT净-430.37，vol9.40%/DD11.20%高于同模型多头7.46%/7.51%。四成本/资金费口径均未通过任一净/DD/风险调整改善；固定配方暂停，不作为研究主力或投资候选。45日BULL、16日SIDEWAYS、0日BEAR/CRASH；CASH预测0，不称已学会现金或稳定熊市short alpha。账户有真实空头成交、部分成交与资金费；实际残仓保留，净值为marked，未清仓账户liquidated return NOT_EVALUABLE。首次终值断言与重复registry启动失败保留，原唯一模型及首账户复用、概率/预测完全相同；独立全部分钟NAV/钱包/费用/funding验收通过。
 
-报告：[D084_ORIGINAL](SPOT_HOLD_TREND_20261005.md)；结构化验收：`reports/SPOT_HOLD_TREND_ORIGINAL_ACCEPTED_20261005_V1.json`。
+报告：[D085](SHARED_DIRECTION_20261005.md)；结构化验收：`reports/SHARED_DIRECTION_ACCEPTED_20261005_V1.json`。旧D084结果与资金费D076单位审计按Git保留，不重复。
 
-## 当前工作与下一选择
+## 下一研究选择
 
-本轮市场回放与必要复核已结束。停止当前两币SMA/退出/门槛网格。下一主任务评估Spot资产分散：先核已有永续池与Spot产品身份差异（如1000PEPE不能直接充作PEPE），按评价前官方Spot流动性/上市与200日预热确定约10币候选池；优先同已见Dec2025-Feb2026的90日窗口、原日线组合与HOLD8固定规则、同资本/cost/caps和BTCETH控制。只取必要daily预热与评分分钟，不取aggTrades/LOB；数据增长预估最多1GB、含临时预留整盘须低于32GB，失败就保留缺口/减少批次，不扩权限。来源可用后同单账户完整回放，不合并独立NAV；目前尚未启动。它检验分散能否改善单一BTCETH暴露及机会集中，优先于再调已否定时序门槛；不是保证正收益。HOLD200门控重开须不同信息机制或合法独立证据，不试周期网格；4h/宏观Donchian/RSI2固定失败继续按原reopen条件暂停。资金费单位UNKNOWN，D076链不重复审计，不重试403/451；多空/N币/ML能力保持。
+下一有限主任务为Phase2过去信息clustering，复用已装scikit-learn，不上Transformer：只读覆盖检查已完成：训练181日中BEAR20日，3—4月验证61日中BEAR25日，三段皆无HIGH_VOL_CRASH（见 reports/SHARED_DIRECTION_REGIME_COVERAGE_20261005_V1.json）；这是相关日数，不是独立样本。接下来固定训练期模型与状态映射、在已见开发窗口作bull允许long/bear允许short/sideways可cash的单因素对照。不以零熊市的当前61日窗口判定熊市short alpha；需要覆盖时先选已有合法开发窗口并统一时间切分。目标是检验行情条件能否识别当前无CASH/牛市错误做空，而非继续扫XGBoost树深、horizon或阈值。当前5d日方向argmax配方暂停；reopen须不同信息/状态机制及成本后配对收益或实际风险增量，不能只改seed重复。Spot约10币扩池数据任务尚未启动，被本次用户明确三分类任务让位；现有HOLD/Donchian/RSI2、永续多空能力不删除。HMM、meta labeling、独立候选验证尚未执行，本版不冒充完成；资金费单位UNKNOWN，仅实际事件两情景，未认证derivatives特征不补造。
 
-## 适用范围
+## 边界与运行
 
-本轮及此前已查看的历史为开发筛选；跨场所成本代理、数量/最低订单历史规则、残仓、瞬时风险/清算及独立证据仍按各报告限定。未开启locked/真钱/keys/发单/付费/GPU；共享5GB、swap0、D总40GB及原风险caps不变。
-
-此前状态按Git保留；实验与负结果见 `../reports/experiment_registry.jsonl` 和 `RESEARCH_DECISION_LOG.md`。
+市场回放已结束。两个既有采集是否仍活动另核进程状态，不将存活称有效证据天数。Binance行情+Bybit用户费用是跨场所代理；原历史过滤、数量规则、瞬时清算/缺口限制保留。无locked正文/账户keys/发单/真钱/付费/GPU；共享5GB、swap0、D总40GB、资本10k/abs30%/gross60%/1x保持。实际资源/时段/SHA见验收和本模块收尾凭证；此前状态按Git，所有尝试和负结果见实验registry与决策日志。

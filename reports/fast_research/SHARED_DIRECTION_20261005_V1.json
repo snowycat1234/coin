@@ -1,0 +1,245 @@
+{
+  "status": "FAILED",
+  "binding": {
+    "task_id": "0048be92c8124105802032d3390cfd70",
+    "protocol_sha256": "cc3a705cf83c110addac980b74625b5fea8103a111f21f8d0b444d7bac424733",
+    "source_hashes": {
+      "scripts/investment/run_shared_direction.py": "143dd8b8cc66f42f6e33d649c69eee02d32e13bf1eca56e224db825cf3511dd9",
+      "scripts/investment/shared_direction_model.py": "a525ac2502124cd293b55166a5c573551a69b6d0a76f3f706ee7a1e852699669",
+      "scripts/investment/audit_shared_direction.py": "733517b330ec6efe42b50a1678740c26745013cda90c628bbf301896e6d55a28",
+      "scripts/investment/multi_asset_data.py": "4689e24325558c1b8013fbb4ad917d487dcfff0ebdcb12dcf157f76743ede6cb",
+      "scripts/investment/perpetual_directional.py": "82f0ba1506e0a6dc494c12fac50705df28466384477169d7c070373a25939f2d",
+      "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+      "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+      "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+      "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa"
+    },
+    "command": [
+      "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+      "scripts/investment/run_shared_direction.py",
+      "--protocol",
+      "protocols/SHARED_XGB_DIRECTION_20261005_V1.json",
+      "--run-dir",
+      "/home/xflops/coin-state/d085-shared-direction-20261005-v1",
+      "--output",
+      "reports/fast_research/SHARED_DIRECTION_20261005_V1.json"
+    ],
+    "git_commit": "44484c4faf490e5f35fad7b173a244b1d9237bdf",
+    "input_manifest_sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab",
+    "xgboost_version": "3.4.1"
+  },
+  "run_dir": "/home/xflops/coin-state/d085-shared-direction-20261005-v1",
+  "cases": [],
+  "models_fit": 1,
+  "candidate": "NONE",
+  "investment": "CASH",
+  "long_term_APR": "NOT_EVALUABLE",
+  "data_role": "ALREADY_SEEN_DEVELOPMENT_TEMPORAL_OUT_OF_FIT_NOT_UNSEEN_OR_LOCKED",
+  "funding_unit_certified": false,
+  "orders_sent": 0,
+  "locked_consumed": false,
+  "GPU_hours": 0.0,
+  "protocol": {
+    "experiment_id": "D085-SHARED-XGB-DIRECTION-20261005",
+    "question": "Does a fixed shared cost-banded direction model add economic short value relative to its long-only mask, HOLD and existing Donchian?",
+    "data_role": "ALREADY_SEEN_DEVELOPMENT_TEMPORAL_OUT_OF_FIT_NOT_UNSEEN_OR_LOCKED",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "pool_rule": "REUSED_PRE_SEPTEMBER_2024_JULY_LIQUIDITY_AND200_DAY_ELIGIBILITY_NOT_RETURN_RANKING",
+    "data_manifest": {
+      "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+      "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+    },
+    "split": {
+      "train_decisions_start": "2024-09-01",
+      "training_label_maturity_before": "2025-03-01",
+      "validation_start": "2025-03-01",
+      "validation_label_maturity_before": "2025-05-01",
+      "economics_start": "2025-05-01",
+      "economics_end_exclusive": "2025-07-01",
+      "same_calendar_all_assets": true,
+      "score_early_stopping": false
+    },
+    "labels": {
+      "horizon_days": 5,
+      "future_price_return": "TRADE_OPEN_AT_T_PLUS5D_OVER_T_MINUS1",
+      "cost_roundtrip_bps": 27,
+      "extra_edge_bps": 10,
+      "classes": "SHORT below -37bp; LONG above +37bp; CASH otherwise; missing future stays missing",
+      "funding_in_label": "EXCLUDED_UNCONFIRMED_UNIT_AND_PUBLICATION_CLOCK",
+      "economic_funding": "ACTUAL_EVENTS_TWO_EXPLICIT_UNIT_SCENARIOS",
+      "overlapping_labels_independent": false
+    },
+    "model": "ONE_FIXED_SHARED_CPU_XGBOOST_120_DEPTH3_SOFTPROB_NO_SEARCH_NO_REFIT_OR_NORMALIZER",
+    "feature_scope": "COMPLETED_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_AND_ONEHOT_SYMBOL",
+    "feature_missing": {
+      "funding": "EXCLUDED_PUBLICATION_AND_UNIT_UNKNOWN",
+      "basis": "NOT_AVAILABLE_CERTIFIED_INDEX_BASIS",
+      "open_interest": "NOT_IN_ACCEPTED_INPUTS"
+    },
+    "signal_execution": "DAILY_DECISION; EXISTING_ONE_MINUTE_LATENCY_CAPACITY_FILL_AND_MARK_ACCOUNT",
+    "comparison": [
+      "XGB_LONG_SHORT",
+      "XGB_LONG_ONLY",
+      "XGB_SHORT_ONLY",
+      "HOLD",
+      "DONCHIAN_EXIT10",
+      "ANALYTIC_CASH"
+    ],
+    "cost": "SUPPLIED_BYBIT_STANDARD_USER_TAKER5.5BP_SIDE_BASE27_STRESS43_BINANCE_USDM_PROXY",
+    "risk": {
+      "full_capital_USDT": 10000,
+      "asset_absolute_cap": 0.3,
+      "portfolio_gross_cap": 0.6,
+      "annual_vol_target_max": 0.1,
+      "leverage": 1,
+      "margin": "ONE_WAY_ISOLATED_NO_AUTO_TOPUP",
+      "raw_direction_weights": "0.6/N_SIGNED; NO_REDISTRIBUTION_OF_CASH_BUDGET"
+    },
+    "adoption": "RESEARCH_ONLY: short direction retained for next independent evidence only if LONG_SHORT improves net or drawdown or realized risk-adjusted return versus LONG_ONLY in BOTH unit interpretations and BASE/STRESS. Compare HOLD/Donchian; positive short net must be separately reported. No investment qualification from 61 seen days.",
+    "stopping": "ONE_FIT_20_ACCOUNTS_NO_THRESHOLD_OR_HORIZON_SEARCH; invalid inputs or budget stop preserve actual failure; recipe pauses if no conditional benefit; general short capability remains",
+    "budget": {
+      "wall_seconds": 3600,
+      "owned_bytes": 700000000,
+      "RSS_bytes": 2000000000,
+      "GPU": 0
+    }
+  },
+  "disk_before": {
+    "project_bytes": 4483842022,
+    "wsl_vhd_bytes": 24447549440,
+    "total_bytes": 28931391462,
+    "reserved_bytes": 700000000,
+    "d_free_bytes": 352425140224,
+    "status": "OK",
+    "hard_limit_bytes": 40000000000,
+    "measured_utc": "2026-10-05T07:53:34.910863+00:00"
+  },
+  "fit_seconds": 0.12819903899981,
+  "feature_columns": [
+    "return_1d",
+    "return_5d",
+    "return_20d",
+    "vol_30d",
+    "atr14_simple_relative",
+    "ma20_distance",
+    "ma200_distance",
+    "trend_20_200",
+    "volume_change",
+    "volume_anomaly",
+    "BTC_return_1d",
+    "BTC_return_20d",
+    "ETH_return_1d",
+    "ETH_return_20d",
+    "market_breadth",
+    "symbol_BTCUSDT",
+    "symbol_ETHUSDT",
+    "symbol_SOLUSDT",
+    "symbol_1000PEPEUSDT",
+    "symbol_XRPUSDT",
+    "symbol_WIFUSDT",
+    "symbol_WLDUSDT",
+    "symbol_DOGEUSDT",
+    "symbol_1000SATSUSDT",
+    "symbol_ORDIUSDT"
+  ],
+  "splits": {
+    "train_rows": 1760,
+    "validation_rows": 560,
+    "score_rows": 610,
+    "maximum_training_label_available_us": 1740700800000001,
+    "fitted_data_cutoff_us": 1740787200000000,
+    "model_usable_before_economics_us": 1746057600000000,
+    "no_validation_early_stopping": true,
+    "no_score_selection": true,
+    "normalization": "NONE_TREE_MODEL"
+  },
+  "classification": {
+    "VALIDATION": {
+      "accuracy": 0.4642857142857143,
+      "log_loss": 0.8777048587799072,
+      "confusion_SHORT_CASH_LONG": [
+        [
+          128,
+          0,
+          142
+        ],
+        [
+          14,
+          0,
+          7
+        ],
+        [
+          137,
+          0,
+          132
+        ]
+      ],
+      "predictions": {
+        "SHORT": 279,
+        "CASH": 0,
+        "LONG": 281
+      },
+      "missing_future_labels": 0,
+      "role": "DIAGNOSTIC_NOT_ADOPTION_METRIC"
+    },
+    "ECONOMICS": {
+      "accuracy": 0.48214285714285715,
+      "log_loss": 0.8505582809448242,
+      "confusion_SHORT_CASH_LONG": [
+        [
+          180,
+          0,
+          131
+        ],
+        [
+          13,
+          0,
+          10
+        ],
+        [
+          136,
+          0,
+          90
+        ]
+      ],
+      "predictions": {
+        "SHORT": 373,
+        "CASH": 0,
+        "LONG": 237
+      },
+      "missing_future_labels": 50,
+      "role": "DIAGNOSTIC_NOT_ADOPTION_METRIC"
+    }
+  },
+  "regime_definition": "PAST_BTC_SMA200_AND20D_RETURN_CRASH_1D_LT_MINUS5PCT_VOL30_GT80PCT_DESCRIPTIVE_NOT_HMM",
+  "required_accounts": 20,
+  "error_type": "ValueError",
+  "reason": "Complete calendar and paid final exits",
+  "elapsed_seconds": 113.61220935599977,
+  "shared_RAM_sampled_peak_bytes": 1131470848,
+  "resources_after": {
+    "aggregate_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/coin.slice/coin-quant.slice",
+    "ram_limit_bytes": 4999999488,
+    "ram_current_bytes": 1203322880,
+    "ram_peak_bytes": 1225932800,
+    "swap_bytes": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "gpu_used": false
+  },
+  "peak_RSS_bytes": 384589824,
+  "owned_bytes": 27802576,
+  "created_utc": "2026-10-05T07:54:15.511117+00:00"
+}

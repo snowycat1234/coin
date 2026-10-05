@@ -719,8 +719,12 @@ def window(pool, market_records, *, pool_receipt_sha256, control_daily_records=(
                     reported_interval_hours=float(row['funding_interval_hours'])))
     events.sort(key=lambda r: (r['event_us'], r['symbol']))
     require(len(events) == len({(r['symbol'], r['event_us']) for r in events}), 'Funding identity exactly once')
-    def minute_blocks():
-        for day in range(start_us, end_us, DAY):
+    def minute_blocks(block_start_us=start_us, block_end_us=end_us):
+        require(type(block_start_us) is int and type(block_end_us) is int and
+            start_us <= block_start_us < block_end_us <= end_us and
+            block_start_us % DAY == block_end_us % DAY == 0,
+            'Explicit whole-day subwindow inside the accepted calendar')
+        for day in range(block_start_us, block_end_us, DAY):
             times = np.arange(day, day+DAY, MINUTE, dtype=np.int64); market = {}
             source_month = next(m for m, a, b in scopes if a <= day < b)
             for symbol in symbols:

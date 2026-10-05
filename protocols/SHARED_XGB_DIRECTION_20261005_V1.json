@@ -1,0 +1,20 @@
+{
+  "experiment_id": "D085-SHARED-XGB-DIRECTION-20261005",
+  "question": "Does a fixed shared cost-banded direction model add economic short value relative to its long-only mask, HOLD and existing Donchian?",
+  "data_role": "ALREADY_SEEN_DEVELOPMENT_TEMPORAL_OUT_OF_FIT_NOT_UNSEEN_OR_LOCKED",
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "1000PEPEUSDT", "XRPUSDT", "WIFUSDT", "WLDUSDT", "DOGEUSDT", "1000SATSUSDT", "ORDIUSDT"],
+  "pool_rule": "REUSED_PRE_SEPTEMBER_2024_JULY_LIQUIDITY_AND200_DAY_ELIGIBILITY_NOT_RETURN_RANKING",
+  "data_manifest": {"path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json", "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"},
+  "split": {"train_decisions_start": "2024-09-01", "training_label_maturity_before": "2025-03-01", "validation_start": "2025-03-01", "validation_label_maturity_before": "2025-05-01", "economics_start": "2025-05-01", "economics_end_exclusive": "2025-07-01", "same_calendar_all_assets": true, "score_early_stopping": false},
+  "labels": {"horizon_days": 5, "future_price_return": "TRADE_OPEN_AT_T_PLUS5D_OVER_T_MINUS1", "cost_roundtrip_bps": 27, "extra_edge_bps": 10, "classes": "SHORT below -37bp; LONG above +37bp; CASH otherwise; missing future stays missing", "funding_in_label": "EXCLUDED_UNCONFIRMED_UNIT_AND_PUBLICATION_CLOCK", "economic_funding": "ACTUAL_EVENTS_TWO_EXPLICIT_UNIT_SCENARIOS", "overlapping_labels_independent": false},
+  "model": "ONE_FIXED_SHARED_CPU_XGBOOST_120_DEPTH3_SOFTPROB_NO_SEARCH_NO_REFIT_OR_NORMALIZER",
+  "feature_scope": "COMPLETED_DAILY_PRICE_VOLUME_BTC_ETH_BREADTH_AND_ONEHOT_SYMBOL",
+  "feature_missing": {"funding": "EXCLUDED_PUBLICATION_AND_UNIT_UNKNOWN", "basis": "NOT_AVAILABLE_CERTIFIED_INDEX_BASIS", "open_interest": "NOT_IN_ACCEPTED_INPUTS"},
+  "signal_execution": "DAILY_DECISION; EXISTING_ONE_MINUTE_LATENCY_CAPACITY_FILL_AND_MARK_ACCOUNT",
+  "comparison": ["XGB_LONG_SHORT", "XGB_LONG_ONLY", "XGB_SHORT_ONLY", "HOLD", "DONCHIAN_EXIT10", "ANALYTIC_CASH"],
+  "cost": "SUPPLIED_BYBIT_STANDARD_USER_TAKER5.5BP_SIDE_BASE27_STRESS43_BINANCE_USDM_PROXY",
+  "risk": {"full_capital_USDT": 10000, "asset_absolute_cap": 0.3, "portfolio_gross_cap": 0.6, "annual_vol_target_max": 0.1, "leverage": 1, "margin": "ONE_WAY_ISOLATED_NO_AUTO_TOPUP", "raw_direction_weights": "0.6/N_SIGNED; NO_REDISTRIBUTION_OF_CASH_BUDGET"},
+  "adoption": "RESEARCH_ONLY: short direction retained for next independent evidence only if LONG_SHORT improves net or drawdown or realized risk-adjusted return versus LONG_ONLY in BOTH unit interpretations and BASE/STRESS. Compare HOLD/Donchian; positive short net must be separately reported. No investment qualification from 61 seen days.",
+  "stopping": "ONE_FIT_20_ACCOUNTS_NO_THRESHOLD_OR_HORIZON_SEARCH; invalid inputs or budget stop preserve actual failure; recipe pauses if no conditional benefit; general short capability remains",
+  "budget": {"wall_seconds": 3600, "owned_bytes": 700000000, "RSS_bytes": 2000000000, "GPU": 0}
+}

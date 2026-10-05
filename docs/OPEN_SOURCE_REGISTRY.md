@@ -380,3 +380,6 @@ D072沿用已登记MIT Jesse Donchian原commit/策略/指标与license SHA，ven
 D073无新增第三方或vendor修改，继续已登记MIT Jesse Donchian固定来源；COIN薄adapter正常复用原HOLD10和EXIT10 ACTIVE_EQUAL目标接口，在过去风险缩减后固定各半，共享原账户。它是COIN目标组合，不原生Jesse组合或Bybit可执行复现。独立参考复用已有scalar/window/cov逻辑与标准JSON/Decimal；无新模型/下载或账户框架。
 
 D081运行前登记：继续MIT jesse-ai/example-strategies commit `7c91e0a37bf62165790120d730442e4f6eb00364` 与 Jesse指标 `417f8765225e3bfc12043d4b712f19fe15a3c078`，原策略/指标/许可四SHA和vendor原字节不变。D080正常COIN4h信号/日风险接口保留；本轮仅薄 `ma_trend` property上下文从200个4h替换为200个已完成日，仍复用原 `filter_trend`/入场/Donchian通道以及既有COIN exit10。原SMA property上下文不再称全原样；并非将两个SMA作AND，也不改持仓退出。日协方差/HOLD日target/共享账户/费用/caps沿用。NumPy/Polars/Decimal原版本和许可证不变，零新库/模型/下载/账户框架；配方独立命名 `DAILY_TREND`，不声称原生Jesse或Bybit复现。
+
+
+D085：复用 https://github.com/dmlc/xgboost ，本机 `xgboost-cpu 3.4.1`（import xgboost），Apache-2.0；仅共同日特征/5d成本带分类labels/one-hot symbol/既有账户的薄adapter，未改库源。一个固定CPU hist multi:softprob fit，非自写树/在线学习框架。参数定义参考 https://xgboost.readthedocs.io/en/stable/parameter.html 。NumPy/Polars/scikit-learn沿用已有环境uv.lock，不新增依赖或模型内核；Donchian/HOLD的既有vendor/commit/许可不变。未确认funding/basis/OI不补造；模型与行情只留D/STATE。
