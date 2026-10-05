@@ -1,0 +1,40 @@
+{
+  "steps": [
+    {
+      "title": "核对既有账户与独立证据",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        "scripts/investment/accept_spot_research.py",
+        "--result",
+        "reports/fast_research/SPOT_FOUR_HOUR_DAILY_TREND_20261005_V1.json",
+        "--protocol",
+        "protocols/SPOT_FOUR_HOUR_DAILY_TREND_20261005_V1.json",
+        "--financial",
+        "/home/xflops/coin-state/d081-spot-financial-independent-20261005-v1/RESULT.json",
+        "--targets",
+        "/home/xflops/coin-state/d081-actual-target-reference-20261005-v1/RESULT.json",
+        "--diagnostic",
+        "/home/xflops/coin-state/d081-spot-saved-diagnostics-20261005-v1/RESULT.json",
+        "--output",
+        "reports/SPOT_FOUR_HOUR_DAILY_TREND_ACCEPTED_BATCH_20261005_V1.json"
+      ]
+    },
+    {
+      "title": "优化前后结果一致与资产损益诊断",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        ".cache/d081_saved_diagnosis.py"
+      ]
+    },
+    {
+      "title": "近三轮实际任务计时元数据",
+      "argv": [
+        "/home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python",
+        "-B",
+        ".cache/recent_research_timing.py"
+      ]
+    }
+  ]
+}

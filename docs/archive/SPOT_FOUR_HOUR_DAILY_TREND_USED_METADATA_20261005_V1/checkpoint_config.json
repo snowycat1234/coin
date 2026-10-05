@@ -1,0 +1,166 @@
+{
+  "module": "D081",
+  "title": "日线趋势过滤负结果与快速工作流",
+  "parent_commit": "7a239eb7121885070147133fe2dfca72e857472e",
+  "acceptance": "reports/SPOT_FOUR_HOUR_DAILY_TREND_ACCEPTED_20261005_V1.json",
+  "archive": "docs/archive/SPOT_FOUR_HOUR_DAILY_TREND_USED_METADATA_20261005_V1",
+  "archive_copies": [
+    [
+      ".cache/d081_prepare.py",
+      "d081_prepare.py"
+    ],
+    [
+      ".cache/d081_reference.py",
+      "d081_reference.py"
+    ],
+    [
+      ".cache/d081_source_review.md",
+      "source_review.md"
+    ],
+    [
+      ".cache/d081_saved_diagnosis.py",
+      "saved_diagnosis.py"
+    ],
+    [
+      ".cache/recent_research_timing.py",
+      "recent_research_timing.py"
+    ],
+    [
+      ".cache/recent_research_timing_sources.json",
+      "recent_timing_sources.json"
+    ],
+    [
+      ".cache/d081_batch.json",
+      "batch_config.json"
+    ],
+    [
+      ".cache/d081_delivery_prepare.py",
+      "delivery_prepare.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-macro-fixtures-20261005-v1.xml",
+      "fixtures_V1.xml"
+    ],
+    [
+      "/home/xflops/coin-state/d081-reference-used-source-20261005-v1/test_four_hour_daily_trend_filter.py",
+      "fixture_used_V1.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-macro-fixtures-20261005-v2.xml",
+      "fixtures_V2.xml"
+    ],
+    [
+      "/home/xflops/coin-state/d081-reference-used-source-20261005-v2/test_four_hour_daily_trend_filter.py",
+      "fixture_used_V2.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-macro-fixtures-20261005-v3.xml",
+      "fixtures_V3.xml"
+    ],
+    [
+      "/home/xflops/coin-state/d081-reference-used-source-20261005-v3/public_sma_perpetual.py",
+      "actual_used_public_sma_perpetual.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-reference-used-source-20261005-v3/donchian_daily_pool_target.py",
+      "actual_used_donchian_daily_pool_target.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-reference-used-source-20261005-v3/hold_donchian_blend_target.py",
+      "actual_used_hold_donchian_blend_target.py"
+    ],
+    [
+      "/home/xflops/coin-state/d081-spot-financial-independent-20261005-v1/RESULT.json",
+      "FINANCIAL_RESULT.json"
+    ],
+    [
+      "/home/xflops/coin-state/d081-actual-target-reference-20261005-v1/RESULT.json",
+      "TARGET_RESULT.json"
+    ],
+    [
+      "/home/xflops/coin-state/d081-prior-default-reference-20261005-v1/RESULT.json",
+      "PRIOR_DEFAULT_RESULT.json"
+    ],
+    [
+      "/home/xflops/coin-state/d081-spot-saved-diagnostics-20261005-v1/RESULT.json",
+      "DIAGNOSTIC_RESULT.json"
+    ],
+    [
+      "/home/xflops/coin-state/d081-fast-workflow-saved-diagnosis-20261005-v1/RESULT.json",
+      "SAVED_DIAGNOSIS_RESULT.json"
+    ],
+    [
+      "/home/xflops/coin-state/d081-fast-workflow-timing-20261005-v1/RESULT.json",
+      "RECENT_TIMING_RESULT.json"
+    ],
+    [
+      "reports/FAST_RESEARCH_BATCH_STAGES_20261005_V1.json",
+      "BATCH_STAGES.json"
+    ],
+    [
+      ".cache/d081_checkpoint.json",
+      "checkpoint_config.json"
+    ]
+  ],
+  "task_ids": {
+    "primary": "30d88da00c8e499c9d7c8065c8be57b1",
+    "fixture_failed": "9d6bc462e79d426694ac7e49538327e5",
+    "fixture_corrected": "b01df5f1f518413a952569f245957713",
+    "fixture_final": "60fe485ff8ea478a91ee124b07271b18",
+    "prior": "83d5ef4f88614a108fcd3ec9add57fde",
+    "target": "c2eb252e8a1b4088a3b2a4588c50e6cc",
+    "prepare": "003be49ac49e48be83d04eefb2d7d908",
+    "acceptance": "2e5970363ea14d8799847246bc330f73",
+    "finance": "f1bc5519ab574dd4bf63662f8ae2778d",
+    "diagnostic": "87d26b5182df416bae0b4451724bcf45"
+  },
+  "expected_exit_codes": {
+    "fixture_failed": 1
+  },
+  "attempts": {
+    "fixture_failed": "fixtures_V1.xml",
+    "fixture_corrected": "fixtures_V2.xml",
+    "fixture_final": "fixtures_V3.xml"
+  },
+  "decision": {
+    "adopted": false,
+    "summary": "D081日SMA200替换4hSMA200入场过滤（非双SMA AND），退出/risk/4h执行/本金/cost保持；两303日账户净350.81/281.85USDT，比原4h少291.31/280.53，省成本18.58/26.75却毛损益少309.89/307.28；分钟DD升至8.908%/9.118%，不采用。原日线防御组合/HOLD8保留，投资NONE/CASH；新配方不是低成本改善。当前工作流已按用户采纳收拢为单状态/薄证据引用与复用收尾，旧结果按Git/工件保留。",
+    "next": "停止在同303日上继续SMA过滤或周期网格；下一先核授权且未参与选择的共同Spot证据窗口/数据角色，只读来源与实验登记，不解析locked、不先下载或称unseen。用独立证据可得性决定两研究参照的有限验证或继续前向采集；未启动新市场回放。4h配方暂停，reopen需明确新信息机制或合法独立证据。"
+  },
+  "notes": "本次替换trend property上下文，原filter_trend/entry/channel及COIN exit10保持。hook只在200连续4h与200连续已完成日资格/availability核对后读daily6col，floor日端排除未完日；HOLD日target向前携带，全部risk用30日日收益，N身份顺序保持。默认None日/4h目标及完整旧meta与Git7a239eb一致。7最终fixtures通过；V1 5fail/1pass为synthetic prior20未严格突破，producer未改，V2 6pass、V3 7pass及各used字节/退出码保留。当前3636目标独立scalar日SMA/通道进出场/centered日cov/mix最大误差2.8e-17，BTC23入22出、ETH11/11；独立金融1669成交/872640分钟/606日通过。已接受日/4h/分钟缓存按SHA复用、不复制新行情，无新增数据/API/fits/HPO/资金权限。\n\n实际源与参考/诊断由路径/SHA绑定，只归档一次，验收JSON不再嵌入完整多个结果。新通用收尾不要求正/负收益才能接受工程结果；现有研究采用标准仍是事前“双成本净改善且vol/分钟DD不恶化”，本轮保持，不为新提示词回改。其他取舍要在未来新实验前明确。collector仅当时进程运维快照，不是独立历史账户通过条件；两现有进程未停止。\n\n新批处理单调时间只覆盖该命令；旧三轮按真实task时间区间并集汇总，不复造单调历史或全会话端到端，也不把未归因时间叫模型思考。精确model/推理配置UNKNOWN，未更改全局设置。该批验证原收尾与批收尾核心完全一致，再读资产经济桥，不重放市场。当前real-time进度服务沿用。硬资源规则不改：主84.43s/RSS765.28MB/共享采样1.265GB、新owned27.26MB；整盘28.697GB@2026-10-05T04:53:03.328414Z为工件前扫描，不是当前精确值。\n\n代理Spot的数量/min10/末5次退出与原生历史过滤器仍未认证，positive dust保留，清仓收益NOT_EVALUABLE。无连续分钟漂移减仓或原生执行认证；全部保存minute-close未超caps。源已见开发角色不改，未启封holdout/keys/真钱/发单/付费/GPU。macro失败仅否定本配方/窗口，不能永久取消多周期/短仓/N币/开源模型能力。\n",
+  "report_document": "docs/SPOT_FOUR_HOUR_DAILY_TREND_20261005.md",
+  "progress_entry_paths": [],
+  "reproducible_command": "scripts/with_task_progress.sh --title '固定macro回放' -- env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin:/mnt/d/codex/coin/tools/task_progress /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/spot_perpetual_product_comparison.py --protocol protocols/SPOT_FOUR_HOUR_DAILY_TREND_20261005_V1.json --run-dir /home/xflops/coin-state/NEW_RUN --output reports/fast_research/NEW_RESULT.json",
+  "prior_sync_proof": "reports/GITHUB_SPOT_FOUR_HOUR_SYNC_VERIFIED_20261005_V1.json",
+  "source_binding": "reports/GITHUB_SPOT_DAILY_TREND_SOURCE_BINDING_20261005_V1.json",
+  "selected_paths": [
+    "AGENTS.md",
+    "README.md",
+    "docs/FAST_RESEARCH_TASK_CHECKLIST.md",
+    "docs/GOALS.md",
+    "docs/OPEN_SOURCE_REGISTRY.md",
+    "docs/PROGRESS.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/RESEARCH_STATUS.md",
+    "docs/SPOT_FOUR_HOUR_DAILY_TREND_20261005.md",
+    "docs/archive/COIN_FAST_RESEARCH_WORKFLOW_USER_20261005.md",
+    "protocols/SPOT_FOUR_HOUR_DAILY_TREND_20261005_V1.json",
+    "reports/FAST_RESEARCH_BATCH_STAGES_20261005_V1.json",
+    "reports/FAST_RESEARCH_CONTEXT_CLEANUP_20261005_V1.json",
+    "reports/GITHUB_SPOT_FOUR_HOUR_SYNC_VERIFIED_20261005_V1.json",
+    "reports/SPOT_FOUR_HOUR_DAILY_TREND_ACCEPTED_20261005_V1.json",
+    "reports/SPOT_FOUR_HOUR_DAILY_TREND_ACCEPTED_BATCH_20261005_V1.json",
+    "reports/experiment_registry.jsonl",
+    "reports/fast_research/SPOT_FOUR_HOUR_DAILY_TREND_20261005_V1.json",
+    "scripts/investment/accept_spot_research.py",
+    "scripts/investment/checkpoint_spot_research.py",
+    "scripts/investment/donchian_daily_pool_target.py",
+    "scripts/investment/hold_donchian_blend_target.py",
+    "scripts/investment/public_sma_perpetual.py",
+    "scripts/investment/run_research_steps.py",
+    "scripts/investment/spot_perpetual_product_comparison.py",
+    "scripts/task_progress_api.py",
+    "tests/test_four_hour_daily_trend_filter.py",
+    "scripts/investment/verify_research_push.py"
+  ]
+}

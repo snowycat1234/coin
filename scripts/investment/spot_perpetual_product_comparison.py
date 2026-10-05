@@ -205,7 +205,8 @@ def discretionary_targets(targets, meta):
 def cached_market(control):
     """Use exact accepted artifacts without copying or reducing source again."""
     assert control['status'] in ('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR',
-        'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR')
+        'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR',
+        'COMPLETE_SPOT_4H_MARKED_COMPARISON_NOT_NATIVE_OR_APR')
     frames = []
     for key in ('daily_bars', 'market_minutes'):
         receipt = control[key]; path = Path(receipt['path'])
@@ -227,8 +228,9 @@ def main():
     assert sha(ROOT/'state/dataset_lock.json')=='29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d'
     source=read(config['spot_source'])
     recipe=config.get('recipe','HOLD8')
-    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_4H')
-    four_hour = recipe=='HALF_HOLD10_EXIT10_4H'
+    assert recipe in ('HOLD8','HALF_HOLD10_EXIT10','HALF_HOLD10_EXIT10_4H','HALF_HOLD10_EXIT10_4H_DAILY_TREND')
+    daily_trend = recipe=='HALF_HOLD10_EXIT10_4H_DAILY_TREND'
+    four_hour = recipe in ('HALF_HOLD10_EXIT10_4H','HALF_HOLD10_EXIT10_4H_DAILY_TREND')
     control=read(config['spot_control']) if recipe!='HOLD8' else None
     band=config.get('discretionary_rebalance_min_notional',0)
     assert band in (0,50) and (band==0 or recipe=='HALF_HOLD10_EXIT10')
@@ -305,29 +307,40 @@ def main():
         del daily,execution;gc.collect()
         signal_bars = bars
         if four_hour:
-            warm = [r for r in rows if r['month']=='2024-07']
-            assert len(warm)==len(symbols)
-            reduced = [four_hour_reduction(minutes)]
-            for row in warm:
-                path=Path(row['normalized_path'])
-                expected=ROOT/'data/normalized/spot'/row['symbol']/'1m'/'2024-07.parquet'
-                assert path==expected and path.resolve()==expected and not path.is_symlink()
-                assert path.stat().st_size==row['old_quality']['normalized_bytes'] and sha(path)==row['normalized_sha256']
-                frame=pl.read_parquet(path,columns=cols)
-                assert frame.height==row['rows']
-                reduced.append(four_hour_reduction(frame));del frame
-            signal_bars=pl.concat(reduced).sort(['symbol','open_us'])
-            result['four_hour_bars']=save_frame(signal_bars,run/'source_four_hour_bars.parquet')
+            if daily_trend:
+                receipt=control['four_hour_bars'];path=Path(receipt['path'])
+                assert path.resolve().is_relative_to(STATE) and not path.is_symlink()
+                assert path.stat().st_size==receipt['bytes'] and sha(path)==receipt['sha256']
+                signal_bars=pl.read_parquet(path);assert signal_bars.height==receipt['rows']
+                result['four_hour_bars']=receipt
+                assert control['signal_interval_minutes']==240 and control['risk_interval_minutes']==1440
+            else:
+                warm = [r for r in rows if r['month']=='2024-07']
+                assert len(warm)==len(symbols)
+                reduced = [four_hour_reduction(minutes)]
+                for row in warm:
+                    path=Path(row['normalized_path'])
+                    expected=ROOT/'data/normalized/spot'/row['symbol']/'1m'/'2024-07.parquet'
+                    assert path==expected and path.resolve()==expected and not path.is_symlink()
+                    assert path.stat().st_size==row['old_quality']['normalized_bytes'] and sha(path)==row['normalized_sha256']
+                    frame=pl.read_parquet(path,columns=cols)
+                    assert frame.height==row['rows']
+                    reduced.append(four_hour_reduction(frame));del frame
+                signal_bars=pl.concat(reduced).sort(['symbol','open_us'])
+                result['four_hour_bars']=save_frame(signal_bars,run/'source_four_hour_bars.parquet')
             result['signal_interval_minutes']=240
             result['risk_interval_minutes']=1440
-            result['attribution_limit']='SIGNAL_HORIZON_AND_COMBINED_REBALANCE_CADENCE_CHANGED_NOT_SIGNAL_ONLY'
+            result['attribution_limit']=('DAILY_ENTRY_FILTER_ONLY_VERSUS_SAME_FOUR_HOUR_CONTROL_NOT_MATCHED_ACTUAL_RISK'
+                if daily_trend else 'SIGNAL_HORIZON_AND_COMBINED_REBALANCE_CADENCE_CHANGED_NOT_SIGNAL_ONLY')
+            if daily_trend:result['trend_filter_interval_minutes']=1440
             guard()
         decisions=np.arange(start,end,240*MINUTE if four_hour else DAY,dtype=np.int64)
         if control is None:
             targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
         else:
             targets,meta=blend.fixed_targets(signal_bars,decisions,'LONG_ONLY',symbols=symbols,
-                signal_interval_minutes=240 if four_hour else 1440,risk_bars=bars if four_hour else None)
+                signal_interval_minutes=240 if four_hour else 1440,risk_bars=bars if four_hour else None,
+                trend_filter_interval_minutes=1440 if daily_trend else None)
             if band:
                 targets=discretionary_targets(targets,meta)
                 meta['band_policy']='UNCHANGED_COMPONENT_RAW_AND_ELIGIBILITY_NONDECREASING_COMPONENT_RISK_TARGETS_ONLY'
@@ -391,7 +404,8 @@ def main():
             guard();del account,path,daily_frame;gc.collect()
         assert len(result['cases'])==2 and len(result['comparisons'])==(4 if control is None else 2)
         result['status']=(('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if control is None
-                          else ('COMPLETE_SPOT_4H_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if four_hour
+                          else ('COMPLETE_SPOT_4H_DAILY_TREND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if daily_trend
+                                else 'COMPLETE_SPOT_4H_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if four_hour
                                 else 'COMPLETE_SPOT_BAND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if band
                                 else 'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR'))
             if all(c['risk']['observed_caps_ok'] for c in result['cases'])

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="6" time="26.794" timestamp="2026-10-05T04:45:36.127441+00:00" hostname="xflops"><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_daily_macro_rejects_entry_that_four_hour_sma_would_accept" time="0.175"><failure message="assert 0.0 == 0.3">def test_daily_macro_rejects_entry_that_four_hour_sma_would_accept():
+        s, d = signal(), candles(DAY, [150.] * 200)
+        original, _ = targets(s, d, macro=False)
+        macro, _ = targets(s, d)
+&gt;       assert original['raw_signed_target'][0] == .3
+E       assert 0.0 == 0.3
+
+tests/test_four_hour_daily_trend_filter.py:38: AssertionError</failure></testcase><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_daily_macro_accepts_entry_that_four_hour_sma_would_reject" time="0.111"><failure message="assert 0.0 == 0.3">def test_daily_macro_accepts_entry_that_four_hour_sma_would_reject():
+        s, d = signal(old_price=200.), candles(DAY, [80.] * 200)
+        original, _ = targets(s, d, macro=False)
+        macro, _ = targets(s, d)
+        assert original['raw_signed_target'][0] == 0
+&gt;       assert macro['raw_signed_target'][0] == .3
+E       assert 0.0 == 0.3
+
+tests/test_four_hour_daily_trend_filter.py:47: AssertionError</failure></testcase><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_daily_sma_strict_equality_does_not_enter" time="0.052" /><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_held_exit_ten_is_not_blocked_when_macro_filter_fails" time="0.055"><failure message="assert [0.0, 0.0] == [0.3, 0.0]&#10;  &#10;  At index 0 diff: 0.0 != 0.3&#10;  Use -v to get more diff">def test_held_exit_ten_is_not_blocked_when_macro_filter_fails():
+        frame, _ = targets(signal(ending=(101., 70.)), candles(DAY, [80.] * 200),
+            np.array([AT, AT + FOUR], dtype=np.int64))
+&gt;       assert frame['raw_signed_target'].to_list() == [.3, 0.]
+E       assert [0.0, 0.0] == [0.3, 0.0]
+E         
+E         At index 0 diff: 0.0 != 0.3
+E         Use -v to get more diff
+
+tests/test_four_hour_daily_trend_filter.py:58: AssertionError</failure></testcase><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_future_daily_candle_cannot_change_earlier_filter_and_missing_day_is_flat" time="0.105"><failure message="assert 0.0 == 0.3">def test_future_daily_candle_cannot_change_earlier_filter_and_missing_day_is_flat():
+        s = signal()
+        d = candles(DAY, [80.] * 200 + [500.], end=AT + DAY)
+        early, _ = targets(s, d)
+        altered = d.with_columns(pl.when(pl.col('close_us') &gt; AT).then(10_000.)
+            .otherwise(pl.col('close')).alias('close'))
+        same, _ = targets(s, altered)
+        assert early.equals(same)
+&gt;       assert early['raw_signed_target'][0] == .3
+E       assert 0.0 == 0.3
+
+tests/test_four_hour_daily_trend_filter.py:69: AssertionError</failure></testcase><testcase classname="tests.test_four_hour_daily_trend_filter" name="test_three_asset_order_does_not_reassign_macro_signal_or_daily_prices" time="0.126"><failure message="assert [0.0, 0.0] == [0.3, 0.3]&#10;  &#10;  At index 0 diff: 0.0 != 0.3&#10;  Use -v to get more diff">def test_three_asset_order_does_not_reassign_macro_signal_or_daily_prices():
+        symbols = ('SOLUSDT', 'ETHUSDT', 'BTCUSDT')
+        s = pl.concat([signal().with_columns(pl.lit(name).alias('symbol')) for name in symbols])
+        d = pl.concat([candles(DAY, [80. if name != 'ETHUSDT' else 150.] * 200, symbol=name)
+            for name in symbols])
+        a, _ = targets(s, d, symbols=symbols)
+        b, _ = targets(s, d, symbols=tuple(reversed(symbols)))
+        assert a['symbol'].to_list() == list(symbols)
+        assert a.sort('symbol').select('symbol', 'target_weight', 'raw_signed_target').equals(
+            b.sort('symbol').select('symbol', 'target_weight', 'raw_signed_target'))
+        assert a.filter(pl.col('symbol') == 'ETHUSDT')['raw_signed_target'][0] == 0
+&gt;       assert a.filter(pl.col('symbol') != 'ETHUSDT')['raw_signed_target'].to_list() == [.3, .3]
+E       assert [0.0, 0.0] == [0.3, 0.3]
+E         
+E         At index 0 diff: 0.0 != 0.3
+E         Use -v to get more diff
+
+tests/test_four_hour_daily_trend_filter.py:86: AssertionError</failure></testcase></testsuite></testsuites>
