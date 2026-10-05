@@ -1,0 +1,29 @@
+# D077 independent source and product-clock review
+
+Review scope: read-only current normal source/accepted metadata and 36 Parquet footers. No market replay, price-array read, new source QA, download, API, locked-body read, account mutation or strategy mutation.
+
+## Actual metadata observation
+- Accepted source receipt: reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json, status PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR.
+- Explicit accepted.sources selection BTCUSDT/ETHUSDT 2024-01 through 2025-06 gives 36 distinct files and 1,575,360 recorded minute rows: 547 days per symbol. Jan-Aug2024 supplies 244 completed daily pre-score bars, exceeding the unchanged 200-bar eligibility requirement; Sep2024-Jun2025 scores 303 days.
+- Actual bounded progress command .cache/d077_source_schema_review.py completed exit 0. It reads only accepted JSON and Polars Parquet footer schema. All 36 selected footers have the same schema: open_us/close_us/available_us Int64, symbol String, OHLCV/quote_volume Float64, valid_day Boolean (plus original source metadata fields).
+- Old accepted QA records show zero missing_rows/gaps. This is reused prior QA, not new payload/calendar validation. Current source SHA must still be checked by the actual runner before arrays are consumed.
+- timestamp_unit in the source receipt describes original CSV clock units (2024 milliseconds and 2025 microseconds). Normalized columns already use microseconds. Do not apply another x1000 based on that field.
+- Do not call public_long_source_reuse.metadata_rows: it loads the locked dataset body. Direct selected accepted.sources plus SHA-only lock guard suffices.
+
+## Target and execution semantics
+- vol_managed_perpetual_target.fixed_targets routes to shared public_sma_perpetual.fixed_targets with constant-long direction, explicit symbols, EQUAL allocation, annual_vol_target=.08. It requires completed 200-day bars, 30 simple daily returns, aligned UTC decisions, availability <= decision, and covariance scale-down only. The historical USDM strategy ID must be relabeled as reused target mathematics on Spot rather than native derivatives signals.
+- Spot daily aggregation must validate all 1,440 minute opens, valid_day, exclusive close_us=open_us+minute and availability=exclusive close. Signal available at UTC boundary follows only completed prior daily bars. The normal timestamp fields are logical research availability, not historical packet receipt proof.
+- Spot run_backtest default latency 1 executes minute-open proxy at ceil(signal/minute)+1 minute plus 1 microsecond; capacity comes from the preceding completed minute's quote volume times .001. Perp uses the same minute-open proxy convention, but account quantities are frozen at signal using prior trade daily close, whereas Spot recomputes desired weight against actual fill-event mid/NAV. This contributes to account-path differences.
+- Each product uses its own completed daily trade prices/covariance. Target differences are legitimate product research but delta includes prices, covariance targets, commissions, fill/lot/cash/margin rules and funding. It is not a funding-only intervention and identical caps do not match realized risk.
+- Spot day date label denotes the starting date; actual marked daily NAV is at exclusive close of its last minute (next UTC midnight). Pair by close_us, not blindly by day label.
+- Existing Perp terminal scheduling is end-6 minutes with five eligible capacity-limited attempts; legacy Spot liquidate_at_end injects zero at end-1 minute and therefore offers only one in-window eligible attempt. Any unification must be predeclared normal active-interface change, not hidden post-result extension. BUY received-asset fees can leave positive sub-lot inventory; retain marked NAV and set liquidated-return NOT_EVALUABLE if actual inventory remains.
+- Legacy Spot checks risk primarily at target/buy events, unlike minute mark drift risk scheduling in Perp. Independent minute reconstruction must report true peak weights/drift. Missing held execution/mark or cap violations prevent unrestricted comparable-risk claims; do not delete dates or disable reductions to pass.
+
+## Fee source and product constraints
+- User snapshot docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json explicitly supplies SPOT_CRYPTO_STANDARD taker .001=10bp, DERIVATIVES_CRYPTO_STANDARD .00055=5.5bp and mnt_discount_enabled=false. It is a current user rate scenario, not historical account or zone certification.
+- BASE friction4+4bp each side => Spot nominal roundtrip36bp versus standard Perp27bp. STRESS friction8+8 => Spot52bp versus Perp43bp. Execution friction is already inside buy/sell fill and must not be separately debited again.
+- Received-asset normal settlement must implement buy USDT delta=-gross*fill, base delta=gross*(1-fee_rate), buy fee USDT mark value=gross*fee_rate*mid; sell base delta=-gross, USDT delta=gross*fill*(1-fee_rate). Spot cannot sell unavailable net inventory. Keeping the original QUOTE mode default preserves old callers.
+- Historical pinned AST adapter is not the normal current interface and is tied to old source hashes/date guards. Current direct BacktestConfig RECEIVED_ASSET maintenance is the justified small active-path change; old experiments remain reproducible at their Git commits.
+- All data remain Binance Spot/USDM cross-venue price/funding proxies combined with current Bybit user fees. Native Bybit data/filter/capacity/margin/publication and archive funding unit certification remain unproven.
+
+Decision supported: existing accepted Spot sources can support the finite product comparison without downloading high-frequency data. Do not certify product superiority, stable APR, unit semantics or same realized risk from source acceptance.

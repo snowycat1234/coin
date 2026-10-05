@@ -51,8 +51,12 @@ class BacktestConfig:
     lot_step_by_symbol: dict[str, float] = field(
         default_factory=lambda: {"BTCUSDT": 0.00001, "ETHUSDT": 0.0001},
     )
+    fee_settlement: str = "QUOTE"
+    terminal_exit_minutes: int = 1
 
     def __post_init__(self) -> None:
+        if self.fee_settlement not in {"QUOTE", "RECEIVED_ASSET"}:
+            raise ValueError("fee_settlement must be QUOTE or RECEIVED_ASSET")
         if not math.isfinite(self.initial_cash) or self.initial_cash <= 0:
             raise ValueError("initial_cash must be finite and positive")
         if not (0 < self.max_weight <= 0.30 and 0 < self.max_gross <= 0.60):
@@ -68,6 +72,10 @@ class BacktestConfig:
                 or isinstance(self.max_order_wait_minutes, bool)
                 or self.latency_minutes < 0 or self.max_order_wait_minutes < 1):
             raise ValueError("invalid execution delay / order lifetime")
+        if (not isinstance(self.terminal_exit_minutes, int)
+                or isinstance(self.terminal_exit_minutes, bool)
+                or not 1 <= self.terminal_exit_minutes <= self.max_order_wait_minutes):
+            raise ValueError("terminal_exit_minutes must be in [1,max_order_wait_minutes]")
         costs = [
             self.fee_bps, self.half_spread_bps, self.slippage_bps,
             self.fee_multiplier, self.slippage_multiplier,
@@ -314,8 +322,9 @@ def run_backtest(
     if minutes.null_count().to_numpy().sum():
         raise ValueError("minute prices and timestamps cannot be null")
     symbols = sorted(minutes.get_column("symbol").unique().to_list())
-    if len(symbols) > 2:
-        raise ValueError("first-version simulator supports at most two spot symbols")
+    received_asset_fee = config.fee_settlement == "RECEIVED_ASSET"
+    if received_asset_fee and any(not s.endswith("USDT") or s == "USDT" for s in symbols):
+        raise ValueError("received-asset fees require explicit base/USDT spot symbols")
     if minutes.select(pl.struct(["symbol", "open_us"]).n_unique()).item() != len(minutes):
         raise ValueError("duplicate minute primary keys")
     bad = minutes.filter(
@@ -381,8 +390,16 @@ def run_backtest(
         if when < end:
             target_events.setdefault(when, []).append(row)
     if config.liquidate_at_end:
-        target_events.setdefault(end - MINUTE_US, []).extend(
-            {"available_us": end - (config.latency_minutes + 1) * MINUTE_US,
+        terminal_open = end - config.terminal_exit_minutes * MINUTE_US
+        if terminal_open < start:
+            raise ValueError("terminal exit window must fit the account evaluation window")
+        # Explicit liquidation owns this final window. A subsequent alpha target
+        # must not reopen inventory while the zero target is being partially filled.
+        if config.terminal_exit_minutes > 1:
+            target_events = {when: rows for when, rows in target_events.items()
+                             if when <= terminal_open}
+        target_events.setdefault(terminal_open, []).extend(
+            {"available_us": end - (config.latency_minutes + config.terminal_exit_minutes) * MINUTE_US,
              "symbol": s, "target_weight": 0.0}
             for s in symbols
         )
@@ -490,6 +507,8 @@ def run_backtest(
                      "symbol": symbol, "side": side, "requested_notional": abs(desired_dollars),
                      "capacity": liquidity[symbol] * config.participation_rate,
                      "filled_notional": 0.0, "status": ""}
+            if received_asset_fee:
+                order["quantity"] = 0.0
             if timestamp >= goal["expires_us"]:
                 order["status"] = "expired"
                 expired_orders += 1
@@ -506,10 +525,15 @@ def run_backtest(
             else:
                 direction = 1 if side == "buy" else -1
                 fill = mid * (1 + direction * config.execution_rate)
-                cost_per_quantity = abs(fill - mid) + fill * config.fee_rate
+                received_mid = mid * (1 - config.fee_rate) if (
+                    received_asset_fee and side == "buy"
+                ) else mid
+                cost_per_quantity = fill - received_mid if (
+                    received_asset_fee and side == "buy"
+                ) else abs(fill - mid) + fill * config.fee_rate
                 weight = goal["weight"]
                 desired_quantity = abs(desired_dollars) / (
-                    mid + weight * cost_per_quantity if side == "buy"
+                    received_mid + weight * cost_per_quantity if side == "buy"
                     else mid - weight * cost_per_quantity
                 )
                 capacity_quantity = order["capacity"] / fill
@@ -519,10 +543,13 @@ def run_backtest(
                 else:
                     gross = sum(positions[s] * prices[s] for s in symbols)
                     asset_limit = max(0.0, (config.max_weight * nav - positions[symbol] * mid)
-                                      / (mid + config.max_weight * cost_per_quantity))
+                                      / (received_mid + config.max_weight * cost_per_quantity))
                     gross_limit = max(0.0, (config.max_gross * nav - gross)
-                                      / (mid + config.max_gross * cost_per_quantity))
-                    quantity = min(quantity, cash / (fill * (1 + config.fee_rate)),
+                                      / (received_mid + config.max_gross * cost_per_quantity))
+                    cash_limit = cash / fill if received_asset_fee else (
+                        cash / (fill * (1 + config.fee_rate))
+                    )
+                    quantity = min(quantity, cash_limit,
                                    asset_limit, gross_limit)
                     if cost_per_quantity > 0:
                         for other in symbols:
@@ -536,6 +563,8 @@ def run_backtest(
                 step = config.lot_step_by_symbol.get(symbol)
                 if step is not None:
                     quantity = math.floor(quantity / step + 1e-9) * step
+                    if received_asset_fee and side == "sell" and quantity > positions[symbol]:
+                        quantity = max(0.0, quantity - step)
                 if desired_quantity * fill < config.min_notional or (
                     step is not None and desired_quantity < step - 1e-12
                 ):
@@ -557,24 +586,44 @@ def run_backtest(
                     capacity_limits += int(capacity_quantity <= 1e-12)
                 else:
                     notional = quantity * fill
-                    fee = notional * config.fee_rate
+                    if received_asset_fee:
+                        fee_asset = symbol[:-4] if side == "buy" else "USDT"
+                        fee_amount = quantity * config.fee_rate if side == "buy" else (
+                            notional * config.fee_rate
+                        )
+                        fee = fee_amount * mid if side == "buy" else fee_amount
+                        cash_delta = -notional if side == "buy" else notional - fee_amount
+                        position_delta = quantity - fee_amount if side == "buy" else -quantity
+                    else:
+                        fee = notional * config.fee_rate
                     execution_cost = quantity * abs(fill - mid)
-                    cash -= direction * notional + fee
-                    if side == "buy" and positions[symbol] <= 1e-12:
+                    if received_asset_fee:
+                        cash += cash_delta
+                    else:
+                        cash -= direction * notional + fee
+                    inventory_empty = positions[symbol] == 0 if received_asset_fee else (
+                        positions[symbol] <= 1e-12
+                    )
+                    if side == "buy" and inventory_empty:
                         cycles[symbol] = {"entry_us": timestamp + 1, "cost": 0.0,
                                           "proceeds": 0.0, "fees": 0.0}
                     if (side == "buy" and goal["minimum_hold_minutes"] == 120
                             and (holding[symbol]["awaiting_first_fill"]
-                                 or positions[symbol] <= 1e-12)):
+                                 or inventory_empty)):
                         holding[symbol]["first_fill_us"] = timestamp + 1
                         holding[symbol]["awaiting_first_fill"] = False
-                    positions[symbol] += direction * quantity
-                    if abs(positions[symbol]) < 1e-10:
-                        positions[symbol] = 0.0
+                    if received_asset_fee:
+                        positions[symbol] += position_delta
+                        if positions[symbol] < 0:
+                            raise AssertionError("received-asset fees cannot oversell spot inventory")
+                    else:
+                        positions[symbol] += direction * quantity
+                        if abs(positions[symbol]) < 1e-10:
+                            positions[symbol] = 0.0
                     cycle = cycles[symbol]
                     cycle["fees"] += fee
                     if side == "buy":
-                        cycle["cost"] += notional + fee
+                        cycle["cost"] += notional if received_asset_fee else notional + fee
                     else:
                         cycle["proceeds"] += notional - fee
                     if side == "sell" and positions[symbol] == 0:
@@ -586,6 +635,8 @@ def run_backtest(
                     daily_costs += execution_cost
                     daily_notional += notional
                     order["filled_notional"] = notional
+                    if received_asset_fee:
+                        order["quantity"] = quantity
                     partial = quantity < desired_quantity * (1 - 1e-9)
                     order["status"] = "partial" if partial else "filled"
                     capacity_limits += int(partial and capacity_quantity < desired_quantity)
@@ -614,6 +665,10 @@ def run_backtest(
                                    "asset_weight_after": asset_weight,
                                    "gross_weight_after": gross_weight,
                                    "capacity": order["capacity"]})
+                    if received_asset_fee:
+                        trades[-1].update(gross_quantity=quantity, position_delta=position_delta,
+                                          cash_delta=cash_delta, fee_asset=fee_asset,
+                                          fee_amount=fee_amount, fee_USDT_mid=fee)
             orders.append(order)
         retry = timestamp + MINUTE_US
         if pending and retry < end and retry not in scheduled:
@@ -638,7 +693,7 @@ def run_backtest(
                                "execution_costs": pl.Float64, "turnover": pl.Float64,
                                "gross_weight": pl.Float64, "stale_prices": pl.Boolean,
                                "stale_exposure": pl.Boolean})
-    trade_frame = _frame(trades, {"execution_us": pl.Int64, "signal_us": pl.Int64,
+    trade_schema = {"execution_us": pl.Int64, "signal_us": pl.Int64,
                                  "capacity_open_us": pl.Int64,
                                  "target_weight": pl.Float64,
                                  "symbol": pl.String, "side": pl.String,
@@ -647,12 +702,19 @@ def run_backtest(
                                  "fee": pl.Float64, "execution_cost": pl.Float64,
                                  "cash_after": pl.Float64, "nav_after": pl.Float64,
                                  "asset_weight_after": pl.Float64,
-                                 "gross_weight_after": pl.Float64, "capacity": pl.Float64})
-    order_frame = _frame(orders, {"open_us": pl.Int64, "signal_us": pl.Int64,
+                                 "gross_weight_after": pl.Float64, "capacity": pl.Float64}
+    order_schema = {"open_us": pl.Int64, "signal_us": pl.Int64,
                                  "capacity_open_us": pl.Int64,
                                  "symbol": pl.String, "side": pl.String,
                                  "requested_notional": pl.Float64, "capacity": pl.Float64,
-                                 "filled_notional": pl.Float64, "status": pl.String})
+                                 "filled_notional": pl.Float64, "status": pl.String}
+    if received_asset_fee:
+        trade_schema.update(gross_quantity=pl.Float64, position_delta=pl.Float64,
+                            cash_delta=pl.Float64, fee_asset=pl.String,
+                            fee_amount=pl.Float64, fee_USDT_mid=pl.Float64)
+        order_schema["quantity"] = pl.Float64
+    trade_frame = _frame(trades, trade_schema)
+    order_frame = _frame(orders, order_schema)
     cycle_frame = _frame(round_trips, {"symbol": pl.String, "entry_us": pl.Int64,
                                       "exit_us": pl.Int64, "pnl": pl.Float64, "fees": pl.Float64})
     summary = daily_metrics(daily_frame, config.initial_cash)
@@ -675,4 +737,11 @@ def run_backtest(
                     "cost_rate_one_way_bps": (config.fee_rate + config.execution_rate) * 10_000,
                     "gross_pnl_before_costs": summary["final_nav"] - config.initial_cash
                     + summary["fees"] + summary["execution_costs"]})
+    if received_asset_fee:
+        summary.update(fee_settlement="RECEIVED_ASSET",
+                       quantity_semantics="GROSS_TRADE_AND_ORDER_QUANTITY_NET_POSITION_DELTA",
+                       fee_summary_units="USDT_FILL_TIME_MID_VALUE_BUY_BASE_FEE_SELL_QUOTE_FEE",
+                       gross_pnl_definition="SAME_NET_RECEIVED_POSITION_DELTA_GROSS_SHADOW_NOT_FEE_FREE_GROSS_ORDER_INVENTORY",
+                       fill_time_cost_addback_pnl_diagnostic=summary["gross_pnl_before_costs"],
+                       inventory_rounding="POSITIVE_SUBLOT_INVENTORY_RETAINED_AND_MARKED")
     return BacktestResult(daily_frame, trade_frame, order_frame, cycle_frame, summary, config)

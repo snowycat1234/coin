@@ -1,5 +1,9 @@
 # Coin Quant
 
+D077正常Spot账户接入RECEIVED_ASSET及显式末5分钟有限退出，QUOTE默认原三夹具全字段实际差0、N=3共享钱包6实成交、最终8必要回归通过；旧AST入口不作为新活动依赖，旧报告按Git保留。36原源/244预热/303已见日、2真实Spot钱包与4保存永续完成产品比较，独立Decimal核714成交、872640分钟/606日现金库存NAV与gross/net，无实际close观测caps越界；仍非分钟强制减仓能力或intraminute风险认证。Spot基础marked净633.09，vs永续F541.09增92.00，vsP632.72仅增0.37；压力618.40，vsF增91.47/vsP减0.018，产品优势依赖未确认资金费单位，不能全归因资金费或认定稳健优胜。Spot实际vol8.469%、日DD8.158%/分钟DD8.926%，残仓0.00104/0.000464USDT真实保留，liquidated return NE，不免费清零。采用正常Spot/N/费用接口、保留SpotHOLD8产品参照，永续HOLD8/固定组合/十币能力保持；投资NONE/CASH、长期APR NE。主87.39s/RSS803.39MB/共享实采1.303GB、STATE59.15MB，实际整盘28.496GB@2026-10-05T03:10:44.713535+00:00（创建本轮工件前），5GB/swap0/GPU0/40GB与源锁资金边界不变。下一主任务复用现有固定50/50 HOLD10+EXIT10规则，在同Spot正常钱包/同输入/完整资本完成一项防御组合对照，隔离永续资金费单位不确定性之后检验防御收益/risk，不搜索权重或退出周期；尚未启动。
+
+### D076及以前历史状态（旧下一步按原时点阅读）
+
 D075原两路公开采集再次退出后已保存49.37MB原文件/两闭合库，2256来源文件108.03MB streaming SHA全同；单次原.venv/defaultDB/store/source恢复，新两次实际观测同PID、新session、闭合bars/heartbeat与L1检查点推进，errors[]。断档约public31.3分钟/L130.6分钟，不拼健康时间；原退出UNKNOWN。保存与恢复间boot_id变化已证实，systemd服务本身不维持WSL实例存活是官方限制，闲置退出仅可能机制；新增一个正常Windows隐藏WSL前台客户端，内部sleep仍经原bounded共享5GB，重复调用复用同客户端树，未改系统电源/资源/自动登录，未声称跨Windows重启或72h可靠。N/signed/共享账户与D074负增量结论保持；投资NONE/CASH、APR不可评价。最近实扫采用启动前容量检查，细节见docs/PUBLIC_COLLECTOR_RUNTIME_RESTORE_20261005.md。下一有限资金费来源/解析/归一化/结算核对，未启动，不继续混合权重网格。
 
 ### D074及以前的历史状态（旧下一步按原时点阅读）
