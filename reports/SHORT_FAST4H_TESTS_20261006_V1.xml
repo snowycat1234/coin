@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="36.558" timestamp="2026-10-05T17:57:06.660372+00:00" hostname="xflops"><testcase classname="tests.test_short_fast_confirmation" name="test_fast_original_kernel_reference_future_and_order" time="0.182" /><testcase classname="tests.test_short_fast_confirmation" name="test_actual_delayed_partial_short_close_long_unchanged_and_default_golden" time="0.103"><failure message="AssertionError: assert [{'symbol': '...REDUCE', ...}] == [{'symbol': '...REDUCE', ...}]&#10;  &#10;  At index 1 diff: {'symbol': 'ETHUSDT', 'side': 'SELL', 'leg': 'CLOSE', 'fill_id': 'LONG_SHORT-BASE27-RAW_AS_FRACTION-4:0:REDUCE', 'event_us': 1754022600000001, 'signal_us': 1754022540000000, 'quantity': 9.9, 'gross_quantity': 9.9, 'position_delta': -9.9, 'execution_mid_price': 100.0, 'mid_price': 100.0, 'fill_price': 99.92, 'mark_price': 100.0, 'fee_asset': 'USDT', 'fee_amount': 0.5440644, 'fee_USDT_mid': 0.5440644, 'execution_cost': 0.792, 'realized_PnL': -1.584, 'cash_delta': -2.1280644, 'free_cash_delta': 988.6639356, 'isolated_balance_delta': -990.792, 'margin_alloc...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">def test_actual_delayed_partial_short_close_long_unchanged_and_default_golden():
+        f,slow=contexts();w=small_window()
+        plain=engine.simulate(w,'LONG_SHORT',engine.COSTS[0],engine.UNITS[0],target_factory=target,persist_cash_close=True)
+        permit=f.with_columns(pl.lit(-1).alias('fast_state'))
+        same=engine.simulate(w,'LONG_SHORT',engine.COSTS[0],engine.UNITS[0],target_factory=target,
+            position_protection=fast.FastShortConfirmation(permit,slow),persist_cash_close=True)
+        assert same['minute'].equals(plain['minute']) and same['trades']==plain['trades']
+        case=engine.simulate(w,'LONG_SHORT',engine.COSTS[0],engine.UNITS[0],target_factory=target,
+            position_protection=fast.FastShortConfirmation(f,slow),persist_cash_close=True)
+        trigger=START+fast.FOUR_HOURS
+        exits=[r for r in case['trades'] if r['signal_us']==trigger]
+        assert exits and all(r['symbol']=='BTCUSDT' and r['leg']=='CLOSE' and r['side']=='BUY' and r['fee_USDT_mid']&gt;0 and r['execution_cost']&gt;0 for r in exits)
+        assert [r['event_us'] for r in exits]==[START+i*MINUTE+1 for i in (248,249)]
+        assert exits[-1]['quantity_after']==0 and len(exits)==2
+&gt;       assert [r for r in plain['trades'] if r['symbol']=='ETHUSDT']==[r for r in case['trades'] if r['symbol']=='ETHUSDT']
+E       AssertionError: assert [{'symbol': '...REDUCE', ...}] == [{'symbol': '...REDUCE', ...}]
+E         
+E         At index 1 diff: {'symbol': 'ETHUSDT', 'side': 'SELL', 'leg': 'CLOSE', 'fill_id': 'LONG_SHORT-BASE27-RAW_AS_FRACTION-4:0:REDUCE', 'event_us': 1754022600000001, 'signal_us': 1754022540000000, 'quantity': 9.9, 'gross_quantity': 9.9, 'position_delta': -9.9, 'execution_mid_price': 100.0, 'mid_price': 100.0, 'fill_price': 99.92, 'mark_price': 100.0, 'fee_asset': 'USDT', 'fee_amount': 0.5440644, 'fee_USDT_mid': 0.5440644, 'execution_cost': 0.792, 'realized_PnL': -1.584, 'cash_delta': -2.1280644, 'free_cash_delta': 988.6639356, 'isolated_balance_delta': -990.792, 'margin_alloc...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_short_fast_confirmation.py:71: AssertionError</failure></testcase><testcase classname="tests.test_short_fast_confirmation" name="test_mask_before_signed_covariance_preserves_long_forecast_and_risk_priority" time="0.038" /></testsuite></testsuites>

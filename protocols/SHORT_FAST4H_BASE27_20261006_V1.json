@@ -1,0 +1,185 @@
+{
+  "experiment_id": "D098_SHORT_CLOSED4H_CONFIRMATION",
+  "question": "Does a fixed own-asset4h20/10 confirmation distinguish sustained downtrends from rebounds well enough to improve actual after-cost short and portfolio PnL versus D096? ONE rule; no fit/grid; filter before daily signed covariance and close intraday with original delayed capacity-limited account.",
+  "models_fit": 0,
+  "families": [
+    "DC_CONFIRMED_SHORT"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d064-longspan-input-binding-20261004-v1/INPUT_MANIFEST.json",
+    "sha256": "5d571425ba18224d52a30fa006025cee9260649a6316873d39a6f9ce59a96dab"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2024-09-01",
+  "economics_start": "2024-09-01",
+  "economics_end_exclusive": "2025-07-01",
+  "data_role": "SEEN303D_DEVELOPMENT_D097_LOSS_DIAGNOSIS_INFLUENCED_FAST_CONFIRMATION_NOT_UNSEEN",
+  "universe": "ORIGINAL_JULY2024_LIQUIDITY_AND_200DAY_ELIGIBILITY_FIXED_BEFORE_SEP2024_NOT_RETURN_SELECTED",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED",
+    "SHORT4H_CONFIRMATION": {
+      "interval_minutes": 240,
+      "entry_period": 20,
+      "exit_period": 10,
+      "fast_signal": "VIRTUAL_PRIOR20_BREAKOUT_PRIOR10_EXIT_NO_SAME_BAR_REENTRY",
+      "short_permission": "DAILY_DC20_10_AND_DC55_20_SHORT_AND_FAST_DC20_10_SHORT",
+      "unknown": "CASH_FOR_SHORT_NO_IMPUTATION",
+      "long_forecast": "UNCHANGED",
+      "exit": "COMPLETED_4H_CONFIRMATION_LOSS_PAID_DELAYED_PERSISTENT_REDUCE_ONLY",
+      "reentry": "NEXT_DAILY_DECISION_IF_FAST_AND_SLOW_RECONFIRMED",
+      "sizing": "MASK_BEFORE_EXISTING_DAILY_ORDERED_SIGNED_COVARIANCE",
+      "intraday": "REDUCTIONS_ONLY_NO_4H_ALPHA_INCREASE",
+      "full_Turtle_or_paper_replication": false
+    }
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "EXISTING_PINNED_MIT_JESSE_DONCHIAN_KERNEL_UNMODIFIED; OWN_4H20_10_SHORT_CONFIRMATION_ADAPTER_OF_PUBLIC_CHANNELS; NOT_FULL_TURTLE_OR_GHM_PAPER_REPLICATION",
+  "sources": [
+    "https://tradingblox.com/originalturtles/originalturtlerules.htm",
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://github.com/jesse-ai/jesse/tree/417f8765225e3bfc12043d4b712f19fe15a3c078"
+  ],
+  "budgets_estimation": "One bounded2thread task, two sequential303d actual independent10k shared10coin counterfactual accounts. Expected about8min using old actual414s; strict1200s/1.2GB RSS/300MB owned. Zero new markets/fit/GPU. Conditional stress at mosttwo more accounts. Monthly4h aggregation one asset at a time.",
+  "budget": {
+    "wall_seconds": 1200,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 300000000,
+    "GPU": 0
+  },
+  "stopping": "TWO_BASE27_ACCOUNTS_BOTH_FUNDING_INTERPRETATIONS_THEN_STOP_IF_FAIL; ONLY_TWO_STRESS43_IF_BOTH_PASS; ONE_RECIPE_ZERO_SEARCH; NO_PARAMETER_REPAIR_AFTER_RESULT",
+  "adoption": "BOTH complete paid-flat BASE cases must improve net and SHORT versus same-unit D096; descriptive BEAR SHORT improves; BULL SHORT remains nonnegative; actual vol and minute DD do not rise. Costs measured, not forced downward if a faster paid exit buys net value. Only then run cost-only STRESS; require allfour before retaining contender. Otherwise pause this4h recipe, retain capability and D096; no claim all short/no4h alpha.",
+  "regression": {
+    "path": "reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml",
+    "sha256": "6c8b5ae93c4ce1725a3f56426abb2ab40bdc21480943aa9cd9e6f9b575d3131b",
+    "source_sha256": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+    "tests": 4,
+    "reuse_scope": "ACTUAL4_RULE_TESTS; GOLDEN_DEFAULT_AND_PRIOR_DUAL_FORECAST; OWN_DOWN_TREND_ENTRY_REBOUND_EXIT_VETO_FUTURE_PERTURBATION_SYMBOL_ORDER_AND_INDEPENDENT_TARGETS; no account repeat"
+  },
+  "frozen_source_hashes": {
+    "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "tests/test_short_fast_confirmation.py": "d99823ae7ec5617f67294f3530fb3ebcd27c170c94365a6fa060b6a0b4edf2b9",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/perpetual_directional.py": "2fb9f34d01d7e805e1407dd0d8e76bfc5463218a7b7825a6243dc4b50fcededd",
+    "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "scripts/investment/run_cta_leaderboard.py": "300ae2fd1dbe37c948cef14f27e947da6dc01c72f79bd480dacf56ed4c3a75d5",
+    "src/quant/perpetual_account.py": "05277328c6909a403598f633f0a89c3363e801fe9b41bbf0e7576a9ac8753c5c",
+    "scripts/investment/shared_direction_model.py": "f918bb99c8062e9b74cf3b05b2abaae0c60b64107f846ef0679f852cf82e3c85",
+    "scripts/investment/audit_shared_direction.py": "3b63cd09a176ae5aaef8457f4101c14ec4be6e8c502e060a5e5d0db24fa748bf",
+    "scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+    "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+    "scripts/investment/short_fast_confirmation.py": "003e3549a9825bab3386f996bd4e53082a11d65286f15d23e1022b7deee9bdb1",
+    "scripts/investment/multi_asset_data.py": "9df0fdaa7de26e212ba6ba644a9790393d226721eae3d921ac5a0e819eb07cb1",
+    "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+    "scripts/investment/market_regime.py": "c4a26e89f60f577e5c455cd6981f3414678d20f79d638ee457072a81889b67e5",
+    "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+    "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+    "tests/test_cta_classics.py": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958"
+  },
+  "operational_correction": "Previous D097 PROGRESS: identified rebound bottleneck and public CE limitations, committed/pushed8244e3a. This turn implements exactlyone specified4h confirmation hypothesis; scope excludes locked/native/real execution.",
+  "cost_ids": [
+    "BASE27"
+  ],
+  "coverage": {
+    "path": "reports/CTA_EXISTING_CYCLE_COVERAGE_20261005_V1.json",
+    "sha256": "ca560f7ad6a2c569ee329111c6e2edfd2f9f441d7f32f3d6b9f7b8cf957c291c"
+  },
+  "parallel_scope": "Two bounded tasks share coin.slice8GB; explicit2 threads per task; full accounts independent counterfactuals not summed; stage durations task interval union not sum",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "baseline": {
+    "path": "reports/CTA_DONCHIAN_303D_ACCEPTED_20261005_V1.json",
+    "sha256": "b9fc313e5add7d975a084b3cf41d1608301ed676b5e050076b1d1360a6c9377e"
+  },
+  "legacy_control_targets": [
+    {
+      "family": "SMA200_SIGNED",
+      "mode": "CASH",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/CASH_CASH_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "254307917ff18d09d4e392cf5cd4da79e538dd581e018e9ab417e752cad68924"
+    },
+    {
+      "family": "HOLD",
+      "mode": "LONG_ONLY",
+      "path": "/home/xflops/coin-state/d093-donchian303-base27-20261005-v1/HOLD_LONG_ONLY_BASE27_RAW_AS_FRACTION/targets.parquet",
+      "sha256": "a0e84c9ad734ca26a756028af954577d08dd81231cf64251027b1c9340515a7b"
+    }
+  ],
+  "created_utc": "2026-10-05T18:01:09.271242+00:00",
+  "legacy_signal_golden": {
+    "path": "/home/xflops/coin-state/d096-short-confirmation-base27-v1/frozen_signals.parquet",
+    "sha256": "8f91e37575872ab4a51b35444cdaad19935353b166a8ef56ba07954709c1a040"
+  },
+  "account_modes": [
+    "LONG_SHORT"
+  ],
+  "research_primary_reference": {
+    "path": "reports/SHORT_SELECTION_ACCEPTED_20261006_V1.json",
+    "sha256": "500e81bd0cb24531601270bcafaee83e17b8ba0874f28de19d4cd3f2d34586fd"
+  },
+  "entry_diagnostic": {
+    "path": "reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json",
+    "sha256": "938362b3d9cfa897843ba0f1e12f1ce773eb2f18403ab09a0189d18a7bc577b9"
+  },
+  "conditional_stress": "Same code/rule/data; change only cost_ids BASE27 to STRESS43 if BOTH BASE gates pass.",
+  "registration_parent": "8244e3ad282fdab4da01c31fa26cb8f48c252364",
+  "short_four_hour_filter": {
+    "interval_minutes": 240,
+    "entry_period": 20,
+    "exit_period": 10,
+    "fast_signal": "VIRTUAL_PRIOR20_BREAKOUT_PRIOR10_EXIT_NO_SAME_BAR_REENTRY",
+    "short_permission": "DAILY_DC20_10_AND_DC55_20_SHORT_AND_FAST_DC20_10_SHORT",
+    "unknown": "CASH_FOR_SHORT_NO_IMPUTATION",
+    "long_forecast": "UNCHANGED",
+    "exit": "COMPLETED_4H_CONFIRMATION_LOSS_PAID_DELAYED_PERSISTENT_REDUCE_ONLY",
+    "reentry": "NEXT_DAILY_DECISION_IF_FAST_AND_SLOW_RECONFIRMED",
+    "sizing": "MASK_BEFORE_EXISTING_DAILY_ORDERED_SIGNED_COVARIANCE",
+    "intraday": "REDUCTIONS_ONLY_NO_4H_ALPHA_INCREASE",
+    "full_Turtle_or_paper_replication": false
+  },
+  "fast_regression": {
+    "path": "reports/SHORT_FAST4H_TESTS_20261006_V2.xml",
+    "sha256": "9aa0ce2dcd15a9cdf056d4bcc87faa8576363e57d11a822541152f668a45b1a9",
+    "source_sha256": "d99823ae7ec5617f67294f3530fb3ebcd27c170c94365a6fa060b6a0b4edf2b9",
+    "tests": 3
+  },
+  "fast_warmup": "EXISTING_SCORE_MINUTES_ONLY_FIRST20_COMPLETED4H_UNKNOWN_SHORT_FLAT; DO_NOT_ADD_SCOPE_OR_SYNTHETIC_MINUTES",
+  "baseline_scope": "D096 daily original signal full303d golden; daily masks alter signed covariance so actual long PnL can change; old D093 CASH/HOLD and unaffected funds/account/data reused with explicit source identity",
+  "registration_task_id": "f5f9b5d606814872b33c8a2047bc90d2"
+}

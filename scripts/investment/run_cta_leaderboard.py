@@ -44,6 +44,16 @@ def main():
         'bybit_cost_inputs','audit_shared_direction','market_regime','shared_direction_model')]
     paths+=['src/quant/perpetual_account.py','tests/test_cta_classics.py']
     paths+=['third_party/jesse_example_donchian/'+p for p in cta.PINNED_HASHES]
+    fast_filter=spec.get('short_four_hour_filter')
+    if fast_filter:
+        from scripts.investment import short_fast_confirmation as fast_adapter
+        assert fast_filter==fast_adapter.RULES and spec['families']==['DC_CONFIRMED_SHORT']
+        assert spec.get('account_modes')==['LONG_SHORT']
+        ft=spec['fast_regression'];assert sha(ROOT/ft['path'])==ft['sha256']
+        assert sha(ROOT/'tests/test_short_fast_confirmation.py')==ft['source_sha256']
+        suites=list(ET.parse(ROOT/ft['path']).getroot().iter('testsuite'))
+        assert sum(int(v.get('tests',0)) for v in suites)==ft['tests'] and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
+        paths+=['scripts/investment/short_fast_confirmation.py','tests/test_short_fast_confirmation.py']
     binding=dict(task_id=os.environ['COIN_TASK_ID'],git_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         protocol_sha256=sha(a.protocol),source_hashes={p:sha(ROOT/p) for p in paths},input_manifest_sha256=manifest['sha256'])
     if not spec.get('include_controls',True):
@@ -62,7 +72,7 @@ def main():
     run.mkdir();write(run/'RUN_BINDING.json',binding)
     event=dict.fromkeys(FIELDS);event.update(experiment_id=spec['experiment_id'],event_id=spec['experiment_id']+':'+run.name+':START',
         event_type='OPERATIONAL_RESEARCH_START',git_commit=binding['git_commit'],data_manifest_hash=manifest['sha256'],protocol_hash=binding['protocol_sha256'],
-        feature_set='CLOSED_1D_PRICE_PRIOR_CHANNEL_PAST30_RETURNS',labels='NONE_ZERO_TRAINING',model_family='FROZEN_PUBLIC_CLASSIC_CTA',
+        feature_set='CLOSED_1D_PRICE_PRIOR_CHANNEL_PAST30_RETURNS'+('_CLOSED4H_SHORT_CONFIRMATION' if fast_filter else ''),labels='NONE_ZERO_TRAINING',model_family='FROZEN_PUBLIC_CLASSIC_CTA',
         hyperparameters=spec['rules'],seed=None,thresholds='NO_FITTED_OR_POST_RESULT_THRESHOLD',cost_assumptions=spec['cost'],
         all_folds=spec['data_role']+':'+spec['economics_start']+':'+spec['economics_end_exclusive'],success_failure='START_BEFORE_ACCOUNTS',reason_for_next_experiment=spec['question'],
         result_influenced_later_choice=False,models_fit=0)
@@ -100,8 +110,19 @@ def main():
                 legacy,_=cta.targets(signal,bars,decisions,golden['mode'],symbols,golden['family'])
                 assert legacy.equals(pl.read_parquet(golden['path'])), 'Reused control targets changed'
             r['legacy_control_targets_status']='PASS_SAME_CASH_AND_HOLD_ALL303D_ORDERED_TARGETS'
+        original_signal=signal
+        if fast_filter:
+            fast_bars=fast_adapter.aggregate_bars(manifest['path'],symbols,start,end,progress)
+            fast_signal=fast_adapter.signals(fast_bars,symbols)
+            r['fast_signal_reference']=fast_adapter.verify_signals(fast_signal,fast_bars,symbols)
+            fast_signal.write_parquet(run/'fast_four_hour_signals.parquet')
+            signal=fast_adapter.mask_daily(original_signal,fast_signal)
+            signal.write_parquet(run/'gated_daily_signals.parquet')
+            r['fast_rule']=fast_filter
+            r['short_daily_decisions_suppressed']=original_signal.filter(pl.col('DC_CONFIRMED_SHORT')<0).height-signal.filter(pl.col('DC_CONFIRMED_SHORT')<0).height
+            r['fast_warmup_scope']='FIRST20_COMPLETED_4H_BARS_UNKNOWN_SHORT_CASH_NO_PREWINDOW_MINUTES_ADDED'
         window=dict(whole,start=start,end=end,events=[v for v in whole['events'] if start<=v['event_us']<end],
-                    minute_blocks=lambda:whole['minute_blocks'](start,end))
+                    minute_blocks=lambda:whole['minute_blocks'](start,end,trade_ranges=bool(fast_filter)))
         from scripts.investment.shared_direction_model import feature_table
         from scripts.investment.market_regime import past_state
         btc=feature_table(bars,symbols)[0].filter((pl.col('symbol')=='BTCUSDT')&(pl.col('close_us')>=start)&(pl.col('close_us')<end))
@@ -115,6 +136,7 @@ def main():
         for family,mode in plans:
             target_family='SMA200_SIGNED' if family=='CASH' else family
             target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
+            if fast_filter:meta['short_four_hour_filter']=fast_filter
             target_ref=reference.verify_targets(target,signal,bars,symbols,target_family,mode)
             for oldcost in costs:
                 cost=snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json',symbols=symbols,
@@ -122,11 +144,12 @@ def main():
                     half_spread_bps=oldcost['half_spread_bps'],slippage_bps=oldcost['slippage_bps'],execution_source_ref='ACCEPTED_BINANCE_USDM_PROXY',
                     execution_status='FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO')
                 for unit in engine.UNITS:
-                    guard();case_id='_'.join((family,mode,cost['id'],unit['id']));directory=run/case_id;began=time.monotonic()
+                    guard();case_id='_'.join((family+('_FAST4H' if fast_filter else ''),mode,cost['id'],unit['id']));directory=run/case_id;began=time.monotonic()
                     progress.value['detail']=f"CTA账户{len(r['cases'])+1}/{r['required_accounts']} · {case_id} · 零训练"
                     progress.update('经典CTA组合账户对照',len(r['cases']),r['required_accounts'],'账户',family=family,mode=mode)
                     case=engine.simulate(window,mode,cost,unit,progress,guard,target_factory=lambda b,d,m:(target,meta),
-                        account_factory=USDTLinearPerpetualAccount,persist_cash_close=True)
+                        account_factory=USDTLinearPerpetualAccount,persist_cash_close=True,
+                        position_protection=(fast_adapter.FastShortConfirmation(fast_signal,original_signal) if fast_filter else None))
                     saved=engine.save_case(case,directory);write(directory/'summary.json',saved['summary'])
                     checked=finance.verify(directory,symbols,unit['scale']);checked['target_reference']=target_ref
                     assert pl.read_parquet(directory/'targets.parquet').equals(target)

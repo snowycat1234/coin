@@ -88,3 +88,25 @@ BASE与STRESS协议源哈希冻结；信号黄金与CASH/HOLD目标复用范围�
 据此更正过宽表述：不淘汰完整Chandelier能力，暂列备用；当前主任务仍是单币快慢趋势冲突。完整CE经济对照reopen条件为需要评价3月前期保护的净/风险增量，或出现不同授权周期的机制证据；不得从五日触线或11次触发推算盈利。原点截面收尾及第一绑定保留，最终同模块V2补核含生命周期报告并明确该范围修正，没有覆盖旧经济证据。
 
 最终收尾另保留一次重复事件ID被append-only注册器拒绝的技术失败，改用独立纠偏事件后继续；没有覆盖旧注册记录。完整生命周期和当下资源最终见 reports/SHORT_REBOUND_MODULE_CLOSED_20261006_V2.json，V1只保留原点截面范围。
+
+## D098：固定4小时确认的完整经济对照
+
+每币已有日线双通道short须同时获4h20/10确认；先mask再daily signed covariance，日内失去确认只退出、下一日再入场。未训练/搜参/下载新行情。此适配不等于原论文或完整Turtle。
+
+|成本/资金费解释|原净USDT|4h净USDT|原SHORT|4hSHORT|原DD%|4hDD%|4hvol%|费用+执行|
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+|BASE27/RAW_AS_FRACTION|1517.33|932.60|596.97|203.20|5.49|7.29|9.10|146.85|
+|BASE27/RAW_AS_PERCENT|1578.24|1004.43|572.59|191.81|5.39|7.13|9.11|147.60|
+
+PAUSE_FAST4H_RECIPE_RETAIN_D096。BASE两单位通过才做STRESS；实际2账户，均独立完整10k共享10币，不能相加。
+BASE/PCT净变动-573.81、SHORT变动-380.78、LONG变动-193.03、毛价格变动-523.54、费用+执行变动50.12；这些来自实际新账本，不删成本保留旧收益。
+SHORT毛价格损益 613.04 → 272.67；SHORT费用+执行 40.74 → 80.99。实际空头episodes 24 → 64，归一换手 7.22 → 10.93。因此不只是成本吃掉同一毛收益；该完整适配改变了持仓路径、降低SHORT毛收益并增加成本。
+原/新BEAR标签SHORT -206.17/-155.45；BULL 582.92/282.24；SIDEWAYS 195.84/65.02。只是既有滞后BTC描述，不是每币真实牛熊、不能证明未来熊市赚钱。
+实际SHORT保护退出成交片段184；原正forecast保持，实际LONG可因covariance与资金竞争变化。关闭原长仓的反手清理单独记录 0，不把其收益冒充short贡献。
+首20个4h完成bar不足时SHORT空仓，未给未知补值。两个BASE完整303日；真实fee/滑点/容量/风险/资金费保留，marked和付费清仓口径分别记录。
+公开fast信号独立标量reference与真实小型延迟/部分成交/硬风险反例通过；实际账户沿用独立Decimal钱包/NAV、ordered signed covariance核对。首轮测试字段范围错误保留V1，未为其修改财务内核。
+
+停止本303日的快线周期/阈值调整；将已固定最佳SHORT规则移至另一个完整下跌及随后反弹周期，优先补最小必要历史与透明基准；先核已授权/已有输入、当时可知标的资格与费用，保留两币对照。目的是检验跨周期有效性，不能按当前303日事后赢家声称独立收益。不改变资金/数据封存/风险权限。
+
+结果 `reports/SHORT_FAST4H_ACCEPTED_20261006_V1.json` SHA256 `2d78b365b63dd4b80623b1516211d34a54ebcb1404128334d3e29dddcd51285f`。
+复现：经现有progress/bounded、2线程、D-hosted runtime运行 `scripts/investment/run_cta_leaderboard.py --protocol protocols/SHORT_FAST4H_BASE27_20261006_V1.json --run-dir /home/xflops/coin-state/REPLACE_WITH_UNUSED --output reports/fast_research/REPLACE_WITH_UNUSED.json`。原run/output不可覆盖。
