@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="39.286" timestamp="2026-10-05T10:04:23.093085+00:00" hostname="xflops"><testcase classname="tests.test_cash_close_retry" name="test_default_account_matches_prechange_golden" time="0.362" /><testcase classname="tests.test_cash_close_retry" name="test_persistent_close_partial_fill_fees_funding_and_future_prefix" time="0.452" /><testcase classname="tests.test_cash_close_retry" name="test_persistent_cash_does_not_rescue_unexecutable_risk_reduction" time="0.307"><failure message="AssertionError: assert 'COMPLETE_CONDITIONAL_ACCOUNT' == 'NOT_EVALUABL...ISK_REDUCTION'&#10;  &#10;  - NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION&#10;  + COMPLETE_CONDITIONAL_ACCOUNT">def test_persistent_cash_does_not_rescue_unexecutable_risk_reduction():
+        w=retry_window()
+        w['market']['BTCUSDT']['mark'][2:]=110.
+        w['market']['BTCUSDT']['quote_volume'][2:]=0.
+        def risk_targets(bars,decisions,mode):
+            targets,meta=retry_targets(bars,decisions,mode)
+            return targets.with_columns(pl.when(pl.col('target_weight')&lt;0).then(-.299).otherwise(0.).alias('target_weight')),meta
+        def risk_run(**kw):
+            return engine.simulate(w,'SHORT_ONLY',engine.COSTS[0],engine.UNITS[0],target_factory=risk_targets,**kw)
+        a=risk_run();b=risk_run(persist_cash_close=True)
+&gt;       assert a['summary']['completion']==b['summary']['completion']=='NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION'
+E       AssertionError: assert 'COMPLETE_CONDITIONAL_ACCOUNT' == 'NOT_EVALUABL...ISK_REDUCTION'
+E         
+E         - NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION
+E         + COMPLETE_CONDITIONAL_ACCOUNT
+
+tests/test_cash_close_retry.py:85: AssertionError</failure></testcase><testcase classname="tests.test_perpetual_directional_controller" name="test_new_perpetual_controller_chronology_capacity_risk_and_halt" time="0.004"><failure message="TypeError: test_new_perpetual_controller_chronology_capacity_risk_and_halt.&lt;locals&gt;.fixed_target() got an unexpected keyword argument 'symbols'">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7327746b1010&gt;
+tmp_path = PosixPath('/home/xflops/coin-state/d089-pytest-20261005-v1/test_new_perpetual_controller_0')
+
+    def test_new_perpetual_controller_chronology_capacity_risk_and_halt(monkeypatch, tmp_path):
+        # The public hooks, covariance and wallet arithmetic already have accepted
+        # independent tests. Here a fixed target stub isolates NEW scheduling only.
+        def fixed_target(_bars, decisions, mode):
+            assert mode == "SHORT_ONLY"
+            rows = [dict(available_us=int(t), symbol=s, target_weight=-.3 if s == "BTCUSDT" else 0.)
+                    for t in decisions for s in controller.SYMBOLS]
+            return pl.DataFrame(rows), {"scope": "PREDECLARED_SYNTHETIC_CONTROLLER_TARGET_STUB"}
+    
+        monkeypatch.setattr(controller.strategy, "fixed_targets", fixed_target)
+    
+        def window(n=12):
+            times = START + np.arange(n, dtype=np.int64) * MINUTE
+            market = {}
+            for symbol in controller.SYMBOLS:
+                opens = np.full(n, 100.)
+                marked = np.full(n, 100.)
+                if symbol == "BTCUSDT":
+                    opens[4:] = 108.  # Trade-open proxy is independent of mark110.
+                    marked[3:] = 110.
+                market[symbol] = dict(open=opens, close=opens.copy(), mark=marked,
+                                       quote_volume=np.full(n, 1_000_000.))
+            daily = pl.DataFrame([dict(symbol=s, close_us=START, close=100.) for s in controller.SYMBOLS])
+            events = [dict(symbol="BTCUSDT", event_us=START + offset, raw_rate=.001,
+                           reported_interval_hours=8.)
+                      for offset in (1000, 3 * MINUTE, 3 * MINUTE + 1000, 5 * MINUTE + 1000)]
+            return dict(start=START, end=START + n * MINUTE, times=times, market=market,
+                        daily=daily, events=events, input_proofs=[])
+    
+        base = window()
+&gt;       case = controller.simulate(base, "SHORT_ONLY", controller.COSTS[0], controller.UNITS[0])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_perpetual_directional_controller.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/investment/perpetual_directional.py:148: in simulate
+    targets,meta=target_factory(window['daily'],decisions,mode)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+b = shape: (2, 3)
+┌─────────┬──────────────────┬───────┐
+│ symbol  ┆ close_us         ┆ close │
+│ ---     ┆ ---           ...═╡
+│ BTCUSDT ┆ 1754006400000000 ┆ 100.0 │
+│ ETHUSDT ┆ 1754006400000000 ┆ 100.0 │
+└─────────┴──────────────────┴───────┘
+d = array([1754006400000000]), m = 'SHORT_ONLY'
+
+&gt;   target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: test_new_perpetual_controller_chronology_capacity_risk_and_halt.&lt;locals&gt;.fixed_target() got an unexpected keyword argument 'symbols'
+
+scripts/investment/perpetual_directional.py:144: TypeError</failure></testcase></testsuite></testsuites>

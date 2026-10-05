@@ -389,3 +389,5 @@ D086运行前登记：复用 https://github.com/scikit-learn/scikit-learn 已装
 D087：既有XGBoost模型只加载，既有GMM仅作不可变对照；零新模型/标准化拟合，零新依赖与库修改。固定过去BTC SMA200/20d状态沿用D085/D086原描述性定义，薄规则adapter；4新共享账户与16原SHA对照。仅2项状态边界/未来可得性/缺口回归，零拟合；不重新实现模型内核。
 
 D088：沿用D085已装XGBoost固定模型、D087薄过去趋势规则和原signed目标/账户，仅SHORT_ONLY mask反事实；零库修改/新依赖/新拟合。4新完整资本账户，对照20个已验收旧账户按SHA引用。已有SHORT_ONLY默认golden与独立目标会计复算复用，不重跑无关GMM模型。
+
+D089 (2026-10-05): reuse existing XGBoost3.4.1 model, fixed BTC regime and owned perpetual account/data/cost cores; no new dependency/fit/search. Local change only optional daily zero-target persistent reduce-only retry, bounded by existing capacity, risk and terminal supersession; prechange Git-bound default golden + four related regressions. External strategy/model provenance unchanged.

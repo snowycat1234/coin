@@ -46,7 +46,13 @@ def main():
     is_anchor=bool(regime_spec and regime_spec.get('kind')=='FIXED_PAST_TREND')
     anchor_mode=regime_spec.get('direction_mode','LONG_SHORT') if is_anchor else 'LONG_SHORT'
     engine.need(anchor_mode in ('LONG_SHORT','SHORT_ONLY'),'Finite fixed trend direction counterfactual')
+    retry_spec=spec.get('cash_close_retry')
+    is_retry=retry_spec is not None
+    engine.need(not is_retry or is_anchor and anchor_mode=='SHORT_ONLY' and
+        retry_spec['policy']=='PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL',
+        'One declared cash-close counterfactual')
     anchor_strategy='XGB_TREND_SHORT_ONLY' if anchor_mode=='SHORT_ONLY' else 'XGB_TREND_GATED'
+    if is_retry: anchor_strategy='XGB_TREND_SHORT_PERSISTENT_CASH'
     reuse_spec=spec.get('direction_model_reuse')
     train_start=stamp(spec['split']['train_decisions_start'])
     train_end=stamp(spec['split']['training_label_maturity_before'])
@@ -61,11 +67,31 @@ def main():
         'scripts/investment/public_sma_perpetual.py','scripts/investment/vol_managed_perpetual_target.py',
         'scripts/investment/donchian_daily_pool_target.py']
     if regime_spec: source_paths+=['scripts/investment/market_regime.py']
+    if is_retry: source_paths+=['tests/test_cash_close_retry.py','tests/test_perpetual_directional_controller.py']
     binding = dict(task_id=os.environ['COIN_TASK_ID'], protocol_sha256=sha(args.protocol),
         source_hashes={p:sha(ROOT/p) for p in source_paths}, command=[sys.executable, *sys.argv],
         git_commit=subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip(),
         input_manifest_sha256=sha(spec['data_manifest']['path']), xgboost_version=xgboost.__version__)
     engine.need(binding['input_manifest_sha256'] == spec['data_manifest']['sha256'], 'Accepted input identity')
+    retry_proof=None
+    if is_retry:
+        import xml.etree.ElementTree as ET
+        for entry in (retry_spec['default_golden'],retry_spec['regression']):
+            p=(ROOT/entry['path']).resolve()
+            engine.need(p.is_relative_to(ROOT/'reports') and sha(p)==entry['sha256'],'Bound cash-close proof')
+        retry_proof=json.loads((ROOT/retry_spec['default_golden']['path']).read_bytes())
+        legacy=subprocess.check_output(['git','show',retry_proof['parent_commit']+':scripts/investment/perpetual_directional.py'],cwd=ROOT)
+        engine.need(hashlib.sha256(legacy).hexdigest()==retry_proof['engine_sha256'] and
+            sha(ROOT/'tests/test_cash_close_retry.py')==retry_spec['regression']['test_source_sha256'] and
+            sha(ROOT/'tests/test_perpetual_directional_controller.py')==retry_spec['regression']['legacy_scheduler_test_source_sha256'],
+            'Legacy finance source and actual regression identity')
+        suites=ET.parse(ROOT/retry_spec['regression']['path']).getroot().iter('testsuite')
+        counts=[(int(s.get('tests',0)),int(s.get('failures',0))+int(s.get('errors',0))) for s in suites]
+        engine.need(sum(c[0] for c in counts)==4 and not any(c[1] for c in counts),'Four related regressions actually passed')
+    def unchanged_control(source,digest):
+        if is_retry and source=='scripts/investment/perpetual_directional.py':
+            engine.need(digest==retry_proof['engine_sha256'],'Only bound legacy scheduler may differ; default golden passed')
+        else: engine.need(sha(ROOT/source)==digest,'Unchanged control source '+source)
     run.mkdir(); write(run/'RUN_BINDING.json', binding)
     event = dict.fromkeys(FIELDS)
     event.update(experiment_id=spec['experiment_id'], event_type='OPERATIONAL_RESEARCH_START',
@@ -85,6 +111,9 @@ def main():
     result = dict(status='FAILED', binding=binding, run_dir=str(run), cases=[], models_fit=0,
         candidate='NONE', investment='CASH', long_term_APR='NOT_EVALUABLE', data_role=spec['data_role'],
         funding_unit_certified=False, orders_sent=0, locked_consumed=False, GPU_hours=0., protocol=spec)
+    if is_retry:
+        result['cash_close_retry_evidence']=dict(policy=retry_spec['policy'],default_golden=retry_spec['default_golden'],
+            regression=retry_spec['regression'],scope='ONLY_DAILY_ZERO_TARGET_RETRY_DIFFERS; ALL_OTHER_FINANCIAL_SOURCES_EXACT')
     def guard():
         nonlocal shared_peak
         r = resources.status(); shared_peak = max(shared_peak, r['ram_current_bytes'])
@@ -218,7 +247,7 @@ def main():
                 engine.need(old['protocol'][key]==spec[key], 'Matched control field '+key)
             for source,digest in old['binding']['source_hashes'].items():
                 if source not in ('scripts/investment/run_shared_direction.py','scripts/investment/market_regime.py'):
-                    engine.need(sha(ROOT/source)==digest,'Unchanged control finance/data/targets '+source)
+                    unchanged_control(source,digest)
             old_prediction=Path(old['run_dir'])/'ECONOMICS_predictions.parquet'
             engine.need(sha(old_prediction)==control['prediction_sha256'] and predictions.equals(pl.read_parquet(old_prediction)), 'Exact all122 day probabilities and labels')
             engine.need(regime_map=={k:v for k,v in regimes.items() if k<score_end},'Fixed decision states equal previous descriptive state definition')
@@ -235,8 +264,18 @@ def main():
                 engine.need(prior['protocol']['regime']['rule']==regime_spec['rule'],'Same trend rule; only direction mask changes')
                 for source,digest in prior['binding']['source_hashes'].items():
                     if source!='scripts/investment/run_shared_direction.py':
-                        engine.need(sha(ROOT/source)==digest,'Unchanged extra control financial/state source '+source)
+                        unchanged_control(source,digest)
                 result['extra_control_reuse']=dict(**extra,status='REUSED_D087_FIXED_RULE_BY_SHA',reused_accounts=4)
+            if is_retry:
+                control=spec['execution_control_reuse'];p=Path(control['path'])
+                engine.need(p.resolve().is_relative_to(ROOT/'reports') and sha(p)==control['sha256'],'Immutable D088 execution control')
+                prior=json.loads(p.read_bytes())
+                engine.need(len(prior['cases'])==4 and prior['protocol']['regime']==regime_spec,'Same original SHORT_ONLY signals/state')
+                for key in ('split','symbols','risk','labels','cost','data_manifest','signal_execution'):
+                    engine.need(prior['protocol'][key]==spec[key],'Matched cash-close control '+key)
+                for source,digest in prior['binding']['source_hashes'].items():
+                    if source!='scripts/investment/run_shared_direction.py': unchanged_control(source,digest)
+                result['execution_control_reuse']=dict(**control,status='REUSED_D088_BY_SHA_ONLY_RETRY_POLICY_DIFFERS',reused_accounts=4)
         strategies = [('XGB_LONG_SHORT','LONG_SHORT'),('XGB_LONG_ONLY','LONG_ONLY'),
             ('XGB_SHORT_ONLY','SHORT_ONLY'),('HOLD','LONG_ONLY'),('DONCHIAN_EXIT10','LONG_ONLY')]
         if regime_spec:
@@ -247,7 +286,7 @@ def main():
             if name == 'HOLD': factory=lambda b,d,m:hold.fixed_targets(b,d,m,symbols=symbols)
             elif name == 'DONCHIAN_EXIT10': factory=lambda b,d,m:donchian.fixed_targets(b,d,m,symbols=symbols,exit_period=10)
             else: factory=lambda b,d,m:model.targets(predictions,b,d,m,symbols,
-                regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY') else None)
+                regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY','XGB_TREND_SHORT_PERSISTENT_CASH') else None)
             for cost_legacy in engine.COSTS:
                 cost = snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json', symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols}, scenario_id=cost_legacy['id'],
@@ -265,7 +304,7 @@ def main():
                                 for p in case_dir.iterdir() if p.is_file()})
                     else:
                         actual=engine.simulate(window,mode,cost,unit,progress,guard,target_factory=factory,
-                            account_factory=USDTLinearPerpetualAccount)
+                            account_factory=USDTLinearPerpetualAccount,persist_cash_close=is_retry)
                         saved=engine.save_case(actual,case_dir)
                         write(case_dir/'summary.json', saved['summary'])
                     engine.need(saved['summary']['completed_minutes']==score_days*1440, 'Complete marked calendar; residual never deleted')
@@ -273,7 +312,7 @@ def main():
                     if name.startswith('XGB'):
                         checked['target_reference']=independent.verify_direction_targets(
                             pl.read_parquet(case_dir/'targets.parquet'),predictions,bars,symbols,mode,
-                            regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY') else None)
+                            regimes=regime_map if name in ('XGB_REGIME_GATED','XGB_TREND_GATED','XGB_TREND_SHORT_ONLY','XGB_TREND_SHORT_PERSISTENT_CASH') else None)
                     by_regime={}
                     for day in checked['daily_direction_contributions']:
                         regime=regimes[day['day_end_us']-model.DAY]

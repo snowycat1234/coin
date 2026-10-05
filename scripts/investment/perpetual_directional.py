@@ -133,9 +133,12 @@ def journals_frame(rows,schema):
     # Exact Decimal strings remain in the JSON journal, simple columns in Parquet.
     return pl.DataFrame([{k:r.get(k) for k in schema} for r in rows],schema=schema)
 
-def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None,event_strategy=None):
+def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=None,account_factory=None,event_strategy=None,
+             persist_cash_close=False):
     """Only event scheduling and output bookkeeping; finances belong to account."""
     symbols=strategy.symbol_order(window.get('symbols',SYMBOLS))
+    need(type(persist_cash_close) is bool and (not persist_cash_close or event_strategy is None),
+         'Explicit cash-close retry policy only for the daily target scheduler')
     start,end=window['start'],window['end']
     times=np.arange(start,end,MINUTE,dtype=np.int64);n=len(times)
     target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
@@ -332,6 +335,10 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                      and abs(account.positions[s].quantity)<=abs(order['target'])))
             if reached:pending.pop(s,None)
             elif order['attempts']>=5:
+                if persist_cash_close and order['kind']=='DAILY_TARGET' and order['target']==ZERO:
+                    # Still capacity limited and reduce-only. A newer target,
+                    # hard-risk instruction or terminal order may supersede it.
+                    continue
                 rejections.append(dict(symbol=s,event_us=event,order_id=order['order_id'],reason='FIVE_ATTEMPTS_EXPIRED',
                     remaining_signed_quantity=float(remaining),kind=order['kind']))
                 pending.pop(s,None)
@@ -457,6 +464,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             else {s:{**r,'target':str(r['target'])} for s,r in pending.items()}),
         funding_fill_5second_uncertainty_witnesses=nearest_funding_ties,candidate='NO_QUALIFIED_CANDIDATE',long_term_APR='NOT_EVALUABLE')
     summary['minimum_actual_free_cash_all_observations_USDT']=min_free
+    if persist_cash_close:
+        summary['cash_close_retry_policy']='PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL'
     summary['actual_caps_instantaneously_guaranteed']=False
     summary['margin_risk_observation_scope']='CAUSALLY_AVAILABLE_MINUTE_CLOSE_MARKS_PLUS_FILLS_AND_FUNDING_NOT_INTRAMINUTE_MARK_EXTREMES_OR_NATIVE_RISK_TIERS'
     summary['risk_reduction_signal_count']=len(breaches)

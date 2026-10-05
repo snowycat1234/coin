@@ -16,7 +16,7 @@ START = 1_754_006_400_000_000
 def test_new_perpetual_controller_chronology_capacity_risk_and_halt(monkeypatch, tmp_path):
     # The public hooks, covariance and wallet arithmetic already have accepted
     # independent tests. Here a fixed target stub isolates NEW scheduling only.
-    def fixed_target(_bars, decisions, mode):
+    def fixed_target(_bars, decisions, mode, *, symbols=None):
         assert mode == "SHORT_ONLY"
         rows = [dict(available_us=int(t), symbol=s, target_weight=-.3 if s == "BTCUSDT" else 0.)
                 for t in decisions for s in controller.SYMBOLS]
