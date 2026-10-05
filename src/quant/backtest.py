@@ -53,6 +53,7 @@ class BacktestConfig:
     )
     fee_settlement: str = "QUOTE"
     terminal_exit_minutes: int = 1
+    discretionary_rebalance_min_notional: float = 0.0
 
     def __post_init__(self) -> None:
         if self.fee_settlement not in {"QUOTE", "RECEIVED_ASSET"}:
@@ -86,6 +87,9 @@ class BacktestConfig:
             raise ValueError("cost rates must be below 100%")
         if not math.isfinite(self.min_notional) or self.min_notional < 0:
             raise ValueError("min_notional must be finite and nonnegative")
+        if (not math.isfinite(self.discretionary_rebalance_min_notional)
+                or self.discretionary_rebalance_min_notional < 0):
+            raise ValueError("discretionary_rebalance_min_notional must be finite and nonnegative")
         if any(not math.isfinite(step) or step <= 0 for step in self.lot_step_by_symbol.values()):
             raise ValueError("lot steps must be finite and positive")
 
@@ -351,6 +355,18 @@ def run_backtest(
         or targets["risk_forced_exit"].null_count()
     ):
         raise ValueError("Risk exit declarations must be explicit booleans")
+    rebalance_band_enabled = config.discretionary_rebalance_min_notional > 0
+    if rebalance_band_enabled:
+        if "discretionary_rebalance" in targets.columns and (
+            targets.schema["discretionary_rebalance"] != pl.Boolean
+            or targets["discretionary_rebalance"].null_count()
+        ):
+            raise ValueError("discretionary_rebalance declarations must be explicit booleans")
+        if "target_reason" in targets.columns and (
+            targets.schema["target_reason"] != pl.String
+            or targets["target_reason"].null_count()
+        ):
+            raise ValueError("target_reason declarations must be explicit strings")
     if not set(targets.get_column("symbol").unique().to_list()).issubset(symbols):
         raise ValueError("target symbol has no minute prices")
     if not {"symbol", "available_us", "close_us"}.issubset(bars.columns):
@@ -377,6 +393,9 @@ def run_backtest(
     raw = {symbol: 0.0 for symbol in symbols}
     policies = {symbol: {"minimum_hold_minutes": 0, "risk_forced_exit": False}
                 for symbol in symbols}
+    if rebalance_band_enabled:
+        for policy in policies.values():
+            policy.update(discretionary_rebalance=False, target_reason="UNKNOWN")
     sorted_targets = targets.sort(["available_us", "symbol"])
     prior_targets = sorted_targets.filter(pl.col("available_us") < start)
     for row in prior_targets.group_by("symbol", maintain_order=True).last().iter_rows(named=True):
@@ -400,7 +419,9 @@ def run_backtest(
                              if when <= terminal_open}
         target_events.setdefault(terminal_open, []).extend(
             {"available_us": end - (config.latency_minutes + config.terminal_exit_minutes) * MINUTE_US,
-             "symbol": s, "target_weight": 0.0}
+             "symbol": s, "target_weight": 0.0,
+             **({"discretionary_rebalance": False, "target_reason": "TERMINAL_EXIT"}
+                if rebalance_band_enabled else {})}
             for s in symbols
         )
     marks = set()
@@ -440,6 +461,11 @@ def run_backtest(
                     "minimum_hold_minutes": row.get("minimum_hold_minutes", 0),
                     "risk_forced_exit": row.get("risk_forced_exit", False),
                 }
+                if rebalance_band_enabled:
+                    policies[row["symbol"]].update(
+                        discretionary_rebalance=row.get("discretionary_rebalance", False),
+                        target_reason=row.get("target_reason", "UNKNOWN"),
+                    )
                 symbol = row["symbol"]
                 if policies[symbol]["minimum_hold_minutes"] == 120:
                     if raw[symbol] > 0 and holding[symbol]["last_raw"] <= 0:
@@ -476,6 +502,8 @@ def run_backtest(
                                                             or alpha_risk_reduction),
                                    "expires_us": timestamp
                                    + config.max_order_wait_minutes * MINUTE_US}
+                if rebalance_band_enabled:
+                    pending[symbol].update(risk_limited=risk_limited[symbol], started_fill=False)
         liquidity = {}
         gap = False
         for symbol, asset in assets.items():
@@ -509,6 +537,22 @@ def run_backtest(
                      "filled_notional": 0.0, "status": ""}
             if received_asset_fee:
                 order["quantity"] = 0.0
+            if rebalance_band_enabled:
+                # The band applies to a complete discretionary intent, never to a
+                # capacity-truncated fill or a risk/flat/entry instruction.
+                cap_breach = (
+                    any(positions[s] * prices[s] > config.max_weight * nav + 1e-7
+                        for s in symbols)
+                    or sum(positions[s] * prices[s] for s in symbols)
+                    > config.max_gross * nav + 1e-7
+                )
+                band_exempt = (not goal["discretionary_rebalance"]
+                               or goal["risk_forced_exit"] or goal["weight"] <= 0
+                               or positions[symbol] <= 0 or goal["risk_limited"]
+                               or cap_breach or goal["started_fill"])
+                order.update(target_reason=goal["target_reason"],
+                             discretionary_rebalance=goal["discretionary_rebalance"],
+                             rebalance_band_exempt=band_exempt, rebalance_band_skipped=False)
             if timestamp >= goal["expires_us"]:
                 order["status"] = "expired"
                 expired_orders += 1
@@ -522,6 +566,11 @@ def run_backtest(
                 order["status"] = "minimum_hold"
             elif timestamp + 1 <= goal["signal_us"]:
                 raise AssertionError("execution is not strictly after signal availability")
+            elif (rebalance_band_enabled and not band_exempt
+                  and abs(desired_dollars) < config.discretionary_rebalance_min_notional):
+                order["status"] = "rebalance_band"
+                order["rebalance_band_skipped"] = True
+                del pending[symbol]
             else:
                 direction = 1 if side == "buy" else -1
                 fill = mid * (1 + direction * config.execution_rate)
@@ -586,6 +635,8 @@ def run_backtest(
                     capacity_limits += int(capacity_quantity <= 1e-12)
                 else:
                     notional = quantity * fill
+                    if rebalance_band_enabled:
+                        goal["started_fill"] = True
                     if received_asset_fee:
                         fee_asset = symbol[:-4] if side == "buy" else "USDT"
                         fee_amount = quantity * config.fee_rate if side == "buy" else (
@@ -669,6 +720,11 @@ def run_backtest(
                         trades[-1].update(gross_quantity=quantity, position_delta=position_delta,
                                           cash_delta=cash_delta, fee_asset=fee_asset,
                                           fee_amount=fee_amount, fee_USDT_mid=fee)
+                    if rebalance_band_enabled:
+                        trades[-1].update(target_reason=order["target_reason"],
+                                          discretionary_rebalance=order["discretionary_rebalance"],
+                                          rebalance_band_exempt=order["rebalance_band_exempt"],
+                                          rebalance_band_skipped=False)
             orders.append(order)
         retry = timestamp + MINUTE_US
         if pending and retry < end and retry not in scheduled:
@@ -713,6 +769,11 @@ def run_backtest(
                             cash_delta=pl.Float64, fee_asset=pl.String,
                             fee_amount=pl.Float64, fee_USDT_mid=pl.Float64)
         order_schema["quantity"] = pl.Float64
+    if rebalance_band_enabled:
+        band_schema = {"target_reason": pl.String, "discretionary_rebalance": pl.Boolean,
+                       "rebalance_band_exempt": pl.Boolean, "rebalance_band_skipped": pl.Boolean}
+        trade_schema.update(band_schema)
+        order_schema.update(band_schema)
     trade_frame = _frame(trades, trade_schema)
     order_frame = _frame(orders, order_schema)
     cycle_frame = _frame(round_trips, {"symbol": pl.String, "entry_us": pl.Int64,

@@ -23,6 +23,7 @@ def diagnose(case):
         for row in tape.iter_rows(named=True):
             # Only labels that can be reconstructed unambiguously are used.
             reason='UNKNOWN_REBALANCE_OR_SIGNAL_COMPONENT'
+            if row.get('target_reason','UNKNOWN')!='UNKNOWN':reason=row['target_reason']
             if first and row['side']=='buy':reason='FIRST_ENTRY';first=False
             terminal_signal=case['config']['end_us']-(case['config']['terminal_exit_minutes']+case['config']['latency_minutes'])*60_000_000
             if row['signal_us']==terminal_signal and row['target_weight']==0:reason='TERMINAL_EXIT'
@@ -57,7 +58,7 @@ def diagnose(case):
     return dict(id=case['id'],net_USDT=net,assets=per_asset,
         trade_groups=[dict(symbol=k[0],side=k[1],reason=k[2],**v) for k,v in sorted(groups.items())],
         monthly_net_contributions_USDT=dict(monthly),continuous_101_day_blocks=blocks,
-        reason_scope='Only first entry and terminal signal unambiguous; other fills UNKNOWN, not causal attribution',
+        reason_scope='Saved explicit target intent if present, plus first/terminal; unlabelled others UNKNOWN. Labels do not causally attribute whole-trade PnL.',
         gross_scope=case['summary'].get('gross_pnl_definition'),independent_accounts_not_combined=True)
 
 

@@ -1,0 +1,109 @@
+{
+  "experiment_id": "D079_SPOT_DISCRETIONARY_BAND50",
+  "parent_commit": "6ef22565d61f0771493f2e91a8bf1bc42e00b3d6",
+  "question": "Can a fixed50USDT discretionary rebalance band improve same Spot defensive recipe net economics without suppressing signal exits, risk reductions or raising actual risk?",
+  "data_role": "SEEN_DEVELOPMENT_NOT_UNSEEN",
+  "start_us": 1725148800000000,
+  "end_us": 1751328000000000,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "warmup_start": "2024-01",
+  "last_source_month": "2025-06",
+  "annual_vol_target": 0.1,
+  "terminal_exit_minutes": 5,
+  "minimum_notional_USDT": 10,
+  "quantity_step": "1E-8",
+  "quantity_profile": "SHARED_UNCERTIFIED_RESEARCH_PROFILE_NOT_NATIVE_BYBIT_HISTORY",
+  "spot_source": {
+    "sha256": "64dc9474828b1707b21a7ed09b5719f202645cbc4ceb72007d9775d72d67fee2",
+    "path": "/mnt/d/codex/coin/reports/fast_research/PUBLIC_LONG_547D_SOURCE_REUSE_20261003_V1.json"
+  },
+  "fee_snapshot": {
+    "sha256": "a406d4bd0e47ff4ae4895fda0a2f2698b5763667d82b22b7f264d6220e27e8bd",
+    "path": "/mnt/d/codex/coin/docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json"
+  },
+  "costs": [
+    {
+      "perpetual_cost_id": "BASE27",
+      "half_spread_bps": 4,
+      "id": "SPOT_BASE36",
+      "slippage_bps": 4,
+      "roundtrip_bps": 36
+    },
+    {
+      "perpetual_cost_id": "STRESS43",
+      "half_spread_bps": 8,
+      "id": "SPOT_STRESS52",
+      "slippage_bps": 8,
+      "roundtrip_bps": 52
+    }
+  ],
+  "source_hashes": {
+    "environments/v8/uv.lock": "97335dc3dbb04d7dbc67425f91d4e941a0cfd2c84e5f2adcd852514ec4600de6",
+    "src/quant/backtest.py": "8672bcd82405bf5ce3b2411e3b2e3f7a4c1558b66d69c33d982e211e45e7693b",
+    "src/quant/resources.py": "e8028c40240bfb0df05228247ad6fee734831a14b9c6ac40acbd0c291b1969a3",
+    "src/quant/decision_policy.py": "fc189699ea3153fe38f59c3e5f8e04b15785c7e8b521bd8d706055a80ce56cc5",
+    "scripts/investment/public_sma_perpetual.py": "b63ddd3bc9968cf19b389816f74fc14e2e66a9564d81b93ad8e708596f5527d6",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "tests/test_spot_received_asset_interface.py": "9c0498222461e0e7f3b179d163cf0c799215d553308e3c4cd8775bea52efb778",
+    "scripts/investment/spot_perpetual_product_comparison.py": "3753e8a5eb1656029da0d44556c736f0606d9d6da02bbb97a64e8a58cd8184f8",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "src/quant/disk.py": "4b4c80b309fcff83cc740e8c59ed0a8fcdd56121063a94d854126aa7518277b9",
+    "src/quant/paths.py": "3c3e43ddd9ef1f2a52f902869d29e9a0ac5f29f1b5e64362b873290d07f72282",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "scripts/investment/hold_donchian_blend_target.py": "58f607066294ac170840a5825afd76e91274916aca0fc2343837fe44415d98bd",
+    "scripts/investment/donchian_daily_pool_target.py": "337c72c34893b868b89b1b879d5c1ca60d69c9b52906dacf5f738ee7b15e2ecd",
+    "tests/test_spot_discretionary_band.py": "3e31c6598754ffdf7f9ccb7b9524b87a53a0e72998487fca9735dc92b770409a",
+    "scripts/investment/spot_saved_economic_diagnostics.py": "b261d1643442eee2e875af4feecb6945a24b8c23cb64fdb9c5f2d399787446e6"
+  },
+  "budget": {
+    "actual_spot_wallets": 2,
+    "saved_controls": 4,
+    "fits": 0,
+    "downloads": 0,
+    "API": 0,
+    "HPO": 0,
+    "wall_seconds": 1800,
+    "owned_bytes": 100000000
+  },
+  "stop_rule": "One threshold50, two complete wallets. Any source/target/account/protection mismatch or observed caps violation fails. No threshold grid, no free residual, no deleted dates/costs.",
+  "primary_metrics": [
+    "full10k final marked net",
+    "actual daily/minute drawdown and daily volatility",
+    "funding/fee/execution/gross bridge",
+    "turnover",
+    "gross/net exposure",
+    "cash realized status and retained inventory"
+  ],
+  "comparison": "Same fixed defensive targets/Spot inputs/wallet/costs/10k/caps/303 dates, only explicit discretionary band changes execution. Saved HOLD8 additional reference. No same-risk alpha assumption.",
+  "success_decision": "Adopt development band only if net improves both costs and minute drawdown and realized daily volatility do not worsen versus original blend, with all protection/account/caps checks. Otherwise retain original. No investment qualification.",
+  "locked_body_read": false,
+  "orders_sent": 0,
+  "funding_unit_certified": false,
+  "module": "D079",
+  "recipe": "HALF_HOLD10_EXIT10",
+  "spot_control": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_DEFENSIVE_BLEND_20261005_V1.json",
+    "sha256": "8b894e36ab73a640caf30b0fe2603db858e8e1e173adc3f068d866858f2413cc"
+  },
+  "hypothesis": "Small optional target-chasing changes consume avoidable costs; evaluate whole new wallet rather than delete saved costs.",
+  "discretionary_rebalance_min_notional": 50,
+  "economic_reference": {
+    "path": "/mnt/d/codex/coin/reports/fast_research/SPOT_PERPETUAL_PRODUCT_20261005_V1.json",
+    "sha256": "fe9343b6ab520209030a75ee874841c94dfd8fcb5d5761922a9bdebb31893741"
+  },
+  "band_policy": {
+    "USDT": 50,
+    "first_target_protected": true,
+    "any_portfolio_component_raw_vector_change_protected": true,
+    "asset_eligibility_change_protected": true,
+    "any_asset_component_risk_target_strict_decrease_protected": true,
+    "first_inventory_entry_zero_target_terminal_forced_risk_cap_breach_started_partial_protected": true,
+    "measurement": "FULL_REQUEST_AT_CURRENT_EXECUTION_OPEN_NAV_BEFORE_CAPACITY_NOT_FILL_AMOUNT",
+    "unknown_declaration": "PROTECTED",
+    "comparison_operator": "ABS_REQUEST_STRICTLY_LESS_THAN_50"
+  }
+}

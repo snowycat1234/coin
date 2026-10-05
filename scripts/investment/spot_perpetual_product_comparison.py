@@ -135,7 +135,9 @@ def comparison(spot, perpetual):
 
 def spot_comparison(challenger, control):
     """Same-product full-capital contrast, retaining both actual risk paths."""
-    assert challenger['config'] == control['config']
+    def common(c):
+        return {k:v for k,v in c['config'].items() if k!='discretionary_rebalance_min_notional'}
+    assert common(challenger) == common(control)
     s, p = challenger['summary'], control['summary']
     delta = dict(net=s['final_nav']-p['final_nav'],
         gross=s['gross_pnl_before_costs']-p['gross_pnl_before_costs'],
@@ -151,12 +153,44 @@ def spot_comparison(challenger, control):
         challenger_minute_MDD=challenger['risk']['minute_max_drawdown'],
         control_minute_MDD=control['risk']['minute_max_drawdown'],
         challenger_turnover=challenger['turnover_over_full_initial_capital'],
-        control_turnover=control['turnover_over_full_initial_capital'])
+        control_turnover=control['turnover_over_full_initial_capital'],
+        challenger_band_USDT=challenger['config'].get('discretionary_rebalance_min_notional',0),
+        control_band_USDT=control['config'].get('discretionary_rebalance_min_notional',0))
+
+
+def discretionary_targets(targets, meta):
+    """Allow only unchanged signal/eligibility and non-reducing risk targets.
+
+    Component states describe intent, not execution. The wallet additionally
+    protects actual cap violations, entry, zero/terminal and partial fills.
+    """
+    flags, reasons = [], []
+    previous = None
+    symbols=meta['symbols']
+    assert targets.height==len(meta['risk'])*len(symbols)
+    for i, risk in enumerate(meta['risk']):
+        assert risk['symbol_order']==symbols
+        rows=targets.slice(i*len(symbols),len(symbols))
+        assert rows['symbol'].to_list()==symbols and rows['available_us'].eq(risk['decision_us']).all()
+        for j,symbol in enumerate(symbols):
+            if previous is None:reason='INITIAL_TARGET'
+            elif (rows['eligibility_reason'][j]!='ELIGIBLE'
+                  or rows['eligibility_reason'][j]!=previous['eligibility'][symbol]):reason='DATA_EXIT'
+            elif any(risk['component_'+component+'_raw']!=previous['component_'+component+'_raw']
+                     for component in ('HOLD','EXIT10')):reason='SIGNAL_COMPONENT_CHANGE'
+            elif any(risk['component_'+component+'_target'][j]<previous['component_'+component+'_target'][j]
+                     for component in ('HOLD','EXIT10')):reason='VOLATILITY_RISK_REDUCTION'
+            else:reason='DISCRETIONARY_REBALANCE'
+            flags.append(reason=='DISCRETIONARY_REBALANCE');reasons.append(reason)
+        previous=risk
+    frame=targets.with_columns(pl.Series('discretionary_rebalance',flags),pl.Series('target_reason',reasons))
+    return frame
 
 
 def cached_market(control):
     """Use exact accepted artifacts without copying or reducing source again."""
-    assert control['status'] == 'COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR'
+    assert control['status'] in ('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR',
+        'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR')
     frames = []
     for key in ('daily_bars', 'market_minutes'):
         receipt = control[key]; path = Path(receipt['path'])
@@ -180,6 +214,9 @@ def main():
     recipe=config.get('recipe','HOLD8')
     assert recipe in ('HOLD8','HALF_HOLD10_EXIT10')
     control=read(config['spot_control']) if recipe=='HALF_HOLD10_EXIT10' else None
+    band=config.get('discretionary_rebalance_min_notional',0)
+    assert band in (0,50) and (band==0 or recipe=='HALF_HOLD10_EXIT10')
+    reference=read(config['economic_reference']) if config.get('economic_reference') else None
     perpetual=read(config['perpetual_report']) if control is None else None
     assert source['status']=='PASS_REUSED_FROZEN_SPOT_MINUTE_SOURCE_578D_CALENDAR'
     assert (control or perpetual)['actual_calendar_days']==303
@@ -199,6 +236,9 @@ def main():
         funding_unit_certified=False,actual_calendar_days=303,
         spot_source=config['spot_source'],perpetual_report=config.get('perpetual_report'),
         spot_control=config.get('spot_control'),recipe=recipe)
+    result['discretionary_rebalance_min_notional']=band
+    result['economic_reference']=config.get('economic_reference')
+    result['reference_comparisons']=[]
     module=config.get('module','D077')
     if control is not None:
         result['price_source']='BINANCE_SPOT_WITH_USER_BYBIT_VIP0_COST_SCENARIOS'
@@ -252,6 +292,9 @@ def main():
             targets,meta=fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols,allocation='EQUAL',annual_vol_target=.08)
         else:
             targets,meta=blend.fixed_targets(bars,decisions,'LONG_ONLY',symbols=symbols)
+            if band:
+                targets=discretionary_targets(targets,meta)
+                meta['band_policy']='UNCHANGED_COMPONENT_RAW_AND_ELIGIBILITY_NONDECREASING_COMPONENT_RISK_TARGETS_ONLY'
         meta['source_target_builder_id']=meta['strategy_id']
         meta['strategy_id']='COIN_SPOT_'+recipe+'_1D_SHARED_CAPITAL'
         assert targets.height==303*len(symbols)
@@ -271,7 +314,7 @@ def main():
                 fee_settlement='RECEIVED_ASSET',half_spread_bps=cost['half_spread_bps'],slippage_bps=cost['slippage_bps'],
                 start_us=start,end_us=end,target_annual_vol=None,latency_minutes=1,max_order_wait_minutes=5,
                 min_notional=10,lot_step_by_symbol={s:1e-8 for s in symbols},
-                liquidate_at_end=True,terminal_exit_minutes=5)
+                liquidate_at_end=True,terminal_exit_minutes=5,discretionary_rebalance_min_notional=band)
             account=run_backtest(bars,minutes,targets,bc)
             assert account.daily_nav.height==303 and not account.daily_nav['stale_prices'].any()
             path,risk=inventory_path(minutes,account.trades,symbols,start,end,account.summary)
@@ -304,10 +347,16 @@ def main():
                     result['comparisons'].append(spot_comparison(case,pc))
                 elif control is None and pc['cost_id']==cost['perpetual_cost_id']:
                     result['comparisons'].append(comparison(case,pc))
+            if reference:
+                assert reference['market_minutes']==result['market_minutes'] and reference['daily_bars']==result['daily_bars']
+                rc=next(c for c in reference['cases'] if c['id']==case['id'])
+                assert rc['fee_snapshot']==case['fee_snapshot'] and rc['symbols']==symbols
+                result['reference_comparisons'].append(spot_comparison(case,rc))
             guard();del account,path,daily_frame;gc.collect()
         assert len(result['cases'])==2 and len(result['comparisons'])==(4 if control is None else 2)
         result['status']=(('COMPLETE_SPOT_PRODUCT_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if control is None
-                          else 'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR')
+                          else ('COMPLETE_SPOT_BAND_MARKED_COMPARISON_NOT_NATIVE_OR_APR' if band
+                                else 'COMPLETE_SPOT_DEFENSIVE_MARKED_COMPARISON_NOT_NATIVE_OR_APR'))
             if all(c['risk']['observed_caps_ok'] for c in result['cases'])
             else 'FAILED_OBSERVED_CAPS_PRODUCT_COMPARISON_LIMITED_DIAGNOSTIC')
         progress.update('产品账户保存完成',2,2,'账户')
