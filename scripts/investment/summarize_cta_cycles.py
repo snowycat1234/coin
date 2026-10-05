@@ -14,11 +14,11 @@ PERIODS=(('SEP_NOV',stamp('2024-09-01'),stamp('2024-12-01')),
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--actual',type=Path,action='append',required=True)
-    ap.add_argument('--family',choices=('DONCHIAN20_10','DC_TWO_SPEED'),default='DONCHIAN20_10')
+    ap.add_argument('--family',choices=('DONCHIAN20_10','DC_TWO_SPEED','SMA200_SIGNED'),default='DONCHIAN20_10')
     ap.add_argument('--baseline',type=Path)
     for k in ('output','document'):ap.add_argument('--'+k,type=Path,required=True)
     a=ap.parse_args();assert len(a.actual)==2 and not a.output.exists() and not a.document.exists()
-    challenge=a.family=='DC_TWO_SPEED';assert bool(a.baseline)==challenge
+    challenge=a.family!='DONCHIAN20_10';assert bool(a.baseline)==challenge
     baseline=json.loads(a.baseline.read_bytes()) if challenge else None
     if challenge:
         assert baseline['status']=='ACCEPTED_FIXED_DONCHIAN_303D_TWO_COST_TASKS_NO_WALLET_JOIN'
@@ -85,6 +85,7 @@ def main():
             dm=s['daily_metrics'] or {};ex=s.get('realized_exposure',{})
             rows.append(dict(id=c['id'],strategy=c['strategy'],mode=c['mode'],cost=c['cost'],unit=c['unit'],complete=complete,
                 completed_minutes=s['completed_minutes'],stop_us=s['stop_us'],completion=s['completion'],
+                halt_witness=s.get('halt_witness'),funding_deferred_after_halt_events=s.get('funding_deferred_after_halt_events'),
                 net_USDT=s['net_PnL'] if complete else None,stopped_prefix_net_USDT=s['net_PnL'] if not complete else None,
                 gross_USDT=s['gross_PnL_same_quantities'],fees_USDT=s['fees_USDT'],execution_USDT=s['execution_cost_USDT'],
                 spread_USDT=s['spread_cost_USDT'],slippage_USDT=s['slippage_cost_USDT'],funding_USDT=s['funding_USDT'],
@@ -138,12 +139,13 @@ def main():
                 DD_delta=v['DD']-old['DD'] if full else None,vol_delta=v['vol']-old['vol'] if full else None,
                 cost_delta=v['fees_USDT']+v['execution_USDT']-old['fees_USDT']-old['execution_USDT'] if full else None,
                 SHORT_delta=v['SHORT']-old['SHORT'] if full else None,LONG_delta=v['LONG']-old['LONG'] if full else None,
-                reference_id=old['id'],scope='SAME_INPUT_PRODUCT_COST_CAPITAL_DIRECTION_CHANGED_FORECAST_SPEED_ONLY_NOT_RISK_MATCHED'))
+                reference_id=old['id'],scope=('SAME_INPUT_PRODUCT_COST_CAPITAL_DIRECTION_CHANGED_FORECAST_SPEED_ONLY_NOT_RISK_MATCHED'
+                    if a.family=='DC_TWO_SPEED' else 'SAME_INPUT_PRODUCT_COST_CAPITAL_DIRECTION_CHANGED_SIGNAL_FAMILY_NOT_RISK_MATCHED')))
     intervals=sorted((t['started_at'],t['ended_at']) for t in tasks);merged=[]
     for x,y in intervals:
         if merged and x<=merged[-1][1]:merged[-1][1]=max(y,merged[-1][1])
         else:merged.append([x,y])
-    result=dict(status='ACCEPTED_FIXED_DC_TWO_SPEED_303D_WITH_BOUND_REUSED_CONTROLS' if challenge else 'ACCEPTED_FIXED_DONCHIAN_303D_TWO_COST_TASKS_NO_WALLET_JOIN',inputs=inputs,
+    result=dict(status=f'ACCEPTED_FIXED_{a.family}_303D_WITH_BOUND_REUSED_CONTROLS' if challenge else 'ACCEPTED_FIXED_DONCHIAN_303D_TWO_COST_TASKS_NO_WALLET_JOIN',inputs=inputs,
         tasks=tasks,rows=rows,paired_direction=pairs,complete_accounts=sum(v['complete'] for v in rows),
         stopped_accounts=sum(not v['complete'] for v in rows),actual_days=303,initial_capital_per_counterfactual_USDT=10000,
         models_fit=0,parameter_search=0,orders_sent=0,locked_consumed=False,
@@ -168,7 +170,9 @@ def main():
         '|情景|完整配对|LS-LO净|DD差百分点|vol差百分点|LS内SHORT|仅空净|','|---|---|---:|---:|---:|---:|---:|']
     for v in pairs:lines.append('|'+ '|'.join([v['cost']+'/'+v['unit'],str(v['full_pair']),fmt(v['incremental_net_USDT']),fmt(v['DD_delta'],100),fmt(v['vol_delta'],100),fmt(v['actual_LS_SHORT']),fmt(v['SHORT_ONLY'])])+'|')
     if challenge:
-        lines[4]='复用原20/10、55/20通道虚拟状态，先固定等权平均forecast再进行相同inversevol/signedcov，仅改变趋势速度组合；{-1,-.5,0,.5,1}不是两个满资金账户。12新账户实际执行，8原CASH/HOLD经完整目标golden、来源和工件SHA复用。无拟合/权重搜索/止损修改。BinanceUSD-M配Bybit成本仍为代理；funding单位UNKNOWN两情景、MMR假设，不能认证native或长期APR。'
+        lines[4]=('复用原20/10、55/20通道虚拟状态，先固定等权平均forecast再进行相同inversevol/signedcov，仅改变趋势速度组合；{-1,-.5,0,.5,1}不是两个满资金账户。'
+            if a.family=='DC_TWO_SPEED' else '复用既有SMA200 signed：完整日线close高于最后200个close均值为long，低于为short，相等为cash；每日更新，保留相同inversevol/signedcov。不是Faber原10月long/cash的完整复现。')+\
+            '12新账户实际执行，8原CASH/HOLD经完整目标golden、来源和工件SHA复用。无拟合/权重搜索/止损修改。BinanceUSD-M配Bybit成本仍为代理；funding单位UNKNOWN两情景、MMR假设，不能认证native或长期APR。'
         lines+=['','## 与原20/10同方向的真实账户配对','',
             '|方向|情景|净变化|SHORT变化|LONG变化|成本变化|DD差百分点|vol差百分点|',
             '|---|---|---:|---:|---:|---:|---:|---:|']
@@ -181,7 +185,7 @@ def main():
         '## 资源与复现','',f"{new_accounts}个新账户任务区间并集{result['task_intervals_union_seconds']:.2f}秒；采样共享RAM峰值{result['sampled_shared_peak_bytes']/1e9:.3f}GB；最大进程RSS{result['max_process_RSS_bytes']/1e9:.3f}GB；新工件{result['owned_bytes']/1e9:.3f}GB；GPU0。不是两个任务耗时相加；未单独计时的阶段UNKNOWN。",'',
         '新增方向账户均运行独立目标/逐分钟NAV/钱包/funding/方向参考验收；若有复用控制，REUSED范围和完整target golden明确记录，不计为新账户运行。','',
         '```bash','for cost in BASE27 STRESS43; do',
-        '  scripts/with_task_progress.sh --title "CTA303日 $cost" -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 POLARS_MAX_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/run_cta_leaderboard.py --protocol protocols/'+('CTA_TWO_SPEED_' if challenge else 'CTA_DONCHIAN_303D_')+'${cost}_20261005_V1.json --run-dir /home/xflops/coin-state/<fresh-${cost}-run> --output reports/fast_research/<fresh-${cost}-result>.json',
+        '  scripts/with_task_progress.sh --title "CTA303日 $cost" -- env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 POLARS_MAX_THREADS=2 PYTHONPATH=/mnt/d/codex/coin/src:/mnt/d/codex/coin /home/xflops/coin-state/v8-clean-env-20261002-v2/bin/python -B scripts/investment/run_cta_leaderboard.py --protocol protocols/'+({'DC_TWO_SPEED':'CTA_TWO_SPEED_','SMA200_SIGNED':'CTA_SMA200_303D_','DONCHIAN20_10':'CTA_DONCHIAN_303D_'}[a.family])+'${cost}_20261005_V1.json --run-dir /home/xflops/coin-state/<fresh-${cost}-run> --output reports/fast_research/<fresh-${cost}-result>.json',
         'done','```','']
     with a.document.open('x',encoding='utf-8') as f:f.write('\n'.join(lines))
     print(json.dumps(dict(status=result['status'],new_accounts=new_accounts,reused_controls=len(controls) if challenge else 0,

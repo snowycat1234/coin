@@ -402,3 +402,6 @@ Existing Jesse/Turtle MIT pinned source and jesse-rust1.3.0 unchanged; existing 
 
 
 D094运行前：继续复用D091已登记Jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078原Donchian内核及Turtle20/10、55/20公开周期；vendor/license零修改、无新依赖。仅显式输出原已计算55/20状态，固定两forecast等权平均（COIN adapter，非完整Turtle）。共同原vol sizing/Decimal账户/价格/资金费/用户费率保持；旧默认signal全窗口golden和CASH/HOLD全303日ordered targets核对后复用8控制，12新方向账户实际重跑。零训练/搜索/下载；V1新样本未触发半仓导致失败保留，V2实际突破样本通过3项相关回归。
+
+
+D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有共享永续账户及Jesse对照。repo/version/license/vendor修改均沿用既有登记，无新依赖或策略内核。SMA200 signed不是Faber原10月long/cash策略完整复现；本轮仅扩同窗观察并使现有只读汇总接受SMA200 family，不改财务或信号。

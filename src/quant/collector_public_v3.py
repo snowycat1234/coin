@@ -81,8 +81,8 @@ def source_contract(path: Path, *, engineering: bool = False) -> dict:
         "orders": False,
         "credentials": False,
         "gpu": False,
-        "disk_hard_bytes": 40_000_000_000,
-        "ram_shared_max_bytes": 5_000_000_000,
+        "disk_hard_bytes": disk.HARD_LIMIT,
+        "ram_shared_max_bytes": resources.RAM_LIMIT,
         "swap_bytes": 0,
         "sources": {
             name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in SOURCE_FILES
@@ -353,7 +353,7 @@ async def _entry(arguments) -> dict:
 
     async def watch_stop():
         while not stop.is_set():
-            if arguments.db == DEFAULT_DB and STOP_FILE.exists():
+            if STOP_FILE.exists():
                 stop.set()
             await asyncio.sleep(1)
 

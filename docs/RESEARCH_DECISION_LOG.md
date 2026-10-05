@@ -1392,3 +1392,20 @@ D093空头SEP_NOV净-829.34、后两段+487.02/+136.36，毛价格损失不能�
 D094一个固定20/10+55/20等权forecast配方，12新方向账户/12完整，8控制REUSED。BASE/PCT LO/SO/LS净879.98/-174.74/1058.97 USDT；LS对原20/10四情景净变化126.09/134.59/145.02/150.52。双周期多空未满足四情景净/实际风险晋级条件，暂停该配方晋级，保留公共benchmark及双向能力。 BASE/PCT双周期多空净1058.97、vol9.76%/DD7.04%，原多空924.38、vol10.27%/DD6.62%；成本140.81降112.39。四情景同向净改善126.09..150.52、vol约降0.51百分点，但DD升0.38..0.52百分点，事前风险不劣条件未通过。多空LONG1212.21、SHORT-153.24；比原多空LONG改善81.86、SHORT改善52.73，两者共同贡献净增量134.59，不能全部归为空头alpha。自身LS相对自身LO四情景均正，但SHORT累计仍负，signedcov/持仓竞争改变LONG暴露。连续日期段SHORT为-708.58/+708.73/-153.39，原20/10为-829.34/+487.02/+136.36；早段损失减轻、中段捕捉改善，但最后122日空头从盈利转亏，多空整段从-26.15恶化到-224.63。合计改善不代表各阶段稳定改善，不能用事后日期拼接赢家。双周期仅多879.98、DD6.60%/vol8.47%，原仅多927.09、DD6.96%/vol8.53%；这是收益与风险取舍，未出现所有指标占优的配方。多空残仓186.86，HOLD173.12，均为marked NAV；两种仅多已付费平仓。 新旧均为303日已见跨场所代理；价格、资金费未知解释、用户费用、共享10k、caps/1x保持。双周期多空保留为较高净收益的开发比较工件，不声称已通过晋级；原仅多保持稳定较低波动参照。投资NONE/CASH、长期APR NOT_EVALUABLE。
 
 下一有限主任务：核对现有授权Binance funding原始来源、解析链与官方单位/结算时钟，争取把目前两UNKNOWN情景转为有来源支持的自洽资金费口径；不根据更高盈利选择解释，不改写D093/D094历史结果。若无法确认，仅保留UNKNOWN和有限筛选；之后再依据固定公开benchmark差距选择新机制或独立合法窗口。固定双周期配方reopen需另一个有效周期或新失效机制证据，不搜索period/权重救本窗。
+
+
+## D095运行前：SMA200同窗公开对照
+
+D095运行前：D094之后核对发现资金费来源链已由D076审核，官方单位/时钟仍UNCONFIRMED，403/451不重试；无新官方证据就不重复调查。主问题改为补齐已有公开SMA200 signed同303日方向证据，原122日HALT与负结果保持。现有日线sign/200窗口/past30 inversevol/signedcov、10币、10k/abs30/gross60/逐仓1x/费用和两UNKNOWN资金费解释全不变；12新账户或显式HALT，8 CASH/HOLD经SHA+全窗口target golden复用。两个成本任务并行，各2线程、2400秒/1.8GB RSS/0.5GB工件，总新工件预算1GB，运行前给活采集旧36GB intake留80MB余量。原3规则回归按完全相同源/XML复用，新账户逐一独立财务与ordered-target验收。仅当完整方向在四情景净超过同方向20/10及HOLD且实际vol/DD均不高于两者才保留为研发挑战者；不满足则只保留benchmark/能力，投资NONE/CASH。零fit/搜参/下载。
+
+
+## D095结果与自主决定
+
+D095复用已有SMA200 signed，完成同303日12个新方向账户（完整4、停止8），另8现金/HOLD控制严格REUSED，0训练/搜参/下载。LONG_ONLY净126.32；价格毛损益220.75，费用+执行93.61，资金费-0.82，vol/DD9.49%/10.39%；SHORT_ONLY净NOT_EVALUABLE；停止前净-190.55，不是完整收益；停止见证{"event_us": 1747031040000000, "phase": "MARK_OBSERVATION", "symbol": "WIFUSDT", "isolated_equity": 0.5883377932590951, "maintenance_margin": 0.5908088549102142, "mark_price": 1.17500765, "quantity": -100.56255462, "NAV": 9809.454681853047, "unpaid_liability": 0.0, "decimal_strings": {"isolated_equity": "0.58833779325909506016759051128975354665", "maintenance_margin": "0.5908088549102142150", "mark_price": "1.17500765", "quantity": "-100.56255462", "NAV": "9809.454681853047142004399703960000000008", "unpaid_liability": "0"}}；LONG_SHORT净NOT_EVALUABLE；停止前净114.00，不是完整收益；停止见证{"event_us": 1747016460000000, "phase": "MARK_OBSERVATION", "symbol": "WIFUSDT", "isolated_equity": 0.40196231058527915, "maintenance_margin": 0.8408884561091301, "mark_price": 1.04434312, "quantity": -161.03681635, "NAV": 10113.995411039576, "unpaid_liability": 0.0, "decimal_strings": {"isolated_equity": "0.40196231058527912628133523789099442063", "maintenance_margin": "0.8408884561091300600", "mark_price": "1.04434312", "quantity": "-161.03681635", "NAV": "10113.99541103957585165469914878999999998", "unpaid_liability": "0"}}；事前四成本/单位情景净/风险均不劣于同方向20/10及HOLD门槛：{"LONG_ONLY": false, "SHORT_ONLY": false, "LONG_SHORT": false}。全部为已见开发、Binance价格配Bybit成本代理，funding单位仍UNKNOWN，MMR假设；marked残仓不当作免费清仓。投资NONE/CASH、长期APR NOT_EVALUABLE。
+
+下一有限主任务：先盘点已授权历史中覆盖完整牛熊周期的 trade/mark/funding 可用性，不触及 locked 正文、不下载、不重试受限API；确定可执行共同窗口和当时上市/流动性可知的池规则，再让固定20/10（稳定参照）与双周期（挑战者）及 CASH/HOLD 在完整共享资本下对照。当前303日和122日结果均已见且起始持仓不同，不能回答长期熊市空头是否稳定获利。暂停这套SMA200配方晋级；reopen需新的独立周期或有证据支持的有限风险机制对照，不调参救同窗。先完成采集断档恢复验收与本模块发布，以上历史盘点尚未运行。
+
+
+表中停机行的LONG/SHORT、毛损益、费用、资金费与残仓均为停止前缀，不是完整303日收益。有限独立复核：保存的原子agent机制证据核对共同122日1220行目标完全相同；但303日起始持仓、成本基础和NAV不同。原122日WIF空头于05-12 02:02触及假设MMR，新账户同分钟equity18.72高于MMR0.50，仍在06:24停机，只延后262分钟。不得称作规避清算。原机制stdin源码NOT_RETAINED；有限只读源本轮真实运行，复核公式、目标、四LO净桥和八停机范围，不重跑账户。子agent最终复核因额度失败，主agent只接管未完成有限核验；两次检查失败（时间列名、REUSED元标签）保留任务记录，成功task f49cdc8de1294e67bfe02eb80b47e512。源码默认静态核对与synthetic golden不证明完整历史代码因果相等。
+
+采集恢复已保留原库/WAL/SHM、checkpoint、audit head及闭合备份；旧public库绑定扩容前源码，原库不重写，新独立collector_public_v3_20261006.sqlite3绑定现行8GB/150GB并沿用原公开来源范围。micro原库按同一实现新会话续写，RESTART_GAP保留；实际前后两次同PID/start_ticks、heartbeat/事件进展见 reports/CTA_COLLECTOR_RECOVERY_ACCEPTED_20261006_V1.json。退出原因UNKNOWN，断档不计健康时间；8765服务已恢复。不是连续72h/alpha资格。

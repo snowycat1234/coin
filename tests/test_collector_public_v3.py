@@ -116,6 +116,41 @@ def test_changed_dependency_refuses_before_guard_or_writer_and_preserves_registr
     assert module.read_public_v3_status(native_db)["state"] == "SOURCE_BINDING_MISMATCH"
 
 
+def test_resource_contract_change_requires_independent_store(native_db, monkeypatch):
+    asyncio.run(offline(native_db))
+    original = query(native_db, "SELECT * FROM public_contract")
+    life = query(native_db, "SELECT * FROM public_lifecycle")
+    monkeypatch.setattr(module.disk, "HARD_LIMIT", module.disk.HARD_LIMIT - 1)
+    with pytest.raises(RuntimeError, match="binding changed"):
+        asyncio.run(offline(native_db))
+    assert query(native_db, "SELECT * FROM public_contract") == original
+    assert query(native_db, "SELECT * FROM public_lifecycle") == life
+    fresh = native_db.with_name("collector_public_v3_new.sqlite3")
+    asyncio.run(offline(fresh))
+    contract = module.read_public_v3_status(fresh)["contract"]
+    assert contract["disk_hard_bytes"] == module.disk.HARD_LIMIT
+    assert contract["ram_shared_max_bytes"] == module.resources.RAM_LIMIT
+
+
+def test_stop_file_applies_to_independent_registered_path(native_db, monkeypatch):
+    from types import SimpleNamespace
+
+    stop_path = native_db.with_suffix(".stop")
+    stop_path.write_text("authorized stop")
+    monkeypatch.setattr(module, "STOP_FILE", stop_path)
+    observed = []
+
+    async def collect(seconds, path, *, stop_event):
+        assert path != module.DEFAULT_DB
+        await asyncio.wait_for(stop_event.wait(), timeout=2)
+        observed.append(path)
+        return {"state": "STOPPED"}
+
+    monkeypatch.setattr(module, "collect_public_v3", collect)
+    assert asyncio.run(module._entry(SimpleNamespace(db=native_db, seconds=None))) == {"state": "STOPPED"}
+    assert observed == [native_db]
+
+
 def test_live_cannot_inject_guard_and_engineering_cannot_enter_real_loop(native_db):
     with pytest.raises(ValueError, match="Live collection cannot inject"):
         asyncio.run(module.collect_public_v3(1, native_db, fixture_factory=OfflineCollector))
