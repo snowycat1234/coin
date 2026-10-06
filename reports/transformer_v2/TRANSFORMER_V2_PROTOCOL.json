@@ -1,0 +1,263 @@
+{
+  "architecture": {
+    "FFN": 256,
+    "cross_asset_blocks": 1,
+    "dropout": 0.1,
+    "heads": 4,
+    "input": "B,T,A,F; temporal_shared_then_cross_asset_attention",
+    "max_parameters": 10000000,
+    "old_baseline": "PRESERVE_FROZEN_OLD_RESULT; THREE_NEW_SEEDS_SAME_OLD_ARCHITECTURE_WITH_STRICT_INNER_NORMALIZATION",
+    "patch_days": {
+      "CROSS_ASSET_MULTITASK": 1,
+      "CROSS_ASSET_UTILITY": 1,
+      "PATCH_CROSS_ASSET_MULTITASK": 8
+    },
+    "pool_selection": "NEVER_SELECT_WINNING_POOL; FIXED_EQUAL_MEAN_PREDICTION; REPORT_ALL_READOUTS",
+    "pretraining": "NOT_RUN_FINITE_SUPERVISED_COMPARISON",
+    "readouts": [
+      "learned_CLS",
+      "attention_pool",
+      "last_observed_state"
+    ],
+    "temporal_blocks": 3,
+    "width": 128
+  },
+  "data": {
+    "development": [
+      "2022-01-01",
+      "2026-02-28"
+    ],
+    "development_role": "SEEN_DEVELOPMENT_WALK_FORWARD_NOT_UNSEEN_OOS",
+    "feature_families": [
+      "momentum",
+      "volatility",
+      "SMA_distance",
+      "range",
+      "volume_z",
+      "premium",
+      "funding",
+      "causal_market_breadth_dispersion_vol"
+    ],
+    "locked": [
+      "2026-03-01",
+      "2026-08-31"
+    ],
+    "locked_not_read": true,
+    "lookback": 256,
+    "missing": "EXPLICIT_FEATURE_MASK_AND_ASSET_AVAILABILITY_NO_FUTURE_FILL_NO_PRELISTING_PRICE_ZERO",
+    "normalization": "INNER_TRAIN_ONLY_FOR_SELECTION; OUTER_TRAIN_ONLY_FOR_FIXED_EPOCH_REFIT",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "universe": "TEN_FIXED_ASSETS; EACH_FOLD_OLD_PAST_TRAINING_ELIGIBLE_ALLOCATION_SET"
+  },
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "economics": {
+    "asset_cap": 0.3,
+    "baselines": [
+      "CASH",
+      "HOLD",
+      "SMA200_SIGNED",
+      "STATIC_DIRECTION3",
+      "OLD_FROZEN_TRANSFORMER_SHARED",
+      "PER_ASSET_XGB"
+    ],
+    "calendar_gaps": "COMMON_OUTCOME_BLIND_DATA_COMPLETENESS; NO_RETURN_SPLICE; STOP_IF_LOCKED_NOT_COMPLETE_NO_PROFITABLE_SUBWINDOW_SELECTION",
+    "capital_USDT": 10000,
+    "closing": "LAST24H_UNIFORM_ZERO_TARGET_NATIVE_PAID_CAPACITY_LIMITED_PERSISTENT_CASH_CLOSE",
+    "common_development_windows": "SIX_PREVIOUSLY_FROZEN_COMPLETE_WINDOWS_787_DAYS",
+    "economic_rank": "WORST_FUNDING_MEDIAN_COMMON_WINDOW_NET_THEN_WORST_FUNDING_MEDIAN_PAIRED_DELTA_TO_STRONGEST_CAUSAL_BASELINE; FIXED_LEXICOGRAPHIC_TIE_MODEL_ORDER",
+    "engine": "EXISTING_NATIVE_MINUTE_ACCOUNT_AND_INDEPENDENT_WALLET_AUDIT_UNMODIFIED",
+    "funding_scales": [
+      1.0,
+      0.01
+    ],
+    "gross_cap": 0.6,
+    "isolated_leverage": 1,
+    "metrics": [
+      "net_return",
+      "gross_return",
+      "fee",
+      "spread_slippage",
+      "funding",
+      "turnover",
+      "MDD",
+      "realized_vol",
+      "Sharpe",
+      "long_PnL",
+      "short_PnL",
+      "exposure",
+      "risk_breaches"
+    ],
+    "prediction_metrics": [
+      "inner_val_loss",
+      "outer_prediction_loss",
+      "rank_IC",
+      "Spearman",
+      "cross_sectional_hit_rate",
+      "utility_rank"
+    ],
+    "roundtrip_nominal_bp": 27
+  },
+  "ensemble": "ARITHMETIC_MEAN_THREE_SEEDS_NO_WINNER_SEED",
+  "experiment": "TRANSFORMER_V2_20261007",
+  "folds": {
+    "horizon_embargo_days": 60,
+    "inner": "LAST20_PERCENT_TRAIN_DATES; INNER_LABEL_END_BEFORE_FIRST_INNER_VAL_DATE_MINUS60D",
+    "label_maturity": "MAX_HORIZON60_PLUS_DELAY_STRICTLY_BEFORE_FOLD_START_MINUS60D",
+    "old_folds_and_six_complete_windows": "EXACT_REUSE",
+    "random_split": false,
+    "starts": [
+      "2024-01-01",
+      "2024-07-01",
+      "2025-01-01",
+      "2025-07-01",
+      "2026-01-01"
+    ],
+    "type": "EXPANDING_CHRONOLOGICAL"
+  },
+  "investment_state": "NONE/CASH",
+  "locked_rule": {
+    "after_result_tuning": false,
+    "data_unavailable": "REPORT_NOT_EVALUABLE_AND_NO_PROMOTION; DO_NOT_FABRICATE_OR_SILENTLY_SHORTEN",
+    "final_fit": "PAST_ONLY_LABEL_END_BEFORE2026_03_01_MINUS60D; FIXED_SEEDWISE_MEDIAN_INNER_EPOCH_ACROSS_DEV_FOLDS",
+    "formal_runs": 1,
+    "read_requires": [
+      "all_architecture_features_loss_seed_ensemble_mapping_gate_frozen",
+      "dev_report_complete",
+      "protocol_hash_saved",
+      "chosen_candidate_manifest_committed"
+    ],
+    "repair": "ONLY_ENGINEERING_BUG_WITH_PROOF_NO_ECONOMIC_RESULTS_OR_MODEL_RANKING_READ",
+    "strategy_execution": "CONTIGUOUS184DAY_LOCKED_ACCOUNT; PAST_CONTEXT_AND_DAILY_AS_OF_FEATURES_ALLOWED; NO_LOCKED_LABEL_TRAINING"
+  },
+  "models": [
+    "TRANSFORMER_SHARED",
+    "CROSS_ASSET_UTILITY",
+    "CROSS_ASSET_MULTITASK",
+    "PATCH_CROSS_ASSET_MULTITASK"
+  ],
+  "native_base_commit": "2b0412250247c0c045b47b3d9ea8df8e3f9c61e2",
+  "old_complete_plan_sha256": "babd8ec925dea92ed677a0a2b2e0991b339e252749bddf95f9e7119ff274ab3b",
+  "operations": {
+    "SSH_independent_service": true,
+    "architecture_search": "NO_OPTUNA_NO_NEW_FAMILIES_NO_V2_1_RESCUE",
+    "artifacts_external": true,
+    "checkpoint_each_epoch": "MODEL_OPTIMIZER_BEST_RNG_BINDINGS; RESUME_SAME_RECIPE",
+    "fit_retry_max": 1,
+    "local_limits_unchanged": true,
+    "logging": "STAGE_FOLD_SEED_EPOCH_TRAIN_VAL_CUDA_MEMORY_ETA",
+    "old_state_readonly": true,
+    "server_no_performance_caps": true
+  },
+  "optimizer": {
+    "batch_size": 16,
+    "clip_grad_norm": 1.0,
+    "device": "CUDA_REQUIRED_NO_SILENT_CPU_FALLBACK",
+    "learning_rate": 0.0007,
+    "max_epoch": 40,
+    "min_improvement": 1e-07,
+    "mixed_precision": false,
+    "name": "AdamW",
+    "num_workers": 2,
+    "old_batch_size": 64,
+    "patience": 7,
+    "refit": "ALL_OUTER_TRAIN_FIXED_INNER_BEST_EPOCH",
+    "selection": "INNER_MULTI_TASK_LOSS; NEVER_OUTER_LOSS",
+    "weight_decay": 0.001
+  },
+  "oracles": {
+    "future_utility": "EXISTING60D_EXPERT_UTILITIES; RANK_ORACLE_FUTURE30D_RETURN; MATURITY_GAPS_EXPLICIT",
+    "names": [
+      "DIRECTIONAL_ORACLE",
+      "EXPERT_ORACLE",
+      "CROSS_SECTIONAL_RANK_ORACLE"
+    ],
+    "role": "NONCAUSAL_NONDEPLOYABLE_DIAGNOSTICS_ONLY",
+    "same_capital_costs_funding_caps_execution": true
+  },
+  "portfolios": {
+    "combined": "0.5_DIRECTIONAL_PLUS0.5_NEUTRAL; NO_DYNAMIC_OUTCOME_WEIGHT",
+    "directional": "EXISTING_SMA_HOLD_CASH_SOFTMAX_TEMPERATURE0.02; EQUALLY_BUDGETED_PAST_ELIGIBLE_ASSETS",
+    "neutral": "LONG_TOP2_SHORT_BOTTOM2_30D_RELATIVE_SCORE; 0.15_EACH_LEG; FIXED_K2; DOLLAR_NEUTRAL_NO_CLAIM_BETA_NEUTRAL",
+    "readout_comparison": "ENSEMBLE_DIRECTIONAL_CLS_ATTENTION_LAST_REPORTED_NO_GATE_SELECTION",
+    "rebalance": "ONCE_DAILY_AFTER_COMPLETE_DAY_DELAYED_NATIVE_CLOCK"
+  },
+  "promotion_gate": {
+    "all_required": true,
+    "baseline_competitiveness": "LOCKED_NET_AT_LEAST_STRONGEST_HOLD_SMA_STATIC_IN_BOTH_SCALES",
+    "cost_survival": "POSITIVE_GROSS_ALPHA_AND_POSITIVE_NET_ALPHA_FOR_AT_LEAST_ONE_DIRECTIONAL_NEUTRAL_COMBINED",
+    "development_positive_windows_min": 4,
+    "ensemble_stability": "SEED_ENSEMBLE_WINDOW_RETURN_STD_NO_GREATER_THAN_MEDIAN_SEED_STD; ENSEMBLE_WORST_WINDOW_AT_LEAST_MEDIAN_SEED_WORST_WINDOW",
+    "exposure_control": "COMPARE_EQUAL_REALIZED_GROSS_BASELINE; LESS_EXPOSURE_ALONE_IS_NOT_ALPHA",
+    "final_choices": [
+      "PROMOTE FOR FURTHER PAPER-TRADING",
+      "CONTINUE RESEARCH, NOT YET PROMOTED",
+      "STOP THIS TRANSFORMER DIRECTION"
+    ],
+    "locked_both_scales_net_above_cash": true,
+    "locked_max_MDD": 0.2,
+    "locked_max_nominal_asset": 0.3,
+    "locked_max_nominal_gross": 0.6,
+    "max_positive_window_share_of_positive_PnL": 0.5,
+    "positive_worst_scale_median_net": true,
+    "relative_evidence": "NEUTRAL_PIVOT_REQUIRES_POSITIVE_MEDIAN_IC_AND_POSITIVE_LONG_SHORT_EXPLAINED_NET",
+    "serious_risk": "NO_INSOLVENCY_OR_LIQUIDATION; UNRESOLVED_RISK_REDUCTION_OR_PERSISTENT_CAP_BREACH_FAILS",
+    "stop_rule": "LOCKED_BOTH_SCALES_NET_LE0_AND_NO_STABLE_IC_OR_RELATIVE_UTILITY_AND_ONLY_EXPOSURE_ADVANTAGE => STOP PRICE/FUNDING/PREMIUM-ONLY DIRECTIONAL TRANSFORMER RESEARCH",
+    "total_common_windows": 6
+  },
+  "provenance": {
+    "attention_documentation": "https://docs.pytorch.org/docs/2.6/generated/torch.nn.TransformerEncoderLayer.html",
+    "neural_model": "OWN_FINITE_COMPOSITION_OF_STANDARD_PYTORCH_ENCODERS_NOT_PAPER_REPRODUCTION",
+    "torch": "2.6.0+cu124 BSD_STYLE_UNMODIFIED"
+  },
+  "seeds": [
+    20261006,
+    20261007,
+    20261008
+  ],
+  "status": "PREREGISTERED_BEFORE_NEW_FIT",
+  "tasks": {
+    "causal_utility_only": "AUX_LOSSES_ZERO; NEUTRAL_SCORE_NEGATIVE_PREDICTED_CASH_MINUS_HOLD",
+    "loss_weights": {
+      "market": 0.1,
+      "relative": 0.2,
+      "utility": 1.0
+    },
+    "market": {
+      "horizons": [
+        7,
+        30,
+        60
+      ],
+      "loss": "SMOOTH_L1",
+      "target": "LOG_REALIZED_VOL_OF_CURRENT_ELIGIBLE_EQUAL_WEIGHT_MARKET"
+    },
+    "multitask_neutral_score": "30D_RELATIVE_HEAD",
+    "relative": {
+      "horizons": [
+        7,
+        30,
+        60
+      ],
+      "loss": "PAIRWISE_SOFTPLUS_RANK",
+      "target": "DEMEANED_FUTURE_RETURN_OVER_CURRENTLY_ELIGIBLE_ASSETS; NO_GAP_BRIDGING"
+    },
+    "target_scaling": "UTILITY_AND_LOGVOL_STD_FROM_FITTING_TRAIN_ONLY; RELATIVE_PAIR_ORDER_UNSCALED",
+    "utility": [
+      "60d_SMA_minus_HOLD",
+      "60d_CASH_minus_HOLD"
+    ],
+    "utility_role": "DAILY_QUANTITY_ACCOUNT_PROXY_NOT_MINUTE_WALLET_UTILITY"
+  },
+  "version": 1
+}

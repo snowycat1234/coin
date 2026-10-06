@@ -2,6 +2,10 @@
 
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
+## 2026-10-07：Transformer v2 预注册研究
+
+独立 research/transformer-v2 分支，协议在首次新fit前固定。旧证据和NONE/CASH保留。四个架构、三seed、两资金费条件、五时间fold；共同完整窗口沿用原787天。跨资产轴、显式可得性掩码、三种readout固定平均、8天patch、多任务与固定K=2中性组合是有限比较；所有经济策略仍走原分钟账户与独立账本。2026-03至08开发期间不读取，最终规则和开发报告冻结后只开一次。当前状态：环境/源SHA核验通过、训练前11测试通过，经济结果未产生。详见 reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json，SHA 8f7cdc763cd068b3c0ff1a4030fa0edc8d65838dd276c047427848f08378f4c7。
+
 ## 2026-10-07：归档采集与完整数据窗口验证模块
 
 新增 [collector_research 模块](../modules/collector_research/README.md)。服务器上的四类模型研究已完成，验证复用40个模型折与372项产物；新原生账户验证先按输入完整性分段，788天排除UTC2024-08-12一个缺口日，6段787天，共96/96独立10k账户完整且真实平仓，独立NAV/钱包最大误差5.46e-12 USDT。最后24小时采用原持续、容量受限的收费平仓规则；缺口不补造，段间收益不相加或拼成一个钱包。

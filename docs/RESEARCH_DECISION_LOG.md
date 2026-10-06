@@ -1547,3 +1547,8 @@ D108实际启动验收：修复commit 6e41645已push并核远端，2026-10-06 14
 这不是D108原数据复现，也不是未见OOS。四类模型在两资金费条件下的共同窗口收益中位数均为负；原日频筛查的基线门槛均未通过，最终模型未拟合，不晋级、不部署，投资资格仍NONE/CASH。后验完整数据窗口不能解释为当时能够预知并避开未来缺口。详见 [实际结果](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.md) 与 [小型验收摘要](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.json)。旧D108判断与证据保留。
 
 用户2026-10-07明确区分资源：服务器按实际配置，无项目CPU/RAM/swap/墙钟限制；本机限制继续。模块默认local，必须hpc_linux及8GB/swap0/GPU0；server需显式选择且拒绝WSL。当前服务器10CPU/33.65GB，性能切换复用76例、只继续20例。行情、模型、环境和大账本留在外部STATE。
+
+
+## 2026-10-07：Transformer v2 预注册研究
+
+独立 research/transformer-v2 分支，协议在首次新fit前固定。旧证据和NONE/CASH保留。四个架构、三seed、两资金费条件、五时间fold；共同完整窗口沿用原787天。跨资产轴、显式可得性掩码、三种readout固定平均、8天patch、多任务与固定K=2中性组合是有限比较；所有经济策略仍走原分钟账户与独立账本。2026-03至08开发期间不读取，最终规则和开发报告冻结后只开一次。当前状态：环境/源SHA核验通过、训练前11测试通过，经济结果未产生。详见 reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json，SHA 8f7cdc763cd068b3c0ff1a4030fa0edc8d65838dd276c047427848f08378f4c7。

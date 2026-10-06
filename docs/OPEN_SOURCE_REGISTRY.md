@@ -440,3 +440,6 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 训练沿用标准PyTorch2.6.0+cu124（BSD-style，https://github.com/pytorch/pytorch）nn.Conv1d/GRU/TransformerEncoder及AdamW、XGBoost CPU3.4.1 Apache-2.0；TCN/GRU/Transformer的固定小型网络组合是COIN自己的研究配方，不冒充论文策略复现。NumPy2.5.3 BSD-3-Clause、pandas2.3.3 BSD-3-Clause、Polars1.44.2 MIT、PyArrow24.0.0 Apache-2.0、requests2.34.2 Apache-2.0、matplotlib3.11.2既有许可均未修改。版本来自服务器已安装环境，PyTorch官方CUDA12.4 wheel与所有依赖SHA留外部STATE；新验证没有追加训练。
 
 本轮仅数据完整性/旧模型复用/报告/运行站点的薄适配。真实缺分钟与完全现金不需要价格的诊断区分保留；发布的完整窗口使用正常账户，按过去训练资产池共同选段，最后24小时持续收费平仓，禁止收益拼接。Binance价格配Bybit费用、资金费单位、MMR及过滤器认证边界沿既有声明，不声称交易所真实成交认证。模块测试72通过，旧模型审计40折，另外两套16例两天工程探针验证普通函数和完整CLI/恢复，不把探针计入市场收益。
+
+
+Transformer v2预注册：复用已有PyTorch2.6.0+cu124/BSD-style标准TransformerEncoderLayer、TransformerEncoder和AdamW，不修改第三方。OWN finite composition为共享temporal三层与cross-asset一层，d128/4head/FFN256，显式NULL/availability/feature mask；三readout固定平均、8天patch和pairwise rank辅助损失，不声称复现论文。数据、标签与金融执行复用collector和原native账户/独立核验。禁止新增无限架构或按locked结果改gate。协议SHA 8f7cdc763cd068b3c0ff1a4030fa0edc8d65838dd276c047427848f08378f4c7。
