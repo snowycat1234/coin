@@ -42,6 +42,13 @@ print(json.dumps(dict(phase='模块收尾实际磁盘扫描；总量未知',comp
 runtime_dirs=c.get('runtime_directories',[]) or [c['runtime_directory']]
 assert len(set(runtime_dirs))==len(runtime_dirs)
 report=dict(status='COMPLETE_SAVED_EVIDENCE_DIAGNOSTIC_NOT_NEW_ECONOMIC_REPLAY',parent_commit=head,references=refs,decision=c['decision'],next_action=c['next_action'],models_fit=0,new_accounts=0,new_strategy_net_return='NOT_RUN',locked_body_read=False,source_hashes={p:sha(ROOT/p) for p in c['source_paths']},task_intervals_union_seconds=sum(e-b for b,e in intervals),tasks=[{k:t.get(k) for k in ('id','title','started_at','ended_at','exit_code')} for t in tasks],unattributed_intervals='UNKNOWN_NOT_CALLED_MODEL_THINKING_OR_IDLE',disk_scan=scan,resources=resources.status(),runtime_directory_bytes=sum(p.stat().st_size for d in runtime_dirs for p in Path(d).rglob('*') if p.is_file()))
+if c.get('completed_research'):
+ completed=json.loads((ROOT/c['completed_research']).read_bytes())
+ assert completed['status']=='COMPLETE_SELECTOR_ML_DAG_DEVELOPMENT_ONLY'
+ report.update(activity_scope='CHECKPOINT_ONLY_NO_NEW_FITS_OR_ACCOUNTS',completed_research=dict(
+  path=c['completed_research'],sha256=sha(ROOT/c['completed_research']),
+  models_fit=completed['actual_scalar_model_fits'],scalers_fit=completed['actual_scaler_fits'],
+  accounts=completed['economic_accounts'],decision=completed['decision'],qualification=completed['investment_candidate']))
 if economics:
  controls={v['id'] for e in economics for v in e.get('reused_controls',[])+e.get('reused_directional_controls',[])}
  directional_controls={v['id'] for e in economics for v in e.get('reused_directional_controls',[])}

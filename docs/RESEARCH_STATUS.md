@@ -1,32 +1,42 @@
 # COIN 当前研究状态
 
-投资资格 **NONE/CASH**；长期净APR **NOT_EVALUABLE**。
+投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
-## 最新实际经济结果
+## 最新实际经济结果与采用判断
 
-D105把冻结expert目标放入真实单10k钱包。两资金费条件oracle相对最佳单expert增量3335.69/3386.30，比shadow诊断低27.93/28.69，机会门槛保留，但oracle未来知情始终不算候选。八expert等权弱于原仅多；固定SMA200/HOLD/CASH=.5/.25/.25降低实际波动/回撤、提高Sharpe，但净收益低于原仅多，两条件均未达替换门槛。投资NONE/CASH，原SMA200仅多风险效率参照及多空正SHORT挑战者保留。
+D108自动ML selector实验已完成：SMA200_SIGNED/HOLD/CASH三冻结expert，26past-only特征，固定30/60/90d，正则线性与单套小XGBoost，5个purged chronological folds加H日额外embargo。实际440底层fit、350训练期scaler fit、158完整共享10k钱包；MLP按样本门槛跳过。后台Python独立完成，没有LLM/API参与实验流程。
 
-PCT实际oracle净5799.64（比最佳单expert2413.34增3386.30），DD6.62%、vol10.37%；未来知情、绝不作为可行策略或投资证据。真实账户净收益比shadow诊断低28.69。固定三expert净1377.58、SHORT189.50、Sharpe1.217、DD5.11%、vol5.42%；原LO净1563.48、Sharpe1.121、DD6.23%、vol6.68%。静态分散改善风险，但不是净收益全面优势；相同caps未等风险。
+事前utility-rank选出LINEAR_H60，未按最高回测PnL换成H30。BTC评价窗口2022-10-01至2024-01-01，实际457日；2022仅Q4。全部已见开发/内部时间验证，不是独立OOS；FINAL LOCKED TEST未读未跑。
 
-## 当前研究问题与下一项
+|方案|RAW净USDT|PCT净USDT|RAW/PCT实际年化波动|RAW/PCT分钟MDD|RAW/PCT Sharpe|
+|---|---:|---:|---:|---:|---:|
+|LINEAR_H60|1446.38|1614.65|10.42%/10.43%|6.41%/6.20%|1.088/1.198|
+|SMA200_SIGNED|827.62|971.38|10.64%/10.64%|9.69%/9.54%|0.650/0.749|
+|HOLD|1842.31|2080.75|10.64%/10.63%|7.32%/7.31%|1.323/1.473|
+|固定SMA/HOLD/CASH=.5/.25/.25|896.98|1023.79|6.54%/6.54%|5.26%/5.11%|1.082/1.223|
 
-D106单一slow×fast×vol固定软映射未通过事前排名门槛：RAW/PCT平均加权排名0.67049/0.69400，静态三expert0.63839/0.66518，最佳单expert与只用成熟过去排名均0.64286/0.69643；虽胜同频随机和滞后60日特征，未超过打乱状态95%对照0.67637/0.70124，两年相对优势也不一致。仅8个评价标签，不声称regime alpha；暂停这个映射，保留SHORT与专家库。
+RAW/PCT是资金费未确认单位的两条件解释，不选择更盈利者当事实。selector胜SMA、旧人工map和各类placebo的经验95分位，但没有胜最强static HOLD：净差−395.93/−466.09，oracle-gap capture为−31.29%/−38.47%，2022Q4改善、2023未改善，未达事前门槛。相对HOLD有小幅DD改善，但Sharpe及净收益更低；实际vol接近，不能把相同caps当严格风险匹配。
 
-用户现已授权有限ML selector，覆盖此前未开放classifier的暂缓。本轮D108只保留冻结SMA200_SIGNED/HOLD/CASH，26past-only特征、H30/60/90、正则线性与单套小XGBoost；MLP样本不足跳过。DATA_SPLIT_AUDIT读取2157个历史metadata/manifest与选择记录，2022–23明确已见，季度purged walk-forward加H日额外embargo是内部chronological validation，非独立OOS；locked正文不读。
+## 钱赚在哪里、亏在哪里
 
-训练前协议已commit/push `0dc2f2f` 并核远端；两日真实共享钱包接线QA通过（2880分钟、paid flat、独立资金/NAV核验，0fit）。首个后台启动因systemd缺WSL标识被bounded守卫阻止（0fit），启动修复已commit/push `6e41645`；原协议保留，runtime_fix只改launcherSHA/新目录，其余科学协议完全相同。2026-10-06 14:06后实际核对后台coin-selector-v1存活，runner PID13164、原生阶段DATA、state/selector_progress.json持续更新；完整自动DAG现 **RUNNING**，断点/恢复与日志在既有D-hosted STATE。最终模型净收益 **NOT_YET_READ**，不需要LLM/API逐折参与。预算2worker各2线程、8小时、12GB新增空间预留，原采集不动。入口/恢复/只读状态见[SELECTOR_RUNNER](SELECTOR_RUNNER.md)，配置见[selector_v1](../configs/selector_v1_runtime_fix.yaml)。60主CV组和320shuffleCV组，最多1080底层fit；故障最多一次额外重试，保留attempt。成功需两资金费条件均胜static、各placebo95%、两年评价段改善、capture至少15%及既定风险门槛；仍只是已见开发筛选，不晋真钱。
+selector在2022Q4 SHORT净+367.93/+350.23；2023 SHORT净−553.21/−558.07，LONG净+1631.66/+1822.49。457日SHORT总贡献−185.28/−207.84，SHORT毛价格损益已为负，不是费用吞掉正alpha。全部手续费+执行约49.90/49.94；主瓶颈是反弹期方向/专家选择及多头参与不足。相对SMA200减少反弹空头损失，但还不足以胜HOLD。
 
-原SMA200仅多风险效率参照及正SHORT多空挑战者保持；静态三expert保留控制。暂停已测D106人工映射、D101硬过滤、D102无重入CE、八expert等权主力与旧ML/4h网格，能力和负结果保留；新ML仅上述有限预注册对照，无密扫。2022 shortcapture仅验证Q4的92日，不冒称全年；资金费单位/原生数量与MMR的不确定仍限制投资结论。
-[实际榜单](CTA_LEADERBOARD.md)；[完整经济与排名证据](SHORT_SELECTION.md)。
+独立复核158账户、6.43GB实际工件SHA、4026个成熟标签、训练期scaler均值、purge/embargo、日收益/Sharpe/vol及资金桥接通过；钱包/NAV最大误差1.82e−12 USDT。同一H60成熟日期上，selector加权utility-rank为0.56697/0.56899，低于恒定HOLD的0.63995；预测排名目标也未胜强常量基准。仅16个每类shuffle的经验95分位不是p<.05证据（即使全部胜出，未校正有限尾概率下限仍1/17=0.0588）；六模型方案在同一验证池选择也未做选择偏差校正，不能声称regime alpha。训练R²高而所有H60季度验证R²为负，utility校准迁移弱；近常量标签会放大R²幅度，不把该统计直接当唯一投资结论。
 
-## 数据、账户与资源边界
+## 当前保留、暂停与下一步
 
-实际BTC730日、2021预热、官方分钟成交/mark及实际资金费不变；ETH官方2022年7月mark仍缺11分钟，相关账户暂停，只接受合法完整真实输入reopen，不填零/删日期。N资产能力保持，BTC对照不是历史10币池完成。已看历史继续开发角色，不启封locked。
+**不晋级ML selector，不追加模型复杂度或调温度/阈值。** 保存线性/树能力、全部试验、模型与失败，SHORT方向保持一级研究方向。冻结SMA200多空作为透明方向参照；既有SMA200仅多作为风险效率参照，风险管理HOLD作强基准，固定三expert作低风险控制。没有合格投资主力，不能把本窗口HOLD事后胜出解释成实时regime选择。
 
-完整资本10k、abs单币30%/组合gross60%、单向逐仓1x、无自动加保证金保持；实际波动/DD、gross/net/保证金及瞬时cap漂移与减仓延迟分别记录。Binance价格配Bybit用户费是跨场所代理，资金费单位两条件解释、MMR/数量及历史费用未原生认证。金额/数量精度保持。
+下一主任务：先核已有D043完整2024年1–7月213日输入，在相同冻结三expert/费用/完整资本与风险口径下核对跨窗口条件优势及oracle机会是否仍存在；零新增ML拟合、零搜参。2024同样已见，只称迁移开发核对，不是独立validation。该小闭环区分“机会只在一个周期存在”与“当前过去特征/标签校准未能迁移”，比继续救模型更有信息价值。若没有持续条件优势则保留强单策略/静态控制；只有多个完整市场阶段给出稳定排名信息或可靠新增因果特征，才reopen learned selector。
 
-共享RAM8,000,000,000B、swap0/GPU0、D项目+整个WSL VHD150GB（120预警/135停新增/15预留）。上一经济模块D105：6新730日组合账户+4完整控制复用，最多2并行各2线程/1.2GB守卫，实际任务304.6,565.5秒、RSS峰值746.0MB、共享采样峰值3.15GB，新增目录392.4MB。本轮D106只读排名探测0新账户/行情/训练，核心计算0.65秒、RSS峰值244.5MB；核心时间不等于全部原生任务时间。实际区间并集/最新磁盘扫描时刻见D106 close，不把D105采样或旧扫描当本轮。
+[自动最终报告](../reports/SELECTOR_ML_REPORT.md)；[最终结果/账本引用](../reports/SELECTOR_ML_RESULTS.json)；[独立复核](../reports/SELECTOR_ML_INDEPENDENT_REVIEW_20261006_V1.json)；[启动/恢复](SELECTOR_RUNNER.md)。旧D105/106及所有负结果按Git和既有报告保留，不覆盖。
 
-## 运维与证据
+## 数据、资本与资源边界
 
-8765沿用；原public/micro公开采集存活核对另报，断档不拼72h资格。完整目标/权重/费用及Decimal资金NAV通过，真实平仓，不删残仓。未来知情oracle不进入候选；D106状态可预测性及排名placebo已测并未通过；可行adaptive账户净收益仍NOT_RUN。无真钱/密钥/发单/付费/GPU/封存正文。
+Binance USD-M行情+Bybit用户费用为跨场所代理；27bp往返费用/点差/滑点固定，实际资金费按两个条件解释。原生数量/MMR/资金费单位及历史费用仍未认证。完整10k资本、abs单币30%/gross60%、永续单向逐仓1x/无自动追加保证金；真实risk减仓不关闭，瞬时caps漂移与执行延迟保留报告。N资产和SHORT能力保持，本次BTC实验不代表10币组合已验证。
+
+RAM共享8GB、swap0/GPU0、D项目+整个WSL VHD150GB（120预警、135停止新增、15预留），按用户2026-10-05扩容。实际DAG运行6363秒，账户worker峰值RSS595.23MB；末次共享RAM采样7.79GB，完整共享组运行峰值未保存、重启后不能补称旧值。158账本文件共6.43GB；2026-10-06 16:17保存前实测总磁盘45.45GB；当前实际磁盘扫描见本模块close，不拿旧扫描冒充当前。
+
+## 运维
+
+8765沿用。D108完成后核对到WSL新boot、原采集进程缺失；退出原因UNKNOWN，不能归因用户或OOM。已保存41份原DB/WAL/SHM、日志、checkpoint和闭合SQL副本/audit head，按原只读源/5GB coin-quant子组恢复；两次实际PID/source binding核对一致、public心跳+75117ms、micro新增17610事件且asof推进，连接已实测。具体证据见SELECTOR_COLLECTOR_RESUME_SAMPLE V1/V2；不注入工程升级，不拼接连续健康时间。采集恢复证据单独记录，离线历史结果有效性不依赖此轮采集存活。无密钥/账户/发单/付费/GPU/封存正文。

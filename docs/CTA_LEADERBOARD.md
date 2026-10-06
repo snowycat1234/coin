@@ -234,3 +234,7 @@ D103公开完整SMA50/200多空：BASE/PCT净-1.62，毛价格93.96，费用+执
 |八expert等权|425.14|-6.90|5.41|6.80|0.41|78.29|
 
 D105把冻结expert目标放入真实单10k钱包。两资金费条件oracle相对最佳单expert增量3335.69/3386.30，比shadow诊断低27.93/28.69，机会门槛保留，但oracle未来知情始终不算候选。八expert等权弱于原仅多；固定SMA200/HOLD/CASH=.5/.25/.25降低实际波动/回撤、提高Sharpe，但净收益低于原仅多，两条件均未达替换门槛。投资NONE/CASH，原SMA200仅多风险效率参照及多空正SHORT挑战者保留。 RAW完整结果与瞬时风险漂移/集中度见工件，equal caps不代表同风险。
+
+## D108 三expert ML selector（已见BTC457d，完整共享钱包）
+
+[自动报告](../reports/SELECTOR_ML_REPORT.md)与[全部结果](../reports/SELECTOR_ML_RESULTS.json)。只读独立复核通过，不按事后PnL换赢家：rank选LINEAR_H60，RAW/PCT净1446.38/1614.65、MDD6.41%/6.20%、vol10.42%/10.43%，低HOLD1842.31/2080.75，胜SMA200_SIGNED827.62/971.38。经验placebo95通过、beststatic/capture/跨年份门槛失败；不晋级，投资NONE/CASH。SHORT2022Q4+367.93/+350.23，2023−553.21/−558.07；窗口仅2022Q4–2023，不冒称全年bear capture。固定三expert的参数没有改变，ML训练族不是新的经典CTA expert。

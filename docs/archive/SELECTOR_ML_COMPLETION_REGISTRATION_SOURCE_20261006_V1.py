@@ -1,0 +1,8 @@
+import json,os,hashlib
+from pathlib import Path
+from quant.paths import ROOT
+from scripts.research_v8.registry import FIELDS,append_event
+r=json.loads((ROOT/'reports/SELECTOR_ML_RESULTS.json').read_bytes());c=r['config']
+event=dict.fromkeys(FIELDS);event.update(experiment_id='D108_SELECTOR_V1_COMPLETED',event_id='D108_SELECTOR_V1_COMPLETED:ACTUAL_DAG',event_type='COMPLETED_AUTONOMOUS_RESEARCH',git_commit=r['binding']['git_preregistration_commit'],data_manifest_hash=c['data']['manifest']['sha256'],protocol_hash=r['binding']['config_sha256'],feature_set=c['features'],labels=c['labels'],model_family='STANDARD_SCALER_RIDGE_AND_CPU_XGBOOST_THREE_UTILITY_HEADS',hyperparameters=c['models'],seed=c['seed'],thresholds=c['success'],cost_assumptions=c['risk'],all_folds=c['folds'],success_failure=r['decision'],reason_for_next_experiment='No ML promotion: fails HOLD and cross-year/capture gates, rank below constant HOLD; zero-fit frozen-expert cross-window opportunity test next',result_influenced_later_choice=True,models_fit=r['actual_scalar_model_fits'],scalers_fit=r['actual_scaler_fits'],accounts=r['economic_accounts'],placebo_paths=64,artifact_path='reports/SELECTOR_ML_RESULTS.json',artifact_sha256=hashlib.sha256((ROOT/'reports/SELECTOR_ML_RESULTS.json').read_bytes()).hexdigest(),locked_consumed=False,investment_candidate='NONE_CASH')
+append_event(ROOT/'reports/experiment_registry.jsonl',event)
+print(json.dumps(dict(status='APPENDED_ACTUAL_440_FITS_158_ACCOUNTS_NEGATIVE_DECISION',task_id=os.environ['COIN_TASK_ID'])))

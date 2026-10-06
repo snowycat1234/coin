@@ -1,5 +1,5 @@
 """Preserve stopped research and collector bytes before any finite recovery."""
-import hashlib,json,os,shutil,sqlite3,subprocess
+import argparse,hashlib,json,os,shutil,sqlite3,subprocess
 from datetime import UTC,datetime
 from pathlib import Path
 from quant.paths import ROOT,STATE
@@ -20,19 +20,32 @@ def processes():
     return found
 
 assert os.environ.get('COIN_TASK_ID') and not processes()
+ap=argparse.ArgumentParser()
+ap.add_argument('--collectors-only',action='store_true')
+ap.add_argument('--backup-dir',default=str(STATE/'d099-interruption-preserved-20261006-v1'))
+ap.add_argument('--output',default='reports/CTA_CYCLE_INTERRUPTION_PRESERVED_20261006_V1.json')
+a=ap.parse_args()
 run=STATE/'d099-fixed-btc-cycle-accounts-20261006-v1'
-out=STATE/'d099-interruption-preserved-20261006-v1';out.mkdir()
-checkpoint=json.loads((run/'CHECKPOINT.json').read_bytes())
-assert len(checkpoint['cases'])==3 and not (ROOT/'reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V1.json').exists()
-paths=[run/'CHECKPOINT.json',run/'RUN_BINDING.json',run/'frozen_signals.parquet',run/'SIGNAL_AVAILABILITY.json',
-       ROOT/'scripts/investment/run_cta_leaderboard.py']
+out=Path(a.backup_dir).resolve();assert out.is_relative_to(STATE) and not out.exists()
+report_target=(ROOT/a.output).resolve();assert report_target.is_relative_to(ROOT/'reports') and not report_target.exists()
+if a.collectors_only:
+    from quant import disk
+    print('保存停止采集前核对实际磁盘余量；文件总数未知',flush=True)
+    disk_scan=dict(disk.check(100000000),measured_utc=datetime.now(UTC).isoformat())
+    checkpoint=dict(cases=[],binding=dict(task_id=None));paths=[]
+else:
+    disk_scan=None;checkpoint=json.loads((run/'CHECKPOINT.json').read_bytes())
+    assert len(checkpoint['cases'])==3 and not (ROOT/'reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V1.json').exists()
+    paths=[run/'CHECKPOINT.json',run/'RUN_BINDING.json',run/'frozen_signals.parquet',run/'SIGNAL_AVAILABILITY.json',ROOT/'scripts/investment/run_cta_leaderboard.py']
+out.mkdir()
 for p in (STATE/'task-progress').glob('task-*.json'):
     v=json.loads(p.read_bytes())
-    if v.get('id')=='36961787058a4a4c8324836fbfcc03a9' or v.get('pid') in (1172,1173):paths.append(p)
+    if v.get('id')=='36961787058a4a4c8324836fbfcc03a9' or v.get('pid') in (1172,1173,660,661):paths.append(p)
 for stem in ('collector_public_v3_20261006.sqlite3','microstructure.sqlite3'):
     paths += [STATE/(stem+s) for s in ('','-wal','-shm') if (STATE/(stem+s)).exists()]
 logdir=STATE/'d095-stopped-collector-recovery-20261005-v1'
 if logdir.exists():paths += list(logdir.glob('*.log'))
+if a.collectors_only:paths += list((STATE/'d099-interruption-preserved-20261006-v1').glob('*.log'))
 saved=[]
 for i,p in enumerate(paths):
     assert not p.is_symlink();h=sha(p);dest=out/f'{i:03d}-{p.name}'
@@ -56,6 +69,7 @@ receipt=dict(status='INTERRUPTED_TASK_AND_STOPPED_COLLECTORS_PRESERVED_NOT_RESTA
     completed_case_ids=[r['id'] for r in checkpoint['cases']],parent_task_id=checkpoint['binding']['task_id'],
     parent_exit_code='UNKNOWN',parent_exit_reason='UNKNOWN',boot_id=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
     reboot_history=subprocess.check_output(['last','-x','reboot','-n','3'],text=True),
-    source_SQL_opened=False,originals_unchanged=True,healthy_gap_splicing=False,restarted=False)
-save(ROOT/'reports/CTA_CYCLE_INTERRUPTION_PRESERVED_20261006_V1.json',receipt)
-print(json.dumps(dict(status=receipt['status'],saved_files=len(saved),cases=3)))
+    source_SQL_opened=False,originals_unchanged=True,healthy_gap_splicing=False,restarted=False,
+    backup_directory=str(out),collectors_only=a.collectors_only,disk_scan=disk_scan)
+save(report_target,receipt)
+print(json.dumps(dict(status=receipt['status'],saved_files=len(saved),cases=len(checkpoint['cases']))))

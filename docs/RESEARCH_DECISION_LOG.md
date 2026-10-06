@@ -1528,3 +1528,13 @@ D106单一slow×fast×vol固定软映射未通过事前排名门槛：RAW/PCT平
 D108启动纠正：首个systemd后台进程在进入Python前被bounded WSL身份守卫拒绝（实测32ms、exit1、日志Use D-hosted hpc_linux）；最初短暂active不算存活。修复仅为外层核真实hpc后传入WSL_DISTRO_NAME与持久日志，0fit；原冻结配置不覆盖，runtime_fix只变启动器SHA/新目录，所有训练/经济/验收协议逐字段一致，旧2日共享钱包QA有效保留。需先commit再正式启动。
 
 D108实际启动验收：修复commit 6e41645已push并核远端，2026-10-06 14:06后原生service持续active、runner PID13164已进入DATA，progress持续更新；实际running证明见reports/SELECTOR_ML_RUNNING_VERIFIED_20261006_V1.json。后台自行跑完整固定DAG，模型经济结果未读，不逐轮由Codex执行。
+
+## D108：有限ML selector完成后的投资判断
+
+预登记0dc2f2f，后台启动修复6e41645只改launcher/新目录；所有模型、数据、成本、horizons、门槛保持。Python独立运行6363秒，440底层fit/350scaler/158共享10k账户，最终rank选LINEAR_H60而非事后PnL更高的H30。BTC2022Q4–2023的457日全部已见开发：RAW/PCT净1446.38/1614.65，胜SMA827.62/971.38及经验placebo95，但低HOLD1842.31/2080.75；oracle capture−31.29%/−38.47%，2023方向失败。2022Q4 short+367.93/+350.23；2023 short−553.21/−558.07，全部费用+执行仅约50；主要缺口是反弹期short和long参与，非交易成本。DD6.41%/6.20%低HOLD7.32%/7.31%但Sharpe1.088/1.198低1.323/1.473，vol10.42%/10.43%与HOLD10.64%/10.63%接近。
+
+独立参考复核4026成熟标签、训练scaler均值、所有fit成熟/embargo和158实际账本SHA/资金桥接/日指标，最大资金NAV误差1.82e−12。训练R²高、H60全部季度验证R²负；小近常量label使幅度不稳，结合净收益/跨阶段门槛拒绝晋级。16shuffle经验95分位非p<.05，模型选择与验证共用池，仍无regimealpha/投资声明。ROI上界仍有但过去信息模型尚未转化；不从这个窗口永久否定SHORT。
+
+决定：投资NONE/CASH；learned selector暂停，保留冻结专家和全部能力，禁止追加复杂度/事后调阈值。下一有限主任务零MLfit，先复用D043已完成2024年1–7月213d历史来源，核冻结三expert的条件优势/成本后oracle机会跨窗口是否存在。所有2024已见，不叫unseen。reopen learned方向仅在多个完整阶段稳定条件排名或可靠新增因果信息；不是换种classifier继续枚举。详细账户、版本/单位/成本/风险/日期/工件SHA见SELECTOR_ML_RESULTS及INDEPENDENT_REVIEW。
+
+补充同H60/368个共同成熟日期的常量ranking对照：LINEAR_H60 RAW/PCT0.56697/0.56899，恒定HOLD0.63995，模型连relative-ranking目标也未胜强常量基准；16+16shuffle均无更高净收益，有限尾概率1/17=0.0588，32随机1/33=0.0303，都未选择偏差校正。冻结success仍按原经验95判，不能另包装显著alpha。
