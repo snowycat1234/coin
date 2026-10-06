@@ -184,11 +184,11 @@ def main():
     for r in rows:
         if r['family']==dev['chosen']['family'] and str(r['seed'])=='ENSEMBLE' and r['mapping']==dev['chosen']['mapping']:
             for m in r['monthly_PnL']:lines.append('|'+m['month']+'|'+str(r['funding_scale'])+'|'+'|'.join(fmt(v) for v in (m['net_PnL'],m['gross_PnL'],m['fees'],m['spread_cost']+m['slippage_cost'],m['funding_USDT']))+'|')
-    lines+=['## 8–9. 多空贡献和成本','多空贡献由原始成交、持仓和资金费逐笔归属，long NET + short NET 与账户 NET 的误差小于 1e-6 USDT。fee + spread + slippage 占正毛价格 PnL 的比率保留在逐账户 summary；毛价格非正时该比率为 NOT_EVALUABLE，不能拿负分母制造“低成本”。',
-            '|冻结候选 funding|NET %|毛价格 USDT|交易成本占正毛价格|turnover USDT|long NET|short NET|','|---:|---:|---:|---:|---:|---:|---:|']
+    lines+=['## 8–9. 多空贡献和成本','多空贡献由原始成交、持仓和资金费逐笔归属，long NET + short NET 与账户 NET 的误差小于 1e-6 USDT。资金费为 signed cash flow：正数为收入，负数为支出；NET=毛价格−fee−spread−slippage+funding。交易成本比率与包含净资金费的负担比率分别保留；毛价格非正时比率为 NOT_EVALUABLE，不能拿负分母制造“低成本”。',
+            '|冻结候选 funding|NET %|毛价格 USDT|交易成本/正毛价格|含净资金费负担/正毛价格|turnover USDT|long NET|short NET|','|---:|---:|---:|---:|---:|---:|---:|---:|']
     for r in rows:
         if r['family']==dev['chosen']['family'] and str(r['seed'])=='ENSEMBLE' and r['mapping']==dev['chosen']['mapping']:
-            lines.append('|'+str(r['funding_scale'])+'|'+'|'.join(fmt(r[k]) for k in ('net_return_percent','gross_price_USDT','cost_share_of_positive_gross','turnover_USDT','long_net_USDT','short_net_USDT'))+'|')
+            lines.append('|'+str(r['funding_scale'])+'|'+'|'.join(fmt(r[k]) for k in ('net_return_percent','gross_price_USDT','cost_share_of_positive_gross','cost_plus_net_funding_share_of_positive_gross','turnover_USDT','long_net_USDT','short_net_USDT'))+'|')
     lines+=['## 10. 封存 2026-03~08 与 causal 对照','|策略|funding|NET %|MDD|实际 gross|完整日历且付费清仓|','|---|---:|---:|---:|---:|---|']
     for r in rows:
         if str(r['seed'])=='ENSEMBLE' or r['family'].startswith('BASE_') or r['family'] in ('OLD_FROZEN_TRANSFORMER_SHARED','PER_ASSET_XGB'):

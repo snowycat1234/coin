@@ -18,6 +18,7 @@ def compact_case(case,legacy=False):
         noncausal=False if legacy else task.get('noncausal',False),net_USDT=s['net_PnL'] if full else None,
         net_return_percent=s['net_return_on_full_initial_capital_percent'] if full else None,
         gross_price_USDT=sum(r['gross'] for r in attribution.values()),fees_USDT=s['fees_USDT'],
+        gross_price_return_percent=sum(r['gross'] for r in attribution.values())/100.,
         spread_USDT=s['spread_cost_USDT'],slippage_USDT=s['slippage_cost_USDT'],funding_USDT=s['funding_USDT'],
         turnover_USDT=s['gross_fill_turnover_USDT'],Sharpe=metrics.get('sharpe'),realized_vol=metrics.get('annual_volatility'),
         MDD=s.get('minute_max_drawdown'),long_net_USDT=attribution['LONG']['net_contribution'],short_net_USDT=attribution['SHORT']['net_contribution'],
@@ -26,6 +27,7 @@ def compact_case(case,legacy=False):
         mean_signed_exposure=exposure.get('minute_mean_net_signed_weight'),risk_reduction_signals=s.get('risk_reduction_signal_count'),
         risk_reduction_latency_us=s.get('maximum_observed_first_risk_reduction_latency_us'),
         cost_share_of_positive_gross=(s['fees_USDT']+s['execution_cost_USDT'])/sum(r['gross'] for r in attribution.values()) if sum(r['gross'] for r in attribution.values())>0 else None,
+        cost_plus_net_funding_share_of_positive_gross=(s['fees_USDT']+s['execution_cost_USDT']-s['funding_USDT'])/sum(r['gross'] for r in attribution.values()) if sum(r['gross'] for r in attribution.values())>0 else None,
         NAV_audit_error=case['independent_audit']['maximum_NAV_error_USDT'],summary_sha256=case['summary_sha256'],
         monthly_PnL=s.get('months',[]),
         contribution_sum_error=abs(attribution['LONG']['net_contribution']+attribution['SHORT']['net_contribution']-s['net_PnL']))
