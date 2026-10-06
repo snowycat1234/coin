@@ -30,7 +30,7 @@ def compact_case(case,legacy=False):
         cost_share_of_positive_gross=(s['fees_USDT']+s['execution_cost_USDT'])/sum(r['gross'] for r in attribution.values()) if sum(r['gross'] for r in attribution.values())>0 else None,
         cost_plus_net_funding_share_of_positive_gross=(s['fees_USDT']+s['execution_cost_USDT']-s['funding_USDT'])/sum(r['gross'] for r in attribution.values()) if sum(r['gross'] for r in attribution.values())>0 else None,
         NAV_audit_error=case['independent_audit']['maximum_NAV_error_USDT'],summary_sha256=case['summary_sha256'],
-        monthly_PnL=s.get('months',[]),
+        monthly_PnL=[{k:v for k,v in month.items() if k!='ending_signed_quantities'} for month in s.get('months',[])],
         contribution_sum_error=abs(attribution['LONG']['net_contribution']+attribution['SHORT']['net_contribution']-s['net_PnL']))
 
 def compare(rows,protocol):
