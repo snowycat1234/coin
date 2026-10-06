@@ -36,7 +36,7 @@ def publish(repo,state,locked=False):
     # Reject unrelated work before any report copy or documentation mutation.
     assert not git(repo,'status','--porcelain'),'Publication refuses a dirty checkout; preserve WIP'
     dest=repo/'reports/transformer_v2';names=['TRANSFORMER_V2_DEV_RESULTS.json','TRANSFORMER_V2_DEV_REPORT.md','TRANSFORMER_V2_DEV_SUMMARY.csv',
-                                          'LOCKED_CANDIDATE_FREEZE.json','PREDICTION_METRICS.json','TRANSFORMER_V2_FINAL_FIT_AUDIT.json']
+                                          'LOCKED_CANDIDATE_FREEZE.json','PREDICTION_METRICS.json','TRANSFORMER_V2_FINAL_FIT_AUDIT.json','DEV_EXPOSURE_RESULTS.json']
     if locked:
         names=['TRANSFORMER_V2_FINAL_REPORT.md','TRANSFORMER_V2_FINAL_DECISION.json','TRANSFORMER_V2_LOCKED_SUMMARY.csv',
                'LOCKED_PREDICTION_METRICS.json','LOCKED_READ_AUTHORIZATION.json','LOCKED_ORACLE_SUPPORT_raw_fraction.json','LOCKED_ORACLE_SUPPORT_raw_percent.json']
@@ -97,6 +97,7 @@ def main():
     common=['--state',str(state),'--collector-root',a.collector_root,'--work',a.work,'--source-run',a.source_run]
     try:
         wait_development(state)
+        if not (state/'DEV_EXPOSURE_RESULTS.json').exists():stage('DEV_EXPOSURE','development_exposure',common+['--complete-run','/home/ubuntu/coin/execution-state/automation/server-complete-20261007-hardware','--workers','10'])
         if not (state/'DEVELOPMENT_PUBLICATION.json').exists():publish(repo,state)
         authorize_locked(state,repo)
         if not (state/'LOCKED_DATA_MANIFEST.json').exists():stage('LOCKED_DATA','locked_data',common+['--workers','16'])

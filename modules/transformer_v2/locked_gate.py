@@ -22,12 +22,18 @@ def authorize_locked(state,repo):
     final=json.loads((state/'FINAL_FITS.json').read_text());audit=json.loads((state/'TRANSFORMER_V2_FINAL_FIT_AUDIT.json').read_text())
     assert final['status']=='COMPLETE' and final['completed']==24 and audit['status']=='ALL24_FINAL_PAST_ONLY_FITS_AUDITED'
     assert audit['final_fits_sha256']==sha(state/'FINAL_FITS.json') and not audit['locked_read']
+    exposure=json.loads((state/'DEV_EXPOSURE_RESULTS.json').read_text())
+    assert exposure['status']=='COMPLETE' and not exposure['errors'] and not exposure['locked_read']
+    assert exposure['candidate_freeze_sha256']==sha(freeze_path)
+    committed=subprocess.check_output(['git','-C',str(repo),'show','HEAD:reports/transformer_v2/DEV_EXPOSURE_RESULTS.json'])
+    assert committed==(state/'DEV_EXPOSURE_RESULTS.json').read_bytes(),'Exposure diagnostics must be committed before locked release'
     # Existing release is validated and reused; never open a second experiment.
     path=state/'LOCKED_READ_AUTHORIZATION.json'
     binding=dict(protocol_sha256=sha(protocol),candidate_freeze_sha256=sha(freeze_path),
                  development_report_sha256=sha(state/'TRANSFORMER_V2_DEV_REPORT.md'),
                  development_results_sha256=sha(state/'TRANSFORMER_V2_DEV_RESULTS.json'),
                  final_fits_sha256=sha(state/'FINAL_FITS.json'),final_fit_audit_sha256=sha(state/'TRANSFORMER_V2_FINAL_FIT_AUDIT.json'),
+                 development_exposure_controls_sha256=sha(state/'DEV_EXPOSURE_RESULTS.json'),
                  git_commit=subprocess.check_output(['git','-C',str(repo),'rev-parse','HEAD'],text=True).strip(),
                  range=['2026-03-01','2026-08-31'],formal_result_limit=1)
     if path.exists():

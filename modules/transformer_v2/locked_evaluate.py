@@ -24,10 +24,23 @@ def permit_pre_account_engineering_repair(state,proof_path):
     atomic(state/'LOCKED_ENGINEERING_REPAIR_ACCEPTED.json',dict(proof_sha256=sha(proof_path),proof=proof,accepted_at=time.time(),no_economic_account_results_exist=True))
 
 def baseline_weights(name,sma,active,gross=None):
-    budget=.6 if gross is None else np.asarray(gross)[:,None]
     position=dict(BASE_HOLD=np.ones_like(sma),BASE_SMA200_SIGNED=sma,
                   BASE_STATIC_DIRECTION3=.5*sma+.25,BASE_CASH=np.zeros_like(sma))[name]
-    return np.where(np.isfinite(position),position,0.)*active*budget/np.maximum(active.sum(1,keepdims=True),1)
+    position=np.where(np.isfinite(position),position,0.)*active
+    if gross is None:return position*.6/np.maximum(active.sum(1,keepdims=True),1)
+    budget=np.asarray(gross)[:,None];assert np.isfinite(budget).all() and (budget>=0).all() and (budget<=.6+1e-9).all()
+    denom=abs(position).sum(1,keepdims=True)
+    weight=np.divide(position*budget,denom,out=np.zeros_like(position),where=denom>0)
+    # Preserve the observed baseline direction/magnitude ratios, respecting the
+    # unchanged asset cap. Sparse signals may make the exact budget infeasible.
+    weight=np.clip(weight,-.3,.3)
+    for _ in range(position.shape[1]):
+        residual=np.maximum(0.,budget-abs(weight).sum(1,keepdims=True))
+        free=(abs(weight)<.3-1e-12)&(position!=0);basis=abs(position)*free;total=basis.sum(1,keepdims=True)
+        increment=np.divide(basis*residual,total,out=np.zeros_like(basis),where=total>0)
+        weight=np.clip(weight+np.sign(position)*increment,-.3,.3)
+    assert abs(weight).sum(1).max(initial=0)<=.6+1e-9 and abs(weight).max(initial=0)<=.3+1e-9
+    return weight
 
 def build_features(a):
     state=Path(a.state);repo=Path(__file__).resolve().parents[2];proto=repo/'reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json'

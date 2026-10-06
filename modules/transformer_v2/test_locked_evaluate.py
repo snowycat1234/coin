@@ -17,6 +17,17 @@ def test_exposure_control_uses_each_past_target_budget_and_missing_mask():
     changed=baseline_weights('BASE_HOLD',sma,active,np.array([.12,.6]))
     assert np.array_equal(hold[0],changed[0])
 
+def test_static_control_matches_requested_gross_and_sparse_signals_respect_caps():
+    sma=np.array([[1.,-1.,-1.,-1.],[1.,0.,0.,0.]])
+    active=np.ones_like(sma,bool);gross=np.array([.6,.6])
+    matched=baseline_weights('BASE_STATIC_DIRECTION3',sma,active,gross)
+    assert np.allclose(abs(matched).sum(1),gross) and abs(matched).max()<=.3+1e-12
+    assert np.sign(matched[0]).tolist()==[1.,-1.,-1.,-1.]
+    sparse=baseline_weights('BASE_SMA200_SIGNED',sma,active,gross)
+    assert np.allclose(abs(sparse).sum(1),[.6,.3]) and abs(sparse).max()<=.3+1e-12
+    original=baseline_weights('BASE_STATIC_DIRECTION3',sma,active)
+    assert np.allclose(original,(.5*sma+.25)*.6/4)
+
 def test_engineering_repair_refuses_any_account_outcome(tmp_path):
     atomic(tmp_path/'LOCKED_FORMAL_RUN.json',dict(source_sha256='old'))
     atomic(tmp_path/'LOCKED_FORMAL_FAILURE.json',dict(economic_results_read=False))

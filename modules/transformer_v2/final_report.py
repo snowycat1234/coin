@@ -123,7 +123,7 @@ def explicit_answers(dev,rows,relative,verdict,gaps):
     def n(v):return 'NOT_EVALUABLE' if v is None else f'{v:.4f}'
     def pair(k):return ' / '.join(n(s.get(k)) for s in summary['scenarios'])
     answers=[('1. v2 对旧 Transformer 的改善',f'冻结候选开发集对旧冻结 Transformer 的配对中位收益差为 {pair("median_paired_delta_old_transformer_pct")} pct（funding=1.0 / 0.01）；组合映射与旧方向基线不同的比较不能解释为单独的架构增益。')]
-    answers.append(('2. 改善来自哪里','cross-asset 与 readout 同时变化，attention 的独立贡献无法识别；multitask、patching 的配对差和实际 gross 差见架构表。ensemble 的稳定性 gate='+str(summary['development_gate_pass'])+' 所属开发综合 gate；单独稳定性见各 funding scenario。exposure 控制='+json.dumps(verdict.get('exposure_evidence',[]),ensure_ascii=False)+'。未证明实际 exposure 相等时，不宣称排除了降低 exposure 的解释。'))
+    answers.append(('2. 改善来自哪里','cross-asset 与 readout 同时变化，attention 的独立贡献无法识别；multitask、patching 的配对差和实际 gross 差见架构表。ensemble 的稳定性 gate='+str(summary['development_gate_pass'])+' 所属开发综合 gate；单独稳定性见各 funding scenario。开发暴露预算配对对照='+json.dumps(dev.get('exposure_control_pairs',[]),ensure_ascii=False)+'；封存 exposure 控制='+json.dumps(verdict.get('exposure_evidence',[]),ensure_ascii=False)+'。未证明实际 exposure 相等时，不宣称排除了降低 exposure 的解释。'))
     for candidate_mapping,label in [('DIRECTIONAL','3. directional alpha 是否存在'),('NEUTRAL','4. cross-sectional alpha 是否存在')]:
         evidence=next(s for s in dev['summaries'] if s['family']==family and s['mapping']==candidate_mapping)
         locked=[index.get((family,'ENSEMBLE',candidate_mapping,s)) for s in scales]
@@ -173,6 +173,18 @@ def main():
     metrics=json.loads((state/'PREDICTION_METRICS.json').read_text())['rows']
     locked_metrics=json.loads((state/'LOCKED_PREDICTION_METRICS.json').read_text())['rows'] if (state/'LOCKED_PREDICTION_METRICS.json').exists() else []
     relative=stable_relative_evidence(metrics,locked_metrics,dev['chosen']['family']);verdict=decision(dev,rows,locked['cases'],relative)
+    exposure_path=state/'DEV_EXPOSURE_RESULTS.json';exposure=json.loads(exposure_path.read_text());assert exposure['status']=='COMPLETE' and not exposure['locked_read']
+    assert exposure['candidate_freeze_sha256']==sha(state/'LOCKED_CANDIDATE_FREEZE.json')
+    pairs=[]
+    for row in dev['rows']:
+        if row['family']!=dev['chosen']['family'] or str(row['seed'])!='ENSEMBLE' or row['mapping']!=dev['chosen']['mapping']:continue
+        controls=[r for r in exposure['rows'] if r['window']==row['window'] and r['funding_scale']==row['funding_scale']]
+        complete=len(controls)==3 and all(r['net_USDT'] is not None for r in controls) and row['net_USDT'] is not None
+        pairs.append(dict(window=row['window'],funding_scale=row['funding_scale'],candidate_mean_gross=row['mean_gross'],
+                          baseline_mean_gross={r['family']:r['mean_gross'] for r in controls},
+                          delta_to_strongest_requested_budget_control_USDT=row['net_USDT']-max(r['net_USDT'] for r in controls) if complete else None,
+                          equal_realized_gross_certified=complete and all(abs(r['mean_gross']-row['mean_gross'])<=1e-6 for r in controls)))
+    dev['exposure_control_pairs']=pairs
     if locked['status']!='COMPLETE_ONE_FORMAL_LOCKED_EXPERIMENT':verdict.update(choice='B',decision=CHOICES[1],promotion=False,reason='Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun')
     diagnostic=architecture_diagnostics(dev);gaps=oracle_gaps(dev['rows'],dev['chosen']['family'],dev['chosen']['mapping'])+oracle_gaps(rows,dev['chosen']['family'],dev['chosen']['mapping'])
     answers=explicit_answers(dev,rows,relative,verdict,gaps)
@@ -180,6 +192,7 @@ def main():
                   chosen=dev['chosen'],decision=verdict,architecture_comparisons=diagnostic,oracle_gap_diagnostics=gaps,locked_rows=rows,
                   development_prediction_metrics=metrics,locked_prediction_metrics=locked_metrics,
                   candidate_risk_audits=[dict(funding_scale=c['task']['funding_scale'],**c['v2_risk_audit']) for c in locked['cases'] if 'v2_risk_audit' in c],
+                  development_exposure_control_pairs=pairs,development_exposure_results_sha256=sha(exposure_path),
                   explicit_answers=dict(answers),investment_state='NONE/CASH',deployment_authorized=False)
     atomic(state/'TRANSFORMER_V2_FINAL_DECISION.json',evidence)
     if rows:
