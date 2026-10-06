@@ -200,3 +200,34 @@ CE在本周期触发很早，首次触发不能直接推成2023反弹损失已�
 不接无重入规则的CE保护，也不靠优化ATR周期/倍数救配方。下一主任务复用已登记MIT Jesse SMA50/200完整多空入/退出hook，在相同BTC730日、资本、成本与风险下做固定公共family对照；优先直接复用现有public_sma_perpetual接口，先核完整策略语义/标的顺序，再跑有限方向账户。它是独立公开family，不把全部变化归因于SHORT退出；0训练/网格/新行情。原SMA200研究参照保持，投资NONE。
 
 复现：现有progress/bounded、2线程，`trace_chandelier_short_episodes.py --producer reports/fast_research/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json --protocol protocols/SMA200_CHANDELIER_TRACE_20261006_V2.json --output reports/REPLACE_WITH_UNUSED.json`。工件 `reports/SMA200_CHANDELIER_TRACE_20261006_V2.json` SHA `29d4e2ba6cdde149361487dfe6de8c1baa6645bea99f91b1af7d513559f7238d`。
+
+## D103/D104：完整公开50/200与冻结expert机会诊断
+
+D103公开完整SMA50/200多空：BASE/PCT净-1.62，毛价格93.96，费用+执行95.12，SHORT-360.32，vol10.70%、DD17.29%；RAW净-48.03。两情景不满足替换原SMA200的门槛；保留为冻结expert，不加exit/filter搜参。
+
+10新完整730日账户（50/200三方向×2、DC20/10和双通道各×2）；4原Cash/Hold完整账户严格复用，不相加钱包。下表是实际完整账户，收益分母10k；与归一化oracle诊断分开。
+|冻结expert / BASE-PCT|净USDT|LONG|SHORT|费+执行|vol%|分钟DD%|
+|---|---:|---:|---:|---:|---:|---:|
+|CASH|0.00|0.00|0.00|0.00|0.00|0.00|
+|HOLD|541.50|541.50|0.00|57.25|10.71|17.06|
+|SMA200_SIGNED|2413.34|1695.09|718.25|118.55|10.68|9.54|
+|DONCHIAN20_10|-432.46|275.61|-708.07|138.24|8.88|16.09|
+|DC_TWO_SPEED|-529.63|-2.71|-526.92|121.57|8.38|17.65|
+|DC_CONFIRMED_SHORT|-507.95|-2.60|-505.35|113.60|7.70|14.74|
+|PUBLIC_SMA50_200|-1.62|358.70|-360.32|95.12|10.70|17.29|
+|SMA200_SHORT50|1661.82|1584.40|77.42|163.91|9.64|9.25|
+
+### 非可交易oracle诊断：只测机会，不计投资证据
+
+|资金费条件|事后best single|oracle增量USDT|切换数|额外切换成本|shadow LONG|shadow SHORT|
+|---|---|---:|---:|---:|---:|---:|
+|RAW_AS_FRACTION|SMA200_SIGNED|3363.62|6.00|39.11|3766.89|1948.73|
+|RAW_AS_PERCENT|SMA200_SIGNED|3414.99|7.00|39.11|3979.76|1887.68|
+
+仅60日、13段（尾部10日保留），无horizon搜索。各expert完整账户日收益只归一化到一个10k诊断财富，未相加满资金钱包；已付内部费用保留，仅另扣13.5bp/side×边界目标距离。独立穷举验证DP与单资本归因、费用不二扣。包含日历年/过去趋势状态winner、LONG/SHORT贡献与选中expert的内部费用/执行/换手。
+**它不是实际切换账户，也不是严格认证的全局可交易收益上界。** 边界实际持仓、拒单/最低金额/资本路径未重新模拟，真实oracle/静态ensemble/可行selector/placebo收益全部NOT_RUN。不可宣称regime alpha或稳定APR。
+
+机会的结构：PCT路径只有SMA200/HOLD/CASH，2023年shadow SHORT为0；RAW另选1段公开50/200。DC20/10、DC_TWO_SPEED、D096、D101在本次oracle均未选中，不能推广为永久无用。PCT shadow2022净2000.65、2023净3827.68，LONG3979.76/SHORT1887.68/额外切换成本39.11；内部费用28.62、执行41.64已包含源收益，未二扣，总shadow换手/初始资本8.10。原有BEAR状态下也有未来赢家HOLD，因此不是简单已有regime标签已经有效；优先真实重放和简单方向配置，不从大上界直接上复杂八专家classifier。
+冻结expert60日近似机会增量足够，先将同一oracle路径在既有共享资本账户真实重放，补equal/static合集真实成本对照；诊断不作为投资证据。随后只用过去slow×fast×vol少量状态、非重叠60日标签做排名可预测性与常数/错位/打乱/同频随机placebo，0交易模型拟合，不扫分类器。仅12个完整60日标签，尾部10日保留收益但不能充作60日训练标签；单BTC旧周期仅机制筛选，稳定性/独立证据不足，不晋级。
+
+工件 `reports/PUBLIC_SMA50_200_REVIEW_20261006_V1.json`、`reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json`。复现：progress/bounded下 `run_cta_leaderboard.py --protocol protocols/PUBLIC_SMA50_200_DIRECTIONS_20261006_V1.json`、`PUBLIC_SMA50_200_LONG_SHORT_20261006_V1.json`、`FROZEN_EXPERT_LIBRARY_COMPLETE_20261006_V1.json`，每次明确未使用STATE目录/reports输出。统一复核 `review_short_cycle.py --strategy PUBLIC_SMA50_200 --producer <directions> --producer <long-short> --output <新文件>`；oracle使用 `oracle_expert_opportunity.py --protocol protocols/FROZEN_EXPERT_ORACLE_20261006_V3.json --producer <D099完整10账户> --producer <D100多空> --producer <D103多空> --producer <D104expert补齐> --producer <D101多空> --output <新文件>`。

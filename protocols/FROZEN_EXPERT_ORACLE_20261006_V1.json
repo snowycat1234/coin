@@ -1,0 +1,34 @@
+{
+  "experiment_id": "D104_ORACLE_OPPORTUNITY_60D",
+  "parent_commit": "25deed09396528780d80306771a82ea40f9223cb",
+  "created_utc": "2026-10-06T03:38:41.049998+00:00",
+  "experts": [
+    "CASH",
+    "HOLD",
+    "SMA200_SIGNED",
+    "DONCHIAN20_10",
+    "DC_TWO_SPEED",
+    "DC_CONFIRMED_SHORT",
+    "PUBLIC_SMA50_200"
+  ],
+  "decision_horizons_days": [
+    60
+  ],
+  "data_role": "SEEN_2022_2023_DEVELOPMENT_CLASSICAL_COUNTERFACTUAL_NOT_UNSEEN",
+  "economics_start": "2022-01-01",
+  "economics_end_exclusive": "2024-01-01",
+  "assumptions": "Saved full-wallet daily NAV returns rebased to one10k diagnostic wealth, not added independent wallets; net expert returns retain actual within-expert costs. Boundary switching turnover=sum(abs(new_target-old_target));13.5bp side surcharge on the diagnostic NAV. This is an approximate informed-selection opportunity bound, not an executable backtest or mathematically certified global maximum; actual single-account replay required before any feasible selector comparison.",
+  "switching_boundary": "Every60calendar days starting2022-01-01; final10days retained; terminal costs already in expert returns; keep CASH/HOLD; both funding unit conditions separately, never choose profitable interpretation.",
+  "opportunity_gate": "Both funding conditions: switching-cost-aware informed wealth minus best full-window single expert >=500USDT per10k, with positive LONG and SHORT contribution in selected segments. Only permits predictability screening, not candidate promotion. If fail pause selector; no horizon scan.",
+  "next_if_pass": "Predeclare one slow-trend x fast-trend x volatility state map and chronological non-overlapping60d winner/ranking predictability, static/equal-weight and frequency-matched placebo controls. No training or PnL tuning in this stage.",
+  "resource_budget": {
+    "wall_seconds": 120,
+    "RSS_bytes": 700000000,
+    "new_wallets": 0,
+    "models_fit": 0,
+    "configurations": 1,
+    "GPU": 0
+  },
+  "investment_status": "NONE_CASH",
+  "locked_consumed": false
+}

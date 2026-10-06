@@ -28,7 +28,8 @@ def main():
     a=ap.parse_args();spec=json.loads(a.protocol.read_bytes());run=a.run_dir.resolve();out=a.output.resolve()
     assert os.getenv('COIN_TASK_ID') and run.parent==STATE and not run.exists() and not out.exists()
     assert out.is_relative_to(ROOT/'reports/fast_research') and pl.thread_pool_size()<=2
-    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.SUPPORTED_FAMILIES)
+    public_sma='PUBLIC_SMA50_200'
+    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.SUPPORTED_FAMILIES)|{public_sma}
     assert spec['modes']==list(cta.MODES) and spec['models_fit']==0
     costs=[v for v in engine.COSTS if v['id'] in spec.get('cost_ids',[v['id'] for v in engine.COSTS])]
     assert costs and len(costs)==len(spec.get('cost_ids',costs)), 'Fixed known cost subset, no cheaper invented cost'
@@ -44,6 +45,14 @@ def main():
         'bybit_cost_inputs','audit_shared_direction','market_regime','shared_direction_model')]
     paths+=['src/quant/perpetual_account.py','tests/test_cta_classics.py']
     paths+=['third_party/jesse_example_donchian/'+p for p in cta.PINNED_HASHES]
+    if public_sma in spec['families']:
+        from scripts.investment import public_sma_perpetual as public_targets, public_sma_daily
+        pt=spec['public_hook_regression'];assert sha(ROOT/pt['path'])==pt['sha256']
+        assert sha(ROOT/'tests/test_public_sma_perpetual.py')==pt['source_sha256']
+        suites=list(ET.parse(ROOT/pt['path']).getroot().iter('testsuite'))
+        assert sum(int(v.get('tests',0)) for v in suites)==pt['tests'] and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
+        paths+=['scripts/investment/public_sma_daily.py','tests/test_public_sma_perpetual.py']
+        paths+=['third_party/jesse_example_smacrossover/'+p for p in public_sma_daily.PINNED_HASHES]
     cycle_inputs=spec.get('input_adapter')=='FIXED_BTC_ETH_2022_2023_CYCLE'
     if cycle_inputs:
         from scripts.investment.cta_cycle_window import load_window as load_cycle_window
@@ -112,11 +121,13 @@ def main():
         whole=(load_cycle_window(manifest['path'],symbols,begin,end) if cycle_inputs else
             load_portfolio_window(manifest['path'],symbols,begin,end));bars=whole['daily']
         signal,available=cta.signals(bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols,
-            include_components=bool(set(spec['families'])&set(cta.EXTRA_FAMILIES)))
+            include_components=bool(set(spec['families'])&set(cta.EXTRA_FAMILIES)) or 'legacy_signal_golden' in spec)
         r['signal_reference']=reference.verify_signals(signal,bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
         signal.write_parquet(run/'frozen_signals.parquet');write(run/'SIGNAL_AVAILABILITY.json',available)
         score=signal.filter(pl.col('close_us')>=start)
-        assert score.height==days*len(symbols) and score.select(spec['families']).null_count().select(pl.sum_horizontal(pl.all())).item()==0
+        available_families=[f for f in spec['families'] if f!=public_sma]
+        assert score.height==days*len(symbols)
+        if available_families:assert score.select(available_families).null_count().select(pl.sum_horizontal(pl.all())).item()==0
         if 'legacy_signal_golden' in spec:
             golden=spec['legacy_signal_golden'];assert sha(golden['path'])==golden['sha256']
             saved=pl.read_parquet(golden['path'])
@@ -210,9 +221,13 @@ def main():
                 parent_exit_code='UNKNOWN',reused_accounts=len(reused))
         for family,mode in plans:
             target_family='SMA200_SIGNED' if family=='CASH' else family
-            target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
+            if family==public_sma:
+                target,meta=public_targets.fixed_targets(bars,decisions,mode,symbols=symbols,allocation='INVERSE_VOL_30D')
+                target_ref=reference.verify_public_sma_targets(target,bars,decisions,symbols,mode)
+            else:
+                target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
+                target_ref=reference.verify_targets(target,signal,bars,symbols,target_family,mode)
             if fast_filter:meta['short_four_hour_filter']=fast_filter
-            target_ref=reference.verify_targets(target,signal,bars,symbols,target_family,mode)
             for oldcost in costs:
                 cost=snapshot_cost(ROOT/'docs/input_evidence/BYBIT_USER_FEE_SNAPSHOT_20261004.json',symbols=symbols,
                     fee_zone_by_symbol={s:'DERIVATIVES_CRYPTO_STANDARD' for s in symbols},scenario_id=oldcost['id'],

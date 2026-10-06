@@ -73,3 +73,30 @@ def verify_targets(frame,signal,bars,symbols,family,mode):
         assert sum(abs(float(x)) for x in w)<=.6+1e-12 and max(abs(float(x)) for x in w)<=.3+1e-12
     assert error<1e-10,error
     return dict(status='PASS_INDEPENDENT_ORDERED_INVERSE_VOL_SIGNED_COV_TARGETS',rows=frame.height,maximum_error=error)
+
+def verify_public_sma_targets(frame,bars,decisions,symbols,mode):
+    """Scalar reference for the pinned hooks, not a production indicator.
+
+    Each permitted direction has its own fresh-flat state. Opposite mean
+    ordering closes an existing state; entry waits for a later decision.
+    """
+    rows=[]
+    for symbol in symbols:
+        records=list(bars.filter(pl.col('symbol')==symbol).sort('close_us').iter_rows(named=True))
+        lookup={r['close_us']:i for i,r in enumerate(records)};state=0
+        for t in decisions:
+            j=lookup[int(t)];history=records[j-199:j+1]
+            assert len(history)==200 and all(r['available_us']<=t for r in history)
+            assert all(history[i+1]['close_us']-history[i]['close_us']==DAY for i in range(199))
+            fast=sum(r['close'] for r in history[-50:])/50
+            slow=sum(r['close'] for r in history)/200
+            if mode=='CASH':state=0
+            elif state:
+                if state==1 and fast<slow or state==-1 and fast>slow:state=0
+            elif mode in ('LONG_ONLY','LONG_SHORT') and fast>slow:state=1
+            elif mode in ('SHORT_ONLY','LONG_SHORT') and fast<slow:state=-1
+            rows.append(dict(close_us=int(t),symbol=symbol,PUBLIC_SMA50_200=float(state)))
+    proof=verify_targets(frame,pl.DataFrame(rows),bars,symbols,'PUBLIC_SMA50_200',mode)
+    proof.update(status='PASS_SCALAR_FULL_PUBLIC_SMA50_200_HOOK_STATE_AND_ORDERED_TARGETS',
+        equality_holds_state=True,exit_before_later_entry=True,forbidden_directions_do_not_create_state=True)
+    return proof

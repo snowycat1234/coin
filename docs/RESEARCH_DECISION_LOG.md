@@ -1486,3 +1486,21 @@ D101固定50日空头确认未通过两资金费情景门槛：BASE/PCT多空净
 ## D102结果与决定
 
 D102公开CE22/3只读轨迹：原SMA200 BTC730日3段SHORT均有更早触发，其中2段下一日原趋势仍要求SHORT；不能把退出线直接挂入账户宣称净改善。第一段2022-01-01入空，2022-02-04已触发，原仓直到2023-01-14才平；第三段2023-08-31几乎开仓即触发，原负趋势仍在。 原24段提取、独立CE值及未来扰动核对通过；V1/V2实际episode逐项相等，V2只加源码执行绑定与UNKNOWN表达，无新经济运行。不接无重入规则的CE保护，也不靠优化ATR周期/倍数救配方。下一主任务复用已登记MIT Jesse SMA50/200完整多空入/退出hook，在相同BTC730日、资本、成本与风险下做固定公共family对照；优先直接复用现有public_sma_perpetual接口，先核完整策略语义/标的顺序，再跑有限方向账户。它是独立公开family，不把全部变化归因于SHORT退出；0训练/网格/新行情。原SMA200研究参照保持，投资NONE。 工件 reports/SMA200_CHANDELIER_TRACE_20261006_V2.json SHA 29d4e2ba6cdde149361487dfe6de8c1baa6645bea99f91b1af7d513559f7238d。
+
+## D103/D104运行前 2026-10-06T03:38:41.049998+00:00
+
+用户将regime-aware冻结expert组合提升主候选；SHORT优先级保持，不继续exit/filter网格。完成公开50/200原hook6账户及DC20/10、双通道2family各2资金费账户，合计10新钱包，顺序两批、最多2并行各2线程/1.2GB/1800秒/600MB，0训练/下载/参数扫描。原4Cash/Hold控制严格字节绑定复用，不相加资本。Both units: complete730d; LSnet>ownLO and>D100LS; SHORTwhole>0 and2022>0;2023SHORTloss reduced; LSminuteDD<=D100LS; LSSharpe>=D100LS. Different actual risk reported, no equal-risk/native/investment claim. Failure retains strongest existing reference. These are fixed family comparisons, not selector tuning. 下一阶段只冻结60日oracle诊断：Both funding conditions: switching-cost-aware informed wealth minus best full-window single expert >=500USDT per10k, with positive LONG and SHORT contribution in selected segments. Only permits predictability screening, not candidate promotion. If fail pause selector; no horizon scan. 归一化单10k财富诊断保留各expert已付成本并另扣边界换仓估计；不是真实可交易oracle，也不能据此宣称ensemble alpha。通过后需同一共享账户真实重放与过去特征可预测性、placebo对照；只读诊断120秒/700MB。全部已见开发、原风险/资源/封存/资金边界保持。
+
+## D104 oracle运行前补充expert
+
+2026-10-06T03:50:52.133304+00:00：7→8专家，额外保留D101固定SMA200_SHORT50（自有修改，非完整公开family）。用户条件优势假设以慢趋势熊市收益/快确认反弹保护为核心，故纳入已完成负结果配方；参数不变、0新账户，未查看任何oracle结果。V1保留并由V2在运行前supersede，仅60日horizon与500USDT门槛不变。
+
+## D104输出修复
+
+Oracle任务418208d509a94bdeae922f736fe20cbf已在JSON导出失败退出1；计算/归因断言通过但不得消费不完整输出。V1 partial与原源码SHA保留；V3只修NumPy标量JSON导出，周期/费用/专家/门槛不改，不重跑账户。恢复只读诊断，不把失败发布为成功。
+
+## D103/D104结果与自主决定
+
+D103公开完整SMA50/200多空：BASE/PCT净-1.62，毛价格93.96，费用+执行95.12，SHORT-360.32，vol10.70%、DD17.29%；RAW净-48.03。两情景不满足替换原SMA200的门槛；保留为冻结expert，不加exit/filter搜参。 用户新优先级：冻结expert条件优势/selector为主候选，SHORT研究保持。ADVANCE_PREDICTABILITY_SCREEN_ONLY_NEEDS_ACTUAL_SHARED_WALLET_REPLAY；冻结expert60日近似机会增量足够，先将同一oracle路径在既有共享资本账户真实重放，补equal/static合集真实成本对照；诊断不作为投资证据。随后只用过去slow×fast×vol少量状态、非重叠60日标签做排名可预测性与常数/错位/打乱/同频随机placebo，0交易模型拟合，不扫分类器。仅12个完整60日标签，尾部10日保留收益但不能充作60日训练标签；单BTC旧周期仅机制筛选，稳定性/独立证据不足，不晋级。 工件 reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json SHA c98dc7748159c9a4616ad33d6e6a322550bda42d130c8a72ee1efc1b8837fce9。不把单策略或过滤失败推广为SHORT无alpha。
+
+D104机会结构追加：PCT未来路径仅SMA200/HOLD/CASH、2023 SHORT=0；RAW有1段公开50/200，四个DC/快确认expert均未入选。过去BEAR仍可能未来HOLD胜出，大上界不是可预测性证明。下一步优先成本后真实重放与简单方向/静态配置，八专家classifier暂停；reopen需稳定过去特征对条件排名的信息和独立证据。不是降低SHORT优先级，也不永久删除未选expert。

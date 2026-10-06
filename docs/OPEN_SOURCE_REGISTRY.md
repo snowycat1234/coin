@@ -423,3 +423,5 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D101来源复查：Man Group https://www.man.com/insights/in-crypto-we-trend （其50/200均线交叉并非本地price-vs50过滤）；https://www.man.com/insights/need-for-speed-trend-following 仅方法/速度参考，未复制代码或收益。无代码version/commit/license改动，网页核查2026-10-06；本地SHORT50明确OWN_MODIFICATION。
 
 - D102：继续复用 https://github.com/xgboosted/pandas-ta-classic 0.8.32／MIT，原已登记wheel与全部安装文件SHA相同，local modifications NONE。公开说明 https://www.tradingview.com/support/solutions/43000773013-chandelier-exit/ 仅方法参考；COIN ratchet/原持仓影子时点是OWN adapter，不是完整公开策略或新账户收益。
+
+- D103/D104：复用jesse-ai/example-strategies MIT commit7c91e0a37bf62165790120d730442e4f6eb00364，third_party/jesse_example_smacrossover/smacrossover_original.py SHA453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae，原should_long/short/update_position不修改。现有public_sma_perpetual仅替换整余额sizing为共享10k/caps/past-vol，并使用COIN分钟成交；不是Jesse/Bybit原生复现。DC20/10、DC55/20、D096与SMA200参数不变；oracle DP/归一化分析是薄OWN_DIAGNOSTIC，不是新公开交易内核。NumPy/Polars沿登记版本，无新库、训练或行情下载。

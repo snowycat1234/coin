@@ -21,7 +21,8 @@ def load(spec,source_hashes,*,root=ROOT,state=STATE):
         if p in changes:
             assert p in {'scripts/investment/cta_classics.py','scripts/investment/audit_cta_classics.py','tests/test_cta_classics.py'}
             assert changes[p]==dict(previous=h,current=source_hashes[p]) and sha(root/p)==source_hashes[p]
-            assert 'legacy_signal_golden' in spec and spec['families']==['SMA200_SHORT50']
+            assert 'legacy_signal_golden' in spec and spec['families'] in (
+                ['SMA200_SHORT50'],['PUBLIC_SMA50_200'],['DONCHIAN20_10','DC_TWO_SPEED'])
         else:assert source_hashes[p]==h==sha(root/p),'Reused control source changed: '+p
     controls=[c for c in prior['cases'] if c['strategy'] in ('CASH','HOLD')]
     assert {(c['strategy'],c['mode'],c['cost'],c['unit']) for c in controls}=={

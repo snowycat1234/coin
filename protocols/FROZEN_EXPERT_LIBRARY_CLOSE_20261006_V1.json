@@ -1,0 +1,159 @@
+{
+  "parent_commit": "25deed09396528780d80306771a82ea40f9223cb",
+  "module": "D103_D104_FROZEN_EXPERT_LIBRARY_AND_OPPORTUNITY",
+  "family": "FROZEN_PUBLIC_EXPERT_LIBRARY",
+  "recipe": {
+    "experiment_id": "D104_ORACLE_OPPORTUNITY_60D",
+    "parent_commit": "25deed09396528780d80306771a82ea40f9223cb",
+    "created_utc": "2026-10-06T03:57:20.519439+00:00",
+    "experts": [
+      "CASH",
+      "HOLD",
+      "SMA200_SIGNED",
+      "DONCHIAN20_10",
+      "DC_TWO_SPEED",
+      "DC_CONFIRMED_SHORT",
+      "PUBLIC_SMA50_200",
+      "SMA200_SHORT50"
+    ],
+    "decision_horizons_days": [
+      60
+    ],
+    "data_role": "SEEN_2022_2023_DEVELOPMENT_CLASSICAL_COUNTERFACTUAL_NOT_UNSEEN",
+    "economics_start": "2022-01-01",
+    "economics_end_exclusive": "2024-01-01",
+    "assumptions": "Saved full-wallet daily NAV returns rebased to one10k diagnostic wealth, not added independent wallets; net expert returns retain actual within-expert costs. Boundary switching turnover=sum(abs(new_target-old_target));13.5bp side surcharge on the diagnostic NAV. This is an approximate informed-selection opportunity bound, not an executable backtest or mathematically certified global maximum; actual single-account replay required before any feasible selector comparison.",
+    "switching_boundary": "Every60calendar days starting2022-01-01; final10days retained; terminal costs already in expert returns; keep CASH/HOLD; both funding unit conditions separately, never choose profitable interpretation.",
+    "opportunity_gate": "Both funding conditions: switching-cost-aware informed wealth minus best full-window single expert >=500USDT per10k, with positive LONG and SHORT contribution in selected segments. Only permits predictability screening, not candidate promotion. If fail pause selector; no horizon scan.",
+    "next_if_pass": "Predeclare one slow-trend x fast-trend x volatility state map and chronological non-overlapping60d winner/ranking predictability, static/equal-weight and frequency-matched placebo controls. No training or PnL tuning in this stage.",
+    "resource_budget": {
+      "wall_seconds": 120,
+      "RSS_bytes": 700000000,
+      "new_wallets": 0,
+      "models_fit": 0,
+      "configurations": 1,
+      "GPU": 0
+    },
+    "investment_status": "NONE_CASH",
+    "locked_consumed": false,
+    "before_oracle_results_revision": {
+      "previous_path": "protocols/FROZEN_EXPERT_ORACLE_20261006_V1.json",
+      "previous_sha256": "4563e037fe3120c4acbb9e13631333bd43ed9a5aa8b016095481a745622e20a1",
+      "reason": "User hypothesis explicitly includes fast-confirmation bear/protection tradeoff; include preserved D101 complete fixed expert,0newaccounts0parameterchanges, before any oracle calculation."
+    },
+    "source_sha256": "3b79a9d73cef1b3bf2a4171cff3ea62c0e6f0555b78e74f6c7bc08432fbe9e6f",
+    "serialization_only_recovery": {
+      "previous_protocol_path": "protocols/FROZEN_EXPERT_ORACLE_20261006_V2.json",
+      "previous_protocol_sha256": "58724d9a1a057bc6b6e8379da628152a701b243179b6ec2ecc3caf4a80191ffd",
+      "failed_task_id": "418208d509a94bdeae922f736fe20cbf",
+      "failed_source_path": "docs/archive/FROZEN_EXPERT_ORACLE_SERIALIZATION_FAILED_SOURCE_20261006_V1.py",
+      "failed_source_sha256": "2f249d1e064b61c91b9b6ac9d738f77395b5422de81b6528fcf8d8a6173d82e0",
+      "failed_partial_output_path": "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V1.json",
+      "failed_partial_output_sha256": "69480305932c245d9d83b6a1365a192dcd20e1502ac13277c6ee5b4d805daf30",
+      "failed_partial_output_bytes": 570846,
+      "change": "Only JSON NumPy scalar conversion and serialize before opening destination; no selection/calculation/period/cost/expert/gate change; no trading account rerun."
+    }
+  },
+  "references": {
+    "reports/PUBLIC_SMA50_200_REVIEW_20261006_V1.json": "PASS_PAIRED_FIXED_SHORT_CYCLE_EVIDENCE_NOT_NATIVE_OR_INVESTMENT",
+    "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json": "COMPLETE_FROZEN_EXPERT_OPPORTUNITY_DIAGNOSTIC_NOT_EXECUTABLE_OR_INVESTMENT",
+    "reports/SMA200_REVIEW_DEFAULT_GOLDEN_PUBLIC_EXPERT_20261006_V1.json": "PASS_SMA200_OLD_ROWS_AND_PREDECLARED_DECISION_UNCHANGED",
+    "reports/FROZEN_EXPERT_ORACLE_INDEPENDENT_20261006_V1.json": "PASS_INDEPENDENT_SCALAR_ORACLE_SHADOW_WEALTH_COST_AND_ATTRIBUTION_NOT_EXECUTABLE",
+    "reports/FROZEN_EXPERT_ORACLE_SERIALIZATION_FAILURE_20261006_V1.json": "FAILED_ORACLE_SERIALIZATION_PRESERVED_NO_ECONOMIC_REPLAY"
+  },
+  "additional_tasks": [
+    {
+      "id": "76d5fe66e68140ed85c7a84aaacad7b8",
+      "expected_exit_code": 0
+    },
+    {
+      "id": "caab20de00ce463faff912df6e557627",
+      "expected_exit_code": 0
+    },
+    {
+      "id": "d718ccd72a394904b44355526d7f612f",
+      "expected_exit_code": 0
+    },
+    {
+      "id": "418208d509a94bdeae922f736fe20cbf",
+      "expected_exit_code": 1
+    }
+  ],
+  "source_paths": [
+    "docs/archive/FROZEN_EXPERT_ORACLE_INDEPENDENT_SOURCE_20261006_V1.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_REGISTRATION_SOURCE_20261006_V2.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_SERIALIZATION_FAILED_SOURCE_20261006_V1.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_SERIALIZATION_FIX_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_LIBRARY_CLOSE_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_LIBRARY_REGISTRATION_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_REVIEW_GOLDEN_SOURCE_20261006_V1.py",
+    "scripts/investment/audit_cta_classics.py",
+    "scripts/investment/oracle_expert_opportunity.py",
+    "scripts/investment/reuse_cycle_controls.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "tests/test_oracle_expert_opportunity.py",
+    "tests/test_public_sma_perpetual.py"
+  ],
+  "decision": "ADVANCE_PREDICTABILITY_SCREEN_ONLY_NEEDS_ACTUAL_SHARED_WALLET_REPLAY",
+  "next_action": "冻结expert60日近似机会增量足够，先将同一oracle路径在既有共享资本账户真实重放，补equal/static合集真实成本对照；诊断不作为投资证据。随后只用过去slow×fast×vol少量状态、非重叠60日标签做排名可预测性与常数/错位/打乱/同频随机placebo，0交易模型拟合，不扫分类器。仅12个完整60日标签，尾部10日保留收益但不能充作60日训练标签；单BTC旧周期仅机制筛选，稳定性/独立证据不足，不晋级。",
+  "primary_reference": "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json",
+  "economic_producers": [
+    "reports/fast_research/PUBLIC_SMA50_200_DIRECTIONS_20261006_V1.json",
+    "reports/fast_research/PUBLIC_SMA50_200_LONG_SHORT_20261006_V1.json",
+    "reports/fast_research/FROZEN_EXPERT_LIBRARY_COMPLETE_20261006_V1.json"
+  ],
+  "complete_accounts": 10,
+  "runtime_directories": [
+    "/home/xflops/coin-state/d103-public-sma-directions-20261006-v1",
+    "/home/xflops/coin-state/d103-public-sma-long-short-20261006-v1",
+    "/home/xflops/coin-state/d104-frozen-expert-library-20261006-v1"
+  ],
+  "closed": "reports/FROZEN_EXPERT_LIBRARY_MODULE_CLOSED_20261006_V1.json",
+  "binding": "reports/GITHUB_FROZEN_EXPERT_LIBRARY_SOURCE_BINDING_20261006_V1.json",
+  "prior_binding": "reports/GITHUB_SMA200_CE_TRACE_SOURCE_BINDING_20261006_V2.json",
+  "selected_paths": [
+    "docs/archive/FROZEN_EXPERT_ORACLE_INDEPENDENT_SOURCE_20261006_V1.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_REGISTRATION_SOURCE_20261006_V2.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_SERIALIZATION_FAILED_SOURCE_20261006_V1.py",
+    "docs/archive/FROZEN_EXPERT_ORACLE_SERIALIZATION_FIX_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_LIBRARY_CLOSE_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_LIBRARY_REGISTRATION_SOURCE_20261006_V1.py",
+    "docs/archive/PUBLIC_EXPERT_REVIEW_GOLDEN_SOURCE_20261006_V1.py",
+    "docs/GOALS.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "protocols/FROZEN_EXPERT_LIBRARY_COMPLETE_20261006_V1.json",
+    "protocols/FROZEN_EXPERT_ORACLE_20261006_V1.json",
+    "protocols/FROZEN_EXPERT_ORACLE_20261006_V2.json",
+    "protocols/FROZEN_EXPERT_ORACLE_20261006_V3.json",
+    "protocols/PUBLIC_SMA50_200_DIRECTIONS_20261006_V1.json",
+    "protocols/PUBLIC_SMA50_200_LONG_SHORT_20261006_V1.json",
+    "reports/experiment_registry.jsonl",
+    "reports/fast_research/FROZEN_EXPERT_LIBRARY_COMPLETE_20261006_V1.json",
+    "reports/fast_research/PUBLIC_SMA50_200_DIRECTIONS_20261006_V1.json",
+    "reports/fast_research/PUBLIC_SMA50_200_LONG_SHORT_20261006_V1.json",
+    "reports/FROZEN_EXPERT_ORACLE_INDEPENDENT_20261006_V1.json",
+    "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V1.json",
+    "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json",
+    "reports/FROZEN_EXPERT_ORACLE_SERIALIZATION_FAILURE_20261006_V1.json",
+    "reports/FROZEN_EXPERT_ORACLE_TESTS_20261006_V1.xml",
+    "reports/FROZEN_EXPERT_ORACLE_TESTS_20261006_V2.xml",
+    "reports/GITHUB_SMA200_CE_TRACE_SYNC_VERIFIED_20261006_V1.json",
+    "reports/PUBLIC_SMA_FULL_HOOK_TESTS_20261006_V1.xml",
+    "reports/PUBLIC_SMA50_200_REVIEW_20261006_V1.json",
+    "reports/SMA200_REVIEW_COMPATIBILITY_PUBLIC_EXPERT_20261006_V1.json",
+    "reports/SMA200_REVIEW_DEFAULT_GOLDEN_PUBLIC_EXPERT_20261006_V1.json",
+    "scripts/investment/audit_cta_classics.py",
+    "scripts/investment/oracle_expert_opportunity.py",
+    "scripts/investment/reuse_cycle_controls.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "tests/test_oracle_expert_opportunity.py",
+    "tests/test_public_sma_perpetual.py",
+    "docs/RESEARCH_STATUS.md",
+    "docs/SHORT_SELECTION.md",
+    "docs/CTA_LEADERBOARD.md",
+    "docs/OPEN_SOURCE_REGISTRY.md"
+  ],
+  "stage_script": ".cache/stage_selected_frozen_experts.ps1"
+}
