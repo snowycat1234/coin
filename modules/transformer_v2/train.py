@@ -1,5 +1,5 @@
 """CUDA-only frozen walk-forward fits, recoverable each epoch, external artifacts."""
-import argparse,hashlib,json,os,random,subprocess,time
+import argparse,hashlib,json,os,platform,random,subprocess,time
 from pathlib import Path
 import numpy as np
 import torch
@@ -133,6 +133,8 @@ def infer(d,indices,scenario,active,family,folder):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--state',required=True);p.add_argument('--collector-root',required=True);p.add_argument('--work',required=True);p.add_argument('--source-run',required=True)
     a=p.parse_args();state=Path(a.state).resolve();repo=Path(__file__).resolve().parents[2]
+    if platform.system()!='Linux' or os.environ.get('WSL_DISTRO_NAME') or 'microsoft' in platform.release().lower():
+        raise RuntimeError('CUDA fits are authorized on the independent Linux server only; local limits unchanged')
     assert not state.is_relative_to(repo)
     proto=repo/'reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json';protocol=json.loads(proto.read_text())
     assert sha(proto)==(proto.with_suffix('.sha256')).read_text().strip()
