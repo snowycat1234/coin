@@ -4,7 +4,7 @@ from pathlib import Path
 
 def snapshot(state):
     state=Path(state);units={}
-    for stage in ('train','final-fit','evaluate','dev-report','locked-data','locked-evaluate','final-report'):
+    for stage in ('train','final-fit','evaluate','assist','dev-report','locked-data','locked-evaluate','final-report'):
         name=f'coin-transformer-v2-{stage}-20261007.service'
         text=subprocess.run(['systemctl','show',name,'-p','ActiveState','-p','MainPID','-p','ExecMainStatus'],capture_output=True,text=True).stdout
         units[stage]=dict(line.split('=',1) for line in text.splitlines() if '=' in line)

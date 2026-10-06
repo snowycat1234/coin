@@ -19,11 +19,15 @@ def authorize_locked(state,repo):
     results=json.loads((state/'TRANSFORMER_V2_DEV_RESULTS.json').read_text())
     assert results['status']=='DEVELOPMENT_COMPLETE_LOCKED_NOT_READ' and not results['locked_consumed']
     assert results['chosen']==freeze['chosen']
+    final=json.loads((state/'FINAL_FITS.json').read_text());audit=json.loads((state/'TRANSFORMER_V2_FINAL_FIT_AUDIT.json').read_text())
+    assert final['status']=='COMPLETE' and final['completed']==24 and audit['status']=='ALL24_FINAL_PAST_ONLY_FITS_AUDITED'
+    assert audit['final_fits_sha256']==sha(state/'FINAL_FITS.json') and not audit['locked_read']
     # Existing release is validated and reused; never open a second experiment.
     path=state/'LOCKED_READ_AUTHORIZATION.json'
     binding=dict(protocol_sha256=sha(protocol),candidate_freeze_sha256=sha(freeze_path),
                  development_report_sha256=sha(state/'TRANSFORMER_V2_DEV_REPORT.md'),
                  development_results_sha256=sha(state/'TRANSFORMER_V2_DEV_RESULTS.json'),
+                 final_fits_sha256=sha(state/'FINAL_FITS.json'),final_fit_audit_sha256=sha(state/'TRANSFORMER_V2_FINAL_FIT_AUDIT.json'),
                  git_commit=subprocess.check_output(['git','-C',str(repo),'rev-parse','HEAD'],text=True).strip(),
                  range=['2026-03-01','2026-08-31'],formal_result_limit=1)
     if path.exists():
