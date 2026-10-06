@@ -425,3 +425,5 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D102：继续复用 https://github.com/xgboosted/pandas-ta-classic 0.8.32／MIT，原已登记wheel与全部安装文件SHA相同，local modifications NONE。公开说明 https://www.tradingview.com/support/solutions/43000773013-chandelier-exit/ 仅方法参考；COIN ratchet/原持仓影子时点是OWN adapter，不是完整公开策略或新账户收益。
 
 - D103/D104：复用jesse-ai/example-strategies MIT commit7c91e0a37bf62165790120d730442e4f6eb00364，third_party/jesse_example_smacrossover/smacrossover_original.py SHA453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae，原should_long/short/update_position不修改。现有public_sma_perpetual仅替换整余额sizing为共享10k/caps/past-vol，并使用COIN分钟成交；不是Jesse/Bybit原生复现。DC20/10、DC55/20、D096与SMA200参数不变；oracle DP/归一化分析是薄OWN_DIAGNOSTIC，不是新公开交易内核。NumPy/Polars沿登记版本，无新库、训练或行情下载。
+
+- D105：无新第三方项目或kernel。既有pinned公开SMA/Donchian参数不改，脚本frozen_expert_mixture.py为薄目标组合adapter，NumPy既有einsum/Polars既有存储接口沿登记版本，OWN_MODIFICATION记录固定1/8与.5/.25/.25；账户和ExecutionContractV2原路径复用。ORACLE60D明确未来知情研究对照，static不是训练模型或原论文组合复现。无新库/行情/GPU。

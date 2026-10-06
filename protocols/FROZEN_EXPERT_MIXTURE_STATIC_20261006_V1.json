@@ -1,0 +1,166 @@
+{
+  "experiment_id": "D105_SHARED_ACCOUNT_FROZEN_EXPERT_REPLAY",
+  "question": "Does the fixed60day informed path preserve its opportunity in actual shared-wallet execution? Compare with equal8 and one fixed soft direction allocation, sameBTC730d capital/cost/risk. No learning, no strategy parameter or winner-path retuning.",
+  "models_fit": 0,
+  "families": [
+    "EQUAL_EXPERTS",
+    "STATIC_DIRECTION3"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d099-btc-cycle-input-acceptance-20261006-v1/INPUT_MANIFEST.json",
+    "sha256": "f72eaf4bfe9360904e220f6aaa95311dd5eee99ffc27ce8ca9f84a96fc23edd2"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2021-08-01",
+  "economics_start": "2022-01-01",
+  "economics_end_exclusive": "2024-01-01",
+  "data_role": "SEEN_2022_2023_DEVELOPMENT_CLASSICAL_COUNTERFACTUAL_NOT_UNSEEN",
+  "universe": "PREDECLARED_BTC_TRANSPARENT_REFERENCE_FULL_INPUT_AVAILABLE; ETH2022JUL_MARK_DAILY_STILL_INCOMPLETE_PAUSED; ACTUAL2021_WARMUP; NOT_HISTORICAL_TOP10_CERTIFICATION",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED",
+    "SMA200_SHORT50": "COMPLETED_DAILY_CLOSE_ABOVE200_LONG_UNCHANGED; BELOW200_AND_BELOW50_SHORT; ELSE_CASH; EQUALITY_CASH; EXISTING_PERSISTENT_ZERO_TARGET_CLOSE_AND_HARD_RISK",
+    "PUBLIC_SMA50_200": "PINNED_SHOULD_LONG_FAST50_GT_SLOW200_SHOULD_SHORT_LT; UPDATE_POSITION_OPPOSITE_ORDER_CLOSE; EQUALITY_HOLD; NO_SAME_CLOSE_REENTRY; FRESH_FLAT; INVERSE_VOL30_AND_EXISTING_SIGNED_COV",
+    "ORACLE60D": "D104_COST_AWARE_ORACLE_PATH_FIXED_PER_UNIT; FUTURE_WINNER_NONCAUSAL_DIAGNOSTIC_ONLY; DAILY_FROZEN_EXPERT_TARGETS_TO_ONE_WALLET",
+    "EQUAL_EXPERTS": "ALL8_REGISTERED_EXPERT_TARGETS_WEIGHT1/8_INCLUDING_CASH_AND_HOLD; NO_REDISTRIBUTION_OR_FUTURE_WINNER",
+    "STATIC_DIRECTION3": "FIXED_SMA200_WEIGHT.5_HOLD.25_CASH.25; POST_D104_DEVELOPMENT_PROBE; ZERO_OPTIMIZATION; NO_REGIME_FEATURES_OR_FUTURE_WINNER",
+    "mixture_economics": "EXPERT_TARGET_INTENTS_COMBINE_BEFORE_EXECUTION; ONE10K_WALLET; ORIGINAL_SIGNED_COV_CAPS_MINUTE_FILL_FUNDING_AND_RISK_REDUCTIONS; NO_ADDITIONAL_SHADOW_SWITCH_SURCHARGE"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "FROZEN_TARGET_INTENTS_FROM_SAME730D_EXPERT_LIBRARY; REAL_ONE_SHARED_ACCOUNT; NOT_REBASED_EXPERT_RETURN_STITCH",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://www.nber.org/papers/w20439",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "SIX_NEW_COMPLETE_WALLETS: ORACLE2_PLUS_STATIC4; TWO_CONCURRENT_TASKS_MAX2THREADS_EACH_1.2GB_1800SECONDS_600MB; FOUR_COMPLETE_CASH_HOLD_CONTROLS_REUSED;0FITS0GRID0NEW_DATA",
+  "budget": {
+    "wall_seconds": 1800,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 600000000,
+    "GPU": 0
+  },
+  "stopping": "SIX_FIXED_CASES_OR_DECLARED_ACCOUNT_HALT; NO_OBSERVED_RESULT_WEIGHT_PERIOD_OR_PATH_CHANGE; REAL_FILL_COST_ONCE_NOT_SHADOW_SURCHARGE",
+  "adoption": "Oracle remains NONCAUSAL and never candidate. Opportunity persists only if both units actual oracle net minus fixed best single>=500USDT. Static ensemble research challenger only if both units net>=D100 ownLO, Sharpe>=D100 LO and minuteDD<=D100 LO; report actual risk and price/funding/cost/concentration, no risk-matched or investment claim. Retain all negative results and do not rescue weights.",
+  "regression": {
+    "path": "reports/SMA200_SHORT50_TESTS_20261006_V1.xml",
+    "sha256": "35be115c9b8a94bee1830d176989ee35ab82352a241c4f6c6bd4a5dcd64b9b72",
+    "source_sha256": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c",
+    "tests": 8
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "cc07fc2bd127a65d2aeab5b50bc16acc1769120dce97f8c8ac2f0d16ac1fbce3",
+    "scripts/investment/audit_cta_classics.py": "0af6322455de5c76e6e4aaf4055a5ff71ae1e5a4d7c1b9eb6b7c38320df90fdb",
+    "scripts/investment/run_cta_leaderboard.py": "520e55e23c7962030272412de32320c43fbcd3a8b2391c73cb25f16d4b4fc1df",
+    "scripts/investment/cta_cycle_window.py": "e8b536547cb2d5c250e8ad99257524a2de4dc52dc36d18e506c92e8178db597f",
+    "scripts/investment/reuse_cycle_controls.py": "b1afe7448e04dd250d3f8302a8402c394e5383a9c71309ae11e1e2e4817f8df9",
+    "tests/test_reuse_cycle_controls.py": "2c10492b55fdca6c3e5d567752f2a61242be65b30240af9ebb6a4d19b614870a",
+    "tests/test_cta_classics.py": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "tests/test_public_sma_perpetual.py": "16d54fc31dddf94259a0a74a87606757d00e03cc0fcfe1ad5b42a1a7ce572300",
+    "third_party/jesse_example_smacrossover/smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+    "third_party/jesse_example_smacrossover/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "scripts/investment/frozen_expert_mixture.py": "4c510dd0a91cb13a78ade6e17715a2601cbfbb20304310d42ad2091e97fb9a22",
+    "scripts/investment/oracle_expert_opportunity.py": "3b79a9d73cef1b3bf2a4171cff3ea62c0e6f0555b78e74f6c7bc08432fbe9e6f",
+    "tests/test_frozen_expert_mixture.py": "033015a05b2ad25df4ef604d9f867e9aba068f0051129bd1f73eddb72fa05bd9"
+  },
+  "cost_ids": [
+    "BASE27"
+  ],
+  "parallel_scope": "TWO_BOUNDED_PROCESSES_MAX; EXPLICIT2_THREADS_EACH; SHARED8GB; FOUR_PLUS_TWO_WHOLE_COUNTERFACTUALS_NOT_WALLET_SUM",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "created_utc": "2026-10-06T04:15:55.067291+00:00",
+  "parent_commit": "c6ea66d63d3a230a047f9400f28572224df15358",
+  "input_adapter": "FIXED_BTC_ETH_2022_2023_CYCLE",
+  "account_modes": [
+    "LONG_SHORT"
+  ],
+  "source_acceptance": {
+    "path": "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json",
+    "sha256": "ea8801b1f868f231344024e804d4b7dd10ec4407dc9b42aa0a857def9f535983"
+  },
+  "cycle_regression": {
+    "path": "reports/CTA_CYCLE_WINDOW_TESTS_20261006_V1.xml",
+    "sha256": "a1386eaaa6cd38c463845d3ccafaf147ea0bceff4d6ff2ad0a421d89b3de8d84",
+    "source_sha256": "5d8a24b3bae151aa50580f34f6910239d2fccfdf3f64b30dfa76fccf84663a6d",
+    "tests": 2
+  },
+  "reused_cycle_controls": {
+    "path": "reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+    "sha256": "359e11b426aa5241b2f1d02ffaebd3c5fd764292488d7cdddd9539096daf9ccf"
+  },
+  "comparison_reference": {
+    "path": "reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json",
+    "sha256": "8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047"
+  },
+  "controls_reuse_regression": {
+    "path": "reports/FROZEN_EXPERT_MIXTURE_TESTS_20261006_V1.xml",
+    "sha256": "a2022d456b52a42175c43bf74e24d958908e732e37f577c789127655ba3e9fbf",
+    "source_sha256": "2c10492b55fdca6c3e5d567752f2a61242be65b30240af9ebb6a4d19b614870a",
+    "tests": 6
+  },
+  "recipe_source_changes": {
+    "scripts/investment/cta_classics.py": {
+      "previous": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+      "current": "cc07fc2bd127a65d2aeab5b50bc16acc1769120dce97f8c8ac2f0d16ac1fbce3"
+    },
+    "scripts/investment/audit_cta_classics.py": {
+      "previous": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+      "current": "0af6322455de5c76e6e4aaf4055a5ff71ae1e5a4d7c1b9eb6b7c38320df90fdb"
+    },
+    "tests/test_cta_classics.py": {
+      "previous": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+      "current": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c"
+    }
+  },
+  "legacy_signal_golden": {
+    "path": "/home/xflops/coin-state/d099-fixed-btc-cycle-accounts-20261006-v2/frozen_signals.parquet",
+    "sha256": "b7d79eb920d4ca3e482ab6cc76f63ab1f8830b6b49486c126d4e971def5009c6"
+  },
+  "public_hook_regression": {
+    "path": "reports/PUBLIC_SMA_FULL_HOOK_TESTS_20261006_V1.xml",
+    "sha256": "ef471744a24f201caf4298a757361cc31c35cc29978ffa7df706b12f17af7a35",
+    "source_sha256": "16d54fc31dddf94259a0a74a87606757d00e03cc0fcfe1ad5b42a1a7ce572300",
+    "tests": 5
+  },
+  "expert_mixture": {
+    "path": "reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json",
+    "sha256": "c98dc7748159c9a4616ad33d6e6a322550bda42d130c8a72ee1efc1b8837fce9",
+    "independent_path": "reports/FROZEN_EXPERT_ORACLE_INDEPENDENT_20261006_V1.json",
+    "independent_sha256": "93a3c194ba0b833f1ba7623f1e836c0af48b776edc6468fd088301a0675e3bcf"
+  },
+  "mixture_regression": {
+    "path": "reports/FROZEN_EXPERT_MIXTURE_TESTS_20261006_V1.xml",
+    "sha256": "a2022d456b52a42175c43bf74e24d958908e732e37f577c789127655ba3e9fbf",
+    "source_sha256": "033015a05b2ad25df4ef604d9f867e9aba068f0051129bd1f73eddb72fa05bd9",
+    "tests": 6
+  },
+  "source_expert_parameters_changed": false
+}

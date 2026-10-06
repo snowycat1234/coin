@@ -29,7 +29,9 @@ def main():
     assert os.getenv('COIN_TASK_ID') and run.parent==STATE and not run.exists() and not out.exists()
     assert out.is_relative_to(ROOT/'reports/fast_research') and pl.thread_pool_size()<=2
     public_sma='PUBLIC_SMA50_200'
-    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.SUPPORTED_FAMILIES)|{public_sma}
+    mix_families=('ORACLE60D','EQUAL_EXPERTS','STATIC_DIRECTION3')
+    mixed=bool(set(spec['families'])&set(mix_families))
+    assert spec['families'] and len(set(spec['families']))==len(spec['families']) and set(spec['families'])<=set(cta.SUPPORTED_FAMILIES)|{public_sma}|set(mix_families)
     assert spec['modes']==list(cta.MODES) and spec['models_fit']==0
     costs=[v for v in engine.COSTS if v['id'] in spec.get('cost_ids',[v['id'] for v in engine.COSTS])]
     assert costs and len(costs)==len(spec.get('cost_ids',costs)), 'Fixed known cost subset, no cheaper invented cost'
@@ -45,6 +47,13 @@ def main():
         'bybit_cost_inputs','audit_shared_direction','market_regime','shared_direction_model')]
     paths+=['src/quant/perpetual_account.py','tests/test_cta_classics.py']
     paths+=['third_party/jesse_example_donchian/'+p for p in cta.PINNED_HASHES]
+    if mixed:
+        from scripts.investment import frozen_expert_mixture as mixture
+        assert spec['account_modes']==['LONG_SHORT'] and set(spec['families'])<=set(mix_families) and not spec.get('include_controls',True)
+        mt=spec['mixture_regression'];assert sha(ROOT/mt['path'])==mt['sha256'] and sha(ROOT/'tests/test_frozen_expert_mixture.py')==mt['source_sha256']
+        suites=list(ET.parse(ROOT/mt['path']).getroot().iter('testsuite'))
+        assert sum(int(v.get('tests',0)) for v in suites)==mt['tests'] and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
+        paths+=['scripts/investment/frozen_expert_mixture.py','scripts/investment/oracle_expert_opportunity.py','tests/test_frozen_expert_mixture.py']
     if public_sma in spec['families']:
         from scripts.investment import public_sma_perpetual as public_targets, public_sma_daily
         pt=spec['public_hook_regression'];assert sha(ROOT/pt['path'])==pt['sha256']
@@ -99,7 +108,7 @@ def main():
     run.mkdir();write(run/'RUN_BINDING.json',binding)
     event=dict.fromkeys(FIELDS);event.update(experiment_id=spec['experiment_id'],event_id=spec['experiment_id']+':'+run.name+':START',
         event_type='OPERATIONAL_RESEARCH_START',git_commit=binding['git_commit'],data_manifest_hash=manifest['sha256'],protocol_hash=binding['protocol_sha256'],
-        feature_set='CLOSED_1D_PRICE_PRIOR_CHANNEL_PAST30_RETURNS'+('_CLOSED4H_SHORT_CONFIRMATION' if fast_filter else ''),labels='NONE_ZERO_TRAINING',model_family='FROZEN_PUBLIC_CLASSIC_CTA',
+        feature_set='FROZEN_EXPERT_TARGETS'+('_FUTURE_INFORMED_ORACLE_NOT_CAUSAL' if spec['families']==['ORACLE60D'] else '') if mixed else 'CLOSED_1D_PRICE_PRIOR_CHANNEL_PAST30_RETURNS'+('_CLOSED4H_SHORT_CONFIRMATION' if fast_filter else ''),labels='NONE_ZERO_TRAINING',model_family='FROZEN_EXPERT_MIXTURE' if mixed else 'FROZEN_PUBLIC_CLASSIC_CTA',
         hyperparameters=spec['rules'],seed=None,thresholds='NO_FITTED_OR_POST_RESULT_THRESHOLD',cost_assumptions=spec['cost'],
         all_folds=spec['data_role']+':'+spec['economics_start']+':'+spec['economics_end_exclusive'],success_failure='START_BEFORE_ACCOUNTS',reason_for_next_experiment=spec['question'],
         result_influenced_later_choice=False,models_fit=0)
@@ -125,7 +134,7 @@ def main():
         r['signal_reference']=reference.verify_signals(signal,bars,np.arange(begin,end,cta.DAY,dtype=np.int64),symbols)
         signal.write_parquet(run/'frozen_signals.parquet');write(run/'SIGNAL_AVAILABILITY.json',available)
         score=signal.filter(pl.col('close_us')>=start)
-        available_families=[f for f in spec['families'] if f!=public_sma]
+        available_families=[f for f in spec['families'] if f!=public_sma and f not in mix_families]
         assert score.height==days*len(symbols)
         if available_families:assert score.select(available_families).null_count().select(pl.sum_horizontal(pl.all())).item()==0
         if 'legacy_signal_golden' in spec:
@@ -134,6 +143,8 @@ def main():
             assert signal.select(saved.columns).equals(saved), 'Original full-window rule signals changed'
             r['legacy_signal_golden']=dict(status='PASS_SAME_ORIGINAL_SIGNAL_COLUMNS_ALL_DECISIONS',**golden)
         decisions=np.arange(start,end,cta.DAY,dtype=np.int64)
+        if mixed:
+            library=mixture.load(spec);r['expert_mixture_input_binding']=library['binding']
         if 'legacy_control_targets' in spec:
             for golden in spec['legacy_control_targets']:
                 assert sha(golden['path'])==golden['sha256']
@@ -224,6 +235,8 @@ def main():
             if family==public_sma:
                 target,meta=public_targets.fixed_targets(bars,decisions,mode,symbols=symbols,allocation='INVERSE_VOL_30D')
                 target_ref=reference.verify_public_sma_targets(target,bars,decisions,symbols,mode)
+            elif family in mix_families:
+                target=meta=target_ref=None
             else:
                 target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
                 target_ref=reference.verify_targets(target,signal,bars,symbols,target_family,mode)
@@ -234,6 +247,7 @@ def main():
                     half_spread_bps=oldcost['half_spread_bps'],slippage_bps=oldcost['slippage_bps'],execution_source_ref='ACCEPTED_BINANCE_USDM_PROXY',
                     execution_status='FIXED_NON_NATIVE_SPREAD_SLIPPAGE_SCENARIO')
                 for unit in engine.UNITS:
+                    if family in mix_families:target,meta,target_ref=mixture.targets(library,bars,decisions,symbols,family,unit['id'])
                     guard();case_id='_'.join((family+('_FAST4H' if fast_filter else ''),mode,cost['id'],unit['id']));directory=run/case_id;began=time.monotonic()
                     progress.value['detail']=f"CTA账户{len(r['cases'])+1}/{r['required_accounts']} · {case_id} · 零训练"
                     progress.update('经典CTA组合账户对照',len(r['cases']),r['required_accounts'],'账户',family=family,mode=mode)

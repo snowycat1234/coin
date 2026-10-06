@@ -231,3 +231,25 @@ D103公开完整SMA50/200多空：BASE/PCT净-1.62，毛价格93.96，费用+执
 冻结expert60日近似机会增量足够，先将同一oracle路径在既有共享资本账户真实重放，补equal/static合集真实成本对照；诊断不作为投资证据。随后只用过去slow×fast×vol少量状态、非重叠60日标签做排名可预测性与常数/错位/打乱/同频随机placebo，0交易模型拟合，不扫分类器。仅12个完整60日标签，尾部10日保留收益但不能充作60日训练标签；单BTC旧周期仅机制筛选，稳定性/独立证据不足，不晋级。
 
 工件 `reports/PUBLIC_SMA50_200_REVIEW_20261006_V1.json`、`reports/FROZEN_EXPERT_ORACLE_OPPORTUNITY_20261006_V2.json`。复现：progress/bounded下 `run_cta_leaderboard.py --protocol protocols/PUBLIC_SMA50_200_DIRECTIONS_20261006_V1.json`、`PUBLIC_SMA50_200_LONG_SHORT_20261006_V1.json`、`FROZEN_EXPERT_LIBRARY_COMPLETE_20261006_V1.json`，每次明确未使用STATE目录/reports输出。统一复核 `review_short_cycle.py --strategy PUBLIC_SMA50_200 --producer <directions> --producer <long-short> --output <新文件>`；oracle使用 `oracle_expert_opportunity.py --protocol protocols/FROZEN_EXPERT_ORACLE_20261006_V3.json --producer <D099完整10账户> --producer <D100多空> --producer <D103多空> --producer <D104expert补齐> --producer <D101多空> --output <新文件>`。
+
+## D105：冻结expert真实共享账户重放
+
+D105把冻结expert目标放入真实单10k钱包。两资金费条件oracle相对最佳单expert增量3335.69/3386.30，比shadow诊断低27.93/28.69，机会门槛保留，但oracle未来知情始终不算候选。八expert等权弱于原仅多；固定SMA200/HOLD/CASH=.5/.25/.25降低实际波动/回撤、提高Sharpe，但净收益低于原仅多，两条件均未达替换门槛。投资NONE/CASH，原SMA200仅多风险效率参照及多空正SHORT挑战者保留。
+
+同BTC2022-01-01至2024-01-01、已见730日、每个反事实完整10k/caps30/60/1x。6新完整账户、4Cash/Hold完整复用；组合先合成有符号目标，再真实账户成交/资金费/钱包，不拼独立钱包收益。既有必要风险减仓与持仓清理保持。
+|账户 / BASE-PCT|净USDT|LONG|SHORT|价格毛PnL|费+执行|资金费|vol%|分钟DD%|Sharpe|换手|
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|ORACLE60D **未来知情，非候选**|5799.64|3936.43|1863.21|5910.20|109.07|-1.49|10.37|6.62|2.26|8.08|
+|EQUAL_EXPERTS|425.14|432.03|-6.90|504.57|78.29|-1.15|5.41|6.80|0.41|5.80|
+|STATIC_DIRECTION3|1377.58|1188.08|189.50|1427.88|49.14|-1.16|5.42|5.11|1.22|3.64|
+|CASH|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|
+|HOLD|541.50|541.50|0.00|601.17|57.25|-2.42|10.71|17.06|0.30|4.24|
+
+Oracle PCT实际净5799.64，2022净1977.59（SHORT1863.21），2023净3822.05（SHORT0）。6/7次expert切换沿已冻结诊断路径，两情景分别真实重放，不重优化成全局最优；存在未来输入，不能列入可交易leaderboard。额外shadow切换扣费在真实账本不再扣，实际成交费和执行成本一次记账。
+固定三expert PCT毛价格1427.88、费+执行49.14、资金费-1.16，主要赚钱来自LONG1188.08；SHORT2022 +413.32、2023 -223.81，合计+189.50。净1377.58比原LO1563.48少185.90，DD5.11%比6.23%低、vol5.42%比6.68%低；不是risk-matched超越，不事后加杠杆缩放。
+等权8expert PCT净425.14、SHORT-6.90、Sharpe0.412；机械保留所有expert未形成净分散优势。它不否定其他窗口/币种条件优势，暂停该固定等权配方作为主力；reopen需真正互补收益来源/独立证据，而不是已见窗口删输家调权重。
+独立标量逐730日重构六账户的原expert目标和组合权重/赢家边界；实际费用交易表逐项求和，最大目标误差2.78e-17；原有Decimal一分钟资金/NAV/多空归因继续通过。资源/时刻/源SHA见module close。所有新帐户实际平仓费用支付，未删除残仓。
+真实oracle机会足够，但仍非因果/不能投资。下一有限主任务只用过去slow-trend×fast-trend×vol状态检验60日未来expert相对排名/赢家可预测性，先固定可解释状态映射，再chronological walk-forward与标签成熟，12个完整非重叠60日标签、尾部10日不充样本；固定/错位/打乱/同频随机placebo与oracle可行差距必须报告。0交易模型拟合、参数扫描或权重救配方。若不优于静态/placebo则暂停本selector配方，保留单策略与SHORT能力；reopen需新独立周期/合法多币机制。
+
+BinanceUSD-M价格配Bybit用户费用仍为代理；资金费单位、历史数量与MMR假设未原生认证。已看开发不改名unseen；未启封locked。测试、oracle高Sharpe与两年外推均不证明长期APR或真钱资格。
+结果 `reports/FROZEN_EXPERT_MIXTURE_REVIEW_20261006_V1.json`，独立核对 `reports/FROZEN_EXPERT_MIXTURE_INDEPENDENT_20261006_V1.json`。复现：progress/bounded下 `run_cta_leaderboard.py --protocol protocols/FROZEN_EXPERT_MIXTURE_ORACLE_20261006_V1.json` 或 `FROZEN_EXPERT_MIXTURE_STATIC_20261006_V1.json`，各给新的STATE `--run-dir`、新的reports/fast_research `--output`；`review_expert_mixture.py --producer <oracle生产报告> --producer <静态生产报告> --output <新文件>`。
