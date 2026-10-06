@@ -1,0 +1,37 @@
+{
+  "experiment_id": "D102_SMA200_CE22_3_RECORDED_EPISODE_DIAGNOSTIC",
+  "parent_commit": "17146d49e50e3aeb17e1e50f7b7454bc59fc0afd",
+  "producer": {
+    "path": "reports/fast_research/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json",
+    "sha256": "54a7b1d92d081a6351b2e42ac4e52fe511cd53e96bbdc1ba9aa7edfdba21934d"
+  },
+  "rule": {
+    "library": "pandas-ta-classic",
+    "version": "0.8.32",
+    "license": "MIT",
+    "length": 22,
+    "multiplier": 3.0,
+    "mamode": "rma",
+    "offset": 0,
+    "talib": false,
+    "fillna": false,
+    "inputs": "CLOSED_DAILY_TRADE_BARS_ONLY",
+    "signal": "SHORT_EXIT_LINE_NOT_NEW_SHORT_ENTRY",
+    "native_trade_fill": false
+  },
+  "configurations": 1,
+  "new_accounts": 0,
+  "models_fit": 0,
+  "data_role": "SEEN_BTC_2022_2023_DEVELOPMENT_ORIGINAL_POSITION_SHADOW_NOT_ALPHA",
+  "question": "Can fixed public CE22/3 trigger before original short flatten, and does original bearish daily signal immediately invite reentry? No filtered PnL.",
+  "budget": {
+    "RSS_bytes": 800000000,
+    "downloads": 0,
+    "seconds": 180,
+    "GPU": 0
+  },
+  "stopping": "ALL_RECORDED_SHORT_EPISODES_OR_EXPLICIT_SOURCE_FAILURE; NO_PARAMETER_SEARCH",
+  "adoption": "Mechanism evidence only. Do not adopt a CE wallet from shadow triggers. If same negative signal invites immediate reentry, do not bolt an unlatched stop onto account. Preserve original SMA200.",
+  "source_sha256": "283764211adfdb5504d67f3971b690863c6ccb614c616e3844010ba3f29a06ff",
+  "correction_scope": "Source binding now checked at execution; unknown startup totals and unavailable next-day signals remain UNKNOWN. Original V1 trace retained; no economic change."
+}

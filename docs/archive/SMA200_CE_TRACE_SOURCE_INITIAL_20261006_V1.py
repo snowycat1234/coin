@@ -53,13 +53,10 @@ def main():
     assert out.is_relative_to(ROOT/'reports') and not out.exists()
     p=(ROOT/a.producer).resolve();assert p.is_relative_to(ROOT/'reports/fast_research')
     raw=json.loads(p.read_bytes());s=raw['protocol'];started=time.monotonic();progress=Progress()
-    progress.value['detail']='已存完整账户的CE保护时点；无新钱包或假想收益'
-    progress.update('核对原成交、输入与公开指标',None,None,'核对')
     try:
         if a.protocol:
             spec=json.loads((ROOT/a.protocol).read_bytes())
             assert spec['producer']==dict(path=a.producer,sha256=sha(p)) and spec['rule']==RULES
-            assert spec['source_sha256']==sha(__file__)
             assert spec['configurations']==1 and spec['new_accounts']==0 and spec['models_fit']==0
         assert sha(ROOT/'state/dataset_lock.json')==s['locked_sha256']
         assert sha(s['data_manifest']['path'])==s['data_manifest']['sha256']
@@ -111,7 +108,7 @@ def main():
                     z.update(first_public_trailing_trigger_us=trigger,known_stop_line=trail,trigger_trade_close=float(cross['close'][0]),
                         earliest_eligible_open_us=trigger+MINUTE,days_before_actual_flat=(last-trigger)/DAY,
                         original_next_daily_forecast=next_signal,
-                        immediate_reentry_intent_if_no_latch=None if next_signal is None else bool(next_signal<0))
+                        immediate_reentry_intent_if_no_latch=bool(next_signal is not None and next_signal<0))
                     break
             z.setdefault('first_public_trailing_trigger_us',None)
             progress.update('完整原空头持仓：CE保护与原重入意图',i+1,len(episodes),'持仓')

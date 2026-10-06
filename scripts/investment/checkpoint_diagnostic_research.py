@@ -55,6 +55,8 @@ if economics:
   economic_peak_RSS_bytes=max(e['peak_RSS_bytes'] for e in economics),
   economic_shared_sample_peak_bytes=max(e['shared_RAM_sampled_peak_bytes'] for e in economics))
 save(c['closed'],report);p=STATE/'task-progress/last-disk.json';tmp=p.with_suffix('.diagnostic.tmp');tmp.write_text(json.dumps(dict(ledger=scan,measured_at=datetime.fromisoformat(scan['measured_utc']).timestamp(),source=c['closed'])));tmp.replace(p)
-paths=c['selected_paths']+[c['closed'],c['binding'],a.config];prior=json.loads((ROOT/c['prior_binding']).read_bytes())['prior_WIP_preserved'];save(c['binding'],dict(status='ACCEPTED_MODULE_SOURCE_BINDING',parent_commit=head,selected_module_paths=paths,source_hashes={p:sha(ROOT/p) for p in set(paths)-{c['binding']}},prior_WIP_preserved=prior,locked_body_read=False))
+# This checkpoint appends the registry even when there was no account START.
+# Include its actual bytes without relying on an earlier changed-file snapshot.
+paths=list(dict.fromkeys(c['selected_paths']+['reports/experiment_registry.jsonl',c['closed'],c['binding'],a.config]));prior=json.loads((ROOT/c['prior_binding']).read_bytes())['prior_WIP_preserved'];save(c['binding'],dict(status='ACCEPTED_MODULE_SOURCE_BINDING',parent_commit=head,selected_module_paths=paths,source_hashes={p:sha(ROOT/p) for p in set(paths)-{c['binding']}},prior_WIP_preserved=prior,locked_body_read=False))
 (ROOT/c['stage_script']).write_text("$ErrorActionPreference = 'Stop'\n$paths = @(\n"+',\n'.join("'"+p+"'" for p in paths)+"\n)\n& git.exe -C 'D:/codex/coin' add -- $paths\nif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }\n")
 print(json.dumps(dict(status=report['status'],actual_task_seconds=report['task_intervals_union_seconds'],disk_bytes=scan['total_bytes'])))

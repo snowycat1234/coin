@@ -183,3 +183,20 @@ D101固定50日空头确认未通过两资金费情景门槛：BASE/PCT多空净
 暂停SMA200_SHORT50硬过滤，保留原SMA200仅多参照与有条件多空挑战者。下一项只读检查已登记pandas-ta-classic CE22/3有状态空头保护在本BTC周期的触发和重入语义；只有明确提前保护反弹且未破坏主要熊市持仓的机制证据才接完整账户。固定公开默认，不扫ATR倍数/周期；影子触发不代表净收益。该不同授权周期检验满足D097 reopen条件。
 
 工件 `reports/SMA200_SHORT50_REVIEW_20261006_V1.json`、`reports/SMA200_SHORT50_MECHANISM_20261006_V1.json`。复现：现有progress/bounded下分别运行 `run_cta_leaderboard.py --protocol protocols/SMA200_SHORT50_SHORT_ONLY_20261006_V1.json` 与 `protocols/SMA200_SHORT50_LONG_SHORT_20261006_V1.json`，显式给未使用STATE `--run-dir` 与未使用reports/fast_research `--output`。统一复核 `review_short_cycle.py --strategy SMA200_SHORT50 --producer <仅空报告> --producer <多空报告> --output <新文件>`。
+
+## D102：CE22/3完整原持仓轨迹，不是新策略收益
+
+D102公开CE22/3只读轨迹：原SMA200 BTC730日3段SHORT均有更早触发，其中2段下一日原趋势仍要求SHORT；不能把退出线直接挂入账户宣称净改善。第一段2022-01-01入空，2022-02-04已触发，原仓直到2023-01-14才平；第三段2023-08-31几乎开仓即触发，原负趋势仍在。
+
+|原开空 UTC|首次CE触发 UTC|原平仓 UTC|下一日原信号仍SHORT|
+|---|---|---|---|
+|2022-01-01 00:01|2022-02-04 15:21|2023-01-14 00:01|True|
+|2023-08-18 00:01|2023-08-29 14:21|2023-08-30 00:01|False|
+|2023-08-31 00:01|2023-08-31 00:03|2023-10-17 00:01|True|
+
+CE在本周期触发很早，首次触发不能直接推成2023反弹损失已避免；退出后价格与仓位路径、重入和成本均未模拟。2022第一段会在主要后续熊市前触发，2023第三段初始保护线已低于入场价格，简单接入更接近入场否决。这里只确认语义风险，不淘汰完整CE/ATR能力。
+原24段D096持仓提取golden一致；当前全warmup/730日CE线通过独立标量Wilder22种子参考（最大相对误差4.05e-16）与未来价格扰动。已安装MIT pandas-ta-classic0.8.32文件哈希全绑定，不复制/改其代码。
+0新账户/0训练/0下载；新CE净收益、交易费、DD、Sharpe均NOT_RUN，不删除原交易再扣成本做伪反事实。BTC来源/Bybit费代理及资金费/MMR假设不改变，已见开发不是unseen。
+不接无重入规则的CE保护，也不靠优化ATR周期/倍数救配方。下一主任务复用已登记MIT Jesse SMA50/200完整多空入/退出hook，在相同BTC730日、资本、成本与风险下做固定公共family对照；优先直接复用现有public_sma_perpetual接口，先核完整策略语义/标的顺序，再跑有限方向账户。它是独立公开family，不把全部变化归因于SHORT退出；0训练/网格/新行情。原SMA200研究参照保持，投资NONE。
+
+复现：现有progress/bounded、2线程，`trace_chandelier_short_episodes.py --producer reports/fast_research/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json --protocol protocols/SMA200_CHANDELIER_TRACE_20261006_V2.json --output reports/REPLACE_WITH_UNUSED.json`。工件 `reports/SMA200_CHANDELIER_TRACE_20261006_V2.json` SHA `29d4e2ba6cdde149361487dfe6de8c1baa6645bea99f91b1af7d513559f7238d`。

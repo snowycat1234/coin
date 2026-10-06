@@ -1,0 +1,53 @@
+{
+  "parent_commit": "17146d49e50e3aeb17e1e50f7b7454bc59fc0afd",
+  "module": "D102_PUBLIC_CE_SHORT_REENTRY_DIAGNOSTIC",
+  "family": "PUBLIC_CE22_3",
+  "recipe": {
+    "library": "pandas-ta-classic",
+    "version": "0.8.32",
+    "license": "MIT",
+    "length": 22,
+    "multiplier": 3.0,
+    "mamode": "rma",
+    "offset": 0,
+    "talib": false,
+    "fillna": false,
+    "inputs": "CLOSED_DAILY_TRADE_BARS_ONLY",
+    "signal": "SHORT_EXIT_LINE_NOT_NEW_SHORT_ENTRY",
+    "native_trade_fill": false
+  },
+  "references": {
+    "reports/SMA200_CHANDELIER_TRACE_20261006_V2.json": "PASS_FULL_RECORDED_EPISODE_CAUSAL_CE_TRACE_NOT_ECONOMIC_REPLAY"
+  },
+  "additional_tasks": [
+    {
+      "id": "5b9583335d7241ef87e3710d30dadee0",
+      "expected_exit_code": 0
+    }
+  ],
+  "source_paths": [
+    "scripts/investment/trace_chandelier_short_episodes.py",
+    "docs/archive/SMA200_CE_TRACE_SOURCE_INITIAL_20261006_V1.py"
+  ],
+  "decision": "DO_NOT_ADD_UNLATCHED_CE_RETAIN_SMA200",
+  "next_action": "不接无重入规则的CE保护，也不靠优化ATR周期/倍数救配方。下一主任务复用已登记MIT Jesse SMA50/200完整多空入/退出hook，在相同BTC730日、资本、成本与风险下做固定公共family对照；优先直接复用现有public_sma_perpetual接口，先核完整策略语义/标的顺序，再跑有限方向账户。它是独立公开family，不把全部变化归因于SHORT退出；0训练/网格/新行情。原SMA200研究参照保持，投资NONE。",
+  "primary_reference": "reports/SMA200_CHANDELIER_TRACE_20261006_V2.json",
+  "runtime_directory": "/home/xflops/coin-state/d102-ce-trace-close-meta-20261006-v1",
+  "closed": "reports/SMA200_CE_TRACE_MODULE_CLOSED_20261006_V1.json",
+  "binding": "reports/GITHUB_SMA200_CE_TRACE_SOURCE_BINDING_20261006_V1.json",
+  "prior_binding": "reports/GITHUB_SMA200_SHORT50_SOURCE_BINDING_20261006_V2.json",
+  "selected_paths": [
+    "docs/OPEN_SOURCE_REGISTRY.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/RESEARCH_STATUS.md",
+    "docs/SHORT_SELECTION.md",
+    "protocols/SMA200_CHANDELIER_TRACE_20261006_V1.json",
+    "protocols/SMA200_CHANDELIER_TRACE_20261006_V2.json",
+    "reports/GITHUB_SMA200_SHORT50_SYNC_VERIFIED_20261006_V1.json",
+    "reports/SMA200_CHANDELIER_TRACE_20261006_V1.json",
+    "reports/SMA200_CHANDELIER_TRACE_20261006_V2.json",
+    "scripts/investment/trace_chandelier_short_episodes.py",
+    "docs/archive/SMA200_CE_TRACE_SOURCE_INITIAL_20261006_V1.py"
+  ],
+  "stage_script": ".cache/stage_selected_ce_trace.ps1"
+}
