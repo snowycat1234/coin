@@ -10,6 +10,19 @@ from .evaluate import DAY,portfolio_targets,prediction_metrics,native_worker
 from .portfolio import directional,market_neutral
 from .locked_gate import require_release
 
+def permit_pre_account_engineering_repair(state,proof_path):
+    state=Path(state);proof_path=Path(proof_path);proof=json.loads(proof_path.read_text())
+    failure=json.loads((state/'LOCKED_FORMAL_FAILURE.json').read_text())
+    assert proof['reason']=='ENGINEERING_PRE_ACCOUNT_ONLY' and not proof['economic_results_read'] and not proof['model_ranking_read']
+    assert not failure['economic_results_read'] and proof['failure_sha256']==sha(state/'LOCKED_FORMAL_FAILURE.json')
+    assert proof['previous_formal_marker_sha256']==sha(state/'LOCKED_FORMAL_RUN.json')
+    assert not (state/'LOCKED_NATIVE_PROGRESS_RESULTS.json').exists() and not (state/'TRANSFORMER_V2_LOCKED_RESULTS.json').exists()
+    assert not any((state/'locked-native').rglob('summary.json')) and not any((state/'locked-native').rglob('RESULT.json'))
+    assert not (state/'LOCKED_FORMAL_PRE_ACCOUNT_ATTEMPT.json').exists(),'Only one explicitly proven engineering repair'
+    (state/'LOCKED_FORMAL_RUN.json').rename(state/'LOCKED_FORMAL_PRE_ACCOUNT_ATTEMPT.json')
+    (state/'LOCKED_FORMAL_FAILURE.json').rename(state/'LOCKED_FORMAL_PRE_ACCOUNT_FAILURE.json')
+    atomic(state/'LOCKED_ENGINEERING_REPAIR_ACCEPTED.json',dict(proof_sha256=sha(proof_path),proof=proof,accepted_at=time.time(),no_economic_account_results_exist=True))
+
 def baseline_weights(name,sma,active,gross=None):
     budget=.6 if gross is None else np.asarray(gross)[:,None]
     position=dict(BASE_HOLD=np.ones_like(sma),BASE_SMA200_SIGNED=sma,
@@ -146,10 +159,12 @@ def prepare(a):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--state',required=True);p.add_argument('--collector-root',required=True);p.add_argument('--work',required=True)
-    p.add_argument('--source-run',required=True);p.add_argument('--workers',type=int,default=8);a=p.parse_args();state=Path(a.state)
+    p.add_argument('--source-run',required=True);p.add_argument('--workers',type=int,default=8);p.add_argument('--engineering-repair-proof');a=p.parse_args();state=Path(a.state)
     repo=Path(__file__).resolve().parents[2];proto=repo/'reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json';require_release(state,sha(proto))
     marker=state/'LOCKED_FORMAL_RUN.json'
-    if marker.exists():raise RuntimeError('Formal locked experiment already started. No automatic second run, outcome-driven repair, or silent resume.')
+    if marker.exists():
+        if not a.engineering_repair_proof:raise RuntimeError('Formal locked experiment already started. No automatic second run, outcome-driven repair, or silent resume.')
+        permit_pre_account_engineering_repair(state,a.engineering_repair_proof)
     atomic(marker,dict(status='FORMAL_RUN_STARTED',protocol_sha256=sha(proto),source_sha256=sha(__file__),started_at=time.time(),economic_results_read=False,model_ranking_read=False))
     try:
         manifest=json.loads((state/'LOCKED_DATA_MANIFEST.json').read_text())
