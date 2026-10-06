@@ -31,3 +31,27 @@ limits are unchanged. No new scientific runs are permitted on this Windows machi
 The 2026-03-01 through 2026-08-31 locked range cannot be loaded by development data.
 No promotion or live orders occur here. Native economic evaluation, locked release
 and final decisions must obey `reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json`.
+
+After training, `evaluate` replays the fixed seed/ensemble/mapping targets through
+the unmodified minute wallet and independent auditor. `audit_fits` checks every
+checkpoint and exact train-only scaler. `final_fit --wait` waits for all five
+development folds, then uses each seed's registered median inner epoch on mature
+past labels only. `audit_fits --final-only` verifies those 24 final fits.
+
+`pipeline` waits for the complete development report, commits the exact report
+and candidate freeze, and requires the final-fit audit before releasing locked
+archives. It performs one continuous locked experiment and publishes compact
+final evidence and a registered A/B/C decision on this branch. The authenticated
+host can then fetch and normally push the server's commits. There is no automatic
+post-outcome rerun; one explicitly proven pre-account engineering repair preserves
+its first failed attempt. Existing original collector locked guards are unchanged.
+
+Real progress can be viewed without starting another experiment:
+
+```bash
+python -m modules.transformer_v2.watch --state /external-state/transformer-v2
+```
+
+The display includes authoritative service state, fit stage/fold/seed/epoch/loss,
+CUDA memory and measured training ETA, completed distinct accounts and each live
+account's actual minute count. Reset-wallet returns are never spliced into an APR.

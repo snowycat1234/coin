@@ -115,6 +115,50 @@ def oracle_gaps(rows,candidate,mapping):
                         qualification='HORIZON_SUPPORTED_ORACLE_WITH_TERMINAL_CASH_VS_FULL_CALENDAR_CAUSAL_ACCOUNTS; NOT_TIGHT_CEILING_OR_PROMOTION_METRIC'))
     return out
 
+def explicit_answers(dev,rows,relative,verdict,gaps):
+    family=dev['chosen']['family'];mapping=dev['chosen']['mapping'];scales=(1.,.01)
+    summary=next(s for s in dev['summaries'] if s['family']==family and s['mapping']==mapping)
+    index={(r['family'],str(r['seed']),r['mapping'],r['funding_scale']):r for r in rows}
+    own=[index.get((family,'ENSEMBLE',mapping,s)) for s in scales]
+    def n(v):return 'NOT_EVALUABLE' if v is None else f'{v:.4f}'
+    def pair(k):return ' / '.join(n(s.get(k)) for s in summary['scenarios'])
+    answers=[('1. v2 对旧 Transformer 的改善',f'冻结候选开发集对旧冻结 Transformer 的配对中位收益差为 {pair("median_paired_delta_old_transformer_pct")} pct（funding=1.0 / 0.01）；组合映射与旧方向基线不同的比较不能解释为单独的架构增益。')]
+    answers.append(('2. 改善来自哪里','cross-asset 与 readout 同时变化，attention 的独立贡献无法识别；multitask、patching 的配对差和实际 gross 差见架构表。ensemble 的稳定性 gate='+str(summary['development_gate_pass'])+' 所属开发综合 gate；单独稳定性见各 funding scenario。exposure 控制='+json.dumps(verdict.get('exposure_evidence',[]),ensure_ascii=False)+'。未证明实际 exposure 相等时，不宣称排除了降低 exposure 的解释。'))
+    for candidate_mapping,label in [('DIRECTIONAL','3. directional alpha 是否存在'),('NEUTRAL','4. cross-sectional alpha 是否存在')]:
+        evidence=next(s for s in dev['summaries'] if s['family']==family and s['mapping']==candidate_mapping)
+        locked=[index.get((family,'ENSEMBLE',candidate_mapping,s)) for s in scales]
+        positive=all(s.get('complete') and s.get('median_net_return_percent',-1)>0 and s.get('positive_windows',0)>=4 for s in evidence['scenarios'])
+        positive=positive and all(r and r['full_calendar_and_paid_cash'] and r['net_USDT']>0 and r['gross_price_USDT']>0 for r in locked)
+        if candidate_mapping=='NEUTRAL':positive=positive and all(r['stable_IC'] for r in relative)
+        else:
+            positive=positive and all((s.get('median_paired_delta_strongest_pct') or 0)>0 for s in evidence['scenarios'])
+            for row in locked:
+                if row is None:positive=False;continue
+                baselines=[index.get((b,'FROZEN_RULE','DIRECTIONAL',row['funding_scale'])) for b in STATIC]
+                positive=positive and all(b and b['net_USDT'] is not None for b in baselines)
+                if positive:positive=row['net_USDT']>max(b['net_USDT'] for b in baselines)
+        answer='是，固定候选架构的该映射取得跨阶段、成本后的正证据。' if positive else '否，本轮未取得同时满足开发跨阶段与封存两单位成本后正收益的证据。'
+        answers.append((label,answer+'开发中位收益='+ ' / '.join(n(s.get('median_net_return_percent')) for s in evidence['scenarios'])+'%；封存 NET='+ ' / '.join(n(r['net_USDT']) if r else 'NOT_EVALUABLE' for r in locked)+' USDT。它是固定对照，不能事后替换预注册候选。'))
+    oracle=[];capture=[]
+    for scale in scales:
+        records=[r for r in gaps if r['funding_scale']==scale and r['window'].startswith('LOCKED')]
+        oracle.append(n(max((r['oracle_net_return_percent'] for r in records),default=None)))
+        capture.extend(f'{scale}:{r["oracle"]}={n(r["diagnostic_capture_ratio"])}' for r in records)
+    answers.append(('5. oracle ceiling 多大','封存三种未来知情诊断的最高 NET 为 '+' / '.join(oracle)+'%；完整日历的严格最优经济 ceiling 未被识别。未来 horizon 不足时为显式现金，60日专家 proxy 也不等价于分钟钱包最优解。'))
+    answers.append(('6. 捕获多少 oracle gap','封存相对全日历 SMA 的诊断 gap 比率：'+('; '.join(capture) or 'NOT_EVALUABLE')+'。支持范围不同，不能把此比率称为严格 ceiling 捕获率；非正分母不计算。'))
+    regimes=[r for r in dev['rows'] if r['family']==family and str(r['seed'])=='ENSEMBLE' and r['mapping']==mapping]
+    labels=[]
+    for scale in scales:
+        profitable=[r['window'] for r in regimes if r['funding_scale']==scale and r['net_USDT'] is not None and r['net_USDT']>0]
+        loss=[r['window'] for r in regimes if r['funding_scale']==scale and r['net_USDT'] is not None and r['net_USDT']<0]
+        labels.append(f'{scale} 盈利窗口={profitable}；亏损窗口={loss}')
+    answers.append(('7. 赚钱和亏钱的市场阶段','；'.join(labels)+'。封存月份分解见下表，不把独立窗口相加。'))
+    answers.append(('8. long / short 贡献','封存冻结候选：'+'；'.join(f'{r["funding_scale"]}: long={n(r["long_net_USDT"])} / short={n(r["short_net_USDT"])} USDT' for r in own if r)+'；完整日历失败时这些是局部诊断，不是完整期贡献。'))
+    answers.append(('9. cost 占 gross alpha 多少','冻结候选封存交易成本/正毛价格、包含净资金费负担/正毛价格：'+'；'.join(f'{r["funding_scale"]}: {n(r["cost_share_of_positive_gross"])} / {n(r["cost_plus_net_funding_share_of_positive_gross"])}' for r in own if r)+'。毛价格非正时比率不可评价。'))
+    answers.append(('10. locked 2026-03~08 表现','；'.join(f'{r["funding_scale"]}: NET={n(r["net_return_percent"])}%, MDD={n(r["MDD"])}, Sharpe={n(r["Sharpe"])}, completion={r["native_completion"]}' for r in own if r) or 'NOT_EVALUABLE；无完整封存账户。'))
+    answers.append(('11. 最终决定',verdict['choice']+'. '+verdict['decision']+'；'+verdict['reason']))
+    return answers
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--state',required=True);a=p.parse_args();state=Path(a.state);repo=Path(__file__).resolve().parents[2]
     protocol_path=repo/'reports/transformer_v2/TRANSFORMER_V2_PROTOCOL.json';dev=json.loads((state/'TRANSFORMER_V2_DEV_RESULTS.json').read_text())
@@ -131,11 +175,12 @@ def main():
     relative=stable_relative_evidence(metrics,locked_metrics,dev['chosen']['family']);verdict=decision(dev,rows,locked['cases'],relative)
     if locked['status']!='COMPLETE_ONE_FORMAL_LOCKED_EXPERIMENT':verdict.update(choice='B',decision=CHOICES[1],promotion=False,reason='Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun')
     diagnostic=architecture_diagnostics(dev);gaps=oracle_gaps(dev['rows'],dev['chosen']['family'],dev['chosen']['mapping'])+oracle_gaps(rows,dev['chosen']['family'],dev['chosen']['mapping'])
+    answers=explicit_answers(dev,rows,relative,verdict,gaps)
     evidence=dict(protocol_sha256=sha(protocol_path),development_results_sha256=sha(state/'TRANSFORMER_V2_DEV_RESULTS.json'),locked_results_sha256=sha(state/'TRANSFORMER_V2_LOCKED_RESULTS.json'),
                   chosen=dev['chosen'],decision=verdict,architecture_comparisons=diagnostic,oracle_gap_diagnostics=gaps,locked_rows=rows,
                   development_prediction_metrics=metrics,locked_prediction_metrics=locked_metrics,
                   candidate_risk_audits=[dict(funding_scale=c['task']['funding_scale'],**c['v2_risk_audit']) for c in locked['cases'] if 'v2_risk_audit' in c],
-                  investment_state='NONE/CASH',deployment_authorized=False)
+                  explicit_answers=dict(answers),investment_state='NONE/CASH',deployment_authorized=False)
     atomic(state/'TRANSFORMER_V2_FINAL_DECISION.json',evidence)
     if rows:
         with (state/'TRANSFORMER_V2_LOCKED_SUMMARY.csv').open('w',newline='') as f:
@@ -147,6 +192,7 @@ def main():
            '固定候选来自开发集排名：'+json.dumps(dev['chosen'],ensure_ascii=False),
            '封存状态：'+locked['status']+'。没有按封存 PnL 换候选、挑 seed、改 K、改 gate 或重跑赢家。',
            '全部账户复用原分钟交易内核、费用、逐仓 1x、abs 单币 30% / gross 60% 边界及独立账本核验。价格源 Binance USD-M 与既有费用假设仍是跨场所代理；资金费原始单位未确证，1.0/0.01 两种解释并列保留。',
+           '## 十一个问题的明确回答',*['**'+question+'**\n\n'+answer for question,answer in answers],
            '## 1. v2 比旧 Transformer 改善多少',
            '|模型/组合|funding|开发集窗口收益中位数 %|对旧冻结 Transformer 配对中位差 pct|胜 SMA 窗口|最差窗口 %|',
            '|---|---:|---:|---:|---:|---:|']

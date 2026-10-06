@@ -15,6 +15,7 @@ def compact_case(case,legacy=False):
     return dict(family=family,seed='FROZEN_LEGACY' if legacy else task['seed'],mapping='DIRECTIONAL' if legacy else task['mapping'],
         funding_scale=case['funding_scale'] if legacy else task['funding_scale'],window=case['window']['id'] if legacy else task['window']['id'],
         days=case['window']['days'] if legacy else task['window']['days'],full_calendar_and_paid_cash=full,
+        native_completion=s.get('completion','UNKNOWN'),completed_minutes=s.get('completed_minutes'),required_minutes=s.get('required_minutes'),
         noncausal=False if legacy else task.get('noncausal',False),net_USDT=s['net_PnL'] if full else None,
         net_return_percent=s['net_return_on_full_initial_capital_percent'] if full else None,
         gross_price_USDT=sum(r['gross'] for r in attribution.values()),fees_USDT=s['fees_USDT'],
