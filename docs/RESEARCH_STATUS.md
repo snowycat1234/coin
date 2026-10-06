@@ -2,6 +2,14 @@
 
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
+## 2026-10-07：归档采集与完整数据窗口验证模块
+
+新增 [collector_research 模块](../modules/collector_research/README.md)。服务器上的四类模型研究已完成，验证复用40个模型折与372项产物；新原生账户验证先按输入完整性分段，788天排除UTC2024-08-12一个缺口日，6段787天，共96/96独立10k账户完整且真实平仓，独立NAV/钱包最大误差5.46e-12 USDT。最后24小时采用原持续、容量受限的收费平仓规则；缺口不补造，段间收益不相加或拼成一个钱包。
+
+这不是D108原数据复现，也不是未见OOS。四类模型在两资金费条件下的共同窗口收益中位数均为负；原日频筛查的基线门槛均未通过，最终模型未拟合，不晋级、不部署，投资资格仍NONE/CASH。后验完整数据窗口不能解释为当时能够预知并避开未来缺口。详见 [实际结果](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.md) 与 [小型验收摘要](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.json)。旧D108判断与证据保留。
+
+用户2026-10-07明确区分资源：服务器按实际配置，无项目CPU/RAM/swap/墙钟限制；本机限制继续。模块默认local，必须hpc_linux及8GB/swap0/GPU0；server需显式选择且拒绝WSL。当前服务器10CPU/33.65GB，性能切换复用76例、只继续20例。行情、模型、环境和大账本留在外部STATE。
+
 ## 最新实际经济结果与采用判断
 
 D108自动ML selector实验已完成：SMA200_SIGNED/HOLD/CASH三冻结expert，26past-only特征，固定30/60/90d，正则线性与单套小XGBoost，5个purged chronological folds加H日额外embargo。实际440底层fit、350训练期scaler fit、158完整共享10k钱包；MLP按样本门槛跳过。后台Python独立完成，没有LLM/API参与实验流程。

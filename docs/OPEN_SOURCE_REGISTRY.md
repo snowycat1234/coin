@@ -431,3 +431,12 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D106：SciPy https://github.com/scipy/scipy version1.18.1 BSD-3-Clause（实际bounded环境metadata读取），仅复用stats.rankdata平均tie ordinal排名，无本地库修改；Polars既有rolling_mean/rolling_std做完成日线特征。fixed soft state map/L1凸步为薄OWN_ADAPTER，不声称公开策略原版；stdlib标量/排序仅独立核验，不作为生产重写库。无新增下载、模型或依赖安装。
 
 - D108：复用scikit-learn 1.9.1 BSD-3-Clause https://github.com/scikit-learn/scikit-learn （StandardScaler/Ridge/MultiOutputRegressor）；XGBoost 3.4.1 Apache-2.0 https://github.com/dmlc/xgboost （CPUhist fixed3utilityheads）；pandas-ta-classic 0.8.32 MIT （ATR/RSI/Donchian原库，逐文件SHA核旧安装）；SciPy 1.18.1 BSD-3-Clause （softmax/rankdata）；PyYAML 6.0.3 MIT、joblib 1.6.0 BSD-3-Clause、matplotlib 3.10.8 PSF兼容license、psutil 7.2.2 BSD-3-Clause，训练库沿现有环境与uv.lock；配置/进度/绘图依赖独立selector-support-v1安装，第三方库无本地修改。新增仅薄feature/label/job/报告adapter与本地DAG；金融kernel不重写。详见configs/selector_v1.yaml逐版本及sourceSHA。
+
+
+## COLLECTOR_COMPLETE_WINDOWS_20261007
+
+复用仓库原 `perpetual_directional.simulate/save_case`、正常 `perpetual_closing_exempt_account.USDTLinearPerpetualAccount`、`audit_shared_direction.verify` 及已有可选持续现金目标平仓；金融内核和vendor未修改。归档生产者为用户提供的collector-v3固定包，经本任务16线程独立session/CHECKSUM/CRC、可恢复成功清单、微秒目标导出适配；源码保留在modules/collector_research/pipeline，旧代码哈希兼容。数据源是Binance官方公开归档/CHECKSUM，仅原创读取与编排，未复制文献或第三方交易框架。
+
+训练沿用标准PyTorch2.6.0+cu124（BSD-style，https://github.com/pytorch/pytorch）nn.Conv1d/GRU/TransformerEncoder及AdamW、XGBoost CPU3.4.1 Apache-2.0；TCN/GRU/Transformer的固定小型网络组合是COIN自己的研究配方，不冒充论文策略复现。NumPy2.5.3 BSD-3-Clause、pandas2.3.3 BSD-3-Clause、Polars1.44.2 MIT、PyArrow24.0.0 Apache-2.0、requests2.34.2 Apache-2.0、matplotlib3.11.2既有许可均未修改。版本来自服务器已安装环境，PyTorch官方CUDA12.4 wheel与所有依赖SHA留外部STATE；新验证没有追加训练。
+
+本轮仅数据完整性/旧模型复用/报告/运行站点的薄适配。真实缺分钟与完全现金不需要价格的诊断区分保留；发布的完整窗口使用正常账户，按过去训练资产池共同选段，最后24小时持续收费平仓，禁止收益拼接。Binance价格配Bybit费用、资金费单位、MMR及过滤器认证边界沿既有声明，不声称交易所真实成交认证。模块测试72通过，旧模型审计40折，另外两套16例两天工程探针验证普通函数和完整CLI/恢复，不把探针计入市场收益。
