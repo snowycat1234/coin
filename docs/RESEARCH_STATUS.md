@@ -12,10 +12,11 @@ PCT实际oracle净5799.64（比最佳单expert2413.34增3386.30），DD6.62%、v
 
 D106单一slow×fast×vol固定软映射未通过事前排名门槛：RAW/PCT平均加权排名0.67049/0.69400，静态三expert0.63839/0.66518，最佳单expert与只用成熟过去排名均0.64286/0.69643；虽胜同频随机和滞后60日特征，未超过打乱状态95%对照0.67637/0.70124，两年相对优势也不一致。仅8个评价标签，不声称regime alpha；暂停这个映射，保留SHORT与专家库。
 
-不再在BTC同窗口改状态/阈值/权重，也不训练交易classifier。下一主任务先只读核现有授权历史manifest、完整专家账本及选择影响记录，明确可增加哪些合法完整周期或多币横截面标签；只在授权非locked范围补足有效样本，冻结专家原样做跨窗口条件优势迁移核对，已看历史仍标开发，不冒称unseen。当前映射reopen需多个周期的稳定相对排名信息或新增可解释past-only信息；仅8标签不足升级学习控制器。既有资金费单位/数量/MMR不确定继续限制投资结论。
+用户现已授权有限ML selector，覆盖此前未开放classifier的暂缓。本轮D108只保留冻结SMA200_SIGNED/HOLD/CASH，26past-only特征、H30/60/90、正则线性与单套小XGBoost；MLP样本不足跳过。DATA_SPLIT_AUDIT读取2157个历史metadata/manifest与选择记录，2022–23明确已见，季度purged walk-forward加H日额外embargo是内部chronological validation，非独立OOS；locked正文不读。
 
-原SMA200仅多风险效率参照及正SHORT多空挑战者保持；三expert静态保留低风险控制。暂停已测D106映射、D101硬过滤、D102无重入CE、八expert等权主力与ML/4h网格，能力与负结果不删除；reopen条件见决策日志，不降低SHORT研究优先级。
+自动DAG与训练前回归已完成，正式fit **NOT_STARTED**；先提交split/features/horizon/model/budget/gates/placebo，再做两日静态共享钱包接线检查。通过后由独立Python服务完成训练、placebo、158共享钱包对照与报告，不需要LLM/API逐折参与。预算2worker各2线程、8小时、12GB新增空间预留，原采集不动。入口/恢复/只读状态见[SELECTOR_RUNNER](SELECTOR_RUNNER.md)，配置见[selector_v1](../configs/selector_v1.yaml)。60主CV组和320shuffleCV组，最多1080底层fit；故障最多一次额外重试，保留attempt。成功需两资金费条件均胜static、各placebo95%、两年评价段改善、capture至少15%及既定风险门槛；仍只是已见开发筛选，不晋真钱。
 
+原SMA200仅多风险效率参照及正SHORT多空挑战者保持；静态三expert保留控制。暂停已测D106人工映射、D101硬过滤、D102无重入CE、八expert等权主力与旧ML/4h网格，能力和负结果保留；新ML仅上述有限预注册对照，无密扫。2022 shortcapture仅验证Q4的92日，不冒称全年；资金费单位/原生数量与MMR的不确定仍限制投资结论。
 [实际榜单](CTA_LEADERBOARD.md)；[完整经济与排名证据](SHORT_SELECTION.md)。
 
 ## 数据、账户与资源边界

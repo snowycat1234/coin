@@ -429,3 +429,5 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D105：无新第三方项目或kernel。既有pinned公开SMA/Donchian参数不改，脚本frozen_expert_mixture.py为薄目标组合adapter，NumPy既有einsum/Polars既有存储接口沿登记版本，OWN_MODIFICATION记录固定1/8与.5/.25/.25；账户和ExecutionContractV2原路径复用。ORACLE60D明确未来知情研究对照，static不是训练模型或原论文组合复现。无新库/行情/GPU。
 
 - D106：SciPy https://github.com/scipy/scipy version1.18.1 BSD-3-Clause（实际bounded环境metadata读取），仅复用stats.rankdata平均tie ordinal排名，无本地库修改；Polars既有rolling_mean/rolling_std做完成日线特征。fixed soft state map/L1凸步为薄OWN_ADAPTER，不声称公开策略原版；stdlib标量/排序仅独立核验，不作为生产重写库。无新增下载、模型或依赖安装。
+
+- D108：复用scikit-learn 1.9.1 BSD-3-Clause https://github.com/scikit-learn/scikit-learn （StandardScaler/Ridge/MultiOutputRegressor）；XGBoost 3.4.1 Apache-2.0 https://github.com/dmlc/xgboost （CPUhist fixed3utilityheads）；pandas-ta-classic 0.8.32 MIT （ATR/RSI/Donchian原库，逐文件SHA核旧安装）；SciPy 1.18.1 BSD-3-Clause （softmax/rankdata）；PyYAML 6.0.3 MIT、joblib 1.6.0 BSD-3-Clause、matplotlib 3.10.8 PSF兼容license、psutil 7.2.2 BSD-3-Clause，训练库沿现有环境与uv.lock；配置/进度/绘图依赖独立selector-support-v1安装，第三方库无本地修改。新增仅薄feature/label/job/报告adapter与本地DAG；金融kernel不重写。详见configs/selector_v1.yaml逐版本及sourceSHA。
