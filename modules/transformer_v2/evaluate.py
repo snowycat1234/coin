@@ -38,6 +38,9 @@ def native_worker(task):
     os.environ.setdefault('POLARS_MAX_THREADS','1');os.environ.setdefault('OPENBLAS_NUM_THREADS','1')
     from modules.collector_research.validation import runtime
     state=Path(task['state'])
+    if task['window']['end']>1772323200000000:
+        from .locked_gate import require_release
+        require_release(task.get('release_state',state),task['protocol_sha256'])
     runtime.configure(SimpleNamespace(collector_root=task['collector_root'],collector_work=task['work'],source_run=task['source_run'],
         run_dir=state/'native-control',resource_policy='server',workers=1,minimum_days=30,publish_source_report=False,audit_device='cpu'))
     from modules.collector_research.validation.data import market_window,Reporter,engine,independent,USDTLinearPerpetualAccount,saved_case_valid
