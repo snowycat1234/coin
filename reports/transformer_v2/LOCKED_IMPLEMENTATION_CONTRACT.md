@@ -1,0 +1,15 @@
+# Locked execution adapter contract
+
+Recorded while development fits are running, before new development minute-wallet outcomes or any locked archive read. This implements the unchanged protocol; it does not revise the scientific ranking or promotion gate.
+
+Final neural refits use the fixed median of all five development inner best epochs for each seed, architecture and funding interpretation. The final training label end is strictly before March 1 minus 60 days. There is no final early stopping or locked-label training.
+
+The original collector's locked-range guard remains intact. A separate adapter requires the committed complete development report and candidate freeze, then uses the original checksum download, ZIP parser, schema validators, daily aggregation, funding attribution and causal feature construction. Only March through August archives are permitted. Existing verified archives are reused without altering old evidence.
+
+The locked test is one continuous 184-day experiment, March 1 through September 1 exclusive, with the same paid final-day cash close. All preregistered seeds, ensembles, mappings and controls are retained as fixed comparisons. The previously frozen old Transformer and XGBoost controls retain their last development-fold weights and scalers; they are explicitly labelled stale frozen controls, rather than claiming identical final retraining. Registered new old-architecture seeds receive the same past-only final-refit rule as v2.
+
+Actual funding completeness is checked against the original reported funding intervals through the exclusive account boundary. The old daily utility label's `funding_interval_complete` flag additionally needs a future execution interval and an event after that interval. That future-label flag is not an actual-minute account input completeness flag. September archives will not be read to complete a label outside this locked window. Missing actual minutes, premium, causal daily funding, or charge-clock coverage cause NOT_EVALUABLE and no promotion; no shortened winning window is selected.
+
+Development oracles use the originally registered 60-day expert proxy and 30-day relative-return labels. Missing future labels produce explicit cash and limit the oracle's covered support; these are future-informed strategy-space diagnostics, not mathematically optimal minute-wallet bounds. Reports must show support and qualify any gap ratio. No oracle participates in candidate selection. Locked oracle diagnostics use only future observations within the authorized six months; the terminal unavailable horizon is also explicit cash.
+
+Equal-exposure controls use each candidate's contemporaneously observable requested gross target as the baseline's daily budget. Realized minute exposure and costs are measured afterwards and reported. No multiplier is estimated from future realized exposure or PnL; matched requested exposure may still produce different realized exposure under capacity and risk reductions. A gate requiring equality in actual realized exposure cannot pass on this diagnostic alone when material realized differences remain.
