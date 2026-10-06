@@ -238,9 +238,11 @@
       }
       function progressInfo(task) {
         const completed = numeric(task.completed), total = numeric(task.total);
-        const unit = task.unit ? ' ' + String(task.unit) : '';
+        const unit = task.unit ? ' ' + (task.unit === 'jobs' ? '项任务' : String(task.unit)) : '';
         const count = completed !== null && completed >= 0 ? numberFormat.format(completed) : '未知';
-        if (total === null || total < 0) return { text: completed === null ? '进度计数未提供' : '已处理 ' + count + unit, hint: '总量未知', ratio: null };
+        if (total === null || total < 0) return { text: completed === null ? '正在执行当前步骤' : '已处理 ' + count + unit, hint: '总量未知，暂不能计算百分比', ratio: null };
+        if (task.unit === 'jobs' && total === 1 && completed !== null && completed >= 0 && completed <= 1)
+          return { text: completed === 0 ? '当前步骤进行中' : '当前步骤已完成', hint: '这是阶段状态，不是整体训练进度', ratio: completed };
         if (total === 0) return { text: count + ' / 0' + unit, hint: '总量为 0', ratio: null, empty: true };
         if (completed === null || completed < 0) return { text: '未知 / ' + numberFormat.format(total) + unit, hint: '当前完成量未知', ratio: null };
         return {
@@ -278,7 +280,8 @@
         const body = element('div', 'task-body');
         const header = element('div', 'task-header');
         header.append(element('h3', 'task-title', task.title || task.id || '未命名任务'), badge(task.status));
-        body.append(header, element('div', 'phase', task.phase || '阶段尚未提供'));
+        const phaseNames = { DATA: '核对磁盘余量与研究输入', FEATURES: '生成过去信息特征', LABELS: '计算已成熟的专家收益标签', CV: '按时间顺序训练与验证', PLACEBO_FIT: '训练打乱标签与特征对照', BACKTEST: '运行共享钱包成本后回测', REPORT: '汇总结果与生成图表' };
+        body.append(header, element('div', 'phase', phaseNames[task.phase] || task.phase || '等待脚本上报当前步骤'));
         const progress = progressInfo(task), label = element('div', 'progress-label');
         label.append(element('span', 'progress-count', progress.text), element('span', 'progress-hint', progress.hint));
         body.append(label);

@@ -14,7 +14,7 @@ D106单一slow×fast×vol固定软映射未通过事前排名门槛：RAW/PCT平
 
 用户现已授权有限ML selector，覆盖此前未开放classifier的暂缓。本轮D108只保留冻结SMA200_SIGNED/HOLD/CASH，26past-only特征、H30/60/90、正则线性与单套小XGBoost；MLP样本不足跳过。DATA_SPLIT_AUDIT读取2157个历史metadata/manifest与选择记录，2022–23明确已见，季度purged walk-forward加H日额外embargo是内部chronological validation，非独立OOS；locked正文不读。
 
-自动DAG与训练前回归已完成，正式fit **NOT_STARTED**；先提交split/features/horizon/model/budget/gates/placebo，再做两日静态共享钱包接线检查。通过后由独立Python服务完成训练、placebo、158共享钱包对照与报告，不需要LLM/API逐折参与。预算2worker各2线程、8小时、12GB新增空间预留，原采集不动。入口/恢复/只读状态见[SELECTOR_RUNNER](SELECTOR_RUNNER.md)，配置见[selector_v1](../configs/selector_v1.yaml)。60主CV组和320shuffleCV组，最多1080底层fit；故障最多一次额外重试，保留attempt。成功需两资金费条件均胜static、各placebo95%、两年评价段改善、capture至少15%及既定风险门槛；仍只是已见开发筛选，不晋真钱。
+训练前协议已commit/push `0dc2f2f` 并核远端；两日真实共享钱包接线QA通过（2880分钟、paid flat、独立资金/NAV核验，0fit）。首个后台启动因systemd缺WSL标识被bounded守卫阻止，训练仍 **NOT_STARTED**；已修启动标识与持久日志，新runtime_fix配置只改launcherSHA与运行目录，其余科学协议完全相同，先commit修复再启动自主DAG。最终模型净收益 **NOT_YET_READ**，不需要LLM/API逐折参与。预算2worker各2线程、8小时、12GB新增空间预留，原采集不动。入口/恢复/只读状态见[SELECTOR_RUNNER](SELECTOR_RUNNER.md)，配置见[selector_v1](../configs/selector_v1_runtime_fix.yaml)。60主CV组和320shuffleCV组，最多1080底层fit；故障最多一次额外重试，保留attempt。成功需两资金费条件均胜static、各placebo95%、两年评价段改善、capture至少15%及既定风险门槛；仍只是已见开发筛选，不晋真钱。
 
 原SMA200仅多风险效率参照及正SHORT多空挑战者保持；静态三expert保留控制。暂停已测D106人工映射、D101硬过滤、D102无重入CE、八expert等权主力与旧ML/4h网格，能力和负结果保留；新ML仅上述有限预注册对照，无密扫。2022 shortcapture仅验证Q4的92日，不冒称全年；资金费单位/原生数量与MMR的不确定仍限制投资结论。
 [实际榜单](CTA_LEADERBOARD.md)；[完整经济与排名证据](SHORT_SELECTION.md)。

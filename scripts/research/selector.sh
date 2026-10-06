@@ -7,12 +7,16 @@ case "${1:-status}" in
     if [[ -f "$task_root/state/selector_progress.json" ]]; then cat "$task_root/state/selector_progress.json"; else echo '{"status":"NOT_STARTED"}'; fi
     ;;
   start|resume)
+    [[ "${WSL_DISTRO_NAME:-}" == hpc_linux ]] || { echo 'Launch from hpc_linux' >&2; exit 1; }
     if systemctl --user is-active --quiet coin-selector-v1.service; then echo 'Selector process is already active; keeping it.'; exit 0; fi
     systemd-run --user --collect --unit=coin-selector-v1 --slice=coin-research.slice -p MemorySwapMax=0 \
+      --setenv=WSL_DISTRO_NAME=hpc_linux \
+      -p StandardOutput=append:/home/xflops/coin-state/selector-v1-service.log \
+      -p StandardError=append:/home/xflops/coin-state/selector-v1-service.log \
       "$task_root/scripts/with_task_progress.sh" --title 'Selector v1 · independent local DAG · no LLM calls' -- \
       env POLARS_MAX_THREADS=2 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH="$task_root/src:$task_root" \
-      "$task_python" -B "$task_root/scripts/research/run_selector_research.py" --config configs/selector_v1.yaml
+      "$task_python" -B "$task_root/scripts/research/run_selector_research.py" --config configs/selector_v1_runtime_fix.yaml
     ;;
-  logs) journalctl --user -u coin-selector-v1 --no-pager -n 40 ;;
+  logs) tail -n 40 /home/xflops/coin-state/selector-v1-service.log ;;
   *) echo 'Use start | resume | status | logs' >&2; exit 2 ;;
 esac
