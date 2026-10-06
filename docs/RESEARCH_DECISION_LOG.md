@@ -1462,3 +1462,11 @@ D099经济运行前 2026-10-05T19:10:03.563479+00:00：来源完整后固定D096
 ## D099结果与下一选择
 
 NO_PROMOTION_RETAIN_ORIGINAL_SCOPE_ANALYZE_FAILURE；10个完整固定730日BTC钱包、0拟合/搜参。BASE/PCT LS净-507.95，SHORT-505.35，DD14.74%、vol7.70%；同规则LO净39.33、DD8.47%、vol5.83%。2022SHORT+169.58、2023-674.93，SMA200下方仍亏-393.80，单纯上方禁空不能解决主要机制。选择独立经典慢趋势参照，暂停当前BTC配方晋级，旧10币D096仅保留原已见范围；投资NONE。复用现有SMA200_SIGNED经典规则，先在相同BTC730日/产品/费用/资本/风险下比较三个方向，复用本轮CASH/HOLD完整控制；0训练/参数搜索/新行情。检验慢趋势持仓是否捕捉了Donchian反复进出漏掉的2022下跌，不先增加新gate或继续调快线。 工件 reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json SHA 2964779be260bbf71987bafab110e1fcb500895a183af7efff9255532074bbfe。
+
+## D100运行前 2026-10-06T02:25:22.055269+00:00
+
+Does frozen public-family price-vs-SMA200 signed trend capture2022 bear movement and reduce2023 short whipsaw versus fixed Donchian confirmation? Same730d capital/cost/product; no fitting, period choice or new gate. 公共既有200日规则，不调参；6新账户+4实际同窗控制复用，2进程各2线程/1.2GB/新增600MB/1800秒，共享8GB/150GB/0GPU。所有标的/时钟/资本/风险/费用及资金费解释沿D099固定，原730日已见开发，不称unseen。采用规则：DEVELOPMENT_CHALLENGER_ONLY_BOTH_UNIT_SCENARIOS: complete730d, wholeSHORT>0, 2022SHORT>0, LS net>ownLO and>D099LS, LS Sharpe>ownLO, LS minuteDD<=D099LS. Report actual vol/DD vs ownLO/HOLD; higher risk cannot be called matched or investment proof. If fail no rescue parameters; investmentNONE.
+
+## D100结果与下一选择
+
+D100复用固定SMA200：6新730日BTC完整账户、4同窗完整控制复用；两资金费解释SHORT总贡献均正、多空均提高净收益。BASE/PCT LS净2413.34、SHORT718.25、vol10.68%、分钟DD9.54%；同规则LO净1563.48、vol6.68%、DD6.23%。原Donchian确认LS净-507.95、vol7.70%、DD14.74%。净收益改善并伴随更高实际风险，不能说风险匹配。RAW通过、PCT仅Sharpe比LO低（1.065<1.121）使事前门槛未全部通过，不事后改成功标准、不晋级投资。 SHORT2022+1703.98、2023-985.73，1月-636.53；下一项优先检验反弹时短线确认解除，非再搜模型。保留SMA200仅多为本BTC窗口研究参照、正贡献多空为有条件挑战者；下一有限实验仅改变SHORT：200日弱势仍需50日价格趋势确认，确认解除去CASH，LONG保持200日原规则。50是预先指定经典尺度，0拟合/网格/新数据；针对2023年1月快速反弹损失，完整重跑实际账本，不用删旧交易的假想收益。阶段门槛不改，失败保留负结果。 结果 reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json SHA 8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047。

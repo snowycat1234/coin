@@ -1,0 +1,79 @@
+{
+  "parent_commit": "afeef76f933bdbd14b3f833bda1b628f0c86b4a1",
+  "module": "D100_PUBLIC_SMA200_COMPLETE_CYCLE_REFERENCE_CORRECTION",
+  "family": "FROZEN_PUBLIC_SMA200_SIGNED",
+  "recipe": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+  },
+  "references": {
+    "reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json": "PASS_PAIRED_FIXED_SHORT_CYCLE_EVIDENCE_NOT_NATIVE_OR_INVESTMENT",
+    "reports/SMA200_SHORT_LOSS_DIAGNOSIS_20261006_V1.json": "PASS_SAVED_SMA200_SHORT_MONTHLY_PNL_BRIDGE_NOT_NEW_RECIPE",
+    "reports/SHORT_CYCLE_REVIEW_DEFAULT_GOLDEN_20261006_V1.json": "PASS_OLD_REVIEW_ROWS_AND_PREDECLARED_DECISION_UNCHANGED"
+  },
+  "additional_tasks": [],
+  "source_paths": [
+    "docs/archive/SHORT_CYCLE_REVIEW_DEFAULT_GOLDEN_SOURCE_20261006_V1.py",
+    "docs/archive/SMA200_SHORT_LOSS_DIAGNOSIS_SOURCE_20261006_V1.py",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "scripts/investment/reuse_cycle_controls.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "tests/test_reuse_cycle_controls.py"
+  ],
+  "decision": "RETAIN_CLASSIC_FAMILY_BUT_TWO_UNIT_SCREEN_NOT_ALL_PASS",
+  "next_action": "保留SMA200仅多为本BTC窗口研究参照、正贡献多空为有条件挑战者；下一有限实验仅改变SHORT：200日弱势仍需50日价格趋势确认，确认解除去CASH，LONG保持200日原规则。50是预先指定经典尺度，0拟合/网格/新数据；针对2023年1月快速反弹损失，完整重跑实际账本，不用删旧交易的假想收益。阶段门槛不改，失败保留负结果。",
+  "primary_reference": "reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json",
+  "economic_producers": [
+    "reports/fast_research/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json",
+    "reports/fast_research/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json"
+  ],
+  "complete_accounts": 6,
+  "runtime_directories": [
+    "/home/xflops/coin-state/d100-sma200-cycle-directions-20261006-v1",
+    "/home/xflops/coin-state/d100-sma200-cycle-long-short-20261006-v1"
+  ],
+  "closed": "reports/SMA200_FIXED_CYCLE_MODULE_CLOSED_20261006_V2.json",
+  "binding": "reports/GITHUB_SMA200_FIXED_CYCLE_SOURCE_BINDING_20261006_V2.json",
+  "prior_binding": "reports/GITHUB_SHORT_FIXED_CYCLE_SOURCE_BINDING_20261006_V1.json",
+  "selected_paths": [
+    "docs/CTA_LEADERBOARD.md",
+    "docs/OPEN_SOURCE_REGISTRY.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/RESEARCH_STATUS.md",
+    "docs/SHORT_SELECTION.md",
+    "docs/archive/SHORT_CYCLE_REVIEW_DEFAULT_GOLDEN_SOURCE_20261006_V1.py",
+    "docs/archive/SMA200_SHORT_LOSS_DIAGNOSIS_SOURCE_20261006_V1.py",
+    "protocols/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json",
+    "protocols/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json",
+    "reports/CTA_CYCLE_CONTROL_REUSE_TESTS_20261006_V1.xml",
+    "reports/GITHUB_SHORT_FIXED_CYCLE_SYNC_VERIFIED_20261006_V1.json",
+    "reports/SHORT_CYCLE_REVIEW_COMPATIBILITY_20261006_V1.json",
+    "reports/SHORT_CYCLE_REVIEW_DEFAULT_GOLDEN_20261006_V1.json",
+    "reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json",
+    "reports/SMA200_SHORT_LOSS_DIAGNOSIS_20261006_V1.json",
+    "reports/experiment_registry.jsonl",
+    "reports/fast_research/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json",
+    "reports/fast_research/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "scripts/investment/reuse_cycle_controls.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "tests/test_reuse_cycle_controls.py",
+    "protocols/SMA200_FIXED_CYCLE_CLOSE_20261006_V1.json",
+    "reports/SMA200_FIXED_CYCLE_MODULE_CLOSED_20261006_V1.json",
+    "reports/GITHUB_SMA200_FIXED_CYCLE_SOURCE_BINDING_20261006_V1.json"
+  ],
+  "stage_script": ".cache/stage_selected_sma200_fixed_cycle.ps1",
+  "correction_scope": "V1 closure economic_producer reference key shadowed by source loop; V2 binds both producer paths. Economic reports and decisions unchanged; V1 retained."
+}

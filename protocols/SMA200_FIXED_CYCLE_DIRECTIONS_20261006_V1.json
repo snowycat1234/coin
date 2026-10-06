@@ -1,0 +1,115 @@
+{
+  "experiment_id": "D100_FIXED_SMA200_COMPLETE_CYCLE",
+  "question": "Does frozen public-family price-vs-SMA200 signed trend capture2022 bear movement and reduce2023 short whipsaw versus fixed Donchian confirmation? Same730d capital/cost/product; no fitting, period choice or new gate.",
+  "models_fit": 0,
+  "families": [
+    "SMA200_SIGNED"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d099-btc-cycle-input-acceptance-20261006-v1/INPUT_MANIFEST.json",
+    "sha256": "f72eaf4bfe9360904e220f6aaa95311dd5eee99ffc27ce8ca9f84a96fc23edd2"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2021-08-01",
+  "economics_start": "2022-01-01",
+  "economics_end_exclusive": "2024-01-01",
+  "data_role": "SEEN_2022_2023_DEVELOPMENT_CLASSICAL_COUNTERFACTUAL_NOT_UNSEEN",
+  "universe": "PREDECLARED_BTC_TRANSPARENT_REFERENCE_FULL_INPUT_AVAILABLE; ETH2022JUL_MARK_DAILY_STILL_INCOMPLETE_PAUSED; ACTUAL2021_WARMUP; NOT_HISTORICAL_TOP10_CERTIFICATION",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "EXISTING_D091_SMA200_SIGNED_COIN_DAILY_ADAPTER; NUMPY_MEAN; NOT_FULL_FABER10MONTH_REPLICATION",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://www.nber.org/papers/w20439",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "SIX_NEW730D_WALLETS_TWO_CONCURRENT_TASKS; FOUR_BYTE_BOUND_COMPLETE_CONTROLS_REUSED;0FITS0PERIOD_SEARCH",
+  "budget": {
+    "wall_seconds": 1800,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 600000000,
+    "GPU": 0
+  },
+  "stopping": "SIX_FIXED_ACCOUNT_CASES_OR_EXPLICIT_HALT_ONLY; NO_THRESHOLD_PERIOD_SEARCH; NO_NEW_DATA",
+  "adoption": "DEVELOPMENT_CHALLENGER_ONLY_BOTH_UNIT_SCENARIOS: complete730d, wholeSHORT>0, 2022SHORT>0, LS net>ownLO and>D099LS, LS Sharpe>ownLO, LS minuteDD<=D099LS. Report actual vol/DD vs ownLO/HOLD; higher risk cannot be called matched or investment proof. If fail no rescue parameters; investmentNONE.",
+  "regression": {
+    "path": "reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml",
+    "sha256": "6c8b5ae93c4ce1725a3f56426abb2ab40bdc21480943aa9cd9e6f9b575d3131b",
+    "source_sha256": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+    "tests": 4,
+    "reuse_scope": "ACTUAL4_RULE_TESTS; GOLDEN_DEFAULT_AND_PRIOR_DUAL_FORECAST; OWN_DOWN_TREND_ENTRY_REBOUND_EXIT_VETO_FUTURE_PERTURBATION_SYMBOL_ORDER_AND_INDEPENDENT_TARGETS; no account repeat"
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+    "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+    "scripts/investment/run_cta_leaderboard.py": "b15084ad6f73f6f1b85959bba1ba37b314702f339e6871d5ae83cca44cadd5be",
+    "scripts/investment/cta_cycle_window.py": "e8b536547cb2d5c250e8ad99257524a2de4dc52dc36d18e506c92e8178db597f",
+    "scripts/investment/reuse_cycle_controls.py": "0c366cc9fb46aa88c6bf3fca2fcba4552b1e56809a66d7eec7aa92a0626cb000",
+    "tests/test_reuse_cycle_controls.py": "a1049fb800c8ae5274cb6618855ddd5a334f4cea34de1e9826f22015bd710018"
+  },
+  "cost_ids": [
+    "BASE27"
+  ],
+  "parallel_scope": "TWO_BOUNDED_PROCESSES_MAX; EXPLICIT2_THREADS_EACH; SHARED8GB; FOUR_PLUS_TWO_WHOLE_COUNTERFACTUALS_NOT_WALLET_SUM",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "created_utc": "2026-10-06T02:25:22.055269+00:00",
+  "parent_commit": "afeef76f933bdbd14b3f833bda1b628f0c86b4a1",
+  "input_adapter": "FIXED_BTC_ETH_2022_2023_CYCLE",
+  "account_modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY"
+  ],
+  "source_acceptance": {
+    "path": "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json",
+    "sha256": "ea8801b1f868f231344024e804d4b7dd10ec4407dc9b42aa0a857def9f535983"
+  },
+  "cycle_regression": {
+    "path": "reports/CTA_CYCLE_WINDOW_TESTS_20261006_V1.xml",
+    "sha256": "a1386eaaa6cd38c463845d3ccafaf147ea0bceff4d6ff2ad0a421d89b3de8d84",
+    "source_sha256": "5d8a24b3bae151aa50580f34f6910239d2fccfdf3f64b30dfa76fccf84663a6d",
+    "tests": 2
+  },
+  "reused_cycle_controls": {
+    "path": "reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+    "sha256": "359e11b426aa5241b2f1d02ffaebd3c5fd764292488d7cdddd9539096daf9ccf"
+  },
+  "comparison_reference": {
+    "path": "reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json",
+    "sha256": "2964779be260bbf71987bafab110e1fcb500895a183af7efff9255532074bbfe"
+  },
+  "controls_reuse_regression": {
+    "path": "reports/CTA_CYCLE_CONTROL_REUSE_TESTS_20261006_V1.xml",
+    "sha256": "cb71f215c3aabe2b8a5c51a85d7104b01b1f1f691cfeca0a06657767f32da357",
+    "source_sha256": "a1049fb800c8ae5274cb6618855ddd5a334f4cea34de1e9826f22015bd710018",
+    "tests": 2
+  }
+}

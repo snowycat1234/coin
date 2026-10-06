@@ -64,7 +64,17 @@ def main():
         paths+=['scripts/investment/short_fast_confirmation.py','tests/test_short_fast_confirmation.py']
     binding=dict(task_id=os.environ['COIN_TASK_ID'],git_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         protocol_sha256=sha(a.protocol),source_hashes={p:sha(ROOT/p) for p in paths},input_manifest_sha256=manifest['sha256'])
-    if not spec.get('include_controls',True):
+    controls=[]
+    if not spec.get('include_controls',True) and cycle_inputs and 'reused_cycle_controls' in spec:
+        from scripts.investment.reuse_cycle_controls import load as load_controls
+        cr=spec['controls_reuse_regression'];assert sha(ROOT/cr['path'])==cr['sha256']
+        assert sha(ROOT/'tests/test_reuse_cycle_controls.py')==cr['source_sha256']
+        suites=list(ET.parse(ROOT/cr['path']).getroot().iter('testsuite'))
+        assert sum(int(v.get('tests',0)) for v in suites)==cr['tests'] and not any(int(v.get('failures',0))+int(v.get('errors',0)) for v in suites)
+        controls,control_binding=load_controls(spec,binding['source_hashes'])
+        binding['reused_cycle_controls']=control_binding
+        binding['source_hashes']['scripts/investment/reuse_cycle_controls.py']=sha(ROOT/'scripts/investment/reuse_cycle_controls.py')
+    elif not spec.get('include_controls',True):
         base=spec['baseline'];assert sha(ROOT/base['path'])==base['sha256']
         prior=json.loads((ROOT/base['path']).read_bytes())
         assert prior['status']=='ACCEPTED_FIXED_DONCHIAN_303D_TWO_COST_TASKS_NO_WALLET_JOIN' and prior['complete_accounts']==20
@@ -120,6 +130,12 @@ def main():
                 assert legacy.equals(pl.read_parquet(golden['path'])), 'Reused control targets changed'
             r['legacy_control_targets_status']='PASS_SAME_CASH_AND_HOLD_ALL303D_ORDERED_TARGETS'
         original_signal=signal
+        if controls:
+            for c in controls:
+                expected,_=cta.targets(signal,bars,decisions,c['mode'],symbols,
+                    'HOLD' if c['strategy']=='HOLD' else 'SMA200_SIGNED')
+                assert expected.equals(pl.read_parquet(c['artifacts']['targets.parquet']['path'])),'Reused controls target identity'
+            r['reused_controls']=controls
         if fast_filter:
             fast_bars=fast_adapter.aggregate_bars(manifest['path'],symbols,start,end,progress)
             fast_signal=fast_adapter.signals(fast_bars,symbols)

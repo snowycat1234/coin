@@ -415,3 +415,5 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D099: reuse binance/binance-public-data MIT declared repo, commitf446ce3812bd4e5521f21faecd4ae3c6460e49fc, same original utility files and CHECKSUM scheme, local upstream modifications NONE. New Jan2022 scope only thin orchestration of existing source conversion and independent raw-reference APIs; no new transport/parser or downloader framework. Older source publication/unit/MMR assumptions remain unconfirmed; pilot is not economics.
 
 - D099完成扩展：同pinned官方Binance utility/CHECKSUM，完整BTC2022–2023，三个月明确raw union派生输入有官方逐日父源、CHECKSUM和独立逐行核对；不是把本地派生ZIP标为官方整月原件。现有Jesse Donchian/past-cov及账户内核无改动，0新依赖/模型训练。ETH官方日源仍缺失，负结果保留。
+
+- D100：复用D091/D095既有NumPy reduction与COIN SMA200 signed日线适配，保持现有版本/license/财务内核，无新依赖/第三方修改。只是公开均线方法family对照，不声称完整Faber10月long/cash或Man50/200策略复现。仅新增已有完整控制的身份绑定复用。

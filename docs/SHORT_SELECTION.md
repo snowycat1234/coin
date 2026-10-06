@@ -142,3 +142,25 @@ BTC单币透明参照、完整730日连续独立10k账户；三个方向及实�
 
 工件 `reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json` SHA `2964779be260bbf71987bafab110e1fcb500895a183af7efff9255532074bbfe`；实际账本路径与SHA在生产结果中。
 复现：经 `scripts/with_task_progress.sh` → `scripts/bounded.sh`、D-hosted runtime、2线程，运行 `scripts/investment/run_cta_leaderboard.py --protocol protocols/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json --run-dir /home/xflops/coin-state/REPLACE_WITH_UNUSED --output reports/fast_research/REPLACE_WITH_UNUSED.json`。复核已完成3个完整钱包只依指定原字节与参考，不改原工件。
+
+## D100：经典SMA200 signed完整周期，SHORT有净增量
+
+D100复用固定SMA200：6新730日BTC完整账户、4同窗完整控制复用；两资金费解释SHORT总贡献均正、多空均提高净收益。BASE/PCT LS净2413.34、SHORT718.25、vol10.68%、分钟DD9.54%；同规则LO净1563.48、vol6.68%、DD6.23%。原Donchian确认LS净-507.95、vol7.70%、DD14.74%。净收益改善并伴随更高实际风险，不能说风险匹配。RAW通过、PCT仅Sharpe比LO低（1.065<1.121）使事前门槛未全部通过，不事后改成功标准、不晋级投资。
+
+|BASE/PCT条件解释|净USDT|LONG|SHORT|价格毛损益|费+执行|资金费|vol%|分钟DD%|Sharpe|换手/本金|
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|LONG_ONLY|1563.48|1563.48|0.00|1611.41|46.09|-1.83|6.68|6.23|1.12|3.41|
+|SHORT_ONLY|735.15|0.00|735.15|800.98|66.76|0.93|8.36|10.32|0.47|4.95|
+|LONG_SHORT|2413.34|1695.09|718.25|2532.95|118.55|-1.07|10.68|9.54|1.07|8.78|
+|CASH|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|
+|风险管理HOLD（复用）|541.50|541.50|0.00|601.17|57.25|-2.42|10.71|17.06|0.30|4.24|
+
+同一LS钱包SHORT：2022 +1703.98，2023 -985.73。2023年1月 -636.53，8/9/10月 -349.20；1月约占全年SHORT损失64.6%。这是同一钱包逐日贡献，不把平仓利润归因给订单理由，也不是移除损失的过滤反事实。
+经典慢趋势确实捕捉到本完整2022下跌的正空头贡献，不能从先前XGB/Donchian失败推断short没有alpha。两年正结果同样不是整个crypto、10币或未来的证据；已有10币SMA200停止前缀与负结果不删除。
+控制按产品/全资本/日期/费用/源码/实际工件哈希绑定，且重算目标相等；不是独立满资金钱包相加。6新账户各自通过独立Decimal钱包/NAV与标量目标核对；新增2项元数据拒绝测试只证明复用身份，不冒充会计测试。汇总扩展对旧D099逐行结果与原门槛完全一致。
+仅在已见开发窗口保留SMA200 family供研究；按事前两单位全通过规则，本轮未晋级。不声称多空降低相对SMA200仅多的DD/vol。费用为Binance价格配Bybit当前用户场景，funding单位/数量/MMR未知；实际瞬时cap漂移、真实减仓、保证金/敞口/集中度均在结构化结果中，投资NONE/CASH，长期APR NOT_EVALUABLE。
+
+保留SMA200仅多为本BTC窗口研究参照、正贡献多空为有条件挑战者；下一有限实验仅改变SHORT：200日弱势仍需50日价格趋势确认，确认解除去CASH，LONG保持200日原规则。50是预先指定经典尺度，0拟合/网格/新数据；针对2023年1月快速反弹损失，完整重跑实际账本，不用删旧交易的假想收益。阶段门槛不改，失败保留负结果。
+
+结果 `reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json` SHA `8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047`；损失诊断 `reports/SMA200_SHORT_LOSS_DIAGNOSIS_20261006_V1.json` SHA `4ef6ed2e5cddd6ec48fdc8033c884001d5013be525384058b0f472683cf38d50`。
+复现：D-hosted runtime经现有progress/bounded，2线程，分别运行 `run_cta_leaderboard.py --protocol protocols/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json`（4案例）和 `protocols/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json`（2案例），显式提供未使用STATE `--run-dir`及未使用reports/fast_research `--output`。复核用 `review_short_cycle.py --producer <4案例报告> --producer <2案例报告> --strategy SMA200_SIGNED --output <未使用报告>`。原文件不得覆盖。
