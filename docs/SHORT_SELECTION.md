@@ -253,3 +253,21 @@ Oracle PCT实际净5799.64，2022净1977.59（SHORT1863.21），2023净3822.05�
 
 BinanceUSD-M价格配Bybit用户费用仍为代理；资金费单位、历史数量与MMR假设未原生认证。已看开发不改名unseen；未启封locked。测试、oracle高Sharpe与两年外推均不证明长期APR或真钱资格。
 结果 `reports/FROZEN_EXPERT_MIXTURE_REVIEW_20261006_V1.json`，独立核对 `reports/FROZEN_EXPERT_MIXTURE_INDEPENDENT_20261006_V1.json`。复现：progress/bounded下 `run_cta_leaderboard.py --protocol protocols/FROZEN_EXPERT_MIXTURE_ORACLE_20261006_V1.json` 或 `FROZEN_EXPERT_MIXTURE_STATIC_20261006_V1.json`，各给新的STATE `--run-dir`、新的reports/fast_research `--output`；`review_expert_mixture.py --producer <oracle生产报告> --producer <静态生产报告> --output <新文件>`。
+
+## D106：固定状态的排名可预测性筛查
+
+D106单一slow×fast×vol固定软映射未通过事前排名门槛：RAW/PCT平均加权排名0.67049/0.69400，静态三expert0.63839/0.66518，最佳单expert与只用成熟过去排名均0.64286/0.69643；虽胜同频随机和滞后60日特征，未超过打乱状态95%对照0.67637/0.70124，两年相对优势也不一致。仅8个评价标签，不声称regime alpha；暂停这个映射，保留SHORT与专家库。
+
+12个完整不重叠60日标签；前4段成熟后评价8段（2022年3段、2023年5段）。所有输入由当时完成201日日线计算；慢/快为价格与200/50均线距离符号，vol30>vol200为固定高波动条件，ddof1。soft映射与每次L1≤.5的平滑在运行前固定，0交易模型拟合/网格/新账户。尾部10日不当60日标签，原730日实际账户经济结果未删日期。
+|资金费条件|固定状态排名|固定三expert|最佳单expert/成熟过去排名|滞后状态|打乱95%|同频随机95%|到完美排名差距|
+|---|---:|---:|---:|---:|---:|---:|---:|
+|RAW_AS_FRACTION|0.67049|0.63839|0.64286|0.61344|0.67637|0.60059|0.32951|
+|RAW_AS_PERCENT|0.69400|0.66518|0.69643|0.64290|0.70124|0.59622|0.30600|
+
+得分是未来专家净NAV相对排名的权重平均（0–1），不是收益率/准确率/投资业绩；source labels来自已付费用/执行/资金费的完整独立expert账本，只是相对排名标签，不把它们加成组合收益。过去均值排名对照仅使用截至决策已成熟标签，16次统计更新完整记录；无随机CV。
+32打乱状态、32同频随机权重路径各在两资金费解释下评分，固定seed、不选赢家；同频随机保留固定映射的实际12次权重变化时刻及L1大小（含初始从CASH变化），未来变化时序条件化，故明确是不可部署的诊断控制。打乱对照也不可部署，重复次数不增加市场历史。
+2022年固定映射相对强参照有小优势，2023年落后；超过随机但不超过打乱，说明尚不能把少量收益排序改进归为有用的状态时序信息。未运行这个adaptive映射的真实账户，net/Sharpe/DD均NOT_RUN；D105的真实oracle与静态经济结果保留，不把排名失败改写为所有selector失败。
+独立标量复核全部过去201日特征、12组relative标签、SciPy平均tie排名、8个成熟fold及权重路径；特征最大误差3.33e-16、权重/标签误差0。生产rankdata直接复用SciPy1.18.1 BSD-3-Clause；无本地修改。
+不再在BTC同窗口改状态/阈值/权重，也不训练交易classifier。下一主任务先只读核现有授权历史manifest、完整专家账本及选择影响记录，明确可增加哪些合法完整周期或多币横截面标签；只在授权非locked范围补足有效样本，冻结专家原样做跨窗口条件优势迁移核对，已看历史仍标开发，不冒称unseen。当前映射reopen需多个周期的稳定相对排名信息或新增可解释past-only信息；仅8标签不足升级学习控制器。既有资金费单位/数量/MMR不确定继续限制投资结论。
+
+结果 `reports/REGIME_RANKING_SCREEN_20261006_V1.json`，独立核对 `reports/REGIME_RANKING_SCREEN_INDEPENDENT_20261006_V1.json`。复现：progress/bounded下 `regime_ranking_screen.py --protocol protocols/REGIME_RANKING_SCREEN_20261006_V1.json --output <未使用reports文件>`；独立参考见archive/FROZEN_REGIME_RANKING_INDEPENDENT_SOURCE_20261006_V1.py（默认旧输出应改为新文件）。0新市场数据/模型/钱包，核心计算与真实任务时间分开记录；不是把核心0.65秒称整轮时间。
