@@ -110,3 +110,35 @@ SHORT毛价格损益 613.04 → 272.67；SHORT费用+执行 40.74 → 80.99。�
 
 结果 `reports/SHORT_FAST4H_ACCEPTED_20261006_V1.json` SHA256 `2d78b365b63dd4b80623b1516211d34a54ebcb1404128334d3e29dddcd51285f`。
 复现：经现有progress/bounded、2线程、D-hosted runtime运行 `scripts/investment/run_cta_leaderboard.py --protocol protocols/SHORT_FAST4H_BASE27_20261006_V1.json --run-dir /home/xflops/coin-state/REPLACE_WITH_UNUSED --output reports/fast_research/REPLACE_WITH_UNUSED.json`。原run/output不可覆盖。
+
+## D099：区分单币弱趋势与BTC慢标签
+
+复用原303日D096账本和已绑定的SMA200信号，3030资产日期只读资金桥接误差2.39e-12 USDT，0新钱包/训练。BTC BULL标签/单币自身低于SMA200：SHORT净529.02；BTC BULL/自身高于SMA200：53.91；SIDEWAYS/自身低于SMA200：156.21；SIDEWAYS/自身高于SMA200：39.62；BTC BEAR/自身低于SMA200：-206.17。这些相加572.59，只是同钱包归因，不是各桶独立策略或删除交易后的收益。
+
+因此不能把BULL标签下的SHORT盈利解释为一贯逆势空强币，也不能据BTC慢BEAR桶亏损推断所有持续下跌周期不能赚。暂停“BTC牛市禁止所有SHORT”的全局gate构想，保留每币双通道确认；reopen需完整真实钱包证明该全局限制有净/风险增量。单币低于SMA200也不证明次日继续下跌，标签仍是过去状态，当前急反弹损失保留。
+
+新2022–2023来源核对中：BTC2022-07月mark缺Jul31整日，已用官方原生日档补齐；2022-10和2023-02的缺口也用有CHECKSUM日档补齐，所有原月/日重叠字段数值一致、derived文件明确非官方完整月ZIP。原档与失败结果不覆盖。ETH2022-07日档仍不完整，停止其全周期依赖，不插值/补0、不通过删日期凑完整年度。普通公开FAPI请求遇WSL网络不可达，没有改主机/IP或读取账户权限。
+
+下一经济检验改用预定BTC透明参照的完整730日，按数据完整性缩小范围、未查看新净收益；资本10k/单币abs30%/gross60%/1x及真实费用不增。BTC证据不能代表10币组合；原10币303日对照继续保留。ETH路径reopen为合法官方完整mark或有明确适用定义的原生替代输入，不据当前账本输赢选择修复日期。
+## D099：固定规则完整2022–2023周期，未通过SHORT跨周期门槛
+
+BTC单币透明参照、完整730日连续独立10k账户；三个方向及实际CASH/HOLD各两资金费单位情景，共10个完整账户。中断保存3个完整账户后，仅补7个，未接续/拼接半个钱包。ETH官方分钟mark不完整，未删日期/补零；不替代10币独立证据。
+
+|BASE/PCT条件解释|净USDT|价格毛损益|费+执行|资金费|实际vol%|分钟DD%|换手/本金|
+|---|---:|---:|---:|---:|---:|---:|---:|
+|LONG_ONLY|39.33|102.50|61.61|-1.56|5.83|8.47|4.56|
+|SHORT_ONLY|-545.09|-491.44|53.81|0.16|5.03|12.77|3.99|
+|LONG_SHORT|-507.95|-392.97|113.60|-1.38|7.70|14.74|8.41|
+|CASH|0.00|0.00|0.00|0.00|0.00|0.00|0.00|
+|风险管理HOLD|541.50|601.17|57.25|-2.42|10.71|17.06|4.24|
+
+同一LONG_SHORT钱包2022 SHORT 169.58、2023 SHORT -674.93；2023自身SMA200上方/下方SHORT -281.13/-393.80。这只是实际钱包逐日归因，不能直接删掉这些损失当作过滤策略收益。
+两资金费解释均失败：LS净收益、DD与实际vol均差于自己同规则LONG_ONLY；2022空头为正却被2023损失抵消。主要是价格损益，不是只调低成本便能修复。HOLD风险更高，不能把同caps说成风险匹配。
+保留D096在原303日10币窗口的开发结果；不晋级或宣传可跨周期赚钱，BTC730日当前SHORT配方暂停采用，能力与旧证据保留。reopen：同成本的预先固定经典/具体持仓机制改善，随后另周期验证；不在本轮扫阈值救结果。
+目标单币abs30%/组合gross60%未提高；价格跳变导致实际短暂超出目标cap，完整峰值、硬风险减仓与延迟分别保留risk_drift，不能声称瞬时风险保证。MMR/数量规则与资金费单位未原生认证；Binance价格配Bybit用户费是跨场所代理；投资NONE/CASH、长期APR NOT_EVALUABLE。
+最关键独立复核：每个实际钱包均通过现有Decimal资金/NAV参考、目标/标的顺序与有符号covariance核对；新来源逐CSV独立参考和CHECKSUM、日界/缺失反例通过。HOLD与同策略LONG_ONLY按策略身份分别配对，未混用。
+
+复用现有SMA200_SIGNED经典规则，先在相同BTC730日/产品/费用/资本/风险下比较三个方向，复用本轮CASH/HOLD完整控制；0训练/参数搜索/新行情。检验慢趋势持仓是否捕捉了Donchian反复进出漏掉的2022下跌，不先增加新gate或继续调快线。
+
+工件 `reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json` SHA `2964779be260bbf71987bafab110e1fcb500895a183af7efff9255532074bbfe`；实际账本路径与SHA在生产结果中。
+复现：经 `scripts/with_task_progress.sh` → `scripts/bounded.sh`、D-hosted runtime、2线程，运行 `scripts/investment/run_cta_leaderboard.py --protocol protocols/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json --run-dir /home/xflops/coin-state/REPLACE_WITH_UNUSED --output reports/fast_research/REPLACE_WITH_UNUSED.json`。复核已完成3个完整钱包只依指定原字节与参考，不改原工件。

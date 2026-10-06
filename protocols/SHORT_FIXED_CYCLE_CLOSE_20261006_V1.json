@@ -1,0 +1,141 @@
+{
+  "parent_commit": "598af943f0528cefcb52c3711e465ab39c0d1536",
+  "module": "D099_FIXED_SHORT_COMPLETE_CYCLE",
+  "family": "FIXED_PUBLIC_DC_CONFIRMED_SHORT_OLD_CYCLE",
+  "recipe": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+  },
+  "references": {
+    "reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json": "PASS_PAIRED_FIXED_SHORT_CYCLE_EVIDENCE_NOT_NATIVE_OR_INVESTMENT",
+    "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json": "PASS_FIXED_CYCLE_SOURCE_FORMAT_AND_CROSS_MONTH_FUNDING_NOT_ECONOMICS",
+    "reports/SHORT_LOCAL_TREND_ATTRIBUTION_20261006_V1.json": "PASS_SAVED_SHORT_LOCAL_TREND_PNL_BRIDGE_NOT_NEW_STRATEGY",
+    "reports/CTA_CYCLE_INTERRUPTION_PRESERVED_20261006_V1.json": "INTERRUPTED_TASK_AND_STOPPED_COLLECTORS_PRESERVED_NOT_RESTARTED",
+    "reports/CTA_COLLECTORS_RESTORED_20261006_V2.json": "LAUNCHED_ORIGINAL_PUBLIC_SCOPE_NOT_CONTINUITY_OR_CONNECTIVITY_PROOF",
+    "reports/CTA_COLLECTOR_RESUME_SAMPLE_20261006_V1.json": "SAMPLED_ORIGINAL_COLLECTORS_NEW_SESSIONS_NOT_CONTINUOUS_HEALTH",
+    "reports/CTA_COLLECTOR_RESUME_SAMPLE_20261006_V2.json": "SAMPLED_ORIGINAL_COLLECTORS_NEW_SESSIONS_NOT_CONTINUOUS_HEALTH"
+  },
+  "additional_tasks": [
+    {
+      "id": "1819c480c72642dbaffdddc393aae4ae",
+      "expected_exit_code": 0
+    },
+    {
+      "id": "16f6d2b1ca634d649d05339f5c318cfa",
+      "expected_exit_code": 1
+    },
+    {
+      "id": "d155e9ae766d46888de0c8e823d9207d",
+      "expected_exit_code": 1
+    },
+    {
+      "id": "b097b761b97c4109acc213125836531f",
+      "expected_exit_code": 1
+    },
+    {
+      "id": "b538bd1c1d374c6484b07e253f55a30d",
+      "expected_exit_code": 0
+    },
+    {
+      "id": "46b47d6be47e4ca388fbe90fffde0f23",
+      "expected_exit_code": 1
+    },
+    {
+      "id": "425d03f8c1994ffda56cbe0a185b2d85",
+      "expected_exit_code": 0
+    }
+  ],
+  "source_paths": [
+    "docs/archive/CTA_COLLECTOR_RESUME_SAMPLE_SOURCE_20261006_V1.py",
+    "docs/archive/CTA_CYCLE_FIRST_RUNNER_SOURCE_20261006_V1.py",
+    "scripts/investment/accept_cta_cycle_sources.py",
+    "scripts/investment/build_cta_mark_compound.py",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "scripts/investment/cta_cycle_source.py",
+    "scripts/investment/cta_cycle_window.py",
+    "scripts/investment/inspect_cta_cycle_gap.py",
+    "scripts/investment/official_mark_day_completion.py",
+    "scripts/investment/preserve_cta_cycle_interruption.py",
+    "scripts/investment/probe_cta_daily_mark.py",
+    "scripts/investment/restore_cta_collectors.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "scripts/investment/short_local_trend_attribution.py",
+    "tests/test_cta_cycle_window.py"
+  ],
+  "decision": "NO_PROMOTION_RETAIN_ORIGINAL_SCOPE_ANALYZE_FAILURE",
+  "next_action": "复用现有SMA200_SIGNED经典规则，先在相同BTC730日/产品/费用/资本/风险下比较三个方向，复用本轮CASH/HOLD完整控制；0训练/参数搜索/新行情。检验慢趋势持仓是否捕捉了Donchian反复进出漏掉的2022下跌，不先增加新gate或继续调快线。",
+  "primary_reference": "reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json",
+  "economic_producer": "reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+  "complete_accounts": 10,
+  "runtime_directory": "/home/xflops/coin-state/d099-fixed-btc-cycle-accounts-20261006-v2",
+  "closed": "reports/SHORT_FIXED_CYCLE_MODULE_CLOSED_20261006_V1.json",
+  "binding": "reports/GITHUB_SHORT_FIXED_CYCLE_SOURCE_BINDING_20261006_V1.json",
+  "prior_binding": "reports/GITHUB_SHORT_FAST4H_SOURCE_BINDING_20261006_V1.json",
+  "selected_paths": [
+    "docs/CTA_LEADERBOARD.md",
+    "docs/OPEN_SOURCE_REGISTRY.md",
+    "docs/RESEARCH_DECISION_LOG.md",
+    "docs/RESEARCH_STATUS.md",
+    "docs/SHORT_SELECTION.md",
+    "docs/archive/CTA_COLLECTOR_RESUME_SAMPLE_SOURCE_20261006_V1.py",
+    "docs/archive/CTA_CYCLE_FIRST_RUNNER_SOURCE_20261006_V1.py",
+    "protocols/CTA_CYCLE_FULL2022_2023_METADATA_20261006_V1.json",
+    "protocols/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V1.json",
+    "protocols/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V2.json",
+    "protocols/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V3.json",
+    "protocols/CTA_CYCLE_JAN2022_SOURCE_20261006_V1.json",
+    "protocols/CTA_CYCLE_JAN2022_SOURCE_20261006_V2.json",
+    "protocols/CTA_CYCLE_JAN2022_SOURCE_20261006_V3.json",
+    "protocols/CTA_CYCLE_JAN2022_SOURCE_20261006_V4.json",
+    "protocols/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V1.json",
+    "protocols/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+    "reports/CTA_COLLECTORS_RESTORED_20261006_V2.json",
+    "reports/CTA_COLLECTOR_RESUME_SAMPLE_20261006_V1.json",
+    "reports/CTA_COLLECTOR_RESUME_SAMPLE_20261006_V2.json",
+    "reports/CTA_CYCLE_BTC_JUL2022_COMPOUND_20261006_V1.json",
+    "reports/CTA_CYCLE_DAILY_MARK_PROBE_20261006_V1.json",
+    "reports/CTA_CYCLE_ETH_UNRESOLVED_MARK_20261006_V1.json",
+    "reports/CTA_CYCLE_INTERRUPTION_PRESERVED_20261006_V1.json",
+    "reports/CTA_CYCLE_MARK_GAP_DIAGNOSIS_20261006_V1.json",
+    "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json",
+    "reports/CTA_CYCLE_WINDOW_TESTS_20261006_V1.xml",
+    "reports/GITHUB_SHORT_FAST4H_SYNC_VERIFIED_20261006_V1.json",
+    "reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json",
+    "reports/SHORT_LOCAL_TREND_ATTRIBUTION_20261006_V1.json",
+    "reports/experiment_registry.jsonl",
+    "reports/fast_research/CTA_CYCLE_FULL2022_2023_METADATA_20261006_V1.json",
+    "reports/fast_research/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V1.json",
+    "reports/fast_research/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V2.json",
+    "reports/fast_research/CTA_CYCLE_FULL2022_2023_SOURCE_20261006_V3.json",
+    "reports/fast_research/CTA_CYCLE_JAN2022_METADATA_20261006_V1.json",
+    "reports/fast_research/CTA_CYCLE_JAN2022_SOURCE_20261006_V1.json",
+    "reports/fast_research/CTA_CYCLE_JAN2022_SOURCE_20261006_V3.json",
+    "reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+    "scripts/investment/accept_cta_cycle_sources.py",
+    "scripts/investment/build_cta_mark_compound.py",
+    "scripts/investment/checkpoint_diagnostic_research.py",
+    "scripts/investment/cta_cycle_source.py",
+    "scripts/investment/cta_cycle_window.py",
+    "scripts/investment/inspect_cta_cycle_gap.py",
+    "scripts/investment/official_mark_day_completion.py",
+    "scripts/investment/preserve_cta_cycle_interruption.py",
+    "scripts/investment/probe_cta_daily_mark.py",
+    "scripts/investment/restore_cta_collectors.py",
+    "scripts/investment/review_short_cycle.py",
+    "scripts/investment/run_cta_leaderboard.py",
+    "scripts/investment/short_local_trend_attribution.py",
+    "tests/test_cta_cycle_window.py"
+  ],
+  "stage_script": ".cache/stage_selected_short_fixed_cycle.ps1"
+}

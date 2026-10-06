@@ -142,34 +142,6 @@ def main():
         plans=[(f,m) for f in spec['families'] for m in account_modes]
         if spec.get('include_controls',True):plans += [('CASH','CASH'),('HOLD','LONG_ONLY')]
         r['required_accounts']=len(plans)*len(costs)*len(engine.UNITS)
-        reused={}
-        if 'completed_case_reuse' in spec:
-            reuse=spec['completed_case_reuse'];parent=Path(reuse['checkpoint_path'])
-            assert parent.is_relative_to(STATE) and sha(parent)==reuse['checkpoint_sha256']
-            receipt=ROOT/reuse['preservation_path'];assert sha(receipt)==reuse['preservation_sha256']
-            preserved=json.loads(receipt.read_bytes());old=json.loads(parent.read_bytes())
-            assert preserved['status']=='INTERRUPTED_TASK_AND_STOPPED_COLLECTORS_PRESERVED_NOT_RESTARTED'
-            assert old['binding']['task_id']==preserved['parent_task_id']==reuse['parent_task_id']
-            def financial_spec(v):
-                v=dict(v);v.pop('completed_case_reuse',None);v.pop('created_utc',None)
-                v['frozen_source_hashes']=dict(v['frozen_source_hashes'])
-                v['frozen_source_hashes'].pop('scripts/investment/run_cta_leaderboard.py')
-                return v
-            assert financial_spec(old['protocol'])==financial_spec(spec),'Recovery cannot change the economic experiment'
-            for p,h in old['binding']['source_hashes'].items():
-                if p!='scripts/investment/run_cta_leaderboard.py':assert sha(ROOT/p)==h
-            assert old['actual_days']==days and old['required_accounts']==r['required_accounts']
-            assert pl.read_parquet(parent.parent/'frozen_signals.parquet').equals(original_signal)
-            for c in old['cases']:
-                assert c['id'] not in reused and c['summary']['completion']=='COMPLETE_CONDITIONAL_ACCOUNT'
-                for artifact in c['artifacts'].values():
-                    p=Path(artifact['path']);assert p.is_relative_to(parent.parent) and sha(p)==artifact['sha256']
-                directory=Path(c['artifacts']['targets.parquet']['path']).parent
-                assert json.loads((directory/'summary.json').read_bytes())==c['summary']
-                reused[c['id']]=c
-            assert set(reused)==set(preserved['completed_case_ids'])
-            r['recovery']=dict(**reuse,scope='REUSE_WHOLE_VERIFIED_COMPLETED_ACCOUNTS; NOT_JOIN_WALLETS_OR_REUSE_PARTIAL_CASE',
-                parent_exit_code='UNKNOWN',reused_accounts=len(reused))
         for family,mode in plans:
             target_family='SMA200_SIGNED' if family=='CASH' else family
             target,meta=cta.targets(signal,bars,decisions,mode,symbols,target_family)
@@ -184,15 +156,6 @@ def main():
                     guard();case_id='_'.join((family+('_FAST4H' if fast_filter else ''),mode,cost['id'],unit['id']));directory=run/case_id;began=time.monotonic()
                     progress.value['detail']=f"CTA账户{len(r['cases'])+1}/{r['required_accounts']} · {case_id} · 零训练"
                     progress.update('经典CTA组合账户对照',len(r['cases']),r['required_accounts'],'账户',family=family,mode=mode)
-                    if case_id in reused:
-                        prior=reused.pop(case_id);directory=Path(prior['artifacts']['targets.parquet']['path']).parent
-                        assert pl.read_parquet(directory/'targets.parquet').equals(target)
-                        checked=finance.verify(directory,symbols,unit['scale'])
-                        assert checked['maximum_NAV_error_USDT']<1e-7 and checked['maximum_wallet_error_USDT']<1e-7
-                        checked['target_reference']=target_ref;checked['by_past_regime']=prior['independent']['by_past_regime']
-                        prior=dict(prior,independent=checked,reused_completed_account=True,
-                            recovery_validation_seconds=time.monotonic()-began,original_task_id=reuse['parent_task_id'])
-                        r['cases'].append(prior);write(run/'CHECKPOINT.json',r);gc.collect();continue
                     case=engine.simulate(window,mode,cost,unit,progress,guard,target_factory=lambda b,d,m:(target,meta),
                         account_factory=USDTLinearPerpetualAccount,persist_cash_close=True,
                         position_protection=(fast_adapter.FastShortConfirmation(fast_signal,original_signal) if fast_filter else None))
@@ -214,7 +177,6 @@ def main():
                     r['cases'].append(dict(id=case_id,strategy=family,mode=mode,cost=cost['id'],unit=unit['id'],
                         elapsed_seconds=time.monotonic()-began,**saved,independent=checked))
                     write(run/'CHECKPOINT.json',r);del case;gc.collect()
-        assert not reused,'Every reused case must belong to the fixed plan'
         r['status']=f"COMPLETE_FROZEN_CTA_{r['required_accounts']}_ACTUAL_ACCOUNTS_OR_EXPLICIT_HALTS"
     except Exception as e:r.update(error_type=type(e).__name__,error=str(e));raise
     finally:

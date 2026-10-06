@@ -1,0 +1,116 @@
+{
+  "experiment_id": "D099_FIXED_SHORT_2022_2023_COMPLETE_CYCLE",
+  "question": "Does unchanged D096 selective short contribute in fixed2022 decline without erasing gains during2023 recovery? Complete BTC reference, full10k capital and unchanged30pct asset cap, actual LONG_ONLY/SHORT_ONLY/LONG_SHORT/CASH/HOLD accounts; no fitting or threshold changes. ETH source incomplete, not dropped dates or performance-selected asset.",
+  "models_fit": 0,
+  "families": [
+    "DC_CONFIRMED_SHORT"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d099-btc-cycle-input-acceptance-20261006-v1/INPUT_MANIFEST.json",
+    "sha256": "f72eaf4bfe9360904e220f6aaa95311dd5eee99ffc27ce8ca9f84a96fc23edd2"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2021-08-01",
+  "economics_start": "2022-01-01",
+  "economics_end_exclusive": "2024-01-01",
+  "data_role": "FIXED_OLDER_CYCLE_DEVELOPMENT_VALIDATION; NOT_LOCKED_OR_INVESTMENT_UNSEEN; NO_TODAYS10COIN_SURVIVOR_POOL",
+  "universe": "PREDECLARED_BTC_TRANSPARENT_REFERENCE_FULL_INPUT_AVAILABLE; ETH2022JUL_MARK_DAILY_STILL_INCOMPLETE_PAUSED; ACTUAL2021_WARMUP; NOT_HISTORICAL_TOP10_CERTIFICATION",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "OWN_SHORT_CONFIRMATION_ADAPTER_OF_EXISTING_PINNED_JESSE_20_10_55_20; MOTIVATED_BY_Goulding_Harvey_Mazzoleni2023_TURNING_POINTS_NOT_FULL_DYN_REPLICATION",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://www.nber.org/papers/w20439",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "TEN_COMPLETE730D_SINGLE_BTC_FULL10K_COUNTERFACTUALS; TWO_FIXED_RAW_FUNDING_UNIT_SCENARIOS;0FITS0PARAMETER_SEARCH; DAILY_MINUTE_BLOCKS_ONLY",
+  "budget": {
+    "wall_seconds": 2400,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 800000000,
+    "GPU": 0
+  },
+  "stopping": "TEN_ACCOUNT_COUNTERFACTUALS_ONLY_OR_EXPLICIT_HALT; NO_THRESHOLD_PERIOD_SEARCH; NO_STRESS_UNLESS_SUBSEQUENT_EVIDENCE_JUSTIFIES",
+  "adoption": "DEVELOPMENT_ONLY: LS net improves over own same-unit LO, full730d SHORT positive, 2022 calendar SHORT positive, actual fullwindow DD/vol no worse than LO in BOTH funding unit interpretations. Report2023 SHORT even negative; no demand for profit every regime. If fail do not rescue parameters. Investment remainsNONE; native/MMR/unit/independent-evidence boundaries apply.",
+  "regression": {
+    "path": "reports/SHORT_CONFIRMATION_TESTS_20261006_V1.xml",
+    "sha256": "6c8b5ae93c4ce1725a3f56426abb2ab40bdc21480943aa9cd9e6f9b575d3131b",
+    "source_sha256": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+    "tests": 4,
+    "reuse_scope": "ACTUAL4_RULE_TESTS; GOLDEN_DEFAULT_AND_PRIOR_DUAL_FORECAST; OWN_DOWN_TREND_ENTRY_REBOUND_EXIT_VETO_FUTURE_PERTURBATION_SYMBOL_ORDER_AND_INDEPENDENT_TARGETS; no account repeat"
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+    "scripts/investment/audit_cta_classics.py": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+    "scripts/investment/run_cta_leaderboard.py": "d961657231a1f1dd41a91e7c0b639c358e3f220cd2f1c69b30b3b51ef86dd5c5",
+    "scripts/investment/cta_cycle_window.py": "e8b536547cb2d5c250e8ad99257524a2de4dc52dc36d18e506c92e8178db597f"
+  },
+  "cost_ids": [
+    "BASE27"
+  ],
+  "parallel_scope": "Two bounded tasks share coin.slice8GB; explicit2 threads per task; full accounts independent counterfactuals not summed; stage durations task interval union not sum",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": true,
+  "created_utc": "2026-10-06T01:48:02.004485+00:00",
+  "research_primary_reference": {
+    "path": "reports/CTA_TWO_SPEED_ACCEPTED_20261005_V1.json",
+    "sha256": "9f8a39aed569ad2e082ee9f57293ef358ec002abd42226b7aa9077afeec683e7"
+  },
+  "entry_diagnostic": {
+    "path": "reports/fast_research/SHORT_ENTRY_MECHANISM_20261006_V1.json",
+    "sha256": "938362b3d9cfa897843ba0f1e12f1ce773eb2f18403ab09a0189d18a7bc577b9"
+  },
+  "conditional_stress": "Generate identical STRESS43 cost-only protocol if BOTH BASE cases satisfy above gate; no cost/threshold/date/recipe alteration after results.",
+  "parent_commit": "598af943f0528cefcb52c3711e465ab39c0d1536",
+  "input_adapter": "FIXED_BTC_ETH_2022_2023_CYCLE",
+  "account_modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT"
+  ],
+  "source_acceptance": {
+    "path": "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json",
+    "sha256": "ea8801b1f868f231344024e804d4b7dd10ec4407dc9b42aa0a857def9f535983"
+  },
+  "cycle_regression": {
+    "path": "reports/CTA_CYCLE_WINDOW_TESTS_20261006_V1.xml",
+    "sha256": "a1386eaaa6cd38c463845d3ccafaf147ea0bceff4d6ff2ad0a421d89b3de8d84",
+    "source_sha256": "5d8a24b3bae151aa50580f34f6910239d2fccfdf3f64b30dfa76fccf84663a6d",
+    "tests": 2
+  },
+  "completed_case_reuse": {
+    "checkpoint_path": "/home/xflops/coin-state/d099-fixed-btc-cycle-accounts-20261006-v1/CHECKPOINT.json",
+    "checkpoint_sha256": "ff781a7fcd4d62a3f723570bcf359c043d1ef2922137fc10c2ff12d7281df6ed",
+    "preservation_path": "reports/CTA_CYCLE_INTERRUPTION_PRESERVED_20261006_V1.json",
+    "preservation_sha256": "2fd34d79877c05da31c5deedc5fb1a2c34b44075a21cf877e6c78d02f00d84dc",
+    "parent_task_id": "36961787058a4a4c8324836fbfcc03a9"
+  }
+}
