@@ -16,7 +16,13 @@ def load(spec,source_hashes,*,root=ROOT,state=STATE):
           'cost','cost_ids','resources','input_adapter','source_acceptance','cycle_regression')
     for key in keys:assert spec[key]==prior['protocol'][key],'Reused control economics changed: '+key
     for p,h in prior['binding']['source_hashes'].items():
-        if p!='scripts/investment/run_cta_leaderboard.py':assert source_hashes[p]==h==sha(root/p),'Reused control source changed: '+p
+        if p=='scripts/investment/run_cta_leaderboard.py':continue
+        changes=spec.get('recipe_source_changes',{})
+        if p in changes:
+            assert p in {'scripts/investment/cta_classics.py','scripts/investment/audit_cta_classics.py','tests/test_cta_classics.py'}
+            assert changes[p]==dict(previous=h,current=source_hashes[p]) and sha(root/p)==source_hashes[p]
+            assert 'legacy_signal_golden' in spec and spec['families']==['SMA200_SHORT50']
+        else:assert source_hashes[p]==h==sha(root/p),'Reused control source changed: '+p
     controls=[c for c in prior['cases'] if c['strategy'] in ('CASH','HOLD')]
     assert {(c['strategy'],c['mode'],c['cost'],c['unit']) for c in controls}=={
         (family,mode,'BASE27',unit) for family,mode in [('CASH','CASH'),('HOLD','LONG_ONLY')]

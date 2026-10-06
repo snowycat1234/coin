@@ -10,7 +10,7 @@ def save(p,v):
     with p.open('x') as f:json.dump(v,f,indent=2,ensure_ascii=False,allow_nan=False);f.write('\n')
 
 ap=argparse.ArgumentParser();ap.add_argument('--producer',action='append')
-ap.add_argument('--strategy',choices=['DC_CONFIRMED_SHORT','SMA200_SIGNED'],default='DC_CONFIRMED_SHORT')
+ap.add_argument('--strategy',choices=['DC_CONFIRMED_SHORT','SMA200_SIGNED','SMA200_SHORT50'],default='DC_CONFIRMED_SHORT')
 ap.add_argument('--output',default='reports/SHORT_FIXED_CYCLE_REVIEW_20261006_V1.json')
 a=ap.parse_args();raws=[];producers=[];cases=[];controls={}
 for name in a.producer or ['reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json']:
@@ -24,6 +24,10 @@ for name in a.producer or ['reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BA
     raws.append(part);cases+=part['cases']
     producers.append(dict(path=str(path.relative_to(ROOT)),sha256=sha(path),task_id=part['binding']['task_id']))
     for c in part.get('reused_controls',[]):
+        if c['id'] in controls:assert controls[c['id']]==c
+        controls[c['id']]=c
+    for c in part.get('reused_directional_controls',[]):
+        assert a.strategy=='SMA200_SHORT50' and part['unchanged_long_proof']['status']=='PASS_ALL730D_TARGETS_EXACTLY_SAME'
         if c['id'] in controls:assert controls[c['id']]==c
         controls[c['id']]=c
 r=raws[0];new_accounts=len(cases);cases+=list(controls.values())
@@ -61,13 +65,13 @@ for c in cases:
         risk_reduction_signal_count=s['risk_reduction_signal_count'],maximum_observed_first_risk_reduction_latency_us=s['maximum_observed_first_risk_reduction_latency_us'],
         instantaneous_caps_guaranteed=s['actual_caps_instantaneously_guaranteed'])
     rows.append(row)
-    if c['strategy']==a.strategy:
+    if c['strategy']==a.strategy or a.strategy=='SMA200_SHORT50' and c['strategy']=='SMA200_SIGNED' and c['mode']=='LONG_ONLY':
         assert (c['mode'],c['unit']) not in paired
         paired[c['mode'],c['unit']]=row
 assert len(paired)==6,'HOLD LONG_ONLY is a separate control, never the directional LONG_ONLY strategy'
 decisions=[]
 reference=None
-if a.strategy=='SMA200_SIGNED':
+if a.strategy in ('SMA200_SIGNED','SMA200_SHORT50'):
     ref=r['protocol']['comparison_reference'];assert sha(ROOT/ref['path'])==ref['sha256']
     reference=json.loads((ROOT/ref['path']).read_bytes());assert reference['status']=='PASS_PAIRED_FIXED_SHORT_CYCLE_EVIDENCE_NOT_NATIVE_OR_INVESTMENT'
 for unit in ('RAW_AS_FRACTION','RAW_AS_PERCENT'):
@@ -80,15 +84,21 @@ for unit in ('RAW_AS_FRACTION','RAW_AS_PERCENT'):
     if reference is None:
         checks.update(DD_no_worse=ls['drawdown_percent']<=lo['drawdown_percent'],actual_vol_no_worse=vol_ls<=vol_lo)
     else:
-        old=next(v for v in reference['rows'] if v['strategy']=='DC_CONFIRMED_SHORT' and v['mode']=='LONG_SHORT' and v['unit']==unit)
-        checks.update(LS_net_gt_D099_LS=ls['net_USDT']>old['net_USDT'],DD_no_worse_than_D099_LS=ls['drawdown_percent']<=old['drawdown_percent'],
-            LS_Sharpe_gt_own_LO=ls['daily_metrics']['sharpe']>lo['daily_metrics']['sharpe'])
+        if a.strategy=='SMA200_SHORT50':
+            old=next(v for v in reference['rows'] if v['strategy']=='SMA200_SIGNED' and v['mode']=='LONG_SHORT' and v['unit']==unit)
+            checks.update(LS_net_gt_D100_LS=ls['net_USDT']>old['net_USDT'],DD_no_worse_than_D100_LS=ls['drawdown_percent']<=old['drawdown_percent'],
+                LS_Sharpe_gt_own_LO=ls['daily_metrics']['sharpe']>lo['daily_metrics']['sharpe'],
+                SHORT2023_loss_reduced=ls['calendar_year_contributions']['2023']['SHORT']>old['calendar_year_contributions']['2023']['SHORT'])
+        else:
+            old=next(v for v in reference['rows'] if v['strategy']=='DC_CONFIRMED_SHORT' and v['mode']=='LONG_SHORT' and v['unit']==unit)
+            checks.update(LS_net_gt_D099_LS=ls['net_USDT']>old['net_USDT'],DD_no_worse_than_D099_LS=ls['drawdown_percent']<=old['drawdown_percent'],
+                LS_Sharpe_gt_own_LO=ls['daily_metrics']['sharpe']>lo['daily_metrics']['sharpe'])
     decisions.append(dict(unit=unit,checks=checks,pass_development_gate=all(checks.values()),
         LS_minus_LO_net=ls['net_USDT']-lo['net_USDT'],SHORT2023=ls['calendar_year_contributions']['2023']['SHORT'],
         actual_risk_not_equalized=dict(LO_vol=vol_lo,LS_vol=vol_ls,LO_DD=lo['drawdown_percent'],LS_DD=ls['drawdown_percent'])))
 out=dict(status='PASS_PAIRED_FIXED_SHORT_CYCLE_EVIDENCE_NOT_NATIVE_OR_INVESTMENT',task_id=os.environ['COIN_TASK_ID'],source_sha256=sha(__file__),
     producers=producers,rows=rows,decisions=decisions,strategy=a.strategy,
-    decision=('RETAIN_PUBLIC_SMA200_CYCLE_CHALLENGER_RISK_NOT_EQUALIZED' if a.strategy=='SMA200_SIGNED' else 'RETAIN_D096_WITH_BTC_CYCLE_SUPPORT') if all(v['pass_development_gate'] for v in decisions) else 'NO_PROMOTION_RETAIN_ORIGINAL_SCOPE_ANALYZE_FAILURE',
+    decision=('RETAIN_PUBLIC_SMA200_CYCLE_CHALLENGER_RISK_NOT_EQUALIZED' if a.strategy.startswith('SMA200') else 'RETAIN_D096_WITH_BTC_CYCLE_SUPPORT') if all(v['pass_development_gate'] for v in decisions) else 'NO_PROMOTION_RETAIN_ORIGINAL_SCOPE_ANALYZE_FAILURE',
     signal_proof=dict(path=str(signal_path),sha256=sha(signal_path)),
     attribution_scope='SAME_WALLET_DAILY_SHORT_PNL_BY_PAST_OWN_TREND; NOT_NEW_GATE_ECONOMICS_OR_REASON_CAUSALITY',
     new_accounts_in_review=0,economic_accounts_referenced=new_accounts,reused_control_accounts=len(controls),fits=0,created_utc=datetime.now(UTC).isoformat(),limitations=['ONE_BTC_OLD_CYCLE_NOT_10COIN_GENERALIZATION','ETH_MARK_INCOMPLETE_PRESERVED',

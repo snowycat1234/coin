@@ -136,6 +136,28 @@ def main():
                     'HOLD' if c['strategy']=='HOLD' else 'SMA200_SIGNED')
                 assert expected.equals(pl.read_parquet(c['artifacts']['targets.parquet']['path'])),'Reused controls target identity'
             r['reused_controls']=controls
+        if 'unchanged_long_controls' in spec:
+            assert spec['families']==['SMA200_SHORT50'] and spec['account_modes'] in (['SHORT_ONLY'],['LONG_SHORT'])
+            prior_ref=spec['unchanged_long_controls'];assert sha(ROOT/prior_ref['path'])==prior_ref['sha256']
+            old=json.loads((ROOT/prior_ref['path']).read_bytes())
+            old_task=json.loads((STATE/'task-progress'/('task-'+old['binding']['task_id']+'.json')).read_bytes())
+            assert old_task['status']=='completed' and old_task['exit_code']==0
+            recipe_paths=set(spec['recipe_source_changes'])|{'scripts/investment/run_cta_leaderboard.py','scripts/investment/reuse_cycle_controls.py'}
+            for p,h in old['binding']['source_hashes'].items():
+                if p not in recipe_paths:assert sha(ROOT/p)==h,'Unchanged long financial source differs: '+p
+            for k in ('symbols','data_manifest','locked_sha256','preparation_start','economics_start','economics_end_exclusive','cost','cost_ids','resources'):
+                assert old['protocol'][k]==spec[k]
+            longs=[c for c in old['cases'] if c['strategy']=='SMA200_SIGNED' and c['mode']=='LONG_ONLY']
+            assert len(longs)==2 and {c['unit'] for c in longs}=={'RAW_AS_FRACTION','RAW_AS_PERCENT'}
+            expected,_=cta.targets(signal,bars,decisions,'LONG_ONLY',symbols,'SMA200_SHORT50')
+            for c in longs:
+                assert c['summary']['terminal_cash_realized'] and c['summary']['completed_minutes']==days*1440
+                assert c['independent']['maximum_NAV_error_USDT']<1e-7 and c['independent']['maximum_wallet_error_USDT']<1e-7
+                for v in c['artifacts'].values():
+                    p=Path(v['path']).resolve();assert p.is_relative_to(STATE) and sha(p)==v['sha256'] and p.stat().st_size==v['bytes']
+                assert expected.equals(pl.read_parquet(c['artifacts']['targets.parquet']['path'])),'Unchanged long targets differ'
+            r['reused_directional_controls']=longs
+            r['unchanged_long_proof']=dict(status='PASS_ALL730D_TARGETS_EXACTLY_SAME',**prior_ref)
         if fast_filter:
             fast_bars=fast_adapter.aggregate_bars(manifest['path'],symbols,start,end,progress)
             fast_signal=fast_adapter.signals(fast_bars,symbols)

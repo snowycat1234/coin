@@ -45,3 +45,12 @@ def test_control_identity_refuses_changed_fee_and_nonterminal_producer(tmp_path)
     with pytest.raises(AssertionError):load(spec,hashes,root=root,state=state)
     task.write_text(json.dumps(dict(status='completed',exit_code=0)));fee.write_text('changed fee snapshot')
     with pytest.raises(AssertionError):load(spec,hashes,root=root,state=state)
+
+
+def test_recipe_change_cannot_exempt_a_financial_source(tmp_path):
+    spec,hashes,root,state,fee,_=fixture(tmp_path)
+    (root/'core.py').write_text('new financial semantics')
+    new_hash=sha(root/'core.py')
+    spec.update(families=['SMA200_SHORT50'],legacy_signal_golden={'fixture':'not actual proof'},
+        recipe_source_changes={'core.py':dict(previous=hashes['core.py'],current=new_hash)})
+    with pytest.raises(AssertionError):load(spec,{'core.py':new_hash},root=root,state=state)

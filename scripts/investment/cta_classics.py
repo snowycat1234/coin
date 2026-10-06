@@ -16,7 +16,7 @@ from scripts.investment.donchian_daily_pool_target import VENDOR, PINNED_HASHES
 
 DAY = 86_400_000_000
 FAMILIES = ('TSMOM12M', 'SMA200_SIGNED', 'DONCHIAN20_10', 'DC_TSMOM_ENSEMBLE')
-EXTRA_FAMILIES = ('DC_TWO_SPEED', 'DC_CONFIRMED_SHORT')
+EXTRA_FAMILIES = ('DC_TWO_SPEED', 'DC_CONFIRMED_SHORT', 'SMA200_SHORT50')
 SUPPORTED_FAMILIES = (*FAMILIES, *EXTRA_FAMILIES)
 MODES = ('LONG_ONLY', 'SHORT_ONLY', 'LONG_SHORT', 'CASH')
 
@@ -88,6 +88,10 @@ def signals(bars, decisions, symbols, *, include_components=False):
                 # positive forecasts retain their original long semantics.
                 values['DC_CONFIRMED_SHORT']=(None if forecast is None else
                     forecast if forecast>=0 or dc[(20,10)]<0 and dc[(55,20)]<0 else 0.)
+                # Independent bearish confirmation, never the inverse of long.
+                # A rebound above its completed 50-day mean cancels shorts.
+                values['SMA200_SHORT50']=(None if sma is None else
+                    sma if sma>=0 or c[j,1]<np.mean(c[j-49:j+1,1]) else 0.)
             availability.append(dict(symbol=symbol,decision_us=int(t),warmup_valid=valid,
                 twelve_month_anchor_us=int(prior),twelve_month_valid=valid_mom,month_boundary=key))
             rows.append(dict(close_us=int(t),available_us=int(t),symbol=symbol,**values))

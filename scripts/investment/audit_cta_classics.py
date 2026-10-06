@@ -35,6 +35,11 @@ def verify_signals(frame,bars,decisions,symbols):
                 average=sum(states)/2
                 values['DC_CONFIRMED_SHORT']=(None if not valid else
                     -1. if states==[-1,-1] else max(0.,average))
+            if 'SMA200_SHORT50' in frame.columns:
+                slow=values['SMA200_SIGNED']
+                fast_mean=sum(r['close'] for r in records[j-49:j+1])/50 if valid else None
+                values['SMA200_SHORT50']=(None if slow is None else
+                    1. if slow>0 else -1. if slow<0 and price<fast_mean else 0.)
             for f,v in values.items():
                 actual=observed[(int(t),s)][f]
                 assert (actual is None)==(v is None),(s,t,f)

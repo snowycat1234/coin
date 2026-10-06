@@ -88,3 +88,31 @@ def test_confirmed_short_keeps_downtrends_vetoes_divergence_and_preserves_long()
         swapped,_=cta.targets(f,b,t,mode,symbols[::-1],'DC_CONFIRMED_SHORT')
         assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
                            swapped.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)
+
+
+def test_short50_rebound_exit_long_identity_and_future_causality():
+    b,t=fixture();symbols=('BTCUSDT','ETHUSDT')
+    days=(pl.col('close_us')-b['close_us'].min())/cta.DAY
+    price=pl.when(days<200).then(100+days*.3).when(days<350).then(160-(days-200)*.5).otherwise(85+(days-350)*.7)
+    b=b.with_columns(price.alias('close'),price.alias('open'),(price+.01).alias('high'),(price-.01).alias('low'))
+    f,_=cta.signals(b,t,symbols,include_components=True)
+    ref.verify_signals(f,b,t,symbols)
+    assert f.filter(pl.col('SMA200_SHORT50')<0).height>0
+    rebound=f.filter((pl.col('SMA200_SIGNED')<0)&(pl.col('SMA200_SHORT50')==0))
+    assert rebound.height>0
+    positive=f.filter(pl.col('SMA200_SIGNED')>=0)
+    assert positive['SMA200_SHORT50'].equals(positive['SMA200_SIGNED'])
+    cutoff=int(t[160]);future=b.with_columns(*[
+        pl.when(pl.col('close_us')>cutoff).then(pl.col(k)*4).otherwise(pl.col(k)).alias(k)
+        for k in ('open','close','high','low')])
+    changed,_=cta.signals(future,t,symbols,include_components=True)
+    assert f.filter(pl.col('close_us')<=cutoff).equals(changed.filter(pl.col('close_us')<=cutoff))
+    old,_=cta.targets(f,b,t,'LONG_ONLY',symbols,'SMA200_SIGNED')
+    new,_=cta.targets(f,b,t,'LONG_ONLY',symbols,'SMA200_SHORT50')
+    assert old.equals(new)
+    for mode in cta.MODES:
+        target,_=cta.targets(f,b,t,mode,symbols,'SMA200_SHORT50')
+        ref.verify_targets(target,f,b,symbols,'SMA200_SHORT50',mode)
+        swapped,_=cta.targets(f,b,t,mode,symbols[::-1],'SMA200_SHORT50')
+        assert np.allclose(target.sort(['available_us','symbol'])['target_weight'],
+                           swapped.sort(['available_us','symbol'])['target_weight'],rtol=0,atol=1e-12)

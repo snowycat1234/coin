@@ -417,3 +417,7 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 - D099完成扩展：同pinned官方Binance utility/CHECKSUM，完整BTC2022–2023，三个月明确raw union派生输入有官方逐日父源、CHECKSUM和独立逐行核对；不是把本地派生ZIP标为官方整月原件。现有Jesse Donchian/past-cov及账户内核无改动，0新依赖/模型训练。ETH官方日源仍缺失，负结果保留。
 
 - D100：复用D091/D095既有NumPy reduction与COIN SMA200 signed日线适配，保持现有版本/license/财务内核，无新依赖/第三方修改。只是公开均线方法family对照，不声称完整Faber10月long/cash或Man50/200策略复现。仅新增已有完整控制的身份绑定复用。
+
+- D101：沿用NumPy既有版本/license、经典SMA200目标和账户；仅SHORT增加完成50日均价确认，OWN_MODIFICATION，不声称完整Man/Faber策略复现。无新库、训练、下载或周期搜索；旧默认逐日golden与独立标量参考验收。
+
+- D101来源复查：Man Group https://www.man.com/insights/in-crypto-we-trend （其50/200均线交叉并非本地price-vs50过滤）；https://www.man.com/insights/need-for-speed-trend-following 仅方法/速度参考，未复制代码或收益。无代码version/commit/license改动，网页核查2026-10-06；本地SHORT50明确OWN_MODIFICATION。

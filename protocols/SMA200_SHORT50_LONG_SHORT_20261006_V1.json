@@ -1,0 +1,137 @@
+{
+  "experiment_id": "D101_SMA200_SHORT50_FIXED_CYCLE",
+  "question": "One-factor rebound exit: keep SMA200 positive signals unchanged; short only below completed200-day AND50-day means, otherwise cash. Does this reduce2023 short loss without sacrificing net quality? Four complete accounts, no period search.",
+  "models_fit": 0,
+  "families": [
+    "SMA200_SHORT50"
+  ],
+  "modes": [
+    "LONG_ONLY",
+    "SHORT_ONLY",
+    "LONG_SHORT",
+    "CASH"
+  ],
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "data_manifest": {
+    "path": "/home/xflops/coin-state/d099-btc-cycle-input-acceptance-20261006-v1/INPUT_MANIFEST.json",
+    "sha256": "f72eaf4bfe9360904e220f6aaa95311dd5eee99ffc27ce8ca9f84a96fc23edd2"
+  },
+  "locked_sha256": "29d930063842e9b1666869b4e5f9e3c8cd629313e57b9dadc328c6131b92f45d",
+  "preparation_start": "2021-08-01",
+  "economics_start": "2022-01-01",
+  "economics_end_exclusive": "2024-01-01",
+  "data_role": "SEEN_2022_2023_DEVELOPMENT_CLASSICAL_COUNTERFACTUAL_NOT_UNSEEN",
+  "universe": "PREDECLARED_BTC_TRANSPARENT_REFERENCE_FULL_INPUT_AVAILABLE; ETH2022JUL_MARK_DAILY_STILL_INCOMPLETE_PAUSED; ACTUAL2021_WARMUP; NOT_HISTORICAL_TOP10_CERTIFICATION",
+  "rules": {
+    "TSMOM12M": "SIGN_CURRENT_MONTH_START_CLOSED_PRICE_OVER_EXACT_CALENDAR_YEAR_AGO_PRICE_MINUS1; UPDATE_MONTHLY; UNKNOWN_UNTIL_TRUE12M_AVAILABLE",
+    "SMA200_SIGNED": "SIGN_COMPLETED_CLOSE_MINUS_MEAN_LAST200_CLOSES; DAILY; EQUALITY_CASH",
+    "DONCHIAN20_10": "DAILY_CLOSE_GT_PRIOR20_HIGH_LONG_OR_LT_PRIOR20_LOW_SHORT; LONG_EXIT_PRIOR10_LOW_SHORT_EXIT_PRIOR10_HIGH; EXIT_CASH_NO_SAME_DAY_REENTRY",
+    "DC_TSMOM_ENSEMBLE": "MEAN_SIGNALS_DC20_10_DC55_20_MONTHLY_TSMOM12M; NO_FORECAST_OPTIMIZATION",
+    "allocation": "PAST30_SAMPLE_INVERSE_VOL_NORMALIZED_TO0.6; CLIP_ASSET0.3; CASH_BUDGET_NOT_REDISTRIBUTED",
+    "portfolio_vol": "PAST30_SIGNED_COV_365_ANNUALIZATION_10PCT_SCALE_DOWN_ONLY",
+    "risk": "EXISTING_10K_ABS30_GROSS60_ISOLATED1X_NO_AUTOTOPUP",
+    "execution": "EXISTING_MINUTE_DELAY_CAPACITY_PARTIAL_FILLED_COSTS_AND_PERSISTENT_ZERO_TARGET_REDUCE_ONLY; HALT_RETAIN_PREFIX",
+    "HOLD": "CONSTANT_LONG_SAME_INVERSE_VOL_AND_PORTFOLIO_RISK",
+    "CASH": "ACTUAL_SHARED_ACCOUNT_ZERO_TARGET_ZERO_TURNOVER",
+    "DC_TWO_SPEED": "MEAN_VIRTUAL_DC20_10_AND_DC55_20; EACH_PRIOR_CHANNEL_OWN_EXIT; CLOSED_DAILY; {-1,-.5,0,.5,1}; NO_SAME_CLOSE_REENTRY; SCALE_FORECAST_MAGNITUDE_BEFORE_SIGNED_COV; NO12M_REQUIRED",
+    "DC_CONFIRMED_SHORT": "OLD_DC_TWO_SPEED_POSITIVE_FORECAST_UNCHANGED; NEGATIVE_ONLY_IF_VIRTUAL_PRIOR20_10_AND55_20_BOTH_SHORT; ELSE_CASH; DAILY_CLOSED_ONLY; CANCEL_PENDING_SHORT_INTENT_WHEN_CONFIRMATION_DISAPPEARS; ALL_HARD_RISK_UNCHANGED",
+    "SMA200_SHORT50": "COMPLETED_DAILY_CLOSE_ABOVE200_LONG_UNCHANGED; BELOW200_AND_BELOW50_SHORT; ELSE_CASH; EQUALITY_CASH; EXISTING_PERSISTENT_ZERO_TARGET_CLOSE_AND_HARD_RISK"
+  },
+  "cost": "BINANCE_USDM_PROXY_BYBIT_SUPPLIED_TAKER5.5BP_SIDE_BASE27_STRESS43; FUNDING_UNKNOWN_SCALE1_AND.01_ALLACTUAL_EVENTS",
+  "source_scope": "OWN_MINIMAL50DAY_BEAR_CONFIRMATION_OF_EXISTING_PUBLIC_SMA200; NOT_FULL_PUBLIC_STRATEGY_REPLICATION",
+  "sources": [
+    "https://doi.org/10.1016/j.jfineco.2023.05.007",
+    "https://www.nber.org/papers/w20439",
+    "jesse-ai/jesse MIT commit417f8765225e3bfc12043d4b712f19fe15a3c078 pinned original Donchian kernel"
+  ],
+  "budgets_estimation": "FOUR_NEW730D_WALLETS_TWO_CONCURRENT_TASKS; TWO_SAME_LONG_FOUR_CASH_HOLD_WHOLE_CONTROLS_REUSED;0FITS0PERIOD_SEARCH",
+  "budget": {
+    "wall_seconds": 1800,
+    "RSS_bytes": 1200000000,
+    "owned_bytes": 600000000,
+    "GPU": 0
+  },
+  "stopping": "FOUR_FIXED_ACCOUNT_CASES_OR_EXPLICIT_HALT; NO_THRESHOLD_PERIOD_SEARCH_OR_NEW_DATA",
+  "adoption": "Both units complete730d, SHORTtotal>0, SHORT2022>0, LSnet>unchangedLO and>D100LS, LSSharpe>unchangedLO, LSminuteDD<=D100LS, SHORT2023loss less thanD100. These tighten original gate; actual risk not equalized. Failure retains old research reference, no same-window rescue search; investmentNONE.",
+  "regression": {
+    "path": "reports/SMA200_SHORT50_TESTS_20261006_V1.xml",
+    "sha256": "35be115c9b8a94bee1830d176989ee35ab82352a241c4f6c6bd4a5dcd64b9b72",
+    "source_sha256": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c",
+    "tests": 8
+  },
+  "frozen_source_hashes": {
+    "scripts/investment/cta_classics.py": "cc07fc2bd127a65d2aeab5b50bc16acc1769120dce97f8c8ac2f0d16ac1fbce3",
+    "scripts/investment/audit_cta_classics.py": "5cba45cbf760ed0d3ce82ab817f6a7e10ec4da5d4f3bb1921c504ec05a835094",
+    "scripts/investment/run_cta_leaderboard.py": "aa3f551448d8de6e545fe9e136008fa22c24095c5608accc08108d0f260ea5a0",
+    "scripts/investment/cta_cycle_window.py": "e8b536547cb2d5c250e8ad99257524a2de4dc52dc36d18e506c92e8178db597f",
+    "scripts/investment/reuse_cycle_controls.py": "7243720944e40bbf36f13613cf25b773591370418083c96caf5aae8a76afe518",
+    "tests/test_reuse_cycle_controls.py": "2c10492b55fdca6c3e5d567752f2a61242be65b30240af9ebb6a4d19b614870a",
+    "tests/test_cta_classics.py": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c"
+  },
+  "cost_ids": [
+    "BASE27"
+  ],
+  "parallel_scope": "TWO_BOUNDED_PROCESSES_MAX; EXPLICIT2_THREADS_EACH; SHARED8GB; FOUR_PLUS_TWO_WHOLE_COUNTERFACTUALS_NOT_WALLET_SUM",
+  "resources": {
+    "shared_RAM_bytes": 8000000000,
+    "D_bytes": 150000000000,
+    "capital_USDT": 10000,
+    "abs_asset_cap": 0.3,
+    "gross_cap": 0.6
+  },
+  "include_controls": false,
+  "created_utc": "2026-10-06T02:55:51.560732+00:00",
+  "parent_commit": "cfe890d9f039d75ae8dc3f26346e8701584835a3",
+  "input_adapter": "FIXED_BTC_ETH_2022_2023_CYCLE",
+  "account_modes": [
+    "LONG_SHORT"
+  ],
+  "source_acceptance": {
+    "path": "reports/CTA_CYCLE_SOURCE_ACCEPTED_20261006_V1.json",
+    "sha256": "ea8801b1f868f231344024e804d4b7dd10ec4407dc9b42aa0a857def9f535983"
+  },
+  "cycle_regression": {
+    "path": "reports/CTA_CYCLE_WINDOW_TESTS_20261006_V1.xml",
+    "sha256": "a1386eaaa6cd38c463845d3ccafaf147ea0bceff4d6ff2ad0a421d89b3de8d84",
+    "source_sha256": "5d8a24b3bae151aa50580f34f6910239d2fccfdf3f64b30dfa76fccf84663a6d",
+    "tests": 2
+  },
+  "reused_cycle_controls": {
+    "path": "reports/fast_research/SHORT_FIXED_CYCLE_2022_2023_BASE27_20261006_V2.json",
+    "sha256": "359e11b426aa5241b2f1d02ffaebd3c5fd764292488d7cdddd9539096daf9ccf"
+  },
+  "comparison_reference": {
+    "path": "reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json",
+    "sha256": "8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047"
+  },
+  "controls_reuse_regression": {
+    "path": "reports/SMA200_SHORT50_TESTS_20261006_V1.xml",
+    "sha256": "35be115c9b8a94bee1830d176989ee35ab82352a241c4f6c6bd4a5dcd64b9b72",
+    "source_sha256": "2c10492b55fdca6c3e5d567752f2a61242be65b30240af9ebb6a4d19b614870a",
+    "tests": 8
+  },
+  "unchanged_long_controls": {
+    "path": "reports/fast_research/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json",
+    "sha256": "14b257c28b92cbc33d54624713e1752519a217c12e2261cfbca96845fc35607a"
+  },
+  "recipe_source_changes": {
+    "scripts/investment/cta_classics.py": {
+      "previous": "fa9c060fcf45e9eafc29ccd058a84374a83624fe77eec91ce8e9d2df98ba21b9",
+      "current": "cc07fc2bd127a65d2aeab5b50bc16acc1769120dce97f8c8ac2f0d16ac1fbce3"
+    },
+    "scripts/investment/audit_cta_classics.py": {
+      "previous": "879529d73d28495f4f40c8de0d436a9afceb6143b8334eaf604c3f78ee31be1e",
+      "current": "5cba45cbf760ed0d3ce82ab817f6a7e10ec4da5d4f3bb1921c504ec05a835094"
+    },
+    "tests/test_cta_classics.py": {
+      "previous": "29b3f4be471a75ca2fbb3981e6d8fb80cd6e127311e9e8a5dc62a4d3158ee958",
+      "current": "5a6138fb73b34d958ca139ce8dbc19454e8d4679e1e93a8ad46c206354e8064c"
+    }
+  },
+  "legacy_signal_golden": {
+    "path": "/home/xflops/coin-state/d099-fixed-btc-cycle-accounts-20261006-v2/frozen_signals.parquet",
+    "sha256": "b7d79eb920d4ca3e482ab6cc76f63ab1f8830b6b49486c126d4e971def5009c6"
+  }
+}

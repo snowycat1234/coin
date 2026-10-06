@@ -1470,3 +1470,11 @@ Does frozen public-family price-vs-SMA200 signed trend capture2022 bear movement
 ## D100结果与下一选择
 
 D100复用固定SMA200：6新730日BTC完整账户、4同窗完整控制复用；两资金费解释SHORT总贡献均正、多空均提高净收益。BASE/PCT LS净2413.34、SHORT718.25、vol10.68%、分钟DD9.54%；同规则LO净1563.48、vol6.68%、DD6.23%。原Donchian确认LS净-507.95、vol7.70%、DD14.74%。净收益改善并伴随更高实际风险，不能说风险匹配。RAW通过、PCT仅Sharpe比LO低（1.065<1.121）使事前门槛未全部通过，不事后改成功标准、不晋级投资。 SHORT2022+1703.98、2023-985.73，1月-636.53；下一项优先检验反弹时短线确认解除，非再搜模型。保留SMA200仅多为本BTC窗口研究参照、正贡献多空为有条件挑战者；下一有限实验仅改变SHORT：200日弱势仍需50日价格趋势确认，确认解除去CASH，LONG保持200日原规则。50是预先指定经典尺度，0拟合/网格/新数据；针对2023年1月快速反弹损失，完整重跑实际账本，不用删旧交易的假想收益。阶段门槛不改，失败保留负结果。 结果 reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json SHA 8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047。
+
+## D101运行前 2026-10-06T02:55:51.560732+00:00
+
+One-factor rebound exit: keep SMA200 positive signals unchanged; short only below completed200-day AND50-day means, otherwise cash. Does this reduce2023 short loss without sacrificing net quality? Four complete accounts, no period search. 固定50日不是网格。沿用BTC730日已见开发、10k、abs30/gross60/1x、原分钟成交与mark及两资金费解释。4新账户+6已绑定完整控制；两任务各2线程/1.2GB/1800s/600MB，共享8GB/150GB、0GPU。门槛：Both units complete730d, SHORTtotal>0, SHORT2022>0, LSnet>unchangedLO and>D100LS, LSSharpe>unchangedLO, LSminuteDD<=D100LS, SHORT2023loss less thanD100. These tighten original gate; actual risk not equalized. Failure retains old research reference, no same-window rescue search; investmentNONE. 原信号所有列与D099保存字节逐日相等，原仅多目标与D100完整730日逐项相等；必要减仓与真实费用不改。
+
+## D101结果与决定
+
+D101固定50日空头确认未通过两资金费情景门槛：BASE/PCT多空净1661.82（原2413.34），分钟DD9.25%（原9.54%）、vol9.64%、Sharpe0.846（原1.065/仅多1.121）。SHORT2022 292.02（原1703.98），2023 -214.61（原-985.73）；两年SHORT净77.42。 50日硬过滤更易切断熊市收益且增加换手；公开Man快慢趋势研究只作方法参考，不是本地复现/收益承诺。暂停SMA200_SHORT50硬过滤，保留原SMA200仅多参照与有条件多空挑战者。下一项只读检查已登记pandas-ta-classic CE22/3有状态空头保护在本BTC周期的触发和重入语义；只有明确提前保护反弹且未破坏主要熊市持仓的机制证据才接完整账户。固定公开默认，不扫ATR倍数/周期；影子触发不代表净收益。该不同授权周期检验满足D097 reopen条件。 工件 reports/SMA200_SHORT50_REVIEW_20261006_V1.json SHA 2dd17c4c53299defcdbf7c5a3e1795676ad67a7a5cebc1f68f0100dcd2f1d987。

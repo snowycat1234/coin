@@ -43,11 +43,13 @@ runtime_dirs=c.get('runtime_directories',[]) or [c['runtime_directory']]
 assert len(set(runtime_dirs))==len(runtime_dirs)
 report=dict(status='COMPLETE_SAVED_EVIDENCE_DIAGNOSTIC_NOT_NEW_ECONOMIC_REPLAY',parent_commit=head,references=refs,decision=c['decision'],next_action=c['next_action'],models_fit=0,new_accounts=0,new_strategy_net_return='NOT_RUN',locked_body_read=False,source_hashes={p:sha(ROOT/p) for p in c['source_paths']},task_intervals_union_seconds=sum(e-b for b,e in intervals),tasks=[{k:t.get(k) for k in ('id','title','started_at','ended_at','exit_code')} for t in tasks],unattributed_intervals='UNKNOWN_NOT_CALLED_MODEL_THINKING_OR_IDLE',disk_scan=scan,resources=resources.status(),runtime_directory_bytes=sum(p.stat().st_size for d in runtime_dirs for p in Path(d).rglob('*') if p.is_file()))
 if economics:
- controls={v['id'] for e in economics for v in e.get('reused_controls',[])}
+ controls={v['id'] for e in economics for v in e.get('reused_controls',[])+e.get('reused_directional_controls',[])}
+ directional_controls={v['id'] for e in economics for v in e.get('reused_directional_controls',[])}
  report.update(status='COMPLETE_FIXED_ECONOMIC_RESEARCH_MODULE_NOT_INVESTMENT',new_accounts=c['complete_accounts'],
   accounts_new_in_final_task=sum(not v.get('reused_completed_account',False) for v in cases),
   accounts_reused_whole_from_interrupted_task=sum(v.get('reused_completed_account',False) for v in cases),
   historical_complete_controls_reused=len(controls),
+  historical_directional_controls_reused=len(directional_controls),
   new_strategy_net_return={v['id']:v['summary']['net_PnL'] for v in cases},
   economic_task_elapsed_seconds=[e['elapsed_seconds'] for e in economics],
   economic_peak_RSS_bytes=max(e['peak_RSS_bytes'] for e in economics),

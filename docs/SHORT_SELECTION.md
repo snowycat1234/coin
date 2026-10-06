@@ -1,4 +1,4 @@
-# SHORT选择：双通道确认，单一配方
+# SHORT研究：经典基准与退出机制
 
 D096：公开趋势内核复用后的最小适配；参数20/10与55/20沿用已冻结公开通道，没有训练或参数搜索。论文提供机制参考，不宣称完整复制论文策略。
 
@@ -164,3 +164,22 @@ D100复用固定SMA200：6新730日BTC完整账户、4同窗完整控制复用�
 
 结果 `reports/SMA200_FIXED_CYCLE_REVIEW_20261006_V1.json` SHA `8cebd052853d5317caa7c2f0278f6595048d47638b9801015de68e3566ca4047`；损失诊断 `reports/SMA200_SHORT_LOSS_DIAGNOSIS_20261006_V1.json` SHA `4ef6ed2e5cddd6ec48fdc8033c884001d5013be525384058b0f472683cf38d50`。
 复现：D-hosted runtime经现有progress/bounded，2线程，分别运行 `run_cta_leaderboard.py --protocol protocols/SMA200_FIXED_CYCLE_DIRECTIONS_20261006_V1.json`（4案例）和 `protocols/SMA200_FIXED_CYCLE_LONG_SHORT_20261006_V1.json`（2案例），显式提供未使用STATE `--run-dir`及未使用reports/fast_research `--output`。复核用 `review_short_cycle.py --producer <4案例报告> --producer <2案例报告> --strategy SMA200_SIGNED --output <未使用报告>`。原文件不得覆盖。
+
+## D101：固定50日空头确认，少亏反弹却损失更多熊市收益
+
+D101固定50日空头确认未通过两资金费情景门槛：BASE/PCT多空净1661.82（原2413.34），分钟DD9.25%（原9.54%）、vol9.64%、Sharpe0.846（原1.065/仅多1.121）。SHORT2022 292.02（原1703.98），2023 -214.61（原-985.73）；两年SHORT净77.42。
+
+|BASE/PCT，同10k BTC730日|净USDT|LONG贡献|SHORT贡献|价格毛损益|费+执行|资金费|vol%|分钟DD%|Sharpe|换手/本金|
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|SHORT_ONLY / SMA200_SHORT50|85.50|0.00|85.50|200.57|115.62|0.54|6.96|9.25|0.10|8.56|
+|LONG_SHORT / SMA200_SHORT50|1661.82|1584.40|77.42|1827.05|163.91|-1.32|9.64|9.25|0.85|12.14|
+|CASH / CASH|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|
+|LONG_ONLY / HOLD|541.50|541.50|0.00|601.17|57.25|-2.42|10.71|17.06|0.30|4.24|
+|原SMA200仅多（完整复用）|1563.48|1563.48|0.00|1611.41|46.09|-1.83|6.68|6.23|1.12|3.41|
+
+2023年1月SHORT从-636.53降至-61.62，但2022趋势收益损失更大。LS费+执行从118.55升至163.91，并非免费避开反弹。LS净减少751.52，其中SHORT贡献减少640.83、LONG因同钱包资本路径减少110.68；LONG信号和独立LONG_ONLY全部730日目标逐项一致，不把钱包路径差异说成多头规则变化。
+4新完整真实成本账户（仅空/多空×2单位）+6历史完整控制；不相加钱包。原所有信号列完整golden相等，旧SMA200报告逐行与事前门槛相等；新入口每个账户独立Decimal资金/NAV与标量目标验收。两条件解释都降低净收益与Sharpe，暂停此实际配方，不永久否定快反应/SHORT能力。
+仍是已看BTC730日开发、Binance USD-M行情配Bybit费用代理；单位/MMR/历史数量规则未知，锁定集未读，无真钱、发单、GPU或新数据。完整资本10k、abs30/gross60/1x保持，真实瞬时漂移与必要减仓不隐藏。
+暂停SMA200_SHORT50硬过滤，保留原SMA200仅多参照与有条件多空挑战者。下一项只读检查已登记pandas-ta-classic CE22/3有状态空头保护在本BTC周期的触发和重入语义；只有明确提前保护反弹且未破坏主要熊市持仓的机制证据才接完整账户。固定公开默认，不扫ATR倍数/周期；影子触发不代表净收益。该不同授权周期检验满足D097 reopen条件。
+
+工件 `reports/SMA200_SHORT50_REVIEW_20261006_V1.json`、`reports/SMA200_SHORT50_MECHANISM_20261006_V1.json`。复现：现有progress/bounded下分别运行 `run_cta_leaderboard.py --protocol protocols/SMA200_SHORT50_SHORT_ONLY_20261006_V1.json` 与 `protocols/SMA200_SHORT50_LONG_SHORT_20261006_V1.json`，显式给未使用STATE `--run-dir` 与未使用reports/fast_research `--output`。统一复核 `review_short_cycle.py --strategy SMA200_SHORT50 --producer <仅空报告> --producer <多空报告> --output <新文件>`。
