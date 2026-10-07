@@ -37,7 +37,7 @@ def test_marked_and_paid_flat_are_different_and_fees_counted_once():
         funding_interval_complete=[True]*3,complete_kline=[True]*3))
     r=proxy_rows({'A':frame},np.array([0]),np.array([[-.1]]),1,.001,10000)
     assert r['price_pnl']==100
-    assert r['marked_net']==99
+    assert r['marked_net']==pytest.approx(99, abs=1e-9)
     assert r['terminal_fee']==.9
     assert r['closed']['net']==pytest.approx(98.1)
     assert r['closed']['fees']==1.9
