@@ -1,10 +1,10 @@
 # COIN 当前研究状态
 
-## 当前：Transformer v3 冻结回放进行中，policy训练未放行
+## 当前：Transformer v3 回放与训练完成，开发账户继续后台执行
 
-独立分支research/transformer-v3-oracle-policy保留旧v2正式N/E及全部保护证据。864项新逐仓强平钱包正在云服务器实际回放；最新实际计数读取外部STATE replay-progress.json，不能把本段快照当已完成。无CPU/RAM/墙钟限制；本机不运行科学任务。新policy、FULL/HALF比较和五bridge的有限执行/报告模块已实现并测试，尚无新拟合或封存经济结果。
+独立分支research/transformer-v3-oracle-policy保留旧v2正式N/E及全部保护证据。2026-10-07 UTC10:02:40（北京时间18:02:40）发布静态阶段快照：864/864旧回放、348/348半仓位对照、60/60开发fit和12/12固定过去数据最终fit完成；新模型开发账户190/576，服务器继续后台执行。最新动态计数以服务器进度为准。旧111个停机账户恢复108个（96强平+12旧破产）；3个风险减仓受限仍N/E。全部864行中861完整日历且终端现金结算，753个原完整且未强平账户完成经济一致性核对；旧neutral稳定性门槛未通过。详见[当前阶段报告](../reports/transformer_v3/progress_snapshot_20261007/CURRENT_STAGE_REPORT.md)，包含全部旧回放分析、半仓位对照、新旧预测诊断、已完成新账户子集、训练记录及独立审计SHA。行情、权重和分钟账本留服务器，已核全部发布账户summary/audit及72次fit的weights/scaler SHA。无CPU/RAM/墙钟限制；本机不运行科学任务。
 
-同clock Mark liquidation/funding校验修复已在独立后续checkout验证，不改当前冻结回放源文件。先完成回放与neutral分析，后台生成并commit授权协议后才训练。60开发fit、12过去final fit、348HALF对照、576新开发钱包、400封存比较为固定预算。GPU fit并行度依据实际显存，本次4090为2；允许的GPU训练/CPU钱包阶段并行，旧neutral稳定时优先其固定HALF风险检查。直接三action policy主要监督，rank30保留；无Optuna/温度/额外架构搜索。五funding补值只称imputed，MMR .005/MMD0未取得官方risk档位认证。仍NONE/CASH，不能提前宣称新研究最终结论。详见[模块](../modules/transformer_v3/README.md)。
+同clock Mark liquidation/funding校验修复已通过47项已提交源码测试，旧冻结回放源文件保持。回放与neutral分析后，后台已commit授权协议bdfe816再训练；训练前提交凭据与协议已入库。固定预算60开发fit、12过去final fit、348HALF对照、576新开发钱包、400封存比较不扩展。直接三action policy主要监督，rank30保留；无Optuna/温度/额外架构搜索。开发账户全部完成并汇总冻结后才进入五bridge敏感性；该400项封存比较、最终报告及完整旧证据复核在本快照时尚未执行。五funding补值只称imputed，MMR .005/MMD0未取得官方risk档位认证。仍NONE/CASH，不用190项部分结果做模型选择或最终盈利结论。详见[模块](../modules/transformer_v3/README.md)。
 
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
