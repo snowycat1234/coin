@@ -42,6 +42,11 @@ def inspect(row):
     assert sha(case_path) == row['result_sha256']
     case = json.loads(case_path.read_text())
     used = {str(case_path): sha(case_path)}
+    for name in ('modules/transformer_v3/wallet.py', 'modules/transformer_v3/storage.py',
+                 'scripts/investment/perpetual_directional.py', 'src/quant/bybit_isolated_account.py'):
+        digest = case['binding']['frozen_wallet_sources'][name]
+        assert sha(ROOT/name) == digest, 'Inspected activity source differs from this saved account'
+        used[str(ROOT/name)] = digest
 
     def artifact(name, as_json=False):
         entry = case['artifacts'][name]
@@ -142,13 +147,13 @@ def inspect(row):
         latest_target=latest_target, nonnegative_targets_before_liquidation=episode_targets.filter(pl.col('target_weight')>=0).height,
         episode_target_min=episode_targets['target_weight'].min(), episode_target_max=episode_targets['target_weight'].max(),
         targets_near_liquidation=recent, recent_fills=[keep(x) for x in relevant],
-        rejection_status_counts=dict(Counter(x['status'] for x in rejected)), rejection_reason_counts=dict(Counter(str(x.get('reason')) for x in rejected)),
+        rejection_status_counts=dict(Counter(x.get('status', 'STATUS_NOT_RECORDED_ENGINE_EVENT') for x in rejected)), rejection_reason_counts=dict(Counter(str(x.get('reason')) for x in rejected)),
         last_rejections=rejected[-12:], account_breaches=len(breaches),
         decimal_reconstruction=dict(quantity=str(q), collateral=str(collateral), entry_price=str(entry), expected_bankruptcy_price=str(expected_bankruptcy),
             isolated_equity_at_liquidation_mark=str(equity_at_mark), last_minute_equity_error=abs(float(independent_equity)-previous[symbol+'_isolated_equity'])),
         pre_liquidation=snapshot(previous), post_liquidation=snapshot(after), descriptive_equity_crossings=crossings,
         last_daily_observations=[snapshot(x) for x in daily.iter_rows(named=True)], source_hashes=used,
-        mechanism='PERSISTENT_SHORT_WITHOUT_PRELIQUIDATION_PROTECTION' if latest_target['target_weight'] < 0 else 'EXIT_OR_OTHER_PATH_REQUIRES_REVIEW')
+        mechanism='PERSISTENT_SHORT_WITHOUT_PRELIQUIDATION_PROTECTION' if latest_target['target_weight'] < 0 and episode_targets.filter(pl.col('target_weight')>=0).height == 0 else 'EXIT_OR_OTHER_PATH_REQUIRES_REVIEW')
 
 
 def main():
