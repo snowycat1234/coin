@@ -112,7 +112,7 @@ def fill_diagnosis(case,dates,w0,w1,symbols,journals,confirmed):
             category='SAME_RANK_GATE_REOPEN' if prev and prev['gate_exit'] and prev['rank']==rank else 'SHORT_ENTRY_OTHER'
             if category=='SAME_RANK_GATE_REOPEN':reopens.append(dict(symbol=s,close_signal_us=prev['signal_us'],reopen_signal_us=t,
                 close_utc=utc(prev['signal_us']),reopen_utc=utc(t),fees=g['fees'],execution=g['execution'],fill_fragments=g['fills']))
-        elif g['leg']=='OPEN':category='DAILY_ADD'
+        elif g['leg']=='OPEN':category='LONG_ENTRY_OTHER' if g['before']==0 else 'DAILY_ADD'
         elif g['after']==0:category='DAILY_FULL_CLOSE_OTHER'
         else:category='DAILY_PARTIAL_REDUCTION'
         if is_short and g['leg']=='CLOSE' and g['after']==0:last_short_close[s]=dict(rank=rank,gate_exit=gate_exit,signal_us=t)
