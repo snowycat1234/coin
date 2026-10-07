@@ -13,6 +13,14 @@ def sha(p):return digest_file(p)
 def save(p,v):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);t=p.with_suffix(p.suffix+'.tmp')
     t.write_text(json.dumps(v,ensure_ascii=False,indent=2,allow_nan=False)+'\n');t.replace(p)
+def verify_legacy_sources(old,current,compatibility,liquidations):
+    if old.keys()!=current.keys():raise ValueError('Legacy financial source set changed')
+    changed={k for k in old if old[k]!=current[k]}
+    if changed and liquidations!=0:raise ValueError('Metadata compatibility limited to zero-liquidation controls')
+    for k in changed:
+        pair=compatibility.get(k,{})
+        if pair.get('old')!=old[k] or pair.get('current')!=current[k]:raise ValueError('Unreviewed legacy financial change: '+k)
+    return sorted(changed)
 def summary_row(case,path,kind):
     s=case['summary'];a=case['independent_audit']
     if s['completed_minutes']!=s['required_minutes'] or not s['terminal_cash_realized']:raise ValueError('Incomplete wallet is not full-window economics')
@@ -82,13 +90,14 @@ def main():
             for family in p['controls']:
                 path=old/'native/legacy-controls'/scenario/w['id']/family/'RESULT.json';c=json.loads(path.read_text());s=c['summary']
                 assert c['task']['window']==w and c['task']['funding_scale']==scale and s['symbols']==p['symbols']
-                assert c['task']['work']==str(work) and c['binding']['financial_sources']==financial
+                assert c['task']['work']==str(work)
+                compatibility=verify_legacy_sources(c['binding']['financial_sources'],financial,p['legacy_source_compatibility'],s['liquidation_count'])
                 assert c['binding']['protocol_sha256']==sha(replay_protocol)
                 prior=json.loads(Path(c['task']['prior_result']).read_text())
                 assert prior['binding']==complete_binding and prior['window']==w and prior['funding_scale']==scale and prior['model']==family
                 assert sha(c['task']['target_path'])==c['binding']['frozen_target_sha256']
                 assert float(s['daily_metrics']['initial_nav'])==10000
-                controls.append(summary_row(c,path,'REUSED_COMPLETE_CONTROL'))
+                row=summary_row(c,path,'REUSED_COMPLETE_CONTROL');row['reviewed_non_economic_source_differences']=compatibility;controls.append(row)
             tasks.append(dict(id=scenario+'/'+w['id']+'/PUBLIC_CSMOM21_WEEKLY',state=str(state),collector_root=p['collector_root'],work=str(work),source_run=p['source_run'],
                 family='PUBLIC_CSMOM21_WEEKLY',seed=0,profile='FULL',mapping='NEUTRAL',window=w,funding_scale=scale,target_path=str(target),target_sha256=sha(target),protocol_sha256=sha(a.protocol),noncausal=False))
         print('[TARGET] '+w['id']+' frozen weekly ranking, daily signed risk sizing',flush=True)
