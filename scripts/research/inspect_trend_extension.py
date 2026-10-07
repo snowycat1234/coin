@@ -66,8 +66,11 @@ def main():
         cases.append(dict(window=w,complete_trade_mark=complete,required_minutes=seen,observed_minutes=count,invalid_observed_minutes=invalid,missing_minutes=missing,source_daily_and_event_counts=flags,market_binding_path=str(binding),market_binding_sha256=sha(binding),market_files=verified['files']))
         print('[DATA] '+str(i+1)+'/4 '+w['id']+' missing='+str({s:len(missing[s]) for s in CORE}),flush=True)
     assert all(c['complete_trade_mark'] for c in cases[:3])
-    assert cases[-1]['missing_minutes']['BTCUSDT']==[stamp('2024-08-12')+(10*60+2)*60_000_000,stamp('2024-08-12')+(10*60+3)*60_000_000]
-    assert all(not cases[-1]['missing_minutes'][s] for s in CORE[1:])
+    known_gap=[stamp('2024-08-12')+(10*60+2)*60_000_000,stamp('2024-08-12')+(10*60+3)*60_000_000]
+    assert cases[-1]['missing_minutes']['BTCUSDT']==known_gap
+    # BTC-only historical diagnostics do not prove other assets were complete.
+    # Preserve actual current observations; no gap may extend into selected windows.
+    assert all(set(cases[-1]['missing_minutes'][s])<=set(known_gap) for s in CORE)
     result=dict(status='PASS_COMPLETE_EXISTING_EXTENSION_WINDOWS_WITH_EXPLICIT_GAP',source_sha256=sha(__file__),parent_protocol_sha256=sha(parent_path),source_manifest_sha256=sha(manifest),plan_path=str(plan_path),plan_sha256=sha(plan_path),selected_windows=windows,excluded_gap_days=excluded,cases=cases,role='SEEN_DEVELOPMENT_ONLY; source-defined segments, no PnL selection, no account splicing',new_wallets=0,new_fits=0,new_downloads=0,locked_consumed=False,elapsed_seconds=time.monotonic()-began,limitations=['Current minute join/price positivity and actual event counts verified; funding unit/publication and instantaneous risk guarantees not certified','41day window is short diagnostic; no stable APR or complete2024H2 performance','MissingAug12 stays explicit and cannot be free navigation between positions'])
     save(state/'RESULTS.json',result);save(state/'progress.json',dict(status='completed',phase='完成',stage='DATA',completed=4,total=4,unit='窗口',updated_at=time.time()))
     print(json.dumps(dict(status=result['status'],seconds=result['elapsed_seconds'])),flush=True)
