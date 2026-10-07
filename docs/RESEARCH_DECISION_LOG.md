@@ -1560,3 +1560,8 @@ D108实际启动验收：修复commit 6e41645已push并核远端，2026-10-06 14
 ## 2026-10-07：Transformer v2 开发报告已冻结
 
 120个开发fit和24个最终past-only fit均审计通过；720个开发原生账户已完成，旧控制账户复用。固定候选 CROSS_ASSET_UTILITY/DIRECTIONAL，development gate=False。三seed固定平均，未选择赢家seed或pool。开发报告与候选清单已提交后才允许一次2026-03~08封存评估；当前投资状态仍NONE/CASH。详见 reports/transformer_v2/TRANSFORMER_V2_DEV_REPORT.md。
+
+
+## 2026-10-07：Transformer v2 完整研究
+
+最终决定 B. CONTINUE RESEARCH, NOT YET PROMOTED。投资状态 NONE/CASH，不部署。120个开发fit、24个过去数据最终fit审计通过；开发账户保留全部seed/ensemble/方向/中性/组合与oracle，冻结开发候选后只开一次184日封存实验。Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun。详见 reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md 与 FINAL_DECISION.json，全部旧证据保留。
