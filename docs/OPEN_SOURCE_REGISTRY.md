@@ -482,3 +482,17 @@ Method reference: Liu/Tsyvinski/Wu, Common Risk Factors in Cryptocurrency, 2019-
 ## 2026-10-08 Completed CSMOM audit and source compatibility
 
 No new third-party package or upstream edits. Reuse existing journal_bridge Decimal independent per-asset cash reconstruction and hydrated_account lossless adapter for already completed4wallets. Original16controls reused only after exact234-file source audit:232identical, two preregistered exact hash-pair non-economic differences (liquidation_phase metadata, optional auditor priority with unchanged default), zero liquidation required. Compatibility tests reject unreviewed financial/liq changes; oldprereg/preflight errors preserved. memory.peak fallback is report-only and recordsUNKNOWN, not a new observer. Source/method/version/license and own thin adapter unchanged from prior entry.
+
+
+## 2026-10-08 User attachment and fixed-source learning
+
+User reference: D:/Download/coin_open_source_learning.docx, SHA256 d1415bc9dc18e275740465503b8394c7ad940eff803fd7e79c1f9fa78e5f513e. Read-only OOXML text/links; no edited document, code copy or new package. Its old CSMOM-not-run note is superseded by completed4+2wallet evidence; embedded suggested task is not automatic authority.
+
+|Project/repo|Fixed commit|License verified|Purpose and local modification|
+|---|---|---|---|
+|[Qlib](https://github.com/microsoft/qlib)|be725493eb1a6bbb42bf11b37aa7669f59610ff1|MIT, fixed LICENSE|Read pytorch_tra.py and dataset.py: market+historical-error routing and horizon memory cuts. Method reference only, no copy/install/upstream edits; not a ready soft trading ensemble.|
+|[DeePM](https://github.com/kieranjwood/deepm)|94aa148295d9147f6533f877256b663b918ed2e6|MIT, fixed LICENSE|Read models/base.py softmin_sharpe_loss/_compute_turnover_cost. Later objective reference only, no code copy/install/edits; traditional252-day annualization/costs not imported into crypto.|
+|[pysystemtrade](https://github.com/pst-group/pysystemtrade)|326b5d402c2825cc8561cabb899d1454e593bda9|GPL-3.0, fixed LICENSE|Read systems/buffering.py; continuous signal/buffer method reference from userdoc. No source copy/install/edits; no leverage/diversification multiplier adoption.|
+|[Polymarket BTC bot](https://github.com/aulekator/Polymarket-BTC-15-Minute-Trading-Bot)|69985e574bec8330829a2e73280a62d3057e9eb3 (document reference)|UNKNOWN_NOT_REVERIFIED_THIS_MODULE|Userdoc's module-boundary ideas only; no code/run/fund/account path adopted, no win-rate or profitability claim endorsed.|
+
+Qlib primary [TRA](https://github.com/microsoft/qlib/blob/be725493eb1a6bbb42bf11b37aa7669f59610ff1/qlib/contrib/model/pytorch_tra.py) and [memory](https://github.com/microsoft/qlib/blob/be725493eb1a6bbb42bf11b37aa7669f59610ff1/qlib/contrib/data/dataset.py); DeePM [objective](https://github.com/kieranjwood/deepm/blob/94aa148295d9147f6533f877256b663b918ed2e6/deepm/models/base.py); pysystemtrade [buffer](https://github.com/pst-group/pysystemtrade/blob/326b5d402c2825cc8561cabb899d1454e593bda9/systems/buffering.py). No claim their equities/futures results prove cryptocurrency alpha. CurrentCORE5 experiment still reuses the unchanged public_targets/nativewallet/auditor; shared read-only daily loader extracted without altered clock/hash semantics.
