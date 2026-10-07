@@ -1,0 +1,139 @@
+{
+  "experiment_id": "FIXED_TREND_BLEND_20261008",
+  "parent_commit": "4656701f5c9a5cdf3d90560a193f58132a073acc",
+  "question": "Can one fixed equal-weight combination of frozen absolute and relative trend reduce stage dependence after netting real orders in one shared-capital wallet, without training or releveraging?",
+  "data_role": "SEEN_DEVELOPMENT_ONLY; 2024/2025 already observed; no unseen or independent investment evidence",
+  "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_protocol_sha256": "975696715a431d73bff7abaea031db3856fcb3852f5160588113bfce1ed2e6b8",
+  "parent_results": "reports/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_results_sha256": "2ef6a5793b8da9c441af2879429c4edee2e6d01b56dfa6779706db6f8f80b350",
+  "core5_results": "reports/CSMOM_CORE5_POOL_20261008.json",
+  "core5_results_sha256": "826868692f1809f74e764d2051430e95e3dce2d9ac0ad7c4ab2f14670ad44b35",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "input_view": {
+    "result": "reports/BEAR_SUPPORT_REPAIR_20261008.json",
+    "result_sha256": "3e2dd4739561454cf7b6a49d3844d7c0360054c7e68696166558cc1c93c89870",
+    "review": "reports/BEAR_SUPPORT_INDEPENDENT_REVIEW_20261008.json",
+    "review_sha256": "5f3eba8856a1ae92c616af02ba29c425276fb17eabe02d6da56e88f216daeded",
+    "protocol": "protocols/BEAR_SUPPORT_OBSERVED_REPAIR_20261008.json",
+    "protocol_sha256": "29bbdb8cf501b07a4b0b7a8f3cfcf161bd41ee7973d49f9c7cf23d5dc23084fc",
+    "previous_protocol_sha256": "0db896fe445098ebebf2ea7d3f85a630520a94a9d4ad83ca13cc7dd5f23e7fde",
+    "previous_predictions": "reports/JOINT_EXPERT_INFORMATION_PREDICTIONS_20261008.json",
+    "previous_predictions_sha256": "664c0feeedc5bf09fca7356c6028679d37722f26c44ca48b941db05008392cb5",
+    "state_root": "/home/ubuntu/coin/execution-state/bear-support-observed-20261008-v1",
+    "expected_train_rows": {
+      "seen-2024-first-half": 516,
+      "seen-2025-first-half": 882
+    }
+  },
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "core_symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "windows": [
+    {
+      "id": "fold1-2024-01-02",
+      "fold": 1,
+      "start": 1704153600000000,
+      "end": 1719878400000000,
+      "days": 182,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold3-2025-01-02",
+      "fold": 3,
+      "start": 1735776000000000,
+      "end": 1751414400000000,
+      "days": 181,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    }
+  ],
+  "weights": [
+    0.5,
+    0.5
+  ],
+  "families": [
+    "SMA200_10PCT",
+    "FIXED_HALF_SMA_CSMOM"
+  ],
+  "frozen_experts": "SMA sign(completed_close-rolling200 mean), HOLD long, each200-close eligibility/.6 equal raw gross/.3 asset cap/existing30-return signed covariance10pct annual target downscale only. CSMOM exact original21d/weeklyK2 CORE5 golden, daily past risk. CASH0. No expert parameter tuning.",
+  "target_input": "Use reviewed repaired PANEL decision_us/weights columns0,1 only; no labels/feedback/common/future outcomes. Both funding panels intents exactly equal; CSMOM exact golden vs original native saved NPZ for both windows, else stop before any wallet. ExplicitCORE5->global10 mapping/inactive zero.",
+  "account": "Existing one-way isolated1x, full10000; target-mix first then real net trades/fees/funding, no independent sleeve wallet sum; native paid terminalflat lastday override identical to controls",
+  "capital": 10000,
+  "max_asset_abs": 0.3,
+  "max_gross": 0.6,
+  "leverage": 1,
+  "automatic_margin_topup": false,
+  "funding_scales": [
+    1,
+    0.01
+  ],
+  "cost": "Existing unchanged native COSTS[0]: fee5.5bp + halfspread4bp + slippage4bp each way; preserve Bybit fee snapshot identity and Binance USD-M cross-venue proxy; units remain two conditional interpretations, neither certified",
+  "risk": "Each frozen expert past-covariance10pct downscale only. Mix half+half NOT re-levered to10pct or gross60. Engine safety/risk reduction unchanged. Actual exposure drift/vol/DD separately reported, same nominal risk inputs not guaranteed same realizedrisk.",
+  "controls": "Four complete sameCORE5 CSMOM wallets: 2024originalpublic result,2025core5result; source/artifact/market/cost/target identities verified. Four newly run same-input SMA200_10PCT wallets. CASH0 existing zero-position semantics. Oldhighrisk HOLD/SMA descriptive only, no riskmatched superiority; sameCORE5 HOLD2025NOT_RUN.",
+  "budget": {
+    "new_configs": 1,
+    "new_wallets": 8,
+    "new_fits": 0,
+    "workers": 2,
+    "threads_per_process": 1,
+    "RAM_bytes": 8000000000,
+    "swap": 0,
+    "GPU": 0,
+    "wall_seconds": 1800,
+    "new_owned_bytes": 200000000,
+    "reserve_bytes": 16106127360
+  },
+  "success": "Research retention only, allrequired: four mix netPnL>0, actualannualvol<=.12, minuteMDD<=.12; each window/unit mix improves netPnL OR minuteMDD versus EACH single; both2025mix SHORTnet>0. Else no allstage blend qualification. Descriptive risk reduction may be retained even if returngatefails but no winner-switch/weightscan or stronger alpha claim.",
+  "stop": "One fixed weight only. Incomplete input/audit => N_E. No parameter/universe/direction/weight scan after outcome. Any successful result still NONE until robust independent evidence/cap correctness/funding units. Failure pauses this exact mixture, not allshort.",
+  "metrics": [
+    "complete-calendar terminal netPnL/full-capital return",
+    "LONG/SHORT gross and net contribution",
+    "fees/execution/funding",
+    "turnover",
+    "actual gross/net/margin",
+    "vol/MDD/Sharpe",
+    "monthly and daily concentration",
+    "actual short open legs",
+    "paired gaps vs same-risk SMA and CSMOM",
+    "pre-net intent vs actual netted target cancellation",
+    "actual wallet net/contributions, no mean independent PnL"
+  ],
+  "limitations": [
+    "Two previously-seen half-year development windows, not complete2022bear or freshOOS; independent fullcapital wallets never stitched.",
+    "BinanceUSD-M market+Bybitcost crossvenue proxy; funding units not certified, both1/.01 interpretations retained.",
+    "Reviewed frozen intent panel is causal but label/proxy prediction quality irrelevant; no future outcome used to select weights.",
+    "Equal halfweight lowers actualgross/vol and may reduceDD mechanically; this is not regime prediction or independent shortalpha.",
+    "Originalgross drift/risklatency remains; targetswithinlimits do not certify instantaneous livecaps.",
+    "Core5 is retrospective limited survivor panel; zero newpools/fits/parametersearch, no stableAPR/nativeBybit claim."
+  ],
+  "qualification": "NONE_CASH",
+  "document_learning": "Diversification is the static control required before complex adaptive routing; learn source cost/risk/action consistency, reuse mature implementation rather than add model capacity."
+}
