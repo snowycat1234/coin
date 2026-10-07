@@ -34,6 +34,10 @@ def stable_relative_evidence(dev_metrics,locked_metrics,family):
         utility=bool(len(dev)==5 and all(r.get('utility_rank') is not None for r in dev) and sum(r['utility_rank']>0 for r in dev)>=4
                      and len(locked)==1 and (locked[0].get('utility_rank') or 0)>0)
         evidence.append(dict(funding_scale=scale,stable_IC=ic,stable_relative_utility=utility,
+            development_valid_IC_folds=sum(r.get('rank_IC_median') is not None for r in dev),
+            development_positive_IC_folds=sum((r.get('rank_IC_median') or 0)>0 for r in dev),
+            development_valid_utility_folds=sum(r.get('utility_rank') is not None for r in dev),
+            development_positive_utility_folds=sum((r.get('utility_rank') or 0)>0 for r in dev),
             development_median_IC=median([r.get('rank_IC_median') for r in dev]),locked_IC=locked[0].get('rank_IC_median') if locked else None,
             development_median_utility_rank=median([r.get('utility_rank') for r in dev]),locked_utility_rank=locked[0].get('utility_rank') if locked else None))
     return evidence
@@ -144,8 +148,16 @@ def explicit_answers(dev,rows,relative,verdict,gaps):
         records=[r for r in gaps if r['funding_scale']==scale and r['window'].startswith('LOCKED')]
         oracle.append(n(max((r['oracle_net_return_percent'] for r in records),default=None)))
         capture.extend(f'{scale}:{r["oracle"]}={n(r["diagnostic_capture_ratio"])}' for r in records)
-    answers.append(('5. oracle ceiling 多大','封存三种未来知情诊断的最高 NET 为 '+' / '.join(oracle)+'%；完整日历的严格最优经济 ceiling 未被识别。未来 horizon 不足时为显式现金，60日专家 proxy 也不等价于分钟钱包最优解。'))
-    answers.append(('6. 捕获多少 oracle gap','封存相对全日历 SMA 的诊断 gap 比率：'+('; '.join(capture) or 'NOT_EVALUABLE')+'。支持范围不同，不能把此比率称为严格 ceiling 捕获率；非正分母不计算。'))
+    dev_oracle=[];dev_capture=[]
+    for scale in scales:
+        for name in ('DIRECTIONAL_ORACLE','EXPERT_ORACLE','CROSS_SECTIONAL_RANK_ORACLE'):
+            available=[r for r in gaps if r['funding_scale']==scale and not r['window'].startswith('LOCKED') and r['oracle']==name]
+            if available:
+                dev_oracle.append(f'{scale}/{name}: 独立窗口 NET 中位={n(median([r["oracle_net_return_percent"] for r in available]))}%，最大={n(max(r["oracle_net_return_percent"] for r in available))}%，n={len(available)}')
+                ratios=[r['diagnostic_capture_ratio'] for r in available if r['diagnostic_capture_ratio'] is not None]
+                dev_capture.append(f'{scale}/{name}: 诊断比率中位={n(median(ratios))}，有效正分母窗口={len(ratios)}/{len(available)}')
+    answers.append(('5. oracle ceiling 多大','开发期有限支持 oracle：'+('; '.join(dev_oracle) or 'NOT_EVALUABLE')+'。封存最高 NET 为 '+' / '.join(oracle)+'%；完整日历的严格最优经济 ceiling 未被识别。独立窗口不能相加作 APR，60日专家 proxy 不等价于分钟钱包最优解。'))
+    answers.append(('6. 捕获多少 oracle gap','开发期相对 SMA：'+('; '.join(dev_capture) or 'NOT_EVALUABLE')+'。封存诊断：'+('; '.join(capture) or 'NOT_EVALUABLE')+'。支持范围不同，不能称为严格 ceiling 捕获率；非正分母不计算，负比率表示候选还不及 SMA。'))
     regimes=[r for r in dev['rows'] if r['family']==family and str(r['seed'])=='ENSEMBLE' and r['mapping']==mapping]
     labels=[]
     for scale in scales:
@@ -153,8 +165,19 @@ def explicit_answers(dev,rows,relative,verdict,gaps):
         loss=[r['window'] for r in regimes if r['funding_scale']==scale and r['net_USDT'] is not None and r['net_USDT']<0]
         labels.append(f'{scale} 盈利窗口={profitable}；亏损窗口={loss}')
     answers.append(('7. 赚钱和亏钱的市场阶段','；'.join(labels)+'。封存月份分解见下表，不把独立窗口相加。'))
-    answers.append(('8. long / short 贡献','封存冻结候选：'+'；'.join(f'{r["funding_scale"]}: long={n(r["long_net_USDT"])} / short={n(r["short_net_USDT"])} USDT' for r in own if r)+'；完整日历失败时这些是局部诊断，不是完整期贡献。'))
-    answers.append(('9. cost 占 gross alpha 多少','冻结候选封存交易成本/正毛价格、包含净资金费负担/正毛价格：'+'；'.join(f'{r["funding_scale"]}: {n(r["cost_share_of_positive_gross"])} / {n(r["cost_plus_net_funding_share_of_positive_gross"])}' for r in own if r)+'。毛价格非正时比率不可评价。'))
+    contributions='；'.join(f'{r["funding_scale"]}: long={n(r["long_net_USDT"])} / short={n(r["short_net_USDT"])} USDT' for r in own if r)
+    cost_ratios='；'.join(f'{r["funding_scale"]}: {n(r["cost_share_of_positive_gross"])} / {n(r["cost_plus_net_funding_share_of_positive_gross"])}' for r in own if r)
+    past_contributions=[];past_costs=[]
+    for scale in scales:
+        complete=[r for r in regimes if r['funding_scale']==scale and r['full_calendar_and_paid_cash']]
+        if complete:
+            worst=min(complete,key=lambda r:r['net_USDT'])
+            past_contributions.append(f'{scale} 最差开发窗口 {worst["window"]}: long={n(worst["long_net_USDT"])} / short={n(worst["short_net_USDT"])} USDT')
+            ratios=[r['cost_share_of_positive_gross'] for r in complete if r['cost_share_of_positive_gross'] is not None]
+            burdens=[r['cost_plus_net_funding_share_of_positive_gross'] for r in complete if r['cost_plus_net_funding_share_of_positive_gross'] is not None]
+            past_costs.append(f'{scale}: 独立正毛价格窗口交易成本比率中位={n(median(ratios))}、含净资金费负担比率中位={n(median(burdens))}，有效窗口={len(ratios)}/{len(complete)}')
+    answers.append(('8. long / short 贡献','封存冻结候选：'+(contributions or 'NOT_EVALUABLE；未运行封存钱包，无可报告贡献')+'。开发证据：'+('; '.join(past_contributions) or 'NOT_EVALUABLE')+'；完整开发贡献逐窗口列在下表，不合并独立钱包。'))
+    answers.append(('9. cost 占 gross alpha 多少','封存交易成本/正毛价格、含净资金费负担/正毛价格：'+(cost_ratios or 'NOT_EVALUABLE；未运行封存钱包')+'。开发证据：'+('; '.join(past_costs) or 'NOT_EVALUABLE')+'。毛价格非正时比率不可评价。'))
     answers.append(('10. locked 2026-03~08 表现','；'.join(f'{r["funding_scale"]}: NET={n(r["net_return_percent"])}%, MDD={n(r["MDD"])}, Sharpe={n(r["Sharpe"])}, completion={r["native_completion"]}' for r in own if r) or 'NOT_EVALUABLE；无完整封存账户。'))
     answers.append(('11. 最终决定',verdict['choice']+'. '+verdict['decision']+'；'+verdict['reason']))
     return answers
