@@ -516,3 +516,8 @@ binance/binance-public-data https://github.com/binance/binance-public-data pinne
 ## 2026-10-08 JOINT_REPAIRED_20261008 completed
 
 仍复用scikit-learn1.9.1 BSD-3-Clause原生StandardScaler/Ridge(alpha10)，同一adapter及固定输入，仅换已核派生数据；无上游修改/安装/新增模型内核。Qlib TRA仅信息结构参考，不声称复现原TRA。复验失败暂停这个实现，能力保留；0新账户、24fit，不推进复杂度。
+
+
+## 2026-10-08 FIXED_TREND_BLEND_20261008 completed
+
+无新依赖/上游代码拷贝或修改。复用已登记SMA200/public CSMOM固定方法、NumPy冻结intent、现有signed covariance、native Decimal隔离账户/无损storage/独立audit；fixed_trend_blend.py只是半权目标映射与薄编排，未新写金融内核/selector。QlibTRA/DeePM/pysystemtrade固定来源与许可证参见上文；静态分散用作复杂routing的强对照，不称任何上游策略完整复现。8实钱包/0fit；两个阶段净正但强对照门槛失败，保留静态参考，不复制GPL源或强迫弱expert权重。

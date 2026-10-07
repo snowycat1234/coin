@@ -1650,3 +1650,8 @@ Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed s
 ## 2026-10-08 JOINT_REPAIRED_20261008 completed
 
 事前commit3ee34b3，只有已核官方派生输入改变；原专家/标签/日期/alpha10/7d/purge/门槛/12+12fit预算不变。成熟熊市157日/22周，train516/882，score25周/窗。12主+12错位fit0.710秒，0钱包。联合2024仅+1.192/+1.021bp、capture1.75%/1.57%，2025−45.012/−43.645bp；全部门槛false。独立只读算术及10反例通过。暂停原容量Ridge，不通过扩大模型/改阈值救结果；缺熊市样本不是充分解释。保留修补及SHORT方向。下一固定50/50 SMA200(10%过去波动downscale)＋CORE5 CSMOM真实共享钱包对照；两个seen窗、两资金解释，新增同风险SMA控制，不平均独立收益。新钱包NOT_RUN，投资NONE/CASH。reports/JOINT_REPAIRED_20261008.md。
+
+
+## 2026-10-08 FIXED_TREND_BLEND_20261008 completed
+
+事前32c4f8e、运行前9de28b2仅lazyimport使目标测试不依赖torch；参数/门槛未改。固定半权SMA200_10pct/CSMOM CORE5、同一10k原caps/成本/2资金解释，8新钱包/4核身份控制，0fit，581.840秒。2024mix净+95.90/+156.68、SHORT−361/−442；2025mix+164.49/+160.66、SHORT+219/+200。所有mix净正且vol/DD<12%，但逐cell净或DD胜每single失败；SMA在2024、CSMOM在2025更强。NO_ALL_STAGE_BLEND_QUALIFICATION不改写；保留透明静态研究对照/风险分散线索，无投资晋级、无regimealpha、无权重搜索。独立12账户算术/8分钟钱包核验及收费终平通过。实际净收益接近两single半权算术，但此算术不是组合回测；净单成本节省约11–19USDT。下一先核其他既有合法阶段源/缺口/币池，再冻结原3条规则延展；PANEL止2025-07-02不可ffill，未注册/运行下一账户。docs/RESEARCH_STATUS.md与reports/FIXED_TREND_BLEND_20261008.md。
