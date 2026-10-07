@@ -1,8 +1,11 @@
 """Focused causal tests for the new feedback and shared training paths."""
 import numpy as np
+import hashlib
+import json
+import pytest
 from scripts.research.calibrate_expert_following import label_available_at
 from scripts.research.joint_expert_information import (
-    DAY_US, WEEK_US, feedback_panel, train_mask, same_switch_random, signed_intents, reference_available_at, research_decision,
+    DAY_US, WEEK_US, feedback_panel, train_mask, same_switch_random, signed_intents, reference_available_at, research_decision, verified_input_view,
 )
 
 
@@ -67,3 +70,24 @@ def test_combined_only_gate_cannot_claim_a_qualified_simpler_model():
     assert research_decision(gates,True)=='REGISTER_NATIVE_CANDIDATE_NEXT'
     gates['FEEDBACK']=True
     assert research_decision(gates,False)=='RETAIN_SIMPLER_INFORMATION_CANDIDATE'
+
+
+@pytest.mark.parametrize('fault',['source_bytes_changed','failed_review','symbol_order_changed'])
+def test_derived_input_requires_frozen_identity_review_and_symbol_order(tmp_path,fault):
+    r=dict(status='COMPLETE_OFFICIAL_SUPPLEMENT_DERIVED_VIEW_NOT_INVESTMENT',protocol_sha256='',parent_dataset_sha256='dataset',
+        old_inputs_unchanged=True,previously_scored_utilities_unchanged=True,locked_consumed=False,new_fits=0,new_wallets=0,
+        qualification='NONE_CASH',derived_refs=[dict(symbol='BTCUSDT'),dict(symbol='ETHUSDT')])
+    protocol=dict(parent_dataset_sha256='dataset',parent_protocol_sha256='previous',symbols=['BTCUSDT','ETHUSDT'])
+    if fault=='symbol_order_changed':r['derived_refs'].reverse()
+    def write(name,value):
+        path=tmp_path/name;path.write_text(json.dumps(value))
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    protocol_sha=write('protocol.json',protocol);r['protocol_sha256']=protocol_sha
+    result_sha=write('result.json',r)
+    review=dict(status='FAILED' if fault=='failed_review' else 'PASS_WITH_LIMITATIONS',result_sha256=result_sha,protocol_sha256=protocol_sha)
+    review_sha=write('review.json',review)
+    spec=dict(result='result.json',result_sha256=result_sha,review='review.json',review_sha256=review_sha,
+        protocol='protocol.json',protocol_sha256=protocol_sha,previous_protocol_sha256='previous',state_root=str(tmp_path))
+    if fault=='source_bytes_changed':
+        with (tmp_path/'result.json').open('a') as f:f.write(' ')
+    with pytest.raises(AssertionError):verified_input_view(spec,['BTCUSDT','ETHUSDT'],'dataset',root=tmp_path)

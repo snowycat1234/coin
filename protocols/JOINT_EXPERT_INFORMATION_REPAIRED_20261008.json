@@ -1,0 +1,121 @@
+{
+  "experiment_id": "JOINT_EXPERT_INFORMATION_REPAIRED_20261008",
+  "parent_commit": "6ee02380e2a9a53e72287631a2c7b3fd6015b12f",
+  "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_protocol_sha256": "975696715a431d73bff7abaea031db3856fcb3852f5160588113bfce1ed2e6b8",
+  "core5_result": "reports/CSMOM_CORE5_POOL_20261008.json",
+  "core5_result_sha256": "826868692f1809f74e764d2051430e95e3dce2d9ac0ad7c4ab2f14670ad44b35",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "question": "Do mature reference-performance feedback and past market/current-intent jointly predict the conditional relative advantage of frozen absolute/relative trend experts across two already-seen stages?",
+  "data_role": "SEEN_DEVELOPMENT_CHRONOLOGICAL_MECHANISM_SCREEN; 2024/2025 already observed, never new unseen/OOS or investment qualification",
+  "core_symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "universe": "Existing core5, retrospective limited survivor panel, not a new return-selected pool; full capital shared within each expert intent",
+  "experts": [
+    "SMA200_SIGNED",
+    "CSMOM21_CORE5",
+    "HOLD",
+    "CASH"
+  ],
+  "expert_rules": "SMA sign(completed_close-rolling200 mean), HOLD long, each200-close eligibility/.6 equal raw gross/.3 asset cap/existing30-return signed covariance10pct annual target downscale only. CSMOM exact original21d/weeklyK2 CORE5 golden, daily past risk. CASH0. No expert parameter tuning.",
+  "horizon_days": 7,
+  "anchor_us": 1704067200000000,
+  "embargo_days": 7,
+  "capital": 10000,
+  "side_cost": 0.00135,
+  "funding_scales": [
+    1,
+    0.01
+  ],
+  "features": [
+    "mom20",
+    "mom60",
+    "mom200",
+    "dist50",
+    "dist200",
+    "vol30",
+    "range",
+    "vol_z"
+  ],
+  "inputs": [
+    "FEEDBACK",
+    "MARKET_INTENT",
+    "COMBINED"
+  ],
+  "market_inputs": "BTC8 past features+CORE5mean8+mom20/mom200 positive breadth+each4expert known gross/net/short_abs target intent. Current intent is not actual inventory.",
+  "feedback_inputs": "Last1/4/12 complete fixed weekly slots of matured seven-day reference utility for each expert; actual label_available<=decision; no skipped missing slots, no fitted residual claims.",
+  "labels": "Zero-entry capital10k expert follows daily causal intents7delayed intervals; actual proxy entry/internal-turnover/funding charged, execution-price endpoint valued without terminal exit. Reuse proxy_step. This is neither observedmark nor actual current-position switch utility. Availability waits nominal execution endpoint AND its source1m bar completion: decision+7d+120,000,001us; conservative1m extension for this explicit proxy only. No native-close maturity certification.",
+  "models": "Shared multioutput sklearn StandardScaler+Ridge only; train-only fit, alpha10 fixed, no label scaling, CASH output exact0",
+  "ridge_alpha": 10,
+  "minimum_train_daily_rows": 250,
+  "windows": [
+    {
+      "id": "seen-2024-first-half",
+      "end": 1719878400000000,
+      "start": 1704153600000000
+    },
+    {
+      "id": "seen-2025-first-half",
+      "end": 1751414400000000,
+      "start": 1735776000000000
+    }
+  ],
+  "fold_rules": "One expanding daily fit per fold/input/fundingcase. Labels mature strictly before validation_start-7d, entire label purged+7d embargo. Weekly fixed calendar validation blocks, label_available<validation_end, no overlapping scored horizons; same exact dates/rows across3ablations. Missing registered validation inputs/labels fails, no deleting dates. All dates already seen; scaler/model never fit validation.",
+  "controls": "Train-mean fixed expert; hindsight best single on validation as descriptive strong reference only; expanding mature past winner; fixed-parameter train-label-vector half-cycle-shift fit; random expert with identical evaluated model switch boundaries (negative-control diagnostic, not deployable schedule); oracle reference ceiling only. No averaging expert utility as shared wallet economics.",
+  "placebo": "Exactly one circular shift of the entire4expert label vector byfloor(ntrain/2), within legally mature train rows, per primaryfit. Same alpha/scaler/folds. One switch-boundary matched random sequence per cell, seed1729. Twelve placebo fits total; no95percent significance claim.",
+  "random_seed": 1729,
+  "minimum_reference_gap": 0.0005,
+  "minimum_capture": 0.15,
+  "success": "Research continuation only: one input family must on both windows and both conditional fundingunits exceed validation best single byatleast5bp meanweekly referenceutility, capture>=15pct oracle-best-single gap, and beat fixedtrainmean, expandingpastwinner, shifted-labelfit and matchedswitchrandom. To claim joint-information increment, COMBINED must additionally exceed both other inputs in all4cells. If only simplerinput passes retain simplercandidate; native-wallet next step requires new prereg, never automatic investment adoption.",
+  "threshold_reason": "5bp is prior fixedweek net-calibration tolerance, minimum guard against an advantage within observed proxy error, not error bound;15pct opportunity capture makes further nativeaccount work worthwhile.",
+  "stop": "Noalpha/horizon/feature/pool scan, no dropping weak cells, no extra model capacity or native wallets in this module. Train/validation divergence or inconsistent cells pauses exact recipe. If passes, independently preregister a real shared-wallet soft policy and controls; no utility->PnL conversion.",
+  "budget": {
+    "RAM_bytes": 8000000000,
+    "GPU": 0,
+    "new_wallets": 0,
+    "swap": 0,
+    "main_fits": 12,
+    "new_configs": 3,
+    "new_owned_bytes": 50000000,
+    "wall_seconds": 600,
+    "placebo_fits": 12,
+    "reserve_bytes": 16106127360,
+    "workers": 1,
+    "threads": 1
+  },
+  "limitations": [
+    "Reference-only prediction study, not cost-after actual shared-wallet returns/APR or proof of real-time regime alpha.",
+    "Daily train labels overlap; two funding interpretations share prices and do not create independent samples. Validation windows are already-seen development.",
+    "Single-week net calibration does not certify all expert paths or ranking fidelity; daily proxy omits native quantity buffer, risk/partialfills/liquidation and observedmark.",
+    "Reference CASH0 does not mean existing actual positions can close free; actual soft mixture must pay net target switching once and preserve risk reductions.",
+    "One shifted fit and random control per cell cannot establish placebo95pct or statistical significance.",
+    "Binance USD-M data/Bybit cost assumptions remain cross-venue proxy; funding unit uncertified and both scales required.",
+    "Only input-source support changes. Two2024/25 scored windows are already seen development; restored2022 and previously omitted2023 dates do not create new unseen evaluation.",
+    "Reviewed scored labels unchanged<=1e-12; rolling features maxnumericdelta1.725e-12 with exact scored primitive windows. Outcomes cannot be promoted to native sharedwallet profit or stableAPR.",
+    "Only one repeat after data cause correction; no further Ridge alpha/feature/horizon search if unchanged gates fail."
+  ],
+  "qualification": "NONE_CASH",
+  "title": "恢复熊市训练支持后：原容量Ridge条件信息复验",
+  "input_view": {
+    "result": "reports/BEAR_SUPPORT_REPAIR_20261008.json",
+    "result_sha256": "3e2dd4739561454cf7b6a49d3844d7c0360054c7e68696166558cc1c93c89870",
+    "review": "reports/BEAR_SUPPORT_INDEPENDENT_REVIEW_20261008.json",
+    "review_sha256": "5f3eba8856a1ae92c616af02ba29c425276fb17eabe02d6da56e88f216daeded",
+    "protocol": "protocols/BEAR_SUPPORT_OBSERVED_REPAIR_20261008.json",
+    "protocol_sha256": "29bbdb8cf501b07a4b0b7a8f3cfcf161bd41ee7973d49f9c7cf23d5dc23084fc",
+    "previous_protocol_sha256": "0db896fe445098ebebf2ea7d3f85a630520a94a9d4ad83ca13cc7dd5f23e7fde",
+    "previous_predictions": "reports/JOINT_EXPERT_INFORMATION_PREDICTIONS_20261008.json",
+    "previous_predictions_sha256": "664c0feeedc5bf09fca7356c6028679d37722f26c44ca48b941db05008392cb5",
+    "state_root": "/home/ubuntu/coin/execution-state/bear-support-observed-20261008-v1",
+    "expected_train_rows": {
+      "seen-2024-first-half": 516,
+      "seen-2025-first-half": 882
+    }
+  },
+  "question_delta": "One preregistered repeat after genuine source correction restores157 mature2022bear days/22fixedweekblocks. Reuse frozen reviewed panels; same features/intents/scaler/model/alpha/labels/costs/scenarios/folds/thresholds/budget. No new feature/model/parameter scan. If still inconsistent pause exact Ridge and switch to fixed absolute/relative trend sharedwallet control."
+}

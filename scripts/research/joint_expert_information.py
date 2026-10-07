@@ -152,6 +152,31 @@ def research_decision(gates, joint_increment):
     return 'PAUSE_EXACT_RIDGE_INFORMATION_RECIPE'
 
 
+def verified_input_view(spec, symbols, dataset_sha, root=ROOT):
+    """Admit only an independently reviewed, explicitly bound derived view."""
+    result_path=root/spec['result'];review_path=root/spec['review'];protocol_path=root/spec['protocol']
+    for path,expected in [(result_path,spec['result_sha256']),(review_path,spec['review_sha256']),(protocol_path,spec['protocol_sha256'])]:
+        assert sha(path)==expected,'Derived input identity changed'
+    r=json.loads(result_path.read_text());review=json.loads(review_path.read_text());protocol=json.loads(protocol_path.read_text())
+    assert r['status']=='COMPLETE_OFFICIAL_SUPPLEMENT_DERIVED_VIEW_NOT_INVESTMENT'
+    assert review['status']=='PASS_WITH_LIMITATIONS' and review['result_sha256']==spec['result_sha256']
+    assert review['protocol_sha256']==r['protocol_sha256']==spec['protocol_sha256']
+    assert r['parent_dataset_sha256']==protocol['parent_dataset_sha256']==dataset_sha
+    assert protocol['parent_protocol_sha256']==spec['previous_protocol_sha256']
+    assert r['old_inputs_unchanged'] and r['previously_scored_utilities_unchanged'] and not r['locked_consumed']
+    assert r['new_fits']==r['new_wallets']==0 and r['qualification']=='NONE_CASH'
+    assert protocol['symbols']==symbols==[x['symbol'] for x in r['derived_refs']]
+    base=Path(spec['state_root']).resolve()
+    assert base.parent==Path('/home/ubuntu/coin/execution-state')
+    for ref in r['derived_refs']:
+        for kind in ('past','daily'):
+            path=Path(ref[kind+'_path']);assert path.parent.resolve()==base and sha(path)==ref[kind+'_sha256']
+    assert [x['funding_scale'] for x in r['panel_refs']]==[1,.01]
+    for ref in r['panel_refs']:
+        path=Path(ref['path']);assert path.parent.resolve()==base and sha(path)==ref['sha256']
+    return r
+
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--state',type=Path,required=True);a=ap.parse_args()
     began=time.monotonic();p=json.loads(a.protocol.read_text());state=a.state.resolve()
@@ -159,7 +184,10 @@ def main():
     assert p['budget']['main_fits']==12 and p['budget']['placebo_fits']==12 and p['budget']['new_wallets']==0
     assert p['horizon_days']==7 and p['ridge_alpha']==10 and p['features']==list(FEATURES) and p['experts']==list(EXPERTS)
     assert p['inputs']==list(INPUTS) and p['funding_scales']==[1,.01]
-    for path in [Path(__file__),a.protocol,ROOT/'scripts/research/calibrate_expert_following.py',ROOT/'scripts/research/public_cross_section_momentum.py',ROOT/'modules/collector_research/pipeline/economics.py']:
+    bound=[Path(__file__),a.protocol,ROOT/'scripts/research/calibrate_expert_following.py',ROOT/'scripts/research/public_cross_section_momentum.py',ROOT/'modules/collector_research/pipeline/economics.py',ROOT/'scripts/investment/public_sma_perpetual.py']
+    if p.get('input_view'):
+        bound += [ROOT/p['input_view'][key] for key in ('result','review','protocol','previous_predictions')]
+    for path in bound:
         assert hashlib.sha256(subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+str(path.resolve().relative_to(ROOT))])).hexdigest()==sha(path)
     group=Path('/sys/fs/cgroup'+Path('/proc/self/cgroup').read_text().split('::',1)[1].strip())
     assert (group/'memory.max').read_text().strip()!='max' and int((group/'memory.max').read_text())<=8_000_000_000 and (group/'memory.swap.max').read_text().strip()=='0'
@@ -179,10 +207,18 @@ def main():
     files=json.loads(lm.read_text())['files'];registered={x['symbol']:x for x in files}
     assert [x['symbol'] for x in files]==parent['symbols']
     admitted={str((Path(x['path']) if 'path' in x else work/x['relative_path']).absolute()):x['sha256'] for x in json.loads(manifest.read_text())['artifacts']}
+    view=verified_input_view(p['input_view'],p['core_symbols'],p['data_manifest_sha256']) if p.get('input_view') else None
+    if view:
+        derived={x['symbol']:x for x in view['derived_refs']}
+        old_predictions_path=ROOT/p['input_view']['previous_predictions']
+        assert sha(old_predictions_path)==p['input_view']['previous_predictions_sha256']
+        old_predictions=json.loads(old_predictions_path.read_text())
     frames=[];daily={};input_refs=[];available=None;cutoff=max(w['end'] for w in p['windows'])
     columns=['dt','symbol','close','decision_available_at','sma_signal',*FEATURES]
     for s in p['core_symbols']:
-        path=Path(registered[s]['path']).resolve();assert path.parent==lm.parent.resolve() and sha(path)==registered[s]['sha256']
+        if view:path=Path(derived[s]['past_path']).resolve()
+        else:
+            path=Path(registered[s]['path']).resolve();assert path.parent==lm.parent.resolve() and sha(path)==registered[s]['sha256']
         # Read only declared past columns, then the registered prelocked extent.
         f=pl.read_parquet(path,columns=columns).sort('dt')
         full_dt=f['dt'].dt.epoch('us').to_numpy();assert full_dt.max()<parent['locked_start_us']
@@ -192,7 +228,9 @@ def main():
         if available is None:available=av
         else:assert np.array_equal(available,av)
         frames.append(f)
-        norm=work/'data/normalized'/(s+'_daily.parquet');assert sha(norm)==admitted[str(norm)]
+        if view:norm=Path(derived[s]['daily_path'])
+        else:
+            norm=work/'data/normalized'/(s+'_daily.parquet');assert sha(norm)==admitted[str(norm)]
         g=pl.read_parquet(norm,columns=['dt','exec_price','mark_funding_per_unit','funding_interval_complete','complete_kline']).sort('dt')
         assert g['dt'].dt.epoch('us').max()<parent['locked_start_us']
         g=g.filter(pl.col('dt').dt.epoch('us')<=int(dt[-1]))
@@ -222,14 +260,29 @@ def main():
     completed+=1
     rows=[];predictions=[];actual_fits=0
     for scale in p['funding_scales']:
-        arrays_by_asset=[interval_arrays(f,np.arange(len(f)-2),scale) for f in daily.values()]
-        arrays=tuple(np.stack([x[k] for x in arrays_by_asset],axis=1) for k in range(4))
-        labels,reasons=reference_labels(weights,arrays,p['side_cost'],p['capital'],7,
-            lambda done,count:progress('LABELS',f'funding={scale} reference blocks {done}/{count}',label_rows=done,total_label_rows=count))
+        if view:
+            panel_ref=next(x for x in view['panel_refs'] if x['funding_scale']==scale)
+            with np.load(panel_ref['path'],allow_pickle=False) as panel:
+                assert np.array_equal(panel['decision_us'],available) and np.array_equal(panel['label_available_us'],maturity)
+                assert np.array_equal(panel['weights'],weights),'Frozen expert intent/order differs from reviewed view'
+                labels=panel['labels'].copy();saved_feedback=panel['feedback'].copy();saved_complete=panel['common'].copy()
+            reasons=next(x for x in view['coverage'] if x['scale']==scale)['invalid_label_reasons']
+            progress('LABELS',f'funding={scale}: reuse reviewed labels, no label or wallet recomputation')
+        else:
+            arrays_by_asset=[interval_arrays(f,np.arange(len(f)-2),scale) for f in daily.values()]
+            arrays=tuple(np.stack([x[k] for x in arrays_by_asset],axis=1) for k in range(4))
+            labels,reasons=reference_labels(weights,arrays,p['side_cost'],p['capital'],7,
+                lambda done,count:progress('LABELS',f'funding={scale} reference blocks {done}/{count}',label_rows=done,total_label_rows=count))
         feedback,last_source=feedback_panel(available,maturity,labels,p['anchor_us'])
         common=np.isfinite(market).all(1)&np.isfinite(feedback).all(1)
         assert np.all(last_source[common]<=available[common])
         complete=common&np.isfinite(labels).all(1)
+        if view:
+            assert np.array_equal(complete,saved_complete)
+            assert np.allclose(feedback,saved_feedback,atol=0,rtol=0,equal_nan=True)
+            bear=(available>=1640995200000000)&(maturity<1672531200000000)
+            slots=(available-p['anchor_us'])%WEEK_US==0
+            assert int((complete&bear).sum())==157 and int((complete&bear&slots).sum())==22
         features=dict(FEEDBACK=feedback,MARKET_INTENT=market,COMBINED=np.column_stack([market,feedback]))
         np.savez_compressed(state/f'REFERENCE_PANEL_{scale}.npz',decision_us=available,label_available_us=maturity,labels=labels,feedback=feedback,feedback_last_available_us=last_source,common=common)
         completed+=1
@@ -240,6 +293,11 @@ def main():
             train=np.flatnonzero(train_mask(available,maturity,complete,window['start'],p['embargo_days']))
             assert len(train)>=p['minimum_train_daily_rows'] and np.all(maturity[train]<window['start']-p['embargo_days']*DAY_US)
             ytrain=labels[train];actual=labels[val]
+            if view:
+                assert len(train)==p['input_view']['expected_train_rows'][window['id']]
+                golden=next(x for x in old_predictions if x['window']==window['id'] and x['funding_scale']==scale and x['input']=='FEEDBACK')
+                assert len(val)==25 and np.array_equal(available[val],golden['decision_us'])
+                assert np.allclose(actual,golden['actual_reference_utility'],atol=1e-12,rtol=0,equal_nan=True)
             train_constant=np.broadcast_to(ytrain.mean(0),actual.shape).copy();train_constant[:,3]=0.
             static=prediction_metrics(actual,train_constant)
             best_single=float(np.max(actual.mean(0)));oracle=float(actual.max(1).mean());gap=oracle-best_single
@@ -301,7 +359,7 @@ def main():
         RAM_group_peak_bytes=int((group/'memory.peak').read_text()) if (group/'memory.peak').exists() else None,
         limitations=p['limitations'])
     save(state/'PREDICTIONS.json',predictions);save(state/'RESULTS.json',result)
-    report=['# 联合市场与成熟反馈：固定Ridge信息筛选','',f'决定：{decision}；投资NONE/CASH。12主fit＋12负对照fit，零新钱包。',
+    report=['# '+p.get('title','联合市场与成熟反馈：固定Ridge信息筛选'),'',f'决定：{decision}；投资NONE/CASH。12主fit＋12负对照fit，零新钱包。',
         '', '|已见窗口|资金解释|输入|选择参考效用bp/周|比最佳单expert差bp|比过去赢家差bp|Oracle gap capture|错位负对照bp|',
         '|---|---:|---|---:|---:|---:|---:|---:|']
     for r in rows:
@@ -310,7 +368,7 @@ def main():
     report+=['','这是零入场7日follow、执行价格端点估值、扣entry/internal turnover/funding但不强制退出的reference utility，不是共享钱包净PnL/APR。',
         '所有资金解释都是同一市场路径的条件情景，不增加独立样本。验证周块不重叠；train日标签重叠，不把每日行数当独立样本。',
         '一次错位/匹配频率random仅负对照，不支持placebo95%或显著性。CASH reference0不等于实际已有仓位能免费清仓。',
-        '',*p['limitations'],'','复现：python -B scripts/research/joint_expert_information.py --protocol protocols/JOINT_EXPERT_INFORMATION_20261008.json --state /home/ubuntu/coin/execution-state/joint-information-NEW，须8GB/swap0/GPU0受限scope；完成/部分启动state不会自动重拟合。']
+        '',*p['limitations'],'',f'复现：python -B scripts/research/joint_expert_information.py --protocol {a.protocol} --state /home/ubuntu/coin/execution-state/joint-information-NEW，须8GB/swap0/GPU0受限scope；完成/部分启动state不会自动重拟合。']
     (state/'REPORT.md').write_text('\n'.join(report)+'\n');completed+=1
     save(state/'progress.json',dict(status='completed',stage='REPORT',phase='信息筛选完成',completed=completed,total=total,unit='任务',
         elapsed_seconds=result['elapsed_seconds'],updated_at=time.time(),detail=decision))
