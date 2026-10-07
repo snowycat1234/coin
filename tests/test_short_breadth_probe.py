@@ -1,5 +1,5 @@
 import numpy as np
-from scripts.research.probe_short_breadth import panel_features,forward_short,group_metric,contrast
+from scripts.research.probe_short_breadth import panel_features,forward_short,group_metric,contrast,shuffle_breadth
 
 def test_leave_one_out_and_ready_peers():
     x=np.ones((260,5))*100
@@ -27,3 +27,11 @@ def test_market_block_not_coin_weight_and_conditioning():
     assert np.isclose(z['mean_short_price_edge_after_roundtrip'],.2)
     b=np.array([[.2,.2,.2],[.7,.7,.7]])
     assert np.isclose(contrast(y,np.ones_like(y,dtype=bool),b)['spread'],-.2)
+
+def test_shuffle_keeps_early_late_peer_universe_and_nan_support():
+    b=np.array([[np.nan,np.nan],[np.nan,np.nan],[.2,.7],[.4,.8],[.9,.1]])
+    ready=np.array([[0,0],[0,0],[1,1],[1,1],[1,0]],dtype=bool)
+    fake,sizes=shuffle_breadth(b,ready,[np.ones(5,dtype=bool)],np.random.default_rng(9))
+    np.testing.assert_array_equal(np.isfinite(fake),np.isfinite(b))
+    np.testing.assert_array_equal(fake[-1],b[-1])
+    assert sorted(sizes)==[1,2,2]

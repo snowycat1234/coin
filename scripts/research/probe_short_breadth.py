@@ -50,6 +50,17 @@ def contrast(y,base,breadth):
     a=down['mean_short_price_edge_after_roundtrip']; b=up['mean_short_price_edge_after_roundtrip']
     return dict(broad_down=down,broad_up_or_tie=up,spread=None if a is None or b is None else a-b)
 
+def shuffle_breadth(breadth,ready,era_masks,rng):
+    """Keep each date's exact peer universe and finite coverage fixed."""
+    fake=breadth.copy(); strata={}
+    for e,era in enumerate(era_masks):
+        for i in np.flatnonzero(era):
+            key=(e,ready[i].tobytes(),np.isfinite(breadth[i]).tobytes())
+            strata.setdefault(key,[]).append(i)
+    for rows in strata.values():fake[rows]=breadth[rng.permutation(rows)]
+    assert np.array_equal(np.isfinite(fake),np.isfinite(breadth))
+    return fake,[len(v) for v in strata.values()]
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args()
     began=time.monotonic();p=json.loads(a.protocol.read_bytes());out=a.output.resolve()
@@ -102,9 +113,8 @@ def main():
         if mask.any():yearly[str(year)]=contrast(y[mask],own50[mask],breadth[mask])
     rng=np.random.default_rng(p['seed']);scores=[]
     for repeat in range(p['placebo_replicates']):
-        fake=breadth.copy()
-        for era in era_masks:
-            rows=np.flatnonzero(era);fake[rows]=breadth[rng.permutation(rows)]
+        fake,strata_sizes=shuffle_breadth(breadth,ready[ix],era_masks,rng)
+        assert np.array_equal(own50&np.isfinite(fake),own50), 'Placebo cannot change eligible label support'
         metric=contrast(y,own50,fake); scores.append(metric['spread'])
         if (repeat+1)%16==0:print(f'[PLACEBO] {repeat+1}/{p["placebo_replicates"]}',flush=True)
     values=[v for v in scores if v is not None]; assert len(values)==p['placebo_replicates']
@@ -128,7 +138,8 @@ def main():
         protocol=p,inputs=refs,coverage=coverage,cached_feature_scalar_max_errors=errors,nonoverlap_market_blocks=len(ix),
         all_negative_SMA200=group_metric(y,short),own50_reference=group_metric(y,own50),primary=primary,era_results=eras,year_results=yearly,
         lag60d=lagged,shuffle=dict(scores=values,percentile95=float(np.quantile(values,.95)),empirical_upper_tail=(1+sum(v>=primary['spread'] for v in values))/(1+len(values)) if primary['spread'] is not None else None,
-            scope='Noncausal diagnostic, joint date vectors within era; not a deployable strategy or exact independence test'),
+            strata_sizes=strata_sizes,permutable_blocks=sum(v for v in strata_sizes if v>1),
+            scope='Noncausal diagnostic, joint date vectors within era and exact same past-ready peer universe/finite mask; fixed label support; not a deployable strategy or exact independence test'),
         checks=checks,decision='REGISTER_ONE_SHARED_WALLET_CONFIRMATION' if all(checks.values()) else 'DO_NOT_RUN_NEW_CONTROLLER_OR_ACCOUNT_FROM_THIS_FACTOR',
         observations=records,new_models_fit=0,new_accounts=0,locked_consumed=False,qualification='NONE_CASH',
         elapsed_seconds=time.monotonic()-began,peak_process_RSS_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
