@@ -34,7 +34,7 @@ def save(path, value):
         f.write('\n')
 
 
-def inspect(row):
+def inspect(row, context):
     import polars as pl
     from modules.transformer_v3.storage import xor_decode
 
@@ -133,6 +133,9 @@ def inspect(row):
     recent = targets.filter(pl.col('available_us').is_between(clock-14*DAY, clock+7*DAY)).to_dicts()
     for x in recent:
         x['utc'] = utc(x['available_us'])
+        clock_row = context['rows'].get(x['available_us'])
+        if clock_row is not None:
+            x['past_market'] = clock_row
     episode_targets = targets.filter(pl.col('available_us').is_between(episode[0]['signal_us'], clock))
     rejected = [x for x in artifact('rejections.json', True) if x['symbol'] == symbol and episode_start <= x['event_us'] <= clock]
     breaches = artifact('breaches.json', True)
@@ -171,17 +174,34 @@ def main():
     report = json.loads(args.result.read_text())
     selected = [x for x in report['cases'] if x['liquidations']]
     assert len(selected) == 4
+    # Past feature context distinguishes relative losers from absolute downtrends.
+    # Reuse the manifest-checked daily reader; no return-label/locked-body access.
+    import numpy as np
+    from scripts.research.run_public_momentum import load_past_inputs
+    parent = json.loads((ROOT/'protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json').read_text())
+    close, available, refs = load_past_inputs(parent)
+    column = parent['symbols'].index('XRPUSDT')
+    rows = {}
+    for i in range(199, len(available)):
+        if 1729987200000000 <= available[i] <= 1732406400000000:
+            prices = close[i-199:i+1, column]
+            if np.isfinite(prices).all() and (prices > 0).all():
+                rows[int(available[i])] = dict(feature_available_us=int(available[i]), completed_close=float(prices[-1]),
+                    momentum21=float(prices[-1]/prices[-22]-1), sma200=float(prices.mean()), price_over_sma200_minus1=float(prices[-1]/prices.mean()-1))
+    context = dict(rows=rows, input_refs=refs, parent_protocol_sha256=sha(ROOT/'protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json'))
     cases = []
     for i, row in enumerate(selected, 1):
-        cases.append(inspect(row))
+        cases.append(inspect(row, context))
         save(args.state/f'CASE_{i}.json', cases[-1])
         print(f'[FORENSIC {i}/4] {cases[-1]["id"]} {cases[-1]["mechanism"]}', flush=True)
     result = dict(status='COMPLETE_READ_ONLY_LIQUIDATION_RECONSTRUCTION', parent_result_sha256=sha(args.result),
         source_commit=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD']).decode().strip(), inspector_sha256=sha(__file__),
-        cases=cases, new_wallets=0, new_fits=0, market_downloads=0, locked_consumed=False, qualification='NONE_CASH',
+        cases=cases, past_market_context_sources=context['input_refs'], parent_protocol_sha256=context['parent_protocol_sha256'],
+        new_wallets=0, new_fits=0, market_downloads=0, locked_consumed=False, qualification='NONE_CASH',
         elapsed_seconds=time.monotonic()-began, RAM_limit_bytes=int((group/'memory.max').read_text()),
         limitations=['Seen-development forensic, not new independent investment evidence.',
             'Descriptive collateral crossings are not selected stop parameters or counterfactual performance.',
+            'Entry cost basis is taken from the saved ledger, not independently reconstructed; account_breaches counts the whole window/portfolio.',
             'Minute mark liquidation and MMR=.005 are conditional research assumptions; not certified native Bybit rules.',
             'Financial and signal kernels unchanged; no claim that a protective exit would improve net returns.'])
     save(args.state/'RESULTS.json', result)
