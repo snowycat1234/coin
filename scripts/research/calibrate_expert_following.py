@@ -130,7 +130,7 @@ def main():
     assert sha(manifest_path) == parent['data_manifest_sha256'] == p['data_manifest_sha256']
     refs = {str((Path(x['path']) if 'path' in x else Path(parent['work']) / x['relative_path']).absolute()): x['sha256']
             for x in json.loads(manifest_path.read_text())['artifacts']}
-    frames = {}
+    frames, daily_us = {}, {}
     daily_refs = []
     columns = ['dt', 'exec_price', 'mark_funding_per_unit', 'funding_interval_complete', 'complete_kline']
     for s in w['active_symbols']:
@@ -139,12 +139,13 @@ def main():
         f = pl.read_parquet(path, columns=columns).sort('dt')
         dt = f['dt'].dt.epoch('us').to_numpy()
         assert np.all(np.diff(dt) == DAY_US) and dt.max() < parent['locked_start_us']
+        daily_us[s] = dt
         frames[s] = f.to_pandas()
         daily_refs.append(dict(path=str(path), sha256=sha(path)))
-    decision_rows = frames[w['active_symbols'][0]].dt.astype('int64').to_numpy() // 1000 + DAY_US
+    decision_rows = daily_us[w['active_symbols'][0]] + DAY_US
     idx = np.searchsorted(decision_rows, dates[:7])
     assert np.array_equal(decision_rows[idx], dates[:7])
-    assert all(np.array_equal(f.dt.astype('int64').to_numpy() // 1000 + DAY_US, decision_rows) for f in frames.values())
+    assert all(np.array_equal(dt + DAY_US, decision_rows) for dt in daily_us.values())
     selected = [parent['symbols'].index(s) for s in frames]
     proxies = {scale: proxy_rows(frames, idx, weights[:7, selected], scale, p['proxy_side_cost'], p['capital']) for scale in parent['funding_scales']}
     save(state / 'PROXY_BEFORE_WALLETS.json', dict(proxies=proxies, input_refs=input_refs, daily_refs=daily_refs,
