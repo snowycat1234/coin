@@ -531,3 +531,8 @@ binance/binance-public-data https://github.com/binance/binance-public-data pinne
 ## 2026-10-08 CSMOM absolute SHORT confirmation
 
 复用已登记NumPy、signed_risk_weights、native Decimal逐仓账户、lossless XOR storage/independent audit。public_targets新增默认false的薄absolute-sign确认，原默认5窗exactgolden；无新上游依赖/代码拷贝/修改/安装。Gary Antonacci作者页面 https://www.optimalmomentum.com/dual-relative-absolute-momentum/ 于2026-10-08核读，非软件release/commit；All Rights Reserved，仅方法引用、无文本/代码复制。相对与绝对momentum区分动机，不是GEM/12m原策略复现或crypto盈利保证。用户docxSHA d1415bc9dc18e275740465503b8394c7ad940eff803fd7e79c1f9fa78e5f513e及QlibTRA/DeePM/pysystemtrade原固定commit/license保持，未复制GPL代码或引入新训练框架。
+
+
+## 2026-10-08 Momentum hedge and survival diagnosis
+
+No new software/version/local upstream edits. Reuse existing NumPy, native saved journals/target arrays and signed covariance; stdlib independent reconciliation,0wallet/fit. Daniel & Moskowitz2016 JFE final author-hosted https://kentdaniel.net/papers/published/jfe_16.pdf (CC BY4.0, verified2026-10-08) method reference only: relative hedge/rebound risk and ex-ante-beta warning, no code/data copied. Barroso authorpage https://sites.google.com/site/pedromsbarroso/ verified2026-10-08 identifies2015 Momentum Has Its Moments and replication/errata; archive contents/license UNKNOWN, not copied/installed, full SSRN retrieval403. Cederburg etal2020 JFE https://www.lehigh.edu/~xuy219/research/COWY.pdf author-hosted paper, Elsevier All Rights Reserved, method caution only/no copy. These equity results do not validate crypto alpha or any new stop threshold. Existing docxSHA/QlibTRA/DeePM/pysystemtrade commits/licenses unchanged; no GPL copy.

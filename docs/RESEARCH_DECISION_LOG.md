@@ -1665,3 +1665,8 @@ Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed s
 ## 2026-10-08 CSMOM_ABSOLUTE_SHORT_20261008 completed
 
 事前cc02d62403d61c4c6c75f1ef511eb2d85119a46e；XRP相对弱而绝对上涨的已核反例，原weekly21day/K2/CORE5/多头保持，只增加daily own21d<0允许SHORT，释放预算留cash并二次cov仅下缩。5seen窗×2资金解释，10实钱包/10核身份控制、0fit/搜索，343.294秒。冻结gate {"no_liquidation": true, "all_vol_at_most12pct": true, "all_MDD_at_most12pct": true, "each_pair_net_or_DD_improves": false, "at_least8_of10_net_positive": true, "both2025_stages_SHORT_positive": true}，决定PAUSE_EXACT_CONFIRMATION_RECIPE；NONE/CASH。原默认target5窗exact、suffix/列顺序/逐腿不放大、11回归和20行JSON独立桥通过。完整资本、风险/费用/资金和方向增量见reports/CSMOM_ABSOLUTE_SHORT_20261008.md；原亏损/清算/静态mix失败保留。不同资金解释非独立，低gross或更高netbeta不等于同风险alpha。下一依据该配方决定继续固定规则跨熊市源核验或暂停精确配方，不扫exit/模型容量。
+
+
+## 2026-10-08 CSMOM_CONFIRMATION_DIAGNOSIS completed
+
+0新钱包/fit/搜索，5seen窗/20旧账户真实fills与targets只读。daily gate移除对冲触发额外signed covariance下缩，多头weight-days−9.75%至−14.08%；实付同周全平重开10/2/5/5/7。2024H2 SHORTgross+446.34被LONGgross−474.19抵消；Jul主要丢SHORTgross，2025H2额外cost44.83。不能把关联gatecost或weight-days当美元因果。维持PAUSE_EXACT_CONFIRMATION_RECIPE/NONE_CASH；保留原CSMOM/SMA及SHORT能力，不再扫此类gate。独立review发现LONG首次entry误标ADD，39795e1修正且v1保留，两次只读3.356秒/0钱包。来源/账本SHA及有限桥见reports/CSMOM_CONFIRMATION_DIAGNOSIS_20261008.md。下一优先原相对SHORT逐仓尾部生存/合法退出可行性，只读先核capacity/费用再冻结一个对照；不以避免一次清算宣称盈利。原ATR/selector/mix负结果与各reopen保持。
