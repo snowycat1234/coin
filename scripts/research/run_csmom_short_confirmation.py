@@ -20,6 +20,8 @@ def main():
     assert os.uname().sysname=='Linux' and state.parent==Path('/home/ubuntu/coin/execution-state')
     assert p['budget']['new_wallets']==10 and p['budget']['new_fits']==0 and p['funding_scales']==[1,.01]
     assert p['capital']==10000 and p['max_asset_abs']==.3 and p['max_gross']==.6 and p['leverage']==1
+    for name in p['input_reports']:assert sha(ROOT/name)==p['input_report_hashes'][name]
+    assert sha(ROOT/p['parent_protocol'])==p['parent_protocol_sha256']
     bound=[Path(__file__),a.protocol,ROOT/'scripts/research/public_cross_section_momentum.py',ROOT/'scripts/research/run_public_momentum.py']
     bound += [ROOT/x for x in p['input_reports']]
     for path in bound:
