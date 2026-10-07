@@ -143,6 +143,14 @@ def prediction_metrics(actual, predicted):
         switches=int(np.count_nonzero(np.diff(choice))), choices=choice.tolist())
 
 
+def research_decision(gates, joint_increment):
+    if gates['COMBINED'] and joint_increment:
+        return 'REGISTER_NATIVE_CANDIDATE_NEXT'
+    if any(gates[k] for k in INPUTS[:-1]):
+        return 'RETAIN_SIMPLER_INFORMATION_CANDIDATE'
+    return 'PAUSE_EXACT_RIDGE_INFORMATION_RECIPE'
+
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--state',type=Path,required=True);a=ap.parse_args()
     began=time.monotonic();p=json.loads(a.protocol.read_text());state=a.state.resolve()
@@ -279,7 +287,7 @@ def main():
     joint_increment=all(next(r for r in rows if r['window']==w['id'] and r['funding_scale']==s and r['input']=='COMBINED')['metrics']['mean_chosen_reference_utility']>
                         max(r['metrics']['mean_chosen_reference_utility'] for r in rows if r['window']==w['id'] and r['funding_scale']==s and r['input']!='COMBINED')
                         for w in p['windows'] for s in p['funding_scales'])
-    decision='REGISTER_NATIVE_CANDIDATE_NEXT' if family_gates['COMBINED'] and joint_increment else ('RETAIN_SIMPLER_INFORMATION_CANDIDATE' if any(family_gates.values()) else 'PAUSE_EXACT_RIDGE_INFORMATION_RECIPE')
+    decision=research_decision(family_gates,joint_increment)
     owned=sum(f.stat().st_size for f in state.rglob('*') if f.is_file())
     assert owned<=p['budget']['new_owned_bytes'] and time.monotonic()-began<=p['budget']['wall_seconds']
     result=dict(status='COMPLETE_REFERENCE_INFORMATION_SCREEN',source_commit=json.loads((state/'STARTED.json').read_text())['source_commit'],

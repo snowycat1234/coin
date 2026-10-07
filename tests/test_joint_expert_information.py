@@ -2,7 +2,7 @@
 import numpy as np
 from scripts.research.calibrate_expert_following import label_available_at
 from scripts.research.joint_expert_information import (
-    DAY_US, WEEK_US, feedback_panel, train_mask, same_switch_random, signed_intents, reference_available_at,
+    DAY_US, WEEK_US, feedback_panel, train_mask, same_switch_random, signed_intents, reference_available_at, research_decision,
 )
 
 
@@ -59,3 +59,11 @@ def test_future_price_and_direction_perturbation_keeps_past_intents():
     second=signed_intents(changed,other,d,names)
     assert np.array_equal(first[:220],second[:220])
     assert np.max(np.abs(first).sum(2))<=.6+1e-9
+
+
+def test_combined_only_gate_cannot_claim_a_qualified_simpler_model():
+    gates=dict(FEEDBACK=False,MARKET_INTENT=False,COMBINED=True)
+    assert research_decision(gates,False)=='PAUSE_EXACT_RIDGE_INFORMATION_RECIPE'
+    assert research_decision(gates,True)=='REGISTER_NATIVE_CANDIDATE_NEXT'
+    gates['FEEDBACK']=True
+    assert research_decision(gates,False)=='RETAIN_SIMPLER_INFORMATION_CANDIDATE'
