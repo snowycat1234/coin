@@ -467,3 +467,8 @@ Reuse existing frozen_expert_mixture.combine/verify, cta_cycle_window.daily_from
 ## 2026-10-08 Read-only SHORT routing diagnosis
 
 Reuse the repository's frozen oracle_expert_opportunity.optimal_path (SHA3b79a9d73cef1b3bf2a4171cff3ea62c0e6f0555b78e74f6c7bc08432fbe9e6f), prior expert_aggregation cache/proofs and all28 completed accounts. Existing NumPy/Polars/pytest versions/licenses unchanged; no external source copy, new package, trading kernel or model. Own Decimal closed-inventory journal check is an independent reference for diagnosis, not a replacement wallet. Research reference only: Garg/Goulding/Harvey/Mazzoleni, Momentum turning points, author PDF https://people.duke.edu/~charvey/Research/Published_Papers/P158_Momentum_turning_points.pdf; no code copied or licensed dependency introduced. Fixed60d shadow DP is noncausal and not an investable track record.
+
+
+## 2026-10-08 Read-only breadth probe
+
+Reuse existing collector breadth20/SMA feature definitions, NumPy/Polars/pytest and common manifest hashing. Own leave-one-out arithmetic and availability-preserving joint-date diagnostic only; no dependency, financial engine or third-party code copy. Existing versions/licenses unchanged. Both original preregistration and pre-run shuffle correction retained by Git.
