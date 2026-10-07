@@ -20,6 +20,13 @@ def metrics(pred,relative,experts,active):
         pairs=np.triu(np.abs(delta)>1e-12,1)
         if pairs.any():hit.append(float((np.sign(delta[pairs])==np.sign(estimated[pairs])).mean()))
     probabilities=pred['policy_probability'] if 'policy_probability' in pred else old_policy_probability(pred['utility'])
+    causal_mask=active&np.isfinite(probabilities).all(-1)
+    causal_p=probabilities[causal_mask].astype('float64')
+    if len(causal_p):causal_p=causal_p/causal_p.sum(-1,keepdims=True)
+    participation=dict(known_input_asset_samples=int(causal_mask.sum()),
+        mean_policy_probabilities={name:float(causal_p[:,i].mean()) if len(causal_p) else None for i,name in enumerate(('SMA','HOLD','CASH'))},
+        argmax_action_fractions={name:float((causal_p.argmax(-1)==i).mean()) if len(causal_p) else None for i,name in enumerate(('SMA','HOLD','CASH'))},
+        no_future_label_availability_filter=True,scope='SOFT_ACTION_PARTICIPATION; SMA_CAN_BE_SHORT_OR_LONG; NOT_ACTUAL_WALLET_EXPOSURE')
     mask=active&np.isfinite(experts).all(-1)&np.isfinite(probabilities).all(-1)
     u=experts[mask];p=probabilities[mask]
     if len(u):
@@ -39,4 +46,4 @@ def metrics(pred,relative,experts,active):
                 expert_action_hit_rate_non_tie=action_hit,valid_expert_asset_samples=int(mask.sum()),
                 score_horizon_days=30,expert_horizon_days=60,regret_scope='CONTINUOUS_DAILY_EXPERT_PROXY; NOT_NATIVE_WALLET_RETURN',
                 spread_scope='FUTURE30D_PRICE_SPREAD_WITHOUT_REBALANCE_COSTS_OR_LIQUIDATION; NOT_PORTFOLIO_NET',
-                future_labels_diagnostics_only=True,not_a_trade_availability_filter=True)
+                future_labels_diagnostics_only=True,not_a_trade_availability_filter=True,policy_participation=participation)

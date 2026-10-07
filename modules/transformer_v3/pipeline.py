@@ -1,7 +1,8 @@
 """Durable finite server pipeline, strict phase order, no restart of valid outputs.
 
-Source/protocol commits are explicit release gates; no automatic source editing,
-model search, locked tuning or destructive recovery is performed by this runner.
+Source commits are explicit release gates. The already authorized outcome-blind
+protocol is committed after completed replay analysis, without editing sources,
+model search, locked tuning or destructive recovery.
 """
 import argparse,json,os,platform,subprocess,sys,time
 from pathlib import Path
@@ -41,6 +42,22 @@ def require_release(state,repo):
             if proof.get('status')=='PASS_EVENT_ORDERING_AND_DEFAULT_GOLDEN' and all(sha(repo/n)==proof['sources'][n] for n in names):return
         progress(state,'WAIT_COMMITTED_EVENT_ORDERING_REPAIR_AND_TESTS');time.sleep(20)
 
+def commit_protocol(state,repo,relative):
+    if not committed(repo,relative):
+        # One generated metadata file only. Other staged/unstaged work is never
+        # included; no source recipe or parameter is changed by this operation.
+        subprocess.run(['git','-C',str(repo),'add','--',relative],check=True)
+        subprocess.run(['git','-C',str(repo),'-c','user.name=Codex','-c','user.email=codex@localhost',
+            'commit','--only','-m','Freeze oracle-policy protocol after complete v2 neutral replay analysis','--',relative],check=True)
+    if not committed(repo,relative):raise ValueError('Generated protocol not committed exactly')
+    head=subprocess.check_output(['git','-C',str(repo),'rev-parse','HEAD'],text=True).strip()
+    receipt=state/'PROTOCOL_COMMIT_RECEIPT.json'
+    value=dict(protocol_sha256=sha(repo/relative),committed_HEAD=head,source_editing=False)
+    if receipt.exists():
+        prior=json.loads(receipt.read_text())
+        if prior['protocol_sha256']!=value['protocol_sha256']:raise ValueError('Protocol commit receipt changed')
+    else:atomic(receipt,value)
+
 def run_module(state,module,args,expected=None):
     if expected is not None and expected.exists():
         prior=json.loads(expected.read_text())
@@ -52,6 +69,25 @@ def run_module(state,module,args,expected=None):
             progress(state,module,action='VERIFY_AND_REUSE_COMPLETED_OUTPUT')
     progress(state,module,action='RUN_OR_VALIDATE_AND_RESUME')
     subprocess.run([sys.executable,'-u','-m','modules.transformer_v3.'+module,*args],check=True)
+
+def run_cpu_gpu_modules(state,cpu_args,gpu_args,final=False):
+    label='PARALLEL_GPU_FINAL_FITS_AND_CPU_POLICY_WALLETS' if final else 'PARALLEL_GPU_POLICY_FITS_AND_CPU_HALF_CONTROLS'
+    progress(state,label)
+    children=[]
+    for module,args in (('evaluate_policy',cpu_args),('final_policy' if final else 'train_policy',gpu_args)):
+        child=subprocess.Popen([sys.executable,'-u','-m','modules.transformer_v3.'+module,*args]);children.append((module,child))
+    while children:
+        remaining=[]
+        for module,child in children:
+            code=child.poll()
+            if code is None:remaining.append((module,child))
+            elif code:
+                # Other independent work can retain its valid completed outputs;
+                # downstream development and locked stages are never released.
+                raise RuntimeError(module+' failed with exit '+str(code)+'; inspect preserved checkpoints/log')
+        children=remaining
+        progress(state,label,active_modules=[m for m,_ in children])
+        if children:time.sleep(10)
 
 def main():
     p=argparse.ArgumentParser()
@@ -69,14 +105,18 @@ def main():
         require_release(state,repo)
         proto='reports/transformer_v3/TRANSFORMER_V3_PROTOCOL.json'
         if not (repo/proto).exists():run_module(state,'protocol',['--state',a.state])
-        while not committed(repo,proto):progress(state,'WAIT_COMMITTED_PROTOCOL_BEFORE_ANY_POLICY_FIT');time.sleep(20)
+        commit_protocol(state,repo,proto)
         progress(state,'PROTOCOL_COMMITTED',protocol_sha256=sha(repo/proto),workers=workers)
-        # This fixed risk comparison receives priority before any new policy fit.
-        run_module(state,'evaluate_policy',[*full_args,'--half-controls-only','--workers',str(workers)],state/'half-controls/HALF_CONTROL_RESULTS.json')
         train_args=['--state',a.state,'--collector-root',a.collector_root,'--work',a.work,'--source-run',a.source_run]
-        run_module(state,'train_policy',train_args,state/'POLICY_FIT_PROGRESS.json')
-        run_module(state,'final_policy',train_args,state/'POLICY_FINAL_FITS.json')
-        run_module(state,'evaluate_policy',[*full_args,'--workers',str(workers)],state/'policy-development/POLICY_DEVELOPMENT_RESULTS.json')
+        half_args=[*full_args,'--half-controls-only','--workers',str(workers)]
+        proto_data=json.loads((repo/proto).read_text())
+        if proto_data['neutral_replay_gate']:
+            # User priority: a stable repaired old neutral signal first receives
+            # the fixed risk-budget check before adding new policy supervision.
+            run_module(state,'evaluate_policy',half_args,state/'half-controls/HALF_CONTROL_RESULTS.json')
+            run_module(state,'train_policy',train_args,state/'POLICY_FIT_PROGRESS.json')
+        else:run_cpu_gpu_modules(state,half_args,train_args)
+        run_cpu_gpu_modules(state,[*full_args,'--workers',str(workers)],train_args,final=True)
         run_module(state,'development_report',['--state',a.state,'--v2-state',a.v2_state,'--source-run',a.source_run],state/'TRANSFORMER_V3_DEV_RESULTS.json')
         run_module(state,'locked_bridge_data',full_args)
         run_module(state,'locked_evaluate',[*full_args,'--workers',str(workers)],state/'IMPUTED_LOCKED_SENSITIVITY.json')

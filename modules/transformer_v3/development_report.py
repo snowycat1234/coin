@@ -17,6 +17,15 @@ def compact(case,profile):
                liquidation_loss_USDT=s['liquidation_loss_USDT'],liquidation_counts_by_symbol=s['liquidation_counts_by_symbol'],
                reentry_after_liquidation=s['reentry_after_liquidation'],execution_cost_USDT=s['execution_cost_USDT'],
                stopped_prefix_NAV_USDT=s['NAV'] if not row['full_calendar_and_paid_cash'] else None)
+    task=case['task']
+    if sha(task['target_path'])!=task['target_sha256']:raise ValueError('Frozen economic targets changed')
+    with np.load(task['target_path']) as f:
+        mask=(f['decision_us']>=task['window']['start'])&(f['decision_us']<task['window']['end']);w=f['weights'][mask].copy()
+    w[-1]=0.
+    row['causal_target_participation']=dict(mean_long_weight=float(np.maximum(w,0.).sum(1).mean()),
+        mean_short_abs_weight=float(np.maximum(-w,0.).sum(1).mean()),mean_target_gross=float(np.abs(w).sum(1).mean()),
+        all_cash_decision_fraction=float((np.abs(w).sum(1)<=1e-12).mean()),
+        terminal_day_cash_target_included=True,scope='DECLARED_KNOWN_INPUT_TARGETS; NOT_FUTURE_LABEL_VALIDITY_OR_ACTUAL_FILL_EXPOSURE')
     return row
 
 def profile_comparison(rows,models):

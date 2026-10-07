@@ -8,7 +8,7 @@
 
 十个 Bybit risk-limit 公开请求均 HTTP403；当前声明原研究 MMR=.005、MMD=0 的条件假设。实现 Mark-trigger / cancel intents / isolated bankruptcy takeover / 不返还保险基金剩余 / wallet 和其他仓位继续 / 下一正常 rebalance 可重新开仓。通用 laddered IOC 已验证，但不虚构未观测容量，未证明真实最低风险档位；分钟 mark 也不是交易所逐笔强平认证。
 
-两个真实窗口probe已完成；FULL全批864行（720原模型任务、72旧控制、36暴露、36corrected oracle）实际执行新钱包，保存后仅byte-identical文件引用保护旧工件。旧完整且新无强平账户必须经济一致≤1e-7 USDT。已保存“Mark强平与funding同clock”反例；当前批次结束后修复独立校验的排序，已有批次源码绑定不改写。先分析neutral/combined及原111个原因，再冻结v3协议，绝不提前fit。
+两个真实窗口probe已完成；FULL全批864行（720原模型任务、72旧控制、36暴露、36corrected oracle）实际执行新钱包，保存后仅byte-identical文件引用保护旧工件。旧完整且新无强平账户必须经济一致≤1e-7 USDT。已保存“Mark强平与funding同clock”反例，并在独立后续执行checkout修复独立校验的排序；默认普通账户经济一致，旧批次源码绑定不改写。先完成旧回放及neutral/combined分析，再使用已验证的新校验继续后续实验，绝不提前fit。
 
 后续有限模块已实现：348个固定HALF旧对照；2类小policy模型、3seed、5fold×2fund，共60开发fit及12过去数据final fit；576个新开发钱包；模型、profile、weights完全冻结后10个独立输入源（5bridge×2fund），400个184日封存比较。只用FULL .60/HALF .30、K2，不Optuna、不温度搜索、不winner seed。协议文件必须在实际864回放及neutral分析后生成并commit，当前模板不构成已放行训练。
 
@@ -16,7 +16,7 @@ teacher复用严格成熟的cost-aware日频SMA/HOLD/CASH utility，60日purge/e
 
 新钱包保存使用无损gzip原JSON字节与Float64 XOR/Parquet。XOR的每个原始位与残差保留，公共Mark参考SHA绑定；读取金融列必须经storage.hydrated_account还原原schema后再核验，物理压缩文件不是直接可读的Float64账本。实际182日36.52MB分钟文件压至2.25MB，所有浮点位完全一致。旧文件不压缩、不改写。
 
-pipeline.py为持久有限编排器，失败保存且最多一次原生任务/fit重试；完成产物按SHA复用，不重跑前面的训练。它会等待当前864服务，再分析、等待已commit的同clock校验修复与测试、生成协议、等待协议commit，然后按规定顺序推进。未完成的发布门禁写明确WAIT状态，不自改源文件。最终逐项回答用户11个问题，五bridgeheadline全部min/median/max和经济判断一致性；原formal v2 N/E不变。
+pipeline.py为持久有限编排器，失败保存且最多一次原生任务/fit重试；完成产物按SHA复用，不重跑前面的训练。它等待当前864服务，再分析、核已commit的同clock校验修复与测试，生成并仅commit授权的协议元数据文件，然后按规定顺序推进。不自改源文件。若修复后的旧neutral已通过稳定门槛，优先固定HALF旧对照；否则GPU训练与CPU HALF对照并行。GPU fit并行度取实际GPU显存和CPU配置，本次4090为2个独立任务，优化器/batch/seed/模型数不变。最终past-only拟合与576开发钱包并行，全部完成并冻结后才运行封存敏感性。最终逐项回答用户11个问题，五bridgeheadline全部min/median/max和经济判断一致性；原formal v2 N/E不变。
 
 运行入口：`python -m modules.transformer_v3.replay --state <NEW_STATE> --v2-state <READ_ONLY_V2_STATE> --workers 10`。`--probe-only --workers 2` 为两个真实窗口。服务采用服务器实际配置，未添加 CPU/RAM/墙钟限制；本机仅源码与小证据，不运行科学计算。持久进度 replay-progress.json，逐账户 progress.json 提供实际分钟数。
 

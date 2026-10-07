@@ -16,3 +16,5 @@ def test_unmature_future_diagnostics_remain_missing_without_censoring_targets():
     r=metrics(pred,np.full((2,4,3),np.nan),np.full((2,4,3),np.nan),np.ones((2,4),bool))
     assert r['valid_rank_days']==0 and r['valid_expert_asset_samples']==0
     assert r['rank_IC_mean'] is None and r['mean_soft_policy_oracle_regret'] is None
+    assert r['policy_participation']['known_input_asset_samples']==8
+    assert np.isclose(r['policy_participation']['mean_policy_probabilities']['CASH'],1/3)

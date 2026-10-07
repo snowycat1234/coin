@@ -5,7 +5,7 @@ import torch
 from .teachers import future_direction,training_teacher_view,robust_gap_scale
 from .policy_model import OraclePolicyTransformer,policy_objective
 from .policy_portfolio import policy_targets
-from .train_policy import InferenceSamples
+from .train_policy import InferenceSamples,gpu_fit_workers
 
 def test_direction_requires_whole_horizon_and_does_not_bridge_missing_day():
     close=np.arange(1.,41.)[:,None]*np.ones((1,2));close[15,1]=np.nan
@@ -65,3 +65,8 @@ def test_inference_dataset_never_reads_labels_even_when_none_exist():
     d=dict(x=np.ones((300,4,2)),availability=np.ones((300,4),bool))
     batch=InferenceSamples(d,[299],(np.zeros(2),np.ones(2)))[0]
     assert len(batch)==3 and batch[0].shape==(256,4,2)
+
+def test_gpu_parallel_execution_capacity_uses_hardware_without_adding_fits():
+    assert gpu_fit_workers(24*2**30,10)==2
+    assert gpu_fit_workers(12*2**30,10)==1
+    assert gpu_fit_workers(80*2**30,8)==4

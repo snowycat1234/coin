@@ -10,6 +10,7 @@ from modules.transformer_v2.train import atomic,sha
 from .storage import pack_case,hydrated_account
 from .market_reference import prepare_reference
 from .market_binding import prepare_binding,verify_binding
+from .isolated_audit import verify as verify_isolated
 
 DAY=86_400_000_000
 
@@ -99,7 +100,7 @@ def native_worker(task):
         full=saved['summary']['completed_minutes']==saved['summary']['required_minutes']
         pack_case(saved,directory,task['mark_reference'] if full else None)
         with hydrated_account(directory,attempt/'audit-scratch') as hydrated:
-            audit=data.independent.verify(hydrated,symbols,scale)
+            audit=verify_isolated(hydrated,symbols,scale)
         atomic(attempt/'INDEPENDENT_AUDIT.json',audit)
         value=dict(binding=binding,task=task,summary=saved['summary'],artifacts=saved['artifacts'],independent_audit=audit,
                    summary_path=str(directory/'summary.json'),summary_sha256=sha(directory/'summary.json'),

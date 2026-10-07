@@ -111,6 +111,7 @@ class BybitIsolatedAccount(USDTLinearPerpetualAccount):
                     self.trades[-1]['liquidation_partial_IOC']=True
                     # Partial IOC is an exchange instruction, not a strategy request.
                     self.trades[-1]['exchange_liquidation_instruction']=True
+                    self.trades[-1]['liquidation_phase']=phase
                     self.liquidation_ioc_capacity[symbol]=capacity-filled
                     if not p.quantity:break
                     index,tier=self._tier(symbol,abs(p.quantity)*mark)

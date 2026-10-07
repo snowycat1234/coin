@@ -45,14 +45,17 @@ def verify_direction_targets(frame,predictions,bars,symbols,mode,regimes=None):
     return dict(status='PASS_INDEPENDENT_GATE_CASH_AND_ORDERED_PAST_COVARIANCE_TARGETS',rows=frame.height,
         maximum_weight_error=error,mode=mode,gate_used=regimes is not None)
 
-def verify(directory, symbols, unit_scale):
+def verify(directory, symbols, unit_scale, *, event_priorities=None):
     p = Path(directory)
     minute = pl.read_parquet(p/'minute_nav_inventory.parquet')
     summary = json.loads((p/'summary.json').read_bytes())
     trades = json.loads((p/'trades.json').read_bytes())
     funds = json.loads((p/'funding.json').read_bytes())
     times = minute['close_us'].to_numpy()
-    stream = sorted([(r['event_us'], 1, i, r) for i, r in enumerate(trades)]+
+    priorities = event_priorities or {}
+    if any(not isinstance(i,int) or not 0<=i<len(trades) or priority!=-1 for i,priority in priorities.items()):
+        raise ValueError('Only explicitly witnessed pre-funding exchange trades may change default journal priority')
+    stream = sorted([(r['event_us'], priorities.get(i,1), i, r) for i, r in enumerate(trades)]+
                     [(r['event_us'], 0, i, r) for i, r in enumerate(funds)], key=lambda x:x[:3])
     D = Decimal
     q = {s:D(0) for s in symbols}

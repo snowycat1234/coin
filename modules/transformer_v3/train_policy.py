@@ -3,7 +3,7 @@
 No fitting entry is released until the full frozen-v2 replay has been analyzed
 and a committed v3 protocol names that evidence and the fixed model budget.
 """
-import argparse,json,os,platform,random,subprocess,time
+import argparse,concurrent.futures,json,multiprocessing,os,platform,random,subprocess,time
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -16,6 +16,45 @@ from .policy_model import OraclePolicyTransformer,policy_objective
 
 FAMILIES=('ORACLE_POLICY_CROSS_ASSET','ORACLE_POLICY_PATCH_CROSS_ASSET')
 SEEDS=(20261006,20261007,20261008)
+
+def gpu_fit_workers(total_gpu_bytes,cpu_count):
+    # Fixed execution capacity estimate, not a model/fit-budget search. Reserve
+    # space for CUDA context/validation; all fits keep the same batch and recipe.
+    return max(1,min(cpu_count//2,max(1,(total_gpu_bytes-4*2**30)//(8*2**30))))
+
+def initialize_gpu_worker(collector_root,work,source_run,binding,workers):
+    global _GPU_DATA,_GPU_BINDING
+    torch.set_num_threads(max(1,len(os.sched_getaffinity(0))//workers))
+    _GPU_DATA=load_teacher_development(collector_root,work,source_run);_GPU_BINDING=binding
+    repo=Path(__file__).resolve().parents[2]
+    if any(sha(repo/n)!=v for n,v in binding['sources'].items()) or _GPU_DATA['teacher_receipts']!=binding['teacher_sources']:raise ValueError('GPU worker recipe or teacher source changed')
+
+def fit_development_task(task):
+    d=_GPU_DATA;binding=_GPU_BINDING;scenario=task['scenario'];fi=task['fold'];fold=d['folds'][fi-1]
+    family,seed=task['family'],task['seed'];base=Path(task['base']);done=base/'FIT_COMPLETE.json'
+    if done.exists():
+        r=json.loads(done.read_text())
+        if r['binding']!=binding or sha(base/'refit/PREDICTIONS.npz')!=r['prediction_sha256']:raise ValueError('Frozen prediction identity changed')
+        for phase in ('inner','refit'):
+            result=json.loads((base/phase/'RESULT.json').read_text())
+            if result['binding']!=binding or sha(base/phase/'weights.pt')!=result['weights_sha256'] or sha(base/phase/'scaler.npz')!=result['scaler_sha256']:raise ValueError('Frozen fit identity changed')
+        return r
+    active=np.array([s in fold['active'] for s in d['symbols']]);train=np.array(sorted({i for _,_,i in fold['train']}))
+    training_teacher_view(d,train,fold['cutoff'],active)
+    inner,valid=chronological_inner(train,d['dates'],d['label_end']);inner_cutoff=d['dates'][valid[0]]-pd.Timedelta(days=60)
+    context=dict(fold=fi,status=base/'fit-progress.json',stage='POLICY_INNER_SELECTION',outer_cutoff=fold['cutoff'])
+    for attempt in range(2):
+        try:
+            selected=fit_phase(d,inner,valid,scenario,active,family,seed,base/'inner',40,True,binding,context,inner_cutoff)
+            context['stage']='POLICY_FIXED_EPOCH_REFIT'
+            fit_phase(d,train,[],scenario,active,family,seed,base/'refit',selected['best_epoch'],False,binding,context,fold['cutoff'])
+            infer(d,fold['calendar'],family,base/'refit')
+            value=dict(binding=binding,fold=fi,family=family,seed=seed,scenario=task['tag'],best_epoch=selected['best_epoch'],
+                active=fold['active'],prediction_sha256=sha(base/'refit/PREDICTIONS.npz'))
+            atomic(done,value);return value
+        except Exception as exc:
+            atomic(base/f'FAILURE_ATTEMPT_{attempt+1}.json',dict(error_type=type(exc).__name__,error=str(exc),time=time.time()))
+            if attempt==1:raise
 
 class InferenceSamples(Dataset):
     """Only past inputs; no label/teacher access, including unmature inference rows."""
@@ -146,33 +185,34 @@ def main():
     if path.exists():
         if json.loads(path.read_text())!=binding:raise ValueError('Training source recipe changed; preserve fits')
     else:atomic(path,binding)
-    completed=0;total=60;status=state/'policy-train-progress.json'
+    completed=0;total=60;tasks=[]
     for scenario,tag in enumerate(('raw_fraction','raw_percent')):
       for fi,fold in enumerate(d['folds'],1):
-        active=np.array([s in fold['active'] for s in d['symbols']]);train=np.array(sorted({i for _,_,i in fold['train']}))
-        training_teacher_view(d,train,fold['cutoff'],active)
-        inner,valid=chronological_inner(train,d['dates'],d['label_end']);inner_cutoff=d['dates'][valid[0]]-pd.Timedelta(days=60)
         for family in FAMILIES:
           for seed in SEEDS:
-            base=state/'policy-fits'/tag/f'fold{fi}'/family/f'seed{seed}';done=base/'FIT_COMPLETE.json'
-            if done.exists():
-                r=json.loads(done.read_text())
-                if r['binding']!=binding or sha(base/'refit/PREDICTIONS.npz')!=r['prediction_sha256']:raise ValueError('Frozen prediction identity changed')
-                completed+=1;continue
-            context=dict(fold=fi,status=status,stage='POLICY_INNER_SELECTION',outer_cutoff=fold['cutoff'])
-            for attempt in range(2):
-                try:
-                    selected=fit_phase(d,inner,valid,scenario,active,family,seed,base/'inner',40,True,binding,context,inner_cutoff)
-                    context['stage']='POLICY_FIXED_EPOCH_REFIT'
-                    fit_phase(d,train,[],scenario,active,family,seed,base/'refit',selected['best_epoch'],False,binding,context,fold['cutoff'])
-                    infer(d,fold['calendar'],family,base/'refit')
-                    atomic(done,dict(binding=binding,fold=fi,family=family,seed=seed,scenario=tag,best_epoch=selected['best_epoch'],
-                                    active=fold['active'],prediction_sha256=sha(base/'refit/PREDICTIONS.npz')));break
-                except Exception as exc:
-                    atomic(base/f'FAILURE_ATTEMPT_{attempt+1}.json',dict(error_type=type(exc).__name__,error=str(exc),time=time.time()))
-                    if attempt==1:raise
-            completed+=1;print(f'POLICY FIT {completed}/{total}: {tag} fold{fi} {family} seed{seed}',flush=True)
-            atomic(state/'POLICY_FIT_PROGRESS.json',dict(status='RUNNING',completed=completed,total=total,pid=os.getpid(),updated_at=time.time()))
+            tasks.append(dict(scenario=scenario,tag=tag,fold=fi,family=family,seed=seed,base=str(state/'policy-fits'/tag/f'fold{fi}'/family/f'seed{seed}')))
+    workers=gpu_fit_workers(torch.cuda.get_device_properties(0).total_memory,len(os.sched_getaffinity(0)))
+    atomic(state/'POLICY_EXECUTION_CAPACITY.json',dict(gpu_fit_workers=workers,total_gpu_bytes=torch.cuda.get_device_properties(0).total_memory,
+        CPU_affinity=len(os.sched_getaffinity(0)),fit_budget=60,algorithm_or_batch_changed=False))
+    del d
+    with concurrent.futures.ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn'),
+        initializer=initialize_gpu_worker,initargs=(a.collector_root,a.work,a.source_run,binding,workers)) as pool:
+        pending={pool.submit(fit_development_task,t):t for t in tasks}
+        while pending:
+            done,_=concurrent.futures.wait(pending,timeout=5,return_when=concurrent.futures.FIRST_COMPLETED)
+            for f in done:
+                task=pending.pop(f);f.result();completed+=1
+                print(f'POLICY FIT {completed}/{total}: {task["tag"]} fold{task["fold"]} {task["family"]} seed{task["seed"]}',flush=True)
+            details=[]
+            for task in pending.values():
+                path=Path(task['base'])/'fit-progress.json'
+                if path.exists() and not (Path(task['base'])/'FIT_COMPLETE.json').exists():
+                    detail=json.loads(path.read_text())
+                    if Path('/proc',str(detail['pid'])).exists():details.append(detail)
+            if details:
+                details.sort(key=lambda r:r['updated_at'],reverse=True)
+                atomic(state/'policy-train-progress.json',dict(details[0],active_fit_progress=details))
+            atomic(state/'POLICY_FIT_PROGRESS.json',dict(status='RUNNING',completed=completed,total=total,gpu_fit_workers=workers,pid=os.getpid(),updated_at=time.time()))
     atomic(state/'POLICY_FIT_PROGRESS.json',dict(status='COMPLETE',completed=completed,total=total,pid=os.getpid(),updated_at=time.time()))
 
 if __name__=='__main__':main()

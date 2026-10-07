@@ -1,0 +1,12 @@
+..........................                                               [100%]
+=============================== warnings summary ===============================
+modules/transformer_v3/test_teachers_policy.py::test_training_teacher_requires_maturity_before_embargo_cutoff_and_never_locked
+  /home/ubuntu/coin/transformer-v3-policy-execution-repository/modules/transformer_v3/test_teachers_policy.py:18: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    d=dict(dates=dates,label_end=dates+pd.Timedelta(days=61,seconds=60),ready=np.ones((100,2),bool),
+
+modules/transformer_v3/test_teachers_policy.py::test_training_teacher_requires_maturity_before_embargo_cutoff_and_never_locked
+  /home/ubuntu/coin/transformer-v3-policy-execution-repository/modules/transformer_v3/teachers.py:35: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    if not ((d['dates'][indices]+pd.Timedelta(days=31))<cutoff).all():raise ValueError('Unmature direction/rank horizon')
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+26 passed, 2 warnings in 11.73s
