@@ -526,3 +526,8 @@ binance/binance-public-data https://github.com/binance/binance-public-data pinne
 ## 2026-10-08 Fixed trend stage extension
 
 无新上游依赖/代码复制/修改。复用已登记SMA200/public CSMOM固定adapter、signed covariance、native Decimal隔离账户、lossless storage/独立审计；fixed_trend_blend.py仅补来源分段与全过去日历编排，review_fixed_trend_extension.py为stdlib独立JSON算术。QlibTRA/DeePM/pysystemtrade固定commit/license仍见附件条目；不声称复现其模型或移植GPL内核。原12目标golden/18真实模拟钱包、0fit，静态组合失去全净正且XRP有尾部清算，暂停无条件配方，先核既有风险退出能力而非增加routing容量。
+
+
+## 2026-10-08 CSMOM absolute SHORT confirmation
+
+复用已登记NumPy、signed_risk_weights、native Decimal逐仓账户、lossless XOR storage/independent audit。public_targets新增默认false的薄absolute-sign确认，原默认5窗exactgolden；无新上游依赖/代码拷贝/修改/安装。Gary Antonacci作者页面 https://www.optimalmomentum.com/dual-relative-absolute-momentum/ 于2026-10-08核读，非软件release/commit；All Rights Reserved，仅方法引用、无文本/代码复制。相对与绝对momentum区分动机，不是GEM/12m原策略复现或crypto盈利保证。用户docxSHA d1415bc9dc18e275740465503b8394c7ad940eff803fd7e79c1f9fa78e5f513e及QlibTRA/DeePM/pysystemtrade原固定commit/license保持，未复制GPL代码或引入新训练框架。
