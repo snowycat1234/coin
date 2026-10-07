@@ -57,6 +57,10 @@ def native_worker(task):
         binding['market_input_manifest_sha256']=task['market_input_manifest_sha256']
     verify_binding(task['native_market_binding_path'],task['native_market_binding_sha256'])
     binding['native_market_binding_sha256']=task['native_market_binding_sha256']
+    if task.get('position_protection'):
+        if task['position_protection']!='SHORT_HALF_COLLATERAL_SIGNAL_RESET':raise ValueError('Unregistered protection recipe')
+        from scripts.investment.short_collateral_protection import ShortCollateralProtection
+        binding['position_protection']=ShortCollateralProtection.rules
     path=base/'RESULT.json'
     if path.exists():
         result=json.loads(path.read_text());data.saved_case_valid(result,binding);return result
@@ -90,9 +94,12 @@ def native_worker(task):
             return targets,dict(source='FROZEN_POLICY_OR_CONTROL_TARGET',mapping=task['mapping'],risk_profile=task['profile'],
                                 native_initial_capital=10000,no_spliced_return=True,teacher_inference_input=False)
         scale=task['funding_scale']
+        protection_options={}
+        if task.get('position_protection'):
+            protection_options['position_protection']=ShortCollateralProtection(targets)
         case=data.engine.simulate(inputs,'LONG_SHORT',data.engine.COSTS[0],dict(id='RAW_AS_FRACTION' if scale==1 else 'RAW_AS_PERCENT',scale=scale),
               data.Reporter(base/'progress.json',task['id']),runtime.kernel_guard,target_factory=factory,
-              account_factory=partial(profile_account,profile=task['profile']),persist_cash_close=True)
+              account_factory=partial(profile_account,profile=task['profile']),persist_cash_close=True,**protection_options)
         verify_binding(task['native_market_binding_path'],task['native_market_binding_sha256'])
         directory=attempt/'account';saved=data.engine.save_case(case,directory);atomic(directory/'summary.json',saved['summary']);del case,inputs,targets
         # An unobserved held-data prefix or true whole-wallet insolvency remains

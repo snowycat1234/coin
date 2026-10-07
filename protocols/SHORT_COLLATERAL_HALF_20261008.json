@@ -1,0 +1,171 @@
+{
+  "experiment_id": "SHORT_COLLATERAL_HALF_20261008",
+  "parent_commit": "f26bf1be817a17a1361a2b6b5787da2d8217f82a",
+  "question": "Can a wide isolated SHORT equity budget preserve relative hedges and improve tail economics without destroying decline-stage SHORT gains?",
+  "hypothesis": "Verified XRP half-collateral witness had37h lead time and original1min/prior-volume full-close capacity. A fixed rare loss-budget exit may avoid collateral exhaustion with less continuous hedge removal than absolute-direction gates.",
+  "data_role": "ALL_SEEN_DEVELOPMENT_ONLY; five existing source-defined stages, independent full10k wallets; neither newOOS nor investment qualification",
+  "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "core_symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "windows": [
+    {
+      "id": "fold1-2024-01-02",
+      "fold": 1,
+      "start": 1704153600000000,
+      "end": 1719878400000000,
+      "days": 182,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold2-2024-07-02",
+      "fold": 2,
+      "start": 1719878400000000,
+      "end": 1723420800000000,
+      "days": 41,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold2-2024-08-13",
+      "fold": 2,
+      "start": 1723507200000000,
+      "end": 1735776000000000,
+      "days": 142,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold3-2025-01-02",
+      "fold": 3,
+      "start": 1735776000000000,
+      "end": 1751414400000000,
+      "days": 181,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold4-2025-07-02",
+      "fold": 4,
+      "start": 1751414400000000,
+      "end": 1767312000000000,
+      "days": 184,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    }
+  ],
+  "funding_scales": [
+    1,
+    0.01
+  ],
+  "capital": 10000,
+  "max_asset_abs": 0.3,
+  "max_gross": 0.6,
+  "leverage": 1,
+  "automatic_margin_topup": false,
+  "recipe": {
+    "id": "SHORT_HALF_COLLATERAL_SIGNAL_RESET",
+    "only_change": "Only held SHORT: observed post-mark/funding isolated equity<=.5current collateral triggers persistent paid reduce-only full close. No LONG stop/filter; original targets and all fees/funding/caps unchanged.",
+    "clock": "Completed minute mark T; original ExecutionContract earliest T+60s+1us trade open, previous completed minute quote*.001/open capacity. Mark/funding liquidation occurs first; no retroactive rescue.",
+    "reentry": "At a daily decision the original frozen expert target is nonnegative AND actual position is flat. No latch: if not flat at that nonshort decision and next decision is SHORT, stay blocked. Terminal paid-flat override is preserved.",
+    "choice_rationale": "50% is a single wide collateral loss-budget choice informed by the already-seen forensic witness, not an optimized alpha threshold. No.25/.1 or ATR/exit/cooldown scan.",
+    "risk_dependency": "Hard nominal reduction retains original priority/bounded-halt. Protective loss exit changes gross/net/covariance exposure; original external10%cov targets are unchanged and actual post-stop weights can depart. Report actual vol/DD and do not claim matched-risk alpha or guaranteed safety."
+  },
+  "source_updates": {
+    "scripts/investment/perpetual_directional.py": {
+      "old": "c6423f6a83e6dcf64e1f43e16b96626c3fab1b145b7d88d55586b2b43bf40d77",
+      "current": "805c786ea647e09965e70df59331efe49d8c24bb097ab0180c5f94a5f4737ec6"
+    },
+    "modules/transformer_v3/wallet.py": {
+      "old": "5299a56a198dd215118bacf63a3c50d544f740922091a8a65fc1c584fed903e6",
+      "current": "f5add80f6ab41279bdd7cf6012c53864431229e3cfe4dae3fba348f4d346b75e"
+    }
+  },
+  "added_sources": {
+    "scripts/investment/short_collateral_protection.py": "ff4d49b05e72df118abdcbb745f5aaac9ceadaa4a08eba8a22214db5abbe4785"
+  },
+  "activity_sources": [
+    "scripts/investment/perpetual_directional.py",
+    "modules/transformer_v3/wallet.py",
+    "scripts/investment/short_collateral_protection.py",
+    "scripts/research/run_short_collateral_protection.py",
+    "tests/test_short_collateral_protection.py"
+  ],
+  "input_reports": {
+    "reports/CSMOM_ABSOLUTE_SHORT_20261008.json": "8da91688f51ae084958b763e485e0dea4880afd3402252a0dc321d7e60540fd9",
+    "reports/CSMOM_CONFIRMATION_DIAGNOSIS_20261008.json": "4c09e7350a8ad812a6dc088ffab0fcdcb1448d1888f1e33ff8d3f3fb420d8b18",
+    "reports/SHORT_EXIT_CAPACITY_20261008.json": "9bf09af6a5bab0fb65c5f011657a08699b3f937d15960f63b2e54f611716c874",
+    "reports/SHORT_COLLATERAL_TESTS_20261008.xml": "949fc598cd783a3f54e771ebf152e42f8b42789ae3000603d7d84ec0efbde8f2"
+  },
+  "default_golden": {
+    "source_commit": "6db91aad4625145d683bc38138d520e254ddcba4",
+    "sha256": "ec67a87c5c57602e2f5fb262d42f0d4b5b476e0c262a0b6a5461bb7f38062887",
+    "scope": "35minute2asset synthetic targets/trades/funding/minuteNAV/rejections/breaches, actual old implementation before changes; new default and no-trigger protection must match. No claim all historical accounts rerun."
+  },
+  "budget": {
+    "new_configs": 1,
+    "new_wallets": 10,
+    "reused_controls": 10,
+    "new_fits": 0,
+    "workers": 4,
+    "wall_seconds": 2400,
+    "new_owned_bytes": 250000000,
+    "reserve_bytes": 16106127360,
+    "RAM_bytes": 8000000000,
+    "swap": 0,
+    "GPU": 0
+  },
+  "thresholds": {
+    "no_liquidation": "all10newcases0; gaps remain capable of defeat",
+    "all_vol_at_most12pct": "all realized annualized dailyvol<=.12, descriptive on short stages",
+    "all_MDD_at_most12pct": "all minuteMDD<=.12",
+    "each_pair_net_or_DD_improves": "each netdelta>=-1e-7USDT OR MDDdelta<=-.0001",
+    "any_material_net_or_DD_improvement": "at least one netdelta>=10USDT OR MDDdelta<=-.001",
+    "both2025_stages_SHORT_positive": "SHORTnet>0 in each2025H1/H2 each conditional unit"
+  },
+  "stopping": "Only this recipe. Any failed economic gate pauses exact recipe; do not tune threshold after results. Source/account/clock failure preserves attempt, correctness repair only. No locked consumption.",
+  "qualification": "NONE_CASH"
+}

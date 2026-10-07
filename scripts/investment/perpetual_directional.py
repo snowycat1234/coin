@@ -142,6 +142,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     start,end=window['start'],window['end']
     need(position_protection is None or event_strategy is None,'One order scheduler, explicit protection adapter')
     if position_protection is not None:position_protection.prepare(window['daily'],symbols,start,end)
+    needs_ohlcv=event_strategy is not None or position_protection is not None and getattr(position_protection,'requires_ohlcv',True)
     times=np.arange(start,end,MINUTE,dtype=np.int64);n=len(times)
     target_factory=target_factory or (lambda b,d,m:strategy.fixed_targets(b,d,m,symbols=symbols))
     account_factory=account_factory or USDTLinearPerpetualAccount
@@ -367,7 +368,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     def market_rows():
         if 'minute_blocks' not in window:
             columns=('open','close','quote_volume','mark')
-            if bridge is not None or position_protection is not None:columns+=('high','low','volume')
+            if needs_ohlcv:columns+=('high','low','volume')
             for i,t in enumerate(times):
                 yield int(t),{s:{k:window['market'][s][k][i] for k in
                     columns} for s in symbols}
@@ -382,7 +383,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             need(set(block['market'])<=set(symbols),'Block symbol outside configured account')
             for s,values_for_asset in block['market'].items():
                 columns={'open','close','quote_volume','mark'}
-                if bridge is not None or position_protection is not None:columns|={'high','low','volume'}
+                if needs_ohlcv:columns|={'high','low','volume'}
                 need(set(values_for_asset)==columns
                     and all(len(v)==len(stamps) for v in values_for_asset.values()),
                     'Actual execution block schema and lengths')
