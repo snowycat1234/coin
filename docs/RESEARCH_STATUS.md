@@ -1,72 +1,51 @@
 # COIN 当前研究状态
 
-## 当前：BTC 因果专家组合首轮完成，STATIC_EDGE_ONLY
+## 当前结论与投资资格
 
-用户采纳2026-10-07专家组合计划，新增[expert_aggregation模块](../modules/expert_aggregation/README.md)。先提交完整脚本/协议5e9ace9，再按49869f7源码在服务器执行；28/28独立10k账户均完成2023年365天、525600分钟且实际收费平仓，合计14716800回放分钟，独立NAV最大误差1.82e-12 USDT。实际8进程有限流程约8分12秒，31项运行前测试及1项报告N/E反例通过；GPU训练0，不重跑旧v3。
+**NONE/CASH；长期稳定净 APR：NOT_EVALUABLE。** SHORT 保持主要研究方向，但目前没有经独立证据确认的多币投资候选。N 资产共享账户、signed 多空/现金、逐仓资金与风险能力保留；API 对接尚未推进到真实账户。
 
-复用8个旧BTC专家连续净反馈和目标，2022仅364条已成熟反馈用于尺度/静态one-hot选择，评估按日消费此前成熟反馈。两种未认证资金费解释下，BASE family-EW净收益7.49%/8.60%，FixedShare7.63%/9.04%，Hedge2.40%/3.99%，训练冻结静态=SMA200为4.41%/6.01%。FixedShare对family-EW仅增13.78/44.47 USDT、回撤更大且平均gross/beta约增加12%/13%，季度增量不稳；执行×2和不利资金费情景也已全部完成。结论STATIC_EDGE_ONLY：没有足够稳健的动态路由增量，按已登记规则不触发第二轮投影/专家扩充，不追加ML。2022—2023为已见历史，funding单位/发布、MMR=.005/MMD0仍条件假设，投资NONE/CASH。详见[研究报告](../reports/expert_aggregation/REPORT.md)、[机器结果](../reports/expert_aggregation/RESULTS.json)、[最终核验](../reports/expert_aggregation/FINAL_VERIFICATION.json)。脚本支持持久后台、实际模块/账户/分钟进度及完成账户SHA复用；本机未运行科学计算。旧数据/研究证据保持。
+2026-10-08 已接上实际服务器。原本机 e17e113 状态落后；已读取服务器活动任务、实际分支与结果，从完成专家组合的 **5346a5c** 继续。没有重复 28 账户回放或 Transformer 拟合，也没有覆盖服务器另一份未提交报告测试。
 
-## 2026-10-07：Transformer v3 全部执行及核验完成，B继续研究、不晋级
+## 本版实际改变：SHORT 路由诊断完成
 
-独立分支research/transformer-v3-oracle-policy实际完成864旧回放、348HALF对照、60开发fit、12固定过去数据最终fit、576新开发账户及400五方案封存账户。开发共1788行，1782行完整日历且收费终值现金；封存400行中395行完整，5行真实风险停机保留N/E。执行完成不等于经济完整，独立钱包不拼收益。旧111个停机账户恢复108个（96强平+12旧破产）；3个容量受限风险减仓仍N/E。753个原完整且未强平账户经济一致性通过。结束时全量SHA复核16,025个旧保护文件、33,182,604,674字节，全部保持。详见[最终交付摘要](../reports/transformer_v3/FINAL_DELIVERY_SUMMARY.md)、[11个问题最终报告](../reports/transformer_v3/TRANSFORMER_V3_FINAL_REPORT.md)、[开发比较](../reports/transformer_v3/TRANSFORMER_V3_DEV_REPORT.md)。先前190/576阶段快照保留供追溯。行情、权重和分钟账本留服务器，Git包含报告、2188项账户summary/audit/target校验引用、CSV和冻结凭据；本机未运行科学任务。
+新脚本只读核验旧 28 账户、资金费与 SHORT episodes；**零新模型、零新账户、零搜参**。112 份工件 SHA 和输入缓存绑定通过，独立 Decimal 现金桥最大误差 3.18e−12 USDT，三项手算/归属测试通过，独立只读复核通过。服务器实际计算 0.746 秒，单进程峰值 RSS 92.54MB；2 线程、8GB 限制、swap0/GPU0。
 
-实际回放与neutral分析后提交协议bdfe816，再训练并完成开发报告、模型/仓位/权重冻结后才执行全部五bridge×两fund口径；无locked调参、winner seed或最佳补值选择。冻结候选ORACLE_POLICY_CROSS_ASSET/NEUTRAL/FULL，开发门槛未通过。184日封存五方案净收益率范围：scale=.01为−4.4108%～−4.4102%，scale=1为−6.5786%～−6.5778%；各方案经济判断均FAIL，LONG为正而SHORT亏损，每个所选账户均有一次1000SATS强平及正常再入场。最终B. CONTINUE RESEARCH由事前登记的描述性排名信号条件触发，不是策略晋级；新policy的日频expert代理regret改善未通过跨fold门槛。MMR=.005/MMD0和五funding补值为未认证条件；旧v2正式封存N/E永久保留，没有恢复精确事件。后台正常结束，无新增训练或回放。详见[模块](../modules/transformer_v3/README.md)。
-
-投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
-
-## 2026-10-07：Transformer v2 开发完成，封存数据不可评价
-
-当前决定 **B. CONTINUE RESEARCH, NOT YET PROMOTED**，投资 **NONE/CASH**。120个CUDA开发fit、24个past-only最终fit、720个开发任务、36个暴露对照和修正oracle诊断已完成；逐SHA核验764个唯一新账户，653个完整，111个保留真实风险停机前缀，不将前缀算为完整收益。固定跨资产utility/方向候选六窗口收益中位数 -1.7914% / -0.3479%，对旧Transformer配对中位差 -1.4509 / -3.9976 pct，开发gate失败。
-
-封存正式数据门禁检查一次，**预测0、经济账户0**：WIF、1000SATS、ORDI 的2026-06-24 04:00资金费事件无法核实，最新月档未修正、日档404、官方历史接口451。2026-06-29十币mark/premium缺口已找到20份完整官方日档，但资金费仍阻止固定十币连续184日评价；不补零、不删日、不挑子窗口。完整封存经济实验尚未完成，不声称最终实证闭环或晋级。详见 [报告](../reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md)、FINAL_REVIEW_EVIDENCE.json、CURRENT_EVIDENCE_AUDIT.json。旧数据、模型、账本、D108及原正式N/E记录保留。
-
-## 2026-10-07：归档采集与完整数据窗口验证模块
-
-新增 [collector_research 模块](../modules/collector_research/README.md)。服务器上的四类模型研究已完成，验证复用40个模型折与372项产物；新原生账户验证先按输入完整性分段，788天排除UTC2024-08-12一个缺口日，6段787天，共96/96独立10k账户完整且真实平仓，独立NAV/钱包最大误差5.46e-12 USDT。最后24小时采用原持续、容量受限的收费平仓规则；缺口不补造，段间收益不相加或拼成一个钱包。
-
-这不是D108原数据复现，也不是未见OOS。四类模型在两资金费条件下的共同窗口收益中位数均为负；原日频筛查的基线门槛均未通过，最终模型未拟合，不晋级、不部署，投资资格仍NONE/CASH。后验完整数据窗口不能解释为当时能够预知并避开未来缺口。详见 [实际结果](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.md) 与 [小型验收摘要](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.json)。旧D108判断与证据保留。
-
-用户2026-10-07明确区分资源：服务器按实际配置，无项目CPU/RAM/swap/墙钟限制；本机限制继续。模块默认local，必须hpc_linux及8GB/swap0/GPU0；server需显式选择且拒绝WSL。当前服务器10CPU/33.65GB，性能切换复用76例、只继续20例。行情、模型、环境和大账本留在外部STATE。
-
-## 最新实际经济结果与采用判断
-
-D108自动ML selector实验已完成：SMA200_SIGNED/HOLD/CASH三冻结expert，26past-only特征，固定30/60/90d，正则线性与单套小XGBoost，5个purged chronological folds加H日额外embargo。实际440底层fit、350训练期scaler fit、158完整共享10k钱包；MLP按样本门槛跳过。后台Python独立完成，没有LLM/API参与实验流程。
-
-事前utility-rank选出LINEAR_H60，未按最高回测PnL换成H30。BTC评价窗口2022-10-01至2024-01-01，实际457日；2022仅Q4。全部已见开发/内部时间验证，不是独立OOS；FINAL LOCKED TEST未读未跑。
-
-|方案|RAW净USDT|PCT净USDT|RAW/PCT实际年化波动|RAW/PCT分钟MDD|RAW/PCT Sharpe|
-|---|---:|---:|---:|---:|---:|
-|LINEAR_H60|1446.38|1614.65|10.42%/10.43%|6.41%/6.20%|1.088/1.198|
-|SMA200_SIGNED|827.62|971.38|10.64%/10.64%|9.69%/9.54%|0.650/0.749|
-|HOLD|1842.31|2080.75|10.64%/10.63%|7.32%/7.31%|1.323/1.473|
-|固定SMA/HOLD/CASH=.5/.25/.25|896.98|1023.79|6.54%/6.54%|5.26%/5.11%|1.082/1.223|
-
-RAW/PCT是资金费未确认单位的两条件解释，不选择更盈利者当事实。selector胜SMA、旧人工map和各类placebo的经验95分位，但没有胜最强static HOLD：净差−395.93/−466.09，oracle-gap capture为−31.29%/−38.47%，2022Q4改善、2023未改善，未达事前门槛。相对HOLD有小幅DD改善，但Sharpe及净收益更低；实际vol接近，不能把相同caps当严格风险匹配。
+[本版经济解释与决定](../reports/SHORT_ROUTING_DIAGNOSIS_20261008.md)；[实际结果](../reports/SHORT_ROUTING_DIAGNOSIS_20261008.json)；[运行前协议](../protocols/SHORT_ROUTING_DIAGNOSIS_20261008.json)。本轮无新投资收益，旧结果不改。
 
 ## 钱赚在哪里、亏在哪里
 
-selector在2022Q4 SHORT净+367.93/+350.23；2023 SHORT净−553.21/−558.07，LONG净+1631.66/+1822.49。457日SHORT总贡献−185.28/−207.84，SHORT毛价格损益已为负，不是费用吞掉正alpha。全部手续费+执行约49.90/49.94；主瓶颈是反弹期方向/专家选择及多头参与不足。相对SMA200减少反弹空头损失，但还不足以胜HOLD。
+2023 年完整 365 日、独立 10k 共享钱包、两条件资金费解释：
 
-独立复核158账户、6.43GB实际工件SHA、4026个成熟标签、训练期scaler均值、purge/embargo、日收益/Sharpe/vol及资金桥接通过；钱包/NAV最大误差1.82e−12 USDT。同一H60成熟日期上，selector加权utility-rank为0.56697/0.56899，低于恒定HOLD的0.63995；预测排名目标也未胜强常量基准。仅16个每类shuffle的经验95分位不是p<.05证据（即使全部胜出，未校正有限尾概率下限仍1/17=0.0588）；六模型方案在同一验证池选择也未做选择偏差校正，不能声称regime alpha。训练R²高而所有H60季度验证R²为负，utility校准迁移弱；近常量标签会放大R²幅度，不把该统计直接当唯一投资结论。
+- FAMILY_EW 净 +749.20 / +859.62 USDT，全部来自 LONG，实际 SHORT 成交 0。冻结 prior 的 HOLD 权重会抵消六个趋势的负仓位；两种解释全部 730 日包络验证。结论不推广到动态权重或 N 资产系统。
+- FixedShare 净 +762.98 / +904.09，也没有 SHORT。比 EW 仅多 13.78 / 44.47，同时提高 gross、波动和回撤；旧登记门槛失败。
+- HEDGE 净 +239.54 / +399.45，SHORT 净 −274.47 / −253.60；三个空头 episode 均亏，年初反弹占空头亏损约 61%。毛价格亏损 −266.60 / −243.12，主要问题是方向而非费用。
+- SMA200_SIGNED 的 SHORT 净 −830.52 / −845.80，但它在旧熊市证据中有盈利能力。三个反弹年事件不能证明 SHORT 没有 alpha。
 
-## 当前保留、暂停与下一步
+固定 60 日、含切换成本的旧收益 shadow Oracle：加入 signed expert 相对 HOLD/CASH 的机会增量在 2022 为 +2049.48 / +1985.12，2023 只有 +0.05 / +0.07；2023 winner 中没有负目标日。该结果为非因果重定基诊断，**不是新共享钱包或纯 SHORT alpha**。大总 Oracle gap 不足以证明可预测的空头机会。
 
-**不晋级ML selector，不追加模型复杂度或调温度/阈值。** 保存线性/树能力、全部试验、模型与失败，SHORT方向保持一级研究方向。冻结SMA200多空作为透明方向参照；既有SMA200仅多作为风险效率参照，风险管理HOLD作强基准，固定三expert作低风险控制。没有合格投资主力，不能把本窗口HOLD事后胜出解释成实时regime选择。
+## 采用、暂停与下一主任务
 
-下一主任务：先核已有D043完整2024年1–7月213日输入，在相同冻结三expert/费用/完整资本与风险口径下核对跨窗口条件优势及oracle机会是否仍存在；零新增ML拟合、零搜参。2024同样已见，只称迁移开发核对，不是独立validation。该小闭环区分“机会只在一个周期存在”与“当前过去特征/标签校准未能迁移”，比继续救模型更有信息价值。若没有持续条件优势则保留强单策略/静态控制；只有多个完整市场阶段给出稳定排名信息或可靠新增因果特征，才reopen learned selector。
+保留 FAMILY_EW 作为 low-exposure long/cash 参照、公开 signed 趋势为方向参照、CASH/HOLD 为控制；不晋级任何方案。暂停当前 Hedge/FixedShare 配方的参数搜索及更复杂 ML selector，不降低 SHORT 优先级。
 
-[自动最终报告](../reports/SELECTOR_ML_REPORT.md)；[最终结果/账本引用](../reports/SELECTOR_ML_RESULTS.json)；[独立复核](../reports/SELECTOR_ML_INDEPENDENT_REVIEW_20261006_V1.json)；[启动/恢复](SELECTOR_RUNNER.md)。旧D105/106及所有负结果按Git和既有报告保留，不覆盖。
+下一主任务：**先检验过去信息能否区分熊市延续与反弹**。复用已有合法多币开发数据和公开趋势方法，先核熊市事件覆盖，注册极少量 past-only 状态与一个固定评价窗口，再根据方向信息决定是否值得完整账户对照；不围绕旧退出规则扫描。下一模块 NOT_RUN，无后台研究训练任务。
 
-## 数据、资本与资源边界
+reopen：Hedge/FixedShare 需要跨阶段稳定的成熟反馈优势或已验证投影瓶颈；ML selector 需要方向/排名超过强静态与 placebo。若方向信息不足，保留强公开策略并暂停新 controller 拟合。D106 人工 map 失败与全部旧负结果保留，不重复包装为新实验。
 
-Binance USD-M行情+Bybit用户费用为跨场所代理；27bp往返费用/点差/滑点固定，实际资金费按两个条件解释。原生数量/MMR/资金费单位及历史费用仍未认证。完整10k资本、abs单币30%/gross60%、永续单向逐仓1x/无自动追加保证金；真实risk减仓不关闭，瞬时caps漂移与执行延迟保留报告。N资产和SHORT能力保持，本次BTC实验不代表10币组合已验证。
+## 既有实际结果入口
 
-RAM共享8GB、swap0/GPU0、D项目+整个WSL VHD150GB（120预警、135停止新增、15预留），按用户2026-10-05扩容。实际DAG运行6363秒，账户worker峰值RSS595.23MB；末次共享RAM采样7.79GB，完整共享组运行峰值未保存、重启后不能补称旧值。158账本文件共6.43GB；2026-10-06 16:17保存前实测总磁盘45.45GB；当前实际磁盘扫描见本模块close，不拿旧扫描冒充当前。
+- [28 钱包专家组合](../reports/expert_aggregation/REPORT.md)：STATIC_EDGE_ONLY，全部收费平仓及独立验收完成。
+- [Transformer v3 最终报告](../reports/transformer_v3/TRANSFORMER_V3_FINAL_REPORT.md)：开发不晋级，保留已发布有限假设结果；本轮未访问原始封存输入或重跑。
+- [Transformer v2](../reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md)及[归档模型完整窗口验证](../reports/COLLECTOR_COMPLETE_WINDOWS_20261007.md)：失败/不可评价范围保留。
+- [D108 ML selector](../reports/SELECTOR_ML_REPORT.md)：LINEAR_H60 未胜强 HOLD，2023 SHORT 拖累；旧本机计划 D043 迁移核对本轮被最新服务器证据取代，未执行重复实验。
 
-## 运维
+## 数据、产品、资金与资源
 
-8765沿用。D108完成后核对到WSL新boot、原采集进程缺失；退出原因UNKNOWN，不能归因用户或OOM。已保存41份原DB/WAL/SHM、日志、checkpoint和闭合SQL副本/audit head，按原只读源/5GB coin-quant子组恢复；两次实际PID/source binding核对一致、public心跳+75117ms、micro新增17610事件且asof推进，连接已实测。具体证据见SELECTOR_COLLECTOR_RESUME_SAMPLE V1/V2；不注入工程升级，不拼接连续健康时间。采集恢复证据单独记录，离线历史结果有效性不依赖此轮采集存活。无密钥/账户/发单/付费/GPU/封存正文。
+BTC 2022/2023 与已研究多币历史仍为 seen development；不重新命名 OOS，不拼接独立钱包。Binance USD-M 数据配 Bybit 费用是跨场所代理；资金费单位、历史费用与原生风险档位未认证，条件解释不能冒充原生 Bybit。完整资本 10k、单币绝对 30%/组合 gross60%、1x 单向逐仓、无自动追加保证金保持。
 
-## 2026-10-07：Transformer v3 强平修复，回放准备验收
+本会话按 8GB、swap0/GPU0 控制新研究；本机项目+整个 D 盘 WSL VHD 150GB，120预警/135停止新增/15预留。实际扫描时间与新工件增长见本版关闭证据，不用旧扫描冒充当前。无账户密钥读取、交易所发单、付费或新封存权限。
 
-用户授权独立分支 research/transformer-v3-oracle-policy。已完整 hash 保留 v2 HEAD0350589及16,025个外部保护文件，旧正式locked N/E保持。五种缺失资金费估算已在任何新经济结果前登记。逐仓接管不会因单币强平停止整钱包；27项服务器测试通过，真实864行冻结回放尚未完成，新模型fit与locked经济结果尚未运行。十个官方risk档位请求403，因此MMR=.005/MMD=0只能作为明确声明的条件研究假设，不能称真实档位认证。投资资格NONE/CASH；先核两个真实窗口，再全量回放和neutral分析。详见 [模块](../modules/transformer_v3/README.md) 与 reports/transformer_v3/V2_REPLAY_PROTOCOL.json。
+## 运维与真实任务
+
+8765 服务已恢复，沿用现有窗口。本机 WSL 原采集进程缺失后先保存 39 份工件/闭合备份，再按原身份/原 5GB 子组恢复；见 SELECTOR_TRANSFER_COLLECTOR_PRESERVED_20261008.json 与 SELECTOR_TRANSFER_COLLECTORS_RESTORED_20261008.json。采集进程存活不等于连接正常：本轮连接采样失败，未证实新事件推进，退出与断档原因 UNKNOWN。该问题不改变已独立核验的离线历史结果，也不宣称连续健康数据。
+
+科学诊断与测试已结束；没有后台模型训练。普通下一模块自主选择，扩资金、风险、资源或启封权限仍须用户明确授权。
