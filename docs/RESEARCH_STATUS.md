@@ -1,5 +1,9 @@
 # COIN 当前研究状态
 
+## 当前：BTC 因果专家组合首轮已登记，准备服务器执行
+
+用户采纳2026-10-07专家组合计划，暂停新模型训练。新增[expert_aggregation模块](../modules/expert_aggregation/README.md)：复用原8个BTC连续专家目标/净反馈，2022可得的364条反馈训练尺度和有限one-hot静态选择，2023为已见历史365天独立10k单钱包。Hedge/FixedShare两个动态候选、family-EW/训练冻结静态/SMA200/CASH基础对照，两种未认证资金费单位，分离执行成本×2与付款×2/收款×0.5压力；预算28个账户、GPU0。先提交完整脚本及协议后执行。旧v3已完成证据保留，未重训、未启封新数据、未部署交易。本机只读原件并传输，科学执行均在Ubuntu服务器。实际完成结果将更新本节。
+
 ## 当前：Transformer v3 全部执行及核验完成，B继续研究、不晋级
 
 独立分支research/transformer-v3-oracle-policy实际完成864旧回放、348HALF对照、60开发fit、12固定过去数据最终fit、576新开发账户及400五方案封存账户。开发共1788行，1782行完整日历且收费终值现金；封存400行中395行完整，5行真实风险停机保留N/E。执行完成不等于经济完整，独立钱包不拼收益。旧111个停机账户恢复108个（96强平+12旧破产）；3个容量受限风险减仓仍N/E。753个原完整且未强平账户经济一致性通过。结束时全量SHA复核16,025个旧保护文件、33,182,604,674字节，全部保持。详见[最终交付摘要](../reports/transformer_v3/FINAL_DELIVERY_SUMMARY.md)、[11个问题最终报告](../reports/transformer_v3/TRANSFORMER_V3_FINAL_REPORT.md)、[开发比较](../reports/transformer_v3/TRANSFORMER_V3_DEV_REPORT.md)。先前190/576阶段快照保留供追溯。行情、权重和分钟账本留服务器，Git包含报告、2188项账户summary/audit/target校验引用、CSV和冻结凭据；本机未运行科学任务。
