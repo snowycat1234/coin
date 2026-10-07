@@ -1,0 +1,166 @@
+{
+  "experiment_id": "FIXED_TREND_EXTENSION_20261008",
+  "parent_commit": "1899f3f649e4e1f34bbae02e881aa73f61798eb4",
+  "question": "Do the unchanged absolute/relative trend experts and fixed half mixture generalize to all remaining complete source-defined2024H2/2025H2 seen-development segments, without learning or parameter selection?",
+  "data_role": "SEEN_DEVELOPMENT_ONLY: all3source-defined stages previously used by strategy/MLresearch. 41/142/184day independent10k wallets; no newOOS/lockedtest, no concatenation or full2024H2 claim.",
+  "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_protocol_sha256": "975696715a431d73bff7abaea031db3856fcb3852f5160588113bfce1ed2e6b8",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT"
+  ],
+  "core_symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "windows": [
+    {
+      "id": "fold2-2024-07-02",
+      "fold": 2,
+      "start": 1719878400000000,
+      "end": 1723420800000000,
+      "days": 41,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold2-2024-08-13",
+      "fold": 2,
+      "start": 1723507200000000,
+      "end": 1735776000000000,
+      "days": 142,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    {
+      "id": "fold4-2025-07-02",
+      "fold": 4,
+      "start": 1751414400000000,
+      "end": 1767312000000000,
+      "days": 184,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    }
+  ],
+  "weights": [
+    0.5,
+    0.5
+  ],
+  "families": [
+    "SMA200_10PCT",
+    "FIXED_HALF_SMA_CSMOM",
+    "PUBLIC_CSMOM21_WEEKLY"
+  ],
+  "frozen_experts": "SMA sign(completed_close-rolling200 mean), HOLD long, each200-close eligibility/.6 equal raw gross/.3 asset cap/existing30-return signed covariance10pct annual target downscale only. CSMOM exact original21d/weeklyK2 CORE5 golden, daily past risk. CASH0. No expert parameter tuning.",
+  "target_input": "Read explicit past-only close and SMA signal columns from bound original parquet files, full daily calendar including Aug12 trade close, 200close/31close warmup and fixed weekly anchor. Recompute same signed_intents, no forward labels, no ffill PANEL. Before18newwallets exact golden targets/clock/symbol order in all12 previous controls.",
+  "account": "Existing one-way isolated1x, full10000; target-mix first then real net trades/fees/funding, no independent sleeve wallet sum; native paid terminalflat lastday override identical to controls",
+  "capital": 10000,
+  "max_asset_abs": 0.3,
+  "max_gross": 0.6,
+  "leverage": 1,
+  "automatic_margin_topup": false,
+  "funding_scales": [
+    1,
+    0.01
+  ],
+  "cost": "Existing unchanged native COSTS[0]: fee5.5bp + halfspread4bp + slippage4bp each way; preserve Bybit fee snapshot identity and Binance USD-M cross-venue proxy; units remain two conditional interpretations, neither certified",
+  "risk": "Each frozen expert past-covariance10pct downscale only. Mix half+half NOT re-levered to10pct or gross60. Engine safety/risk reduction unchanged. Actual exposure drift/vol/DD separately reported, same nominal risk inputs not guaranteed same realizedrisk.",
+  "controls": "All3frozenfamilies are new actual wallets in each window/unit. CASH zero. Original12saved wallets reused only for target/source/cost identity, not new-stage performance. HOLD not run in extension; no superiority to untested same-risk HOLD claimed.",
+  "budget": {
+    "new_configs": 1,
+    "new_wallets": 18,
+    "new_fits": 0,
+    "workers": 4,
+    "threads_per_process": 1,
+    "RAM_bytes": 8000000000,
+    "swap": 0,
+    "GPU": 0,
+    "wall_seconds": 2400,
+    "new_owned_bytes": 250000000,
+    "reserve_bytes": 16106127360,
+    "worker_choice": "Prior2worker observed memory.current max1.957GB; explicit4worker finite run under same hard8GB, not a truepeak guarantee"
+  },
+  "success": "Research retention only: all6mixnetPnL>0, annualvol<=.12, minuteMDD<=.12; each new window/unit mix improves netPnL OR minuteMDD versus EACH single. SHORT eachstage report only; do not rename2025H2bear or force profitable shorts in bull. Original4mix/2old2025short gates and priorallstagefailure remain unchanged, never superseded by this extension. NONE/CASH even if extensionpasses.",
+  "stop": "One frozen mixture, zero fits/search. Input/golden/account/audit failure stops related economics. Preserve partial state and errors. No rerun of completewallet or drift thresholds. If any mixgatefails pause exact unconditional recipe; preserve expert capability. Do not pick stage winners as executableperformance.",
+  "metrics": [
+    "complete-calendar terminal netPnL/full-capital return",
+    "LONG/SHORT gross and net contribution",
+    "fees/execution/funding",
+    "turnover",
+    "actual gross/net/margin",
+    "vol/MDD/Sharpe",
+    "monthly and daily concentration",
+    "actual short open legs",
+    "paired gaps vs same-risk SMA and CSMOM",
+    "pre-net intent vs actual netted target cancellation",
+    "actual wallet net/contributions, no mean independent PnL"
+  ],
+  "limitations": [
+    "All3windows are previouslyseen development; original two-stage gatefailed and remainsfailed.",
+    "Known Aug12UTC10:02/10:03 mark gap affects allCORE5; independent accounts on41/142daysegments, fullcalendar tradefeatures remain, gapneverzero/ffilled.",
+    "41days is short diagnostic, annualized metrics descriptive not stableAPR; allwindows separate10k accounts, not stitched.",
+    "CORE5 survivor panel, not unbiased universe selection or general10coin alpha.",
+    "BinanceUSD-M prices/mark/funding+Bybitcost crossvenueproxy; units1/.01conditional uncertified, markclose not executableprice.",
+    "Mix loweringgross/actualvol can lowerDD mechanically; not selectoralpha. Priorcapsdrift/risklatency and nativefilters/liquidationlimits remain."
+  ],
+  "qualification": "NONE_CASH",
+  "document_learning": "Use transparent static diversification control and causal/real-cost evidence before advanced market+feedback routing; reuse frozenrules/nativeaccount, no copiedGPLcode/newdeps.",
+  "mode": "STAGE_EXTENSION",
+  "input_audit": "reports/TREND_EXTENSION_INPUTS_20261008.json",
+  "input_audit_sha256": "d18de4298f14b2729e4369bc3a8e80d3f3012f354b07e756d9042f9b8137534a",
+  "prior_results": "reports/FIXED_TREND_BLEND_20261008.json",
+  "prior_results_sha256": "b665e5839cd62dc469a6dec29fa1de01a1cdf0ce7d3ae98fbc4927448d1f7f15",
+  "excluded_gap_days": [
+    {
+      "fold": 2,
+      "day_us": 1723420800000000,
+      "reasons": [
+        "BTCUSDT:complete_mark",
+        "BTCUSDT:complete_premium",
+        "ETHUSDT:complete_mark",
+        "ETHUSDT:complete_premium",
+        "SOLUSDT:complete_mark",
+        "SOLUSDT:complete_premium",
+        "XRPUSDT:complete_mark",
+        "XRPUSDT:complete_premium",
+        "DOGEUSDT:complete_mark",
+        "DOGEUSDT:complete_premium"
+      ]
+    }
+  ],
+  "validation_plan_sha256": "babd8ec925dea92ed677a0a2b2e0991b339e252749bddf95f9e7119ff274ab3b",
+  "source_preflight": {
+    "success_state": "/home/ubuntu/coin/execution-state/trend-extension-inputs-20261008-v2",
+    "seconds": 7.588138399994932,
+    "failed_attempt_state": "/home/ubuntu/coin/execution-state/trend-extension-inputs-20261008-v1",
+    "failed_log_sha256": "03f2991fab0614494a107f0afa25d5cfb9b75b2629c8b31f7c506a63d4a55147",
+    "failure": "Pre-economic read-only assertion assumed otherassets complete from old BTC-only audit. Actual CORE5 all lacksame2markminutes. Fixed1899f3f before wallets; no dates/rules chosen from PnL."
+  }
+}
