@@ -477,3 +477,8 @@ Reuse existing collector breadth20/SMA feature definitions, NumPy/Polars/pytest 
 ## 2026-10-08 Published cross-sectional momentum adaptation
 
 Method reference: Liu/Tsyvinski/Wu, Common Risk Factors in Cryptocurrency, 2019-04-15 author paper https://economics.yale.edu/sites/default/files/2022-10/LiuTsyvinskiWu2019%20COMMON%20RISK%20FACTORS.pdf . Publication version, not a software repository commit; no paper or external source code copied, no third-party dependency/license change. Rule adaptation only:3week return/weekly rank, equal top2/bottom2 vsoriginal valueweighted quintiles/CMOM; existing market_neutral and signed_risk_weights unchanged, native Decimal isolated wallet/storage/auditor reused. Own wallet dispatch accepts a separate committed protocol with old default unchanged; no new accounting kernel. Existing NumPy/Polars/PyArrow/Torch transitive imports/pytest versions/licenses retained, GPU0/no fit.
+
+
+## 2026-10-08 Completed CSMOM audit and source compatibility
+
+No new third-party package or upstream edits. Reuse existing journal_bridge Decimal independent per-asset cash reconstruction and hydrated_account lossless adapter for already completed4wallets. Original16controls reused only after exact234-file source audit:232identical, two preregistered exact hash-pair non-economic differences (liquidation_phase metadata, optional auditor priority with unchanged default), zero liquidation required. Compatibility tests reject unreviewed financial/liq changes; oldprereg/preflight errors preserved. memory.peak fallback is report-only and recordsUNKNOWN, not a new observer. Source/method/version/license and own thin adapter unchanged from prior entry.
