@@ -511,3 +511,8 @@ Reuse installed scikit-learn1.9.1 (BSD-3-Clause, https://github.com/scikit-learn
 ## 2026-10-08 BEAR_SUPPORT_REPAIR_20261008 completed
 
 binance/binance-public-data https://github.com/binance/binance-public-data pinned f446ce3812bd4e5521f21faecd4ae3c6460e49fc; MIT software, marketdata subject to Binance data terms. Official USD-M daily klines/markPriceKlines URLs,12columnCSV and ZIP.CHECKSUM reused through existing collector Job/fetch/verify_local/numeric_csv; no upstream changes/new downloader/parser/model. Thin26URL orchestration, exactadd-only merge and isolated deriveddaily/labels. Existing pandas/NumPy/Polars kernels reused; officialpartialday remainsmissing, not interpolation. Originalmonthly/failedfirstattempt and reuse14cacheSHA retained. Archive/resultpaths+SHA in reports/BEAR_SUPPORT_REPAIR_20261008.json.
+
+
+## 2026-10-08 JOINT_REPAIRED_20261008 completed
+
+仍复用scikit-learn1.9.1 BSD-3-Clause原生StandardScaler/Ridge(alpha10)，同一adapter及固定输入，仅换已核派生数据；无上游修改/安装/新增模型内核。Qlib TRA仅信息结构参考，不声称复现原TRA。复验失败暂停这个实现，能力保留；0新账户、24fit，不推进复杂度。

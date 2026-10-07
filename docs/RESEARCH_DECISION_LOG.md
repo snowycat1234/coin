@@ -1645,3 +1645,8 @@ Next finite task: trace only these two source-support holes, separate officialsi
 ## 2026-10-08 BEAR_SUPPORT_REPAIR_20261008 completed
 
 Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed source/state/protocol. New OBSERVED prereg6dc8bbc admits verified actuallyobserved subset only, reuse14 checksumcache, same26URLs,0fits/0wallets.30,240 missingminute additions,21complete+5partialdays(total27missing), oldfinitefundingmarks/oldfiles exact; daily fundingincomplete11->0. Bear2022 mature0->157daily/0->22fixedweeks,train266/632->516/882; old2024/25labels golden unchanged. Source stage30.898s, firstunit26.510s,9tests2.780s; independent actualreadonly review. Adopt derivedinput, noPnL/APR/qualification change. Reopen condition genuinebearsupport met; prereg one originalcapacity originalrule informationrepeat, no model/feature/hyperparameter search. If inconsistent pauseRidge and choose staticabsolute+relative sharedwallet, not blameSHORT. Reports BEAR_SUPPORT_REPAIR_20261008.md/.json.
+
+
+## 2026-10-08 JOINT_REPAIRED_20261008 completed
+
+事前commit3ee34b3，只有已核官方派生输入改变；原专家/标签/日期/alpha10/7d/purge/门槛/12+12fit预算不变。成熟熊市157日/22周，train516/882，score25周/窗。12主+12错位fit0.710秒，0钱包。联合2024仅+1.192/+1.021bp、capture1.75%/1.57%，2025−45.012/−43.645bp；全部门槛false。独立只读算术及10反例通过。暂停原容量Ridge，不通过扩大模型/改阈值救结果；缺熊市样本不是充分解释。保留修补及SHORT方向。下一固定50/50 SMA200(10%过去波动downscale)＋CORE5 CSMOM真实共享钱包对照；两个seen窗、两资金解释，新增同风险SMA控制，不平均独立收益。新钱包NOT_RUN，投资NONE/CASH。reports/JOINT_REPAIRED_20261008.md。
