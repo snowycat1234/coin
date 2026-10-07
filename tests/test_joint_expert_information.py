@@ -8,7 +8,7 @@ from scripts.research.joint_expert_information import (
 
 def test_reference_open_value_waits_for_its_source_minute_bar():
     start=1704067200000000
-    assert reference_available_at(start)==start+7*DAY_US+120_000_002
+    assert reference_available_at(start)==start+7*DAY_US+120_000_001
 
 
 def test_unmature_last_week_outcome_cannot_change_current_feedback():

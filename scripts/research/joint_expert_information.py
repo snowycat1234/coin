@@ -33,7 +33,8 @@ INPUTS = ('FEEDBACK', 'MARKET_INTENT', 'COMBINED')
 def reference_available_at(decision_us):
     # Endpoint open comes from a completed1m source bar. Conservatively wait
     # for that bar's close as well as the execution-boundary event.
-    return label_available_at(int(decision_us), 7) + 60_000_000
+    source_bar_close = int(decision_us) + 7*DAY_US + 120_000_000
+    return max(label_available_at(int(decision_us), 7), source_bar_close+1)
 
 
 def feedback_panel(decisions, label_available, utilities, anchor_us, windows=(1, 4, 12)):
@@ -206,6 +207,7 @@ def main():
     old=json.loads(legacy.read_text())['cases'][0];case=json.loads(Path(old['result_path']).read_text());assert sha(old['result_path'])==old['result_sha256']
     assert sha(case['task']['target_path'])==case['task']['target_sha256']
     with np.load(case['task']['target_path'],allow_pickle=False) as f:
+        assert f['symbol_order'].tolist()==parent['symbols']
         ids=np.searchsorted(available,f['decision_us']);cols=[parent['symbols'].index(s) for s in p['core_symbols']]
         assert np.array_equal(available[ids],f['decision_us']) and np.array_equal(weights[ids,1],f['weights'][:,cols])
     feature_cube=np.stack([f.select(list(FEATURES)).to_numpy() for f in frames],axis=1)
@@ -272,7 +274,8 @@ def main():
                     same_switch_random_reference=random_value,capture_vs_best_single=(value-best_single)/gap if gap>0 else None,
                     gap_vs_best_single=value-best_single,gap_vs_train_mean=value-static['mean_chosen_reference_utility'],gap_vs_past_winner=value-past_value,
                     gap_vs_shifted_placebo=value-pm['mean_chosen_reference_utility'],gap_vs_same_switch_random=value-random_value,
-                    scaler_train_only=True,feature_count=x.shape[1])
+                    scaler_train_only=True,feature_count=x.shape[1],scaled_coefficients=pipeline[-1].coef_.tolist(),
+                    max_abs_validation_train_z=float(np.max(np.abs(pipeline[0].transform(x[val])))))
                 rows.append(row)
                 predictions.append(dict(window=window['id'],funding_scale=scale,input=kind,decision_us=available[val].tolist(),
                     label_available_us=maturity[val].tolist(),feedback_source_available_us=last_source[val].tolist(),
@@ -302,7 +305,8 @@ def main():
         '', '|已见窗口|资金解释|输入|选择参考效用bp/周|比最佳单expert差bp|比过去赢家差bp|Oracle gap capture|错位负对照bp|',
         '|---|---:|---|---:|---:|---:|---:|---:|']
     for r in rows:
-        report.append(f'|{r["window"]}|{r["funding_scale"]}|{r["input"]}|{r["metrics"]["mean_chosen_reference_utility"]*1e4:.3f}|{r["gap_vs_best_single"]*1e4:.3f}|{r["gap_vs_past_winner"]*1e4:.3f}|{r["capture_vs_best_single"]:.2%}|{r["shifted_label_placebo"]["mean_chosen_reference_utility"]*1e4:.3f}|')
+        capture=f'{r["capture_vs_best_single"]:.2%}' if r['capture_vs_best_single'] is not None else 'N/E'
+        report.append(f'|{r["window"]}|{r["funding_scale"]}|{r["input"]}|{r["metrics"]["mean_chosen_reference_utility"]*1e4:.3f}|{r["gap_vs_best_single"]*1e4:.3f}|{r["gap_vs_past_winner"]*1e4:.3f}|{capture}|{r["shifted_label_placebo"]["mean_chosen_reference_utility"]*1e4:.3f}|')
     report+=['','这是零入场7日follow、执行价格端点估值、扣entry/internal turnover/funding但不强制退出的reference utility，不是共享钱包净PnL/APR。',
         '所有资金解释都是同一市场路径的条件情景，不增加独立样本。验证周块不重叠；train日标签重叠，不把每日行数当独立样本。',
         '一次错位/匹配频率random仅负对照，不支持placebo95%或显著性。CASH reference0不等于实际已有仓位能免费清仓。',
