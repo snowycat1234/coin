@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 import polars as pl
 
-from modules.collector_research.pipeline.download import Job, fetch, session
+from modules.collector_research.pipeline.download import Job, fetch, session, verify_local
 from modules.collector_research.pipeline.normalize import (numeric_csv, validate_price,
     canonical, aggregate_price, mark_funding, funding_windows)
 from modules.collector_research.pipeline.make_labels import feature_frame
@@ -84,20 +84,31 @@ def main():
         path=Path(path);assert str(path) in admitted and sha(path)==admitted[str(path)]
         return pl.read_parquet(path,columns=cols).to_pandas()
     progress('DATA','fixed26 daily supplements; frozen source hashes')
-    patches={};receipts=[];source_rows=0
+    patches={};receipts=[];source_rows=0;archive_coverage=[];reused_cache=[]
     with session() as client:
         for entry in p['entries']:
             guard();day=pd.Timestamp(entry['day'],tz='UTC');job=Job(entry['symbol'],entry['family'],day.year,day.month,day.day)
             assert job.url==entry['url'] and entry['family'] in ['klines','markPriceKlines'] and '2022-01-01'<=entry['day']<='2023-12-31'
+            if p.get('reuse_verified_cache'):
+                source=Path(p['reuse_verified_cache'])/job.path.relative_to(state/'raw')
+                if source.exists():
+                    info=verify_local(source)
+                    job.path.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copyfile(source,job.path);shutil.copyfile(str(source)+'.CHECKSUM',str(job.path)+'.CHECKSUM')
+                    reused_cache.append(dict(path=str(source),sha256=info['sha256']))
             receipt=fetch(job,client);receipts.append(receipt);save(state/f'SOURCE-{done:02d}.json',receipt)
             assert receipt['status'] in ['DOWNLOADED_VERIFIED','VERIFIED_CACHE','ADOPTED_VERIFIED_CACHE'],receipt
             raw=numeric_csv(job.path);lo=day.value//1000000;raw,_=validate_price(raw,entry['family'],lo,lo+86400000)
-            assert np.array_equal(raw.timestamp_ms.to_numpy(),np.arange(lo,lo+86400000,60000)),'Daily archive itself incomplete'
+            expected=np.arange(lo,lo+86400000,60000)
+            assert len(raw)<=1440 and np.isin(raw.timestamp_ms.to_numpy(),expected).all()
+            missing=np.setdiff1d(expected,raw.timestamp_ms.to_numpy())
+            assert not len(missing) or p.get('allow_observed_partial_daily',False),'Daily archive itself incomplete'
+            archive_coverage.append(dict(symbol=entry['symbol'],family=entry['family'],day=entry['day'],observed_minutes=len(raw),missing_minutes=len(missing)))
             new=canonical(raw,entry['family'],entry['symbol']);key=(entry['symbol'],entry['family'],entry['day'][:7])
             if key not in patches:
                 path=WORK/f'data/normalized/minute/{key[0]}/{key[1]}/{key[2]}.parquet';patches[key]=read(path)
             before=len(patches[key]);patches[key]=merge_observed(patches[key],new);source_rows+=len(patches[key])-before
-            done+=1;progress('SOURCE',f'{entry["symbol"]} {entry["family"]} {entry["day"]}: verified1440 rows')
+            done+=1;progress('SOURCE',f'{entry["symbol"]} {entry["family"]} {entry["day"]}: verified {len(raw)}/1440 observed rows')
     (state/'minute').mkdir();patch_refs=[]
     for (s,f,month),v in patches.items():
         dest=state/'minute'/f'{s}_{f}_{month}.parquet';pl.from_pandas(v).write_parquet(dest,compression='zstd')
@@ -170,8 +181,9 @@ def main():
         coverage.append(dict(scale=scale,first_complete_decision_us=int(available[ids[0]]) if len(ids) else None,train_counts=counts,bear_daily_rows_before=int((bear&before).sum()),bear_daily_rows_after=int((bear&common).sum()),bear_nonoverlap_week_blocks_before=int((bear&before&slots).sum()),bear_nonoverlap_week_blocks_after=int((bear&common&slots).sum()),invalid_label_reasons=reasons))
         done+=1;progress('LABELS',f'funding={scale}: source-support counts only, no fit')
     for ref in old['input_refs']:assert sha(ref['daily_path'])==ref['daily_sha256'] and sha(ref['past_path'])==ref['past_sha256']
+    for ref in reused_cache:assert sha(ref['path'])==ref['sha256']
     assert sha(manifest)==p['parent_dataset_sha256'];guard()
-    result=dict(status='COMPLETE_OFFICIAL_SUPPLEMENT_DERIVED_VIEW_NOT_INVESTMENT',source_commit=source_commit,protocol_sha256=sha(a.protocol),parent_dataset_sha256=sha(manifest),receipts=receipts,minute_patch_refs=patch_refs,derived_refs=derived_refs,panel_refs=panel_refs,source_rows_added=source_rows,daily_changes=changes,coverage=coverage,new_fits=0,new_wallets=0,locked_consumed=False,old_inputs_unchanged=True,previously_scored_utilities_unchanged=True,elapsed_seconds=time.monotonic()-began,qualification='NONE_CASH',RAM_peak_bytes=None,RAM_limit_bytes=8000000000,swap=0,GPU=0)
+    result=dict(status='COMPLETE_OFFICIAL_SUPPLEMENT_DERIVED_VIEW_NOT_INVESTMENT',source_commit=source_commit,protocol_sha256=sha(a.protocol),parent_dataset_sha256=sha(manifest),receipts=receipts,archive_coverage=archive_coverage,reused_cache=reused_cache,minute_patch_refs=patch_refs,derived_refs=derived_refs,panel_refs=panel_refs,source_rows_added=source_rows,daily_changes=changes,coverage=coverage,new_fits=0,new_wallets=0,locked_consumed=False,old_inputs_unchanged=True,previously_scored_utilities_unchanged=True,elapsed_seconds=time.monotonic()-began,qualification='NONE_CASH',RAM_peak_bytes=None,RAM_limit_bytes=8000000000,swap=0,GPU=0)
     save(state/'RESULTS.json',result);done+=1;progress('REPORT','coverage restored; no re-training or old evidence replacement')
     value=json.loads((state/'progress.json').read_text());value['status']='completed';(state/'progress.json').write_text(json.dumps(value)+'\n')
     print(json.dumps(dict(status=result['status'],coverage=coverage,source_rows_added=source_rows,elapsed=result['elapsed_seconds'])))
