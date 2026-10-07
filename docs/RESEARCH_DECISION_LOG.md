@@ -1670,3 +1670,8 @@ Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed s
 ## 2026-10-08 CSMOM_CONFIRMATION_DIAGNOSIS completed
 
 0新钱包/fit/搜索，5seen窗/20旧账户真实fills与targets只读。daily gate移除对冲触发额外signed covariance下缩，多头weight-days−9.75%至−14.08%；实付同周全平重开10/2/5/5/7。2024H2 SHORTgross+446.34被LONGgross−474.19抵消；Jul主要丢SHORTgross，2025H2额外cost44.83。不能把关联gatecost或weight-days当美元因果。维持PAUSE_EXACT_CONFIRMATION_RECIPE/NONE_CASH；保留原CSMOM/SMA及SHORT能力，不再扫此类gate。独立review发现LONG首次entry误标ADD，39795e1修正且v1保留，两次只读3.356秒/0钱包。来源/账本SHA及有限桥见reports/CSMOM_CONFIRMATION_DIAGNOSIS_20261008.md。下一优先原相对SHORT逐仓尾部生存/合法退出可行性，只读先核capacity/费用再冻结一个对照；不以避免一次清算宣称盈利。原ATR/selector/mix负结果与各reopen保持。
+
+
+## 2026-10-08 SHORT_COLLATERAL_HALF completed
+
+Fixed before wallets at ee163df,1recipe/10newwallets/10originalcontrols/0fit/search, five seen stages/two conditional units. Full10k/targets/native binding identity preserved, liquidation-first/paid persistence/normal hard risk. 2024H1/H2 net improves butSHORT negative;2025H1 net−146.66/−146.94,MDD+.7555/.7571pp despite costs down;allvol gate inherited from untouched41d original. PAUSE_EXACT_TAIL_PROTECTION_RECIPE/NONE_CASH. Readonly actualDOGEepisode shows stopMay11→normalexpertresetMay12, originalepisode−538.53 vsprotected−688.33, no originalnewSHORT opens inblock: no evidence cooldown is bottleneck. Preserve capability/history, do not tune threshold/reentry. Main report reports/SHORT_COLLATERAL_HALF_20261008.md contains full inputs/SHA/risk/resources/repro. Next choose structural hedge concentration/beta diagnosis before any single market-hedge contrast; not another exit scan or larger selector. New experiment NOT_REGISTERED_NOT_RUN; no background work. Existing caps drift, funding/MMR/proxy limitations remain.
