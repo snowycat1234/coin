@@ -17,7 +17,7 @@ ANCHOR_US = 1_704_067_200_000_000  # 2024-01-01 00:00 UTC.
 
 
 def public_targets(close, available_us, decision_us, symbols, allowed_symbols,
-                   anchor_us=ANCHOR_US):
+                   anchor_us=ANCHOR_US, *, short_absolute_confirmation=False):
     """Return ``(weights, diagnostics)`` in the explicit input symbol order.
 
     ``close`` is a dense (daily rows, assets) matrix with NaN for missing data.
@@ -54,6 +54,8 @@ def public_targets(close, available_us, decision_us, symbols, allowed_symbols,
             or anchor_us % DAY_US != 0):
         raise ValueError('Fixed UTC daily weekly anchor required')
     allowed_mask = np.array([s in allowed for s in names], dtype=bool)
+    if not isinstance(short_absolute_confirmation, bool):
+        raise ValueError('Explicit boolean absolute SHORT confirmation required')
 
     def past_context(timestamp):
         index = int(np.searchsorted(available, timestamp, side='right') - 1)
@@ -79,6 +81,9 @@ def public_targets(close, available_us, decision_us, symbols, allowed_symbols,
         rank_us=[], feature_available_us=[], current_eligible=[], rank_events=[],
         unscaled_signed_covariance_annual_vol=[],
         daily_risk_rebalance_can_restore_unchanged_weekly_raw_target=True)
+    if short_absolute_confirmation:
+        diagnostics.update(short_confirmation='DAILY_PAST_21D_RETURN_STRICTLY_NEGATIVE',
+                           short_confirmation_blocked=[], post_confirmation_risk_vol=[])
     rank_date = first_rank
     for timestamp in range(first_rank, int(decisions[-1]) + DAY_US, DAY_US):
         valid, momentum, returns = past_context(timestamp)
@@ -97,10 +102,23 @@ def public_targets(close, available_us, decision_us, symbols, allowed_symbols,
         if len(held):
             row[held], risk = signed_risk_weights(raw[held], returns[:, held], annual_vol_target=.10)
             sigma = risk['unscaled_signed_covariance_annual_vol']
+        if short_absolute_confirmation:
+            blocked = (row < 0) & (momentum >= 0) if momentum is not None else np.zeros(len(names), dtype=bool)
+            row[blocked] = 0.
+            # Removing a hedge may INCREASE covariance risk. Recheck the kept
+            # targets, downscale only; never redistribute the released budget.
+            kept = np.flatnonzero(row != 0.)
+            post_sigma = 0.
+            if len(kept):
+                row[kept], risk = signed_risk_weights(row[kept], returns[:, kept], annual_vol_target=.10)
+                post_sigma = risk['unscaled_signed_covariance_annual_vol']
         if timestamp in output_index:
             weights[output_index[timestamp]] = row
             diagnostics['rank_us'].append(rank_date)
             diagnostics['feature_available_us'].append([timestamp if v else None for v in valid])
             diagnostics['current_eligible'].append(valid.tolist())
             diagnostics['unscaled_signed_covariance_annual_vol'].append(sigma)
+            if short_absolute_confirmation:
+                diagnostics['short_confirmation_blocked'].append(blocked.tolist())
+                diagnostics['post_confirmation_risk_vol'].append(post_sigma)
     return weights, diagnostics
