@@ -54,6 +54,12 @@ def main():
             assert any(e['symbol']==f['symbol'] and e['event_us']<=f['signal_us'] for e in triggers)
             near(f['fees'],x['fee_USDT_mid']);near(f['execution_cost'],x['execution_cost'])
         for role,item in (('old',old[k]),('new',row)):
+            days=next(w['days'] for w in p['windows'] if w['id']==k[0])
+            metrics=item['daily_metrics']
+            near(metrics['initial_nav'],p['capital'])
+            near(metrics['final_nav']-p['capital'],item['net_PnL'])
+            near(metrics['total_return'],item['net_PnL']/p['capital'])
+            assert metrics['days']==days and item['complete_minutes']==days*1440
             near(item['gross_PnL']-item['fees']-item['execution_cost']+item['funding'],item['net_PnL'])
             legs=item['contributions']
             for name,total in (('gross','gross_PnL'),('fees','fees'),('execution_cost','execution_cost'),('funding','funding'),('net_contribution','net_PnL')):
@@ -63,10 +69,24 @@ def main():
         near(d['net_increment'],row['net_PnL']-old[k]['net_PnL'])
         near(d['SHORT_increment'],row['contributions']['SHORT']['net_contribution']-old[k]['contributions']['SHORT']['net_contribution'])
         near(d['LONG_increment'],row['contributions']['LONG']['net_contribution']-old[k]['contributions']['LONG']['net_contribution'])
+        near(d['MDD_change'],row['minute_MDD']-old[k]['minute_MDD'])
+        near(d['vol_change'],row['daily_metrics']['annual_volatility']-old[k]['daily_metrics']['annual_volatility'])
+        near(d['cost_change'],row['fees']+row['execution_cost']-old[k]['fees']-old[k]['execution_cost'])
+        near(d['turnover_change'],row['turnover']-old[k]['turnover'])
         cells.append(dict(window=k[0],funding_scale=k[1],net_PnL=row['net_PnL'],net_increment=d['net_increment'],
             protective_triggers=len(triggers),actual_protective_fills=len(protective),common_native_input_sha256=c['native_market_binding_sha256']))
+    checks=dict(no_liquidation=all(x['liquidations']==0 for x in new.values()),
+        all_vol_at_most12pct=all(x['daily_metrics']['annual_volatility']<=.12 for x in new.values()),
+        all_MDD_at_most12pct=all(x['minute_MDD']<=.12 for x in new.values()),
+        each_pair_net_or_DD_improves=all(x['net_increment']>=-1e-7 or x['MDD_change']<=-.0001 for x in r['contrasts']),
+        any_material_net_or_DD_improvement=any(x['net_increment']>=10 or x['MDD_change']<=-.001 for x in r['contrasts']),
+        both2025_stages_SHORT_positive=all(x['contributions']['SHORT']['net_contribution']>0 for x in new.values() if x['window'].startswith(('fold3','fold4'))))
+    assert checks==r['checks']
+    decision='RETAIN_TAIL_PROTECTION_FOR_INDEPENDENT_VALIDATION' if all(checks.values()) else 'PAUSE_EXACT_TAIL_PROTECTION_RECIPE'
+    assert decision==r['decision']
     out=dict(status='PASS_COMMON_INPUT_ACTUAL_PROTECTION_AND_SUMMARY_BRIDGES',result_sha256=sha(a.result),source_sha256=sha(__file__),
         cells=cells,old_new_same_market_inputs=10,old_new_exact_target_identity=10,financial_summaries=20,
+        frozen_gate_recalculation=checks,decision=decision,complete_capital_and_minute_paths=20,
         native_bindings_verified=len(checked_bindings),qualification='NONE_CASH',new_wallets=0,new_fits=0,elapsed_seconds=time.monotonic()-began,
         limitations=['Post-run input identity/actual protective-fill and summary review, not another wallet or independently simulated strategy.',
             'Native minute cash/risk audit remains the existing bound independent auditor. This reviewer does not replay every order or independently fit risk models.',
