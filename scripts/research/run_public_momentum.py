@@ -45,6 +45,13 @@ def main():
     assert (group/'memory.max').read_text().strip()!='max' and int((group/'memory.max').read_text())<=8000000000
     assert (group/'memory.swap.max').read_text().strip()=='0'
     state.mkdir(exist_ok=True);free_before=shutil.disk_usage(state).free;assert free_before>=p['budget']['reserve_bytes']
+    resume=state/'COMPLETED_WALLETS_BEFORE_REPORT_RESUME.json'
+    if not resume.exists() and (state/'PUBLIC_MOMENTUM.json').exists():
+        old_run=json.loads((state/'PUBLIC_MOMENTUM.json').read_text())
+        if old_run['status']=='COMPLETE' and len(old_run['cases'])==4 and not old_run['errors']:
+            save(resume,dict(progress=json.loads((state/'progress.json').read_text()),complete_wallet_result_sha256=sha(state/'PUBLIC_MOMENTUM.json'),
+                reason='Existing4wallets complete; report failed on absent kernel memory.peak; reuse without simulation'))
+    previous_elapsed=json.loads(resume.read_text())['progress']['elapsed_seconds'] if resume.exists() else 0.
     source_paths=[Path(__file__),a.protocol,ROOT/'scripts/research/public_cross_section_momentum.py',ROOT/'modules/transformer_v3/wallet.py']
     for src in source_paths:
         assert hashlib.sha256(subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+str(src.resolve().relative_to(ROOT))])).hexdigest()==sha(src),'Commit all sources before economics'
@@ -122,8 +129,11 @@ def main():
             validation_plan_sha256=sha(complete/'VALIDATION_PLAN.json'),replay_protocol_sha256=sha(replay_protocol),
             role='Existing audited global dataset/legacy-case/replay source chain; legacy replay has no invented per-case market manifest'),
         decision='RETAIN_FOR_MATCHED_RISK_AND_INDEPENDENT_VALIDATION' if all(gates.values()) else 'PAUSE_EXACT_RECIPE_NO_PARAMETER_SCAN',qualification='NONE_CASH',
-        actual_new_wallets=4,actual_new_fits=0,locked_consumed=False,elapsed_seconds=time.monotonic()-began,owned_bytes=owned,
-        RAM_group_peak_bytes=int((group/'memory.peak').read_text()),RAM_limit=(group/'memory.max').read_text().strip(),swap_limit=(group/'memory.swap.max').read_text().strip(),
+        actual_new_wallets=4,wallets_reused_during_report_resume=4 if resume.exists() else 0,actual_new_fits=0,locked_consumed=False,elapsed_seconds=previous_elapsed+time.monotonic()-began,owned_bytes=owned,
+        completed_wallet_compute_seconds_before_report_resume=previous_elapsed,
+        RAM_group_peak_bytes=int((group/'memory.peak').read_text()) if (group/'memory.peak').exists() else None,
+        RAM_group_peak_status='AVAILABLE' if (group/'memory.peak').exists() else 'UNKNOWN_KERNEL_HAS_NO_MEMORY_PEAK; new reporting scope is not original wallet peak',
+        RAM_limit=(group/'memory.max').read_text().strip(),swap_limit=(group/'memory.swap.max').read_text().strip(),
         free_bytes_before=free_before,free_bytes_after=shutil.disk_usage(state).free,
         limitations=['Seen development, two selected existing contiguous windows; neither fresh OOS nor full2022bear',
           'Binance USD-M prices/funding with Bybit fee model: cross-venue proxy, two unconfirmed funding unit interpretations',
