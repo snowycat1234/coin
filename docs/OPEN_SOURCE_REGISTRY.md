@@ -521,3 +521,8 @@ binance/binance-public-data https://github.com/binance/binance-public-data pinne
 ## 2026-10-08 FIXED_TREND_BLEND_20261008 completed
 
 无新依赖/上游代码拷贝或修改。复用已登记SMA200/public CSMOM固定方法、NumPy冻结intent、现有signed covariance、native Decimal隔离账户/无损storage/独立audit；fixed_trend_blend.py只是半权目标映射与薄编排，未新写金融内核/selector。QlibTRA/DeePM/pysystemtrade固定来源与许可证参见上文；静态分散用作复杂routing的强对照，不称任何上游策略完整复现。8实钱包/0fit；两个阶段净正但强对照门槛失败，保留静态参考，不复制GPL源或强迫弱expert权重。
+
+
+## 2026-10-08 Fixed trend stage extension
+
+无新上游依赖/代码复制/修改。复用已登记SMA200/public CSMOM固定adapter、signed covariance、native Decimal隔离账户、lossless storage/独立审计；fixed_trend_blend.py仅补来源分段与全过去日历编排，review_fixed_trend_extension.py为stdlib独立JSON算术。QlibTRA/DeePM/pysystemtrade固定commit/license仍见附件条目；不声称复现其模型或移植GPL内核。原12目标golden/18真实模拟钱包、0fit，静态组合失去全净正且XRP有尾部清算，暂停无条件配方，先核既有风险退出能力而非增加routing容量。

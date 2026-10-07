@@ -1655,3 +1655,8 @@ Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed s
 ## 2026-10-08 FIXED_TREND_BLEND_20261008 completed
 
 事前32c4f8e、运行前9de28b2仅lazyimport使目标测试不依赖torch；参数/门槛未改。固定半权SMA200_10pct/CSMOM CORE5、同一10k原caps/成本/2资金解释，8新钱包/4核身份控制，0fit，581.840秒。2024mix净+95.90/+156.68、SHORT−361/−442；2025mix+164.49/+160.66、SHORT+219/+200。所有mix净正且vol/DD<12%，但逐cell净或DD胜每single失败；SMA在2024、CSMOM在2025更强。NO_ALL_STAGE_BLEND_QUALIFICATION不改写；保留透明静态研究对照/风险分散线索，无投资晋级、无regimealpha、无权重搜索。独立12账户算术/8分钟钱包核验及收费终平通过。实际净收益接近两single半权算术，但此算术不是组合回测；净单成本节省约11–19USDT。下一先核其他既有合法阶段源/缺口/币池，再冻结原3条规则延展；PANEL止2025-07-02不可ffill，未注册/运行下一账户。docs/RESEARCH_STATUS.md与reports/FIXED_TREND_BLEND_20261008.md。
+
+
+## 2026-10-08 FIXED_TREND_EXTENSION_20261008 completed
+
+事前8718a3a；source-defined41/142/184日已见窗口，CORE5/原10列/同10k/成本/caps/2资金解释，18钱包/0fit/搜索。原12target exact golden、未来suffix/列顺序通过。mix净−74..−71/+1087..+1107/+583..+599，6cell全净正与逐cell对两single净/DD门槛失败，原失败不改：PAUSE_UNCONDITIONAL_FIXED_BLEND_RECIPE。CSMOM新3窗净正但原2024H1负仍在，研究候选不是投资资格。2024后半盈利来自多头，mixSHORT−521..−487、XRP清算损失106.72；CSMOMSHORT−1223..−1156、清算损失约398.2，双资金是同事件条件而非独立样本。完整收费终平/18分钟audit与独立桥通过；实际gross小额越60%与MMR/单位假设明确保留。546.106秒、state70.538MB、4worker，peakRAM未知，观察unit2.892GB/parent3.128GB；父coin.slice按原授权补runtime8GB/swap0。下一只读重建XRP目标/保证金/订单/风险时钟再决定最多一个复用风险退出对照，不调权重或模型；NOT_RUN，NONE/CASH。
