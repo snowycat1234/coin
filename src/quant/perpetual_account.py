@@ -532,6 +532,7 @@ class USDTLinearPerpetualAccount:
             raise ValueError("funding must precede same-timestamp fills")
         mark = self._mark(symbol, strictly_before=event_us)
         position = self.positions[symbol]
+        owned_quantity = position.quantity
         owned = bool(position.quantity and position.opened_us is not None and position.opened_us < event_us)
         with localcontext() as ctx:
             ctx.prec = 40
@@ -547,7 +548,7 @@ class USDTLinearPerpetualAccount:
                 "rate_available_us": available, "rate_fraction": rate, "mark_price": mark,
                 "mark_close_us": next(row["close_us"] for row in reversed(self.marks[symbol])
                                        if row["close_us"] < event_us and row["available_us"] <= event_us),
-                "owned": owned, "quantity": position.quantity, "signed_funding_USDT": amount,
+                "owned": owned, "quantity": owned_quantity, "signed_funding_USDT": amount,
                 "account_status": self.status, "unit_and_publication_scope": "CALLER_DECLARED_CONDITIONAL"})
             self.funding.append(receipt)
             self.funding_events[key] = {"identity": identity, "receipt": deepcopy(receipt)}
@@ -609,7 +610,8 @@ class USDTLinearPerpetualAccount:
 
     @classmethod
     def from_snapshot(cls, snapshot: Mapping[str, Any], *, expected_symbols=None,
-                      expected_instrument_profiles=None, expected_cost_context=None) -> "USDTLinearPerpetualAccount":
+                      expected_instrument_profiles=None, expected_cost_context=None,
+                      constructor_kwargs=None) -> "USDTLinearPerpetualAccount":
         if snapshot.get("version") != cls.VERSION:
             raise ValueError("snapshot product/version mismatch")
         symbols = _symbols(snapshot["symbols"])
@@ -621,7 +623,7 @@ class USDTLinearPerpetualAccount:
             raise ValueError("snapshot instrument profile identity is incomplete")
         result = cls(config, symbols=symbols, instrument_profiles=profiles,
                      closing_min_notional_exempt=snapshot["closing_min_notional_exempt"],
-                     cost_context=snapshot.get("cost_context"))
+                     cost_context=snapshot.get("cost_context"), **(constructor_kwargs or {}))
         if snapshot.get("contract") != result.contract_metadata():
             # Old snapshots mislabeled every stress scenario as RT27. Only that
             # known legacy metadata error is migrated; old journal bytes stay put.
@@ -691,14 +693,7 @@ class USDTLinearPerpetualAccount:
             rate = decimal(ExecutionContractV2.execution_rate(float(config.half_spread_bps),
                                                              float(config.slippage_bps)))
             for row in result.trades:
-                exact = row["decimal_strings"]
-                quantity, mid, fill = (decimal(exact[key]) for key in ("quantity", "mid_price", "fill_price"))
-                side = row["side"]
-                if (side not in {"BUY", "SELL"} or quantity <= 0 or mid <= 0 or fill <= 0
-                        or fill != mid * (1 + (1 if side == "BUY" else -1) * rate)
-                        or decimal(exact["fee_amount"]) != quantity * fill * config.fee_rate
-                        or decimal(exact["execution_cost"]) != quantity * abs(fill - mid)):
-                    raise ValueError("snapshot per-leg cost/config arithmetic mismatch")
+                result._validate_snapshot_trade(row, rate)
             for sym in result.symbols:
                 quantity = sum((decimal(row["decimal_strings"]["position_delta"])
                                 for row in result.trades if row["symbol"] == sym), ZERO)
@@ -716,13 +711,15 @@ class USDTLinearPerpetualAccount:
                 raise ValueError("snapshot ledger/total bridge mismatch")
             trade_groups: dict[str, list[dict[str, Any]]] = {}
             for row in result.trades:
+                if result._snapshot_trade_is_external(row):continue
                 identity = row["fill_id"]
                 if not isinstance(identity, str) or not identity:
                     raise ValueError("snapshot invalid trade fill id")
                 trade_groups.setdefault(identity, []).append(row)
             if not set(trade_groups) <= set(result.fill_requests):
                 raise ValueError("snapshot fill requests missing actual trades")
-            expected_last_fill = max((timestamp(row["event_us"]) for row in result.trades), default=None)
+            expected_last_fill = max((timestamp(row["event_us"]) for row in result.trades
+                                      if not result._snapshot_trade_is_external(row)), default=None)
             if result.last_fill_us != expected_last_fill:
                 raise ValueError("snapshot last fill timestamp mismatch")
             for fill_id, saved in result.fill_requests.items():
@@ -782,3 +779,16 @@ class USDTLinearPerpetualAccount:
         if previous_status not in HALTS and result.status != previous_status:
             raise ValueError("snapshot risk state mismatch")
         return result
+
+    def _snapshot_trade_is_external(self, row):
+        return False
+
+    def _validate_snapshot_trade(self, row, rate):
+        exact = row['decimal_strings']
+        quantity, mid, fill = (decimal(exact[key]) for key in ('quantity', 'mid_price', 'fill_price'))
+        side = row['side']
+        if (side not in {'BUY','SELL'} or quantity <= 0 or mid <= 0 or fill <= 0
+                or fill != mid * (1 + (1 if side == 'BUY' else -1) * rate)
+                or decimal(exact['fee_amount']) != quantity * fill * self.config.fee_rate
+                or decimal(exact['execution_cost']) != quantity * abs(fill-mid)):
+            raise ValueError('snapshot per-leg cost/config arithmetic mismatch')

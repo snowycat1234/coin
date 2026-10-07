@@ -54,3 +54,7 @@ RAM共享8GB、swap0/GPU0、D项目+整个WSL VHD150GB（120预警、135停止�
 ## 运维
 
 8765沿用。D108完成后核对到WSL新boot、原采集进程缺失；退出原因UNKNOWN，不能归因用户或OOM。已保存41份原DB/WAL/SHM、日志、checkpoint和闭合SQL副本/audit head，按原只读源/5GB coin-quant子组恢复；两次实际PID/source binding核对一致、public心跳+75117ms、micro新增17610事件且asof推进，连接已实测。具体证据见SELECTOR_COLLECTOR_RESUME_SAMPLE V1/V2；不注入工程升级，不拼接连续健康时间。采集恢复证据单独记录，离线历史结果有效性不依赖此轮采集存活。无密钥/账户/发单/付费/GPU/封存正文。
+
+## 2026-10-07：Transformer v3 强平修复，回放准备验收
+
+用户授权独立分支 research/transformer-v3-oracle-policy。已完整 hash 保留 v2 HEAD0350589及16,025个外部保护文件，旧正式locked N/E保持。五种缺失资金费估算已在任何新经济结果前登记。逐仓接管不会因单币强平停止整钱包；27项服务器测试通过，真实864行冻结回放尚未完成，新模型fit与locked经济结果尚未运行。十个官方risk档位请求403，因此MMR=.005/MMD=0只能作为明确声明的条件研究假设，不能称真实档位认证。投资资格NONE/CASH；先核两个真实窗口，再全量回放和neutral分析。详见 [模块](../modules/transformer_v3/README.md) 与 reports/transformer_v3/V2_REPLAY_PROTOCOL.json。

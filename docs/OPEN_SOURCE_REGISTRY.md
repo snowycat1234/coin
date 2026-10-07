@@ -446,3 +446,8 @@ Transformer v2预注册：复用已有PyTorch2.6.0+cu124/BSD-style标准Transfor
 
 
 Transformer v2 final evidence: reuse existing registered matplotlib3.11.2 and requests2.34.2 without dependency installation or third-party changes; standalone descriptive economic heatmap and official Binance public archive/calendar probes only. No custom financial kernel, native account changes or additional architecture.
+
+
+## 2026-10-07 Transformer v3 isolated liquidation specialization
+
+Reuse: existing USDTLinearPerpetualAccount Decimal wallet, perpetual_directional simulator and audit_shared_direction independent cash/NAV auditor; no duplicate complete financial kernel. New BybitIsolatedAccount specializes per-position Mark trigger and bankruptcy takeover. Public sources: https://www.bybit.com/en/help-center/article/UTA-Trading-Rules-Liquidation-Process ; https://bybit-exchange.github.io/docs/v5/market/risk-limit ; https://www.binance.com/en/support/faq/detail/360033525031 . Public docs are referenced for rules, not copied as licensed vendor source. Existing NumPy/Polars/Torch versions and licenses unchanged. Ten public risk requests403; native tiers unavailable, .005 MMR/MMD0 explicitly conditional. New source available under existing repository licensing; no new external code dependency or private API.

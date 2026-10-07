@@ -180,6 +180,13 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
     completion='COMPLETE_CONDITIONAL_ACCOUNT';stop=None
     first_entry=None;nearest_funding_ties=[]
 
+    if hasattr(account,'liquidation_callback'):
+        def cancel_liquidated_intents(symbol,event_us):
+            need(bridge is None,'Isolated takeover adapter currently requires explicit daily targets')
+            order=pending.pop(symbol,None)
+            if order is not None:rejections.append(dict(symbol=symbol,event_us=event_us,order_id=order['order_id'],reason='CANCELLED_BY_ISOLATED_LIQUIDATION'))
+        account.liquidation_callback=cancel_liquidated_intents
+
     def observe(stamp,cause):
         nonlocal peak,mdd,min_nav,min_free,max_gross
         nav=float(account.nav());need(math.isfinite(nav),'Finite account NAV')
@@ -225,8 +232,8 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                  for o in bridge.summary_orders().values()):return
         nav=account.nav();notionals=[abs(account.positions[s].quantity)*account.marks[s][-1]['price']
                                    if account.positions[s].quantity else ZERO for s in symbols]
-        scale=min(D(1),D('.297')*nav/max(notionals) if max(notionals)>0 else D(1),
-                  D('.594')*nav/sum(notionals,ZERO) if sum(notionals,ZERO)>0 else D(1))
+        scale=min(D(1),account.config.max_asset_weight*D('.99')*nav/max(notionals) if max(notionals)>0 else D(1),
+                  account.config.max_gross_weight*D('.99')*nav/sum(notionals,ZERO) if sum(notionals,ZERO)>0 else D(1))
         breaches.append(dict(signal_us=int(stamp),gross_weight=float(sum(notionals,ZERO)/nav),
             asset_weights={s:float(v/nav) for s,v in zip(symbols,notionals,strict=True)},
             phase='ACTUAL_DRIFT_BEFORE_CAPACITY_LIMITED_REDUCTION',scale=float(scale)))
@@ -299,6 +306,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
             for s in symbols:
                 if s not in due or s not in market_row:continue
                 order=due[s];position=account.positions[s].quantity;target=order['target'];delta=target-position
+                if s not in pending or pending[s] is not order:continue
                 if delta==0:continue
                 reducing=position!=0 and position*delta<0
                 if phase=='REDUCE':
@@ -320,7 +328,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                 receipt=account.execute_fill(s,side,requested,event,order['signal_us'],fill_id,
                     execution_mid_price=D(str(market_row[s]['open'])),quote_available_us=int(open_us),
                     available_quantity=capacity[s],reduce_only=reduce_only)
-                used=sum((D(r['decimal_strings']['quantity']) for r in account.trades[before:]),ZERO)
+                used=sum((D(r['decimal_strings']['quantity']) for r in account.trades[before:] if not r.get('liquidation_takeover')),ZERO)
                 capacity[s]=max(ZERO,capacity[s]-used)
                 if position_protection is not None:
                     position_protection.on_fills(account.trades[before:],order['kind'])
@@ -335,6 +343,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
                 if account.status in HALTS:
                     completion='NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED';stop=event;return
         for s,order in due.items():
+            if s not in pending or pending[s] is not order:continue
             order['attempts']+=1
             remaining=order['target']-account.positions[s].quantity
             reached=(remaining==0 or order['kind'] in ('RISK_REDUCTION','TERMINAL','POOL_EXIT','DATA_GAP_EXIT')
@@ -494,6 +503,7 @@ def simulate(window,mode,cost,unit,progress=None,guard=None,*,target_factory=Non
         targets,meta=bridge.targets_frame(),bridge.meta()
     result=dict(summary=summary,targets=targets,target_meta=meta,minute=minute,trades=account.trades,
         funding=funding_journal,rejections=rejections,breaches=breaches,extrema=extrema)
+    if hasattr(account,'liquidations'):result['liquidations']=account.liquidations
     if position_protection is not None:
         summary['position_protection']=position_protection.rules
         result['protection_journal']=position_protection.journal
@@ -567,7 +577,8 @@ def save_case(case,directory):
         path=directory/(name+'.parquet');frame.write_parquet(path,compression='zstd')
         artifacts[path.name]=dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size,rows=frame.height)
     for name in ('trades','funding','rejections','breaches','extrema','target_meta')+(
-            ('protection_journal',) if 'protection_journal' in case else ()):
+            ('protection_journal',) if 'protection_journal' in case else ())+(
+            ('liquidations',) if 'liquidations' in case else ()):
         path=directory/(name+'.json');write(path,case[name]);artifacts[path.name]=dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size)
     trade_schema={'symbol':pl.String,'side':pl.String,'leg':pl.String,'event_us':pl.Int64,'signal_us':pl.Int64,
         'quantity':pl.Float64,'position_delta':pl.Float64,'mid_price':pl.Float64,'fill_price':pl.Float64,
