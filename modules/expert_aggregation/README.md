@@ -2,6 +2,8 @@
 
 用户提供的两份2026-10-07计划指导本有限模块。先登记完整脚本再执行：复用8个BTC连续专家的旧目标和净反馈，只让Hedge/FixedShare进入分钟确认，EWMA只诊断，无GPU训练。2022仅训练，2023独立10k同钱包，共28个账户；既有已见历史不能恢复成fresh OOS。参数、费用、预算与停止条件见[protocol.json](protocol.json)。
 
+实际已完成28/28全年且终端现金账户，31项执行前测试和1项报告反例通过，独立NAV最大误差1.82e-12 USDT。结论STATIC_EDGE_ONLY；FixedShare较family-EW增量只有13.78/44.47 USDT且回撤/暴露更高，Hedge落后，没有触发第二轮。原协议与实际源码commit49869f7保留在结果身份中。参见[报告](../../reports/expert_aggregation/REPORT.md)、[净值图](../../reports/expert_aggregation/NAV.png)及[结果表](../../reports/expert_aggregation/RESULTS.csv)。
+
 依次完成工程反例、只读字节迁移、共享只读缓存、冻结目标、逐分钟并行钱包/独立审计、研究报告与第二轮证据门槛。复用既有Decimal隔离钱包、调度器、目标混合、过去协方差验算和独立审计；没有另写资金会计或改写旧报告。
 
 在已部署的Ubuntu服务器启动及查看：
