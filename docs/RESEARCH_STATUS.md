@@ -1,10 +1,10 @@
 # COIN 当前研究状态
 
-## 当前：Transformer v3 回放与训练完成，开发账户继续后台执行
+## 当前：Transformer v3 全部执行及核验完成，B继续研究、不晋级
 
-独立分支research/transformer-v3-oracle-policy保留旧v2正式N/E及全部保护证据。2026-10-07 UTC10:02:40（北京时间18:02:40）发布静态阶段快照：864/864旧回放、348/348半仓位对照、60/60开发fit和12/12固定过去数据最终fit完成；新模型开发账户190/576，服务器继续后台执行。最新动态计数以服务器进度为准。旧111个停机账户恢复108个（96强平+12旧破产）；3个风险减仓受限仍N/E。全部864行中861完整日历且终端现金结算，753个原完整且未强平账户完成经济一致性核对；旧neutral稳定性门槛未通过。详见[当前阶段报告](../reports/transformer_v3/progress_snapshot_20261007/CURRENT_STAGE_REPORT.md)，包含全部旧回放分析、半仓位对照、新旧预测诊断、已完成新账户子集、训练记录及独立审计SHA。行情、权重和分钟账本留服务器，已核全部发布账户summary/audit及72次fit的weights/scaler SHA。无CPU/RAM/墙钟限制；本机不运行科学任务。
+独立分支research/transformer-v3-oracle-policy实际完成864旧回放、348HALF对照、60开发fit、12固定过去数据最终fit、576新开发账户及400五方案封存账户。开发共1788行，1782行完整日历且收费终值现金；封存400行中395行完整，5行真实风险停机保留N/E。执行完成不等于经济完整，独立钱包不拼收益。旧111个停机账户恢复108个（96强平+12旧破产）；3个容量受限风险减仓仍N/E。753个原完整且未强平账户经济一致性通过。结束时全量SHA复核16,025个旧保护文件、33,182,604,674字节，全部保持。详见[最终交付摘要](../reports/transformer_v3/FINAL_DELIVERY_SUMMARY.md)、[11个问题最终报告](../reports/transformer_v3/TRANSFORMER_V3_FINAL_REPORT.md)、[开发比较](../reports/transformer_v3/TRANSFORMER_V3_DEV_REPORT.md)。先前190/576阶段快照保留供追溯。行情、权重和分钟账本留服务器，Git包含报告、2188项账户summary/audit/target校验引用、CSV和冻结凭据；本机未运行科学任务。
 
-同clock Mark liquidation/funding校验修复已通过47项已提交源码测试，旧冻结回放源文件保持。回放与neutral分析后，后台已commit授权协议bdfe816再训练；训练前提交凭据与协议已入库。固定预算60开发fit、12过去final fit、348HALF对照、576新开发钱包、400封存比较不扩展。直接三action policy主要监督，rank30保留；无Optuna/温度/额外架构搜索。开发账户全部完成并汇总冻结后才进入五bridge敏感性；该400项封存比较、最终报告及完整旧证据复核在本快照时尚未执行。五funding补值只称imputed，MMR .005/MMD0未取得官方risk档位认证。仍NONE/CASH，不用190项部分结果做模型选择或最终盈利结论。详见[模块](../modules/transformer_v3/README.md)。
+实际回放与neutral分析后提交协议bdfe816，再训练并完成开发报告、模型/仓位/权重冻结后才执行全部五bridge×两fund口径；无locked调参、winner seed或最佳补值选择。冻结候选ORACLE_POLICY_CROSS_ASSET/NEUTRAL/FULL，开发门槛未通过。184日封存五方案净收益率范围：scale=.01为−4.4108%～−4.4102%，scale=1为−6.5786%～−6.5778%；各方案经济判断均FAIL，LONG为正而SHORT亏损，每个所选账户均有一次1000SATS强平及正常再入场。最终B. CONTINUE RESEARCH由事前登记的描述性排名信号条件触发，不是策略晋级；新policy的日频expert代理regret改善未通过跨fold门槛。MMR=.005/MMD0和五funding补值为未认证条件；旧v2正式封存N/E永久保留，没有恢复精确事件。后台正常结束，无新增训练或回放。详见[模块](../modules/transformer_v3/README.md)。
 
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 

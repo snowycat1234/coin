@@ -2,7 +2,7 @@
 
 从远端 v2 `0350589199d4566ac519b0e581ff86eb065ba934` 建立独立分支。旧 v2 STATE、formal locked N/E、模型和账本不改写；16,025 个保护文件（33,182,604,674 bytes）已有完整 SHA 清单，原件留在服务器。
 
-当前阶段成果已发布：[2026-10-07阶段报告](../../reports/transformer_v3/progress_snapshot_20261007/CURRENT_STAGE_REPORT.md)。快照UTC10:02:40（北京时间18:02:40）：864旧回放、348HALF对照、60开发fit及12固定过去数据最终fit全部完成；新开发账户190/576继续后台执行，locked敏感性与最终研究报告尚未运行。原111停机账户恢复108个，3个风险减仓受限保留N/E；753个原完整且未强平账户经济一致性核对通过。旧neutral稳定性门槛未通过，投资资格仍NONE/CASH。阶段证据包含完整旧回放分析、半仓位结果、预测诊断、新旧regret对照、训练记录及已完成新账户子集；全部发布账户summary/audit与72次fit的weights/scaler SHA已核对。阶段发布不是最终模型选择。47项已提交后续源码测试通过；大行情、权重、分钟账本留外部STATE。
+全部有限研究已实际完成：[最终交付摘要](../../reports/transformer_v3/FINAL_DELIVERY_SUMMARY.md)、[11问题最终报告](../../reports/transformer_v3/TRANSFORMER_V3_FINAL_REPORT.md)、[开发比较](../../reports/transformer_v3/TRANSFORMER_V3_DEV_REPORT.md)。864旧回放、348HALF对照、60开发fit、12固定过去数据最终fit、576新开发账户和400五方案封存账户完成执行；开发1788行中1782完整，封存400行中395完整，N/E行保留真实原因。原111停机账户恢复108个，753个原完整且未强平账户经济一致性通过；16,025个旧文件全量SHA结束复核通过。冻结候选ORACLE_POLICY_CROSS_ASSET/NEUTRAL/FULL，后续两个资金费口径净收益约−4.41%/−6.58%，五补值经济门槛均FAIL。最终B. CONTINUE RESEARCH、不晋级，投资NONE/CASH。47项已提交源码测试通过；全部2188项账户summary/audit/target SHA和冻结权重/scaler已核验，CSV、原报告及数据引用入库，大行情、权重、分钟账本留服务器。原[190/576阶段快照](../../reports/transformer_v3/progress_snapshot_20261007/CURRENT_STAGE_REPORT.md)是历史记录，不能当当前运行进度。
 
 资金费 exact source 均未恢复；授权失败和空网页不是无结算事件证据。ZERO、LINEAR_INTERPOLATION、PREVIOUS、NEXT、FORMULA_RECONSTRUCTED 全部已登记，公式使用分钟 premium 近似，绝不标 exact。用户同意采用相邻事件均值估算，五种敏感性仍全部保留。
 
@@ -23,5 +23,7 @@ pipeline.py为持久有限编排器，失败保存且最多一次原生任务/fi
 实时查看：`python -m modules.transformer_v3.progress --state <NEW_STATE> --watch`，显示实际模块计数、epoch/batch和最近账户分钟计数；缺总数不会伪造百分比。完整编排入口：`python -u -m modules.transformer_v3.pipeline --state <NEW_STATE> --v2-state <READ_ONLY_V2_STATE> --collector-root <COLLECTOR> --work <DEVELOPMENT_WORK> --source-run <SOURCE_RUN>`。只在独立云Linux服务器执行，worker默认实际CPU affinity；本机资源限制继续有效。
 
 阶段证据导出使用`publish_snapshot.py --state <STATE> --repo <EXECUTION_REPO> --output <NEW_PUBLICATION_DIRECTORY>`，仅在独立云Linux运行，不重跑训练或账户，不修改运行中的源码及保护工件。读取一次当前已完成账户集合，保留N/E和部分状态，验证summary/audit、weights/scaler SHA；生成报告、阶段计数与逐文件manifest。发布目录独立于科学STATE和执行仓库，再同步小证据到Git。本阶段结束不等于整条研究完成。
+
+最终证据导出使用`publish_final.py --state <STATE> --repo <EXECUTION_REPO> --output <NEW_PUBLICATION_DIRECTORY>`。它要求完整后台收尾凭据和16,025旧文件校验通过，核对事前冻结选择、输入/报告SHA、全部2188项summary/audit/target身份及冻结权重/scaler，保留所有N/E，生成完整开发与后续结果、CSV、交付摘要和逐文件manifest。不会重跑任何fit或经济账户。后台在本次最终交付前已正常结束。
 
 公开规则来源：[Bybit liquidation process](https://www.bybit.com/en/help-center/article/UTA-Trading-Rules-Liquidation-Process)、[Bybit risk-limit schema](https://bybit-exchange.github.io/docs/v5/market/risk-limit)、[Binance funding](https://www.binance.com/en/support/faq/detail/360033525031)。依赖沿用既有 Decimal、NumPy、Polars、Torch，无新付费或私有账户接口。
