@@ -18,6 +18,17 @@ def test_weekly_label_not_mature_at_next_week_midnight_or_boundary():
     assert mature_indices(ready, [ready]).tolist() == [0]
 
 
+def test_actual_late_close_extends_feedback_maturity():
+    start=1704153600000000
+    nominal=label_available_at(start,7)
+    last_fill=nominal-1+60_000_000
+    actual=label_available_at(start,7,actual_last_fill_us=last_fill)
+    assert actual==last_fill+1
+    assert not len(mature_indices(nominal,[actual]))
+    assert not len(mature_indices(last_fill,[actual]))
+    assert mature_indices(actual,[actual]).tolist()==[0]
+
+
 @pytest.mark.parametrize('previous,target,expected', [(0,.1,0), (10,.1,-1), (10,-.1,1), (10,0,1), (-10,-.1,-1)])
 def test_first_switch_delta_hand_reference(previous,target,expected):
     # 10k capital, price100, 10-unit exposure, 10bp cost.

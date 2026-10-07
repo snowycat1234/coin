@@ -24,11 +24,18 @@ from scripts.research.run_public_momentum import ROOT, load_past_inputs, save, s
 EXEC_OFFSET_US = 60_000_001
 
 
-def label_available_at(decision_us, horizon_days):
-    """Strictly after the delayed interval's last boundary event."""
+def label_available_at(decision_us, horizon_days, *, actual_last_fill_us=None):
+    """Nominal proxy boundary, extended by witnessed native close if supplied.
+
+    Native partial-fill/close results cannot mature at a nominal proxy clock.
+    This does not certify future marked-label availability or data ingestion.
+    """
     if type(horizon_days) is not int or horizon_days < 1:
         raise ValueError('Positive integer horizon required')
-    return int(decision_us) + horizon_days * DAY_US + EXEC_OFFSET_US + 1
+    endpoint = int(decision_us) + horizon_days * DAY_US + EXEC_OFFSET_US
+    if actual_last_fill_us is not None:
+        endpoint = max(endpoint, int(actual_last_fill_us))
+    return endpoint + 1
 
 
 def mature_indices(decision_us, label_available_us):
