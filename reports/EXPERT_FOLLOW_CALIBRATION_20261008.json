@@ -1,0 +1,550 @@
+{
+  "status": "COMPLETE_SEMANTIC_CALIBRATION",
+  "source_commit": "ac0621b5690b9dc5a1f70f8dbf3a3d79c50c1cd7",
+  "protocol": {
+    "experiment_id": "EXPERT_FOLLOW_CALIBRATION_20261008",
+    "question": "Is the existing conditional daily quantity proxy accurate enough on one fixed seven-interval expert path to justify cheap selector screening?",
+    "parent_commit": "4a9a56af372d45713534e4e026a0f81a303d6449",
+    "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+    "parent_protocol_sha256": "975696715a431d73bff7abaea031db3856fcb3852f5160588113bfce1ed2e6b8",
+    "parent_results": "reports/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+    "parent_results_sha256": "2ef6a5793b8da9c441af2879429c4edee2e6d01b56dfa6779706db6f8f80b350",
+    "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+    "data_role": "SEEN_DEVELOPMENT_SEMANTIC_CALIBRATION_ONLY; no new validation or locked data",
+    "window": {
+      "id": "calibration-first-2024-01-02",
+      "days": 8,
+      "start": 1704153600000000,
+      "end": 1704844800000000,
+      "active_symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT"
+      ]
+    },
+    "selection": "First calendar date of original registered 2024 window, not selected by PnL. Original daily targets exact prefix; seven delayed owned intervals, eighth daily target zero and actual paid exit.",
+    "capital": 10000,
+    "max_asset_abs": 0.3,
+    "max_gross": 0.6,
+    "leverage": 1,
+    "automatic_margin_topup": false,
+    "funding_scales": [
+      1,
+      0.01
+    ],
+    "proxy_side_cost": 0.00135,
+    "cost": "Unchanged native fee5.5bp + halfspread4bp + slippage4bp each way; proxy linear mid-notional cost13.5bp is explicitly approximate. Binance USD-M/Bybit fees proxy, no new fee interpretation.",
+    "calibration_limit_USDT": 5,
+    "threshold_reason": "Absolute net error <=5USDT/10k (5bp) in both conditional funding units is a preliminary screen tolerance only. At a future20bp utility separation this could still be25% error; passing is not label equivalence or investment evidence.",
+    "label_semantics": "Compare existing zero-entry seven-interval paid-flat proxy and native paid-flat account. Marked proxy reported separately. Future selector labels NOT_REGISTERED_NOT_RUN; no weekly forced-close training labels adopted.",
+    "feedback_clock": "decision+7d+60,000,001us execution endpoint; label available endpoint+1us. At next weekly00:00 prior-week result not available.",
+    "first_switch": "Diagnostic only: reference entry cost replaced by actual current-to-net-composite target cost once; CASH exit is not free; nonlinear NAV/partial-fill paths require actual wallet.",
+    "known_differences": [
+      "Native freezes quantity at decision NAV and completed close with0.99 buffer; proxy targets at execution boundary NAV/open without buffer.",
+      "Native fee is based on directional fill price; daily proxy linear mid-cost omits fee/execution cross term.",
+      "Minute risk, precision, capacity, partial fills, mark and liquidation are absent in daily proxy; unchanged native path retains them."
+    ],
+    "budget": {
+      "new_configs": 1,
+      "reserve_bytes": 16106127360,
+      "new_owned_bytes": 100000000,
+      "RAM_bytes": 8000000000,
+      "new_fits": 0,
+      "GPU": 0,
+      "new_wallets": 2,
+      "wall_seconds": 900,
+      "swap": 0,
+      "workers": 2,
+      "threads_per_process": 1
+    },
+    "stop": "No alternate windows, cost tuning, horizon scan or model fits. If net calibration fails in either unit, repair action/label alignment before fits. If passes, retain proxy only for limited seen-development screening; marked/current-position/soft mixture labels still need preregistration.",
+    "limitations": [
+      "One fixed already-seen week cannot validate error stability, ranking fidelity or annual return.",
+      "This is Binance USD-M with Bybit fee assumptions, not native Bybit evidence; funding units remain conditional1/.01.",
+      "Closed calibration does not certify marked continuation utility, exact current-position switch cost, intraminute risk caps or future selector efficacy.",
+      "No new strategy adopted; original losing windows and full recipe pause preserved."
+    ],
+    "qualification": "NONE_CASH"
+  },
+  "protocol_sha256": "3074b65e203810df519042992172cfb76f55b6ef5822c678ccc885f65e720272",
+  "cases": [
+    {
+      "kind": "NEW_SEVEN_INTERVAL_CALIBRATION",
+      "result_path": "/home/ubuntu/coin/execution-state/expert-follow-20261008-v1/native/raw_percent/CALIBRATION7D/RESULT.json",
+      "result_sha256": "ba8114ceacf538ffbc6524a308cc9bacab65b988fca836f11056c7a46670b468",
+      "window": "calibration-first-2024-01-02",
+      "funding_scale": 0.01,
+      "family": "CSMOM21_CORE5_CALIBRATION",
+      "net_PnL": 102.89833010604843,
+      "gross_PnL": 119.0804726718332,
+      "fees": 6.593871216985702,
+      "execution_cost": 9.591161618027169,
+      "funding": 0.0028902692281044216,
+      "turnover": 1.1988856758155824,
+      "daily_metrics": {
+        "days": 8,
+        "initial_nav": 10000.0,
+        "final_nav": 10102.898330106049,
+        "total_return": 0.010289833010604932,
+        "annual_return": 0.5953205232121235,
+        "annual_volatility": 0.07498338044913731,
+        "sharpe": 6.265747019638337,
+        "max_drawdown": 0.004991208683835957,
+        "fees": 6.593871216985702,
+        "execution_costs": 9.591161618027169,
+        "turnover": 11988.856758155824
+      },
+      "minute_MDD": 0.01557229583250741,
+      "exposure": {
+        "minute_mean_gross_weight": 0.35921682049100717,
+        "minute_max_gross_weight": 0.45787025491369654,
+        "minute_mean_net_signed_weight": 0.0009423058246555733,
+        "minute_min_net_signed_weight": -0.008643000398249357,
+        "minute_max_net_signed_weight": 0.014436915025020659,
+        "minute_mean_isolated_collateral_over_initial_capital": 0.38441213896415094,
+        "minute_max_isolated_collateral_over_initial_capital": 0.49256739495633856,
+        "minute_mean_isolated_collateral_over_NAV": 0.3827999203553945,
+        "minute_max_isolated_collateral_over_NAV": 0.4922716707632733,
+        "minimum_recorded_minute_free_cash_USDT": 5070.874685708837,
+        "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+      },
+      "contributions": {
+        "LONG": {
+          "gross": -75.3446906344202,
+          "fees": 3.944015825676238,
+          "execution_cost": 5.736702071290704,
+          "funding": -0.07031110173307831,
+          "net_contribution": -85.09571963312023
+        },
+        "SHORT": {
+          "gross": 194.4251633062537,
+          "fees": 2.649855391309465,
+          "execution_cost": 3.8544595467364644,
+          "funding": 0.07320137096118269,
+          "net_contribution": 187.99404973916896
+        }
+      },
+      "months": [
+        {
+          "month": "2024-01",
+          "days": 8,
+          "net_PnL": 102.89833010604889,
+          "fees": 6.593871216985702,
+          "spread_cost": 4.795580809013584,
+          "slippage_cost": 4.795580809013584,
+          "funding_USDT": 0.0028902692281044216,
+          "gross_PnL": 119.08047267183366,
+          "ending_NAV": 10102.898330106049,
+          "ending_signed_quantities": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "1000PEPEUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "WIFUSDT": 0.0,
+            "WLDUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "1000SATSUSDT": 0.0,
+            "ORDIUSDT": 0.0
+          }
+        }
+      ],
+      "concentration": {
+        "positive_days": 4,
+        "total_days": 8,
+        "top5_positive_day_share": 1.0,
+        "largest_absolute_day_share": 0.3366094312875012,
+        "positive_gain_USDT": 169.04654314135223,
+        "absolute_daily_net_delta_USDT": 235.19475617665557
+      },
+      "short_open_legs": 10,
+      "audit_status": "PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY",
+      "maximum_NAV_error": 1.8189894035458565e-12,
+      "terminal_cash_realized": true,
+      "complete_minutes": 11520,
+      "liquidations": 0,
+      "proxy": {
+        "closed": {
+          "net": 105.91123133544352,
+          "net_return": 0.010591123133544267,
+          "final_nav": 10105.911231335444,
+          "mdd": 0.00504091333978729,
+          "sharpe": 7.039094744682795,
+          "days": 7,
+          "fees": 16.417421236241214,
+          "funding": -0.002829286279463642,
+          "turnover": 1.2097603151015277,
+          "terminal_fee": 6.30282310528213,
+          "final_positions": 0,
+          "economics": "CONDITIONAL_DAILY_QUANTITY_PROXY"
+        },
+        "marked_net": 112.21405444072565,
+        "price_pnl": 122.32582328540832,
+        "first_reference_q": [
+          0.0,
+          0.41637751561986364,
+          8.955862159238198,
+          -1554.4584310710768,
+          -10634.879610423279
+        ],
+        "terminal_fee": 6.30282310528213
+      },
+      "native_minus_proxy": {
+        "net": -3.0129012293950836,
+        "price_pnl": -3.2453506135751127,
+        "costs": -0.23238840122834503,
+        "funding": -6.0982948640779435e-05
+      },
+      "funding_comparison_sign": "Difference of CHARGES: -native_signed_cashflow - proxy_charge",
+      "fill_timing": {
+        "first_fill_us": 1704153660000001,
+        "last_fill_us": 1704758520000001,
+        "first_fill_legs": [
+          {
+            "symbol": "ETHUSDT",
+            "side": "BUY",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 0.41168504,
+            "position_delta": 0.41168504,
+            "mid_price": 2351.6,
+            "fill_price": 2353.48128,
+            "fee_USDT_mid": 0.5328911691928282,
+            "execution_cost": 0.7744948320512,
+            "quantity_before": 0.0,
+            "quantity_after": 0.41168504
+          },
+          {
+            "symbol": "SOLUSDT",
+            "side": "BUY",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 8.8086166,
+            "position_delta": 8.8086166,
+            "mid_price": 109.331,
+            "fill_price": 109.4184648,
+            "fee_USDT_mid": 0.5301039179610876,
+            "execution_cost": 0.77044388919568,
+            "quantity_before": 0.0,
+            "quantity_after": 8.8086166
+          },
+          {
+            "symbol": "XRPUSDT",
+            "side": "SELL",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 1486.41821544,
+            "position_delta": -1486.41821544,
+            "mid_price": 0.6299,
+            "fill_price": 0.62939608,
+            "fee_USDT_mid": 0.5145501889211923,
+            "execution_cost": 0.7490358671245247,
+            "quantity_before": 0.0,
+            "quantity_after": -1486.41821544
+          },
+          {
+            "symbol": "DOGEUSDT",
+            "side": "SELL",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 9253.01778853,
+            "position_delta": -9253.01778853,
+            "mid_price": 0.09207,
+            "fill_price": 0.091996344,
+            "fee_USDT_mid": 0.46818409413144885,
+            "execution_cost": 0.6815402782319657,
+            "quantity_before": 0.0,
+            "quantity_after": -9253.01778853
+          }
+        ]
+      },
+      "proxy_error_within_preregistered_limit": true
+    },
+    {
+      "kind": "NEW_SEVEN_INTERVAL_CALIBRATION",
+      "result_path": "/home/ubuntu/coin/execution-state/expert-follow-20261008-v1/native/raw_fraction/CALIBRATION7D/RESULT.json",
+      "result_sha256": "68136ca6442485dbe66143bb0960207d644fa9228a1721c26e7d9810b408b7b0",
+      "window": "calibration-first-2024-01-02",
+      "funding_scale": 1,
+      "family": "CSMOM21_CORE5_CALIBRATION",
+      "net_PnL": 103.18847546035434,
+      "gross_PnL": 119.0849805443591,
+      "fees": 6.594077639867928,
+      "execution_cost": 9.591461872377261,
+      "funding": 0.2890344282404362,
+      "turnover": 1.1989232072487142,
+      "daily_metrics": {
+        "days": 8,
+        "initial_nav": 10000.0,
+        "final_nav": 10103.188475460354,
+        "total_return": 0.010318847546035403,
+        "annual_return": 0.5974122202838354,
+        "annual_volatility": 0.07503565603511714,
+        "sharpe": 6.278912162792462,
+        "max_drawdown": 0.004990429232468507,
+        "fees": 6.594077639867928,
+        "execution_costs": 9.591461872377261,
+        "turnover": 11989.232072487142
+      },
+      "minute_MDD": 0.015571863493064164,
+      "exposure": {
+        "minute_mean_gross_weight": 0.35921606992926697,
+        "minute_max_gross_weight": 0.4578704543837861,
+        "minute_mean_net_signed_weight": 0.000942043436615345,
+        "minute_min_net_signed_weight": -0.008642944271934423,
+        "minute_max_net_signed_weight": 0.014436915025020659,
+        "minute_mean_isolated_collateral_over_initial_capital": 0.38441971494051985,
+        "minute_max_isolated_collateral_over_initial_capital": 0.4925810392468343,
+        "minute_mean_isolated_collateral_over_NAV": 0.3827984163386883,
+        "minute_max_isolated_collateral_over_NAV": 0.4922705043645845,
+        "minimum_recorded_minute_free_cash_USDT": 5071.034870163486,
+        "scope": "COMPLETE_MINUTE_SNAPSHOTS_REALIZED_RISK_NOT_EQUALIZED_BY_COMMON_CAPS"
+      },
+      "contributions": {
+        "LONG": {
+          "gross": -75.3406114841896,
+          "fees": 3.944143992448449,
+          "execution_cost": 5.736888498297304,
+          "funding": -7.031196986724261,
+          "net_contribution": -92.0528409616596
+        },
+        "SHORT": {
+          "gross": 194.4255920285492,
+          "fees": 2.649933647419479,
+          "execution_cost": 3.8545733740799575,
+          "funding": 7.3202314149647,
+          "net_contribution": 195.24131642201445
+        }
+      },
+      "months": [
+        {
+          "month": "2024-01",
+          "days": 8,
+          "net_PnL": 103.18847546035431,
+          "fees": 6.594077639867928,
+          "spread_cost": 4.7957309361886304,
+          "slippage_cost": 4.7957309361886304,
+          "funding_USDT": 0.2890344282404362,
+          "gross_PnL": 119.08498054435907,
+          "ending_NAV": 10103.188475460354,
+          "ending_signed_quantities": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "1000PEPEUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "WIFUSDT": 0.0,
+            "WLDUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "1000SATSUSDT": 0.0,
+            "ORDIUSDT": 0.0
+          }
+        }
+      ],
+      "concentration": {
+        "positive_days": 4,
+        "total_days": 8,
+        "top5_positive_day_share": 1.0,
+        "largest_absolute_day_share": 0.33587264851664717,
+        "positive_gain_USDT": 169.44851906723852,
+        "absolute_daily_net_delta_USDT": 235.70856267412273
+      },
+      "short_open_legs": 10,
+      "audit_status": "PASS_INDEPENDENT_SIGNED_JOURNAL_MINUTE_MARKED_NAV_FUNDING_AND_WALLET_IDENTITY",
+      "maximum_NAV_error": 1.8189894035458565e-12,
+      "terminal_cash_realized": true,
+      "complete_minutes": 11520,
+      "liquidations": 0,
+      "proxy": {
+        "closed": {
+          "net": 106.19333646258383,
+          "net_return": 0.010619333646258333,
+          "final_nav": 10106.193336462584,
+          "mdd": 0.005039770950255429,
+          "sharpe": 7.053324802756082,
+          "days": 7,
+          "fees": 16.417933264912147,
+          "funding": -0.2829228998903772,
+          "turnover": 1.2097748108290218,
+          "terminal_fee": 6.303007851778864,
+          "final_positions": 0,
+          "economics": "CONDITIONAL_DAILY_QUANTITY_PROXY"
+        },
+        "marked_net": 112.49634431436269,
+        "price_pnl": 122.32834682760824,
+        "first_reference_q": [
+          0.0,
+          0.41637751561986364,
+          8.955862159238198,
+          -1554.4584310710768,
+          -10634.879610423279
+        ],
+        "terminal_fee": 6.303007851778864
+      },
+      "native_minus_proxy": {
+        "net": -3.0048610022294895,
+        "price_pnl": -3.243366283249145,
+        "costs": -0.23239375266695816,
+        "funding": -0.006111528350058959
+      },
+      "funding_comparison_sign": "Difference of CHARGES: -native_signed_cashflow - proxy_charge",
+      "fill_timing": {
+        "first_fill_us": 1704153660000001,
+        "last_fill_us": 1704758520000001,
+        "first_fill_legs": [
+          {
+            "symbol": "ETHUSDT",
+            "side": "BUY",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 0.41168504,
+            "position_delta": 0.41168504,
+            "mid_price": 2351.6,
+            "fill_price": 2353.48128,
+            "fee_USDT_mid": 0.5328911691928282,
+            "execution_cost": 0.7744948320512,
+            "quantity_before": 0.0,
+            "quantity_after": 0.41168504
+          },
+          {
+            "symbol": "SOLUSDT",
+            "side": "BUY",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 8.8086166,
+            "position_delta": 8.8086166,
+            "mid_price": 109.331,
+            "fill_price": 109.4184648,
+            "fee_USDT_mid": 0.5301039179610876,
+            "execution_cost": 0.77044388919568,
+            "quantity_before": 0.0,
+            "quantity_after": 8.8086166
+          },
+          {
+            "symbol": "XRPUSDT",
+            "side": "SELL",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 1486.41821544,
+            "position_delta": -1486.41821544,
+            "mid_price": 0.6299,
+            "fill_price": 0.62939608,
+            "fee_USDT_mid": 0.5145501889211923,
+            "execution_cost": 0.7490358671245247,
+            "quantity_before": 0.0,
+            "quantity_after": -1486.41821544
+          },
+          {
+            "symbol": "DOGEUSDT",
+            "side": "SELL",
+            "leg": "OPEN",
+            "event_us": 1704153660000001,
+            "signal_us": 1704153600000000,
+            "quantity": 9253.01778853,
+            "position_delta": -9253.01778853,
+            "mid_price": 0.09207,
+            "fill_price": 0.091996344,
+            "fee_USDT_mid": 0.46818409413144885,
+            "execution_cost": 0.6815402782319657,
+            "quantity_before": 0.0,
+            "quantity_after": -9253.01778853
+          }
+        ]
+      },
+      "proxy_error_within_preregistered_limit": true
+    }
+  ],
+  "decision": "RETAIN_DAILY_PROXY_FOR_LIMITED_SCREENING_ONLY",
+  "all_net_errors_within_limit": true,
+  "actual_new_wallets": 2,
+  "actual_new_fits": 0,
+  "qualification": "NONE_CASH",
+  "locked_consumed": false,
+  "elapsed_seconds": 10.749177224992309,
+  "owned_bytes": 1418255,
+  "free_bytes_before": 24588455936,
+  "free_bytes_after": 24586833920,
+  "RAM_limit": "8000000000",
+  "swap_limit": "0",
+  "GPU": 0,
+  "RAM_group_peak_bytes": null,
+  "limitations": [
+    "One fixed already-seen week cannot validate error stability, ranking fidelity or annual return.",
+    "This is Binance USD-M with Bybit fee assumptions, not native Bybit evidence; funding units remain conditional1/.01.",
+    "Closed calibration does not certify marked continuation utility, exact current-position switch cost, intraminute risk caps or future selector efficacy.",
+    "No new strategy adopted; original losing windows and full recipe pause preserved."
+  ],
+  "input_refs": [
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/BTCUSDT.parquet",
+      "sha256": "99cd9ff18b8410073f124ed6919b034d8e910d56c5695dedc03af3c8884203db"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/ETHUSDT.parquet",
+      "sha256": "874d8582c5ec28bb6e9214dbbda29f1188d850dfac7152f80e352336221d5ae9"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/SOLUSDT.parquet",
+      "sha256": "d4bb28c516e5e3c8cb658223908aba3cb7a92138954d83f9b682c6962e61d0eb"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/1000PEPEUSDT.parquet",
+      "sha256": "f60c357ee173292df49602790dbe32a8955229132e5a32f091b37220c5fc0e2b"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/XRPUSDT.parquet",
+      "sha256": "b24ced533a0365742412ed5caaba97aa1ce505a6e8c271c669457bc269594ffd"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/WIFUSDT.parquet",
+      "sha256": "8251491ca91771314d07fd63f0ba4a4989f6af3acf59ae4afcbb8352c6c473c8"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/WLDUSDT.parquet",
+      "sha256": "988a3772f6cfb60a8a060241faaa39773ea513cf00fde013d6df823ae1b12073"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/DOGEUSDT.parquet",
+      "sha256": "03ce01e0531b706b2c5c9eabe19796a49a67bb413754682bf1e7b6c5794b3da3"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/1000SATSUSDT.parquet",
+      "sha256": "7777270a3d462f86ac88764154e1054c24706419d10e1980947046a85cd03cb7"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/labels/raw_fraction/ORDIUSDT.parquet",
+      "sha256": "f761aabf223b5aa7d543239c81a07dcacb21479a3bec447aae304c68ac26bf2e"
+    }
+  ],
+  "daily_refs": [
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/normalized/BTCUSDT_daily.parquet",
+      "sha256": "e82108231c199f27bcb3eb9fcc2babfa578caa6a8195cea9c14ddc1b33b7a8d6"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/normalized/ETHUSDT_daily.parquet",
+      "sha256": "da51ec3b7d6d9e28cfabe9f17d7bb4f42d8d5a6ab62fa0ec28c1caac79fbe790"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/normalized/SOLUSDT_daily.parquet",
+      "sha256": "4c4c6fde146e14c5bb5766000e2bcfa2308596695a2e14af93a678a258101e8d"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/normalized/XRPUSDT_daily.parquet",
+      "sha256": "6d5f737c62b6ada4be6ccbc1e9c3839713c3fcd0bfd1d2aec75873e18d8956b2"
+    },
+    {
+      "path": "/home/ubuntu/coin/coin_collector_v3_fixed/work/data/normalized/DOGEUSDT_daily.parquet",
+      "sha256": "a0e14c0f358233265c93d1117ca114ede78f89c0c7ab80e23b4ea3951856f8c8"
+    }
+  ]
+}
