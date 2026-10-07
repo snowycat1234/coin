@@ -1,5 +1,11 @@
 # COIN 当前研究状态
 
+## 当前：Transformer v3 冻结回放进行中，policy训练未放行
+
+独立分支research/transformer-v3-oracle-policy保留旧v2正式N/E及全部保护证据。864项新逐仓强平钱包正在云服务器实际回放；最新实际计数读取外部STATE replay-progress.json，不能把本段快照当已完成。无CPU/RAM/墙钟限制；本机不运行科学任务。新policy、FULL/HALF比较和五bridge的有限执行/报告模块已实现并测试，尚无新拟合或封存经济结果。
+
+先完成回放及neutral分析，再修复已保存的同clock Mark liquidation/funding独立校验反例，冻结并commit协议后才训练。60开发fit、12过去final fit、348HALF对照、576新开发钱包、400封存比较为固定预算。直接三action policy主要监督，rank30保留；无Optuna/温度/额外架构搜索。五funding补值只称imputed，MMR .005/MMD0未取得官方risk档位认证。仍NONE/CASH，不能提前宣称新研究最终结论。详见[模块](../modules/transformer_v3/README.md)。
+
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
 ## 2026-10-07：Transformer v2 开发完成，封存数据不可评价
