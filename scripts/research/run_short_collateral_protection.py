@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import numpy as np
 from scripts.research.run_public_momentum import ROOT,sha,save,summary_row
 from modules.transformer_v3.wallet import run_tasks
+from modules.transformer_v3.market_binding import verify_binding
 
 
 def verify_control_sources(old,current,p):
@@ -47,6 +48,9 @@ def main():
         assert sha(row['result_path'])==row['result_sha256'];case=json.loads(Path(row['result_path']).read_text())
         saved_case_valid(case,case['binding']);task=case['task'];w=task['window'];scale=task['funding_scale']
         assert w==next(x for x in p['windows'] if x['id']==w['id']) and case['summary']['symbols']==p['symbols'] and task['profile']=='FULL'
+        bound=verify_binding(task['native_market_binding_path'],task['native_market_binding_sha256'])
+        assert bound['window']==w and bound['symbols']==p['symbols'] and bound['work']==task['work']
+        assert bound['source_manifest_sha256']==task.get('market_input_manifest_sha256',p['data_manifest_sha256'])
         assert sha(task['target_path'])==task['target_sha256']
         with np.load(task['target_path'],allow_pickle=False) as f:
             assert f['symbol_order'].tolist()==p['symbols'] and np.array_equal(f['decision_us'],np.arange(w['start'],w['end'],86_400_000_000))
@@ -62,6 +66,7 @@ def main():
     rows=[];contrasts=[]
     for case in cases:
         t=case['task'];key=(t['window']['id'],t['funding_scale']);old=paired[key]
+        assert t['native_market_binding_sha256']==old['task']['native_market_binding_sha256'],'Old/new native market identity differs'
         for field in ('contract','cost_scenario','unit_scenario','symbols'):assert case['summary'][field]==old['summary'][field]
         assert case['binding']['position_protection']['id']==p['recipe']['id']
         entry=case['artifacts']['protection_journal.json'];assert sha(entry['path'])==entry['sha256']
