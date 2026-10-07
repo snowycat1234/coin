@@ -48,6 +48,7 @@ def main():
     assert inputs==old_results['input_refs']
     dates=np.arange(window['start'],window['end'],DAY_US,dtype=np.int64)
     weights,diagnostics=public_targets(close,available,dates,parent['symbols'],window['active_symbols'],anchor_us=parent['method']['anchor_us'])
+    original_weights,_=public_targets(close,available,dates,parent['symbols'],parent['windows'][1]['active_symbols'],anchor_us=parent['method']['anchor_us'])
     excluded=[j for j,s in enumerate(parent['symbols']) if s not in window['active_symbols']]
     assert not np.any(weights[:,excluded])
     target=state/'core5-target.npz'
@@ -61,6 +62,8 @@ def main():
         row=next(x for x in old_results['cases'] if x['window']==window['id'] and x['funding_scale']==scale)
         old_path=Path(row['result_path']);assert sha(old_path)==row['result_sha256']
         old=json.loads(old_path.read_text());assert old['task']['window']==parent['windows'][1] and sha(old['task']['target_path'])==old['task']['target_sha256']
+        with np.load(old['task']['target_path'],allow_pickle=False) as f:
+            assert np.array_equal(f['weights'],original_weights) and np.array_equal(f['decision_us'],dates) and f['symbol_order'].tolist()==parent['symbols']
         checked=summary_row(old,old_path,'NEW_FIXED_PUBLIC_ADAPTATION')
         assert all(row[key]==value for key,value in checked.items())
         market=verify_binding(old['task']['native_market_binding_path'],old['task']['native_market_binding_sha256'])
