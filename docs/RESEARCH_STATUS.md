@@ -16,7 +16,7 @@
 
 范围来自同市场路径资金单位1/.01两个条件情景，不增加样本。三账户不拼接，41日不年化成稳定APR。组合新6cell实际vol8.04–8.92%、MDD2.37–4.89%；较低暴露解释部分DD改善。新增CSMOM三窗净正仍不抹去原2024H1亏损、或构成unseen验证。原两窗和新窗门槛失败全部保留。
 
-**关键风险发现**：2024后半mix与CSMOM均有XRP逐仓清算（每资金解释同市场事件），mix损失106.72、CSMOM约398.2已入账；mix全窗盈利主要多头、十一月贡献约86–87%。1x/低gross不能代替空头尾部保护。mix实际gross峰60.1487%、本轮最高60.7479%，旧漂移/延迟限制未解除。分钟mark/MMR假设未认证Bybit历史规则，不能称native安全表现。
+**关键风险发现**：2024后半mix与CSMOM均有XRP逐仓清算（每资金解释同市场事件），mix损失106.72、CSMOM约398.2已入账；mix全窗盈利主要多头、十一月贡献约86–87%。1x/低gross不能代替空头尾部保护。mix实际gross峰60.1487%、本轮最高60.7552%，旧漂移/延迟限制未解除。分钟mark/MMR假设未认证Bybit历史规则，不能称native安全表现。
 
 [报告及取舍](../reports/FIXED_TREND_EXTENSION_20261008.md)、[实际结果](../reports/FIXED_TREND_EXTENSION_20261008.json)、[独立复核](../reports/FIXED_TREND_EXTENSION_REVIEW_20261008.json)、[事前协议](../protocols/FIXED_TREND_EXTENSION_20261008.json)。18账本完整收费终平，分钟NAV误差≤1.82e−12；另现金/方向/月桥≤2.27e−13。原12target exact golden、未来扰动/列顺序核对通过。
 

@@ -37,7 +37,7 @@
 
 4个资金情景账户各一次XRP清算，只有2个策略路径；不是4个独立市场事件。mix损失106.72、CSMOM398.15–398.30 USDT已计入账本，不能再扣一次。mix RAW_FRACTION见证：2024-11-16 10:54UTC，q=−198.20105405、成本价0.53844471626、mark1.07207254，逐仓抵押106.72031031被接管。1x与低组合gross没有消除单币翻倍风险。各账户随后一次正常日再平衡重新入场；只是旧合约语义，不表明再入场具有投资价值。
 风险MMR=.005和分钟mark-close假设未认证Bybit历史native tiers/精确清算；这些是条件研究清算，不能当真实交易所清算记录。18钱包完整收费终平、无全钱包破产、分钟独立审计通过；有清算的钱包不能描述成“安全未清算”。
-mix 2025H2实际gross峰60.1487%，18账户最高60.7479%，旧延迟/漂移限制仍真实存在，目标60%并不认证瞬时实际60%。不提高cap、不把小额越界隐去，仍阻止投资晋级。
+mix 2025H2实际gross峰60.1487%，18账户最高60.7552%，旧延迟/漂移限制仍真实存在，目标60%并不认证瞬时实际60%。不提高cap、不把小额越界隐去，仍阻止投资晋级。
 
 ## 采用、暂停与下一步
 
@@ -59,3 +59,5 @@ python -B scripts/research/fixed_trend_blend.py --protocol protocols/FIXED_TREND
 scripts/with_task_progress.sh --title "延展损益复核" -- /usr/bin/python3 -B scripts/research/review_fixed_trend_extension.py
 ```
 报告JSON：FIXED_TREND_EXTENSION_20261008.json；source：TREND_EXTENSION_INPUTS_20261008.json；独立复核：FIXED_TREND_EXTENSION_REVIEW_20261008.json；清算来源引用：FIXED_TREND_EXTENSION_LIQUIDATIONS_20261008.json。新进程独立跑完全部账户，无LLM参与科学计算。
+
+末次发布复核更正：全18账户gross最大值应为60.7552%（2025H2 SMA，scale.01），原60.7479%只取scale1。原结果JSON/账本、所有PnL/门槛/清算与暂停决定未改。此为报告分母范围错误，不是新账户或科研重跑；c71f9f7保存原报告。
