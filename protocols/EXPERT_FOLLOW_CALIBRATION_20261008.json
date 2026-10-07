@@ -1,0 +1,67 @@
+{
+  "experiment_id": "EXPERT_FOLLOW_CALIBRATION_20261008",
+  "question": "Is the existing conditional daily quantity proxy accurate enough on one fixed seven-interval expert path to justify cheap selector screening?",
+  "parent_commit": "4a9a56af372d45713534e4e026a0f81a303d6449",
+  "parent_protocol": "protocols/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_protocol_sha256": "975696715a431d73bff7abaea031db3856fcb3852f5160588113bfce1ed2e6b8",
+  "parent_results": "reports/PUBLIC_CROSS_SECTION_MOMENTUM_20261008.json",
+  "parent_results_sha256": "2ef6a5793b8da9c441af2879429c4edee2e6d01b56dfa6779706db6f8f80b350",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "data_role": "SEEN_DEVELOPMENT_SEMANTIC_CALIBRATION_ONLY; no new validation or locked data",
+  "window": {
+    "id": "calibration-first-2024-01-02",
+    "days": 8,
+    "start": 1704153600000000,
+    "end": 1704844800000000,
+    "active_symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ]
+  },
+  "selection": "First calendar date of original registered 2024 window, not selected by PnL. Original daily targets exact prefix; seven delayed owned intervals, eighth daily target zero and actual paid exit.",
+  "capital": 10000,
+  "max_asset_abs": 0.3,
+  "max_gross": 0.6,
+  "leverage": 1,
+  "automatic_margin_topup": false,
+  "funding_scales": [
+    1,
+    0.01
+  ],
+  "proxy_side_cost": 0.00135,
+  "cost": "Unchanged native fee5.5bp + halfspread4bp + slippage4bp each way; proxy linear mid-notional cost13.5bp is explicitly approximate. Binance USD-M/Bybit fees proxy, no new fee interpretation.",
+  "calibration_limit_USDT": 5,
+  "threshold_reason": "Absolute net error <=5USDT/10k (5bp) in both conditional funding units is a preliminary screen tolerance only. At a future20bp utility separation this could still be25% error; passing is not label equivalence or investment evidence.",
+  "label_semantics": "Compare existing zero-entry seven-interval paid-flat proxy and native paid-flat account. Marked proxy reported separately. Future selector labels NOT_REGISTERED_NOT_RUN; no weekly forced-close training labels adopted.",
+  "feedback_clock": "decision+7d+60,000,001us execution endpoint; label available endpoint+1us. At next weekly00:00 prior-week result not available.",
+  "first_switch": "Diagnostic only: reference entry cost replaced by actual current-to-net-composite target cost once; CASH exit is not free; nonlinear NAV/partial-fill paths require actual wallet.",
+  "known_differences": [
+    "Native freezes quantity at decision NAV and completed close with0.99 buffer; proxy targets at execution boundary NAV/open without buffer.",
+    "Native fee is based on directional fill price; daily proxy linear mid-cost omits fee/execution cross term.",
+    "Minute risk, precision, capacity, partial fills, mark and liquidation are absent in daily proxy; unchanged native path retains them."
+  ],
+  "budget": {
+    "new_configs": 1,
+    "reserve_bytes": 16106127360,
+    "new_owned_bytes": 100000000,
+    "RAM_bytes": 8000000000,
+    "new_fits": 0,
+    "GPU": 0,
+    "new_wallets": 2,
+    "wall_seconds": 900,
+    "swap": 0,
+    "workers": 2,
+    "threads_per_process": 1
+  },
+  "stop": "No alternate windows, cost tuning, horizon scan or model fits. If net calibration fails in either unit, repair action/label alignment before fits. If passes, retain proxy only for limited seen-development screening; marked/current-position/soft mixture labels still need preregistration.",
+  "limitations": [
+    "One fixed already-seen week cannot validate error stability, ranking fidelity or annual return.",
+    "This is Binance USD-M with Bybit fee assumptions, not native Bybit evidence; funding units remain conditional1/.01.",
+    "Closed calibration does not certify marked continuation utility, exact current-position switch cost, intraminute risk caps or future selector efficacy.",
+    "No new strategy adopted; original losing windows and full recipe pause preserved."
+  ],
+  "qualification": "NONE_CASH"
+}
