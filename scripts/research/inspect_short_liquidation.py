@@ -61,8 +61,11 @@ def inspect(row):
     all_trades = artifact('trades.json', True)
     trades = sorted((x for x in all_trades if x['symbol'] == symbol), key=lambda x: x['event_us'])
     before = [x for x in trades if x['event_us'] < clock]
-    episode_start = max(x['event_us'] for x in before if x['quantity_before'] == 0 and x['quantity_after'] < 0)
-    episode = [x for x in before if x['event_us'] >= episode_start]
+    # A reversal can close the old LONG and open the SHORT at the same clock.
+    # Preserve actual journal order, starting at the opening leg, not its timestamp.
+    episode_index = max(i for i, x in enumerate(before) if x['quantity_before'] == 0 and x['quantity_after'] < 0)
+    episode = before[episode_index:]
+    episode_start = episode[0]['event_us']
     assert all(x['quantity_after'] < 0 for x in episode)
     takeover = next(x for x in trades if x['fill_id'] == witness['id'])
 
@@ -125,7 +128,7 @@ def inspect(row):
     recent = targets.filter(pl.col('available_us').is_between(clock-14*DAY, clock+7*DAY)).to_dicts()
     for x in recent:
         x['utc'] = utc(x['available_us'])
-    episode_targets = targets.filter(pl.col('available_us') <= clock)
+    episode_targets = targets.filter(pl.col('available_us').is_between(episode[0]['signal_us'], clock))
     rejected = [x for x in artifact('rejections.json', True) if x['symbol'] == symbol and episode_start <= x['event_us'] <= clock]
     breaches = artifact('breaches.json', True)
     latest_target = episode_targets.tail(1).row(0, named=True)
