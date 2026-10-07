@@ -123,6 +123,10 @@ def main():
                 for day in days:
                     affected|=(events.calc_time_ms>=day.value//1000000)&(events.calc_time_ms<=day.value//1000000+86400000+60000)
                 fixed=mark_funding(events.loc[affected].reset_index(drop=True),v)
+                old_mark=events.loc[affected,['past_mark_price','past_mark_available_us']].to_numpy()
+                new_mark=fixed[['past_mark_price','past_mark_available_us']].to_numpy()
+                finite=np.isfinite(old_mark)
+                assert np.array_equal(old_mark[finite],new_mark[finite]),'Existing finite funding marks must stay exact'
                 events.loc[affected,['past_mark_price','past_mark_available_us']]=fixed[['past_mark_price','past_mark_available_us']].to_numpy()
         updated_funding=funding_windows(events,d.index)
         funding_cols=list(updated_funding.columns);d.loc[:,funding_cols]=updated_funding
