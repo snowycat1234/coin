@@ -36,6 +36,22 @@ def summary_row(case,path,kind):
         short_open_legs=a['actual_short_open_legs'],audit_status=a['status'],maximum_NAV_error=a['maximum_NAV_error_USDT'],
         terminal_cash_realized=True,complete_minutes=s['completed_minutes'],liquidations=s['liquidation_count'])
 
+def load_past_inputs(p):
+    """Shared read-only daily inputs; retain the original clock/hash checks."""
+    work=Path(p['work']);manifest=work/'reports/DATASET_MANIFEST.json';labels=work/'data/labels/raw_fraction/LABEL_MANIFEST.json'
+    assert sha(manifest)==p['data_manifest_sha256'] and sha(labels)==p['label_manifest_sha256']
+    refs=json.loads(labels.read_text());assert refs['scenario']=='raw_fraction' and [x['symbol'] for x in refs['files']]==p['symbols']
+    frames=[];inputs=[];available=None
+    for ref in refs['files']:
+        fpath=Path(ref['path']).resolve();assert fpath.parent==labels.parent.resolve() and sha(fpath)==ref['sha256']
+        f=pl.read_parquet(fpath,columns=['dt','symbol','close','decision_available_at']).sort('dt')
+        d=f['dt'].dt.epoch('us').to_numpy();av=f['decision_available_at'].dt.epoch('us').to_numpy()
+        assert np.all(np.diff(d)==DAY_US) and np.all(av==d+DAY_US) and d.max()<p['locked_start_us'] and f['symbol'].eq(ref['symbol']).all()
+        if available is None:available=av
+        else:assert np.array_equal(available,av)
+        frames.append(f['close'].to_numpy());inputs.append(dict(path=str(fpath),sha256=ref['sha256']))
+    return np.column_stack(frames),available,inputs
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--state',type=Path,required=True);a=ap.parse_args()
     began=time.monotonic();p=json.loads(a.protocol.read_text());state=a.state.resolve()
@@ -59,19 +75,7 @@ def main():
         save(state/'progress.json',dict(status='running',phase='真实共享钱包回放',stage='BACKTEST',completed=completed,failed=failed,total=total,unit='账户',detail=detail,
             elapsed_seconds=time.monotonic()-began,pid=os.getpid(),updated_at=time.time()))
     progress(0,0,4,'DATA: verify past-only inputs and saved control identities')
-    work=Path(p['work']);manifest=work/'reports/DATASET_MANIFEST.json';labels=work/'data/labels/raw_fraction/LABEL_MANIFEST.json'
-    assert sha(manifest)==p['data_manifest_sha256'] and sha(labels)==p['label_manifest_sha256']
-    refs=json.loads(labels.read_text());assert refs['scenario']=='raw_fraction' and [x['symbol'] for x in refs['files']]==p['symbols']
-    frames=[];inputs=[];available=None
-    for ref in refs['files']:
-        fpath=Path(ref['path']).resolve();assert fpath.parent==labels.parent.resolve() and sha(fpath)==ref['sha256']
-        f=pl.read_parquet(fpath,columns=['dt','symbol','close','decision_available_at']).sort('dt')
-        d=f['dt'].dt.epoch('us').to_numpy();av=f['decision_available_at'].dt.epoch('us').to_numpy()
-        assert np.all(np.diff(d)==DAY_US) and np.all(av==d+DAY_US) and d.max()<p['locked_start_us'] and f['symbol'].eq(ref['symbol']).all()
-        if available is None:available=av
-        else:assert np.array_equal(available,av)
-        frames.append(f['close'].to_numpy());inputs.append(dict(path=str(fpath),sha256=ref['sha256']))
-    close=np.column_stack(frames);old=Path(p['previous_state']);controls=[];tasks=[]
+    work=Path(p['work']);close,available,inputs=load_past_inputs(p);old=Path(p['previous_state']);controls=[];tasks=[]
     # Legacy replay predates per-wallet market-input manifests. Reconstruct its
     # existing global audited dataset chain, never invent a per-case binding.
     source_binding=Path(p['source_run'])/'BINDING.json'
