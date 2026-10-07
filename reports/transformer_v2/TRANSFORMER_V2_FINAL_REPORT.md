@@ -38,11 +38,11 @@ cross-asset 与 readout 同时变化，attention 的独立贡献无法识别；m
 
 **5. oracle ceiling 多大**
 
-封存三种未来知情诊断的最高 NET 为 NOT_EVALUABLE / NOT_EVALUABLE%；完整日历的严格最优经济 ceiling 未被识别。未来 horizon 不足时为显式现金，60日专家 proxy 也不等价于分钟钱包最优解。
+开发期有限支持 oracle：1.0/DIRECTIONAL_ORACLE: 独立窗口 NET 中位=85.9412%，最大=111.4006%，n=6; 1.0/EXPERT_ORACLE: 独立窗口 NET 中位=31.6887%，最大=73.5556%，n=6; 1.0/CROSS_SECTIONAL_RANK_ORACLE: 独立窗口 NET 中位=44.1934%，最大=72.5134%，n=6; 0.01/DIRECTIONAL_ORACLE: 独立窗口 NET 中位=86.1884%，最大=111.7989%，n=6; 0.01/EXPERT_ORACLE: 独立窗口 NET 中位=34.3662%，最大=76.9989%，n=6; 0.01/CROSS_SECTIONAL_RANK_ORACLE: 独立窗口 NET 中位=44.4456%，最大=72.8919%，n=6。封存最高 NET 为 NOT_EVALUABLE / NOT_EVALUABLE%；完整日历的严格最优经济 ceiling 未被识别。独立窗口不能相加作 APR，60日专家 proxy 不等价于分钟钱包最优解。
 
 **6. 捕获多少 oracle gap**
 
-封存相对全日历 SMA 的诊断 gap 比率：NOT_EVALUABLE。支持范围不同，不能把此比率称为严格 ceiling 捕获率；非正分母不计算。
+开发期相对 SMA：1.0/DIRECTIONAL_ORACLE: 诊断比率中位=0.1200，有效正分母窗口=5/6; 1.0/EXPERT_ORACLE: 诊断比率中位=0.2204，有效正分母窗口=5/6; 1.0/CROSS_SECTIONAL_RANK_ORACLE: 诊断比率中位=0.1434，有效正分母窗口=5/6; 0.01/DIRECTIONAL_ORACLE: 诊断比率中位=0.1346，有效正分母窗口=5/6; 0.01/EXPERT_ORACLE: 诊断比率中位=0.2353，有效正分母窗口=5/6; 0.01/CROSS_SECTIONAL_RANK_ORACLE: 诊断比率中位=0.2265，有效正分母窗口=5/6。封存诊断：NOT_EVALUABLE。支持范围不同，不能称为严格 ceiling 捕获率；非正分母不计算，负比率表示候选还不及 SMA。
 
 **7. 赚钱和亏钱的市场阶段**
 
@@ -50,11 +50,11 @@ cross-asset 与 readout 同时变化，attention 的独立贡献无法识别；m
 
 **8. long / short 贡献**
 
-封存冻结候选：；完整日历失败时这些是局部诊断，不是完整期贡献。
+封存冻结候选：NOT_EVALUABLE；未运行封存钱包，无可报告贡献。开发证据：1.0 最差开发窗口 fold5-2026-01-02: long=-943.2623 / short=32.2652 USDT; 0.01 最差开发窗口 fold3-2025-01-02: long=-943.6880 / short=0.0000 USDT；完整开发贡献逐窗口列在下表，不合并独立钱包。
 
 **9. cost 占 gross alpha 多少**
 
-冻结候选封存交易成本/正毛价格、包含净资金费负担/正毛价格：。毛价格非正时比率不可评价。
+封存交易成本/正毛价格、含净资金费负担/正毛价格：NOT_EVALUABLE；未运行封存钱包。开发证据：1.0: 独立正毛价格窗口交易成本比率中位=0.0445、含净资金费负担比率中位=0.1881，有效窗口=3/6; 0.01: 独立正毛价格窗口交易成本比率中位=0.0413、含净资金费负担比率中位=0.0428，有效窗口=3/6。毛价格非正时比率不可评价。
 
 **10. locked 2026-03~08 表现**
 
@@ -321,3 +321,28 @@ B. CONTINUE RESEARCH, NOT YET PROMOTED；Full locked experiment is NOT_EVALUABLE
 Git 分支 research/transformer-v2 保留 fit 前协议、源代码、哈希和精简报告。大型行情、模型、检查点和原始账本保存在独立 external STATE。协议 SHA：8f7cdc763cd068b3c0ff1a4030fa0edc8d65838dd276c047427848f08378f4c7
 
 TRANSFORMER_V2_FINAL_DECISION.json 保留全部 gate、配对架构诊断、预测指标、oracle gap 和账户表；LOCKED_RESULTS 原始分钟账户 summary / 独立账本审计引用不可变。
+
+
+## 最终数据与账户验收
+
+封存区间完成一次正式数据门禁检查；由于十资产完整日历不成立，**封存预测与原生钱包均为 0，不存在封存 NET / MDD / Sharpe，也没有第二次正式账户运行**。不把 data gate 失败说成已完成184日经济模拟。
+
+月档在2026-06-29缺十币 mark/premium；同官方源20份日档已下载并通过SHA、CRC、1440分钟校验，证明价格缺口可修复。但 WIFUSDT、1000SATSUSDT、ORDIUSDT 的2026-06-24 04:00资金费事件仍无法确认：最新月档 CHECKSUM 与原已验证文件一致，官方日资金费归档404，官方历史接口451。因此不臆造零资金费、不放宽日历、不删除币或缺失日，不启动无法核实完整输入的账户。
+
+官方接口说明：[Binance USD-M funding history](https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data#get-funding-rate-history)。实际响应与归档证据的SHA见FINAL_REVIEW_EVIDENCE.json及LOCKED_*_GAP_*文件。
+
+开发720个任务均退出成功、独立账本校验通过；任务成功不等于经济账户跑满。下表包含720个新任务与72个复用控制，风险停机账户不填0收益、不合并完整窗口。
+
+|funding|账户完成状态|数量|
+|---:|---|---:|
+|0.01|COMPLETE_CONDITIONAL_ACCOUNT|339|
+|0.01|NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED|54|
+|0.01|NOT_EVALUABLE_UNEXECUTABLE_RISK_REDUCTION|3|
+|1.0|COMPLETE_CONDITIONAL_ACCOUNT|342|
+|1.0|NOT_EVALUABLE_ACCOUNT_HALT_NO_LIQUIDATION_SIMULATED|54|
+
+不完整的中性／组合账户体现原风险停止规则，不能以其局部盈利证明 alpha；详细逐分钟账本及停止点保留在external STATE。完整候选最差窗口的多头贡献为负，空头贡献很小或不足抵消，实际 signed exposure 仍显著为正：这是方向暴露与多头损失的直接证据，不能据此单独归因于 attention 或横截面模块。
+
+第五开发fold的60日utility label若成熟会跨封存边界，因此 utility 指标缺失而不是0；30日IC另按真实有效日计算。有效fold数量：[{"funding_scale": 1.0, "stable_IC": false, "stable_relative_utility": false, "development_valid_IC_folds": 5, "development_positive_IC_folds": 4, "development_valid_utility_folds": 4, "development_positive_utility_folds": 4, "development_median_IC": 0.17575757575757575, "locked_IC": null, "development_median_utility_rank": 0.129394341361843, "locked_utility_rank": null}, {"funding_scale": 0.01, "stable_IC": false, "stable_relative_utility": false, "development_valid_IC_folds": 5, "development_positive_IC_folds": 4, "development_valid_utility_folds": 4, "development_positive_utility_folds": 4, "development_median_IC": 0.23636363636363633, "locked_IC": null, "development_median_utility_rank": 0.2026973808721873, "locked_utility_rank": null}]。
+
+120个CUDA开发fit与24个past-only最终fit审计通过；105项集成测试通过。旧1608个数据工件、372个模型/相关工件、96个历史账户的账本与报告逐SHA保留，共复核3232个文件。原协议SHA不变，第一次最终报告、formal N/E结果、开发冻结报告均保留；本次只补充解释与交付证据。最终决定继续 **B. CONTINUE RESEARCH, NOT YET PROMOTED**，投资 **NONE/CASH**。

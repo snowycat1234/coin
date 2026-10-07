@@ -1565,3 +1565,6 @@ D108实际启动验收：修复commit 6e41645已push并核远端，2026-10-06 14
 ## 2026-10-07：Transformer v2 完整研究
 
 最终决定 B. CONTINUE RESEARCH, NOT YET PROMOTED。投资状态 NONE/CASH，不部署。120个开发fit、24个过去数据最终fit审计通过；开发账户保留全部seed/ensemble/方向/中性/组合与oracle，冻结开发候选后只开一次184日封存实验。Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun。详见 reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md 与 FINAL_DECISION.json，全部旧证据保留。
+
+
+Transformer v2 最终证据复核：当前B/不晋级，投资NONE/CASH。120开发fit、24past-only最终fit、720开发任务与36暴露对照已完成；764唯一新账户重新逐SHA验收，653完整/111风险停机前缀。封存只有一次data gate检查，预测0、经济账户0；三币2026-06-24 04:00资金费事件仍缺，官方最新月档未补、日档404、历史接口451。20份官方日mark/premium文件可补价格缺口，但不掩盖资金费未核实。完整封存经济目标仍未实现；保存原正式N/E结果与首次报告，不选子窗口、不改模型或门槛。详见reports/transformer_v2/COMPLETION_AUDIT.md及FINAL_REVIEW_EVIDENCE.json。

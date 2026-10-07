@@ -443,3 +443,6 @@ D095：复用D091已登记NumPy reduction和既有SMA200 signed适配、既有�
 
 
 Transformer v2预注册：复用已有PyTorch2.6.0+cu124/BSD-style标准TransformerEncoderLayer、TransformerEncoder和AdamW，不修改第三方。OWN finite composition为共享temporal三层与cross-asset一层，d128/4head/FFN256，显式NULL/availability/feature mask；三readout固定平均、8天patch和pairwise rank辅助损失，不声称复现论文。数据、标签与金融执行复用collector和原native账户/独立核验。禁止新增无限架构或按locked结果改gate。协议SHA 8f7cdc763cd068b3c0ff1a4030fa0edc8d65838dd276c047427848f08378f4c7。
+
+
+Transformer v2 final evidence: reuse existing registered matplotlib3.11.2 and requests2.34.2 without dependency installation or third-party changes; standalone descriptive economic heatmap and official Binance public archive/calendar probes only. No custom financial kernel, native account changes or additional architecture.

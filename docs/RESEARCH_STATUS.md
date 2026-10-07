@@ -2,9 +2,11 @@
 
 投资资格 **NONE/CASH**；长期稳定净APR **NOT_EVALUABLE**。
 
-## 2026-10-07：Transformer v2 完整研究
+## 2026-10-07：Transformer v2 开发完成，封存数据不可评价
 
-最终决定 B. CONTINUE RESEARCH, NOT YET PROMOTED。投资状态 NONE/CASH，不部署。120个开发fit、24个过去数据最终fit审计通过；开发账户保留全部seed/ensemble/方向/中性/组合与oracle，冻结开发候选后只开一次184日封存实验。Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun。详见 reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md 与 FINAL_DECISION.json，全部旧证据保留。
+当前决定 **B. CONTINUE RESEARCH, NOT YET PROMOTED**，投资 **NONE/CASH**。120个CUDA开发fit、24个past-only最终fit、720个开发任务、36个暴露对照和修正oracle诊断已完成；逐SHA核验764个唯一新账户，653个完整，111个保留真实风险停机前缀，不将前缀算为完整收益。固定跨资产utility/方向候选六窗口收益中位数 -1.7914% / -0.3479%，对旧Transformer配对中位差 -1.4509 / -3.9976 pct，开发gate失败。
+
+封存正式数据门禁检查一次，**预测0、经济账户0**：WIF、1000SATS、ORDI 的2026-06-24 04:00资金费事件无法核实，最新月档未修正、日档404、官方历史接口451。2026-06-29十币mark/premium缺口已找到20份完整官方日档，但资金费仍阻止固定十币连续184日评价；不补零、不删日、不挑子窗口。完整封存经济实验尚未完成，不声称最终实证闭环或晋级。详见 [报告](../reports/transformer_v2/TRANSFORMER_V2_FINAL_REPORT.md)、FINAL_REVIEW_EVIDENCE.json、CURRENT_EVIDENCE_AUDIT.json。旧数据、模型、账本、D108及原正式N/E记录保留。
 
 ## 2026-10-07：归档采集与完整数据窗口验证模块
 
