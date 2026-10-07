@@ -27,6 +27,11 @@ def authorize_locked(state,repo):
     assert exposure['candidate_freeze_sha256']==sha(freeze_path)
     committed=subprocess.check_output(['git','-C',str(repo),'show','HEAD:reports/transformer_v2/DEV_EXPOSURE_RESULTS.json'])
     assert committed==(state/'DEV_EXPOSURE_RESULTS.json').read_bytes(),'Exposure diagnostics must be committed before locked release'
+    oracles=json.loads((state/'DEV_ORACLE_RESULTS.json').read_text())
+    assert oracles['status']=='COMPLETE' and not oracles['errors'] and not oracles['locked_read'] and oracles['no_candidate_or_gate_change']
+    assert oracles['candidate_freeze_sha256']==sha(freeze_path)
+    committed=subprocess.check_output(['git','-C',str(repo),'show','HEAD:reports/transformer_v2/DEV_ORACLE_RESULTS.json'])
+    assert committed==(state/'DEV_ORACLE_RESULTS.json').read_bytes(),'Horizon diagnostics must be committed before locked release'
     # Existing release is validated and reused; never open a second experiment.
     path=state/'LOCKED_READ_AUTHORIZATION.json'
     binding=dict(protocol_sha256=sha(protocol),candidate_freeze_sha256=sha(freeze_path),
@@ -34,6 +39,7 @@ def authorize_locked(state,repo):
                  development_results_sha256=sha(state/'TRANSFORMER_V2_DEV_RESULTS.json'),
                  final_fits_sha256=sha(state/'FINAL_FITS.json'),final_fit_audit_sha256=sha(state/'TRANSFORMER_V2_FINAL_FIT_AUDIT.json'),
                  development_exposure_controls_sha256=sha(state/'DEV_EXPOSURE_RESULTS.json'),
+                 development_oracle_support_sha256=sha(state/'DEV_ORACLE_RESULTS.json'),
                  git_commit=subprocess.check_output(['git','-C',str(repo),'rev-parse','HEAD'],text=True).strip(),
                  range=['2026-03-01','2026-08-31'],formal_result_limit=1)
     if path.exists():

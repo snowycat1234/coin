@@ -154,18 +154,14 @@ def prepare(a):
         chosen=json.loads((state/'LOCKED_CANDIDATE_FREEZE.json').read_text())['chosen']
         chosen_weights=portfolio_targets(predictions[tag,chosen['family'],'ENSEMBLE'],sma,active,chosen['mapping']);gross=np.abs(chosen_weights).sum(1)
         for name in ('BASE_HOLD','BASE_SMA200_SIGNED','BASE_STATIC_DIRECTION3'):add(tag,'EXPOSURE_MATCHED_'+name,'FROZEN_RULE','DIRECTIONAL',baseline_weights(name,sma,active,gross))
-        y=utility[scenario];rel=relative[indices];oracle_active=active&np.isfinite(y).all(-1)&np.isfinite(rel[...,1])
+        from .oracles import weights as oracle_weights
+        y=utility[scenario];rel=relative[indices];support={}
         for name in ('DIRECTIONAL_ORACLE','EXPERT_ORACLE','CROSS_SECTIONAL_RANK_ORACLE'):
-            if name=='CROSS_SECTIONAL_RANK_ORACLE':weights=market_neutral(rel[...,1],oracle_active)
-            elif name=='DIRECTIONAL_ORACLE':
-                future=d['close'][np.minimum(indices+30,len(d['close'])-1)]/d['close'][indices]-1
-                weights=np.sign(np.where(np.isfinite(future),future,0.))*oracle_active*.6/np.maximum(oracle_active.sum(1,keepdims=True),1)
-            else:
-                u=np.where(np.isfinite(y),y,0.);expert=np.argmax(np.stack([u[...,0],np.zeros_like(u[...,0]),u[...,1]],-1),-1)
-                weights=np.where(expert==0,np.where(np.isfinite(sma),sma,0.),np.where(expert==1,1.,0.))*oracle_active*.6/np.maximum(oracle_active.sum(1,keepdims=True),1)
+            weights,oracle_active=oracle_weights(name,y,rel,d['close'],indices,active,sma)
             add(tag,name,'NONCAUSAL','NEUTRAL' if name=='CROSS_SECTIONAL_RANK_ORACLE' else 'DIRECTIONAL',weights,True)
-        atomic(state/f'LOCKED_ORACLE_SUPPORT_{tag}.json',dict(supported_asset_days=int(oracle_active.sum()),eligible_asset_days=int(active.sum()),fully_supported_days=int(oracle_active.all(1).sum()),required_days=184,
-                                                         terminal_missing_horizon_cash=True,not_a_tight_full_calendar_upper_bound=True))
+            support[name]=dict(information_horizon_days=60 if name=='EXPERT_ORACLE' else 30,supported_asset_days=int(oracle_active.sum()),eligible_asset_days=int(active.sum()),
+                               fully_supported_days=int(((oracle_active==active).all(1)&active.any(1)).sum()),required_days=184)
+        atomic(state/f'LOCKED_ORACLE_SUPPORT_{tag}.json',dict(oracles=support,terminal_missing_horizon_cash=True,not_a_tight_full_calendar_upper_bound=True))
     atomic(state/'LOCKED_PREDICTION_METRICS.json',dict(rows=metrics,diagnostic_labels_only=True))
     atomic(state/'LOCKED_NATIVE_TASKS.json',dict(tasks=tasks,protocol_sha256=sha(proto),formal_experiment=1,targets_frozen_before_native_results=True))
     return tasks

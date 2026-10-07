@@ -186,11 +186,17 @@ def main():
                           equal_realized_gross_certified=complete and all(abs(r['mean_gross']-row['mean_gross'])<=1e-6 for r in controls)))
     dev['exposure_control_pairs']=pairs
     if locked['status']!='COMPLETE_ONE_FORMAL_LOCKED_EXPERIMENT':verdict.update(choice='B',decision=CHOICES[1],promotion=False,reason='Full locked experiment is NOT_EVALUABLE or has preserved engineering failures; no post-outcome rerun')
-    diagnostic=architecture_diagnostics(dev);gaps=oracle_gaps(dev['rows'],dev['chosen']['family'],dev['chosen']['mapping'])+oracle_gaps(rows,dev['chosen']['family'],dev['chosen']['mapping'])
+    oracle_path=state/'DEV_ORACLE_RESULTS.json';corrected=json.loads(oracle_path.read_text())
+    assert corrected['status']=='COMPLETE' and not corrected['errors'] and not corrected['locked_read']
+    assert corrected['candidate_freeze_sha256']==sha(state/'LOCKED_CANDIDATE_FREEZE.json')
+    diagnostic=architecture_diagnostics(dev)
+    oracle_rows=[r for r in dev['rows'] if not r['noncausal']]+corrected['rows']
+    gaps=oracle_gaps(oracle_rows,dev['chosen']['family'],dev['chosen']['mapping'])+oracle_gaps(rows,dev['chosen']['family'],dev['chosen']['mapping'])
     answers=explicit_answers(dev,rows,relative,verdict,gaps)
     evidence=dict(protocol_sha256=sha(protocol_path),development_results_sha256=sha(state/'TRANSFORMER_V2_DEV_RESULTS.json'),locked_results_sha256=sha(state/'TRANSFORMER_V2_LOCKED_RESULTS.json'),
                   chosen=dev['chosen'],decision=verdict,architecture_comparisons=diagnostic,oracle_gap_diagnostics=gaps,locked_rows=rows,
                   development_prediction_metrics=metrics,locked_prediction_metrics=locked_metrics,
+                  development_oracle_results_sha256=sha(oracle_path),development_oracle_support=corrected['support'],
                   candidate_risk_audits=[dict(funding_scale=c['task']['funding_scale'],**c['v2_risk_audit']) for c in locked['cases'] if 'v2_risk_audit' in c],
                   development_exposure_control_pairs=pairs,development_exposure_results_sha256=sha(exposure_path),
                   explicit_answers=dict(answers),investment_state='NONE/CASH',deployment_authorized=False)
@@ -232,6 +238,7 @@ def main():
             '稳定诊断使用五个开发 fold 至少四个正 IC（或正 utility rank）及封存期同向，两个 funding interpretations 均保留；它不是新增模型选择规则。所有预测指标及有效 IC 日数列在 FINAL_DECISION.json。',
             '## 5–6. Oracle ceiling 与 gap 捕获',
             '三个 oracle 永远 NONCAUSAL / NONDEPLOYABLE，使用同本金、成本、资金费、风险和成交。专家 oracle 的 60 日 utility 是日频 quantity proxy；方向和排序 oracle 为未来 30 日价格信息。',
+            '开发期 oracle 使用独立 DEV_ORACLE_RESULTS 的逐 horizon 支持修正；原36个联合掩码诊断和开发候选报告均保留，不改变候选或 gate。各 oracle 的有效资产日与有效日数在补充 JSON 和 LOCKED_ORACLE_SUPPORT 中明确列出。',
             '终端未来 horizon 不足和中间缺口明确现金，因此以下是有限支持的策略空间诊断，无法证明严格完整日历最优 ceiling。gap 分母只有正值才报告比率；基线和模型为全日历账户，支持差异使比率只能作诊断，不是可推广捕获率。',
             '|窗口|funding|oracle|NET %|相对 SMA gap USDT|诊断捕获率|','|---|---:|---|---:|---:|---:|']
     for r in gaps:lines.append(f'|{r["window"]}|{r["funding_scale"]}|{r["oracle"]}|{fmt(r["oracle_net_return_percent"])}|{fmt(r["gap_over_full_calendar_SMA_USDT"])}|{fmt(r["diagnostic_capture_ratio"])}|')
