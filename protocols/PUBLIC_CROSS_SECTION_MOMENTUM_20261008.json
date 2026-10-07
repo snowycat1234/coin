@@ -1,0 +1,32 @@
+{
+  "experiment_id": "PUBLIC_CROSS_SECTION_MOMENTUM_20261008",
+  "question": "Does a published fixed cross-sectional momentum adaptation create cost-positive long/short diversification, particularly on the already-seen 2025 decline, without a market-direction gate?",
+  "parent_module_commit": "206401d",
+  "data_role": "SEEN_DEVELOPMENT_ONLY; no independent OOS or locked consumption",
+  "data_manifest_sha256": "24c5ae42fa61e2e4525ebab76b9dc9fdafe757d9816eb00f0f22884c9fbb32a8",
+  "label_manifest_sha256": "b98ffb845d2d25a690e54c49b936f1d3728b35abf4577de6bee1e2c997287168",
+  "work": "/home/ubuntu/coin/coin_collector_v3_fixed/work",
+  "collector_root": "/home/ubuntu/coin/coin_collector_v3_fixed",
+  "source_run": "/home/ubuntu/coin/execution-state/automation/server-20261006",
+  "previous_state": "/home/ubuntu/coin/execution-state/transformer-v3-oracle-policy-20261007",
+  "symbols": ["BTCUSDT","ETHUSDT","SOLUSDT","1000PEPEUSDT","XRPUSDT","WIFUSDT","WLDUSDT","DOGEUSDT","1000SATSUSDT","ORDIUSDT"],
+  "locked_start_us": 1772323200000000,
+  "windows": [
+    {"id":"fold1-2024-01-02","fold":1,"start":1704153600000000,"end":1719878400000000,"days":182,"active_symbols":["BTCUSDT","ETHUSDT","SOLUSDT","XRPUSDT","DOGEUSDT"]},
+    {"id":"fold3-2025-01-02","fold":3,"start":1735776000000000,"end":1751414400000000,"days":181,"active_symbols":["BTCUSDT","ETHUSDT","SOLUSDT","1000PEPEUSDT","XRPUSDT","DOGEUSDT"]}
+  ],
+  "window_selection": "Two existing contiguous first-half development windows; 2024 rally/mixed versus 2025 decline/mixed as known development context, not ex-ante regime labels. Preserve original legal active pools for direct identity with old controls; not return-selected new constituents or entire2022bear evidence. Separate wallets, never stitch.",
+  "method": {"lookback_days":21,"rank_interval_days":7,"anchor_us":1704067200000000,"top_long":2,"bottom_short":2,"raw_gross":0.6,"min_eligible":4,"annual_vol_target":0.1,"covariance_days":30,"warmup_closes":31,"ranking":"stable input-order ties, fully tied cash","risk":"past-only signed covariance, downscale only, daily safety risk rebalance; no disabling engine hard caps","missing":"31 contiguous past closes for eligibility; a missing held asset clears and does not reenter before next weekly rank; executable/mark gaps retain native stop rules","target_schedule":"restore latest weekly calendar ranking from pre-window past, daily target risk updates, paid terminal-flat native semantics"},
+  "features": ["completed-close21d momentum only; no u/y, future funding/basis or model features"],
+  "source": {"title":"Liu/Tsyvinski/Wu Common Risk Factors in Cryptocurrency","version":"2019-04-15 author working paper","url":"https://economics.yale.edu/sites/default/files/2022-10/LiuTsyvinskiWu2019%20COMMON%20RISK%20FACTORS.pdf","adaptation":"weekly3week momentum top2/bottom2 equalweight and existing10% covariance risk; NOT paper's market-cap weighted quintile strategy or CMOM factor replication","license":"method citation only; no paper/code copied; no new third-party dependency"},
+  "controls": ["BASE_HOLD","BASE_SMA200_SIGNED","BASE_STATIC_DIRECTION3","BASE_CASH"],
+  "control_reuse": "Only saved native complete paid-terminal wallets with identical window/active universe/symbol ordering/full10k capital/FULL risk/fee and funding scale/financial source hashes; verify artifactSHA and independent audit. Old controls gross60 rather than10%vol so report realized risk; no claim risk-matched dominance or pure SHORT causal increment.",
+  "funding_scales": [1,0.01],
+  "cost": "Existing unchanged native COSTS[0]: fee5.5bp + halfspread4bp + slippage4bp each way; preserve Bybit fee snapshot identity and Binance USD-M cross-venue proxy; units remain two conditional interpretations, neither certified",
+  "capital":10000,"max_asset_abs":0.3,"max_gross":0.6,"leverage":1,"automatic_margin_topup":false,
+  "budget": {"new_configs":1,"new_wallets":4,"new_fits":0,"workers":2,"threads_per_process":1,"RAM_bytes":8000000000,"GPU":0,"swap":0,"wall_seconds":1800,"reserve_bytes":16106127360,"new_owned_bytes":500000000},
+  "metrics": ["complete-calendar terminal netPnL/full-capital return","LONG/SHORT gross and net contribution","fees/execution/funding","turnover","actual gross/net/margin","vol/MDD/Sharpe","monthly and daily concentration","actual short open legs"],
+  "continue_thresholds": "Research retention only, never investment promotion: both windows and both units netPnL>0, short net contribution in2025>0 for both units, each window actual annual volatility<=.12 and minute MDD<=.12. Report each strong control gap separately. All required; otherwise pause this exact recipe without horizon/coin/side inversion scan. No choice of favorable unit.",
+  "stop": "No further configs or lookback/threshold/factor scans in this module. Failure blocks this recipe only. If funding dominates/no finite coverage, keep economic result conditional/N_E rather than fabricate native precision. New independent stages and matched-risk controls required before any adoption.",
+  "qualification":"NONE_CASH"
+}

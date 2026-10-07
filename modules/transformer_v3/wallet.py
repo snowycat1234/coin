@@ -109,13 +109,19 @@ def native_worker(task):
         atomic(path,value);return value
     except BaseException as exc:atomic(attempt/'FAILURE.json',dict(error_type=type(exc).__name__,error=str(exc),time=time.time()));raise
 
-def run_tasks(tasks,state,result_name,workers=10):
+def registered_protocol(tasks,protocol_path=None):
+    """Default v3 stays unchanged; new frozen research may bind its own protocol."""
+    protocol=Path(protocol_path) if protocol_path is not None else Path(__file__).resolve().parents[2]/'reports/transformer_v3/TRANSFORMER_V3_PROTOCOL.json'
+    registered=json.loads(protocol.read_text())
+    if any(t['protocol_sha256']!=sha(protocol) for t in tasks):raise ValueError('Native tasks do not match committed protocol')
+    return registered
+
+
+def run_tasks(tasks,state,result_name,workers=10,*,protocol_path=None,on_progress=None):
     if len({t['work'] for t in tasks})!=1:raise ValueError('Separate process pools required for each imputed market source')
     state=Path(state);results=[];errors=[]
     frozen_sources(state)
-    protocol=Path(__file__).resolve().parents[2]/'reports/transformer_v3/TRANSFORMER_V3_PROTOCOL.json'
-    registered=json.loads(protocol.read_text())
-    if any(t['protocol_sha256']!=sha(protocol) for t in tasks):raise ValueError('Native tasks do not match committed protocol')
+    registered=registered_protocol(tasks,protocol_path)
     inputs_by_window={}
     for t in tasks:
         with np.load(t['target_path']) as f:symbols=f['symbol_order'].tolist()
@@ -141,6 +147,7 @@ def run_tasks(tasks,state,result_name,workers=10):
                 except Exception as retry:errors.append(dict(task_id=task['id'],error=str(exc),retry_error=str(retry)))
             atomic(state/(result_name+'.json'),dict(status='RUNNING',cases=results,errors=errors,total_cases=len(tasks)))
             atomic(state/(result_name+'_progress.json'),dict(stage=result_name,completed=len(results),failed=len(errors),total=len(tasks),pid=os.getpid(),updated_at=time.time()))
+            if on_progress is not None:on_progress(len(results),len(errors),len(tasks),task['id'])
             print(f'{result_name} {len(results)}/{len(tasks)} failed={len(errors)} {task["id"]}',flush=True)
     atomic(state/(result_name+'.json'),dict(status='COMPLETE' if not errors else 'FAILED',cases=results,errors=errors,total_cases=len(tasks)))
     if errors:raise RuntimeError('Wallet errors preserved; no silent continuation')

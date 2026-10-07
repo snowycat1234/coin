@@ -472,3 +472,8 @@ Reuse the repository's frozen oracle_expert_opportunity.optimal_path (SHA3b79a9d
 ## 2026-10-08 Read-only breadth probe
 
 Reuse existing collector breadth20/SMA feature definitions, NumPy/Polars/pytest and common manifest hashing. Own leave-one-out arithmetic and availability-preserving joint-date diagnostic only; no dependency, financial engine or third-party code copy. Existing versions/licenses unchanged. Both original preregistration and pre-run shuffle correction retained by Git.
+
+
+## 2026-10-08 Published cross-sectional momentum adaptation
+
+Method reference: Liu/Tsyvinski/Wu, Common Risk Factors in Cryptocurrency, 2019-04-15 author paper https://economics.yale.edu/sites/default/files/2022-10/LiuTsyvinskiWu2019%20COMMON%20RISK%20FACTORS.pdf . Publication version, not a software repository commit; no paper or external source code copied, no third-party dependency/license change. Rule adaptation only:3week return/weekly rank, equal top2/bottom2 vsoriginal valueweighted quintiles/CMOM; existing market_neutral and signed_risk_weights unchanged, native Decimal isolated wallet/storage/auditor reused. Own wallet dispatch accepts a separate committed protocol with old default unchanged; no new accounting kernel. Existing NumPy/Polars/PyArrow/Torch transitive imports/pytest versions/licenses retained, GPU0/no fit.
