@@ -10,12 +10,6 @@ import time
 
 import numpy as np
 
-from modules.transformer_v3.market_binding import verify_binding
-from modules.transformer_v3.wallet import run_tasks
-from scripts.research.joint_expert_information import verified_input_view
-from scripts.research.public_cross_section_momentum import DAY_US
-from scripts.research.run_public_momentum import ROOT, save, sha, summary_row
-
 FAMILIES = ('SMA200_10PCT', 'FIXED_HALF_SMA_CSMOM')
 
 
@@ -53,6 +47,12 @@ def compose_targets(weights, core, symbols):
 
 
 def main():
+    from modules.transformer_v3.market_binding import verify_binding
+    from modules.transformer_v3.wallet import run_tasks
+    from scripts.research.joint_expert_information import verified_input_view
+    from scripts.research.public_cross_section_momentum import DAY_US
+    from scripts.research.run_public_momentum import ROOT, save, sha, summary_row
+
     ap=argparse.ArgumentParser()
     ap.add_argument('--protocol',type=Path,required=True)
     ap.add_argument('--state',type=Path,required=True)
