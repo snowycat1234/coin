@@ -12,6 +12,7 @@ from pathlib import Path
 import numpy as np
 from scripts.investment.perpetual_directional import need,DAY
 from .teacher import E6,SCHEMA,causal_features
+from .student_labels import validate_student_label_clock
 
 MODEL_SCHEMA='NATIVE_E6_REWARD_RIDGE_V1'
 TRAIN_START=int(datetime(2024,1,1,tzinfo=UTC).timestamp()*1_000_000)
@@ -75,6 +76,7 @@ def fit(rows,*,asof_us=TRAIN_END):
     need(asof_us<=TRAIN_END,'This experiment trains only within 2024H1')
     admitted=[]
     for row in rows:
+        validate_student_label_clock(row)
         need(row.get('schema')==SCHEMA,'Independent native-action teacher schema required')
         d=int(row['decision_us'])
         if not TRAIN_START<=d<TRAIN_END:continue

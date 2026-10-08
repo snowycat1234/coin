@@ -231,6 +231,11 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
                  completion=branch.completion,terminal_cash_realized=all(pos.quantity==0 for pos in branch.account.positions.values()),
                  clone_seconds=clone_seconds,replay_seconds=time.monotonic()-clock-clone_seconds,
                  state_after_hash=branch.state_hash())
+        row['costs_USDT']=dict(
+            fees=float(branch.account.fees-sim.account.fees),
+            execution_cost=float(branch.account.execution_cost-sim.account.execution_cost),
+            signed_funding_cash=float(branch.account.funding_cash-sim.account.funding_cash),
+            gross_fill_turnover=float(branch.account.gross_fill_turnover-sim.account.gross_fill_turnover))
         candidate_rows.append(row)
         if complete and (best is None or reward>best[0]):best=(reward,index,branch)
         if baseline is not None and index==6:actual=branch

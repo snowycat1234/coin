@@ -15,6 +15,7 @@ from scripts.investment.perpetual_directional import DAY, need
 from .availability_contract import (CheckpointSchedule, candidate_mask, digest,
                                     label_mask, masked_rewards, scheduled_identity)
 from .teacher import E6, SCHEMA, causal_features
+from .student_labels import validate_student_label_clock
 from .train import NativeRewardModel, RIDGE_ALPHA
 
 MODEL_SCHEMA = 'NATIVE_AVAILABLE_REWARD_RIDGE_V1'
@@ -73,6 +74,7 @@ def fit_available(rows, *, start_us, end_us, asof_us, checkpoint_schedule):
     need(isinstance(checkpoint_schedule, CheckpointSchedule), 'Frozen checkpoint schedule required')
     admitted, masks, rewards = [], [], []
     for row in rows:
+        validate_student_label_clock(row)
         need(row.get('schema') == SCHEMA, 'Independent native-action teacher schema required')
         d = int(row['decision_us'])
         if not start_us <= d < end_us or row.get('forced_terminal_day', False):
