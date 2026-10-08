@@ -1,5 +1,7 @@
 # COIN 当前研究状态
 
+独立云端接口研究：固定 7 日请求、每日因果重映射的 native 候选标签与 purge 已实现，16 个合成测试及 8 个旧 scheduler/input 测试通过；真实标签/训练/搜参/冻结 A/B 修改均 NOT_RUN。该实现不证明收益提升。定义、源码身份、成本及唯一稀疏实证建议见 [接口验收](research/multiday_native_labels_20261009.md)。代码仅交付 `research/multiday-native-labels-20261009`。
+
 ## 当前最佳研究方案与证据等级
 
 **投资资格NONE/CASH，稳定净APR未知。** 研究控制保留原CSMOM21与SMA200；固定50%SHORT抵押物保护完成10账户后暂停，不调阈值救结果。附件开源思路已登记，重点是共享信息、净utility/成本、连续权重与完整组合最差阶段，不以新模型数量作进展。

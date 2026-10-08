@@ -30,6 +30,9 @@ class MarketTape:
         self.symbols=symbols
         self.cache_start=None
         self.cache=None
+        self.retained={}
+        self.retain_start=None
+        self.retain_end=None
         self.expected=window['start']
         self.reader=self._rows()
 
@@ -57,7 +60,32 @@ class MarketTape:
             expected+=len(stamps)*MINUTE
         need(expected==window['end'],'Complete market calendar')
 
+    def retain_days(self, stamp, days):
+        """Keep at most seven immutable days for overlapping label replays.
+
+        This changes only reader caching. Wallets still advance through the
+        original scheduler. The source wallet can consume the retained first
+        day after all lookahead branches finish; a later label rolls the cache
+        forward without rereading a streaming input.
+        """
+        need(type(days) is int and 1<=days<=7 and stamp%DAY==0,
+             'Bounded one-to-seven-day tape retention')
+        need(self.window['start']<=stamp and stamp+days*DAY<=self.window['end'],
+             'Retained days stay within the global market calendar')
+        need(self.retain_start is None or stamp>=self.retain_start,
+             'Tape retention cannot rewind discarded days')
+        need(stamp==self.expected or stamp==self.cache_start or stamp in self.retained,
+             'First retained day must still be readable')
+        self.retain_start,self.retain_end=stamp,stamp+days*DAY
+        self.retained={t:rows for t,rows in self.retained.items()
+                       if self.retain_start<=t<self.retain_end}
+        if self.cache_start is not None and self.retain_start<=self.cache_start<self.retain_end:
+            self.retained[self.cache_start]=self.cache
+
     def day(self, stamp):
+        if stamp in self.retained:
+            self.cache_start,self.cache=stamp,self.retained[stamp]
+            return self.cache
         if self.cache_start==stamp:return self.cache
         need(stamp==self.expected,'Day tape advances sequentially; branches must share the current day')
         end=min(stamp+DAY,self.window['end'])
@@ -69,6 +97,11 @@ class MarketTape:
             rows.append((t,MappingProxyType({s:MappingProxyType(v) for s,v in row.items()})))
         self.cache_start=stamp
         self.cache=tuple(rows)
+        if self.retain_start is not None:
+            if self.retain_start<=stamp<self.retain_end:
+                self.retained[stamp]=self.cache
+            elif stamp>=self.retain_end:
+                self.retained.clear()
         self.expected=end
         if end==self.window['end']:
             try:next(self.reader)

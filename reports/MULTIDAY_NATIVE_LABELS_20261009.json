@@ -1,0 +1,113 @@
+{
+  "schema": "MULTIDAY_NATIVE_LABEL_INTERFACE_SYNTHETIC_ACCEPTANCE_V1",
+  "recorded_utc": "2026-10-08T17:52:18.780158+00:00",
+  "branch": "research/multiday-native-labels-20261009",
+  "parent_commit": "94286155072ead9705c448b087cc8677a9a7fd35",
+  "handoff_commit": "cc1829b3c8b5aa0bcf18ec70c1c669975b5343a5",
+  "storage_index_commit": "b82412e9a34fcdaf7e44f2f9f2664e5b503b90a1",
+  "archived_local_source_commit": "987300aaf4e2bedaf1ca1a83dbfcedbaaef69f48",
+  "source_sha256": {
+    "modules/native_action/multiday.py": "088ad818361f13c61c537cdc2fa5c0764d3d32bf3e24758db83a38cf49044212",
+    "tests/test_native_action_multiday.py": "69f5d871c8640d2b57ed05a46c814ee4e19b319d23fe403fa4e91de5ae2b2edd",
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585"
+  },
+  "archived_original_scheduler_sha256": "36c74d0bca4a3d556cf87aae223a8df06340f322652edcca192b363788875f6d",
+  "result_zip_bytes": 12283650,
+  "result_zip_sha256": "9fed06d21231ea81419396e5a786511ad59286540ce3741349f480ae5e7340c0",
+  "scope": "SYNTHETIC_INTERFACE_AND_NATIVE_EQUIVALENCE_ONLY",
+  "continuation_rule": "HOLD_INITIAL_REQUEST_7D_DAILY_CAUSAL_REMAP",
+  "horizon_days": 7,
+  "tests": [
+    {
+      "file": "reports/MULTIDAY_NATIVE_LABELS_20261009_TESTS.xml",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 100.373,
+      "started": "2026-10-08T17:46:11.966438+00:00"
+    },
+    {
+      "file": "reports/MULTIDAY_NATIVE_LABELS_20261009_REGRESSION.xml",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 29.222,
+      "started": "2026-10-08T17:46:41.600540+00:00"
+    }
+  ],
+  "parallel_test_wall_interval_union_seconds": 100.373,
+  "static_checks": {
+    "new_files_ruff": "PASS",
+    "changed_python_ast_parse": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "execution": {
+    "wrapper": "scripts/cloud_research.sh",
+    "cpu_per_run": 1,
+    "address_space_limit_bytes": 6000000000,
+    "swap": 0,
+    "gpu": 0,
+    "run_wall_limits_seconds": [
+      300,
+      120
+    ],
+    "state_test_directories": true
+  },
+  "acceptance": {
+    "original_continuous_14d_vs_two_7d": "EXACT_COMPLETE_SNAPSHOT_MINUTE_LEDGER_AND_JOURNALS",
+    "first_decision_X_unchanged_under_future_changes": true,
+    "future_non_cash_Y_changes": true,
+    "source_snapshot_and_branch_mutations_isolated": true,
+    "streaming_reader_once_and_seven_day_cache": true,
+    "five_and_six_output_supported": true,
+    "incomplete_rewards": null,
+    "future_missingness_not_initial_mask": true,
+    "partial_state_excluded_from_optimization": true,
+    "intermediate_boundary_not_liquidated": true,
+    "global_terminal_charged": true,
+    "failed_global_exit_label_invalid": true,
+    "seven_day_overlap_and_publication_purged": true,
+    "continuation_hash_checked": true
+  },
+  "costs": {
+    "wallet_minutes_per_state_E5": 50400,
+    "wallet_minutes_per_state_E6": 60480,
+    "retained_market_minutes": 10080,
+    "initial_synthetic_E6_7d_fixture_seconds": 11.96,
+    "late_wallet_clone_cost": "NOT_MEASURED",
+    "parent_provided_real_182d_single_policy_seconds": [
+      80,
+      95
+    ],
+    "full_176_state_E5_7d_estimated_minutes": [
+      45,
+      54
+    ],
+    "full_176_state_E6_7d_estimated_minutes": [
+      54,
+      64
+    ],
+    "estimate_excludes_clone_overhead": true
+  },
+  "not_run": [
+    "real_market_labels",
+    "real_market_training",
+    "model_fit",
+    "hyperparameter_search",
+    "frozen_AB_changes",
+    "economic_improvement_claim"
+  ],
+  "initial_test_failures": {
+    "count": 2,
+    "cause": "TEST_ASSERTION_FIELD_AND_CAPACITY_ASSUMPTIONS",
+    "corrected_and_rerun": true
+  },
+  "independent_readonly_review": "COMPLETED_AND_TWO_RECOMMENDATIONS_IMPLEMENTED",
+  "reproduction_commands": [
+    "COIN_RUN_SECONDS=300 bash scripts/cloud_research.sh .venv/bin/python -m pytest -q tests/test_native_action_multiday.py --basetemp=/workspace/coin-state/tests/multiday-labels-20261009 --durations=6",
+    "COIN_RUN_SECONDS=120 bash scripts/cloud_research.sh .venv/bin/python -m pytest -q tests/test_resumable_perpetual.py tests/test_native_action_inputs.py --basetemp=/workspace/coin-state/tests/multiday-native-regression-20261009"
+  ],
+  "blockers": []
+}
