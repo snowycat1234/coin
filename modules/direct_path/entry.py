@@ -141,7 +141,7 @@ def verify_worker_limits():
 def worker(args):
     verify_worker_limits()
     import numpy as np
-    from .pack import load_pack
+    from .pack import bounded_bytes, load_pack, MAX_MANIFEST_BYTES
     from .prototype import SEED, loss_and_gradient
     from .training import EPOCHS, LEARNING_RATE, common_standardizer, fit_arm
     out = Path(args.output)
@@ -150,13 +150,26 @@ def worker(args):
                   approved_pack_sha256=args.approved_pack_sha256)
     write_json(report_path, report)
     try:
-        manifest, fragments = load_pack(args.manifest, args.approved_pack_sha256)
+        raw = bounded_bytes(args.manifest, MAX_MANIFEST_BYTES)
+        if hashlib.sha256(raw).hexdigest() != args.approved_pack_sha256:
+            raise ValueError("Exact parent-approved index bytes required")
+        schema = json.loads(raw)["schema"]
+        if schema == "BYTE_BOUND_DIRECT_PATH_FRAGMENTS_V1":
+            from .data_adapter import load_training_and_validation
+            train, validation, manifest = load_training_and_validation(
+                Path(args.manifest).parent, args.approved_pack_sha256)
+            fragments = train + [validation]
+        else:
+            manifest, fragments = load_pack(args.manifest, args.approved_pack_sha256)
         train = fragments[:3]
         mean, scale = common_standardizer(train)
         report.update(window_ids=[f["window_id"] for f in fragments],
                       observations=[len(f["contexts"]) for f in fragments],
-                      source_commit=manifest["source_commit"],
-                      binding=[f["binding"] for f in fragments])
+                      source_commit=manifest.get("source_commit", manifest.get("source_full_inputs_commit")),
+                      protocol_source_commit=manifest.get("protocol_source_commit"),
+                      binding=[f["binding"] for f in fragments],
+                      delivered_input_npz_sha256=[f.get("delivered_input_npz_sha256",
+                          f["binding"]["input_npz_sha256"]) for f in fragments])
         if args.arm is None:
             np.savez(out / "standardizer.npz", mean=mean, scale=scale)
             report.update(status="INPUT_VALIDATED_NOT_TRAINED",
@@ -175,10 +188,15 @@ def worker(args):
             mean, scale = scaler["mean"].copy(), scaler["scale"].copy()
         report.update(status="FITTING", arm=args.arm, fits_started=1, completed_epochs=0,
                       epochs=EPOCHS, learning_rate=LEARNING_RATE, seed=SEED,
-                      parameters=397, standardizer_sha256=check["standardizer_sha256"])
+                      parameters=397, fit_started_unix_ns=time.time_ns(),
+                      standardizer_sha256=check["standardizer_sha256"])
         write_json(report_path, report)
+        progress_path = out / (args.arm + "_EPOCHS.jsonl")
 
         def progress(epoch, loss, norm):
+            with progress_path.open("a") as log:
+                log.write(json.dumps(dict(epoch=epoch, preupdate_loss=loss,
+                          gradient_norm=norm, unix_ns=time.time_ns()), allow_nan=False) + "\n")
             report.update(completed_epochs=epoch, last_preupdate_loss=loss,
                           last_gradient_norm=norm)
             write_json(report_path, report)
@@ -202,6 +220,7 @@ def worker(args):
                      "spread", "slippage", "funding", "gross", "terminal_cash_realized")}
                      for p in paths]
         report.update(status="FROZEN_EPOCH64_NATIVE_VALIDATION_PENDING", fits_completed=1,
+                      fit_finished_unix_ns=time.time_ns(),
                       frozen_loss=float(loss), model_file=model_path.name,
                       model_sha256=model_sha, training_daily_proxy_only=summaries,
                       validation_request_file=request_path.name,

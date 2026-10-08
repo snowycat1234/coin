@@ -1,6 +1,6 @@
 # 连续 E5 预算两臂原型：待父任务启动
 
-本轮 **0 fit、0 新策略原生账户、GPU0、付费0、发单0**。代码、合成检查、既有固定路径校准已完成；`training.fit_pair` 已实现但未调用。仅此一个固定方案，不做参数/结构/种子搜索。Library 停用，未访问 Binance、locked 正文或 2025H2。
+原型交付与入口准备阶段0 fit；父任务随后核准输入并明确启动，现已 **恰好2 fit、各64epochs、0重拟合、0 新策略原生账户、GPU0、付费0、发单0**。仅此一个固定方案，不做参数/结构/种子搜索。Library 停用，未访问 Binance、locked 正文或 2025H2。
 
 ## 两臂契约
 
@@ -65,7 +65,13 @@ BASE27、1x逐仓、scale1、MMR.005及 Binance 历史行情配 Bybit 费用均�
 
 `entry.py` 默认只检查输入，不训练；显式 `--mode run-pair` 才串行创建两个独立 worker。每臂硬墙钟120秒包括 import、加载、64epochs 和导出；独立进程组超时 SIGKILL，内核 RLIMIT_AS≤900,000,000B 从 exec 前生效，比 RSS≤1GB 更严格，额外每25ms查 RSS/线程；CPU affinity≤2、BLAS/OMP 等实际设1线程，线程总数≤2。只读核 active swap 必须为空，CUDA 可见设备置空、仅 NumPy。已有更严格上级限额保留。检查 worker≤30秒，无 GPU/付费。`fit_pair` 本身仍只有 epoch 边界软时钟，真实拟合必须走 supervisor。共享云机器总RAM限制由上级负责，本入口仅保证本次串行 worker 子预算。
 
-原生 producer 负责从完整本地历史导出四片小包、获胜 candidate.request/成熟时钟、全部真实 funding events 与 strict-past marks、mapper/expert 来源。本入口适配已实现，等待父任务核验包 SHA 与启动指令；没有新增行情下载或 fit。训练完成后原生执行器将冻结 request 送入原 **E5 mapper→NativeDailySimulator→BybitIsolatedAccount**；不要重复拟合，勿把旧校准面板当训练集。
+原生 producer 从完整本地历史导出四片小包、获胜 candidate.request/成熟时钟、全部真实 funding events 与 strict-past marks、mapper/expert 来源。本入口现支持 producer 的 `BYTE_BOUND_DIRECT_PATH_FRAGMENTS_V1`，直接调用 `data_adapter.load_training_and_validation`，仅返回的3片进入fit。保留原字段/时钟/来源inputSHA，并另记delivered fragment SHA。对照核准原adapter，四片全部数组、时钟、43feature及训练mean/std完全一致，误差0；只增加受限字节快照与receipt一致性检查，没有改数据。没有新增行情下载。原生执行器将冻结 request 送入原 **E5 mapper→NativeDailySimulator→BybitIsolatedAccount**；不要重复拟合，勿把旧校准面板当训练集。
+
+producer包commit `d69e9ac94478c5be54cb46c622afec7aaf3c61f7`，ZIP 214,624B、SHA `5c693dbae6a8702d5304d92e5890697a11ffa1f5579b69f05dd16322f248aef5`；INDEX SHA `e4fecc49cd1bb05f72dc0f8d24e793a5d7e4d2436c89a18bd9d7c625a7849be8`。ZIP15成员与全部memberSHA已核。receipt资金费525/465/1815/915条，各5条start事件明确fresh-cash跳过，globalend排除与代理末日q=0一致；末日午夜事件仍归前一interval。该producer schema不转换成下方通用V1，源字节保持原样。
+
+### 冻结导出接口
+
+两臂仅保留epoch64，不因训练代理数字改变配方。61日验证只作冻结request推理，不计算代理验证PnL、不挑参数/epoch。`freeze_evidence`只读已冻结头并复核输出，生成模型+scaler、397参数向量、每臂64条日志与逐训练片段代理路径，不调用优化器。模型与衍生结果保持任务STATE冻结；该研究分支此次仅提交源码、测试与协议，结果包公开发布等待直接用户批准。
 
 ### 小输入包 V1
 
