@@ -71,7 +71,7 @@ producer包commit `d69e9ac94478c5be54cb46c622afec7aaf3c61f7`，ZIP 214,624B、SH
 
 ### 冻结导出接口
 
-两臂仅保留epoch64，不因训练代理数字改变配方。61日验证只作冻结request推理，不计算代理验证PnL、不挑参数/epoch。`freeze_evidence`只读已冻结头并复核输出，生成模型+scaler、397参数向量、每臂64条日志与逐训练片段代理路径，不调用优化器。模型与衍生结果保持任务STATE冻结；该研究分支此次仅提交源码、测试与协议，结果包公开发布等待直接用户批准。
+两臂仅保留epoch64，不因训练代理数字改变配方。61日验证只作冻结request推理，不计算代理验证PnL、不挑参数/epoch。`freeze_evidence`只读已冻结头并复核输出，生成模型+scaler、397参数向量、每臂64条日志与逐训练片段代理路径，不调用优化器。冻结结果按用户既有公开GitHub保存授权发布至 `research_artifacts/direct_path_frozen_pair_20261008`；INDEX绑定同一118,740B原包及全部模型/request/scaler SHA，FEATURE_SCHEMA给出43列完整顺序与SHA。原生侧仅加载，不重复拟合。
 
 ### 小输入包 V1
 
