@@ -1,0 +1,82 @@
+{
+  "schema": "PREDETERMINED_FIXED_PATH_NATIVE_CALIBRATION_PANEL_V1",
+  "cases": [
+    {
+      "tag": "H1_E5_FAMILY_EW",
+      "role": "Predetermined training-window fixed-path financial calibration. No policy fit and no path selection by proxy utility.",
+      "days": 182,
+      "native_net_PnL": 466.5364711603612,
+      "liquidations": 0,
+      "array_file": "H1_E5_FAMILY_EW.npz",
+      "sha256": "1bf270b1169a0e123568fdf26c9177749cbbb0c05a0e7beac64c7211b7f10073"
+    },
+    {
+      "tag": "TAIL_E6_RIDGE_FAILURE_WITNESS",
+      "role": "Predetermined known-liquidation execution failure witness only. Excluded from training, validation and model selection.",
+      "days": 142,
+      "native_net_PnL": -1404.7882064216165,
+      "liquidations": 1,
+      "array_file": "TAIL_E6_RIDGE_FAILURE_WITNESS.npz",
+      "sha256": "d5d103f2e2eddf2d2267c7e15e74f4e44f189cc58da646c89dfc42d2eaf36c62"
+    }
+  ],
+  "new_fits": 0,
+  "new_native_replays": 0,
+  "new_price_downloads": 0,
+  "source_and_full_inputs_increment_commit": "b82412e9a34fcdaf7e44f2f9f2664e5b503b90a1",
+  "reconstruction": "These files are the small direct calibration panel; no90MB market archive is needed to read them. Full native engine/data are in prior verified storage increments.",
+  "array_semantics": "Quantities are signed contracts; target and signed_weight are NAV fractions. Funding has signed USDT cashflow. Cost increments are positive expenses. Net equals native NAV delta, not sum of separate expert profits.",
+  "files": [
+    {
+      "name": "H1_E5_FAMILY_EW.json.gz",
+      "bytes": 352635,
+      "sha256": "ecc8babe456d4a7ac8d320caf2e15356ff88b12e86b3e22d80906fc01c93f516",
+      "decoded_name": "H1_E5_FAMILY_EW.json",
+      "decoded_bytes": 4060118,
+      "decoded_sha256": "b41bf6047840bbe9d71b88294be9395315e98c6ed3c18d370f62b263b8ac5917"
+    },
+    {
+      "name": "H1_E5_FAMILY_EW.npz",
+      "bytes": 131622,
+      "sha256": "1bf270b1169a0e123568fdf26c9177749cbbb0c05a0e7beac64c7211b7f10073",
+      "decoded_name": "H1_E5_FAMILY_EW.npz",
+      "decoded_bytes": 131622,
+      "decoded_sha256": "1bf270b1169a0e123568fdf26c9177749cbbb0c05a0e7beac64c7211b7f10073"
+    },
+    {
+      "name": "TAIL_E6_RIDGE_FAILURE_WITNESS.json.gz",
+      "bytes": 319074,
+      "sha256": "a8d132346239457ccb0405c7313a39a10d5aa10346308cadb1e8acc99fca550b",
+      "decoded_name": "TAIL_E6_RIDGE_FAILURE_WITNESS.json",
+      "decoded_bytes": 3476212,
+      "decoded_sha256": "f9137702786e2c15b9ea132a8144d313d0108eae53fc500b935e873dc477f8ec"
+    },
+    {
+      "name": "TAIL_E6_RIDGE_FAILURE_WITNESS.npz",
+      "bytes": 95254,
+      "sha256": "d5d103f2e2eddf2d2267c7e15e74f4e44f189cc58da646c89dfc42d2eaf36c62",
+      "decoded_name": "TAIL_E6_RIDGE_FAILURE_WITNESS.npz",
+      "decoded_bytes": 95254,
+      "decoded_sha256": "d5d103f2e2eddf2d2267c7e15e74f4e44f189cc58da646c89dfc42d2eaf36c62"
+    },
+    {
+      "name": "TAIL_INTRADAY_LIQUIDATION_WITNESS.npz",
+      "bytes": 315694,
+      "sha256": "6eb6900ff20ae58604e360fefce8609b54bb66bd2dd00a84945d757bf599b660",
+      "decoded_name": "TAIL_INTRADAY_LIQUIDATION_WITNESS.npz",
+      "decoded_bytes": 315694,
+      "decoded_sha256": "6eb6900ff20ae58604e360fefce8609b54bb66bd2dd00a84945d757bf599b660"
+    },
+    {
+      "name": "build_fixed_path_calibration.py",
+      "bytes": 10568,
+      "sha256": "2e0cd17069bd8e3f6911b6c0895a3b386754671ad9bc7543f0ac568bdf68548c"
+    }
+  ],
+  "secret_scan": {
+    "pattern_classes": 4,
+    "findings": []
+  },
+  "transport": "Standard deterministic gzip for JSON journals, ordinary NPZ for arrays. SHA is supplied for both delivered and decoded bytes.",
+  "total_delivered_bytes_excluding_index": 1224847
+}
