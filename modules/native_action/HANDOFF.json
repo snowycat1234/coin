@@ -1,0 +1,33 @@
+{
+  "scope": "Offline native daily oracle and imitation implementation; no real market experiment was run here.",
+  "base_commit": "ef67d636a51fd3fa9e804f651aab5775f6bae5f8",
+  "original_financial_sources": "Unchanged. Main thread must check compatibility with its current E6 code and bound inputs.",
+  "dependencies": ["Python 3.12", "numpy", "polars", "pytest for tests", "existing quant account and investment modules"],
+  "validation": {
+    "new_tests": "14 passed in 21.52s",
+    "existing_related_tests": "12 passed in 4.56s",
+    "ruff_F": "PASS",
+    "cli_probe_and_train": "PASS on tiny synthetic inputs"
+  },
+  "tests": "bash scripts/cloud_research.sh .venv/bin/python -m pytest -q tests/test_resumable_perpetual.py tests/test_native_action_teacher.py tests/test_native_action_inputs.py --basetemp=/workspace/coin-state/tests/native-action",
+  "entrypoint": "python -m modules.native_action.runner {probe,teacher,local,train,student} --help",
+  "synthetic_probe": "Create an options JSON containing {\"days\":3}, then run: python -m modules.native_action.runner probe --adapter modules.native_action.synthetic:build --options OPTIONS.json --output NEW_PROBE.json --day-index 1 --limit-seconds 60",
+  "production_adapter": {
+    "factory": "module:function(options_dict) -> modules.native_action.interface.NativeExperiment",
+    "simulator": "NativeDailySimulator(window,mode,cost,unit,account_factory=BybitIsolatedAccount,persist_cash_close=True,final_day_target_zero=True); explicitly set simulator.budget.",
+    "context_at": "decision_us -> DayContext with current-only market13, E6 targets/eligibility, availability clocks, past_returns30 and frozen identities.",
+    "mapper": "(previous_budget,desired_request,DayContext) -> Proposal; use the exact current frozen E6 ramp/risk mapper.",
+    "baseline_at": "(simulator,DayContext) -> the exact original feasible STATE proposal. Local replay retains that actual branch.",
+    "npz_binding": "BoundE6Inputs(path,sha256,field_map,binding); explicit field mapping. Validate original desired->ramp->nettarget path before local replay.",
+    "reference_mapper": "linear_ramp_risk_mapper is a tested reference adapter; equivalence to the current E6 mapper is not claimed."
+  },
+  "oracle_scope": "Six native one-hot requests, each through the same L1<=0.1 ramp and risk mapper. One-step greedy on its own continuous wallet state; no global optimum claim.",
+  "local_scope": "Six requests plus the exact actual selector proposal at actual selector states. Local regret is not a realizable equity curve.",
+  "terminal": "Common charged final-day cash exit. Forced terminal day is excluded from optimizable training labels.",
+  "imitation": "One fixed gap-weighted six-output ridge fit on matured 2024H1 native rewards. Argmax request through the same ramp/mapper. Aug13-Jan2 is previously seen temporal evaluation; train-only student-state relabel hook rejects evaluation states.",
+  "remaining_checks": [
+    "Main thread owns real inputs and must verify whole-window/day-continuation equality and original saved budget/nettarget equivalence.",
+    "Run authorized first/later-day native probes before the full market oracle. Trusted forks copy mutable journal history without from_snapshot replay; actual late-day copy cost is not measured here.",
+    "This scheduler covers the daily-target E6 route; event_strategy and position_protection adapters are not included."
+  ]
+}
