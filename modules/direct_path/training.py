@@ -62,43 +62,54 @@ def common_standardizer(fragments):
     return mean, scale
 
 
-def fit_pair(fragments):
-    """Exactly two matched fixed fits, 64 full-fragment CPU epochs each.
-
-    Parent must first review the protocol and validate native adapter/data
-    bindings. Calling this function starts real fitting; this delegated task
-    did not call it. No validation or later dates influence normalization,
-    epochs, costs, architecture, optimizer, seed, or checkpoint selection.
-    """
+def validate_training(fragments):
+    """Shared checks used by the in-memory API and bounded worker."""
     if [f.get("window_id") for f in fragments] != list(WINDOWS)[:3]:
         raise ValueError("Exactly Nov2022, Jan2023 and Jan-Apr2024 training fragments")
     identities = [validate_fragment(f, f["window_id"]) for f in fragments]
     for key in ("expert_identity_sha256", "mapper_sha256"):
         if len({i[key] for i in identities}) != 1:
             raise ValueError("Same frozen expert and mapper identity across all fragments")
+    return identities
+
+
+def fit_arm(fragments, arm, mean, scale, progress=None):
+    """One fixed fit. Production calls ONLY through the hard-limited worker."""
+    validate_training(fragments)
+    if arm not in ("IMITATE_REQUEST", "DIRECT_PATH_UTILITY"):
+        raise ValueError("Explicit paired arm required")
+    head = SmallBudgetHead(mean, scale)
+    first = {k: np.zeros_like(p) for k, p in head.parameters.items()}
+    second = {k: np.zeros_like(p) for k, p in head.parameters.items()}
+    began = time.monotonic()
+    for epoch in range(1, EPOCHS + 1):
+        if time.monotonic() - began > MAX_ARM_SECONDS:
+            raise TimeoutError("Fixed 120-second arm budget exhausted; do not retune")
+        loss, gradient, _ = loss_and_gradient(head, fragments, arm)
+        norm = float(np.sqrt(sum(float((g * g).sum()) for g in gradient.values())))
+        if not np.isfinite(loss) or not np.isfinite(norm):
+            raise ValueError("Nonfinite pair loss/gradient; stop both arms")
+        clip = min(1., 1. / norm) if norm else 1.
+        for key, p in head.parameters.items():
+            g = gradient[key] * clip
+            first[key] = .9 * first[key] + .1 * g
+            second[key] = .999 * second[key] + .001 * g * g
+            m = first[key] / (1 - .9 ** epoch)
+            v = second[key] / (1 - .999 ** epoch)
+            p -= LEARNING_RATE * m / (np.sqrt(v) + 1e-8)
+        if time.monotonic() - began > MAX_ARM_SECONDS:
+            raise TimeoutError("Fixed 120-second arm budget exhausted; do not retune")
+        if progress is not None:
+            progress(epoch, float(loss), norm)
+    return head  # only epoch64; no best-validation or seed selection
+
+
+def fit_pair(fragments):
+    """In-memory API; production entry adds hard external resource limits.
+
+    Exactly two seeded fits; no validation-dependent normalization or choice.
+    """
+    validate_training(fragments)
     mean, scale = common_standardizer(fragments)
-    result = {}
-    for arm in ("IMITATE_REQUEST", "DIRECT_PATH_UTILITY"):
-        head = SmallBudgetHead(mean, scale)
-        first = {k: np.zeros_like(p) for k, p in head.parameters.items()}
-        second = {k: np.zeros_like(p) for k, p in head.parameters.items()}
-        began = time.monotonic()
-        for epoch in range(1, EPOCHS + 1):
-            if time.monotonic() - began > MAX_ARM_SECONDS:
-                raise TimeoutError("Fixed 120-second arm budget exhausted; do not retune")
-            loss, gradient, _ = loss_and_gradient(head, fragments, arm)
-            norm = float(np.sqrt(sum(float((g * g).sum()) for g in gradient.values())))
-            if not np.isfinite(loss) or not np.isfinite(norm):
-                raise ValueError("Nonfinite pair loss/gradient; stop both arms")
-            clip = min(1., 1. / norm) if norm else 1.
-            for key, p in head.parameters.items():
-                g = gradient[key] * clip
-                first[key] = .9 * first[key] + .1 * g
-                second[key] = .999 * second[key] + .001 * g * g
-                m = first[key] / (1 - .9 ** epoch)
-                v = second[key] / (1 - .999 ** epoch)
-                p -= LEARNING_RATE * m / (np.sqrt(v) + 1e-8)
-            if time.monotonic() - began > MAX_ARM_SECONDS:
-                raise TimeoutError("Fixed 120-second arm budget exhausted; do not retune")
-        result[arm] = head  # only epoch64; no best-validation or seed selection
-    return result
+    return {arm: fit_arm(fragments, arm, mean, scale)
+            for arm in ("IMITATE_REQUEST", "DIRECT_PATH_UTILITY")}

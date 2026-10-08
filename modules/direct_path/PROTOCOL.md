@@ -23,7 +23,7 @@
 
 三个不连续训练片段分别闭合，不能跨 Nov→Jan→H1 日期缺口拼收益。H1 按固定时间再分训练/验证；May1 的验证是另一个独立钱包，不继承训练末仓，不合加独立钱包 NAV。训练182个日区间，A179个可优化标签；B182个含付费边界的区间。验证61日。各一日学习标签 `label_available_us >= decision_us + DAY_US` 且严格早于对应 split cutoff；最后强制现金日不学习。
 
-训练输入须逐文件验证 NPZ/teacher JSONL/source/mapper/market SHA，保持 E5/CORE5 顺序、每专家目标可用时钟、完整过去协方差和真实日期。`validate_fragment` 检查时间范围、标签成熟和 SHA 格式；**它不是文件内容验签器**，父任务输入 adapter 必须核实原字节。不得使用 `TRAIN_ARRAYS` 内包含已见尾段诊断的行来拟合 scaler。
+训练输入须保持 E5/CORE5 顺序、每专家目标可用时钟、完整过去协方差和真实日期。`pack.load_pack` 验证父任务核准的 manifest 与四个小 NPZ 的实际字节；teacher/source/mapper/market SHA 是原生 producer 绑定的来源，入口不假装重读小包中没有的完整原始文件。`validate_fragment` 继续检查时间范围、标签成熟与来源格式，不代替字节检查。不得使用包含已见尾段诊断的行拟合 scaler。
 
 2024尾段/2025H1仅为已见诊断；本轮尾段只是指定执行失败见证，不参与训练、验证、超参数、架构、checkpoint 或门槛选择。2025H2由父任务冻结评估，本原型完全不读取它。
 
@@ -59,13 +59,45 @@ BASE27、1x逐仓、scale1、MMR.005及 Binance 历史行情配 Bybit 费用均�
 
 21个测试通过：cash、fixed long/short、净换仓/腿netting、单位延续、缺失数据/身份/时钟、资金费正负与strict-past mark、起止付费、真实原生固定 fills、合法flip共用fill_id/重复腿拒绝、takeover不重复扣损失、日期缺口、一日标签提前成熟反例、caps/vol STOP、两个目标及全链解析梯度。独立只读审阅另测 availability 切换全链方向导数，误差3.09×10^-11；已修复其发现的一日标签成熟边界检查与合法flip账本腿身份，未改变目标/参数。
 
-## 父任务可启动的有限预算与剩余入口
+## 父任务可启动的有限预算与硬限额入口
 
 冻结建议：**恰好两次 CPU fit**，共同 Adam lr=.001、betas(.9,.999)、eps1e-8、global gradient norm≤1、weight decay0、每臂64 full-fragment epochs；只保留 epoch64，不 early stopping、不 seed ensemble、不挑 checkpoint。每臂≤120秒、串行、≤2线程、process RSS≤1GB，服从已有8GB共享上限与零swap/GPU。任一 NaN、mapper违规、代理敞口 STOP 或超时，整对记 INCOMPLETE，不变更配方救结果。
 
-线程/RSS及可中断的硬超时必须由父任务外部运行包装器施加；`fit_pair` 自身只在 epoch 前后检查120秒，不声称它独立保证上述资源封顶。本轮21项检查实测约0.53秒、31.7MB峰值RSS；这不是未来完整数据训练/原生验证的资源测量。
+`entry.py` 默认只检查输入，不训练；显式 `--mode run-pair` 才串行创建两个独立 worker。每臂硬墙钟120秒包括 import、加载、64epochs 和导出；独立进程组超时 SIGKILL，内核 RLIMIT_AS≤900,000,000B 从 exec 前生效，比 RSS≤1GB 更严格，额外每25ms查 RSS/线程；CPU affinity≤2、BLAS/OMP 等实际设1线程，线程总数≤2。只读核 active swap 必须为空，CUDA 可见设备置空、仅 NumPy。已有更严格上级限额保留。检查 worker≤30秒，无 GPU/付费。`fit_pair` 本身仍只有 epoch 边界软时钟，真实拟合必须走 supervisor。共享云机器总RAM限制由上级负责，本入口仅保证本次串行 worker 子预算。
 
-启动前父任务需完成：3训练片段与独立H1验证片段的只读 byte-bound adapter；从原 teacher 行提取获胜 candidate.request 与成熟时钟；按全部真实 funding events 和 strict-past marks生成代理系数；绑定 mapper/expert SHA；将冻结头 request逐日送入原 **E5 mapper→NativeDailySimulator→BybitIsolatedAccount**。此 adapter/完整数据准备本轮未执行，勿把小面板当训练集。
+原生 producer 负责从完整本地历史导出四片小包、获胜 candidate.request/成熟时钟、全部真实 funding events 与 strict-past marks、mapper/expert 来源。本入口适配已实现，等待父任务核验包 SHA 与启动指令；没有新增行情下载或 fit。训练完成后原生执行器将冻结 request 送入原 **E5 mapper→NativeDailySimulator→BybitIsolatedAccount**；不要重复拟合，勿把旧校准面板当训练集。
+
+### 小输入包 V1
+
+manifest UTF-8 JSON，≤128KiB：`schema="DIRECT_PATH_TRAINING_PACK_V1"`、producer `source_commit`（40位SHA）、`symbol_order`/`expert_order` 为上述固定顺序，`fragments` 按表中四角色排列。每项包含 `window_id`、平面相对 `file`（NPZ）、`bytes`、`sha256`、`funding_events_complete=true` 与 `binding`（`teacher_jsonl_sha256`、`expert_identity_sha256`、`mapper_sha256`、`market_binding_sha256`）。实际 NPZ SHA 由入口填 `input_npz_sha256`。每个NPZ≤4MB、展开≤8MB、allow_pickle=False；不接受路径逃逸或重复文件。字段名不同可用该项 `field_map={canonical_name: producer_name}` 显式一一映射，不推断/放宽语义。
+
+| NPZ canonical 字段 | shape / 单位 |
+|---|---|
+| decision_us、available_us、label_available_us | int64[T]，UTC微秒 |
+| target_available_us | int64[T,5]，UTC微秒，每专家≤decision |
+| expert_targets、eligible | float64[T,5,5] 有符号NAV比例；bool[T,5] |
+| past_returns30、market13 | float64[T,30,5] 过去完整日simple returns；float64[T,13] 原causal特征 |
+| prices、funding_coeff | float64[T+1,5] 正USDT/unit，completed daily close；float64[T,5] signed USDT/unit |
+| greedy_request | float64[T,5] 原获胜one-hot REQUEST，末日排除标签 |
+| funding_event_us、funding_symbol_index、funding_mark_close_us | int64[N]，事件UTC微秒、CORE5索引0…4、严格过去mark close UTC微秒 |
+| funding_mark_price、funding_rate_fraction | float64[N] 正USDT/unit；raw signed fraction，scale1 |
+
+T分别30/31/121/61，prices多一行表示右端日close。事件范围 `[start,end]`，初始同刻事件看到已声明现金；其余按 `(decision,next]` 汇总，下一决策同刻事件归前一持仓。入口重算 `sum(mark*rate)`，容差 rtol=atol=1e-12；拒绝重复事件/缺数据/非严格过去mark。真实事件覆盖由已核准 producer manifest 明确背书，不能从空事件列表推断没有funding。可选 `features43[T,43]` 必须与13+25+5构造逐值完全一致。非末日标签时钟≥decision+DAY且<split end，不因临界标签不足而放宽；末日仍付费平仓。
+
+```sh
+# 默认模式：仅校验。目录必须尚不存在；不能覆盖已有证据。
+PYTHONPATH=src:. python3 -m modules.direct_path.entry \
+  --manifest /path/to/manifest.json --approved-pack-sha256 PARENT_VERIFIED_SHA \
+  --output /path/to/new-check-directory
+# 仅在父任务明确启动后：恰好两臂，任一STOP整对INCOMPLETE，不改配方。
+PYTHONPATH=src:. python3 -m modules.direct_path.entry --mode run-pair \
+  --manifest /path/to/manifest.json --approved-pack-sha256 PARENT_VERIFIED_SHA \
+  --output /path/to/new-pair-directory
+```
+
+输出 `pair.json` 包含实际 fits_started/completed、源码/包SHA、每worker资源测量和状态；共享一次训练集 standardizer。各臂只导出 epoch64 的397参数+mean/scale NPZ、模型SHA、三个独立训练钱包的代理报告。最终参数也再检查自身路径，避免把末次更新前收益冒称epoch64收益。H1_VALIDATE仅生成61个冻结head request与公共末日force_cash mask，绑定模型/输入SHA；不算验证代理收益、不挑epoch、不更新scaler。原生验证结果由执行器提供。本轮新增测试仅使用合成包/未拟合头与可终止sleep子进程，优化器调用0。
+
+入口交付校验：32项 unittest 通过，实测1.20秒、35,799,040B主测试进程峰值RSS；包含默认check的真实受限子进程、120秒机制的缩短时限反例（SIGKILL）、RSS/线程STOP、unlimited AS拒绝、hash后磁盘突变仍解析原已核bytes、资金费符号/同刻边界及成熟时钟。测试未启动任何fit；这些测量不是未来完整包训练耗时。独立审阅发现的无限AS哨兵与字节重开竞态已修，配方不变。
 
 训练后共同一次原生H1验证：2个独立10k钱包、同 cost/mapper/funding/risk/paid terminal，各≤600秒。总推荐硬墙钟≤1440秒；本轮没有消费该训练/验证预算。保持真实未决单、容量、margin及强平机制，报告原生净收益、全部成本/funding、分钟DD、gross/单资产、拒单/未决/强平与终端flat。若不能原生闭合，收益不可验收。父任务决定后续冻结评估，不因代理盈利或任何已见尾段结果放宽要求。
 
@@ -73,7 +105,8 @@ BASE27、1x逐仓、scale1、MMR.005及 Binance 历史行情配 Bybit 费用均�
 
 ```sh
 PYTHONPATH=src:. OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 \
-  timeout 45 prlimit --as=4000000000 --cpu=40 python3 -m unittest tests.test_direct_path_utility -v
+  timeout 45 prlimit --as=4000000000 --cpu=40 python3 -m unittest \
+  tests.test_direct_path_utility tests.test_direct_path_entry -v
 PYTHONPATH=src:. OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 \
   timeout 45 prlimit --as=4000000000 --cpu=40 python3 -m modules.direct_path.calibrate \
   --panel-root /workspace/coin-state/direct-path-source --output /tmp/new-panel-calibration.json
