@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 from scripts.investment.perpetual_directional import DAY,need
 from .teacher import DayContext,Proposal,simplex
+from .availability_contract import candidate_mask,CheckpointSchedule
 
 
 class BoundE6Inputs:
@@ -17,7 +18,7 @@ class BoundE6Inputs:
               'expert_eligible','past_returns30','market_features','market_feature_names','market_available_us')
     BASELINE=('action_desired_budgets','original_selector_ramped_budgets','original_selector_targets')
 
-    def __init__(self,path,sha256,field_map,binding):
+    def __init__(self,path,sha256,field_map,binding,*,availability_aware=False,checkpoint_schedule=None):
         path=Path(path)
         need(hashlib.sha256(path.read_bytes()).hexdigest()==sha256,'Exact E6 NPZ input bytes')
         need(set(self.REQUIRED)<=set(field_map),'Explicit complete NPZ field map')
@@ -27,12 +28,29 @@ class BoundE6Inputs:
         self.path=str(path.resolve())
         self.sha256=sha256
         self.binding=dict(binding)
+        self.availability_aware=availability_aware
+        need(type(availability_aware) is bool,'Explicit availability opt-in')
+        if availability_aware:
+            need(isinstance(checkpoint_schedule,CheckpointSchedule),'Bound causal checkpoint schedule required')
+            need('action_eligible' in self.arrays,'Explicit action_eligible NPZ field required')
+            need('rank_checkpoint_sha256' in self.arrays,'Explicit per-date source checkpoint identity required')
+            if 'rank_checkpoint_schedule_sha256' in self.binding:
+                need(self.binding['rank_checkpoint_schedule_sha256']==checkpoint_schedule.sha256,
+                     'Input checkpoint schedule identity mismatch')
+            self.binding['rank_checkpoint_schedule_sha256']=checkpoint_schedule.sha256
+        self.checkpoint_schedule=checkpoint_schedule
         self.symbols=tuple(self.arrays['symbol_order'].tolist())
         dates=self.arrays['decision_us']
         need(dates.ndim==1 and len(dates)>0 and dates.dtype.kind in ('i','u') and
              dates[0]%DAY==0 and np.all(np.diff(dates)==DAY),'Complete fixed daily input dates')
         self.index={int(d):i for i,d in enumerate(dates)}
         n,s=len(dates),len(self.symbols)
+        if availability_aware:
+            need(self.arrays['action_eligible'].shape in ((n,6),(n,8)), 'Six E6 slots, optionally plus two selectors')
+            need(self.arrays['rank_checkpoint_sha256'].shape==(n,) and
+                 self.arrays['rank_checkpoint_sha256'].dtype.kind=='U', 'Per-date Unicode checkpoint SHA or empty string')
+            for row in self.arrays['action_eligible']:
+                candidate_mask(row[:6])
         need(self.arrays['expert_targets'].shape==(n,6,s),'Ordered E6 expert panel')
         need(self.arrays['expert_eligible'].shape in ((n,6),(n,6,s)),'E6 eligibility panel')
         need(self.arrays['past_returns30'].shape==(n,30,s),'Ordered past-only return panel')
@@ -44,15 +62,23 @@ class BoundE6Inputs:
     def context_at(self,stamp):
         need(stamp in self.index,'Requested input date absent')
         i=self.index[stamp]
-        if 'action_eligible' in self.arrays:
+        if 'action_eligible' in self.arrays and not self.availability_aware:
             need(np.all(self.arrays['action_eligible'][i,:6]),'E6 request action unavailable on this date')
         clocks=self.arrays['expert_available_us']
         need(clocks.shape[0]==len(self.index),'Per-date expert availability')
+        binding=dict(self.binding)
+        mask=None
+        if self.availability_aware:
+            mask=candidate_mask(self.arrays['action_eligible'][i,:6])
+            # Bind the identity carried by the source panel, not a digest merely
+            # assigned from the desired schedule.
+            binding['rank_checkpoint_sha256']=str(self.arrays['rank_checkpoint_sha256'][i]) or None
+            self.checkpoint_schedule.validate_binding(binding,stamp,mask)
         return DayContext(stamp,int(self.arrays['market_available_us'][i]),
                           tuple(self.arrays['market_features'][i].tolist()),
                           tuple(self.arrays['market_feature_names'].tolist()),
-                          self.arrays['expert_targets'][i],clocks[i],self.arrays['past_returns30'][i],self.binding,
-                          self.arrays['expert_eligible'][i])
+                          self.arrays['expert_targets'][i],clocks[i],self.arrays['past_returns30'][i],binding,
+                          self.arrays['expert_eligible'][i],mask,self.checkpoint_schedule)
 
     def validate_original_path(self,mapper,initial_budget,selector_index,*,tolerance=0.):
         """Strict default byte-equal rebuilt budgets/targets; tolerance is explicit.

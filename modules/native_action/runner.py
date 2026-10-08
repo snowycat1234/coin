@@ -16,6 +16,7 @@ from scripts.investment.perpetual_directional import DAY,need
 from .teacher import replay_candidates,training_state_relabel
 from .train import NativeRewardModel,fit,TRAIN_START,TRAIN_END,EVAL_START,EVAL_END
 from .interface import NativeExperiment
+from .availability_contract import scheduled_identity
 
 
 def load_experiment(adapter,options):
@@ -53,6 +54,9 @@ def run(experiment,directory,mode,*,limit_seconds=900,model=None,relabel_trainin
         need(model is not None,'Frozen H1 student model required')
         eval_range=sim.start==EVAL_START and sim.end==EVAL_END
         train_range=TRAIN_START<=sim.start<sim.end<=TRAIN_END
+        if model.metadata.get('schema')=='NATIVE_AVAILABLE_REWARD_RIDGE_V1':
+            need(sim.start>=model.metadata['asof_us'],'Masked student must be fitted before its replay interval')
+            eval_range=True
         need(eval_range or train_range,'Student runs only declared H1 train or Aug13-Jan2 temporal evaluation')
         need(not relabel_training or train_range,'Relabeling evaluation states is forbidden')
     total=(sim.end-sim.start)//DAY
@@ -72,7 +76,8 @@ def run(experiment,directory,mode,*,limit_seconds=900,model=None,relabel_trainin
                 need(remaining>0,'Native run wall-clock budget exhausted; completed prefix retained')
                 context=experiment.context_at(sim.cursor)
                 context.validate(sim)
-                current={k:v for k,v in context.binding.items() if k!='market_binding_sha256'}
+                current=(scheduled_identity(context.binding) if context.action_available is not None else
+                         {k:v for k,v in context.binding.items() if k!='market_binding_sha256'})
                 if identity is None:identity=current
                 else:need(current==identity,'Expert/rank/mapper identity changed within continuous run')
                 if mode=='student':
@@ -90,13 +95,16 @@ def run(experiment,directory,mode,*,limit_seconds=900,model=None,relabel_trainin
                     sim.budget=list(proposal.budget)
                     result=sim.advance_day(dict(zip(sim.symbols,proposal.targets,strict=True)))
                     need(result['completed'],'Incomplete student day; preserve prefix and stop')
+                    predictions=[float(x) if np.isfinite(x) else None for x in rewards]
                     row=dict(schema='NATIVE_E6_STUDENT_PREDICTION_V1',decision_us=decision,
-                             predicted_next_day_reward_USDT=rewards.tolist(),request=request.tolist(),
+                             predicted_next_day_reward_USDT=predictions,request=request.tolist(),
                              budget=list(proposal.budget),targets=list(proposal.targets),state_hash=before_hash,
                              observed_next_day_net_increment_USDT=float(sim.account.nav())-before,
                              binding=context.binding,inference_inputs='CAUSAL_CURRENT_STATE_ONLY',
                              forced_terminal_day=forced,optimization_allowed=not forced,
                              distribution_shift=model.metadata['distribution_shift'])
+                    if context.action_available is not None:
+                        row['e6_available']=context.action_mask().tolist()
                 else:
                     baseline=experiment.baseline_at(sim,context) if mode=='local' else None
                     row,winner,actual=replay_candidates(sim,context,experiment.mapper,baseline=baseline,
@@ -131,7 +139,9 @@ def run(experiment,directory,mode,*,limit_seconds=900,model=None,relabel_trainin
             optimal_scope='SIX_REQUEST_ONE_STEP_GREEDY' if mode=='teacher' else
                           'ACTUAL_SELECTOR_STATE_LOCAL_REGRET' if mode=='local' else 'FROZEN_H1_STUDENT_SELF_TRAJECTORY',
             local_regret_is_equity_curve=False,global_native_upper_bound=False,
-            evaluation_role='PREVIOUSLY_SEEN_TEMPORAL_EVALUATION' if sim.start==EVAL_START else '2024H1_TRAINING',
+            evaluation_role=('DECLARED_AVAILABILITY_AWARE_HISTORICAL_INTERVAL' if
+                             experiment.context_at(sim.start).action_available is not None else
+                             'PREVIOUSLY_SEEN_TEMPORAL_EVALUATION' if sim.start==EVAL_START else '2024H1_TRAINING'),
             replica_of_old_v3_teacher=False))
     return sim
 
@@ -177,6 +187,7 @@ def main():
         if name=='student':
             p.add_argument('--model',required=True)
             p.add_argument('--relabel-training',action='store_true')
+            p.add_argument('--availability-aware',action='store_true',help='Load the explicit masked model schema')
     args=parser.parse_args()
     if args.command=='train':
         rows=[]
@@ -196,7 +207,10 @@ def main():
     if args.command=='probe':
         exclusive_json(args.output,probe(experiment,args.day_index,args.limit_seconds))
         return
-    model=NativeRewardModel.load(args.model) if args.command=='student' else None
+    if args.command=='student' and args.availability_aware:
+        from .availability import AvailableRewardModel
+        model=AvailableRewardModel.load(args.model)
+    else:model=NativeRewardModel.load(args.model) if args.command=='student' else None
     run(experiment,args.output,args.command,limit_seconds=args.limit_seconds,model=model,
         relabel_training=getattr(args,'relabel_training',False))
 

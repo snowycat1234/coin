@@ -1,0 +1,85 @@
+{
+  "module": "selector_availability",
+  "date": "2026-10-08",
+  "source_base_commit": "cc1829b3c8b5aa0bcf18ec70c1c669975b5343a5",
+  "requested_branch": "research/selector-availability-20261008",
+  "validation": {
+    "passed": 24,
+    "elapsed_seconds": 29.6,
+    "ruff_F": "PASS",
+    "diff_check": "PASS",
+    "command": "bash scripts/cloud_research.sh /workspace/coin/.venv/bin/python -m pytest -q tests/test_native_action_availability.py tests/test_native_action_inputs.py tests/test_native_action_teacher.py",
+    "scope": "SYNTHETIC_BOUNDARIES_AND_EXISTING_DEFAULT_REGRESSION_ONLY"
+  },
+  "behavior": [
+    "Only explicitly available one-hot actions are simulated and selected.",
+    "Unavailable reward slots are null/NaN with an explicit e6_available mask, never zero.",
+    "Ridge losses, utility-gap weights and label-state metrics use available candidates only.",
+    "Source checkpoint SHA is checked against causal schedule intervals and label/publication clocks.",
+    "Date range and maturity cutoff are explicit. An unsupported newly available head fails closed.",
+    "Original all-six default fit arrays match exactly; financial account, costs, ramp and caps are unchanged."
+  ],
+  "input_contract": {
+    "opt_in": "BoundE6Inputs(..., availability_aware=True, checkpoint_schedule=CheckpointSchedule(entries))",
+    "explicit_field_map_additions": [
+      "action_eligible",
+      "rank_checkpoint_sha256"
+    ],
+    "action_eligible_shape": "[days,6] or [days,8], first six are E6 in the frozen order",
+    "source_checkpoint_shape": "[days] Unicode SHA256; empty string means no checkpoint",
+    "schedule_fields": [
+      "start_us",
+      "end_us",
+      "available_us",
+      "training_label_end_us",
+      "checkpoint_sha256"
+    ],
+    "clocks": "Integer UTC microseconds; start inclusive and end exclusive",
+    "unavailable_panel_features": "Zero neutral encoding plus availability feature; never a forecast or reward",
+    "residual_budget": "Unavailable expert with nonzero budget requires an explicit exit adapter; stops rather than inventing targets"
+  },
+  "training_entry": "python -m modules.native_action.availability --labels LABELS.jsonl --output MODEL.npz --start-us START --end-us END --asof-us ASOF --checkpoint-schedule SCHEDULE.json",
+  "student_entry": "python -m modules.native_action.runner student --availability-aware --model MODEL.npz --adapter MODULE:FACTORY --options OPTIONS.json --output NEW_DIRECTORY",
+  "production_adapter": "LATEST_REAL_ADAPTER_NOT_PRESENT_IN_THIS_EXECUTOR; integration uses the explicit contract above",
+  "actual_historical_fit": "NOT_RUN",
+  "actual_market_replay": "NOT_RUN",
+  "market_download": "NOT_RUN",
+  "real_teacher_labels_or_market_bodies_in_commit": false,
+  "source_files": {
+    "modules/native_action/availability_contract.py": {
+      "bytes": 4242,
+      "sha256": "261f6d87dd3bc35d15294c1fd7d03f2fb65624aee68ac0c6cefc88ed5bf99153",
+      "git_blob_sha": "99e2cdffcc50a663c45ff790728d367c6796cf6b"
+    },
+    "modules/native_action/availability.py": {
+      "bytes": 11638,
+      "sha256": "dd7e38d1e3e98a2d52884d40eaa974c0afafa2581f102fd3906d06c5bcbc8973",
+      "git_blob_sha": "de2d91df0137c5506278f18cd7dc342a95f5cf12"
+    },
+    "modules/native_action/inputs.py": {
+      "bytes": 8309,
+      "sha256": "73a1ae2f436c83b859c9fc9b148c2010a486d359e326ef737f731d23e42d5233",
+      "git_blob_sha": "6c19c776fd3ff07b22ea65790effdf6039b587a0"
+    },
+    "modules/native_action/teacher.py": {
+      "bytes": 16774,
+      "sha256": "e8a0a20f8fda8f72b081a4d17385b405adbafd473bf8c3877aefbd2ff55bd574",
+      "git_blob_sha": "38c9e5daf56811c44d27f3e35a96c0c8addf443f"
+    },
+    "modules/native_action/train.py": {
+      "bytes": 8279,
+      "sha256": "2441c14cb093d07eb45c56ecb222bcf7d6a181f926b68bfe336bba57cb6ad96a",
+      "git_blob_sha": "19fc602a84b97b788e3ebf033376c50e35d8a326"
+    },
+    "modules/native_action/runner.py": {
+      "bytes": 12304,
+      "sha256": "eea7d81aa5172f5aa5b84a784ccf8f9848eff891f00f2f27f03597012a37db5c",
+      "git_blob_sha": "d25948c16148cf9271aa7950b7b7c8babc0fd74e"
+    },
+    "tests/test_native_action_availability.py": {
+      "bytes": 14891,
+      "sha256": "cd9685a69186b684ae8eb37706b4e7d338f5f1609df93f1e5a63f77bed564ffb",
+      "git_blob_sha": "23c8231ec236858df70bb664ca57244c6b820509"
+    }
+  }
+}

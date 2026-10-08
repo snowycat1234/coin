@@ -8,6 +8,7 @@ from typing import Callable
 import numpy as np
 from scripts.investment.perpetual_directional import DAY, need
 from scripts.investment.public_sma_perpetual import signed_risk_weights
+from .availability_contract import candidate_mask, CheckpointSchedule
 
 SCHEMA='NATIVE_NEXT_DAY_ACTION_TEACHER_V1'
 E6=('CASH','VOL_HOLD','SIGNED_SMA50_200','DONCHIAN_EXIT10','CSMOM21','OOF_LEARNED_RANK')
@@ -36,6 +37,11 @@ class DayContext:
     past_returns30: np.ndarray
     binding: dict  # Frozen expert identity, exact rank checkpoint and mapper identity.
     expert_eligible: np.ndarray | None=None
+    action_available: np.ndarray | None=None
+    checkpoint_schedule: CheckpointSchedule | None=None
+
+    def action_mask(self):
+        return np.ones(6,dtype=bool) if self.action_available is None else candidate_mask(self.action_available)
 
     def validate(self,sim):
         need(self.decision_us==sim.cursor and self.decision_us%DAY==0,
@@ -47,11 +53,12 @@ class DayContext:
                      for name in self.market_feature_names),'Outcome-like input feature rejected')
         need(np.isfinite(self.market_features).all(),'Finite causal features')
         targets=np.asarray(self.expert_targets)
-        need(targets.shape==(6,len(sim.symbols)) and np.isfinite(targets).all(),'Ordered E6 expert targets')
-        need(np.array_equal(targets[0],np.zeros(len(sim.symbols))),'CASH expert target is zero exposure')
+        mask=self.action_mask()
+        need(targets.shape==(6,len(sim.symbols)) and np.isfinite(targets[mask]).all(),'Ordered available E6 expert targets')
+        if mask[0]:need(np.array_equal(targets[0],np.zeros(len(sim.symbols))),'CASH expert target is zero exposure')
         clocks=np.asarray(self.expert_available_us)
         need(clocks.shape in ((6,),(6,len(sim.symbols))) and clocks.dtype.kind in ('i','u') and
-             np.all(clocks<=self.decision_us),'All expert targets causally available')
+             np.all(clocks[mask]<=self.decision_us),'All available expert targets causally available')
         returns=np.asarray(self.past_returns30)
         need(returns.shape==(30,len(sim.symbols)) and np.isfinite(returns).all(),'Thirty past ordered returns')
         if self.expert_eligible is not None:
@@ -59,12 +66,16 @@ class DayContext:
             need(eligibility.shape in ((6,),(6,len(sim.symbols))) and
                  np.all((eligibility==0)|(eligibility==1)),'Explicit causal expert eligibility')
         need(self.binding.get('expert_order')==list(E6) and
-             self.binding.get('rank_checkpoint_sha256') and self.binding.get('mapper_sha256') and
+             (self.binding.get('rank_checkpoint_sha256') or not mask[5]) and self.binding.get('mapper_sha256') and
              self.binding.get('market_binding_sha256'),'Frozen expert, rank, mapper and market identities')
         for key in ('rank_checkpoint_sha256','mapper_sha256','market_binding_sha256'):
+            if key=='rank_checkpoint_sha256' and not mask[5] and self.binding.get(key) is None:continue
             digest=self.binding[key]
             need(isinstance(digest,str) and len(digest)==64 and all(c in '0123456789abcdef' for c in digest),
                  'Exact SHA256 identity: '+key)
+        if self.action_available is not None:
+            need(isinstance(self.checkpoint_schedule,CheckpointSchedule),'Explicit causal checkpoint schedule required')
+            self.checkpoint_schedule.validate_binding(self.binding,self.decision_us,mask)
 
 
 @dataclass(frozen=True)
@@ -97,7 +108,14 @@ def linear_ramp_risk_mapper(prior,request,context):
     change=request-prior
     l1=float(np.abs(change).sum())
     budget=prior+change*min(1.,.1/l1) if l1 else prior.copy()
-    target,_=signed_risk_weights(budget@context.expert_targets,context.past_returns30)
+    mask=context.action_mask()
+    if context.action_available is not None:
+        need(np.all(prior[~mask]==0) and np.all(request[~mask]==0) and np.all(budget[~mask]==0),
+             'Unavailable experts cannot receive or retain mapper budget; no invented exits')
+    # Select actual active rows; do not multiply a missing panel by zero/NaN.
+    combined=(budget@context.expert_targets if mask.all() else
+              budget[mask]@context.expert_targets[mask])
+    target,_=signed_risk_weights(combined,context.past_returns30)
     return Proposal('REQUEST',tuple(request),tuple(budget),tuple(target),'LINEAR_L1_RAMP_EXISTING_SIGNED_RISK_MAPPER')
 
 
@@ -107,10 +125,16 @@ def causal_features(sim,context):
     need(sim.budget is not None,'Explicit current expert budget')
     values=list(context.market_features)
     names=['market.'+name for name in context.market_feature_names]
+    action_mask=context.action_mask()
     for k,expert in enumerate(E6):
         for j,s in enumerate(sim.symbols):
             names.append('expert.'+expert+'.'+s)
-            values.append(float(context.expert_targets[k,j]))
+            # Neutral feature encoding is paired with an explicit availability
+            # feature. It is never an expert forecast or an action reward.
+            values.append(float(context.expert_targets[k,j]) if action_mask[k] else 0.)
+    if context.action_available is not None:
+        for k,expert in enumerate(E6):
+            names.append('expert.'+expert+'.available');values.append(float(action_mask[k]))
     if context.expert_eligible is not None:
         mask=np.asarray(context.expert_eligible)
         if mask.ndim==1:mask=np.repeat(mask[:,None],len(sim.symbols),axis=1)
@@ -154,8 +178,14 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
     need(0<time_limit_seconds<=900,'Bounded candidate probe')
     names,features=causal_features(sim,context)
     prior=simplex(sim.budget)
+    available=context.action_mask()
+    if context.action_available is not None:
+        need(np.all(prior[~available]==0),'Unavailable expert has residual budget; explicit exit adapter required')
     proposals=[]
     for k,expert in enumerate(E6):
+        if not available[k]:
+            proposals.append(None)
+            continue
         p=mapper(prior.copy(),np.eye(6)[k],context)
         p.validate(prior,len(sim.symbols))
         need(np.array_equal(np.asarray(p.request),np.eye(6)[k]),'Mapper preserves request identity')
@@ -163,6 +193,9 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
     if baseline is not None:
         baseline.validate(prior,len(sim.symbols))
         need(baseline.name not in E6,'Actual proposal has a distinct diagnostic name')
+        if context.action_available is not None:
+            need(np.all(np.asarray(baseline.request)[~available]==0) and
+                 np.all(np.asarray(baseline.budget)[~available]==0),'Baseline uses unavailable expert')
         proposals.append(baseline)
     start=time.monotonic()
     base_hash=sim.state_hash()
@@ -173,6 +206,10 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
     actual=None
     mature=min(sim.cursor+DAY,sim.end)
     for index,p in enumerate(proposals):
+        if p is None:
+            candidate_rows.append(dict(name=E6[index],available=False,valid=False,
+                                       net_increment_USDT=None,completion='UNAVAILABLE_NOT_SIMULATED'))
+            continue
         need(time.monotonic()-start<time_limit_seconds,'Candidate probe wall-clock budget exceeded')
         clock=time.monotonic()
         branch=sim.fork()
@@ -200,7 +237,8 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
     need(sim.state_hash()==base_hash,'Candidate replay contaminated source wallet')
     need(best is not None,'No fully evaluable one-day action; preserve diagnostics and stop')
     if baseline is None:
-        need(all(r['valid'] for r in candidate_rows),'Incomplete E6 action cannot be used as a complete six-reward teacher label')
+        need(all(candidate_rows[k]['valid'] for k in np.flatnonzero(available)),
+             'Incomplete available E6 action cannot be used as a teacher label')
     else:need(candidate_rows[6]['valid'],'Actual proposal must be fully evaluable for fair regret')
     valid_e6=[(r['net_increment_USDT'],i) for i,r in enumerate(candidate_rows[:6]) if r['valid']]
     need(valid_e6,'No evaluable E6 action')
@@ -218,13 +256,18 @@ def replay_candidates(sim,context,mapper,*,baseline=None,state_role='TEACHER_SEL
              optimal_scope=('NATIVE_GREEDY_1D_E6_SELF_STATE' if baseline is None else 'NATIVE_LOCAL_1D_E6_PLUS_EXACT_ACTUAL'),
              candidate_winner=best[1],one_step_net_increment_USDT=best[0],
              global_native_upper_bound=False,elapsed_seconds=time.monotonic()-start)
+    if context.action_available is not None:
+        row['e6_available']=available.tolist()
+        row['unavailable_feature_encoding']='ZERO_PLUS_EXPLICIT_AVAILABILITY_NOT_FORECAST_OR_REWARD'
+        row['optimal_scope']=('NATIVE_GREEDY_1D_AVAILABLE_E6_SELF_STATE' if baseline is None else
+                              'NATIVE_LOCAL_1D_AVAILABLE_E6_PLUS_EXACT_ACTUAL')
     row['terminal_convention']=('FINAL_DAY_ZERO_PLUS_CHARGED_GLOBAL_TERMINAL' if sim.final_day_target_zero
                                 else 'CHARGED_GLOBAL_END_MINUS_6_MINUTES')
     row['forced_terminal_day']=bool(sim.final_day_target_zero and sim.cursor+DAY>=sim.end)
     row['optimization_allowed']=not row['forced_terminal_day']
     if row['forced_terminal_day']:
-        need(max(r['net_increment_USDT'] for r in candidate_rows)-
-             min(r['net_increment_USDT'] for r in candidate_rows)<=1e-9,'Common forced cash day has identical utility')
+        valid_rewards=[r['net_increment_USDT'] for r in candidate_rows if r['valid']]
+        need(max(valid_rewards)-min(valid_rewards)<=1e-9,'Common forced cash day has identical utility')
         row['e6_winner']=None
         row['e6_gap_USDT']=0.
     if baseline is not None:

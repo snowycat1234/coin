@@ -44,6 +44,8 @@ class NativeRewardModel:
         return np.r_[1.,z]@self.coefficients
 
     def request(self,sim,context):
+        need(context.action_available is None or context.action_mask().all(),
+             'Partial candidate inference requires the explicit availability model')
         names,features=causal_features(sim,context)
         reward=self.predict(features,names,context.binding)
         return np.eye(6)[int(np.argmax(reward))],reward
