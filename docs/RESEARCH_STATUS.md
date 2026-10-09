@@ -1,5 +1,7 @@
 # COIN 当前研究状态
 
+Temporal two-expert工程已在独立`research/temporal-two-expert-20261009`实现，经济训练NOT_RUN。CORE5×64 completed days×24 causal features+24 masks，GRU/匹配latest MLP与NO_CASH/WITH_CASH；保持原exact daily proxy/mapper/成本/paid flattening，29 focused tests通过。原子model+Adam+RNG+step/data/split checkpoint与本地duplicate guard完成；代码/复现/最小证据见[模块](../modules/temporal_two_expert/README.md)和[receipt](../modules/temporal_two_expert/TEST_RECEIPT.json)。更广pre-May2024输入、真实warmup和native restoration由另一个任务处理；May–June2024仍seen proxy，投资资格不变，未重新训练或重跑旧sweep。
+
 ## 当前最佳研究方案与证据等级
 
 **投资资格NONE/CASH，稳定净APR未知。** 研究控制保留原CSMOM21与SMA200；固定50%SHORT抵押物保护完成10账户后暂停，不调阈值救结果。附件开源思路已登记，重点是共享信息、净utility/成本、连续权重与完整组合最差阶段，不以新模型数量作进展。
