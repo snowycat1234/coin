@@ -54,14 +54,14 @@ def main():
         clocks = context["target_available_us"][:, (1, 4, 5)]
         np.testing.assert_array_equal(x["expert_eligible"], masks)
         np.testing.assert_array_equal(x["target_available_us"], clocks)
-        expected = np.concatenate(
+        expected_state = np.concatenate(
             (
                 np.where(masks[:, :, None], x["signed_targets"], 0).reshape(61, 15) / 0.3,
                 masks.astype(float),
             ),
             axis=1,
         )
-        np.testing.assert_array_equal(x["expert_state"], expected)
+        np.testing.assert_array_equal(x["expert_state"], expected_state)
         np.testing.assert_array_equal(
             x["input_available_us"], np.concatenate((np.repeat(clocks, 5, axis=1), clocks), axis=1)
         )
