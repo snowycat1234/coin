@@ -1,0 +1,61 @@
+{
+  "schema": "TARGET_CONTEXT_AND_TRAINING_ONLY_SHORT_COMPLEMENTARITY_PLAN_V1",
+  "training_dates": 778,
+  "development_dates": 61,
+  "source_sha256": {
+    "scripts/investment/momentum_short_pool_target.py": "943b9df49e6c7c0cb19983281c794ee738985aa889c8fde09e6109895c7808ca",
+    "scripts/investment/momentum_cash_pool_target.py": "9f2fe9aae324db2e5ccbcca0ca843b8612625f2aba1cece6937f5db09cb586a4",
+    "scripts/investment/donchian_short_daily_pool_target.py": "4abb4d571413731bca25bca293de7dc82c7e6a2bc9a1081baa1909ab59470dc8",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "modules/collector_research/pipeline/economics.py": "637441050d0d42bc1a579510272b3fa5f456620dbfb8b45932cc37e894e34a3e",
+    "research/recover-frozen-runner-20261009/auxiliary/conditional_selector_core.py": "c0a086ba583dfe4f059b8942988ec2209ac767e4cfe59699f06e804b94890533",
+    "research/recover-frozen-runner-20261009/momentum_training_context.py": "deea3039f089b47351f04e478ba53a67323b1c92be043b401260aa9e8d284a16",
+    "research/recover-frozen-runner-20261009/short_candidate_complementarity.py": "c5648bfd2aa61635a9f5ec6ee188c461ad36a79d5e5c523c15d3ffbba7702261"
+  },
+  "original_three_slot_payload_sha256": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676",
+  "recipes_frozen": true,
+  "models_fit": 0,
+  "wallets_run": 0,
+  "proxy_conventions": {
+    "source": "modules/collector_research/pipeline/economics.py:proxy_step",
+    "quantity": "NAV*signed_covariance_scaled_expert_target/actual_start_execution_price",
+    "native_engine_sizing_equivalence": false,
+    "fee_plus_spread_plus_slippage_per_traded_notional": 0.00135,
+    "funding_scale": 1,
+    "signed_funding": "-quantity*sum_actual_signed_rate_times_strictly_prior_mark",
+    "clock": "start00:01:00.000001_to_next00:01:00.000001; original actual funding ownership brackets",
+    "primary": "Each expert/day starts from10k flat, trades exact unramped causal target and pays terminal exit; standalone one-day reference, not executable switches",
+    "secondary": "Each of five original training episodes is a separate continuous single-expert quantity reference; fresh cash at episode start, paid exit at episode end, no gap stitching",
+    "utility": "log1p(net_return)-0.5*daily_endpoint_MDD; daily endpoint_MDD=max(0,-net_return), no intraday drawdown certification",
+    "budget_ramp": "Not applied to independent expert reference proxies; unchanged nativeL1<=.1 budget contract remains required for any future shared-wallet experiment",
+    "eligibility": "Exact source masks; ineligible assets have original zero targets with retained exclusion reason; no invented economic input",
+    "risk_order": "Uses frozen individual expert covariance-scaled targets; no new blend/budget/risk-order mapping; separate model-worker correction remains required",
+    "shared_wallet_oracle": false
+  },
+  "recommendation_criterion": "Training-only mean positive utility excess over best of CASH/VOL/CS on ex-post BOTH_VOL_CS_NET_NEGATIVE days, primary fresh paid one-day reference; corroborate coverage, loss overlap and episode/continuous-reference evidence; no development fitting",
+  "metrics": [
+    "exact_availability_and_active_days",
+    "net_and_same_asset_target_correlations",
+    "same_and_opposite_sign_target_overlap",
+    "net_proxy_correlations",
+    "shared_negative_and_bottom5_loss_days",
+    "causal_past30_state_and_expost_adverse_conditional_daily_utility_differences",
+    "five_training_episode_consistency"
+  ],
+  "oracle_inspection": {
+    "scripts/investment/oracle_expert_opportunity.py": "3b79a9d73cef1b3bf2a4171cff3ea62c0e6f0555b78e74f6c7bc08432fbe9e6f",
+    "scripts/investment/frozen_expert_mixture.py": "4c510dd0a91cb13a78ade6e17715a2601cbfbb20304310d42ad2091e97fb9a22",
+    "modules/transformer_v2/oracles.py": "44368f98850ea89d9ced28b526001d4ecd28bf628ce2e85b9439b7f0f33a5f4f"
+  },
+  "prohibited": [
+    "MayJune_outcomes_in_candidate_selection",
+    "independent_PnL_executable_switch_oracle_claim",
+    "new_optimizer",
+    "model_or_scaler_fit",
+    "new_wallet",
+    "strategy_retuning",
+    "original_three_slot_pack_edit"
+  ],
+  "stop": "Stop on source, clock, state, target, covariance, mask or proxy-bridge mismatch;120CPU seconds and6GB per preparation task"
+}

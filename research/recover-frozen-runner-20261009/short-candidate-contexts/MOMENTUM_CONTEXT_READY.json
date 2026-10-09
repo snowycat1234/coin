@@ -1,0 +1,85 @@
+{
+  "schema": "SEPARATE_FROZEN_MOMENTUM_SHORT_CONTEXTS_V1",
+  "status": "PASS_EXACT778_61_DATES_CAUSAL_STATE_ELIGIBILITY_RISK_AND_NATIVE61_PARITY",
+  "contexts": [
+    {
+      "path": "TRAIN778_MOMENTUM_SHORT_CONTEXTS.npz",
+      "bytes": 24815,
+      "sha256": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d",
+      "dates": 778,
+      "eligible_asset_dates": 3556,
+      "decision_i64_sha256": "035384049087c95a263541084c6f14859989840a8bfc6b85e4e734a2bf571add",
+      "target_f64_sha256": "0c48f08c4b26c0fc4427b0bddce3dbc8f3aeebbce028857cd687f64e19aa9395",
+      "raw_f64_sha256": "aa9b4bdb50cad393ab552546262a028a0b036b96a7eec253fde963246bb07fdc"
+    },
+    {
+      "path": "DEV61_MOMENTUM_SHORT_CONTEXTS.npz",
+      "bytes": 4709,
+      "sha256": "89183eb92bd45b65a1209aa139f80964cc013c62015a803336db7a7bbd90840d",
+      "dates": 61,
+      "eligible_asset_dates": 305,
+      "decision_i64_sha256": "c2f65b07d1b23da908f22e2aee08c318a750ac36430ab93665227032606931cd",
+      "target_f64_sha256": "eee41fc08eb90a270878795b24c27b6a564d017e0ad3344edde7b00d1d20063b",
+      "raw_f64_sha256": "220c6a58fd45413d9c620d65b33815b9652ac67ab8c48948bee07cac167f1634"
+    }
+  ],
+  "independent_checks": [
+    {
+      "role": "TRAIN778",
+      "independent_raw_state_error": 0,
+      "target_maximum_error": 0.0,
+      "eligibility_exact": true,
+      "causal200_contiguous_completed_bars": true,
+      "original_covariance_source_exact": true,
+      "saved_native61_execution_target_exact": false,
+      "eligible_dates_by_asset": {
+        "BTCUSDT": 778,
+        "ETHUSDT": 778,
+        "SOLUSDT": 611,
+        "XRPUSDT": 611,
+        "DOGEUSDT": 778
+      }
+    },
+    {
+      "role": "DEV61",
+      "independent_raw_state_error": 0,
+      "target_maximum_error": 0.0,
+      "eligibility_exact": true,
+      "causal200_contiguous_completed_bars": true,
+      "original_covariance_source_exact": false,
+      "saved_native61_execution_target_exact": true,
+      "eligible_dates_by_asset": {
+        "BTCUSDT": 61,
+        "ETHUSDT": 61,
+        "SOLUSDT": 61,
+        "XRPUSDT": 61,
+        "DOGEUSDT": 61
+      }
+    }
+  ],
+  "source_sha256": {
+    "training_daily/BTCUSDT.parquet": "890342bb2a7b8d73c847e6d8e0b17145beecedabe33ae3a2d1e125cc1e2cdfb5",
+    "training_daily/ETHUSDT.parquet": "c6a7e254f784cd8a7565585932255ca3e286566f34f167a604459768b5272138",
+    "training_daily/SOLUSDT.parquet": "be772916935c705c4806d32c3b94cbcbba24371506600edb95a69323633d785c",
+    "training_daily/XRPUSDT.parquet": "8b3b66251a0eb6a852926909fecec782effbf5416082f8095db1eeefed672dc2",
+    "training_daily/DOGEUSDT.parquet": "96a457efb6040048b528f677f17602d45b871ea9b5de66f08f3977a47542e357",
+    "development_daily/BTCUSDT_daily.parquet": "b7605ed848fa4968d15186fbd45f60fb9e8b6bd4da21fd333bcd9093031a2739",
+    "development_daily/ETHUSDT_daily.parquet": "5f7e2d42113511b6895ea6f1424c8242a7fa58901c9c24036b88b143c7ff530f",
+    "development_daily/SOLUSDT_daily.parquet": "01ecad5e8a420aac528e8792ca262e0a1a508fe6069bcc192a2ae4c0302e47f0",
+    "development_daily/XRPUSDT_daily.parquet": "5d3717d54c953ecd310dd711bfb47d493d11fe55c7c932108615fba10b816fbe",
+    "development_daily/DOGEUSDT_daily.parquet": "540b192f6fc6c4d8a5e4247b25891797e843e94644297d4ff6135ff6d88287fd"
+  },
+  "recipe_sha256": "943b9df49e6c7c0cb19983281c794ee738985aa889c8fde09e6109895c7808ca",
+  "recipe_plan_commit": "05b5804bf26ef983205ad3c4ba1044a693a027ee",
+  "engine_sha256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+  "original_three_slot_payload_sha256": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676",
+  "original_pack_unchanged": true,
+  "training_state": "FRESH_FIRST_FROZEN_DATE_THEN_EVERY_CALENDAR_DAY; ECONOMIC_GAPS_NEVER_RESET_SIGNAL; FROZEN_MISSING_ELIGIBILITY_RESETS_FLAT",
+  "development_state": "FRESH_MAY1_MATCH_SAVED61; SEEN_DEVELOPMENT_EXCLUDED_FROM_CANDIDATE_SELECTION",
+  "target_role": "UNRAMPED_CAUSAL_EXPERT_TARGET_AND_MASK_ONLY; BUDGET_RAMP_AND_NATIVE_EXECUTION_REMAIN_SEPARATE",
+  "publication_clock": "UNCERTIFIED_HISTORICAL_COMPLETED_DAILY_CLOSE_PROXY",
+  "future_labels_included": false,
+  "models_fit": 0,
+  "wallets_run": 0,
+  "provider_downloads": 0
+}

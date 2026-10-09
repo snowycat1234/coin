@@ -1,0 +1,971 @@
+{
+  "schema": "TRAINING_ONLY_TWO_FROZEN_SHORT_CANDIDATE_COMPLEMENTARITY_V1",
+  "status": "PASS_BOUND_TARGETS_AND_PAIRED_CONDITIONAL_DAILY_PROXY_DIAGNOSTICS_NO_FITS",
+  "training_dates": 778,
+  "training_episodes": 5,
+  "training_last_outcome_us": 1714435260000001,
+  "original_three_slot_payload_sha256": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676",
+  "original_pack_unchanged": true,
+  "source_sha256": {
+    "scripts/investment/momentum_short_pool_target.py": "943b9df49e6c7c0cb19983281c794ee738985aa889c8fde09e6109895c7808ca",
+    "scripts/investment/momentum_cash_pool_target.py": "9f2fe9aae324db2e5ccbcca0ca843b8612625f2aba1cece6937f5db09cb586a4",
+    "scripts/investment/donchian_short_daily_pool_target.py": "4abb4d571413731bca25bca293de7dc82c7e6a2bc9a1081baa1909ab59470dc8",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "modules/collector_research/pipeline/economics.py": "637441050d0d42bc1a579510272b3fa5f456620dbfb8b45932cc37e894e34a3e",
+    "research/recover-frozen-runner-20261009/auxiliary/conditional_selector_core.py": "c0a086ba583dfe4f059b8942988ec2209ac767e4cfe59699f06e804b94890533",
+    "research/recover-frozen-runner-20261009/momentum_training_context.py": "deea3039f089b47351f04e478ba53a67323b1c92be043b401260aa9e8d284a16",
+    "research/recover-frozen-runner-20261009/short_candidate_complementarity.py": "c5648bfd2aa61635a9f5ec6ee188c461ad36a79d5e5c523c15d3ffbba7702261"
+  },
+  "plan_sha256": "73205357d5fa2de44cebed6b821a59b3d22ec476c082e9fbff34f00d785ba6c2",
+  "short_context_bindings": [
+    {
+      "expert": "DONCHIAN20_EXIT10_SHORT_ONLY",
+      "sha256": "5e80d2703bfc669cf03fb889b8bc9666fde671aaa31f6c22012bcc7396ee2943"
+    },
+    {
+      "expert": "MOMENTUM30_SHORT_ONLY",
+      "sha256": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d"
+    }
+  ],
+  "expert_order": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "CSMOM21",
+    "DONCHIAN20_EXIT10_SHORT_ONLY",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "proxy_conventions": {
+    "source": "modules/collector_research/pipeline/economics.py:proxy_step",
+    "quantity": "NAV*signed_covariance_scaled_expert_target/actual_start_execution_price",
+    "native_engine_sizing_equivalence": false,
+    "fee_plus_spread_plus_slippage_per_traded_notional": 0.00135,
+    "funding_scale": 1,
+    "signed_funding": "-quantity*sum_actual_signed_rate_times_strictly_prior_mark",
+    "clock": "start00:01:00.000001_to_next00:01:00.000001; original actual funding ownership brackets",
+    "primary": "Each expert/day starts from10k flat, trades exact unramped causal target and pays terminal exit; standalone one-day reference, not executable switches",
+    "secondary": "Each of five original training episodes is a separate continuous single-expert quantity reference; fresh cash at episode start, paid exit at episode end, no gap stitching",
+    "utility": "log1p(net_return)-0.5*daily_endpoint_MDD; daily endpoint_MDD=max(0,-net_return), no intraday drawdown certification",
+    "budget_ramp": "Not applied to independent expert reference proxies; unchanged nativeL1<=.1 budget contract remains required for any future shared-wallet experiment",
+    "eligibility": "Exact source masks; ineligible assets have original zero targets with retained exclusion reason; no invented economic input",
+    "risk_order": "Uses frozen individual expert covariance-scaled targets; no new blend/budget/risk-order mapping; separate model-worker correction remains required",
+    "shared_wallet_oracle": false
+  },
+  "primary_fresh_paid_one_day": {
+    "pairs": [
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "CSMOM21",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.00932481341229796,
+        "daily_net_proxy_return_correlation": -0.22296638158161677,
+        "same_sign_target_overlap": 0.15416714003446041,
+        "opposite_sign_target_overlap": 0.15350258975620326,
+        "active_days_a": 778,
+        "active_days_b": 773,
+        "active_days_both": 773,
+        "negative_days_a": 406,
+        "negative_days_b": 471,
+        "shared_negative_days": 242,
+        "fraction_b_loses_on_a_loss": 0.5960591133004927,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 3
+      },
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "net_target_correlation": -0.31815291364220266,
+        "pooled_same_asset_target_correlation": -0.27977855994603873,
+        "daily_net_proxy_return_correlation": -0.6954425890606128,
+        "same_sign_target_overlap": 0.0,
+        "opposite_sign_target_overlap": 0.29188080754563417,
+        "active_days_a": 778,
+        "active_days_b": 547,
+        "active_days_both": 547,
+        "negative_days_a": 406,
+        "negative_days_b": 307,
+        "shared_negative_days": 60,
+        "fraction_b_loses_on_a_loss": 0.1477832512315271,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 0
+      },
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": -0.42140342645368556,
+        "pooled_same_asset_target_correlation": -0.34304417951347,
+        "daily_net_proxy_return_correlation": -0.8112187234231846,
+        "same_sign_target_overlap": 0.0,
+        "opposite_sign_target_overlap": 0.4397357300738204,
+        "active_days_a": 778,
+        "active_days_b": 587,
+        "active_days_both": 587,
+        "negative_days_a": 406,
+        "negative_days_b": 331,
+        "shared_negative_days": 60,
+        "fraction_b_loses_on_a_loss": 0.1477832512315271,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 0
+      },
+      {
+        "a": "CSMOM21",
+        "b": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.2679630260114179,
+        "daily_net_proxy_return_correlation": 0.2001170446896729,
+        "same_sign_target_overlap": 0.1282211852914223,
+        "opposite_sign_target_overlap": 0.04645379314956873,
+        "active_days_a": 773,
+        "active_days_b": 547,
+        "active_days_both": 542,
+        "negative_days_a": 471,
+        "negative_days_b": 307,
+        "shared_negative_days": 215,
+        "fraction_b_loses_on_a_loss": 0.4564755838641189,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 7
+      },
+      {
+        "a": "CSMOM21",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.2739552446589122,
+        "daily_net_proxy_return_correlation": 0.43659680122229394,
+        "same_sign_target_overlap": 0.14305315088881845,
+        "opposite_sign_target_overlap": 0.06541320168654878,
+        "active_days_a": 773,
+        "active_days_b": 587,
+        "active_days_both": 582,
+        "negative_days_a": 471,
+        "negative_days_b": 331,
+        "shared_negative_days": 226,
+        "fraction_b_loses_on_a_loss": 0.47983014861995754,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 7
+      },
+      {
+        "a": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": 0.6729010674495461,
+        "pooled_same_asset_target_correlation": 0.4370341968484163,
+        "daily_net_proxy_return_correlation": 0.7078586195862812,
+        "same_sign_target_overlap": 0.4275888626698153,
+        "opposite_sign_target_overlap": 0.0,
+        "active_days_a": 547,
+        "active_days_b": 587,
+        "active_days_both": 492,
+        "negative_days_a": 307,
+        "negative_days_b": 331,
+        "shared_negative_days": 264,
+        "fraction_b_loses_on_a_loss": 0.8599348534201955,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 24
+      }
+    ],
+    "candidates": {
+      "DONCHIAN20_EXIT10_SHORT_ONLY": {
+        "expert_available_days": 778,
+        "active_target_days": 547,
+        "eligible_but_cash_days": 231,
+        "eligible_asset_dates": 3556,
+        "active_asset_dates": 1267,
+        "mean_target_gross": 0.10185883725126711,
+        "peak_target_gross": 0.32613965008843915,
+        "mean_signed_target": -0.10185883725126711,
+        "conditional": {
+          "ALL_TRAINING": {
+            "days": 778,
+            "active_candidate_days": 547,
+            "mean_daily_net_return": -0.00030752404835373724,
+            "mean_daily_utility": -0.0010049070467776,
+            "mean_utility_minus_VOL": 0.00031019029998079136,
+            "mean_utility_minus_CS": 0.0012604043379832585,
+            "mean_utility_minus_CASH": -0.0010049070467776,
+            "mean_utility_minus_best_existing_including_CASH": -0.003862383830324709,
+            "positive_incremental_utility_days": 183,
+            "mean_positive_incremental_daily_utility": 0.0006926852116416829,
+            "nonnegative_candidate_on_condition_days": 471
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NEGATIVE": {
+            "days": 395,
+            "active_candidate_days": 368,
+            "mean_daily_net_return": -0.00022583375309342295,
+            "mean_daily_utility": -0.001203263604367586,
+            "mean_utility_minus_VOL": 0.000573533753692814,
+            "mean_utility_minus_CS": 0.000989850342761194,
+            "mean_utility_minus_CASH": -0.001203263604367586,
+            "mean_utility_minus_best_existing_including_CASH": -0.0039196732041828835,
+            "positive_incremental_utility_days": 125,
+            "mean_positive_incremental_daily_utility": 0.0010976241388625544,
+            "nonnegative_candidate_on_condition_days": 194
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NONNEGATIVE": {
+            "days": 383,
+            "active_candidate_days": 179,
+            "mean_daily_net_return": -0.0003917738306718159,
+            "mean_daily_utility": -0.0008003356623179541,
+            "mean_utility_minus_VOL": 3.859587643967133e-05,
+            "mean_utility_minus_CS": 0.001539435220784082,
+            "mean_utility_minus_CASH": -0.0008003356623179541,
+            "mean_utility_minus_best_existing_including_CASH": -0.0038032994891393857,
+            "positive_incremental_utility_days": 58,
+            "mean_positive_incremental_daily_utility": 0.00027505890288908664,
+            "nonnegative_candidate_on_condition_days": 277
+          },
+          "EXPOST_VOL_NET_NEGATIVE": {
+            "days": 406,
+            "active_candidate_days": 289,
+            "mean_daily_net_return": 0.0019058276178245813,
+            "mean_daily_utility": 0.0018307353802821523,
+            "mean_utility_minus_VOL": 0.008099128676835913,
+            "mean_utility_minus_CS": 0.0034625453030501935,
+            "mean_utility_minus_CASH": 0.0018307353802821523,
+            "mean_utility_minus_best_existing_including_CASH": 0.0005748234378783017,
+            "positive_incremental_utility_days": 181,
+            "mean_positive_incremental_daily_utility": 0.0013264894127262125,
+            "nonnegative_candidate_on_condition_days": 346
+          },
+          "EXPOST_CS_NET_NEGATIVE": {
+            "days": 471,
+            "active_candidate_days": 333,
+            "mean_daily_net_return": -0.0009261933531619016,
+            "mean_daily_utility": -0.0017065819612535518,
+            "mean_utility_minus_VOL": -0.0006074651683521915,
+            "mean_utility_minus_CS": 0.004395603160147176,
+            "mean_utility_minus_CASH": -0.0017065819612535518,
+            "mean_utility_minus_best_existing_including_CASH": -0.0035214435980809216,
+            "positive_incremental_utility_days": 114,
+            "mean_positive_incremental_daily_utility": 0.0006145996778958113,
+            "nonnegative_candidate_on_condition_days": 256
+          },
+          "EXPOST_BOTH_VOL_CS_NET_NEGATIVE": {
+            "days": 242,
+            "active_candidate_days": 162,
+            "mean_daily_net_return": 0.0010135300088227914,
+            "mean_daily_utility": 0.0009161427376557959,
+            "mean_utility_minus_VOL": 0.006587563565764191,
+            "mean_utility_minus_CS": 0.005760833139555745,
+            "mean_utility_minus_CASH": 0.0009161427376557959,
+            "mean_utility_minus_best_existing_including_CASH": 0.0009161427376557959,
+            "positive_incremental_utility_days": 113,
+            "mean_positive_incremental_daily_utility": 0.0011960732399982491,
+            "nonnegative_candidate_on_condition_days": 193
+          },
+          "EXPOST_VOL_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 25,
+            "mean_daily_net_return": 0.008472946868110568,
+            "mean_daily_utility": 0.008399278896603263,
+            "mean_utility_minus_VOL": 0.030099245353230504,
+            "mean_utility_minus_CS": 0.009611008244637717,
+            "mean_utility_minus_CASH": 0.008399278896603263,
+            "mean_utility_minus_best_existing_including_CASH": 0.005939543366724496,
+            "positive_incremental_utility_days": 23,
+            "mean_positive_incremental_daily_utility": 0.006240827671469406,
+            "nonnegative_candidate_on_condition_days": 39
+          },
+          "EXPOST_CS_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 22,
+            "mean_daily_net_return": -0.0024592577959555687,
+            "mean_daily_utility": -0.004083888827166247,
+            "mean_utility_minus_VOL": -0.007305772317803575,
+            "mean_utility_minus_CS": 0.02032429102289687,
+            "mean_utility_minus_CASH": -0.004083888827166247,
+            "mean_utility_minus_best_existing_including_CASH": -0.009863885192960968,
+            "positive_incremental_utility_days": 3,
+            "mean_positive_incremental_daily_utility": 0.0007355808091503537,
+            "nonnegative_candidate_on_condition_days": 20
+          }
+        },
+        "by_episode": [
+          {
+            "episode_id": 0,
+            "days": 54,
+            "active_days": 35,
+            "mean_daily_net_return": 4.319412031248169e-06,
+            "both_existing_adverse_days": 12,
+            "mean_positive_incremental_utility_on_adverse": 0.0007279005323163784
+          },
+          {
+            "episode_id": 1,
+            "days": 88,
+            "active_days": 88,
+            "mean_daily_net_return": 0.0005319220713745594,
+            "both_existing_adverse_days": 22,
+            "mean_positive_incremental_utility_on_adverse": 0.002972409890539561
+          },
+          {
+            "episode_id": 2,
+            "days": 62,
+            "active_days": 57,
+            "mean_daily_net_return": -0.0006737872788224321,
+            "both_existing_adverse_days": 24,
+            "mean_positive_incremental_utility_on_adverse": 0.0013434275659195006
+          },
+          {
+            "episode_id": 3,
+            "days": 144,
+            "active_days": 101,
+            "mean_daily_net_return": -0.000458428666448529,
+            "both_existing_adverse_days": 45,
+            "mean_positive_incremental_utility_on_adverse": 0.0008229434091817024
+          },
+          {
+            "episode_id": 4,
+            "days": 430,
+            "active_days": 266,
+            "mean_daily_net_return": -0.00041513386254483074,
+            "both_existing_adverse_days": 139,
+            "mean_positive_incremental_utility_on_adverse": 0.0010506991734148547
+          }
+        ]
+      },
+      "MOMENTUM30_SHORT_ONLY": {
+        "expert_available_days": 778,
+        "active_target_days": 587,
+        "eligible_but_cash_days": 191,
+        "eligible_asset_dates": 3556,
+        "active_asset_dates": 1852,
+        "mean_target_gross": 0.12464395193484382,
+        "peak_target_gross": 0.36,
+        "mean_signed_target": -0.12464395193484382,
+        "conditional": {
+          "ALL_TRAINING": {
+            "days": 778,
+            "active_candidate_days": 587,
+            "mean_daily_net_return": -0.0003801925889074031,
+            "mean_daily_utility": -0.001232612169505585,
+            "mean_utility_minus_VOL": 8.248517725280612e-05,
+            "mean_utility_minus_CS": 0.0010326992152552732,
+            "mean_utility_minus_CASH": -0.001232612169505585,
+            "mean_utility_minus_best_existing_including_CASH": -0.0040900889530526945,
+            "positive_incremental_utility_days": 203,
+            "mean_positive_incremental_daily_utility": 0.0008756251743917012,
+            "nonnegative_candidate_on_condition_days": 447
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NEGATIVE": {
+            "days": 395,
+            "active_candidate_days": 395,
+            "mean_daily_net_return": -0.0002444639932385086,
+            "mean_daily_utility": -0.0013406873015391748,
+            "mean_utility_minus_VOL": 0.0004361100565212252,
+            "mean_utility_minus_CS": 0.0008524266455896049,
+            "mean_utility_minus_CASH": -0.0013406873015391748,
+            "mean_utility_minus_best_existing_including_CASH": -0.0040570969013544724,
+            "positive_incremental_utility_days": 139,
+            "mean_positive_incremental_daily_utility": 0.0012737969729573635,
+            "nonnegative_candidate_on_condition_days": 177
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NONNEGATIVE": {
+            "days": 383,
+            "active_candidate_days": 192,
+            "mean_daily_net_return": -0.0005201737776520855,
+            "mean_daily_utility": -0.0011211508714552773,
+            "mean_utility_minus_VOL": -0.00028221933269765215,
+            "mean_utility_minus_CS": 0.0012186200116467588,
+            "mean_utility_minus_CASH": -0.0011211508714552773,
+            "mean_utility_minus_best_existing_including_CASH": -0.004124114698276709,
+            "positive_incremental_utility_days": 64,
+            "mean_positive_incremental_daily_utility": 0.00046497801921301557,
+            "nonnegative_candidate_on_condition_days": 270
+          },
+          "EXPOST_VOL_NET_NEGATIVE": {
+            "days": 406,
+            "active_candidate_days": 310,
+            "mean_daily_net_return": 0.0023614598993628205,
+            "mean_daily_utility": 0.002297230478777126,
+            "mean_utility_minus_VOL": 0.008565623775330888,
+            "mean_utility_minus_CS": 0.003929040401545167,
+            "mean_utility_minus_CASH": 0.002297230478777126,
+            "mean_utility_minus_best_existing_including_CASH": 0.0010413185363732755,
+            "positive_incremental_utility_days": 202,
+            "mean_positive_incremental_daily_utility": 0.001677115065999279,
+            "nonnegative_candidate_on_condition_days": 346
+          },
+          "EXPOST_CS_NET_NEGATIVE": {
+            "days": 471,
+            "active_candidate_days": 355,
+            "mean_daily_net_return": -0.0011565700866955988,
+            "mean_daily_utility": -0.0021740148549403574,
+            "mean_utility_minus_VOL": -0.0010748980620389971,
+            "mean_utility_minus_CS": 0.003928170266460369,
+            "mean_utility_minus_CASH": -0.0021740148549403574,
+            "mean_utility_minus_best_existing_including_CASH": -0.003988876491767727,
+            "positive_incremental_utility_days": 125,
+            "mean_positive_incremental_daily_utility": 0.0008342154768998312,
+            "nonnegative_candidate_on_condition_days": 245
+          },
+          "EXPOST_BOTH_VOL_CS_NET_NEGATIVE": {
+            "days": 242,
+            "active_candidate_days": 171,
+            "mean_daily_net_return": 0.0014723009450918279,
+            "mean_daily_utility": 0.0013872351462324306,
+            "mean_utility_minus_VOL": 0.007058655974340826,
+            "mean_utility_minus_CS": 0.006231925548132382,
+            "mean_utility_minus_CASH": 0.0013872351462324306,
+            "mean_utility_minus_best_existing_including_CASH": 0.0013872351462324306,
+            "positive_incremental_utility_days": 125,
+            "mean_positive_incremental_daily_utility": 0.0016236177257017376,
+            "nonnegative_candidate_on_condition_days": 196
+          },
+          "EXPOST_VOL_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 29,
+            "mean_daily_net_return": 0.01019518404590738,
+            "mean_daily_utility": 0.010108723509762656,
+            "mean_utility_minus_VOL": 0.03180868996638989,
+            "mean_utility_minus_CS": 0.011320452857797108,
+            "mean_utility_minus_CASH": 0.010108723509762656,
+            "mean_utility_minus_best_existing_including_CASH": 0.007648987979883886,
+            "positive_incremental_utility_days": 27,
+            "mean_positive_incremental_daily_utility": 0.007837006816780394,
+            "nonnegative_candidate_on_condition_days": 39
+          },
+          "EXPOST_CS_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 27,
+            "mean_daily_net_return": -0.005268789268644884,
+            "mean_daily_utility": -0.008406770395445856,
+            "mean_utility_minus_VOL": -0.011628653886083182,
+            "mean_utility_minus_CS": 0.01600140945461726,
+            "mean_utility_minus_CASH": -0.008406770395445856,
+            "mean_utility_minus_best_existing_including_CASH": -0.014186766761240577,
+            "positive_incremental_utility_days": 4,
+            "mean_positive_incremental_daily_utility": 0.000735261308200691,
+            "nonnegative_candidate_on_condition_days": 16
+          }
+        },
+        "by_episode": [
+          {
+            "episode_id": 0,
+            "days": 54,
+            "active_days": 54,
+            "mean_daily_net_return": 0.0005486912251392492,
+            "both_existing_adverse_days": 12,
+            "mean_positive_incremental_utility_on_adverse": 0.003122732420939179
+          },
+          {
+            "episode_id": 1,
+            "days": 88,
+            "active_days": 78,
+            "mean_daily_net_return": 0.0004378326611219417,
+            "both_existing_adverse_days": 22,
+            "mean_positive_incremental_utility_on_adverse": 0.0024191069665249667
+          },
+          {
+            "episode_id": 2,
+            "days": 62,
+            "active_days": 46,
+            "mean_daily_net_return": -0.00010442071472114003,
+            "both_existing_adverse_days": 24,
+            "mean_positive_incremental_utility_on_adverse": 0.0014543820397400825
+          },
+          {
+            "episode_id": 3,
+            "days": 144,
+            "active_days": 108,
+            "mean_daily_net_return": -0.0006934457734594417,
+            "both_existing_adverse_days": 45,
+            "mean_positive_incremental_utility_on_adverse": 0.0015175392895500665
+          },
+          {
+            "episode_id": 4,
+            "days": 430,
+            "active_days": 301,
+            "mean_daily_net_return": -0.000599111997244976,
+            "both_existing_adverse_days": 139,
+            "mean_positive_incremental_utility_on_adverse": 0.0014318554699387488
+          }
+        ]
+      }
+    },
+    "positive_incremental_utility_role": "EXPOST_POINTWISE_OPPORTUNITY_ASSOCIATION_ONLY; NOT_SWITCHING_ORACLE_OR_PORTFOLIO_PNL",
+    "conditional_future_outcomes": "Training-only adverse and tail conditions are ex-post descriptive labels, never available-at-decision selection gates"
+  },
+  "secondary_continuous_single_expert_episode": {
+    "pairs": [
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "CSMOM21",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.00932481341229796,
+        "daily_net_proxy_return_correlation": -0.21838101200413712,
+        "same_sign_target_overlap": 0.15416714003446041,
+        "opposite_sign_target_overlap": 0.15350258975620326,
+        "active_days_a": 778,
+        "active_days_b": 773,
+        "active_days_both": 773,
+        "negative_days_a": 374,
+        "negative_days_b": 386,
+        "shared_negative_days": 179,
+        "fraction_b_loses_on_a_loss": 0.4786096256684492,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 3
+      },
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "net_target_correlation": -0.31815291364220266,
+        "pooled_same_asset_target_correlation": -0.27977855994603873,
+        "daily_net_proxy_return_correlation": -0.6967233106055418,
+        "same_sign_target_overlap": 0.0,
+        "opposite_sign_target_overlap": 0.29188080754563417,
+        "active_days_a": 778,
+        "active_days_b": 547,
+        "active_days_both": 547,
+        "negative_days_a": 374,
+        "negative_days_b": 294,
+        "shared_negative_days": 27,
+        "fraction_b_loses_on_a_loss": 0.07219251336898395,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 0
+      },
+      {
+        "a": "VOL_MANAGED_HOLD",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": -0.42140342645368556,
+        "pooled_same_asset_target_correlation": -0.34304417951347,
+        "daily_net_proxy_return_correlation": -0.8126317688438135,
+        "same_sign_target_overlap": 0.0,
+        "opposite_sign_target_overlap": 0.4397357300738204,
+        "active_days_a": 778,
+        "active_days_b": 587,
+        "active_days_both": 587,
+        "negative_days_a": 374,
+        "negative_days_b": 328,
+        "shared_negative_days": 31,
+        "fraction_b_loses_on_a_loss": 0.08288770053475936,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 0
+      },
+      {
+        "a": "CSMOM21",
+        "b": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.2679630260114179,
+        "daily_net_proxy_return_correlation": 0.19943505684576013,
+        "same_sign_target_overlap": 0.1282211852914223,
+        "opposite_sign_target_overlap": 0.04645379314956873,
+        "active_days_a": 773,
+        "active_days_b": 547,
+        "active_days_both": 542,
+        "negative_days_a": 386,
+        "negative_days_b": 294,
+        "shared_negative_days": 166,
+        "fraction_b_loses_on_a_loss": 0.43005181347150256,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 7
+      },
+      {
+        "a": "CSMOM21",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": null,
+        "pooled_same_asset_target_correlation": 0.2739552446589122,
+        "daily_net_proxy_return_correlation": 0.4327161883299411,
+        "same_sign_target_overlap": 0.14305315088881845,
+        "opposite_sign_target_overlap": 0.06541320168654878,
+        "active_days_a": 773,
+        "active_days_b": 587,
+        "active_days_both": 582,
+        "negative_days_a": 386,
+        "negative_days_b": 328,
+        "shared_negative_days": 178,
+        "fraction_b_loses_on_a_loss": 0.46113989637305697,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 6
+      },
+      {
+        "a": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "b": "MOMENTUM30_SHORT_ONLY",
+        "net_target_correlation": 0.6729010674495461,
+        "pooled_same_asset_target_correlation": 0.4370341968484163,
+        "daily_net_proxy_return_correlation": 0.7100530020460292,
+        "same_sign_target_overlap": 0.4275888626698153,
+        "opposite_sign_target_overlap": 0.0,
+        "active_days_a": 547,
+        "active_days_b": 587,
+        "active_days_both": 492,
+        "negative_days_a": 294,
+        "negative_days_b": 328,
+        "shared_negative_days": 249,
+        "fraction_b_loses_on_a_loss": 0.8469387755102041,
+        "bottom5_loss_days_a": 39,
+        "bottom5_loss_days_b": 39,
+        "shared_bottom5_loss_days": 24
+      }
+    ],
+    "candidates": {
+      "DONCHIAN20_EXIT10_SHORT_ONLY": {
+        "expert_available_days": 778,
+        "active_target_days": 547,
+        "eligible_but_cash_days": 231,
+        "eligible_asset_dates": 3556,
+        "active_asset_dates": 1267,
+        "mean_target_gross": 0.10185883725126711,
+        "peak_target_gross": 0.32613965008843915,
+        "mean_signed_target": -0.10185883725126711,
+        "conditional": {
+          "ALL_TRAINING": {
+            "days": 778,
+            "active_candidate_days": 547,
+            "mean_daily_net_return": -5.391409630290291e-05,
+            "mean_daily_utility": -0.0006806245472735761,
+            "mean_utility_minus_VOL": 6.922354996346759e-05,
+            "mean_utility_minus_CS": 0.0002714992503138542,
+            "mean_utility_minus_CASH": -0.0006806245472735761,
+            "mean_utility_minus_best_existing_including_CASH": -0.0040651528951272066,
+            "positive_incremental_utility_days": 177,
+            "mean_positive_incremental_daily_utility": 0.0006760436997586945,
+            "nonnegative_candidate_on_condition_days": 484
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NEGATIVE": {
+            "days": 395,
+            "active_candidate_days": 368,
+            "mean_daily_net_return": 0.0001264463637809407,
+            "mean_daily_utility": -0.0007523724657840432,
+            "mean_utility_minus_VOL": 0.00047703985921905285,
+            "mean_utility_minus_CS": 2.9386456006191005e-05,
+            "mean_utility_minus_CASH": -0.0007523724657840432,
+            "mean_utility_minus_best_existing_including_CASH": -0.004037621588081289,
+            "positive_incremental_utility_days": 118,
+            "mean_positive_incremental_daily_utility": 0.0010714653524576789,
+            "nonnegative_candidate_on_condition_days": 207
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NONNEGATIVE": {
+            "days": 383,
+            "active_candidate_days": 179,
+            "mean_daily_net_return": -0.00023992553685934736,
+            "mean_daily_utility": -0.0006066286522040341,
+            "mean_utility_minus_VOL": -0.00035137029378576497,
+            "mean_utility_minus_CS": 0.0005211978240776321,
+            "mean_utility_minus_CASH": -0.0006066286522040341,
+            "mean_utility_minus_best_existing_including_CASH": -0.004093546801871689,
+            "positive_incremental_utility_days": 59,
+            "mean_positive_incremental_daily_utility": 0.00026823285689681764,
+            "nonnegative_candidate_on_condition_days": 277
+          },
+          "EXPOST_VOL_NET_NEGATIVE": {
+            "days": 374,
+            "active_candidate_days": 260,
+            "mean_daily_net_return": 0.002369621078151449,
+            "mean_daily_utility": 0.002332501476193363,
+            "mean_utility_minus_VOL": 0.00845322351029658,
+            "mean_utility_minus_CS": 0.0024859163238004998,
+            "mean_utility_minus_CASH": 0.002332501476193363,
+            "mean_utility_minus_best_existing_including_CASH": 0.0005021744133042411,
+            "positive_incremental_utility_days": 173,
+            "mean_positive_incremental_daily_utility": 0.0013987370923951904,
+            "nonnegative_candidate_on_condition_days": 347
+          },
+          "EXPOST_CS_NET_NEGATIVE": {
+            "days": 386,
+            "active_candidate_days": 259,
+            "mean_daily_net_return": -0.0007395230504530535,
+            "mean_daily_utility": -0.0014556295641112106,
+            "mean_utility_minus_VOL": -0.0008423594694333166,
+            "mean_utility_minus_CS": 0.0042618684873474665,
+            "mean_utility_minus_CASH": -0.0014556295641112106,
+            "mean_utility_minus_best_existing_including_CASH": -0.003542876590031995,
+            "positive_incremental_utility_days": 97,
+            "mean_positive_incremental_daily_utility": 0.0006697987058002404,
+            "nonnegative_candidate_on_condition_days": 220
+          },
+          "EXPOST_BOTH_VOL_CS_NET_NEGATIVE": {
+            "days": 179,
+            "active_candidate_days": 109,
+            "mean_daily_net_return": 0.0013604429689212413,
+            "mean_daily_utility": 0.0013188329720556535,
+            "mean_utility_minus_VOL": 0.007142294472341073,
+            "mean_utility_minus_CS": 0.005463634505718227,
+            "mean_utility_minus_CASH": 0.0013188329720556535,
+            "mean_utility_minus_best_existing_including_CASH": 0.0013188329720556535,
+            "positive_incremental_utility_days": 93,
+            "mean_positive_incremental_daily_utility": 0.0014285361708515627,
+            "nonnegative_candidate_on_condition_days": 159
+          },
+          "EXPOST_VOL_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 25,
+            "mean_daily_net_return": 0.00872091514877555,
+            "mean_daily_utility": 0.00864406009591084,
+            "mean_utility_minus_VOL": 0.029610876777940137,
+            "mean_utility_minus_CS": 0.008644916914665611,
+            "mean_utility_minus_CASH": 0.00864406009591084,
+            "mean_utility_minus_best_existing_including_CASH": 0.005668228509021886,
+            "positive_incremental_utility_days": 23,
+            "mean_positive_incremental_daily_utility": 0.006109292789775661,
+            "nonnegative_candidate_on_condition_days": 39
+          },
+          "EXPOST_CS_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 23,
+            "mean_daily_net_return": -0.002250785555761221,
+            "mean_daily_utility": -0.003854587347514684,
+            "mean_utility_minus_VOL": -0.006996463649141424,
+            "mean_utility_minus_CS": 0.018711228716978067,
+            "mean_utility_minus_CASH": -0.003854587347514684,
+            "mean_utility_minus_best_existing_including_CASH": -0.009610797060928824,
+            "positive_incremental_utility_days": 4,
+            "mean_positive_incremental_daily_utility": 0.000896497495758709,
+            "nonnegative_candidate_on_condition_days": 18
+          }
+        },
+        "by_episode": [
+          {
+            "episode_id": 0,
+            "days": 54,
+            "active_days": 35,
+            "mean_daily_net_return": 0.00023682776174902307,
+            "both_existing_adverse_days": 11,
+            "mean_positive_incremental_utility_on_adverse": 0.0007664222652591659
+          },
+          {
+            "episode_id": 1,
+            "days": 88,
+            "active_days": 88,
+            "mean_daily_net_return": 0.0008053078532079324,
+            "both_existing_adverse_days": 17,
+            "mean_positive_incremental_utility_on_adverse": 0.0035590408667709903
+          },
+          {
+            "episode_id": 2,
+            "days": 62,
+            "active_days": 57,
+            "mean_daily_net_return": -0.0003760744689463893,
+            "both_existing_adverse_days": 14,
+            "mean_positive_incremental_utility_on_adverse": 0.0016014521906170774
+          },
+          {
+            "episode_id": 3,
+            "days": 144,
+            "active_days": 101,
+            "mean_daily_net_return": -0.00023757665246951145,
+            "both_existing_adverse_days": 28,
+            "mean_positive_incremental_utility_on_adverse": 0.0012077163572324127
+          },
+          {
+            "episode_id": 4,
+            "days": 430,
+            "active_days": 266,
+            "mean_daily_net_return": -0.00015831000490725109,
+            "both_existing_adverse_days": 109,
+            "mean_positive_incremental_utility_on_adverse": 0.001197589415213994
+          }
+        ]
+      },
+      "MOMENTUM30_SHORT_ONLY": {
+        "expert_available_days": 778,
+        "active_target_days": 587,
+        "eligible_but_cash_days": 191,
+        "eligible_asset_dates": 3556,
+        "active_asset_dates": 1852,
+        "mean_target_gross": 0.12464395193484382,
+        "peak_target_gross": 0.36,
+        "mean_signed_target": -0.12464395193484382,
+        "conditional": {
+          "ALL_TRAINING": {
+            "days": 778,
+            "active_candidate_days": 587,
+            "mean_daily_net_return": -9.282126299948837e-05,
+            "mean_daily_utility": -0.0008667615326541935,
+            "mean_utility_minus_VOL": -0.0001169134354171499,
+            "mean_utility_minus_CS": 8.536226493323662e-05,
+            "mean_utility_minus_CASH": -0.0008667615326541935,
+            "mean_utility_minus_best_existing_including_CASH": -0.004251289880507823,
+            "positive_incremental_utility_days": 201,
+            "mean_positive_incremental_daily_utility": 0.000868993902318429,
+            "nonnegative_candidate_on_condition_days": 450
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NEGATIVE": {
+            "days": 395,
+            "active_candidate_days": 395,
+            "mean_daily_net_return": 0.00015509831569157436,
+            "mean_daily_utility": -0.0008306433728530114,
+            "mean_utility_minus_VOL": 0.00039876895215008477,
+            "mean_utility_minus_CS": -4.888445106277706e-05,
+            "mean_utility_minus_CASH": -0.0008306433728530114,
+            "mean_utility_minus_best_existing_including_CASH": -0.004115892495150257,
+            "positive_incremental_utility_days": 134,
+            "mean_positive_incremental_daily_utility": 0.0012530031065325256,
+            "nonnegative_candidate_on_condition_days": 192
+          },
+          "PAST30_CORE5_MEAN_COMPOUND_RETURN_NONNEGATIVE": {
+            "days": 383,
+            "active_candidate_days": 192,
+            "mean_daily_net_return": -0.0003485085569498011,
+            "mean_daily_utility": -0.0009040113319269533,
+            "mean_utility_minus_VOL": -0.0006487529735086843,
+            "mean_utility_minus_CS": 0.00022381514435471285,
+            "mean_utility_minus_CASH": -0.0009040113319269533,
+            "mean_utility_minus_best_existing_including_CASH": -0.004390929481594608,
+            "positive_incremental_utility_days": 67,
+            "mean_positive_incremental_daily_utility": 0.0004729530781289565,
+            "nonnegative_candidate_on_condition_days": 258
+          },
+          "EXPOST_VOL_NET_NEGATIVE": {
+            "days": 374,
+            "active_candidate_days": 285,
+            "mean_daily_net_return": 0.002907331086133466,
+            "mean_daily_utility": 0.0028762237893237884,
+            "mean_utility_minus_VOL": 0.008996945823427006,
+            "mean_utility_minus_CS": 0.003029638636930926,
+            "mean_utility_minus_CASH": 0.0028762237893237884,
+            "mean_utility_minus_best_existing_including_CASH": 0.0010458967264346671,
+            "positive_incremental_utility_days": 200,
+            "mean_positive_incremental_daily_utility": 0.0018055392901188156,
+            "nonnegative_candidate_on_condition_days": 343
+          },
+          "EXPOST_CS_NET_NEGATIVE": {
+            "days": 386,
+            "active_candidate_days": 279,
+            "mean_daily_net_return": -0.0009616910765089282,
+            "mean_daily_utility": -0.001930269226110135,
+            "mean_utility_minus_VOL": -0.0013169991314322417,
+            "mean_utility_minus_CS": 0.0037872288253485414,
+            "mean_utility_minus_CASH": -0.001930269226110135,
+            "mean_utility_minus_best_existing_including_CASH": -0.00401751625203092,
+            "positive_incremental_utility_days": 110,
+            "mean_positive_incremental_daily_utility": 0.0009235668227259347,
+            "nonnegative_candidate_on_condition_days": 208
+          },
+          "EXPOST_BOTH_VOL_CS_NET_NEGATIVE": {
+            "days": 179,
+            "active_candidate_days": 119,
+            "mean_daily_net_return": 0.0019415680199571927,
+            "mean_daily_utility": 0.0019069107564805492,
+            "mean_utility_minus_VOL": 0.007730372256765967,
+            "mean_utility_minus_CS": 0.006051712290143124,
+            "mean_utility_minus_CASH": 0.0019069107564805492,
+            "mean_utility_minus_best_existing_including_CASH": 0.0019069107564805492,
+            "positive_incremental_utility_days": 109,
+            "mean_positive_incremental_daily_utility": 0.0019871018551559216,
+            "nonnegative_candidate_on_condition_days": 157
+          },
+          "EXPOST_VOL_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 29,
+            "mean_daily_net_return": 0.010505749473219313,
+            "mean_daily_utility": 0.0104129917337368,
+            "mean_utility_minus_VOL": 0.03137980841576609,
+            "mean_utility_minus_CS": 0.010413848552491568,
+            "mean_utility_minus_CASH": 0.0104129917337368,
+            "mean_utility_minus_best_existing_including_CASH": 0.007437160146847844,
+            "positive_incremental_utility_days": 27,
+            "mean_positive_incremental_daily_utility": 0.007716636359609801,
+            "nonnegative_candidate_on_condition_days": 38
+          },
+          "EXPOST_CS_BOTTOM5_LOSS": {
+            "days": 39,
+            "active_candidate_days": 27,
+            "mean_daily_net_return": -0.004493240789542585,
+            "mean_daily_utility": -0.007334997452626079,
+            "mean_utility_minus_VOL": -0.010476873754252825,
+            "mean_utility_minus_CS": 0.015230818611866669,
+            "mean_utility_minus_CASH": -0.007334997452626079,
+            "mean_utility_minus_best_existing_including_CASH": -0.01309120716604022,
+            "positive_incremental_utility_days": 5,
+            "mean_positive_incremental_daily_utility": 0.0009224007921892188,
+            "nonnegative_candidate_on_condition_days": 18
+          }
+        },
+        "by_episode": [
+          {
+            "episode_id": 0,
+            "days": 54,
+            "active_days": 54,
+            "mean_daily_net_return": 0.0008747346732708613,
+            "both_existing_adverse_days": 11,
+            "mean_positive_incremental_utility_on_adverse": 0.0032780886288672154
+          },
+          {
+            "episode_id": 1,
+            "days": 88,
+            "active_days": 78,
+            "mean_daily_net_return": 0.0006717301824182388,
+            "both_existing_adverse_days": 17,
+            "mean_positive_incremental_utility_on_adverse": 0.0029322106304678123
+          },
+          {
+            "episode_id": 2,
+            "days": 62,
+            "active_days": 46,
+            "mean_daily_net_return": 0.00014112931383459778,
+            "both_existing_adverse_days": 14,
+            "mean_positive_incremental_utility_on_adverse": 0.0019429658658716667
+          },
+          {
+            "episode_id": 3,
+            "days": 144,
+            "active_days": 108,
+            "mean_daily_net_return": -0.0004705570752854364,
+            "both_existing_adverse_days": 28,
+            "mean_positive_incremental_utility_on_adverse": 0.002350506563283696
+          },
+          {
+            "episode_id": 4,
+            "days": 430,
+            "active_days": 301,
+            "mean_daily_net_return": -0.00027802946427831556,
+            "both_existing_adverse_days": 109,
+            "mean_positive_incremental_utility_on_adverse": 0.001621733674708908
+          }
+        ]
+      }
+    },
+    "positive_incremental_utility_role": "EXPOST_POINTWISE_OPPORTUNITY_ASSOCIATION_ONLY; NOT_SWITCHING_ORACLE_OR_PORTFOLIO_PNL",
+    "conditional_future_outcomes": "Training-only adverse and tail conditions are ex-post descriptive labels, never available-at-decision selection gates"
+  },
+  "recommendation": {
+    "first_candidate": "MOMENTUM30_SHORT_ONLY",
+    "training_only_predeclared_ranking": [
+      {
+        "expert": "MOMENTUM30_SHORT_ONLY",
+        "score": 0.0016236177257017376
+      },
+      {
+        "expert": "DONCHIAN20_EXIT10_SHORT_ONLY",
+        "score": 0.0011960732399982491
+      }
+    ],
+    "criterion": "Training-only mean positive utility excess over best of CASH/VOL/CS on ex-post BOTH_VOL_CS_NET_NEGATIVE days, primary fresh paid one-day reference; corroborate coverage, loss overlap and episode/continuous-reference evidence; no development fitting",
+    "not_based_on_unconditional_positive_return": true,
+    "requires_corrected_proxy_risk_order_and_separate_controlled_pool_expansion_protocol": true,
+    "uncertainty": "Training association and retrospective candidate comparison, not evidence of learnable timing, achievable shared-wallet gain or OOS alpha"
+  },
+  "feasible_shared_wallet_constrained_oracle": {
+    "status": "NOT_IMPLEMENTED_IN_INSPECTED_REUSABLE_CODE; NOT_RUN",
+    "incremental_bound": null,
+    "inspected": {
+      "scripts/investment/oracle_expert_opportunity.py": "3b79a9d73cef1b3bf2a4171cff3ea62c0e6f0555b78e74f6c7bc08432fbe9e6f",
+      "scripts/investment/frozen_expert_mixture.py": "4c510dd0a91cb13a78ade6e17715a2601cbfbb20304310d42ad2091e97fb9a22",
+      "modules/transformer_v2/oracles.py": "44368f98850ea89d9ced28b526001d4ecd28bf628ce2e85b9439b7f0f33a5f4f"
+    },
+    "reason": "Existing optimal_path is rebased independent expert growth with boundary surcharge; no shared quantities, cash-to-expertL1<=.1 constraint or native schedule/cost state. Existing oracle targets/replay are feasible comparators, not an optimizing incremental bound. No new optimizer built."
+  },
+  "proxy_payload": {
+    "path": "TRAIN778_SHORT_COMPLEMENTARITY_PROXIES.npz",
+    "bytes": 232122,
+    "sha256": "e7fe203625c15ace4f875b91f7602fe8aab3ff6fa8351f98ed8fe312707b5883",
+    "role": "TRAINING_OUTCOME_DIAGNOSTICS_ONLY_NOT_CAUSAL_FEATURES_OR_EXPANDED_MODEL_PACK"
+  },
+  "development_outcomes_used_for_selection": false,
+  "development_payload_read_by_diagnostics": false,
+  "models_fit": 0,
+  "scalers_fit": 0,
+  "new_wallets": 0,
+  "provider_downloads": 0,
+  "recipe_changes": 0,
+  "pool_promotion": false
+}
