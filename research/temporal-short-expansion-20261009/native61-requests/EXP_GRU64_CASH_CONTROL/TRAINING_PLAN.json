@@ -1,0 +1,112 @@
+{
+  "action_pools": {
+    "GRU64_CASH_CONTROL": [
+      "CASH",
+      "VOL_MANAGED_HOLD",
+      "CSMOM21"
+    ],
+    "GRU64_CASH_MOM30_SHORT": [
+      "CASH",
+      "VOL_MANAGED_HOLD",
+      "CSMOM21",
+      "MOMENTUM30_SHORT_ONLY"
+    ]
+  },
+  "architecture_or_LR_search": false,
+  "arm_order": [
+    "GRU64_CASH_CONTROL",
+    "GRU64_CASH_MOM30_SHORT"
+  ],
+  "candidate_choice": "public1291857_training_only_complementarity_recommendation;no_dev_outcomes",
+  "capacity": "DECLARED_FULL_FILL_DIAGNOSTIC_ONLY;not_historical_liquidity",
+  "capped_status": "CAPPED_NOT_CONVERGED;no_negative_feasibility_conclusion",
+  "checkpoint_selection": "terminal_completed_training_step_only;no_dev_selected_epoch",
+  "chronology": "same778_dates_five_complete_real_wallets_unweighted;no_win_day_oversampling",
+  "comparison": "two_matched_additional_stages;not_clean_initial_seed_fit_or_OOS_alpha",
+  "continuation": "two_separate_matched_stages;previous_four_v2_runs_immutable",
+  "control": "same33_added_parameters;new_short_weight_exact0;matching_extra_training_budget",
+  "convergence": {
+    "evaluate_every": 16,
+    "evaluation": "deterministic_training_path_eval_dropout_off;no_development_access",
+    "gradient_absolute_floor": 1e-10,
+    "gradient_ratio_to_initial": 0.1,
+    "interpretation": "operational_train_only_criterion;not_global_optimality_or_alpha",
+    "loss_abs_tolerance": 1e-07,
+    "loss_relative_tolerance": 0.001,
+    "minimum_updates": 128,
+    "request_mean_abs_change_tolerance": 0.001,
+    "stable_evaluations": 5
+  },
+  "convergence_history": "fresh_v2_baseline;unchanged_train_only_rule;stage_update_count",
+  "development": "both_terminal_before_seen_economic_scoring;terminal_native_requests_may_export_immediately",
+  "dropout": 0.1,
+  "economic_rollout": "complete_chronological_wallet_once_per_step",
+  "encoder_and_features": "unchanged_CORE5_64x24values24masks_GRU32;no_wallet_features",
+  "expanded": "append_MOMENTUM30_SHORT_ONLY_to_canonical_slot5;initial_r=.01",
+  "feature_batch_size": 32,
+  "fixed_expert_set": [
+    "VOL_MANAGED_HOLD",
+    "CSMOM21"
+  ],
+  "gradient": "exact_continuous_daily_surrogate_request_VJP_RNG_identical_feature_replay",
+  "initialization": "identical_GRU64_WITH_CASH_v2_terminal_model_Adam_RNG;new_readout_birth0",
+  "limits": {
+    "CPU_threads": 1,
+    "GPU": false,
+    "checkpoint_every_completed_update": 1,
+    "maximum_concurrent_arms": 2,
+    "maximum_updates_per_fit": 1024,
+    "memory_bytes": 2000000000,
+    "seconds_per_fit": 1200.0,
+    "serial_fits": false,
+    "swap": false,
+    "total_wall_seconds": 5000
+  },
+  "model_observed_wallet": false,
+  "native_gradient_bridge_required": false,
+  "objective": {
+    "costs": "unchanged_fee.00055_spread.0004_slippage.0004_each_executed_reduction;no_netting_with_next_rebalance",
+    "drift": "REDUCTION_REQUIRED;no_new_increase_until_resolved",
+    "execution": "declared_immediate_constant_boundary_mid;up_to5_continuous_capacity_trials",
+    "funding": "unchanged_USDT_per_base_coefficient;held_units_own_entire_interval_before_boundary_reduction",
+    "historical_execution_certified": false,
+    "known_omissions": [
+      "minute_latency",
+      "intra_interval_marks",
+      "actual_quote_volume_capacity",
+      "lot_steps",
+      "historical_filters",
+      "isolated_margin_or_liquidation"
+    ],
+    "minute_native": false,
+    "opening_caps": "unchanged_post_cost_gross.6_asset.3",
+    "original_prototype_SHA256": "46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab",
+    "reduction": "frozen_quantity_target=min(1,.99*.3*NAV/max_notional,.99*.6*NAV/gross)*held_quantity",
+    "target_caps": "unchanged_allocated_gross.6_asset.3_original_mapper",
+    "version": "DAILY_BOUNDARY_CHARGED_REDUCTION_DIAGNOSTIC_V1"
+  },
+  "objective_version": 2,
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "foreach": false,
+    "gradient_norm_clip": 1.0,
+    "lr": 0.001,
+    "name": "Adam",
+    "weight_decay": 0.0
+  },
+  "optimizer_births": "base_parameter_age_cumulative;new_r_head_age_completed_expansion_updates",
+  "parent_choice": "pre-May_final_train_loss_GRU_CASH=-.00094994541144_vs_MLP_CASH=-.00091677655390;fixed_primary_temporal_family",
+  "planned_fits": 2,
+  "private_mapper_adapter": "canonical_active_coordinates[0,1,2,4,5];public2/3zero;unchanged_frozen_mapper_math",
+  "schema": "TEMPORAL_MATCHED_ONE_SHORT_EXPANSION_V1",
+  "seed": 20261009,
+  "shared_normalizer": "one_unique_train_window_rows_valid_only_mean_std_ddof0;after_episode_freeze",
+  "source_short_context_commit": "1291857d53360e4e06a4dd50540c130886deffbf",
+  "stage_budget": "same1024_additional_updates_1200seconds_per_arm;Adam_step_remains_cumulative",
+  "status": "FROZEN_SINGLE_COMPARISON",
+  "unverified_actions": false
+}
