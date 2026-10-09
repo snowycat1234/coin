@@ -1689,3 +1689,6 @@ One fixed comparison implemented, no economic optimizer updates/native wallets/s
 
 
 2026-10-09 temporal single comparison: freeze GRU64/latestMLP x NO/WITH_CASH, seed20261009, Adam.001; 778 train dates in5 real complete wallets,61 seen dev; train-only stop and atomic Adam/RNG resume; CPU1/RAM2GB/1024steps/1200s each. Caps are NOT_CONVERGED. READY gates passed; execute exactly4 authorized fits, freeze all terminal heads before seen scoring. See research/temporal-four-fit-20261009/READY.json. Native replay and pool expansion remain separate.
+
+
+2026-10-09 temporal4fit terminal: exactly4 starts,0 refits; completed steps132/143/349/522. Three unchanged-proxy mark-boundary STOPs, one1200s NOT_CONVERGED. Native classification diagnostic identifies mark drift, not target/opening cap violation: native requires charged capacity-limited reduction, proxy immediately halts. Preserve all original runs; no cap relaxation/restart. Revise boundary semantics and risk-reduction VJP before further affected fitting. Seen61day full PnL exists only for MLP NO_CASH (-517.3883 USDT), others unavailable. All4 snapshots precede seen scoring; no unseen/native or selector-impossibility conclusion. research/temporal-four-fit-20261009/results/RESULT.json.

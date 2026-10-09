@@ -1,6 +1,6 @@
 # Temporal two-expert selector
 
-Ready with frozen778-date/five-wallet training and61 seen-development inputs. One bounded comparison: shared
+Four real fits are terminal; **comparison incomplete due proxy/native drift semantics**. One bounded comparison: shared
 per-asset GRU64 against a matched latest-day MLP, each with NO_CASH and WITH_CASH.
 No sweep, oracle classification, native wallet replay or data download is added.
 
@@ -132,11 +132,10 @@ python -m modules.temporal_two_expert.feature_windows \
 ```
 
 This uses the original completed-day availability proxy; actual historical
-publication times remain unknown. Scalers and models on this real dataset are
-NOT_FIT. Economic/funding completeness, exact full-wallet episode intersections
-and native validation belong to the separate task. These1518 input dates are
-not1518 certified economic outcomes. The transfer ends before May2024, so it
-does not yet supply the rich May–June validation input sequence.
+publication times remain unknown. The later frozen packet intersects778 economic
+dates in five real wallets and adds61 seen-development feature rows. The common
+train-only scaler used907 unique calendar rows. These1518 input dates are not
+1518 certified economic outcomes; native validation belongs to the separate task.
 
 ## Local commands and future fitting interface
 
@@ -170,7 +169,7 @@ After broader data and real warmup are bound, an explicit Python call to
 `runner.train_steps(model, train_episodes, prototype, state_run_directory,
 max_steps=..., feature_batch_size=..., checkpoint_every=1, max_seconds=120)`
 starts one fixed CPU run. It uses matched Adam lr .001, clip norm1, no
-validation selection. It is not called for economic fitting in this delivery.
+validation selection. The four-fit entry below supplied the actual economic fits.
 
 Every completed update is checkpointed by default. Fsynced immutable model,
 full Adam moments, Torch/Python/NumPy RNG, train/eval mode, completed step,
@@ -181,16 +180,6 @@ resume; completed runs return without new updates. Changed inputs, features,
 split, source, dropout, batching, optimizer or stopping budget reject directory
 reuse. A partial uncommitted generation is ignored. Cross-host shared-storage
 locking is not certified. Use the existing bounded launcher for resource limits.
-
-Required before fitting: broader pre-May2024 training coverage; real64 completed
-days for every first decision; up to200-day underlying feature history (201
-closes for mom200, or264 closes to make it valid across all64 input days);
-complete execution prices/event-mark funding and eligible
-expert targets bound to each full wallet. Masks preserve missing features but
-do not certify missing economic outcomes. May–June2024 remains seen proxy
-validation. Historical native restoration/validation is owned by the separate
-task. Neither the old tiny failure nor engineering tests establish an economic
-result for this selector.
 
 ## Frozen four-fit entry
 
@@ -227,3 +216,24 @@ convergence is operational: eval every16, minimum128updates, five stable losses,
 gradients≤10% initial norm and mean request change≤0.001. Caps explicitly mean
 CAPPED_NOT_CONVERGED. All four terminal snapshots precede development scoring;
 no epoch, architecture or LR is selected on development.
+
+## Recorded result and semantics limitation
+
+[Results, terminal models and simulated paths](../../research/temporal-four-fit-20261009/results/RESULT.json):
+exactly4 fits,0 refits,1146 completed updates. GRU NO_CASH132, MLP NO_CASH143
+and MLP WITH_CASH522 stopped on the unchanged proxy boundary check. GRU
+WITH_CASH349 hit1200seconds, CAPPED_NOT_CONVERGED. No arm converged. All
+terminal model/Adam/RNG snapshots preceded seen-development scoring. Only
+MLP NO_CASH completed61 proxy days: net−517.39USDT, paid close; other full-path
+PnLs are unavailable. Training objectives improved; no unseen/native result.
+
+The [boundary diagnostic](../../research/temporal-four-fit-20261009/results/BOUNDARY_SEMANTICS.json)
+proves the first stop was mark drift: requested net58.5985%, allocated legs
+59.0218%, post-fill58.0575%, following marked gross60.0508%. The unchanged
+native account classifies it REDUCTION_REQUIRED, schedules paid/capacity-limited
+risk orders, and retains opening/target caps. The proxy's immediate halt has
+a different contract. Five read-only semantic checks passed; no native wallet
+or further fit ran. Proposed correction: distinguish drift from hard target/
+opening violations, then implement charged mandatory reductions and exact
+VJP before any revised fitting. Suppressing the exception alone is insufficient.
+All original model/math/source/data snapshots remain intact.
