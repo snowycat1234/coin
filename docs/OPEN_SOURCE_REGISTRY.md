@@ -561,3 +561,6 @@ Reuse installed PyTorch2.6.0+cpu (existing registered BSD-style PyTorch, standar
 
 
 2026-10-09 V2 warm-restart orchestration: no new installation/provider retrieval/upstream change. Reuse original Selector, Adam, atomic checkpoint/source binding and RNG-identical feature replay; separate adapter switches only the versioned charged continuous surrogate callback. Controller permits maximum2 original1CPU/2GB workers under existing shared8GB resource guard. Existing prototype and77-test correction bytes retained,8 synthetic replay/resume/failure/export safeguards pass.
+
+
+2026-10-09 short expansion: reuse frozen original Selector/encoder/dropout/scaler, unchanged prototype mapper/VJP and charged objective-v2; new33parameter readout and explicit private active-coordinate adapter only. Canonical momentum-short targets/masks from public1291857d53360e4e06a4dd50540c130886deffbf, exact24.8k/4.7kNPZ hashes in adapter.py; no provider/minute retrieval or recipe modifications. Atomic checkpoint adapter reuses original safe RNG/fsync/binding helpers and validates per-parameter Adam births/ages. Installed Torch2.6.0+cpu and NumPy2.5.3 unchanged, existing requirements reused. New corrected native export contract a596f9e/9e29ad31; native engine unchanged.34 focused tests pass; original24source and21checkpoint members and21v2 archive members remain exact.
