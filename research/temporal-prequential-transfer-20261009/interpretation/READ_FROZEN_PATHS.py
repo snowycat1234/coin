@@ -488,7 +488,7 @@ def analyze(root, destination):
     )
     (destination / "RESULT.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     with (destination / "DAILY_ATTRIBUTION.csv").open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(daily_rows[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(daily_rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(daily_rows)
     print(
