@@ -54,8 +54,8 @@ targets against the separate published 44- and 41-day account journals. It
 does not rerun those accounts. Those independent fresh-account results are
 not a stitched 86-day wallet and are never inputs to fitting or tuning.
 
-The explicit `run` command is reserved for a later user continuation. **No
-86-day wallet or training has run as part of recovery.** Each future invocation
+The initial recovery ran no 86-day wallet or training. The subsequently
+authorized three-wallet comparison is documented below. Each invocation
 uses one independent 10,000-USDT account, prior-minute quote capacity, isolated
 1x/MMR .005 assumptions, BASE27 costs, signed funding scale 1 and paid terminal
 closure. Historical publication, contract/account rules and actual exchange
@@ -92,3 +92,19 @@ raw market archives remain at the existing pinned public data commit.
 The two small source bodies requested by the separate native model worker are
 under `auxiliary/`, with original SHA256 and provenance in `auxiliary/SOURCES.json`.
 They are distinct from this comparison's financial implementation.
+
+The completed comparison and portable account package are in `comparison86/`.
+All three accounts and independent audits passed. Net USDT: VOL +798.55,
+CSMOM21 −772.40, fixed 50/50 −63.55. Full results retain costs, risk, actual
+start/completion receipts, all minute journals and original negative outcomes.
+VOL's realized annualized daily volatility was 11.74%; CSMOM21's realized gross
+peaked at 60.78%. Target limits do not guarantee instantaneous realized limits.
+
+Recover and verify the account package without the raw market dataset:
+
+```bash
+python3 research/recover-frozen-runner-20261009/reassemble_results.py \
+  --destination ../coin-recovery-state/portable86-readback
+PYTHONPATH=../coin-recovery-state/deps python3 \
+  ../coin-recovery-state/portable86-readback/verify_portable.py
+```
