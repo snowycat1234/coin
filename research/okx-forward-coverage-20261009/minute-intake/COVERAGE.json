@@ -45,7 +45,7 @@
     "wallet_backtest": false
   },
   "started_ms": 1791541684846,
-  "status": "FINISHED_WITH_QUARANTINE",
+  "status": "COMPLETE_WITH_EXPLICIT_ARCHIVE_PRECEDENCE",
   "shards": [
     {
       "instrument_id": "BTC-USDT-SWAP",
@@ -8486,54 +8486,41 @@
     {
       "instrument_id": "SOL-USDT-SWAP",
       "date": "2026-08-28",
-      "status": "INCOMPLETE_COVERAGE",
+      "status": "COMPLETE",
       "start_ms": 1787875200000,
       "end_ms_exclusive": 1787961600000,
-      "manifest": "SOL-USDT-SWAP/2026-08-28.manifest.json",
+      "manifest": "gap-resolution/SOL-USDT-SWAP/2026-08-28.manifest.json",
+      "manifest_sha256": "f55b50c0c0631af1539cd275e2a2a2ba42368c317d56d36b04b598c610a8ab6e",
       "bars_files": {
-        "trade": "SOL-USDT-SWAP/2026-08-28.trade.jsonl.gz",
-        "mark": "SOL-USDT-SWAP/2026-08-28.mark.jsonl.gz"
+        "trade": "gap-resolution/SOL-USDT-SWAP/2026-08-28.trade.jsonl.gz",
+        "mark": "gap-resolution/SOL-USDT-SWAP/2026-08-28.mark.jsonl.gz"
       },
       "bars_sha256": {
-        "trade": "c9900b73947cc5ad95d5b702c979dbfd0d4e08d01b71833dd5d31dcdb00fc6d7",
-        "mark": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+        "trade": "55a1ed43da06fc7324cae412bf67ca38cd712ea24b1b06c979453e1432e3bd44",
+        "mark": "e64272e997432d5891daa04fac43443f14bd5fd09b8e478e04496485ab6fed9d"
       },
-      "responses_file": "SOL-USDT-SWAP/2026-08-28.responses.jsonl.gz",
-      "responses_sha256": "18c9952e32ff63170ff6df47d68f79aec5c8d234ae230a43ec15c91d6597ec36",
+      "responses_file": "gap-resolution/SOL-USDT-SWAP/2026-08-28.new-api-responses.jsonl.gz",
+      "responses_sha256": "3a486ccd9b1c8f9a45be4f2786c33d56b20e8ba6c53b147be256e674572ca612",
       "coverage": {
         "trade": {
           "expected_bars": 1440,
-          "observed_bars": 599,
-          "missing_bars": 841,
-          "missing_ranges_ms_exclusive": [
-            [
-              1787905800000,
-              1787905860000
-            ],
-            [
-              1787911200000,
-              1787961600000
-            ]
-          ],
-          "status": "INCOMPLETE_COVERAGE"
+          "observed_bars": 1440,
+          "missing_bars": 0,
+          "missing_ranges_ms_exclusive": [],
+          "status": "COMPLETE"
         },
         "mark": {
           "expected_bars": 1440,
-          "observed_bars": 0,
-          "missing_bars": 1440,
-          "missing_ranges_ms_exclusive": [
-            [
-              1787875200000,
-              1787961600000
-            ]
-          ],
-          "status": "INCOMPLETE_COVERAGE"
+          "observed_bars": 1440,
+          "missing_bars": 0,
+          "missing_ranges_ms_exclusive": [],
+          "status": "COMPLETE"
         }
       },
       "identity_sha256": "fc413793af22d6babf6aea175bd284e99e05f34a3a37ecd231029d6741c21810",
       "contract_value": "1",
       "contract_multiplier": "1",
-      "manifest_sha256": "519f103af60dc067dcdb16d2c81830363428a87b0eb4624f0d1a6cd37a308c2f"
+      "archive_precedence_timestamp_ms": 1787905800000
     },
     {
       "instrument_id": "XRP-USDT-SWAP",
@@ -16445,10 +16432,10 @@
     }
   ],
   "expected_minute_rows": 1238400,
-  "new_requests": 8593,
-  "new_response_body_bytes": 94392358,
+  "new_requests": 8611,
+  "new_response_body_bytes": 94553178,
   "elapsed_seconds": 3871.006,
-  "verified_minute_rows": 1235520,
+  "verified_minute_rows": 1238400,
   "first_checkpoint_estimate": {
     "measured_new_requests": 20,
     "measured_verified_minute_rows": 2880,
@@ -16491,30 +16478,8 @@
     "path": "FINAL_AUDIT.json",
     "sha256": "d8e97473bcfe2232dff3ad4ba56728829dedffa84e38935b536cc544fdb64795"
   },
-  "missing_or_unconfirmed_intervals": [
-    {
-      "instrument_id": "SOL-USDT-SWAP",
-      "kind": "trade",
-      "start_ms": 1787905800000,
-      "end_ms_exclusive": 1787905860000,
-      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
-    },
-    {
-      "instrument_id": "SOL-USDT-SWAP",
-      "kind": "trade",
-      "start_ms": 1787911200000,
-      "end_ms_exclusive": 1787961600000,
-      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
-    },
-    {
-      "instrument_id": "SOL-USDT-SWAP",
-      "kind": "mark",
-      "start_ms": 1787875200000,
-      "end_ms_exclusive": 1787961600000,
-      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
-    }
-  ],
-  "full_window_ready": false,
+  "missing_or_unconfirmed_intervals": [],
+  "full_window_ready": true,
   "strict_start_witnesses": [
     {
       "instrument_id": "BTC-USDT-SWAP",
@@ -16563,13 +16528,7 @@
     }
   ],
   "all_independent_dates_processed": true,
-  "quarantined_instrument_dates": [
-    {
-      "instrument_id": "SOL-USDT-SWAP",
-      "start_ms": 1787875200000,
-      "end_ms_exclusive": 1787961600000
-    }
-  ],
+  "quarantined_instrument_dates": [],
   "archive_check": {
     "path": "ARCHIVE_CHECK.json",
     "sha256": "431a384f0004124329c43a04cd1791fd52103fdc1b6e25004b8fca0dc5f8d89e"
@@ -16577,6 +16536,90 @@
   "active_intake_seconds": 2544.371,
   "overall_wall_seconds_to_archive_check": 4368.632,
   "final_audit": {
+    "path": "RESOLUTION_ALL_430_AUDIT.json",
+    "sha256": "4a4292dffc30978dd3fcd42f5d3fd7193bb12dc57ff09b9098b46d5dc3e109cf"
+  },
+  "prior_quarantine_shard": {
+    "instrument_id": "SOL-USDT-SWAP",
+    "date": "2026-08-28",
+    "status": "INCOMPLETE_COVERAGE",
+    "start_ms": 1787875200000,
+    "end_ms_exclusive": 1787961600000,
+    "manifest": "SOL-USDT-SWAP/2026-08-28.manifest.json",
+    "bars_files": {
+      "trade": "SOL-USDT-SWAP/2026-08-28.trade.jsonl.gz",
+      "mark": "SOL-USDT-SWAP/2026-08-28.mark.jsonl.gz"
+    },
+    "bars_sha256": {
+      "trade": "c9900b73947cc5ad95d5b702c979dbfd0d4e08d01b71833dd5d31dcdb00fc6d7",
+      "mark": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "responses_file": "SOL-USDT-SWAP/2026-08-28.responses.jsonl.gz",
+    "responses_sha256": "18c9952e32ff63170ff6df47d68f79aec5c8d234ae230a43ec15c91d6597ec36",
+    "coverage": {
+      "trade": {
+        "expected_bars": 1440,
+        "observed_bars": 599,
+        "missing_bars": 841,
+        "missing_ranges_ms_exclusive": [
+          [
+            1787905800000,
+            1787905860000
+          ],
+          [
+            1787911200000,
+            1787961600000
+          ]
+        ],
+        "status": "INCOMPLETE_COVERAGE"
+      },
+      "mark": {
+        "expected_bars": 1440,
+        "observed_bars": 0,
+        "missing_bars": 1440,
+        "missing_ranges_ms_exclusive": [
+          [
+            1787875200000,
+            1787961600000
+          ]
+        ],
+        "status": "INCOMPLETE_COVERAGE"
+      }
+    },
+    "identity_sha256": "fc413793af22d6babf6aea175bd284e99e05f34a3a37ecd231029d6741c21810",
+    "contract_value": "1",
+    "contract_multiplier": "1",
+    "manifest_sha256": "519f103af60dc067dcdb16d2c81830363428a87b0eb4624f0d1a6cd37a308c2f"
+  },
+  "resolution": {
+    "manifest": "gap-resolution/SOL-USDT-SWAP/2026-08-28.manifest.json",
+    "new_requests": 18,
+    "new_body_bytes": 160820,
+    "source_policy": "ONE_EXPLICIT_OFFICIAL_ARCHIVE_PRECEDENCE_ROW",
+    "preserves_original_partial_dataset": true
+  },
+  "resolved_strict_prior_mark": {
+    "instrument_id": "SOL-USDT-SWAP",
+    "funding_time_ms": 1787961600000,
+    "bars_file": "gap-resolution/SOL-USDT-SWAP/2026-08-28.mark.jsonl.gz",
+    "open_ms": 1787961480000,
+    "close_ms_exclusive": 1787961540000,
+    "raw_sha256": "a5d26ec6b0969830bc979deb8ec37ad154da5fffcfec68521e77d1c9fdb13d49"
+  },
+  "original_API_only_window_ready": false,
+  "historical_quarantined_instrument_dates": [
+    {
+      "instrument_id": "SOL-USDT-SWAP",
+      "start_ms": 1787875200000,
+      "end_ms_exclusive": 1787961600000
+    }
+  ],
+  "readiness_policy": "USER_AUTHORIZED_ONE_ROW_SAME_VENUE_ARCHIVE_PRECEDENCE",
+  "all_430_audit": {
+    "path": "RESOLUTION_ALL_430_AUDIT.json",
+    "sha256": "4a4292dffc30978dd3fcd42f5d3fd7193bb12dc57ff09b9098b46d5dc3e109cf"
+  },
+  "prior_final_audit": {
     "path": "FINAL_AUDIT.json",
     "sha256": "f8f0965c5fb1583cbd3684428e37b8928fd650790d5c5466d3365baf0bfea0f9"
   }
