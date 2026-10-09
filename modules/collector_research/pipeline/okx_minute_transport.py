@@ -113,6 +113,16 @@ def build(repo, commit, instrument, output):
         PUBLIC_PREFIX / "COVERAGE.json",
         PUBLIC_PREFIX / "SCHEMA.json",
     ]
+    if index.get("final_audit"):
+        paths.append(PUBLIC_PREFIX / index["final_audit"]["path"])
+    failure = index.get("failure", {})
+    if failure.get("instrument_id") == instrument and failure.get("diagnostic_manifest"):
+        diagnostic_path = PUBLIC_PREFIX / failure["diagnostic_manifest"]
+        diagnostic = json.loads(git_bytes(repo, commit, diagnostic_path))
+        paths.append(diagnostic_path)
+        paths.extend(
+            diagnostic_path.parent / record["raw_file"] for record in diagnostic["requests"]
+        )
     # Preserve the existing daily/funding/probe/native-metadata proofs as well.
     paths.extend(
         Path(name)
