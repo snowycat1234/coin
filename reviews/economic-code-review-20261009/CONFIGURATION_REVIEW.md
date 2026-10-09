@@ -7,6 +7,11 @@ encoders. The evidence does identify missing explicit expert state, concentrated
 feature scales and nearly binary allocations. These are measurable design
 properties, not demonstrated explanations of poor historical returns.
 
+The final [bounded source-quality follow-up](SOURCE_QUALITY_REVIEW.md) subsequently
+verifies the extreme SOL observations against tiny official raw archives and
+reproduces all61 CS targets exactly using already cached full warmup prices.
+It closes the source/warmup qualifications below without changing active inputs.
+
 This follow-up pins model/input/objective code to
 `316423e2b4174bbf072814c1627861469a2e952b`, the two frozen no-cash snapshots to
 `2bf2dc03e1ca3f0594b7b15dcff0cdb5651c5f1d`, and the compact training economic
