@@ -17,7 +17,7 @@ from .common import dump, sha256
 from .okx_minute_intake import ASSETS, BRANCH, PARENT_COMMIT, PUBLIC_PREFIX
 from .public_supplement import fingerprint
 
-PART_BYTES = 4 * 1024 * 1024
+PART_BYTES = 768 * 1024
 ROOT = PUBLIC_PREFIX.parent
 
 
@@ -38,6 +38,9 @@ def verify_and_extract(folder, output=None):
     """Check ordered parts, aggregate and every extracted member in one pass."""
     folder = Path(folder)
     manifest = json.loads((folder / "manifest.json").read_text())
+    limit = manifest.get("max_part_bytes", PART_BYTES)
+    if not 0 < limit <= 4 * 1024 * 1024:
+        raise ValueError("Unsupported transport part bound")
     members = manifest["members"]
     expected = {str(safe_path(m["path"])): m for m in members}
     if len(expected) != len(members):
@@ -50,7 +53,7 @@ def verify_and_extract(folder, output=None):
                 raise ValueError("Part order/path mismatch")
             raw = (folder / name).read_bytes()
             if (
-                not 0 < len(raw) <= PART_BYTES
+                not 0 < len(raw) <= limit
                 or len(raw) != part["bytes"]
                 or hashlib.sha256(raw).hexdigest() != part["sha256"]
             ):
@@ -104,9 +107,16 @@ def build(repo, commit, instrument, output):
     shards = [s for s in all_shards if s["status"] == "COMPLETE"]
     if not shards:
         raise ValueError("Bundle requires completed verified shards")
+    gaps = []
     for previous, current in zip(shards, shards[1:], strict=False):
-        if previous["end_ms_exclusive"] != current["start_ms"]:
-            raise ValueError("Bundle source shards are not contiguous")
+        before, after = previous["end_ms_exclusive"], current["start_ms"]
+        if before > after:
+            raise ValueError("Bundle source shards overlap")
+        if before < after:
+            omitted = [s for s in all_shards if before <= s["start_ms"] < after]
+            if not omitted or any(s["status"] == "COMPLETE" for s in omitted):
+                raise ValueError("Unlabelled bundle gap")
+            gaps.append([before, after])
     paths = [
         ROOT / "COVERAGE.json",
         ROOT / "SCHEMA.json",
@@ -139,6 +149,14 @@ def build(repo, commit, instrument, output):
             for name in (shard["manifest"], *shard["bars_files"].values(), shard["responses_file"])
         )
     for witness in index["witnesses"]:
+        if witness["instrument_id"] == instrument:
+            name = witness["manifest"]
+            proof = json.loads(git_bytes(repo, commit, PUBLIC_PREFIX / name))
+            paths.extend(
+                PUBLIC_PREFIX / path
+                for path in (name, *proof["bars_files"].values(), proof["responses_file"])
+            )
+    for witness in index.get("strict_start_witnesses", []):
         if witness["instrument_id"] == instrument:
             name = witness["manifest"]
             proof = json.loads(git_bytes(repo, commit, PUBLIC_PREFIX / name))
@@ -208,6 +226,8 @@ def build(repo, commit, instrument, output):
                 if s["status"] != "COMPLETE"
             ],
             global_intake_status=index["status"],
+            full_window_ready=index.get("full_window_ready", False),
+            complete_shard_gaps_ms_exclusive=gaps,
             verified_minute_rows=sum(
                 s["coverage"][kind]["observed_bars"] for s in shards for kind in ("trade", "mark")
             ),
