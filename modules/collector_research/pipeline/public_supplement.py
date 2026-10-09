@@ -157,7 +157,8 @@ def instrument_identity(job, raw):
     if len(matches) != 1:
         raise Failure('INSTRUMENT_UNAVAILABLE', 'No unique exact native instrument metadata')
     row = matches[0]
-    expected_base = NATIVE_BASES.get(job.reference_symbol, 'DOGE')
+    expected_base = NATIVE_BASES.get(
+        job.reference_symbol, job.reference_symbol.removesuffix('USDT'))
     if job.provider == 'bybit':
         base, quote = row.get('baseCoin'), row.get('quoteCoin')
         multiplier = '1'
