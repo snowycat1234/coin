@@ -441,7 +441,8 @@ def collect_forward(cache, reuse_cache=None, session=None, budget=None):
         if len(estimates) == 10
         else None,
         scope="July15–October9 trade+mark five perpetuals; funding/metadata separate",
-        limitations="100-minute samples do not prove full-window retention/coverage; wire bytes unknown",
+        limitations=("100-minute samples do not prove full-window retention/coverage; "
+                     "wire bytes unknown"),
     )
     dump(index, index_path)
     return index
