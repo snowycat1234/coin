@@ -1,4 +1,4 @@
-"""One covered prequential63 fold, using the parameterized frozen61 adapter.
+"""63-day contexts and readiness over the parameterized frozen61 adapter.
 
 Readiness/context generation is offline and never fits, infers or runs accounts.
 """
@@ -14,12 +14,14 @@ PUBLIC=HERE/'prequential63'
 CONTRACT=PUBLIC/'ADAPTER_CONTRACT.json'
 
 
-def prepare_context(state,output):
+def prepare_context(state,output,calendar=None):
     import numpy as np,polars as pl
+    calendar=CALENDAR if calendar is None else calendar
+    base.calendar_values(calendar);base.frozen.require(calendar['days']==63,'Exactly63 complete decisions required')
     base.frozen.modules(state)
     from scripts.investment import momentum_short_pool_target as momentum
     from momentum_training_context import independent
-    tt=np.arange(CALENDAR['start'],CALENDAR['end_exclusive'],base.frozen.DAY,dtype=np.int64)
+    tt=np.arange(calendar['start'],calendar['end_exclusive'],base.frozen.DAY,dtype=np.int64)
     bars=[]
     for symbol in base.frozen.SYMBOLS:
         p=state/'h1_validation/original/h1_market/data/normalized'/(symbol+'_daily.parquet')
@@ -33,19 +35,20 @@ def prepare_context(state,output):
     output.mkdir(parents=True,exist_ok=False)
     short=output/'MOMENTUM_SHORT_CONTEXTS63.npz'
     np.savez_compressed(short,decision_us=tt,symbol_order=np.array(base.frozen.SYMBOLS),expert_order=np.array([base.SHORT]),expert_targets=actual[:,None],expert_raw_targets=actual_raw[:,None],expert_eligible=eligible.any(1)[:,None],expert_asset_eligible=eligible[:,None],target_available_us=tt[:,None],asset_context_available_us=available,warmup_first_close_us=first,eligibility_reason=reasons)
-    c=base.contexts(state,True,CALENDAR,(short,base.frozen.sha(short)))
+    c=base.contexts(state,True,calendar,(short,base.frozen.sha(short)))
     original=state/'h1_validation/original/h1_market/inputs/H1_E5_INPUTS.npz'
     with np.load(original,allow_pickle=False) as z:
         ix=np.searchsorted(z['decision_us'],tt)
         extras={k:z[k][ix].copy() for k in ('market_close','market_state13','market_state13_available_us')}
     np.savez_compressed(output/'CANONICAL_CONTEXTS63.npz',decision_us=tt,symbol_order=np.array(base.frozen.SYMBOLS),expert_order=np.array(c['expert_order']),**{k:v for k,v in c.items() if k!='expert_order'},**extras)
-    report=dict(status='PASS_ORIGINAL_E5_FIRST63_AND_EXISTING_CAUSAL_MOMENTUM_SHORT_RECIPE',calendar=CALENDAR,original_E5_SHA256=base.INPUT_SHA,short_recipe_SHA256=base.frozen.sha(base.frozen.REPO/'scripts/investment/momentum_short_pool_target.py'),scalar_raw_and_eligibility_exact=True,scalar_target_maximum_error=float(abs(actual-reference).max()),canonical_E5_slots_unchanged=True,short_slot=5,causal200_contiguous_completed_bars=True,maximum_context_input_us=int(available.max()),last_decision_us=int(tt[-1]),source_data_roles='CAUSAL_EVALUATION_CONTEXTS_NOT_TRAINING_LABELS',context_files={p.name:dict(bytes=p.stat().st_size,sha256=base.frozen.sha(p)) for p in sorted(output.glob('*.npz'))},fits=0,wallets_run=0,provider_downloads=0)
+    report=dict(status='PASS_ORIGINAL_E5_EXPLICIT63_AND_EXISTING_CAUSAL_MOMENTUM_SHORT_RECIPE',calendar=calendar,original_E5_SHA256=base.INPUT_SHA,short_recipe_SHA256=base.frozen.sha(base.frozen.REPO/'scripts/investment/momentum_short_pool_target.py'),scalar_raw_and_eligibility_exact=True,scalar_target_maximum_error=float(abs(actual-reference).max()),canonical_E5_slots_unchanged=True,short_slot=5,causal200_contiguous_completed_bars=True,maximum_context_input_us=int(available.max()),last_decision_us=int(tt[-1]),source_data_roles='CAUSAL_EVALUATION_CONTEXTS_NOT_TRAINING_LABELS',context_files={p.name:dict(bytes=p.stat().st_size,sha256=base.frozen.sha(p)) for p in sorted(output.glob('*.npz'))},fits=0,wallets_run=0,provider_downloads=0)
     (output/'CONTEXT_READY.json').write_text(json.dumps(report,indent=2)+'\n');return report
 
 
-def canonical_contexts(state,extended=True):
-    contract=base.frozen.read(CONTRACT);record=contract['context_files']['MOMENTUM_SHORT_CONTEXTS63.npz']
-    return base.contexts(state,extended,CALENDAR,(PUBLIC/'MOMENTUM_SHORT_CONTEXTS63.npz',record['sha256']))
+def canonical_contexts(state,extended=True,*,calendar=None,contract_path=None):
+    calendar=CALENDAR if calendar is None else calendar;contract_path=CONTRACT if contract_path is None else contract_path
+    contract=base.frozen.read(contract_path);base.frozen.require(contract['calendar']==calendar,'Explicit context calendar/contract required');record=contract['context_files']['MOMENTUM_SHORT_CONTEXTS63.npz']
+    return base.contexts(state,extended,calendar,(contract_path.parent/'MOMENTUM_SHORT_CONTEXTS63.npz',record['sha256']))
 
 
 def producer_interface(path,expected):
@@ -174,20 +177,27 @@ def producer_bindings(path,m,c):
         require(np.array_equal(z['past_returns30'],c['past_returns30']),'Producer covariance inputs differ from canonical source')
 
 
-def readiness(state):
+def readiness(state,*,calendar=None,contract_path=None):
     import numpy as np
+    calendar=CALENDAR if calendar is None else calendar;contract_path=CONTRACT if contract_path is None else contract_path
+    base.calendar_values(calendar);base.frozen.require(calendar['days']==63,'Exactly63 complete decisions required')
     base.frozen.modules(state)
-    contract=base.frozen.read(CONTRACT);old=base.frozen.read(HERE/'EVALUATE_REQUESTS61_ADAPTER.json')
-    base.frozen.require(contract['calendar']==CALENDAR and contract['financial_contract']==old['financial_contract'] and contract['cost']==old['cost'],'Original financial contract and explicit covered fold required')
-    report=base.source_market_check(state,CALENDAR,CONTRACT);window=base.market(state,CALENDAR);minutes=0
+    contract=base.frozen.read(contract_path);old=base.frozen.read(HERE/'EVALUATE_REQUESTS61_ADAPTER.json')
+    base.frozen.require(contract['calendar']==calendar and contract['financial_contract']==old['financial_contract'] and contract['cost']==old['cost'],'Original financial contract and explicit covered fold required')
+    for name,v in contract['context_files'].items():
+        p=base.member(contract_path.parent,name);base.frozen.require(p.stat().st_size==v['bytes'] and base.frozen.sha(p)==v['sha256'],'Bound63 context bytes differ')
+    report=base.source_market_check(state,calendar,contract_path);window=base.market(state,calendar);minutes=0
     for block in window['minute_blocks']():
-        tt=block['times'];base.frozen.require(np.array_equal(tt,np.arange(CALENDAR['start']+minutes*base.frozen.MINUTE,CALENDAR['start']+(minutes+len(tt))*base.frozen.MINUTE,base.frozen.MINUTE)) and set(block['market'])==set(base.frozen.SYMBOLS),'Complete actual synchronous63 grid required')
+        tt=block['times'];base.frozen.require(np.array_equal(tt,np.arange(calendar['start']+minutes*base.frozen.MINUTE,calendar['start']+(minutes+len(tt))*base.frozen.MINUTE,base.frozen.MINUTE)) and set(block['market'])==set(base.frozen.SYMBOLS),'Complete actual synchronous63 grid required')
         for value in block['market'].values():
             base.frozen.require(all(np.isfinite(v).all() for v in value.values()) and (value['quote_volume']>=0).all() and (value['mark']>0).all() and (value['open']>0).all(),'Actual finite prices/quote volumes required')
         minutes+=len(tt)
     base.frozen.require(minutes==90720 and len(window['events'])==945,'Exact63 trade/mark/funding coverage differs')
-    canonical_contexts(state)
-    report.update(status='PASS_ACTUAL63_TAPE_GRID_SOURCE_HASHES_AND_CANONICAL_CONTEXT_NO_WALLET',calendar=CALENDAR,fresh_start=dict(previous_quote=None,initial_capacity=0,prior_external_minute_supplied=False,initial_position=0),requests='NOT_YET_PROVIDED',wallets_run=0,fits=0,provider_downloads=0)
+    for symbol in base.frozen.SYMBOLS:
+        events=[e for e in window['events'] if e['symbol']==symbol];times=np.array([e['event_us'] for e in events],np.int64);slots=(times//1000000+1)//28800
+        base.frozen.require(len(events)==189 and np.array_equal(slots,np.arange(calendar['start']//1000000//28800,calendar['end_exclusive']//1000000//28800)) and all(e['reported_interval_hours']==8 and np.isfinite(e['raw_rate']) for e in events),'Exact actual189 signed funding slots/asset required; raw timestamps unchanged')
+    canonical_contexts(state,calendar=calendar,contract_path=contract_path)
+    report.update(status='PASS_ACTUAL63_TAPE_GRID_SOURCE_HASHES_AND_CANONICAL_CONTEXT_NO_WALLET',calendar=calendar,fresh_start=dict(previous_quote=None,initial_capacity=0,prior_external_minute_supplied=False,initial_position=0),requests='NOT_YET_PROVIDED',wallets_run=0,fits=0,provider_downloads=0)
     return report
 
 
