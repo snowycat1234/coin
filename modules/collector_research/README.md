@@ -44,6 +44,28 @@ python -m modules.collector_research.validation run \
 
 本模块保留已经验证的 `pipeline/` 源字节，因此兼容旧数据代码哈希。只需要复核已有数据/模型时，使用上面的验证入口，避免重新采集或训练。
 
+### 独立公共行情补充
+
+`pipeline.public_supplement` 是小型 Bybit/OKX 适配器，复用既有原子写入和 SHA 工具；
+不会写入原 Binance 数据或认证 frozen selector。以下命令默认只打印固定计划，无网络 IO：
+
+```bash
+python -m modules.collector_research.pipeline.public_supplement \
+  --provider okx --cache /path/to/external-state/public-supplements
+# 显式加 --collect-daily 才采集 2025-07-01..2025-12-31 的五个永续日线标的。
+```
+
+缓存必须在 checkout 外。每次最多 20 请求/5 MB，每响应最多 1 MB；正常会话、无重定向、
+每请求至少间隔一秒，暂时传输/5xx 最多两次；成功页按原 SHA 复用。403/451/权限或限流
+保存 `access-stop.json` 并停止该服务，后续运行保留停止状态，不自动改主机或代理。
+空列表、HTTP 失败、明确文档留存限制和日历缺口分别记录，不补零、不前填。
+
+原价、原生合约值/乘数、当前 instrument 元数据、每响应原字节 SHA、请求和收到时间保存。
+日线结束不是已知历史发布时间；`historical_available_ms=null`，可得时间仅为本地收到时刻。
+Bybit `10000SATSUSDT`、OKX `SATS-USDT-SWAP`/`PEPE-USDT-SWAP` 不等同 Binance 千币产品，
+价格不自动换算。当前元数据不能认证 2025 历史合约规则。DOGE 2025-12 的 1m mark 计划和
+离线解析已提供，当前入口拒绝 minute 网络采集。没有训练、历史回测或投资资格升级。
+
 ```bash
 python -m modules.collector_research.run_pipeline \
   --work-dir /path/to/external-state/work --resource-policy server collect
