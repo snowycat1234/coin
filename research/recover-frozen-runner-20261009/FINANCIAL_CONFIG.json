@@ -1,0 +1,133 @@
+{
+  "calendar": {
+    "start": 1784073600000000,
+    "end": 1791504000000000,
+    "days": 86,
+    "start_UTC": "2026-07-15T00:00:00Z",
+    "end_UTC_exclusive": "2026-10-09T00:00:00Z",
+    "terminal_cash_decision_UTC": "2026-10-08T00:00:00Z"
+  },
+  "policies": [
+    "FIXED_VOL_HOLD",
+    "FIXED_CSMOM21",
+    "STATIC50"
+  ],
+  "fixed_requests": {
+    "FIXED_VOL_HOLD": [
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "FIXED_CSMOM21": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "STATIC50": [
+      0,
+      0.5,
+      0,
+      0,
+      0.5
+    ]
+  },
+  "weekly_rebalance_anchor_us": 1704067200000000,
+  "student_evaluation": false,
+  "trained_selector": false,
+  "guard_enabled": false,
+  "dynamic_allocation": false,
+  "policy_tuning": false,
+  "market13_or_student_imputation": false,
+  "source_provider": "OKX",
+  "data_role": "OKX_ACTUAL_PUBLIC_INPUTS_WITH_CONDITIONAL_BYBIT_STYLE_ACCOUNT",
+  "cost": {
+    "fee_rate_fraction": ".00055",
+    "half_spread_bps": "4",
+    "id": "BASE27",
+    "roundtrip_bps": "27",
+    "second_debit_execution_cost": false,
+    "slippage_bps": "4"
+  },
+  "risk": {
+    "MMR_fraction": ".005",
+    "actual_exposure_drift_possible": true,
+    "annual_covariance_vol_budget": ".10",
+    "asset_abs_target_cap": ".30",
+    "auto_add_margin": false,
+    "budget_daily_L1_change_cap": ".10",
+    "covariance_ddof": 1,
+    "covariance_past_completed_days": 30,
+    "gross_target_cap": ".60",
+    "guard_enabled": false,
+    "leverage": 1,
+    "margin_mode": "ISOLATED",
+    "minimum_notional_USDT_assumption": "10",
+    "quantity_step_base_assumption": "1e-8",
+    "sizing_buffer": ".99"
+  },
+  "funding": {
+    "account_settlement_verified": false,
+    "basis": "signed held base quantity \u00d7 actual strictly prior completed close mark",
+    "equal_time_order": "funding before fill; equal-clock mark excluded",
+    "first_event_exception": "Fresh-capital first event has no held position; no invented preceding mark",
+    "historical_publication_certified": false,
+    "mark_condition": "close_us < event_us",
+    "native_cash_flow": "minus signed quantity \u00d7 mark \u00d7 rate",
+    "position_condition": "opened_us < event_us",
+    "scale": 1,
+    "source_field": "realizedRate",
+    "unit": "SIGNED_DIMENSIONLESS_FRACTION",
+    "unit_certified": false,
+    "raw_rate_unit": "UNCONFIRMED"
+  },
+  "execution": {
+    "capacity": "Previous completed actual quote turnover USDT \u00d7 .001 / current minute open, then existing lot rounding",
+    "capacity_fallback_from_contract_or_base_volume": false,
+    "fills": "Existing earliest_execution_us and minute-open plus1\u00b5s",
+    "leg_priority": "Existing reductions before increases",
+    "mark_scope": "Minute-close mark plus fills and funding; no intraminute high/low liquidation substitution",
+    "terminal": "Only original global final-day cash request and native paid close; must finish flat",
+    "maximum_attempts": 5,
+    "participation_rate": 0.001,
+    "persist_cash_close": true,
+    "cash_close_retry_policy": "PERSIST_DAILY_ZERO_TARGET_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL"
+  },
+  "initial_account": {
+    "budget_each": [
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "capital_USDT_each": 10000,
+    "first_minute_quote_capacity": 0,
+    "independent_fresh_accounts": true,
+    "positions_each": "FLAT"
+  },
+  "expert_order": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "PUBLIC_SMA50_200_SIGNED",
+    "DONCHIAN_EXIT10",
+    "CSMOM21"
+  ],
+  "native_symbol_aliases": {
+    "BTC-USDT-SWAP": "BTCUSDT",
+    "DOGE-USDT-SWAP": "DOGEUSDT",
+    "ETH-USDT-SWAP": "ETHUSDT",
+    "SOL-USDT-SWAP": "SOLUSDT",
+    "XRP-USDT-SWAP": "XRPUSDT"
+  },
+  "research_limits": [
+    "OKX actual public marketdata with current instrument metadata, historical clock proxy and Bybit-style account/BASE27 assumptions remains conditional",
+    "No pristine OOS or actual OKX settlement certification",
+    "No original Binance H2 selector validation claim"
+  ],
+  "schema": "RECOVERED_FROZEN_OFFLINE_BASELINE86_V1",
+  "original86_day_status": "NOT_RUN"
+}
