@@ -25,21 +25,23 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def verify(directory, state=None):
+def verify(directory, state=None, *, calendar=None):
+    start,end,days,minutes,funding=(START,END,61,87840,915) if calendar is None else tuple(calendar[k] for k in ('start','end_exclusive','days','minutes','funding_events'))
+    require(end-start==days*86400000000 and minutes==days*1440,'Audit calendar dimensions differ')
     from modules.transformer_v3.isolated_audit import verify as financial
     account = directory / 'account'
     audit = financial(account, list(SYMBOLS), 1)
     summary, execution = read(account/'summary.json'), read(directory/'EXECUTION.json')
-    require(audit['minutes'] == summary['completed_minutes'] == summary['required_minutes'] == 87840, 'Full61 minutes required')
+    require(audit['minutes'] == summary['completed_minutes'] == summary['required_minutes'] == minutes, 'Full61 minutes required')
     require(summary['completion'] == execution['status'] == 'COMPLETE_CONDITIONAL_ACCOUNT', 'Completed native account required')
     require(summary['terminal_cash_realized'] and summary['terminal_not_forced_free_fill'] and all(p['quantity']==0 for p in summary['positions'].values()), 'Paid actual terminal flat required')
     funds, trades, liqs = read(account/'funding.json'), read(account/'trades.json'), read(account/'liquidations.json')
-    require(len(funds) == summary['funding_original_events'] == 915, 'Full actual funding calendar required')
+    require(len(funds) == summary['funding_original_events'] == funding, 'Full actual funding calendar required')
     require(len(liqs) == summary['liquidation_count'], 'Liquidation witnesses differ')
     require(execution['elapsed_seconds'] <= 600 and execution['peak_RSS_bytes'] <= 6_000_000_000, 'Frozen wallet resource cap exceeded')
     require(any(t['leg']=='CLOSE' and t['fee_amount']>0 for t in trades), 'Actual paid closes required')
-    require(all(not f['owned'] and f['quantity']==0 and f['signed_funding_USDT']==0 for f in funds if f['event_us']==START), 'Fresh first funding must be unheld')
-    audit.update(continuous_days=61, capital_USDT=10000, terminal_paid_flat=True, liquidations=len(liqs), account_stitching=False)
+    require(all(not f['owned'] and f['quantity']==0 and f['signed_funding_USDT']==0 for f in funds if f['event_us']<start+MINUTE), 'Fresh first funding must be unheld')
+    audit.update(continuous_days=days, capital_USDT=10000, terminal_paid_flat=True, liquidations=len(liqs), account_stitching=False)
     if state is not None:
         import polars as pl
         base = state / 'h1_validation/original/h1_market/data/normalized'
@@ -55,7 +57,7 @@ def verify(directory, state=None):
         rates = {}
         for s in SYMBOLS:
             f = pl.read_parquet(base/(s+'_funding_events.parquet'))
-            rates.update({(s,int(r['calc_time_ms'])*1000):float(r['last_funding_rate']) for r in f.iter_rows(named=True) if START<=int(r['calc_time_ms'])*1000<END})
+            rates.update({(s,int(r['calc_time_ms'])*1000):float(r['last_funding_rate']) for r in f.iter_rows(named=True) if start<=int(r['calc_time_ms'])*1000<end})
         used = defaultdict(lambda:D(0)); ordinary = 0
         with localcontext() as c:
             c.prec = 50
@@ -64,7 +66,7 @@ def verify(directory, state=None):
                     continue
                 s, stamp, e = t['symbol'], t['event_us'], t['decimal_strings']
                 q, delta, mid, fill = (D(e[k]) for k in ('quantity','position_delta','execution_mid_price','fill_price'))
-                require(stamp%MINUTE==1 and stamp>=START+MINUTE+1, 'Native delayed minute-open fill required')
+                require(stamp%MINUTE==1 and stamp>=start+MINUTE+1, 'Native delayed minute-open fill required')
                 open_us=stamp-1
                 require(mid==D(str(float(row(s,open_us,'trade')['open']))), 'Actual trade-open mid differs')
                 require(q>0 and q%D('1e-8')==0 and abs(delta)==q and t['side']==('BUY' if delta>0 else 'SELL'), 'Native lot/signed side differs')
@@ -82,7 +84,7 @@ def verify(directory, state=None):
             seen=set()
             for f in funds:
                 key=f['symbol'],f['event_us'];require(key not in seen and f['raw_rate']==rates[key] and f['conditional_rate_scale']==1, 'Exact-once actual signed funding differs');seen.add(key)
-                if f['event_us']==START:
+                if f['event_us']<start+MINUTE:
                     require(f['mark_price'] is None, 'Fresh first funding invented a mark')
                 elif f['mark_price'] is not None:
                     # Actual Binance settlements retain their millisecond
