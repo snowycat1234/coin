@@ -85,9 +85,13 @@ def verify(directory, state=None):
                 if f['event_us']==START:
                     require(f['mark_price'] is None, 'Fresh first funding invented a mark')
                 elif f['mark_price'] is not None:
-                    require(f['mark_close_us']==f['event_us']-MINUTE and f['mark_price']==float(row(f['symbol'],f['event_us']-2*MINUTE,'mark')['close']), 'Strictly prior completed funding mark differs')
+                    # Actual Binance settlements retain their millisecond
+                    # offsets. Select the latest completed grid mark strictly
+                    # before the actual event; never round the event itself.
+                    prior_close = ((f['event_us'] - 1) // MINUTE) * MINUTE
+                    require(f['mark_close_us']==prior_close<f['event_us'] and f['mark_price']==float(row(f['symbol'],prior_close-MINUTE,'mark')['close']), 'Strictly prior completed funding mark differs')
             require(seen==set(rates), 'Actual funding event coverage differs')
-        audit['actual_input_check']=dict(status='PASS_ACTUAL_FILLS_CAPACITY_FEES_MARKS_AND_FUNDING',ordinary_fill_legs=ordinary,funding_events=len(funds),independent_order_intents_reconstructed=False)
+        audit['actual_input_check']=dict(status='PASS_ACTUAL_FILLS_CAPACITY_FEES_MARKS_AND_FUNDING',ordinary_fill_legs=ordinary,funding_events=len(funds),actual_settlement_millisecond_offsets_preserved=True,independent_order_intents_reconstructed=False)
     return audit
 
 
