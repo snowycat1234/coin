@@ -109,17 +109,18 @@ def mapped(full,c,original_mapper):
     prior=np.zeros(full.shape[1]);prior[0]=1;fractions=[];budgets=[]
     for i,t in enumerate(range(frozen.START,frozen.END,frozen.DAY)):
         context=types.SimpleNamespace(decision_us=t,expert_eligible=c['expert_eligible'][i],expert_targets=c['expert_targets'][i],past_returns30=c['past_returns30'][i],binding={'symbol_order':list(frozen.SYMBOLS)})
+        # Mandatory availability release precedes the discretionary .1 L1 ramp.
+        eligible=context.expert_eligible;released=prior.copy();released[0]+=released[~eligible].sum();released[~eligible]=0
         if full.shape[1]==5:
             proposal=original_mapper(prior,full[i],context);budget=np.asarray(proposal.budget);target=np.asarray(proposal.targets)
         else:
             # Explicit new append-only adapter, using the identical original
             # eligibility release, bounded_path and shared_targets operations.
-            eligible=context.expert_eligible;released=prior.copy();released[0]+=released[~eligible].sum();released[~eligible]=0
             desired=full[i].copy();desired[0]+=desired[~eligible].sum();desired[~eligible]=0
             budget=bounded_path([desired],released,.1)[0];names=tuple(c['expert_order'][k] for k in np.flatnonzero(eligible))
             frames={c['expert_order'][k]:pl.DataFrame([dict(available_us=t,symbol=s,target_weight=float(context.expert_targets[k,j]),raw_signed_target=float(context.expert_targets[k,j]),mode='LONG_SHORT',eligibility_reason='ELIGIBLE') for j,s in enumerate(frozen.SYMBOLS)]) for k in np.flatnonzero(eligible)}
             frame,_=shared_targets(frames,names,np.array([t],np.int64),frozen.SYMBOLS,budget[None,eligible]);target=frame['target_weight'].to_numpy()
-        frozen.require(abs(budget-prior).sum()<=.1+1e-10 and (budget>=0).all() and abs(budget.sum()-1)<1e-12,'Original daily simplex/ramp violated')
+        frozen.require(abs(budget-released).sum()<=.1+1e-10 and (budget>=0).all() and abs(budget.sum()-1)<1e-12,'Original daily simplex/ramp violated')
         cov=np.cov(context.past_returns30,rowvar=False,ddof=1)*365
         frozen.require(np.isfinite(target).all() and abs(target).sum()<=.6+1e-12 and abs(target).max()<=.3+1e-12 and target@cov@target<=.1**2+1e-12,'Original target/covariance caps violated')
         if i==60:target=target*0

@@ -1,0 +1,54 @@
+{
+  "schema": "INDEPENDENT_ECONOMIC_CODE_REVIEW_V1",
+  "source_commits": {
+    "native": "55ac3d2ee730b1cd1381696330a6abaf1925eb92",
+    "adapter_before": "0090a7182c75a655197afd85f4db2c66db6456f6",
+    "later_adapter_identical_bytes": "d2682ced22efedde0ca6fb1e1336b8ca2cb3f634",
+    "temporal_and_surrogate": "316423e2b4174bbf072814c1627861469a2e952b",
+    "resume_exports": "2bf2dc03e1ca3f0594b7b15dcff0cdb5651c5f1d",
+    "short_contexts": "1291857d53360e4e06a4dd50540c130886deffbf",
+    "native_result_reference": "6cd153bb57ca3e238ac207124ca5ec45f2ec02bd"
+  },
+  "adapter_source_SHA256": {
+    "before": "c7b814f3cac58363dcf11b04f6794af9944e6fe0e9887a9e72faa58c1e153ef3",
+    "after": "948f496f6307576832fa47afcfcd7161b0d855456b49ae511da5066d09f2efbd"
+  },
+  "regression_before": {
+    "forced_release_failed_at_actual_ramp_assertion": 4,
+    "excess_discretionary_rejection_control_passed": 1
+  },
+  "pytest_after": {
+    "adapter": {"passed": 35, "NOT_RUN_original_native_mapper_source_absent": 2},
+    "temporal": {"passed": 35},
+    "feature_development_comparison": {"passed": 27},
+    "charged_proxy": {"passed": 8},
+    "warm_resume": {"passed": 8},
+    "total_passed_separate_processes": 113
+  },
+  "independent_checks": {
+    "native_signed_Decimal_cases": 8,
+    "native_synthetic_minutes": 12,
+    "synthetic_surrogate_paths": 14,
+    "request_logit_finite_differences": 216,
+    "maximum_Decimal_NAV_error_USDT": 9.094947017729282e-12,
+    "maximum_gradient_absolute_error": 1.2293124688773222e-14
+  },
+  "resource_limits": {"CPU": 1, "per_process_address_bytes": 2000000000, "GPU": false, "swap": false},
+  "frozen_Torch_NumPy_parity": {
+    "actual_frozen_paths": 2,
+    "NAV_boundaries_checked": 124,
+    "maximum_NAV_error_USDT": 0.0,
+    "maximum_utility_sum_error": 1.3877787807814457e-17,
+    "request_finite_differences": 120,
+    "maximum_request_gradient_absolute_error": 6.411431900104768e-9,
+    "sigmoid_logit_finite_differences": 120,
+    "maximum_logit_gradient_absolute_error": 2.0970988743032726e-13,
+    "same_saved_native_target_byte_hashes": true
+  },
+  "operations": {"historical_native_backtests": 0, "real_model_fits": 0, "real_trades": 0, "active_branch_modifications": 0},
+  "limitations": [
+    "Original native five-slot mapper source-container proof not rerun; six-slot mapper exercised directly.",
+    "Daily surrogate is explicitly approximate; no minute-native gradient claim.",
+    "Initial combined-suite loader fixture errors resolved by separate suite processes."
+  ]
+}

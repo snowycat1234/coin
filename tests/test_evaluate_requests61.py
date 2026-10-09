@@ -114,3 +114,52 @@ def test_nonzero_short_append_uses_same_budget_and_signed_target_combiner(monkey
     expected[-1]=0
     np.testing.assert_allclose(target,expected,atol=1e-17,rtol=0)
     assert (budget[:,2:4]==0).all() and (budget[:,5]>0).all()
+
+
+@pytest.mark.parametrize('full', [False, True])
+@pytest.mark.parametrize('replacement', ['CASH', 'VOL_MANAGED_HOLD'])
+def test_forced_short_eligibility_release_precedes_discretionary_ramp(full, replacement, monkeypatch):
+    source = ROOT / 'research/recover-frozen-runner-20261009/auxiliary/conditional_selector_core.py'
+    spec = importlib.util.spec_from_file_location('scripts.research.conditional_selector_core', source)
+    core = importlib.util.module_from_spec(spec)
+    monkeypatch.setitem(sys.modules, spec.name, core)
+    spec.loader.exec_module(core)
+    m, a, c = fixture(extended=True, full=full)
+    short = list(a['expert_order']).index(adapter.SHORT)
+    destination = list(a['expert_order']).index(replacement)
+    c['expert_eligible'][3:, 5] = False
+    a['action_eligible'][3:, short] = False
+    a['desired_expert_budget'][:] = 0
+    a['desired_expert_budget'][:3, short] = 1
+    a['desired_expert_budget'][3:, destination] = 1
+    requests, _ = adapter.validate(m, a, c)
+
+    def forbidden(*args):
+        raise AssertionError('Six-slot fixture must use the actual append-only mapper')
+
+    targets, budgets = adapter.mapped(requests, c, forbidden)
+    # Three allowed 0.1-L1 transfers independently imply a .15 short budget.
+    np.testing.assert_allclose(budgets[2], [.85, 0, 0, 0, 0, .15], atol=1e-15, rtol=0)
+    released = np.array([1., 0, 0, 0, 0, 0])
+    expected = released if replacement == 'CASH' else np.array([.95, .05, 0, 0, 0, 0])
+    np.testing.assert_allclose(budgets[3], expected, atol=1e-15, rtol=0)
+    assert abs(budgets[3] - budgets[2]).sum() > .1
+    assert abs(budgets[3] - released).sum() <= .1 + 1e-15
+    assert (budgets[3:, 5] == 0).all() and (targets[-1] == 0).all()
+
+
+def test_release_exemption_does_not_allow_excess_discretionary_turnover(monkeypatch):
+    from types import SimpleNamespace
+    source = ROOT / 'research/recover-frozen-runner-20261009/auxiliary/conditional_selector_core.py'
+    spec = importlib.util.spec_from_file_location('scripts.research.conditional_selector_core', source)
+    core = importlib.util.module_from_spec(spec)
+    monkeypatch.setitem(sys.modules, spec.name, core)
+    spec.loader.exec_module(core)
+    m, a, c = fixture(full=True)
+    requests, _ = adapter.validate(m, a, c)
+
+    def invalid_mapper(prior, desired, context):
+        return SimpleNamespace(budget=np.array([0., 1., 0, 0, 0]), targets=np.zeros(5))
+
+    with pytest.raises(ValueError, match='Original daily simplex/ramp violated'):
+        adapter.mapped(requests, c, invalid_mapper)
