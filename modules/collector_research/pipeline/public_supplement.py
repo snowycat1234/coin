@@ -11,7 +11,8 @@ import hashlib
 import json
 import math
 import time
-from dataclasses import asdict, dataclass, field
+from copy import deepcopy
+from dataclasses import asdict, dataclass, field, replace
 from decimal import Decimal
 from pathlib import Path
 
@@ -22,6 +23,7 @@ from .common import DAY_MS, MINUTE_MS, atomic_text, dump, sha256
 VERSION = 'public-supplement-1'
 BASES = {'bybit': 'https://api.bybit.com', 'okx': 'https://www.okx.com'}
 DAILY_START, DAILY_END = 1751328000000, 1767225600000
+WARMUP_START = 1748736000000
 REFERENCES = ('WIFUSDT', 'WLDUSDT', 'ORDIUSDT', '1000PEPEUSDT', '1000SATSUSDT')
 NATIVE_BASES = dict(zip(REFERENCES, ('WIF', 'WLD', 'ORDI', 'PEPE', 'SATS'), strict=True))
 BYBIT_IDS = dict(zip(REFERENCES, ('WIFUSDT', 'WLDUSDT', 'ORDIUSDT',
@@ -59,10 +61,10 @@ class Job:
         if (type(self.start_ms) is not int or type(self.end_ms) is not int
                 or self.start_ms % step or self.end_ms % step or self.start_ms >= self.end_ms):
             raise ValueError('Exact UTC millisecond aligned exclusive bounds required')
-        if not DAILY_START <= self.start_ms < self.end_ms <= DAILY_END:
-            raise ValueError('Only July–December 2025 is authorized')
-        if self.interval == '1d' and self.count > 184:
-            raise ValueError('At most 184 daily bars per instrument')
+        if not WARMUP_START <= self.start_ms < self.end_ms <= DAILY_END:
+            raise ValueError('Only June–December 2025 is authorized')
+        if self.interval == '1d' and self.count > 214:
+            raise ValueError('At most 214 daily bars per instrument including June warm-up')
         if self.interval == '1m' and (self.reference_symbol != 'DOGEUSDT'
                                       or self.kind != 'mark' or self.start_ms < 1764547200000):
             raise ValueError('Minute interface is only for DOGE December mark prices')
@@ -110,7 +112,8 @@ class Budget:
     last_request: float = 0.0
 
     def __post_init__(self):
-        if (not 1 <= self.max_requests <= 20 or not 0 < self.max_bytes <= 5_000_000
+        if (not (1 <= self.max_requests <= 20 or self.max_requests == 22)
+                or not 0 < self.max_bytes <= 5_000_000
                 or not 0 < self.max_response_bytes <= 1_000_000
                 or not 1 <= self.max_attempts <= 3
                 or not math.isfinite(self.min_interval_seconds)
@@ -436,6 +439,97 @@ def collect(job, cache, budget, session=None):
     return dict(status=manifest['status'], coverage=manifest['coverage'],
                 identity=manifest.get('identity'), manifest=str(receipt),
                 manifest_sha256=sha256(receipt), frozen_selector_certified=False)
+
+
+def extend_june_warmup(prior_receipt, cache, budget, session=None):
+    """Fetch only June; verify and reuse exact metadata and 184 retained H2 rows.
+
+    This explicit extension binds the old acquisition source/receipt, rather than
+    silently accepting changed source bytes on normal collector resume.
+    """
+    prior_receipt, cache = Path(prior_receipt).resolve(), Path(cache).resolve()
+    if cache.is_relative_to(Path(__file__).resolve().parents[3]):
+        raise ValueError('Supplement cache must be outside the source checkout')
+    prior = json.loads(prior_receipt.read_text())
+    old_job = Job(**prior['binding']['job'])
+    if (old_job.provider != 'okx' or old_job.market != 'perpetual' or old_job.kind != 'trade'
+            or old_job.interval != '1d' or old_job.start_ms != DAILY_START
+            or old_job.end_ms != DAILY_END or prior['status'] != 'COMPLETE'):
+        raise ValueError('Complete original OKX July–December daily receipt required')
+    if sha256(prior_receipt.parent / 'bars.jsonl') != prior['normalized_sha256']:
+        raise ValueError('Retained normalized checksum mismatch')
+    original_rows = [json.loads(line) for line in
+                     (prior_receipt.parent / 'bars.jsonl').read_text().splitlines()]
+    if coverage(old_job, original_rows)['status'] != 'COMPLETE' or len(original_rows) != 184:
+        raise ValueError('Exact retained 184-bar calendar required')
+    job = replace(old_job, start_ms=WARMUP_START)
+    june = replace(job, end_ms=DAILY_START)
+    directory = cache / job.provider / fingerprint([VERSION, asdict(job)])[:24]
+    directory.mkdir(parents=True, exist_ok=True)
+    binding = dict(version=VERSION, job=asdict(job), source_sha256=sha256(Path(__file__)),
+                   parent_manifest_sha256=sha256(prior_receipt), parent_binding=prior['binding'],
+                   parent_normalized_sha256=prior['normalized_sha256'],
+                   dataset_role='ALTERNATIVE_VENUE_ROBUSTNESS_ONLY', original_provider='Binance',
+                   frozen_selector_certified=False, replaces_original_observations=False)
+    receipt = directory / 'manifest.json'
+    manifest = json.loads(receipt.read_text()) if receipt.exists() else dict(
+        binding=binding, requests=deepcopy(prior['requests']), identity=prior['identity'],
+        status='PENDING_JUNE_WARMUP')
+    if manifest['binding'] != binding:
+        raise ValueError('Saved warm-up source or parent binding changed')
+    for record in prior['requests']:
+        raw = prior_receipt.parent / record['raw_file']
+        if sha256(raw) != record['raw_sha256']:
+            raise ValueError('Retained raw checksum mismatch')
+        target = directory / record['raw_file']
+        if not target.exists():
+            target.write_bytes(raw.read_bytes())
+    for record in manifest['requests']:
+        if 'raw_file' in record and sha256(directory / record['raw_file']) != record['raw_sha256']:
+            raise ValueError('Retained extension raw checksum mismatch')
+    output = directory / 'bars.jsonl'
+    if output.exists() and sha256(output) != manifest.get('normalized_sha256'):
+        raise ValueError('Retained extension normalized checksum mismatch')
+    metadata_key = fingerprint([BASES['okx'] + metadata_request(job)[0], metadata_request(job)[1]])
+    metadata = next((r for r in prior['requests'] if r['request_key'] == metadata_key
+                     and r['status'] == 'OK'), None)
+    if metadata is None:
+        raise ValueError('Exact retained successful instrument metadata request required')
+    identity = instrument_identity(job, (directory / metadata['raw_file']).read_bytes())
+    identity['metadata_raw_sha256'] = metadata['raw_sha256']
+    if identity != prior['identity']:
+        raise ValueError('Retained native instrument identity changed')
+    access_stop = cache / 'okx/access-stop.json'
+    if access_stop.exists():
+        budget.denied_providers.add('okx')
+    owned_session = session is None
+    session = session or requests.Session()
+    rows = original_rows
+    try:
+        raw, record = _read(june, *bars_request(june, june.start_ms, june.end_ms),
+                            directory, manifest, budget, session)
+        extra = normalize(june, raw, identity, record['received_ms'], record['raw_sha256'])
+        record['observed_bars'] = len(extra)
+        record['coverage_note'] = 'OBSERVED' if extra else 'HISTORY_UNAVAILABLE_UNCLASSIFIED'
+        rows = extra + original_rows
+        manifest['status'] = coverage(job, rows)['status']
+        manifest.pop('last_failure', None)
+    except Failure as exc:
+        manifest.update(status=exc.status, last_failure=dict(status=exc.status, detail=str(exc)))
+        if exc.status in ('PERMISSION_DENIED', 'RATE_LIMITED') and not access_stop.exists():
+            dump(dict(provider='okx', status=exc.status, detail=str(exc), manifest=str(receipt)),
+                 access_stop)
+    finally:
+        if owned_session:
+            session.close()
+    atomic_text(output, ''.join(json.dumps(row, sort_keys=True, allow_nan=False) + '\n'
+                               for row in rows))
+    manifest.update(coverage=coverage(job, rows), normalized_sha256=sha256(output),
+                    normalized_file='bars.jsonl', updated_ms=time.time_ns() // 1_000_000)
+    dump(manifest, receipt)
+    return dict(status=manifest['status'], coverage=manifest['coverage'], identity=identity,
+                manifest=str(receipt), manifest_sha256=sha256(receipt),
+                normalized_file=str(output), frozen_selector_certified=False)
 
 
 def main():

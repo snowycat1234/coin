@@ -66,6 +66,11 @@ Bybit `10000SATSUSDT`、OKX `SATS-USDT-SWAP`/`PEPE-USDT-SWAP` 不等同 Binance 
 价格不自动换算。当前元数据不能认证 2025 历史合约规则。DOGE 2025-12 的 1m mark 计划和
 离线解析已提供，当前入口拒绝 minute 网络采集。没有训练、历史回测或投资资格升级。
 
+`extend_june_warmup(prior_receipt, cache, budget, session)` 显式核验旧 receipt、原始 SHA
+和完整 184 条日线，再复用元数据及原页，只请求 June 1–30。授权补充总上限为恰好
+22 请求（默认仍 20），完整 June–December 共 214 条/标的；旧 acquisition source/receipt
+绑定保留在新 manifest，不以新代码 SHA 静默替换原证据。
+
 ```bash
 python -m modules.collector_research.run_pipeline \
   --work-dir /path/to/external-state/work --resource-policy server collect

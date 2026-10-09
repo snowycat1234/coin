@@ -8,12 +8,34 @@
       "market": "perpetual",
       "kind": "trade",
       "interval": "1d",
-      "start_ms": 1751328000000,
+      "start_ms": 1748736000000,
       "end_ms": 1767225600000,
       "retention_start_ms": null,
       "retention_evidence": null
     },
-    "source_sha256": "3042ac4cb592949701c9b3bf2f3432b9ede07bb03376be6f52377a409966c77a",
+    "source_sha256": "8c9709c85b5cf79114a72e2a493d49918a6427173e6b43dd6d024904995c3fd5",
+    "parent_manifest_sha256": "f1b0c695d861e996249a8c87afa482c783470b5bd5fa6cb901dabbecb9179ac2",
+    "parent_binding": {
+      "version": "public-supplement-1",
+      "job": {
+        "provider": "okx",
+        "reference_symbol": "WLDUSDT",
+        "instrument_id": "WLD-USDT-SWAP",
+        "market": "perpetual",
+        "kind": "trade",
+        "interval": "1d",
+        "start_ms": 1751328000000,
+        "end_ms": 1767225600000,
+        "retention_start_ms": null,
+        "retention_evidence": null
+      },
+      "source_sha256": "3042ac4cb592949701c9b3bf2f3432b9ede07bb03376be6f52377a409966c77a",
+      "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
+      "original_provider": "Binance",
+      "frozen_selector_certified": false,
+      "replaces_original_observations": false
+    },
+    "parent_normalized_sha256": "241be28995f0fef39def84b949d4c3c317d4bbe288513bceee1f9e17ae906bdb",
     "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
     "original_provider": "Binance",
     "frozen_selector_certified": false,
@@ -95,9 +117,35 @@
       "checksum_basis": "LOCAL_SHA256_NOT_PROVIDER_ATTESTATION",
       "observed_bars": 84,
       "coverage_note": "OBSERVED"
+    },
+    {
+      "request_key": "b2aa86a373009d50864e50773747bf72dffdfbb5cc16c5f26e46eadb391d55ce",
+      "url": "https://www.okx.com/api/v5/market/history-candles",
+      "params": {
+        "instId": "WLD-USDT-SWAP",
+        "bar": "1Dutc",
+        "after": 1751328000000,
+        "before": 1748735999999,
+        "limit": 30
+      },
+      "attempt": 1,
+      "requested_ms": 1791533369991,
+      "status": "OK",
+      "http_status": 200,
+      "response_headers": {
+        "Date": "Fri, 09 Oct 2026 08:09:30 GMT",
+        "Content-Type": "application/json"
+      },
+      "retryable": false,
+      "received_ms": 1791533370324,
+      "body_bytes": 2931,
+      "raw_sha256": "36020c80bc92deeaf45fa9dce24a1693705e037e3b6b86a95f84038d8d8fa0c9",
+      "raw_file": "36020c80bc92deeaf45fa9dce24a1693705e037e3b6b86a95f84038d8d8fa0c9.raw",
+      "checksum_basis": "LOCAL_SHA256_NOT_PROVIDER_ATTESTATION",
+      "observed_bars": 30,
+      "coverage_note": "OBSERVED"
     }
   ],
-  "status": "COMPLETE",
   "identity": {
     "provider": "okx",
     "instrument_id": "WLD-USDT-SWAP",
@@ -175,14 +223,15 @@
     },
     "metadata_raw_sha256": "9f986fddb6fe4ee3113874a7bd438c2bc5cb028d51c27151aa77e422b1556784"
   },
+  "status": "COMPLETE",
   "coverage": {
-    "expected_bars": 184,
-    "observed_bars": 184,
+    "expected_bars": 214,
+    "observed_bars": 214,
     "missing_bars": 0,
     "missing_ranges_ms_exclusive": [],
     "status": "COMPLETE"
   },
-  "normalized_sha256": "241be28995f0fef39def84b949d4c3c317d4bbe288513bceee1f9e17ae906bdb",
+  "normalized_sha256": "6dd3521cc65d9e9c989ab14933db71004d6fa582e135155eaa0f9424bc46ca2b",
   "normalized_file": "bars.jsonl",
-  "updated_ms": 1791532794714
+  "updated_ms": 1791533370328
 }

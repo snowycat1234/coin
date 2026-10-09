@@ -1,6 +1,6 @@
-# Independent public daily supplement — 2025 H2
+# Independent public daily supplement — 2025 June–December
 
-920 actual OKX UTC daily trade candles: 184 per asset, July 1 through December 31,
+1,070 actual OKX UTC daily trade candles: 214 per asset, June 1 through December 31,
 2025. Each native perpetual has a separate receipt, raw responses and normalized
 JSONL file. This is an alternative venue robustness dataset. It does not replace
 Binance observations or certify the frozen original selector evaluation.
@@ -27,8 +27,10 @@ Local SHA256 checksums preserve bytes; they are not provider-signed attestations
 The initial Bybit API probe returned HTTP 403 with an explicit country block.
 That service was stopped. The independently authorized OKX probe returned three
 WIF candles and agreed with the corresponding later full-window observations.
-There were 17 requests including the two initial probes, 105,399 response-body
-bytes, and 14.22 seconds of bounded adapter acquisition. No Binance request,
+There were 22 requests including the two initial probes and the five authorized
+June-only additions, totaling 121,743 response-body bytes. The original 184 rows
+per instrument remain byte-for-byte identical after the 30 new June rows.
+Metadata and all July–December pages were reused without additional reads. No Binance request,
 minute bulk download, training, backtest, account key, order or paid source was
 used. DOGE December 2025 minute mark prices remain missing. The adapter includes
 a fixed minute-mark plan and offline parser; minute network collection is deferred.

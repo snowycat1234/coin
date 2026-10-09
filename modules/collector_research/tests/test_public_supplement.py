@@ -228,7 +228,7 @@ def test_invalid_schema_timestamps_prices_products_and_limits(tmp_path):
         supplement.normalize(j, candles(j), {**identity, 'market': 'spot'}, j.end_ms, 'a' * 64)
     with pytest.raises(ValueError, match='Spot'):
         replace(j, market='spot', kind='mark')
-    with pytest.raises(ValueError, match='July'):
+    with pytest.raises(ValueError, match='June'):
         replace(j, end_ms=1772323200000)
     with pytest.raises(ValueError, match='Retention'):
         replace(j, retention_start_ms=START + DAY)
@@ -244,3 +244,38 @@ def test_unconfirmed_rows_never_count_as_complete(tmp_path):
     result = supplement.collect(j, tmp_path, supplement.Budget(),
                                 Session(Response(metadata(j)), Response(candles(j, confirmed='0'))))
     assert result['coverage']['observed_bars'] == 0
+
+
+def test_june_extension_reuses_metadata_and_h2_without_new_requests(tmp_path):
+    j = job(count=184)
+    before = supplement.collect(j, tmp_path, supplement.Budget(), Session(
+        Response(metadata(j)), Response(candles(j, range(START, START + 100 * DAY, DAY))),
+        Response(candles(j, range(START + 100 * DAY, j.end_ms, DAY)))))
+    prior, old_dir = load(before)
+    old_bytes = (old_dir / 'bars.jsonl').read_bytes()
+    june = replace(j, start_ms=supplement.WARMUP_START, end_ms=START)
+    budget = supplement.Budget(max_requests=22, requests_used=17)
+    session = Session(Response(candles(june)))
+    result = supplement.extend_june_warmup(before['manifest'], tmp_path, budget, session)
+    assert result['status'] == 'COMPLETE' and result['coverage']['observed_bars'] == 214
+    assert budget.requests_used == 18 and len(session.calls) == 1
+    assert session.calls[0][1]['params']['limit'] == 30
+    assert (old_dir / 'bars.jsonl').read_bytes() == old_bytes
+    manifest, directory = load(result)
+    assert manifest['binding']['parent_binding'] == prior['binding']
+    combined = (directory / 'bars.jsonl').read_bytes()
+    assert b''.join(combined.splitlines(keepends=True)[30:]) == old_bytes
+    assert supplement.extend_june_warmup(before['manifest'], tmp_path, budget, Session())[
+        'status'] == 'COMPLETE'
+
+
+def test_june_extension_denial_preserves_retained_h2(tmp_path):
+    j = job(count=184)
+    before = supplement.collect(j, tmp_path, supplement.Budget(), Session(
+        Response(metadata(j)), Response(candles(j, range(START, START + 100 * DAY, DAY))),
+        Response(candles(j, range(START + 100 * DAY, j.end_ms, DAY)))))
+    result = supplement.extend_june_warmup(before['manifest'], tmp_path,
+                                          supplement.Budget(max_requests=22),
+                                          Session(Response(b'denied', 403)))
+    assert result['status'] == 'PERMISSION_DENIED'
+    assert result['coverage']['observed_bars'] == 184 and result['coverage']['missing_bars'] == 30

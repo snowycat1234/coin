@@ -8,12 +8,34 @@
       "market": "perpetual",
       "kind": "trade",
       "interval": "1d",
-      "start_ms": 1751328000000,
+      "start_ms": 1748736000000,
       "end_ms": 1767225600000,
       "retention_start_ms": null,
       "retention_evidence": null
     },
-    "source_sha256": "3042ac4cb592949701c9b3bf2f3432b9ede07bb03376be6f52377a409966c77a",
+    "source_sha256": "8c9709c85b5cf79114a72e2a493d49918a6427173e6b43dd6d024904995c3fd5",
+    "parent_manifest_sha256": "b74140096bcdf909d013dfbed5d086631cca476fe55f354fa1642f6428877b97",
+    "parent_binding": {
+      "version": "public-supplement-1",
+      "job": {
+        "provider": "okx",
+        "reference_symbol": "1000SATSUSDT",
+        "instrument_id": "SATS-USDT-SWAP",
+        "market": "perpetual",
+        "kind": "trade",
+        "interval": "1d",
+        "start_ms": 1751328000000,
+        "end_ms": 1767225600000,
+        "retention_start_ms": null,
+        "retention_evidence": null
+      },
+      "source_sha256": "3042ac4cb592949701c9b3bf2f3432b9ede07bb03376be6f52377a409966c77a",
+      "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
+      "original_provider": "Binance",
+      "frozen_selector_certified": false,
+      "replaces_original_observations": false
+    },
+    "parent_normalized_sha256": "983e84ea51b4294105ff079cc47633a6adc6f8e17bc51133134214e840e93b04",
     "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
     "original_provider": "Binance",
     "frozen_selector_certified": false,
@@ -95,9 +117,35 @@
       "checksum_basis": "LOCAL_SHA256_NOT_PROVIDER_ATTESTATION",
       "observed_bars": 84,
       "coverage_note": "OBSERVED"
+    },
+    {
+      "request_key": "fe79f86d4f446ac420b3c30140e7c78ceeb91a841c2242b03c3b80c17dde9238",
+      "url": "https://www.okx.com/api/v5/market/history-candles",
+      "params": {
+        "instId": "SATS-USDT-SWAP",
+        "bar": "1Dutc",
+        "after": 1751328000000,
+        "before": 1748735999999,
+        "limit": 30
+      },
+      "attempt": 1,
+      "requested_ms": 1791533372991,
+      "status": "OK",
+      "http_status": 200,
+      "response_headers": {
+        "Date": "Fri, 09 Oct 2026 08:09:33 GMT",
+        "Content-Type": "application/json"
+      },
+      "retryable": false,
+      "received_ms": 1791533373235,
+      "body_bytes": 3950,
+      "raw_sha256": "bbd41a377f1c88b3ffb41605f84cb1c4ad71e8179954a526c1251ff95216d24e",
+      "raw_file": "bbd41a377f1c88b3ffb41605f84cb1c4ad71e8179954a526c1251ff95216d24e.raw",
+      "checksum_basis": "LOCAL_SHA256_NOT_PROVIDER_ATTESTATION",
+      "observed_bars": 30,
+      "coverage_note": "OBSERVED"
     }
   ],
-  "status": "COMPLETE",
   "identity": {
     "provider": "okx",
     "instrument_id": "SATS-USDT-SWAP",
@@ -175,14 +223,15 @@
     },
     "metadata_raw_sha256": "36c4ec8f975a97acc038854fd7bcc0894232a427a13b38f3220bc857bcc6e1dd"
   },
+  "status": "COMPLETE",
   "coverage": {
-    "expected_bars": 184,
-    "observed_bars": 184,
+    "expected_bars": 214,
+    "observed_bars": 214,
     "missing_bars": 0,
     "missing_ranges_ms_exclusive": [],
     "status": "COMPLETE"
   },
-  "normalized_sha256": "983e84ea51b4294105ff079cc47633a6adc6f8e17bc51133134214e840e93b04",
+  "normalized_sha256": "d1973fc70305ab65bb392a4092092c35120ea4e0a22d79890b6bcb268547315f",
   "normalized_file": "bars.jsonl",
-  "updated_ms": 1791532794749
+  "updated_ms": 1791533373239
 }
