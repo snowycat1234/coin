@@ -1,0 +1,115 @@
+{
+  "binding": {
+    "version": "okx-core5-minute-intake-1",
+    "source_commit": "7371bd1ae7c6409a31fac9f7bbbb9d5ca1353cb6",
+    "source_sha256": "94195768e449d6c85f23c724cdeacc3b992a91106cd36ece736f5215b543eba7",
+    "adapter_source_sha256": "70abcfa148bcce671ba19562396c313d671af36e474b3353bbb82fded1c2807c",
+    "input_commit": "856ecfabe3d889f87a3e1f1cdb6672d127c41d53",
+    "provider": "okx",
+    "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP",
+      "DOGE"
+    ],
+    "market": "perpetual",
+    "start_ms": 1784073600000,
+    "end_ms_exclusive": 1791504000000,
+    "kinds": [
+      "trade",
+      "mark"
+    ],
+    "page_sizes": {
+      "trade": 300,
+      "mark": 100
+    },
+    "documented_ip_limits": {
+      "trade": "20/2s",
+      "mark": "20/2s"
+    },
+    "official_docs": {
+      "trade": "https://app.okx.com/docs-v5/en/#order-book-trading-market-data-get-candlesticks-history",
+      "mark": "https://app.okx.com/docs-v5/en/#public-data-rest-api-get-mark-price-candlesticks-history"
+    },
+    "shared_min_spacing_ms": 250,
+    "max_requests": 14000,
+    "max_response_body_bytes": 160000000,
+    "max_wall_seconds": 14400,
+    "dataset_role": "OKX_ONLY_PUBLIC_OFFLINE_RESEARCH",
+    "historical_publication_certified": false,
+    "historical_instrument_rules_certified": false,
+    "account_settlement_verified": false,
+    "frozen_selector_certified": false,
+    "training": false,
+    "wallet_backtest": false
+  },
+  "started_ms": 1791541684846,
+  "status": "RUNNING",
+  "shards": [
+    {
+      "instrument_id": "BTC-USDT-SWAP",
+      "date": "2026-07-15",
+      "status": "COMPLETE",
+      "start_ms": 1784073600000,
+      "end_ms_exclusive": 1784160000000,
+      "manifest": "BTC-USDT-SWAP/2026-07-15.manifest.json",
+      "bars_files": {
+        "trade": "BTC-USDT-SWAP/2026-07-15.trade.jsonl.gz",
+        "mark": "BTC-USDT-SWAP/2026-07-15.mark.jsonl.gz"
+      },
+      "bars_sha256": {
+        "trade": "d817726791068d3a3bba73432f98db329ce6579a0b3d9847bf6dcaf0bff35a3b",
+        "mark": "143b9e84ab8d6590c4a6f4e5c345de09ed4bf229b690dd4786bdf96711643f78"
+      },
+      "responses_file": "BTC-USDT-SWAP/2026-07-15.responses.jsonl.gz",
+      "responses_sha256": "59ab8dc31c1d79a3577ab232328409cbb0c3ff3d23f9be7c1ce3b5c856993cef",
+      "coverage": {
+        "trade": {
+          "expected_bars": 1440,
+          "observed_bars": 1440,
+          "missing_bars": 0,
+          "missing_ranges_ms_exclusive": [],
+          "status": "COMPLETE"
+        },
+        "mark": {
+          "expected_bars": 1440,
+          "observed_bars": 1440,
+          "missing_bars": 0,
+          "missing_ranges_ms_exclusive": [],
+          "status": "COMPLETE"
+        }
+      },
+      "identity_sha256": "52a88b3518aa9f9178721036b27ba4ba3d7ce4cba95b3fd9294229b6d09b6e05",
+      "contract_value": "0.01",
+      "contract_multiplier": "1",
+      "manifest_sha256": "55cf72507a4eef7e99e1956f6aa7e5e9434b3eff7c7a82553bf5961f9adcc2d5"
+    }
+  ],
+  "witnesses": [
+    {
+      "instrument_id": "BTC-USDT-SWAP",
+      "manifest": "BTC-USDT-SWAP/start-witness.manifest.json",
+      "bars_file": "BTC-USDT-SWAP/start-witness.mark.jsonl.gz",
+      "bars_sha256": "e6031bcb85edbdd90ac1d726cf13df79a587a92af2a4dbc5e0ba4f600e8f873c",
+      "open_ms": 1784073540000,
+      "close_ms_exclusive": 1784073600000
+    }
+  ],
+  "expected_minute_rows": 1238400,
+  "new_requests": 20,
+  "new_response_body_bytes": 211206,
+  "elapsed_seconds": 5.404,
+  "verified_minute_rows": 2880,
+  "first_checkpoint_estimate": {
+    "measured_new_requests": 20,
+    "measured_verified_minute_rows": 2880,
+    "measured_elapsed_seconds": 5.631,
+    "measured_effective_requests_per_second": 3.5517670040845317,
+    "measured_min_request_start_spacing_ms": 250,
+    "expected_new_requests_without_retries": 8600,
+    "projected_total_seconds": 2421.33,
+    "projected_total_body_bytes": 90818580.0,
+    "estimate_basis": "FIRST_INSTRUMENT_DATE_INCLUDING_WITNESS_EXCLUDING_PUSH"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "version": "okx-core5-minute-intake-1",
+  "index": "COVERAGE.json",
+  "path_basis": "RELATIVE_TO_INDEX_DIRECTORY",
+  "compression": "gzip",
+  "normalized_encoding": "UTF8_JSONL",
+  "normalized_order": "ASCENDING_OPEN_MS_PER_INSTRUMENT_PER_KIND",
+  "shards": "index.shards ordered by UTC date then CORE5; use status COMPLETE only",
+  "normalized_paths": "shards[].bars_files.trade and .mark; separate kinds, no overlaps",
+  "timestamps": {
+    "open_ms": "UTC minute open",
+    "close_ms_exclusive": "open_ms + 60000",
+    "received_ms": "Original retrieval completion",
+    "available_ms": "received_ms only; historical availability unknown",
+    "historical_available_ms": null,
+    "publication_time_certified": false
+  },
+  "prices": "Original decimal strings; USDT per underlying coin; never rescaled",
+  "trade_volume": {
+    "vol": "Original contracts",
+    "volCcy": "Original base-coin units",
+    "volCcyQuote": "Original quote-USDT turnover",
+    "quote_turnover_USDT": "Exact volCcyQuote alias; capacity denominator"
+  },
+  "mark_volume": "All volume fields null; mark is not a traded price",
+  "identity": "Full native identity in each manifest; fingerprint(identity) in each row",
+  "contract_metadata": "Current metadata retained; historical contract rules uncertified",
+  "raw": "responses.jsonl.gz contains exact original UTF8 bodies plus original receipts",
+  "checksum": "SHA256 of original UTF8 bytes and compressed artifacts; local, not attested",
+  "clock_witnesses": "manifest.funding_clock_witnesses.verified_clocks; prior completed mark",
+  "funding": "Existing ../<instrument>/funding.jsonl; realizedRate separate from fundingRate",
+  "dataset_role": "OKX_ONLY_PUBLIC_OFFLINE_RESEARCH",
+  "frozen_selector_certified": false,
+  "training": false,
+  "wallet_backtest": false
+}
