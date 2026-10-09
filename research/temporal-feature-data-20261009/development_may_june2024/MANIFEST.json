@@ -1,0 +1,201 @@
+{
+  "schema": "CAUSAL_CORE5_DAILY_SEQUENCE_DEVELOPMENT_APPEND_V1",
+  "classification": "ALREADY_SEEN_DEVELOPMENT_ONLY_NOT_TRAINING_EXPANSION_NOT_UNTOUCHED_OOS",
+  "rows": 61,
+  "feature_payload": {
+    "path": "CORE5_MAY_JUNE2024_DEVELOPMENT_FEATURES.npz",
+    "bytes": 26704,
+    "SHA256": "800e39e53170fc87a279322b61f0f7f7b7a7812759267c58b1d4db948ab3aa8f",
+    "array_schema": {
+      "raw_observation_us": {
+        "shape": [
+          61
+        ],
+        "dtype": "int64"
+      },
+      "completed_day_available_us": {
+        "shape": [
+          61
+        ],
+        "dtype": "int64"
+      },
+      "x": {
+        "shape": [
+          61,
+          5,
+          24
+        ],
+        "dtype": "float32"
+      },
+      "feature_observed_mask": {
+        "shape": [
+          61,
+          5,
+          24
+        ],
+        "dtype": "bool"
+      },
+      "close": {
+        "shape": [
+          61,
+          5
+        ],
+        "dtype": "float64"
+      },
+      "close_observed_mask": {
+        "shape": [
+          61,
+          5
+        ],
+        "dtype": "bool"
+      },
+      "original_price_ready256": {
+        "shape": [
+          61,
+          5
+        ],
+        "dtype": "bool"
+      },
+      "symbol_order": {
+        "shape": [
+          5
+        ],
+        "dtype": "<U8"
+      },
+      "feature_order": {
+        "shape": [
+          24
+        ],
+        "dtype": "<U12"
+      },
+      "aggregate_context_asset_order": {
+        "shape": [
+          10
+        ],
+        "dtype": "<U12"
+      }
+    }
+  },
+  "clocks": {
+    "raw_observation_us": "UTC daily bar start",
+    "completed_day_available_us": "raw_observation_us+86400000000; original historical completed-bar proxy",
+    "actual_historical_publication_time_us": null,
+    "observation_first": "2024-04-30T00:00:00Z",
+    "observation_last": "2024-06-29T00:00:00Z",
+    "development_decision_first": "2024-05-01T00:00:00Z",
+    "development_decision_last": "2024-06-30T00:00:00Z",
+    "excluded_observation_on_or_after": "2024-06-30T00:00:00Z"
+  },
+  "warmup_reference": {
+    "repository": "snowycat1234/coin",
+    "commit": "d901f130993b6f00ad6479dcc6a04b77627192b8",
+    "INDEX_path": "research/temporal-feature-data-20261009/INDEX.json",
+    "assembled_archive_SHA256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "member_path": "features/CORE5_PRE_MAY2024.npz",
+    "member_SHA256": "f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c",
+    "contains_duplicate_warmup": false,
+    "append_contract": "Concatenate named daily arrays by strictly increasing raw_observation_us; prior lastApr29 then appendApr30. Keep three order arrays once."
+  },
+  "source_binding": {
+    "source_archive_bytes": 5835666,
+    "source_archive_SHA256": "f283feec4f39212f493d841cae27b448b13a0b0f5e8f2b3cc6a19a292444c7fa",
+    "source_INPUTS_member": "INPUTS.npz",
+    "source_INPUTS_member_bytes": 909684,
+    "source_INPUTS_member_SHA256": "0aeb825f965aea7206f70eac9baec8068165bafbac2cdc8b8f967a466432bbf5",
+    "original_source_row_indices_first_last": [
+      1581,
+      1641
+    ],
+    "source_protocol_SHA256": "a7d57677d842e5c6b0e0d8abd9e89785344e78ac05bb1aba1d4531a88ebb8816",
+    "source_receipts_SHA256": "7b5c81042da5bb72a2e8bec28ea2fc7e6b08f762dbd6f1c15a212c2d1869ccd2",
+    "source_code_SHA256": {
+      "scripts/research/recover_multiregime_inputs.py": "d635844254faaa354d75f646bee1965b46f99538952c7a5c23c4b249fd040620",
+      "modules/collector_research/pipeline/economics.py": "637441050d0d42bc1a579510272b3fa5f456620dbfb8b45932cc37e894e34a3e",
+      "modules/collector_research/pipeline/normalize.py": "ee394086066c96bc23e83b45bf0bc2777264ab4eb57128886394fee47fecd4ff",
+      "modules/collector_research/pipeline/make_labels.py": "28a416779f50f17d73e9a7375328fb0e127e99702f88cce48f20b6ff4f8e05d8",
+      "modules/collector_research/pipeline/train.py": "b43020d7a7c6357ee71d645042e10695c3d4030fee049323d27cb5fb93d03ab8",
+      "modules/transformer_v2/data.py": "aaeec9b948e2a1c4b9ffa8e2faaa351cc1ba1b5cf918fb3d41c74fd156e60c7c"
+    }
+  },
+  "feature_roles": {
+    "contains_future_labels": false,
+    "contains_label_conditioned_eligibility": false,
+    "NaNs_preserved": true,
+    "feature_observed_mask": "finite original value AND current asset close observed; no outcome completeness or label eligibility",
+    "original_price_ready256": "256 consecutive observed prices only; does not certify premium/funding completeness"
+  },
+  "feature_orders": {
+    "CORE5": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ],
+    "feature_order": [
+      "mom1",
+      "mom5",
+      "mom20",
+      "mom60",
+      "mom120",
+      "mom200",
+      "vol10",
+      "vol30",
+      "vol60",
+      "vol200",
+      "dist20",
+      "dist50",
+      "dist100",
+      "dist200",
+      "range",
+      "vol_z",
+      "premium",
+      "funding",
+      "breadth1",
+      "breadth5",
+      "breadth20",
+      "breadth60",
+      "dispersion20",
+      "market_vol20"
+    ]
+  },
+  "aggregates": {
+    "semantics": "UNCHANGED_ORIGINAL_TEN_ASSET_CONTEXT_WITH_CAUSAL_AVAILABLE_CONSTITUENTS",
+    "asset_order": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "recomputed_as_CORE5_only": false,
+    "columns": [
+      "breadth1",
+      "breadth5",
+      "breadth20",
+      "breadth60",
+      "dispersion20",
+      "market_vol20"
+    ]
+  },
+  "verification": {
+    "original_x_close_ready_bytes_preserved": true,
+    "NaNs_preserved": true,
+    "source_outer_SHA256_verified": true,
+    "source_INPUTS_member_matches_original_delivery_manifest": true,
+    "append_clock_no_gap_no_overlap": true,
+    "features_all_finite": true,
+    "close_masks_all_true": true,
+    "feature_masks_independent_of_future_labels_economics": true,
+    "future_relative_regime_label_end_eligible_ranker_indices_excluded": true,
+    "fresh_original_raw_archive_checks": false,
+    "original_raw_archive_bodies_included": false,
+    "prior_778_member_verification_retained": true
+  },
+  "use": "Model input features only for already-seen May-Jun2024 development evaluation; use immutable pre-May payload for preceding64-day history. No outcomes, models, scalers or provider downloads."
+}
