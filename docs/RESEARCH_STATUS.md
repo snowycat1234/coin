@@ -21,3 +21,9 @@
 10/10服务器账户成功退出，346.077秒；capacity.237秒、review1.393秒、episode 0.341秒。7相关测试通过、旧default/no-trigger golden相同；20摘要/10k资本/完整分钟、10对输入targetSHA、实际保护收费成交和既定gate独立核对。无本轮后台研究，8765已同步完成，采集健康未重认证。共享8GB/swap0/GPU0；峰值UNKNOWN，最大采样2.994GB。
 
 D最近实扫45,455,143,069B@1791408013.8738086，非当前重扫；server本轮state83,424,814B@2026-10-07T23:38:01Z，未增行情。150GB/120预警/135停止新增/15预留不变。原10k/30%abs/60%gross/1x逐仓；BinanceUSD-M+Bybit费用仍代理，资金单位/MMR/filter/CORE5与真实风险局限阻止晋级。无密钥/真钱/测试网/主网单/付费/GPU/locked。只读状态与当前代码优先；旧证据依Git/原路径复现。
+
+## 2026-10-09 saved-cloud frozen-runner recovery
+
+Original guard-OFF engine recovered byte-exact (SHA318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585); complete actual OKX86 transport inputs reused with original SOL archive precedence. Public recovery branch only, no provider downloads or trading. Later authorized fixed Donchian short regime challenge: November+41.45USDT, January inactive0, OKX86−397.51; separate778/61 causal short contexts preserved without editing the original3-slot pack or fitting.
+
+One separately frozen momentum30 short/cash mirror (plan commit05b5804bf26ef983205ad3c4ba1044a693a027ee) completed four independent audited fresh10k accounts: continuous May/June−64.63 (May−257.35, June+192.73;1.9782% of June opening NAV), November+92.26, January−210.35, OKX86−588.87. Costs, actual signed funding, paid flat closure and original account/risk/execution retained;0liquidations. Different actual exposure prevents a risk-matched timing claim. Known research periods, no alpha/pool promotion; hold diagnostics paused, no further wallets or fits. See `research/recover-frozen-runner-20261009/MOMENTUM_SHORT_README.md` and its compact journal archive.
