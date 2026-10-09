@@ -100,8 +100,9 @@ def build(repo, commit, instrument, output):
         ["git", "rev-parse", "--verify", commit + "^{commit}"], cwd=repo, text=True
     ).strip()
     index = json.loads(git_bytes(repo, commit, PUBLIC_PREFIX / "COVERAGE.json"))
-    shards = [s for s in index["shards"] if s["instrument_id"] == instrument]
-    if not shards or any(s["status"] != "COMPLETE" for s in shards):
+    all_shards = [s for s in index["shards"] if s["instrument_id"] == instrument]
+    shards = [s for s in all_shards if s["status"] == "COMPLETE"]
+    if not shards:
         raise ValueError("Bundle requires completed verified shards")
     for previous, current in zip(shards, shards[1:], strict=False):
         if previous["end_ms_exclusive"] != current["start_ms"]:
@@ -121,7 +122,8 @@ def build(repo, commit, instrument, output):
             text=True,
         ).splitlines()
     )
-    for shard in shards:
+    # Keep incomplete raw/normalized proofs explicitly labelled; never certify them.
+    for shard in all_shards:
         paths.extend(
             PUBLIC_PREFIX / name
             for name in (shard["manifest"], *shard["bars_files"].values(), shard["responses_file"])
@@ -190,6 +192,12 @@ def build(repo, commit, instrument, output):
             start_ms=shards[0]["start_ms"],
             end_ms_exclusive=shards[-1]["end_ms_exclusive"],
             complete_instrument_date_shards=len(shards),
+            incomplete_shards=[
+                dict(date=s["date"], status=s["status"], coverage=s["coverage"])
+                for s in all_shards
+                if s["status"] != "COMPLETE"
+            ],
+            global_intake_status=index["status"],
             verified_minute_rows=sum(
                 s["coverage"][kind]["observed_bars"] for s in shards for kind in ("trade", "mark")
             ),
@@ -226,6 +234,7 @@ def build(repo, commit, instrument, output):
         parts=len(parts),
         compressed_bytes=manifest["compressed_bytes"],
         complete_instrument_date_shards=len(shards),
+        incomplete_instrument_date_shards=len(all_shards) - len(shards),
         verified_minute_rows=manifest["verified_minute_rows"],
     )
 

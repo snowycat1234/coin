@@ -70,3 +70,48 @@ def test_traversal_and_noncanonical_member_paths_are_rejected(tmp_path, name):
     fixture_bundle(tmp_path, name)
     with pytest.raises(ValueError, match="path"):
         transport.verify_and_extract(tmp_path)
+
+
+def test_stopped_bundle_preserves_partial_proof_without_certifying_it(tmp_path, monkeypatch):
+    instrument = "BTC-USDT-SWAP"
+    complete = dict(
+        instrument_id=instrument,
+        date="complete",
+        status="COMPLETE",
+        start_ms=0,
+        end_ms_exclusive=60000,
+        manifest=instrument + "/complete.manifest.json",
+        bars_files={kind: instrument + "/complete." + kind for kind in ("trade", "mark")},
+        responses_file=instrument + "/complete.responses",
+        coverage={kind: dict(observed_bars=1) for kind in ("trade", "mark")},
+    )
+    partial = dict(
+        complete,
+        date="partial",
+        status="INCOMPLETE_COVERAGE",
+        start_ms=60000,
+        end_ms_exclusive=120000,
+        manifest=instrument + "/partial.manifest.json",
+    )
+    index = dict(shards=[complete, partial], witnesses=[], status="INCOMPLETE_COVERAGE")
+    parent_manifest = str(transport.ROOT / instrument / "manifest.json")
+    blobs = {
+        str(transport.PUBLIC_PREFIX / "COVERAGE.json"): json.dumps(index).encode(),
+        parent_manifest: json.dumps(dict(identity=dict(instrument_id=instrument))).encode(),
+    }
+
+    def git_read(repo, commit, path):
+        return blobs.get(str(path), b"original fixture bytes")
+
+    def git_command(command, **kwargs):
+        return "fixture\n" if "rev-parse" in command else parent_manifest + "\n"
+
+    monkeypatch.setattr(transport, "git_bytes", git_read)
+    monkeypatch.setattr(transport.subprocess, "check_output", git_command)
+    result = transport.build(tmp_path, "fixture", instrument, tmp_path / "out")
+    manifest = json.loads((tmp_path / "out" / result["manifest"]).read_text())
+    assert result["complete_instrument_date_shards"] == 1
+    assert result["incomplete_instrument_date_shards"] == 1
+    assert manifest["verified_minute_rows"] == 2
+    assert manifest["incomplete_shards"][0]["status"] == "INCOMPLETE_COVERAGE"
+    assert any(member["path"].endswith("partial.manifest.json") for member in manifest["members"])
