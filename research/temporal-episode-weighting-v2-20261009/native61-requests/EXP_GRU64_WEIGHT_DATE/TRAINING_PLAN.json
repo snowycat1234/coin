@@ -1,0 +1,110 @@
+{
+  "action_pool": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "CSMOM21",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "architecture": "unchanged_GRU48to32_joint160to32;added18to32_biasFalse_before_tanh;both13699parameters",
+  "architecture_or_LR_search": false,
+  "arm_mixing": {
+    "GRU64_WEIGHT_DATE": 0.0,
+    "GRU64_WEIGHT_MIXED": 0.5
+  },
+  "arm_order": [
+    "GRU64_WEIGHT_DATE",
+    "GRU64_WEIGHT_MIXED"
+  ],
+  "capacity": "DECLARED_FULL_FILL_DIAGNOSTIC_ONLY;not_historical_liquidity",
+  "checkpoint_selection": "512th_completed_update_only",
+  "chronology": "same778dates_five_complete54,88,62,144,430_wallets;only_wallet_loss_coefficients_change",
+  "clock": "saved_target_available<=decision;completed_daily_bar_proxy;execution=decision+60000001us;no_backdating",
+  "comparison": "matched_fixed_update_objective_comparison;one_preserved_initial_snapshot;no_seen_selection",
+  "completion": "fixed512_updates_only;no_convergence_stop_or_development_checkpoint_selection",
+  "continuation": "four_originals_immutable;separate_versioned_stage_not_clean_original_comparison",
+  "development": "both_terminal_before_seen_economic_scoring;terminal_native_requests_export_immediately",
+  "diagnostic_contribution": "dot(a_i*g_i,G)/squared_norm(G);signed_additive_projection_not_norm_fraction",
+  "diagnostic_role": "train_only_deterministic_supplied_snapshot;per_episode_losses_gradients_and_both_common_objectives",
+  "diagnostics": [
+    0,
+    128,
+    256,
+    512
+  ],
+  "dropout": 0.1,
+  "economic_rollout": "complete_chronological_wallet_once_per_step",
+  "expert_input_enabled_both": true,
+  "expert_inputs": "canonical_slots1,4,5_signed_targets_expertmajor3x5_divided_by_fixed.3_then_expert_eligible3",
+  "feature_batch_size": 32,
+  "fixed_expert_set": [
+    "VOL_MANAGED_HOLD",
+    "CSMOM21"
+  ],
+  "future_utility": false,
+  "gradient": "exact_continuous_daily_surrogate_request_VJP_RNG_identical_feature_replay",
+  "initial_snapshot_SHA256": "0f51bd3316f6e1100de518e8283ef3afb1c1148007bbb4d5fa7e3d1375acaddb",
+  "initialization": "one_byte_pinned_pre_first_evaluation_expert_input_snapshot_step780;full_model_Adam_all_RNG",
+  "limits": {
+    "CPU_threads": 1,
+    "GPU": false,
+    "checkpoint_every_completed_update": 1,
+    "maximum_concurrent_arms": 2,
+    "maximum_updates_per_fit": 512,
+    "memory_bytes": 2000000000,
+    "seconds_per_slice": 1200.0,
+    "serial_fits": false,
+    "swap": false,
+    "total_wall_seconds": 5000
+  },
+  "model_observed_wallet": false,
+  "native_gradient_bridge_required": false,
+  "normalization": "unchanged907row_train_only_scaler;expert_targets_fixed_unit.3;SOL_outliers_unchanged",
+  "objective": {
+    "costs": "unchanged_fee.00055_spread.0004_slippage.0004_each_executed_reduction;no_netting_with_next_rebalance",
+    "drift": "REDUCTION_REQUIRED;no_new_increase_until_resolved",
+    "execution": "declared_immediate_constant_boundary_mid;up_to5_continuous_capacity_trials",
+    "funding": "unchanged_USDT_per_base_coefficient;held_units_own_entire_interval_before_boundary_reduction",
+    "historical_execution_certified": false,
+    "known_omissions": [
+      "minute_latency",
+      "intra_interval_marks",
+      "actual_quote_volume_capacity",
+      "lot_steps",
+      "historical_filters",
+      "isolated_margin_or_liquidation"
+    ],
+    "minute_native": false,
+    "opening_caps": "unchanged_post_cost_gross.6_asset.3",
+    "original_prototype_SHA256": "46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab",
+    "reduction": "frozen_quantity_target=min(1,.99*.3*NAV/max_notional,.99*.6*NAV/gross)*held_quantity",
+    "target_caps": "unchanged_allocated_gross.6_asset.3_original_mapper",
+    "version": "DAILY_BOUNDARY_CHARGED_REDUCTION_DIAGNOSTIC_V1"
+  },
+  "objective_version": 2,
+  "observed_wallet": false,
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "foreach": false,
+    "gradient_norm_clip": 1.0,
+    "lr": 0.001,
+    "name": "Adam",
+    "weight_decay": 0.0
+  },
+  "optimizer_births": "base_birth0;r_head_and_expert_projection_birth_parentstep",
+  "planned_fits": 2,
+  "review_commit": "96b917f7e728016b6ef17e8983b98e29fcf95a8d",
+  "schema": "TEMPORAL_MATCHED_FIXED_UPDATE_EPISODE_WEIGHTING_V2",
+  "seed": 20261009,
+  "shared_normalizer": "one_unique_train_window_rows_valid_only_mean_std_ddof0;after_episode_freeze",
+  "sole_comparison": "date_coefficients_n/778_vs_0.5*n/778+0.5/5;identical_expanded_pool_and_expert_inputs",
+  "source_short_context_commit": "1291857d53360e4e06a4dd50540c130886deffbf",
+  "stage_budget": "exactly512_new_updates_each;1200second_invocations_resume_same_Adam_RNG_until_complete",
+  "status": "FROZEN_SINGLE_COMPARISON",
+  "time_binding": "max_seconds_in_run_binding_is_per_invocation_slice_not_cumulative_training_cap",
+  "unverified_actions": false,
+  "weighting_experiment_updates": 512
+}
