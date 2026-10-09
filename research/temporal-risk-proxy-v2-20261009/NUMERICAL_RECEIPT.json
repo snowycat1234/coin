@@ -1,0 +1,149 @@
+{
+  "after_reduction_gross": 0.5940052188394734,
+  "after_reduction_max_asset": 0.15346473143778572,
+  "available_existing_economic_tables": [
+    "feature-input/verified/source_tables_not_model_inputs/economics/BTCUSDT_daily.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/BTCUSDT_funding_events.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/DOGEUSDT_daily.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/DOGEUSDT_funding_events.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/ETHUSDT_daily.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/ETHUSDT_funding_events.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/SOLUSDT_daily.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/SOLUSDT_funding_events.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/XRPUSDT_daily.parquet",
+    "feature-input/verified/source_tables_not_model_inputs/economics/XRPUSDT_funding_events.parquet"
+  ],
+  "capacity_declaration": "DECLARED_FULL_FILL_DIAGNOSTIC_ONLY",
+  "complete_surrogate_wallet_days": 62,
+  "contract": {
+    "costs": "unchanged_fee.00055_spread.0004_slippage.0004_each_executed_reduction;no_netting_with_next_rebalance",
+    "drift": "REDUCTION_REQUIRED;no_new_increase_until_resolved",
+    "execution": "declared_immediate_constant_boundary_mid;up_to5_continuous_capacity_trials",
+    "funding": "unchanged_USDT_per_base_coefficient;held_units_own_entire_interval_before_boundary_reduction",
+    "historical_execution_certified": false,
+    "known_omissions": [
+      "minute_latency",
+      "intra_interval_marks",
+      "actual_quote_volume_capacity",
+      "lot_steps",
+      "historical_filters",
+      "isolated_margin_or_liquidation"
+    ],
+    "minute_native": false,
+    "opening_caps": "unchanged_post_cost_gross.6_asset.3",
+    "original_prototype_SHA256": "46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab",
+    "reduction": "frozen_quantity_target=min(1,.99*.3*NAV/max_notional,.99*.6*NAV/gross)*held_quantity",
+    "target_caps": "unchanged_allocated_gross.6_asset.3_original_mapper",
+    "version": "DAILY_BOUNDARY_CHARGED_REDUCTION_DIAGNOSTIC_V1"
+  },
+  "daily_packet_fields": [
+    "completed_decision_daily_close",
+    "decision_us",
+    "end_execution_us",
+    "end_price",
+    "episode_id",
+    "expert_asset_eligible",
+    "expert_eligible",
+    "expert_order",
+    "expert_raw_targets",
+    "expert_targets",
+    "funding_per_unit",
+    "original_E5_indices",
+    "past_returns30",
+    "start_execution_us",
+    "start_price",
+    "symbol_order",
+    "target_available_us"
+  ],
+  "existing_funding_event_tables_available": true,
+  "first_charged_reduction": {
+    "attempts": 1,
+    "charged_reduction_cost": 0.08813111796273737,
+    "day_index": 49,
+    "equity_after": 10030.943533722608,
+    "equity_before": 10031.03166484057,
+    "frozen_intent": [
+      0.0005299301572622169,
+      -1.0615975035977925,
+      45.90252359701591,
+      3983.944242935645,
+      -24671.00082477099
+    ],
+    "quantity_after": [
+      0.0005299301572622169,
+      -1.0615975035977925,
+      45.90252359701591,
+      3983.944242935645,
+      -24671.00082477099
+    ],
+    "quantity_before": [
+      0.0005357362701710667,
+      -1.0732287627084,
+      46.40544880546662,
+      4027.593825394869,
+      -24941.30553266492
+    ],
+    "scale": 0.9891623673211525,
+    "unresolved_mark_breach": false
+  },
+  "forced_paid_terminal_cash": true,
+  "historical_native_wallets": 0,
+  "missing_native_inputs": [
+    "minute trade opens/midpoints",
+    "minute marks",
+    "preceding-minute quote volumes"
+  ],
+  "native_profile_scope": "The existing declared quantity steps, filters and .005 research MMR can remain source-bound; historical exchange certification is not an added resume gate.",
+  "native_resume_ready": false,
+  "native_scheduler_SHA256": "36c74d0bca4a3d556cf87aae223a8df06340f322652edcca192b363788875f6d",
+  "neural_request_bridge_exact": true,
+  "optimizer_updates": 0,
+  "original_marked_gross": 0.6005080860573675,
+  "original_requests_SHA256": "6c79bf1a2bad73c369647537c9544d39b9afa581db4f85fa65a0ab7bd326fe43",
+  "original_runs_and_checkpoints_unchanged": true,
+  "original_stop_day": 49,
+  "original_stop_equity": 10031.031664840568,
+  "original_stop_reproduced": true,
+  "plan_identity": "bf54ae7b1442de4173813a8d4db1068806693edbf307e99a336a4808ba9d4324",
+  "request_gradient_checks": [
+    {
+      "absolute_error": 1.059226335386066e-12,
+      "day_index": 47,
+      "direction": "VOL+eps_CS-eps",
+      "epsilon": 1e-06,
+      "finite_difference": -4.311486578997478e-05,
+      "request_vjp": -4.311486684920112e-05
+    },
+    {
+      "absolute_error": 2.9596482735297705e-12,
+      "day_index": 49,
+      "direction": "VOL+eps_CS-eps",
+      "epsilon": 1e-06,
+      "finite_difference": 0.00010823159306717206,
+      "request_vjp": 0.00010823159602682033
+    },
+    {
+      "absolute_error": 2.6398728038626307e-12,
+      "day_index": 50,
+      "direction": "VOL+eps_CS-eps",
+      "epsilon": 1e-06,
+      "finite_difference": 0.00023122276044795081,
+      "request_vjp": 0.000231222757808078
+    }
+  ],
+  "resume_assessment": "Saved Adam moments and RNG can warm-start a versioned corrected objective; this would be a resumed experiment, not the clean original comparison. The continuous diagnostic proxy is differentiated exactly, but is not a minute-native correction. No resumed optimizer step is authorized by the native-exact feasibility condition with the present packet.",
+  "schema": "CHARGED_BOUNDARY_PROXY_NUMERICAL_RECEIPT_V1",
+  "source_identity": "b7462fbc23ef46714a0ceb141eef5249dfbc3f98dc314d25e9eb867dd3ca4e80",
+  "status": "PASS_DIAGNOSTIC_SURROGATE_NATIVE_RESUME_BLOCKED",
+  "surrogate_mean_loss": -0.0005077257836400933,
+  "surrogate_metrics": {
+    "charged_reduction_cost": 0.08813111796273737,
+    "fees": 18.28456206591023,
+    "funding": 13.068581380896488,
+    "net_PnL": 340.4145818279467,
+    "slippage": 13.297982433150741,
+    "spread": 13.297982433150741
+  },
+  "synthetic_native_contract_tests_only": true,
+  "witness_model_identity": "19281015a329827f1db99f52b59bffb1f83fe06fc6c8bb87c27f15f6be3a19f6"
+}
