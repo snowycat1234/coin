@@ -1,4 +1,4 @@
-"""Checkpoint or preserve the two completed short-expansion request wallets.
+"""Checkpoint or preserve a pair of completed frozen E6 request wallets.
 
 Copies immutable completed journals; no account, model, fit or provider call.
 """
@@ -13,6 +13,7 @@ read=lambda p:json.loads(p.read_bytes())
 
 def profile_paths(profile):
     if profile=='expert-input':return (('EXP_GRU64_EXPERT_INPUT_CONTROL','EXP_GRU64_EXPERT_INPUT_ACTIVE'),'temporal-expert-input-native61','temporal-expert-input-native61-plans','temporal-expert-input-exports','portable-expert-input-native61','coin_expert_input_native61_results_20261009.zip','completed_input_ablation_updates')
+    if profile=='weighting512':return (('EXP_GRU64_WEIGHT_DATE','EXP_GRU64_WEIGHT_MIXED'),'temporal-weighting512-native61','temporal-weighting512-native61-plans','temporal-weighting512-exports','portable-weighting512-native61','coin_weighting512_native61_results_20261009.zip','completed_weighting_updates')
     return (ARMS,'temporal-short-native61','temporal-short-native61-plans','temporal-short-exports','portable-short-expansion-native61','coin_short_expansion_native61_results_20261009.zip','completed_expansion_updates')
 
 
@@ -32,7 +33,8 @@ def checkpoint(state,public,arm,profile='short-expansion'):
     for field in ('fractions_f64_sha256','budgets_f64_sha256'):assert gate[field]==plan['mapping_preflight'][field]
     assert execution['original_engine_sha256']==plan['engine_sha256']=='318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585'
     result=dict(status='COMPLETE_AND_INDEPENDENTLY_AUDITED',arm=arm,fresh_capital_USDT=10000,net_PnL_USDT=s['net_PnL'],May_PnL_USDT=s['months'][0]['net_PnL'],June_PnL_USDT=s['months'][1]['net_PnL'],price_PnL_USDT=s['gross_PnL_same_quantities'],funding_USDT=s['funding_USDT'],fees_USDT=s['fees_USDT'],execution_cost_USDT=s['execution_cost_USDT'],months=s['months'],minute_max_drawdown=s['minute_max_drawdown'],realized_exposure=s['realized_exposure'],maximum_actual_gross_weight=s['maximum_actual_gross_weight'],maximum_actual_asset_weights=s['maximum_actual_asset_weights'],risk_reduction_signal_count=s['risk_reduction_signal_count'],normalized_total_turnover=s['normalized_total_turnover'],trade_legs=s['trade_legs'],long_short_marked_contribution=s['long_short_marked_contribution'],liquidations=0,terminal_paid_flat=True,completed_minutes=87840,original_engine_SHA256=plan['engine_sha256'],adapter_contract_SHA256=plan['adapter_contract_sha256'],plan_commit=execution['plan_commit'],public_export=plan['public_export'],short_target_provenance=plan['short_target_provenance'],producer_mapper_parity=plan['mapping_preflight']['producer_mapper_parity'],training_status=plan['training_status'],**{updates:plan[updates]},cumulative_base_Adam_step=plan['cumulative_base_Adam_step'],new_head_Adam_step=plan['new_head_Adam_step'],development_role='ALREADY_SEEN_MAY_JUNE_NOT_OOS',fits=0,model_inference=0,provider_downloads=0,completed_wallet_reruns=0)
-    if profile=='expert-input':result.update(input_enabled=plan['input_enabled'],current_expert_input_check=plan['current_expert_input_check'],source_declared_parameters_each=plan['source_declared_parameters_each'])
+    if profile in ('expert-input','weighting512'):result.update(input_enabled=plan['input_enabled'],current_expert_input_check=plan['current_expert_input_check'],source_declared_parameters_each=plan['source_declared_parameters_each'])
+    if profile=='weighting512':result['matched_weighting512_contract']=plan['matched_weighting512_contract']
     for name in ('summary.json','INDEPENDENT_AUDIT.json','REQUEST_GATE.json'):
         source=root/('account/summary.json' if name=='summary.json' else name);write_once(public/arm/name,source.read_bytes())
     write_once(public/arm/'RESULT.json',(json.dumps(result,indent=2)+'\n').encode())
@@ -65,7 +67,12 @@ def package(state,public,profile='short-expansion'):
             allocation[arm][label]=dict(request_mean=dict(zip(contexts['expert_order'],map(float,full[mask].mean(0)))),ramped_budget_mean=dict(zip(contexts['expert_order'],map(float,budgets[mask].mean(0)))),requested_short_maximum=float(full[mask,5].max()),ramped_short_maximum=float(budgets[mask,5].max()),requested_CS_gt_VOL_dates=int((full[mask,4]>full[mask,1]).sum()),ramped_CS_gt_VOL_dates=int((budgets[mask,4]>budgets[mask,1]).sum()))
             minute_mask=np.repeat(mask,1440);start=int(np.flatnonzero(minute_mask)[0]);path=np.r_[nav[start-1] if start else 10000.,nav[minute_mask]]
             allocation[arm][label]['observed_minute_exposure_and_drawdown']=dict(mean_gross=float(gross[minute_mask].mean()),maximum_gross=float(gross[minute_mask].max()),mean_net_signed=float(net[minute_mask].mean()),drawdown_from_period_start_NAV=float((1-path/np.maximum.accumulate(path)).max()),net_PnL_USDT=float(path[-1]-path[0]))
-    result=dict(status='PASS_TWO_COMPLETE_AUDITED_FROZEN_E6_NATIVE61_WALLETS',profile=profile,accounts={n:pairs[n][1] for n in arms},**{('primary_active_minus_matched_control_USDT' if profile=='expert-input' else 'primary_short_minus_matched_control_USDT'):delta},request_and_ramped_budget_allocation=allocation,allocation_scope='READ_ONLY_REMAPPING_OF_FROZEN_REQUESTS_EXACT_SAVED_TARGET_AND_PLAN_BUDGET_SHA256; EXPERT_SIMPLEX_WEIGHTS_NOT_LITERAL_NAV_ALLOCATION',reused_static_controls=controls,reused_parent_GRU_withCash=read(parent),primary_comparison='TWO_SEPARATE_FRESH_SHARED_WALLETS_SAME_TAPES_AND_CONTRACT; NO_STITCHING',interpretation='Seen development with capped unequal updates and unequal actual exposure. Independent-account differences are comparisons, not isolated causal effects or executable switching gains.',new_native_wallets=2,fits=0,model_inference=0,provider_downloads=0,completed_wallet_reruns=0,account_stitching=False,historical_publication_and_exchange_account_rules_certified=False)
+    primary_key='primary_mixed_minus_date_USDT' if profile=='weighting512' else ('primary_active_minus_matched_control_USDT' if profile=='expert-input' else 'primary_short_minus_matched_control_USDT')
+    interpretation=('Seen development pair with identical initialization, exactly512 updates each, and only episode-loss weighting changed. Actual exposure differs. One matched pair establishes an observed training-recipe comparison, not OOS efficacy, convergence, or executable switching gain.' if profile=='weighting512' else 'Seen development with capped unequal updates and unequal actual exposure. Independent-account differences are comparisons, not isolated causal effects or executable switching gains.')
+    result=dict(status='PASS_TWO_COMPLETE_AUDITED_FROZEN_E6_NATIVE61_WALLETS',profile=profile,accounts={n:pairs[n][1] for n in arms},**{primary_key:delta},request_and_ramped_budget_allocation=allocation,allocation_scope='READ_ONLY_REMAPPING_OF_FROZEN_REQUESTS_EXACT_SAVED_TARGET_AND_PLAN_BUDGET_SHA256; EXPERT_SIMPLEX_WEIGHTS_NOT_LITERAL_NAV_ALLOCATION',reused_static_controls=controls,reused_parent_GRU_withCash=read(parent),primary_comparison='TWO_SEPARATE_FRESH_SHARED_WALLETS_SAME_TAPES_AND_CONTRACT; NO_STITCHING',interpretation=interpretation,new_native_wallets=2,fits=0,model_inference=0,provider_downloads=0,completed_wallet_reruns=0,account_stitching=False,historical_publication_and_exchange_account_rules_certified=False)
+    if profile=='weighting512':
+        result['matched_training_contract']={arm:pairs[arm][1]['matched_weighting512_contract'] for arm in arms}
+        result['observed_native_PnL_difference_from_reused_fixed_controls_USDT']={arm:{name:pairs[arm][1]['net_PnL_USDT']-c['net_PnL_USDT'] for name,c in controls.items()} for arm in arms}
     write_once(public/'RESULTS.json',(json.dumps(result,indent=2)+'\n').encode())
     root=state/portable;root.mkdir(exist_ok=False)
     for arm in arms:shutil.copytree(pairs[arm][0],root/'accounts'/arm)
@@ -92,10 +99,10 @@ def package(state,public,profile='short-expansion'):
     for i,start in enumerate(range(0,len(data),768*1024)):
         piece=data[start:start+768*1024];name=archive.name+f'.bytepart{i:03d}';write_once(transport/name,piece);parts.append(dict(path='transport/'+name,bytes=len(piece),sha256=hashlib.sha256(piece).hexdigest()))
     artifact=dict(schema='TWO_FROZEN_E6_NATIVE61_ORDERED_RESULT_PARTS_V1',profile=profile,filename=archive.name,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),part_max_bytes=768*1024,parts=parts,member_manifest_sha256=sha(root/'RESULT_MEMBER_HASHES.json'),original_account_journals_byte_identical=True,market_archives_and_model_weights_duplicated=False)
-    write_once(public/'ARTIFACT.json',(json.dumps(artifact,indent=2)+'\n').encode());print(json.dumps(dict(status='PASS_TWO_UNCHANGED_AUDITED_ACCOUNT_PACKAGE',members=len(members),bytes=len(data),sha256=artifact['sha256'],parts=len(parts),primary_short_minus_control=delta)),flush=True)
+    write_once(public/'ARTIFACT.json',(json.dumps(artifact,indent=2)+'\n').encode());print(json.dumps(dict(status='PASS_TWO_UNCHANGED_AUDITED_ACCOUNT_PACKAGE',members=len(members),bytes=len(data),sha256=artifact['sha256'],parts=len(parts),**{primary_key:delta})),flush=True)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=('checkpoint','package'));p.add_argument('--state',type=Path,required=True);p.add_argument('--public',type=Path,required=True);p.add_argument('--arm');p.add_argument('--profile',choices=('short-expansion','expert-input'),default='short-expansion');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=('checkpoint','package'));p.add_argument('--state',type=Path,required=True);p.add_argument('--public',type=Path,required=True);p.add_argument('--arm');p.add_argument('--profile',choices=('short-expansion','expert-input','weighting512'),default='short-expansion');a=p.parse_args()
     if a.command=='checkpoint':assert a.arm is not None;print(json.dumps(checkpoint(a.state,a.public,a.arm,a.profile)[1]),flush=True)
     else:package(a.state,a.public,a.profile)
