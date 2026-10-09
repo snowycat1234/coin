@@ -1,0 +1,176 @@
+{
+  "schema": "ONE_AUTHORIZED_FRESH_INITIALIZATION_NATIVE61_V1",
+  "authorization": "USER_AUTHORIZED_ONE_FRESH_NATIVE61_ACCOUNT",
+  "arm_id": "EXP_FRESH_DATE_512",
+  "request_manifest_sha256": "ef4ca59643431cf08eb210e28c85d643154af073eee850d2f32106317abf66bb",
+  "adapter_contract_sha256": "968ba433a920e76bfc3015ce52ce8859a32eb946074127e2f263682fcdde3c51",
+  "original_financial_contract_SHA256": "9e29ad31a3c795e531e556c2da2f04dfa30d2d71e8df74111731360fc4ca07b2",
+  "engine_sha256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+  "financial_contract": {
+    "guard_enabled": false,
+    "MMR": 0.005,
+    "isolated_leverage": 1,
+    "auto_margin": false,
+    "fee_each_side_fraction": 0.00055,
+    "halfspread_bp": 4,
+    "slippage_bp": 4,
+    "actual_signed_funding_scale": 1,
+    "gross_target_cap": 0.6,
+    "asset_target_cap": 0.3,
+    "expert_budget_daily_L1_cap": 0.1,
+    "expert_budget_daily_L1_reference": "AFTER_MANDATORY_ELIGIBILITY_RELEASE_TO_CASH",
+    "covariance_past_days": 30,
+    "annual_vol_target": 0.1,
+    "quantity_owned_by_original_engine": ".99*currentNAV*signed_fraction/completed_daily_close",
+    "lot": 1e-08,
+    "min_notional_USDT": 10,
+    "previous_minute_quote_participation": 0.001,
+    "max_attempts": 5,
+    "reductions_before_increases": true,
+    "funding_before_fills": true,
+    "funding_uses_strictly_prior_completed_mark": true,
+    "fresh_first_funding_unheld": true,
+    "persist_cash_close": true,
+    "final_day_target_zero": true,
+    "terminal_paid_close": true
+  },
+  "limits": {
+    "cpu_count": 1,
+    "memory_bytes": 6000000000,
+    "per_wallet_seconds": 600,
+    "disk_reserve_bytes": 16106127360
+  },
+  "fresh_start": {
+    "capital_USDT": 10000,
+    "previous_quote": null,
+    "initial_positions": 0,
+    "initial_capacity": 0
+  },
+  "calendar": {
+    "start": 1714521600000000,
+    "end_exclusive": 1719792000000000,
+    "days": 61,
+    "minutes": 87840,
+    "funding_events": 915
+  },
+  "public_export": {
+    "commit": "442c7a127187ae23c5d0a12a1324a4c4cc07e431",
+    "path": "research/temporal-fresh-initialization-20261009/native61-requests/EXP_FRESH_DATE_512/MANIFEST.json",
+    "manifest_SHA256": "ef4ca59643431cf08eb210e28c85d643154af073eee850d2f32106317abf66bb",
+    "request_SHA256": "cd7a051544c4888f3320609d5e96e76bcb815e2342531a00d4984bdb33dfb47f",
+    "model_SHA256": "019a4bb928f0c80b123c0757277d029040a8627844c86573088d72223203d410",
+    "scaler_SHA256": "1f7efe2c2a7fa2023035790a76be84bcaf1da646434f7e12ec898240cd3af998",
+    "evidence_commit": "5870eddb2f60c15bab60e3a7285b2ca0d8395916"
+  },
+  "mapping_preflight": {
+    "export_order": [
+      "CASH",
+      "VOL_MANAGED_HOLD",
+      "PUBLIC_SMA50_200_SIGNED",
+      "DONCHIAN_EXIT10",
+      "CSMOM21",
+      "MOMENTUM30_SHORT_ONLY"
+    ],
+    "canonical_order": [
+      "CASH",
+      "VOL_MANAGED_HOLD",
+      "PUBLIC_SMA50_200_SIGNED",
+      "DONCHIAN_EXIT10",
+      "CSMOM21",
+      "MOMENTUM30_SHORT_ONLY"
+    ],
+    "explicit_E5_slots": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "short_extension": true,
+    "days": 61,
+    "action_mask_verified": true,
+    "prefix_provenance": {
+      "initialization": {
+        "status": "PASS_SOURCE_BOUND_FRESH_EMPTY_ADAM_BIRTH0_FIXED512_MATCHED_DATA_RECEIPTS",
+        "training_decisions": 778,
+        "scaler_rows": 907,
+        "parameters": 13699,
+        "fresh_all_Adam_age": 512,
+        "warm_base_Adam_age": 1292,
+        "warm_heads_Adam_age": 512,
+        "initial_model_identity": "2b9ec3472cd97898ce2206b43f9b2832f0458882d8f6b46d4f36318a4051c654",
+        "initial_parameters_identity": "0994f7810bad367ba112800f2e3aeea503813094d62bb734c7e489de7bf995f2",
+        "initial_all_RNG_identity": "30a903bc36cf857b72cba9f97a6809c6945bf4cf8c5227adf4263e1bcd715a77",
+        "optimizer_history_replayed": false,
+        "model_tensors_loaded": false,
+        "equal_lifetime_exposure": false
+      },
+      "actual_prefix": {
+        "status": "PASS_INDEPENDENT_ACTUAL778_PREFIX_AND907_SCALER_VALUES_CLOCKS",
+        "scaler_identity": "5c0085131d590e64316de3cc558e906f418bff50bc5d934339609da2c4b045ad",
+        "maximum_training_label_available_us": 1714435260000001,
+        "maximum_scaler_input_available_us": 1714348800000000,
+        "maximum_training_expert_input_available_us": 1714348800000000,
+        "retained_training_SHA256": {
+          "features.npz": "f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c",
+          "feature_manifest.json": "9ecbc55c21a5eab2b400604bbd7347a6e9b1261f31b4e749364ee292031da464",
+          "economic.npz": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676",
+          "short.npz": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d"
+        },
+        "scaler_values_bit_identical": true,
+        "model_tensors_loaded": false
+      },
+      "current_expert_input": {
+        "status": "PASS_EXACT_CURRENT_CANONICAL_TARGET_ELIGIBILITY_INPUT_AND_SAVED_SOURCE_CLOCKS",
+        "packet_SHA256": "129d7f188005f65684052cbfa5dc58017c8995453fe85081f9379241a6adf6be",
+        "input_enabled": true,
+        "width": 18,
+        "canonical_indices": [
+          1,
+          4,
+          5
+        ],
+        "masked_before_fixed_point3_scaling": true,
+        "flat_and_ineligible_distinct": true,
+        "target_mask_clock_state_bytes_exact": true,
+        "available_not_after_decision_or_feature_clock": true,
+        "source_declared_parameters_each": 13699,
+        "parameter_tensors_loaded": false
+      },
+      "producer_mapper_parity": "PASS_ORIGINAL_FROZEN_RAW_REQUESTS_PRIVATE5_TO_CANONICAL_E6_TARGETS_BUDGETS_WITHIN1E14",
+      "fits": 0,
+      "model_inference": 0
+    },
+    "status": "PASS_FROZEN_REQUESTS_AND_CURRENT_NATIVE61_MAPPING_NO_WALLET",
+    "source_check": {
+      "status": "PASS_REUSED_EXACT_INPUT_GRID_PROOF_WITH_CURRENT_IDENTICAL_SOURCE_BYTES",
+      "registered_files": 70,
+      "original_engine_sha256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+      "minutes": 87840,
+      "funding_events": 915
+    },
+    "manifest_sha256": "ef4ca59643431cf08eb210e28c85d643154af073eee850d2f32106317abf66bb",
+    "request_payload_sha256": "cd7a051544c4888f3320609d5e96e76bcb815e2342531a00d4984bdb33dfb47f",
+    "arm_id": "EXP_FRESH_DATE_512",
+    "fractions_f64_sha256": "6babf94c8645cd59dc213d7d35ece271e1bfc4d2aaa1b4033b7457302d9ac85f",
+    "budgets_f64_sha256": "575af30fceff9f4a1a1e5d22d7638729c492bea5cbbdfbe9117dcf2bb5d94296",
+    "fits": 0,
+    "wallets_run": 0
+  },
+  "reused_warm_native": {
+    "public_commit": "85fa946b4be3d9b3b2b7ffad2ee058f8b33e9014",
+    "relative_path": "temporal-weighting512-native61-results/EXP_GRU64_WEIGHT_DATE",
+    "summary_SHA256": "b5361617f063f30f59df9dfbbf91aedf26c0858e72186c6c698148a73bacef47",
+    "audit_SHA256": "28fe6f9b76c543ca9b9de767974219bc32f28878a8220ba16145d140ca8c37e8",
+    "execution_SHA256": "7360b420bd89123465da98d7c309696321cab4ac7415e554bf93830ce5c7cd36",
+    "net_PnL_USDT": -467.4190236462022,
+    "reruns": 0
+  },
+  "data_role": "SEEN_INITIALIZATION_REGIME_ABLATION_NOT_OOS_OR_EQUAL_LIFETIME_EXPOSURE",
+  "fits": 0,
+  "model_inference": 0,
+  "provider_downloads": 0,
+  "completed_wallet_reruns": 0,
+  "stop": "ANY_SOURCE_CLOCK_MAPPING_MARK_CAPACITY_ACCOUNT_FAILURE;600CPU_AND_WALL_SECONDS;6GB_AS;15GiB_RESERVE"
+}
