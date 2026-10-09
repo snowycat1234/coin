@@ -252,3 +252,28 @@ def test_native_wrapper_preserves_real_producer_bytes_and_canonical_context(tmp_
     if bad=='valid':proof,full,_=validate(path,m,a,c);assert not proof['model_tensors_loaded'] and full.shape==(63,6)
     else:
         with pytest.raises(ValueError):validate(path,m,a,c)
+
+
+@pytest.mark.parametrize('bad',['valid','initial_receipt','source_bytes','training_bytes','clock_packet','declared_maximum'])
+def test_real_january_published_prefix_gate(tmp_path,bad):
+    import shutil
+    from prequential63_producer import prefix
+    # Immutable public small bundle, already recovered by the preparation recipe.
+    original=STATE/'prequential63-native-wrappers';shutil.copytree(original,tmp_path/'bundle');root=tmp_path/'bundle'
+    path=root/'MANIFEST_FRESH_GRU_FOLD20240101.json';m=json.loads(path.read_bytes());m['adapter_contract_sha256']=base.frozen.sha(native.CONTRACT)
+    if bad=='initial_receipt':p=root/'READY.json';v=json.loads(p.read_bytes());v['folds']['FOLD_20240101']['empty_Adam']=False;p.write_text(json.dumps(v))
+    elif bad=='source_bytes':p=root/'source/modules/temporal_prequential_transfer/model.py';p.write_text(p.read_text()+'\n# Modified fixture source.\n')
+    elif bad=='training_bytes':p=root/'training/features.npz';p.write_bytes(p.read_bytes()+b'changed fixture bytes')
+    elif bad=='clock_packet':
+        p=root/'TRAINING_CLOCKS.npz'
+        with np.load(p,allow_pickle=False) as z:v={k:z[k].copy() for k in z.files}
+        v['label_available_us'][-1]=CAL['start'];np.savez_compressed(p,**v)
+    elif bad=='declared_maximum':m['maximum_training_label_available_us']-=1
+    for name,v in m['files'].items():p=root/name;v.update(bytes=p.stat().st_size,sha256=base.frozen.sha(p))
+    path.write_text(json.dumps(m));c=native.canonical_contexts(STATE)
+    if bad=='valid':
+        loaded,a=base.load_bundle(path,base.frozen.sha(path),CAL,native.SCHEMA);r=native.prefix_provenance(path,loaded,a,c)
+        assert r['training_samples']==658 and r['scaler_rows']==787 and r['scaler_values_bit_identical'] and r['empty_Adam'] and not r['model_tensors_loaded']
+    else:
+        with pytest.raises(ValueError):
+            loaded,a=base.load_bundle(path,base.frozen.sha(path),CAL,native.SCHEMA);native.prefix_provenance(path,loaded,a,c)

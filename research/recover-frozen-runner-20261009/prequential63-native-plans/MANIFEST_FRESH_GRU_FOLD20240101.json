@@ -1,0 +1,475 @@
+{
+  "schema": "SOURCE_HASHED_FROZEN_NATIVE63_REQUESTS_V1",
+  "arm_id": "FRESH_GRU_FOLD20240101",
+  "policy_role": "LEARNED_FROZEN",
+  "objective_version": 2,
+  "prediction_role": "HISTORICAL_FROZEN_REPLAY_NOT_LIVE_PREDICTIONS",
+  "source_files": [
+    "source/modules/collector_research/pipeline/make_labels.py",
+    "source/modules/collector_research/pipeline/train.py",
+    "source/modules/temporal_two_expert/__init__.py",
+    "source/modules/temporal_two_expert/__main__.py",
+    "source/modules/temporal_two_expert/bounded_comparison.py",
+    "source/modules/temporal_two_expert/checkpoint.py",
+    "source/modules/temporal_two_expert/comparison.py",
+    "source/modules/temporal_two_expert/conftest.py",
+    "source/modules/temporal_two_expert/development_inputs.py",
+    "source/modules/temporal_two_expert/exact.py",
+    "source/modules/temporal_two_expert/feature_windows.py",
+    "source/modules/temporal_two_expert/inputs.py",
+    "source/modules/temporal_two_expert/model.py",
+    "source/modules/temporal_two_expert/runner.py",
+    "source/modules/temporal_two_expert/synthetic_throughput.py",
+    "source/modules/temporal_two_expert/test_comparison.py",
+    "source/modules/temporal_two_expert/test_development.py",
+    "source/modules/temporal_two_expert/test_feature_windows.py",
+    "source/modules/temporal_two_expert/test_temporal.py",
+    "source/modules/temporal_two_expert/training_packet.py",
+    "source/modules/temporal_episode_weighting_v2/gradient.py",
+    "source/modules/temporal_expert_input/__init__.py",
+    "source/modules/temporal_expert_input/__main__.py",
+    "source/modules/temporal_expert_input/checkpoint.py",
+    "source/modules/temporal_expert_input/conftest.py",
+    "source/modules/temporal_expert_input/export.py",
+    "source/modules/temporal_expert_input/gradient.py",
+    "source/modules/temporal_expert_input/inputs.py",
+    "source/modules/temporal_expert_input/model.py",
+    "source/modules/temporal_expert_input/stage.py",
+    "source/modules/temporal_prequential_transfer/__init__.py",
+    "source/modules/temporal_prequential_transfer/__main__.py",
+    "source/modules/temporal_prequential_transfer/conftest.py",
+    "source/modules/temporal_prequential_transfer/data.py",
+    "source/modules/temporal_prequential_transfer/export.py",
+    "source/modules/temporal_prequential_transfer/model.py",
+    "source/modules/temporal_prequential_transfer/protocol.py",
+    "source/modules/temporal_prequential_transfer/stage.py",
+    "source/modules/temporal_prequential_transfer/test_transfer.py",
+    "source/modules/temporal_risk_proxy_v2/__init__.py",
+    "source/modules/temporal_risk_proxy_v2/conftest.py",
+    "source/modules/temporal_risk_proxy_v2/diagnose.py",
+    "source/modules/temporal_risk_proxy_v2/native_contract.py",
+    "source/modules/temporal_risk_proxy_v2/proxy.py",
+    "source/modules/temporal_risk_proxy_v2/test_native_contract.py",
+    "source/modules/temporal_risk_proxy_v2/test_proxy.py",
+    "source/modules/temporal_short_expansion/__init__.py",
+    "source/modules/temporal_short_expansion/__main__.py",
+    "source/modules/temporal_short_expansion/adapter.py",
+    "source/modules/temporal_short_expansion/checkpoint.py",
+    "source/modules/temporal_short_expansion/conftest.py",
+    "source/modules/temporal_short_expansion/export.py",
+    "source/modules/temporal_short_expansion/gradient.py",
+    "source/modules/temporal_short_expansion/model.py",
+    "source/modules/temporal_short_expansion/stage.py",
+    "source/modules/temporal_short_expansion/test_expansion.py",
+    "source/modules/temporal_surrogate_resume_v2/__init__.py",
+    "source/modules/temporal_surrogate_resume_v2/__main__.py",
+    "source/modules/temporal_surrogate_resume_v2/bounded_controller.py",
+    "source/modules/temporal_surrogate_resume_v2/conftest.py",
+    "source/modules/temporal_surrogate_resume_v2/export.py",
+    "source/modules/temporal_surrogate_resume_v2/gradient.py",
+    "source/modules/temporal_surrogate_resume_v2/stage.py",
+    "source/modules/temporal_surrogate_resume_v2/test_resume.py"
+  ],
+  "files": {
+    "CANONICAL_CONTEXTS63.npz": {
+      "bytes": 14932,
+      "sha256": "bb45d6b63a747bc2bc2406449526f75956dfe631b8ea98badb6e61f06acac668"
+    },
+    "CASH50_PLAN.json": {
+      "bytes": 228,
+      "sha256": "781c0a786fa6339d35a652ce402a4cf23af5cbaa29bab520dea2728daa22e8ce"
+    },
+    "CASH50_REQUESTS.npz": {
+      "bytes": 2777,
+      "sha256": "e8513a6beb374282eec5468e7cd85b3ebb8cfc2ecd2f6dd21ee417e6d34cb34b"
+    },
+    "PREFIX_PROOF.json": {
+      "bytes": 1427,
+      "sha256": "68658de9c3f154f3b00f65ca41e3276bf9a3ad9caaa3c74ff0430fc277736f6c"
+    },
+    "READY.json": {
+      "bytes": 135194,
+      "sha256": "57a72ada0eb4f586fc89a717640618f06012cf096c683bb5d5d427a754a40900"
+    },
+    "STATIC50_PLAN.json": {
+      "bytes": 230,
+      "sha256": "c46c9ccc7927746e12549322ad7c4b45c7575d873306461463b7e75f5881cc99"
+    },
+    "STATIC50_REQUESTS.npz": {
+      "bytes": 2770,
+      "sha256": "f5d7818d2cd859003e766791bdc12e42ed818da8137059413f05480f7e276468"
+    },
+    "TRAINING_CLOCKS.npz": {
+      "bytes": 17059,
+      "sha256": "729b19226fda2fa11ba10d16fa5a28418d8cf4e5f71e1e63d59ccb82715f47b0"
+    },
+    "producer/CURRENT_CONTEXT63.npz": {
+      "bytes": 17117,
+      "sha256": "692292757e8ccd8bc700cd3b72f1569b9bc550cfa5baecce90ccd24212c7aaa4"
+    },
+    "producer/MANIFEST.json": {
+      "bytes": 7731,
+      "sha256": "62ec3efa0d02c964ffcc59fb16f679740b9854556f1aefa3aeefd5737836b14f"
+    },
+    "producer/MODEL_ADAM_RNG.pt": {
+      "bytes": 388715,
+      "sha256": "919d581863530339503e5845a9a3cd8b3380d66cd02974501b4ecba576602de3"
+    },
+    "producer/PAIRED_PATHS.npz": {
+      "bytes": 21378,
+      "sha256": "774df3565c1c7a411d2ea2cf411a9b35bfc63a67612edabb9fdad7a4bd5a97e0"
+    },
+    "producer/REQUESTS.npz": {
+      "bytes": 4772,
+      "sha256": "cedd7cc84b9b8af53785fee03ca7e7f03b9b61811633789015041cae2a3581cc"
+    },
+    "producer/RESULT.json": {
+      "bytes": 12324,
+      "sha256": "53e52e30ee2b679968fb728de9d8de5edc802c1380b6f5c7ab623903a7783dbe"
+    },
+    "producer/RUN.json": {
+      "bytes": 24452,
+      "sha256": "eeeea99ab082b73094efd32d208b0a849fb6c81acf5cd60c19c4022a1a304beb"
+    },
+    "producer/SCALER.json": {
+      "bytes": 767,
+      "sha256": "143f82d39704c0152d299b32ada0ba282e7eb2b3a539bbaba718bc0d75d3a049"
+    },
+    "producer/SCALER.npz": {
+      "bytes": 1027,
+      "sha256": "294d00c86420f2004ac7c61d610c2ff446328d295ae621bd40ba86d246f8985c"
+    },
+    "producer/TERMINAL.json": {
+      "bytes": 29701,
+      "sha256": "292d5bbee181e106b147f50c1bd53a1a42ec2d28694a37f2055b863b6a9187b8"
+    },
+    "source/modules/collector_research/pipeline/make_labels.py": {
+      "bytes": 5070,
+      "sha256": "28a416779f50f17d73e9a7375328fb0e127e99702f88cce48f20b6ff4f8e05d8"
+    },
+    "source/modules/collector_research/pipeline/train.py": {
+      "bytes": 18765,
+      "sha256": "b43020d7a7c6357ee71d645042e10695c3d4030fee049323d27cb5fb93d03ab8"
+    },
+    "source/modules/temporal_episode_weighting_v2/gradient.py": {
+      "bytes": 11312,
+      "sha256": "477839d859810f86634163edb91bbcb527de8403365af4084a2cf182c356159f"
+    },
+    "source/modules/temporal_expert_input/__init__.py": {
+      "bytes": 62,
+      "sha256": "e217258eb90daa2253e63e16570bda52ff06e6a6922c9db38c948135af854365"
+    },
+    "source/modules/temporal_expert_input/__main__.py": {
+      "bytes": 4467,
+      "sha256": "0395bd36560c1213cec6b20b9b17104bc18c1e2eaf6e01ceebdcf522a28b8792"
+    },
+    "source/modules/temporal_expert_input/checkpoint.py": {
+      "bytes": 9314,
+      "sha256": "1e04c2f0cb36f1c964e2ba93e5baea127a54c49e27d573b468cd0adc0a01d08e"
+    },
+    "source/modules/temporal_expert_input/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_expert_input/export.py": {
+      "bytes": 13169,
+      "sha256": "04fdd22adf7f0f8b16db495c6b1f34e73516716688240c2250a3f500fe4c0123"
+    },
+    "source/modules/temporal_expert_input/gradient.py": {
+      "bytes": 3940,
+      "sha256": "d0e19d31d77e8cb08470d0fea96305465e3076b2ab107e11991fde2b26175083"
+    },
+    "source/modules/temporal_expert_input/inputs.py": {
+      "bytes": 2549,
+      "sha256": "13a5e7cf84918004f19423ac7b25ea49f69387ba0b72cfceb0f882a286e82f7d"
+    },
+    "source/modules/temporal_expert_input/model.py": {
+      "bytes": 2916,
+      "sha256": "ca3ca013896ce3aed057af98bde055cf9799afc9ca1a462fa347cb2fc5e49344"
+    },
+    "source/modules/temporal_expert_input/stage.py": {
+      "bytes": 15949,
+      "sha256": "f9e9fd1dea9a024a0750e25122d7d2f6988985640077cb2fb9149a348f77501c"
+    },
+    "source/modules/temporal_prequential_transfer/__init__.py": {
+      "bytes": 74,
+      "sha256": "39c71d55539b613825cdaa49a44569ba5917831c7e786166607bb6bf75f4fa8b"
+    },
+    "source/modules/temporal_prequential_transfer/__main__.py": {
+      "bytes": 7629,
+      "sha256": "18c846fcaa9a0c9e3496c71a945ad59ad2e00a565a0ea320f01e1a3c9ee9afe8"
+    },
+    "source/modules/temporal_prequential_transfer/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_prequential_transfer/data.py": {
+      "bytes": 8185,
+      "sha256": "e0dfd812ac9d305c9d2eb30765a9460112113bd790260504f85f6c2304a320e2"
+    },
+    "source/modules/temporal_prequential_transfer/export.py": {
+      "bytes": 10871,
+      "sha256": "f6fde9d1dc1e60f6dc0df2fc0c7bca03531adff03080a5296e6f192c556c55f0"
+    },
+    "source/modules/temporal_prequential_transfer/model.py": {
+      "bytes": 1333,
+      "sha256": "c206ad770f94ead2e5e8c926cc66f3a959d266b5911b78c621882e8154ccbbc4"
+    },
+    "source/modules/temporal_prequential_transfer/protocol.py": {
+      "bytes": 3387,
+      "sha256": "6b1e49d0f22208edf2e875071d2b72d86b272c1090a804f4c28f1443726fae2d"
+    },
+    "source/modules/temporal_prequential_transfer/stage.py": {
+      "bytes": 10927,
+      "sha256": "cd42f0bd3cb7fc943565a844c1d08e21294d10bda57b1c97b7d3553b436a6e9d"
+    },
+    "source/modules/temporal_prequential_transfer/test_transfer.py": {
+      "bytes": 10864,
+      "sha256": "872c7e1452da76c154a6178971f20df4846bede5bb3f18305154eae5b0caaced"
+    },
+    "source/modules/temporal_risk_proxy_v2/__init__.py": {
+      "bytes": 78,
+      "sha256": "d50a6745c7aba9a4668ec42c95185c0fa3b409da35e250c64704cce5f2170a72"
+    },
+    "source/modules/temporal_risk_proxy_v2/conftest.py": {
+      "bytes": 537,
+      "sha256": "aa5247d440a1b02b8553effd490319b6afe905daef95f0610a5a4761bfc79ef1"
+    },
+    "source/modules/temporal_risk_proxy_v2/diagnose.py": {
+      "bytes": 7181,
+      "sha256": "4937716d4fd15670af4aa29762f3bdacdce22064046a33cda738713bd382d948"
+    },
+    "source/modules/temporal_risk_proxy_v2/native_contract.py": {
+      "bytes": 690,
+      "sha256": "b3de5e3cb5800c4f235e884c85903cc4575e809674c26a619f5894857ff9e708"
+    },
+    "source/modules/temporal_risk_proxy_v2/proxy.py": {
+      "bytes": 13307,
+      "sha256": "c438a85a1853f7b8cef02dede194dd3c905d93f74bbb2882b5ae0fd8d50ad040"
+    },
+    "source/modules/temporal_risk_proxy_v2/test_native_contract.py": {
+      "bytes": 8037,
+      "sha256": "f0bb9e954c409d483ff2c62bc8aa2b3929683c60de41d54d9e56671fb2d9ee57"
+    },
+    "source/modules/temporal_risk_proxy_v2/test_proxy.py": {
+      "bytes": 7800,
+      "sha256": "be6caf755468d8f7bc734b7b761a26715d675d2b1d33f9b91dfd317add787e1a"
+    },
+    "source/modules/temporal_short_expansion/__init__.py": {
+      "bytes": 64,
+      "sha256": "0857c4cda0b7fc64053e06bf02f23d500054698c2a2d9b1dcef500d254cd6073"
+    },
+    "source/modules/temporal_short_expansion/__main__.py": {
+      "bytes": 4449,
+      "sha256": "de96a0b7b1f1645ab11db178e093b4bf2b2911def285c863257c1c5545e074e6"
+    },
+    "source/modules/temporal_short_expansion/adapter.py": {
+      "bytes": 6493,
+      "sha256": "a29dfa919b144f69ad50e3ef59a62d74aa966ebed28c57aa6b7eb89f5bcd1a1d"
+    },
+    "source/modules/temporal_short_expansion/checkpoint.py": {
+      "bytes": 16372,
+      "sha256": "566c6df9939ad8d1edd1bffe49e027bd324778fbb2e6f673dc27e929716af239"
+    },
+    "source/modules/temporal_short_expansion/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_short_expansion/export.py": {
+      "bytes": 12086,
+      "sha256": "c317aae8f399cf9b298771b1c4d6f716a7fa63a5fa659a4bbeab85f516025e83"
+    },
+    "source/modules/temporal_short_expansion/gradient.py": {
+      "bytes": 2694,
+      "sha256": "e7e7913af02a9e6c3481886b44528bc431e1be00ca4c77986bbf7db513ec4d51"
+    },
+    "source/modules/temporal_short_expansion/model.py": {
+      "bytes": 2806,
+      "sha256": "09e38c0d94c21debb1127adfadf12314c93420c747334945b85aaec049e7eaec"
+    },
+    "source/modules/temporal_short_expansion/stage.py": {
+      "bytes": 14644,
+      "sha256": "42b667afa68066f0d3eb0d9c2cdff8d3cefc375123e7d5af710f1debe612228b"
+    },
+    "source/modules/temporal_short_expansion/test_expansion.py": {
+      "bytes": 7580,
+      "sha256": "da4cdf7e8c01726d60047fc2f0d539c2ef7fd27cc5a003afc758735add757c86"
+    },
+    "source/modules/temporal_surrogate_resume_v2/__init__.py": {
+      "bytes": 81,
+      "sha256": "51ffa8aa3aa0fd5c74a4a35ccde5ce4fb2c22f13c129e1c4a34781b4c393e501"
+    },
+    "source/modules/temporal_surrogate_resume_v2/__main__.py": {
+      "bytes": 7645,
+      "sha256": "671896a31d47fa3c24d0a32f5702d3ac47c944ec4f1dc1c33fbdd91ce0b12ba2"
+    },
+    "source/modules/temporal_surrogate_resume_v2/bounded_controller.py": {
+      "bytes": 3855,
+      "sha256": "21d8dcb268ceec9334828fe49b8b8112bd7adb607f7d7b3c2213728a33006519"
+    },
+    "source/modules/temporal_surrogate_resume_v2/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_surrogate_resume_v2/export.py": {
+      "bytes": 10973,
+      "sha256": "080ef01a40512410678845816564a67caab38ca8f963dbaeadcbf3622c345c1f"
+    },
+    "source/modules/temporal_surrogate_resume_v2/gradient.py": {
+      "bytes": 3214,
+      "sha256": "c93bb567d11d49de6b45c689e216070d9053ea5371a39983181fa56f69c7c228"
+    },
+    "source/modules/temporal_surrogate_resume_v2/stage.py": {
+      "bytes": 13237,
+      "sha256": "e611a8f8d6332b9471d0d23354178961dc3432156b45dd4652d5854b67d784fe"
+    },
+    "source/modules/temporal_surrogate_resume_v2/test_resume.py": {
+      "bytes": 9045,
+      "sha256": "83d2801ebc9cf5fcb855c2412bf79b7ea95ba2e1367f4d3d4e17f03c730ef6e5"
+    },
+    "source/modules/temporal_two_expert/__init__.py": {
+      "bytes": 80,
+      "sha256": "ad6d5ac2359ed3d189ee1bf0a9c70134c3426d9f2561d55b22d3ce8840ee805b"
+    },
+    "source/modules/temporal_two_expert/__main__.py": {
+      "bytes": 1675,
+      "sha256": "e4ccfcd756b37f25150764ac647dd1966c644341308a2b2c3ad94db891bfc0b0"
+    },
+    "source/modules/temporal_two_expert/__pycache__/feature_windows.cpython-312.pyc": {
+      "bytes": 16765,
+      "sha256": "ad3f8ffae8395862913fd3910d4eb4972679d601fd7b765891d447becedae2b6"
+    },
+    "source/modules/temporal_two_expert/__pycache__/inputs.cpython-312.pyc": {
+      "bytes": 21937,
+      "sha256": "f737aa4031775c3c1113c43beff173f1e03e65825658d267b27eb28f1f33585b"
+    },
+    "source/modules/temporal_two_expert/bounded_comparison.py": {
+      "bytes": 3532,
+      "sha256": "6d4cced2d0e4038fc2a5c0bc1953d70d0fec0c5580b65c354a088e894f8e09db"
+    },
+    "source/modules/temporal_two_expert/checkpoint.py": {
+      "bytes": 11076,
+      "sha256": "2a12ed501542e31d3d1e5cf8020a901b2e79a241faa851ca40055fc904f0daef"
+    },
+    "source/modules/temporal_two_expert/comparison.py": {
+      "bytes": 17385,
+      "sha256": "2aa3ef65f42961140495c87eedec84fb666df04d58ae1b7b11e1f6eb8a11b401"
+    },
+    "source/modules/temporal_two_expert/conftest.py": {
+      "bytes": 570,
+      "sha256": "7e139d026b81a9e0a5e13d9db6ac7fb99f1046dd39b4cd8fc37f1f5fe0e03c86"
+    },
+    "source/modules/temporal_two_expert/development_inputs.py": {
+      "bytes": 4723,
+      "sha256": "eba67514829c809a0c143ced82fce18e262d1e4ec971247e482946cd40854d46"
+    },
+    "source/modules/temporal_two_expert/exact.py": {
+      "bytes": 13872,
+      "sha256": "feae1ecfc9c639803e814faa87ae008f39f77caeed60b77e27c2a9c94f3a9042"
+    },
+    "source/modules/temporal_two_expert/feature_windows.py": {
+      "bytes": 11965,
+      "sha256": "6132b39410112462edc865e45d933c0a3b7e528a181681b5900cc525e4166d63"
+    },
+    "source/modules/temporal_two_expert/inputs.py": {
+      "bytes": 14531,
+      "sha256": "e9b175aadede32539eefc25cc64c4d98964e7e2b166278f972c41f1dedcffcf5"
+    },
+    "source/modules/temporal_two_expert/model.py": {
+      "bytes": 8739,
+      "sha256": "6ab473b139356c750457991961758bdd450e872d1779d58cfa7a9e09b50ef8a2"
+    },
+    "source/modules/temporal_two_expert/runner.py": {
+      "bytes": 4098,
+      "sha256": "8fd0084f4b43f17e426302b21af8f5e1b12e19501cd3ae8d00b0808ea6d642ef"
+    },
+    "source/modules/temporal_two_expert/synthetic_throughput.py": {
+      "bytes": 3522,
+      "sha256": "a6cab04f5b08c912c7cf937617460f8761ed86530dedc476cf3f89c3a152c5bc"
+    },
+    "source/modules/temporal_two_expert/test_comparison.py": {
+      "bytes": 10630,
+      "sha256": "5d0b1d1a433a1f012e2d76ede8d58e2e294cb7555270282a67548fde84dd3a66"
+    },
+    "source/modules/temporal_two_expert/test_development.py": {
+      "bytes": 3612,
+      "sha256": "e58648954dc9023f0f68c8d2336efc0680769113344deddace0a937ebbc00532"
+    },
+    "source/modules/temporal_two_expert/test_feature_windows.py": {
+      "bytes": 8247,
+      "sha256": "4d719b194ea5b2e17e08ba5979ec0f74a2f8ae6cae92540cee5da8211d39fe88"
+    },
+    "source/modules/temporal_two_expert/test_temporal.py": {
+      "bytes": 29188,
+      "sha256": "739409c7fa8e5108f6389f4209ca268c68def07799f6b5c428635ba32aecbe7f"
+    },
+    "source/modules/temporal_two_expert/training_packet.py": {
+      "bytes": 9760,
+      "sha256": "cb6edb60bc3ec5a81dbee3201892de72b6e48d5b0c16df227e75557d21f57187"
+    },
+    "training/economic.npz": {
+      "bytes": 159443,
+      "sha256": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676"
+    },
+    "training/feature_manifest.json": {
+      "bytes": 4075,
+      "sha256": "9ecbc55c21a5eab2b400604bbd7347a6e9b1261f31b4e749364ee292031da464"
+    },
+    "training/features.npz": {
+      "bytes": 555574,
+      "sha256": "f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c"
+    },
+    "training/short.npz": {
+      "bytes": 24815,
+      "sha256": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d"
+    }
+  },
+  "request_file": "producer/REQUESTS.npz",
+  "producer_commit": "c49cbe28f3f8265987c1e7fe2141d87ce220f339",
+  "expert_order": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "PUBLIC_SMA50_200_SIGNED",
+    "DONCHIAN_EXIT10",
+    "CSMOM21",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "allowed_actions": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "CSMOM21",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "uses_feedback_features": false,
+  "calendar": {
+    "start": 1704067200000000,
+    "end_exclusive": 1709510400000000,
+    "days": 63,
+    "minutes": 90720,
+    "funding_events": 945
+  },
+  "adapter_contract_sha256": "34454d9e185c9a5cafed5dbed35d8673582e2bd460b8c9af5e2826b8d9d66e81",
+  "training_cutoff_us": 1704067200000000,
+  "maximum_training_label_available_us": 1703980860000001,
+  "maximum_scaler_input_available_us": 1703980800000000,
+  "actual_fit_completed_UTC": "2026-10-09T21:30:39.158309+00:00",
+  "actual_export_completed_UTC": "2026-10-09T21:47:01.195979+00:00",
+  "training_plan_file": "producer/RUN.json",
+  "training_plan_sha256": "eeeea99ab082b73094efd32d208b0a849fb6c81acf5cd60c19c4022a1a304beb",
+  "model_sha256": "919d581863530339503e5845a9a3cd8b3380d66cd02974501b4ecba576602de3",
+  "scaler_sha256": "294d00c86420f2004ac7c61d610c2ff446328d295ae621bd40ba86d246f8985c",
+  "prefix_evidence_mode": "PUBLISHED_FRESH_RECEIPT_AND_INDEPENDENT_SOURCE_CLOCKS",
+  "producer_manifest_file": "producer/MANIFEST.json",
+  "producer_ready_file": "READY.json",
+  "producer_prefix_proof_file": "PREFIX_PROOF.json",
+  "model_file": "producer/MODEL_ADAM_RNG.pt",
+  "scaler_file": "producer/SCALER.npz",
+  "training_clock_file": "TRAINING_CLOCKS.npz",
+  "training_data_files": [
+    "training/features.npz",
+    "training/feature_manifest.json",
+    "training/economic.npz",
+    "training/short.npz"
+  ],
+  "context_file": "CANONICAL_CONTEXTS63.npz"
+}

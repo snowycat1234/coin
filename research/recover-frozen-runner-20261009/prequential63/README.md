@@ -127,15 +127,36 @@ Attach the original initialization/training sources and actual sample-clock proo
 described below, and a separate copy of the canonical evaluation packet. This is
 a provenance wrapper, not a new prediction, fit or rewrite of the producer export.
 
-Current exact blockers are the actual immutable **January REQUESTS/MANIFEST**,
-its native provenance wrapper, actual initial snapshot and strict-prefix sample/
-scaler clock proof with bound training sources. The nine-member producer format
-publishes declared birth0 and paid prefix receipts, but does not itself include
-that initial snapshot or per-sample clock packet. Canonical January agreement
-will be checked on receipt. Its seven-character `producer_commit` also needs its
-verified full40-character source commit in the native wrapper. July/October are
-inspection evidence only; their native minute tapes are absent. No wallet is
-authorized or started, including fixed controls, while these gates are pending.
+January is now received at `38b86686e40a50c14f0499bd370e4a6bb3d0c339`, exact
+producer manifest SHA256
+`62ec3efa0d02c964ffcc59fb16f679740b9854556f1aefa3aeefd5737836b14f`.
+Its admitted targets, masks, availability clocks and covariance inputs are exact
+against the recovered native source. `prequential63_producer.py` verifies all64
+original producer source files against resolved source commit
+`c49cbe28f3f8265987c1e7fe2141d87ce220f339`, and uses retained exact public feature,
+economic and short-context bytes to reconstruct the actual658-sample prefix and
+787-row scaler clocks. Original NumPy-only source readers reproduce all scaler
+values, counts, provenance and identities bit for bit. No model or optimizer is
+loaded or trained.
+
+For this actual producer, the native wrapper uses
+`prefix_evidence_mode:PUBLISHED_FRESH_RECEIPT_AND_INDEPENDENT_SOURCE_CLOCKS`.
+It binds original `READY.json` SHA256
+`57a72ada0eb4f586fc89a717640618f06012cf096c683bb5d5d427a754a40900`,
+whose January initial model/parameter/RNG identities, empty Adam and birth0
+receipt match the original RUN specification. This uses the real semantic
+initialization receipt; it does not claim an absent original initial snapshot
+was recovered. Actual prefix clocks, source data and source-reconstructed scaler
+are independently checked; the producer optimizer history is not replayed.
+The explicit initial-snapshot format below remains supported for other exports.
+
+January model plus VOL50/CS50 and CASH50/VOL25/CS25 are now explicitly authorized
+as three separate fresh10k native accounts under published request-specific
+plans in `../prequential63-native-plans`. Original frozen requests and learned
+terminal rows remain unchanged. All three budgets and targets reproduce the
+producer bit for bit; controls are not additional model fits. CASH is verified
+analytically without a fourth wallet. July/October remain inspection evidence
+until the separately handled actual minute packs are supplied and verified.
 
 Use manifest schema `SOURCE_HASHED_FROZEN_NATIVE63_REQUESTS_V1`. Preserve the
 existing adapter fields: `arm_id`, `objective_version:2`,
@@ -228,10 +249,11 @@ requires a public request-specific execution plan, external plan SHA, its commit
 and a fresh output. The plan must bind request/contract/arm, this calendar and
 `authorization:USER_AUTHORIZED_REAL_FROZEN63_NATIVE_EVALUATION`. Only actual user
 authorization permits creating that plan; the string does not supply approval.
-Current status is **NO_REQUESTS / NO_WALLETS_AUTHORIZED_OR_RUN**. No output or
-request ledger is reserved by readiness or check. No fallback policy is launched.
+Current preparation status is **REAL_JANUARY_SOURCE_AND_MAPPING_VERIFIED /
+THREE_FRESH_WALLETS_AUTHORIZED**. No output or request ledger is reserved by
+readiness or check. No fallback policy is launched.
 
-96 fixture cases validate default61 compatibility and the new63 calendar,
+102 fixture cases validate default61 compatibility and the new63 calendar,
 source hashes, strict prefix clocks, fresh initialization, masks/slots,
 availability release/ramp, control parity, zero first capacity, costs, signed
 funding/prior marks, resource counters and paid closure. Synthetic journal tests
@@ -241,6 +263,8 @@ READINESS.json. All testing uses private cloud-state basetemps, no market fetche
 Twenty additional cases exercise the real producer ABI, preserved terminal row,
 61/64-day and maturity-fence rejection, active outcome/paid-close clocks, known
 flat suffix, declared prefix maturity and original producer byte/context bindings.
+Six actual January bundle fixtures validate the published initialization receipt,
+original source/training bytes, reconstructed clocks and declared prefix maxima.
 To inspect a locally retained original producer bundle without execution:
 
 ```sh

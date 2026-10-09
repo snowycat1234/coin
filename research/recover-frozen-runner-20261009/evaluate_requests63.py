@@ -111,6 +111,19 @@ def prefix_provenance(path,m,a,c):
         require(plan['policy_role']=='FIXED_CONTROL' and plan['fits']==0 and plan['calendar']==CALENDAR and plan['control']==m['arm_id'],'Fixed-control export plan differs')
         full,_=base.validate(m,a,c,CALENDAR);require(np.array_equal(full,base.fixed_control_requests(m['arm_id'],CALENDAR,len(c['expert_order'])==6)),'Fixed reference request coefficients differ')
         return dict(status='PASS_EXPLICIT_FROZEN_FIXED_CONTROL_NO_FIT',fits=0)
+    if m.get('prefix_evidence_mode')=='PUBLISHED_FRESH_RECEIPT_AND_INDEPENDENT_SOURCE_CLOCKS':
+        from prequential63_producer import prefix,SOURCE_COMMIT
+        require(m['producer_commit']==SOURCE_COMMIT,'Exact published fresh-prefix source commit required')
+        require(m['producer_ready_file']=='READY.json' and m['training_data_files']==['training/features.npz','training/feature_manifest.json','training/economic.npz','training/short.npz'],'Actual published-prefix evidence members required')
+        proof,clocks=prefix(path.parent)
+        require(proof==base.frozen.read(base.member(path.parent,m['producer_prefix_proof_file'])),'Independent prefix proof differs from retained receipt')
+        with np.load(base.member(path.parent,m['training_clock_file']),allow_pickle=False) as z:
+            require(set(z.files)==set(clocks) and all(np.array_equal(z[k],v) for k,v in clocks.items()),'Actual independently reconstructed prefix clocks differ')
+        require(m['maximum_training_label_available_us']==proof['maximum_training_label_available_us'] and m['maximum_scaler_input_available_us']==proof['maximum_scaler_input_available_us'] and m['training_cutoff_us']==CALENDAR['start'],'Actual independent prefix maxima differ')
+        require(m['allowed_actions']==list(base.COMPACT+(base.SHORT,)) and m['files'][m['context_file']]['sha256']==contract['context_files']['CANONICAL_CONTEXTS63.npz']['sha256'],'Actual four-action/canonical context binding differs')
+        for field,sha in [('model_file','model_sha256'),('scaler_file','scaler_sha256'),('training_plan_file','training_plan_sha256')]:require(m['files'][m[field]]['sha256']==m[sha],'Actual published '+field+' bytes differ')
+        producer_bindings(path,m,c)
+        return dict(proof,fits=0,context_SHA256=contract['context_files']['CANONICAL_CONTEXTS63.npz']['sha256'])
     required=('model_file','scaler_file','training_plan_file','initial_state_file','initialization_file','training_clock_file','context_file')
     require(all(m[k] in m['files'] for k in required),'Actual hashed model/scaler/initialization/training/context members required')
     training_data=m['training_data_files']
@@ -144,17 +157,21 @@ def prefix_provenance(path,m,a,c):
             require(np.array_equal(actual,expected),'Canonical source context value differs: '+key)
         require(np.array_equal(z['decision_us'],a['decision_us']) and np.all(z['market_state13_available_us']<=a['feature_available_us']),'Canonical context/feature clocks differ')
     require(np.all(c['target_available_us'].max(1)<=a['feature_available_us']),'Current expert inputs are later than reported feature availability')
-    if 'producer_manifest_file' in m:
-        original=base.member(path.parent,m['producer_manifest_file']);require(m['producer_manifest_file'] in m['files'],'Original producer manifest must be bound')
-        producer=producer_interface(original,m['files'][m['producer_manifest_file']]['sha256']);require(producer['calendar']==CALENDAR,'Producer fold differs from covered native calendar')
-        source=base.frozen.read(original);require(m['files'][m['request_file']]['sha256']==source['files']['REQUESTS.npz']['SHA256'] and m['model_sha256']==source['files']['MODEL_ADAM_RNG.pt']['SHA256'] and m['scaler_sha256']==source['files']['SCALER.npz']['SHA256'],'Native wrapper must preserve actual producer request/model/scaler bytes')
-        for name,entry in producer['small_members_verified'].items():
-            p=base.member(original.parent,name);relative=p.relative_to(path.parent.resolve()).as_posix();require(relative in m['files'] and m['files'][relative]['sha256']==entry['SHA256'],'Original producer evidence member must also be native-bound')
-        with np.load(original.parent/'CURRENT_CONTEXT63.npz',allow_pickle=False) as z:
-            for key in ('expert_targets','expert_eligible','target_available_us'):
-                require(np.array_equal(z[key][:,[0,1,4,5]],c[key][:,[0,1,4,5]]),'Producer admitted context differs from canonical source: '+key)
-            require(np.array_equal(z['past_returns30'],c['past_returns30']),'Producer covariance inputs differ from canonical source')
+    if 'producer_manifest_file' in m:producer_bindings(path,m,c)
     return dict(status='PASS_HASH_BOUND_FRESH_INITIALIZATION_STRICT_PREFIX_SAMPLE_CLOCKS_AND_CANONICAL_CONTEXT',initial_state_SHA256=m['initial_state_sha256'],training_samples=len(decision),scaler_samples=len(scaler),context_SHA256=contract['context_files']['CANONICAL_CONTEXTS63.npz']['sha256'],optimizer_updates_at_initialization=0,model_tensors_loaded=False,producer_training_history_scope='DECLARED_SCHEDULE_AND_HASHED_SOURCES_CLOCKS_NOT_INDEPENDENT_OPTIMIZER_REPLAY',fits=0)
+
+
+def producer_bindings(path,m,c):
+    import numpy as np
+    require=base.frozen.require;original=base.member(path.parent,m['producer_manifest_file']);require(m['producer_manifest_file'] in m['files'],'Original producer manifest must be bound')
+    producer=producer_interface(original,m['files'][m['producer_manifest_file']]['sha256']);require(producer['calendar']==CALENDAR,'Producer fold differs from covered native calendar')
+    source=base.frozen.read(original);require(m['files'][m['request_file']]['sha256']==source['files']['REQUESTS.npz']['SHA256'] and m['model_sha256']==source['files']['MODEL_ADAM_RNG.pt']['SHA256'] and m['scaler_sha256']==source['files']['SCALER.npz']['SHA256'],'Native wrapper must preserve actual producer request/model/scaler bytes')
+    for name,entry in producer['small_members_verified'].items():
+        p=base.member(original.parent,name);relative=p.relative_to(path.parent.resolve()).as_posix();require(relative in m['files'] and m['files'][relative]['sha256']==entry['SHA256'],'Original producer evidence member must also be native-bound')
+    with np.load(original.parent/'CURRENT_CONTEXT63.npz',allow_pickle=False) as z:
+        for key in ('expert_targets','expert_eligible','target_available_us'):
+            require(np.array_equal(z[key][:,[0,1,4,5]],c[key][:,[0,1,4,5]]),'Producer admitted context differs from canonical source: '+key)
+        require(np.array_equal(z['past_returns30'],c['past_returns30']),'Producer covariance inputs differ from canonical source')
 
 
 def readiness(state):
