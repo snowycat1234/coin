@@ -62,5 +62,11 @@ volume minutes, is retained. All original exchange ZIPs are published without
 recompression; parts and recovery receipts are source-bound in each fold index.
 July was published first at `88d6ff788dad5ce68efee1a200605f506c067339` and all
 49 parts were independently downloaded from immutable GitHub URLs and checked.
-The latest branch adds October and the remote recovery receipts. Use the
-immutable data commits in `receipts/*-REMOTE-RECOVERY.json` for recovery.
+October was published at `03ab52320a3271caabb67caab4a395ad2f922653` and all
+51 parts were likewise recovered and checked. The latest branch adds both
+remote recovery receipts and `SUMMARY.json`. Use the immutable data commits
+in `receipts/*-REMOTE-RECOVERY.json` for recovery. Both source downloads plus
+the independent GitHub part recovery total 155,234,155 payload bytes
+(148.04 MiB), excluding small listing/checksum/index metadata. Original source
+archives alone use 73.93 MiB of the 150 MiB budget. No blockers remain for
+the requested minute-input scope.
