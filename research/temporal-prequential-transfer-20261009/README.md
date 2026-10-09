@@ -21,3 +21,27 @@ The January2024 export preserves original native fresh startup: previous_quote=N
 No provider downloads, purchases, trading or deployment. Installed Torch2.6.0+cpu, numpy2.5.3 and pytest9.1.1; dependency recipe and exact recovered objective remain in the earlier temporal module. Executable entry: `python -m modules.temporal_prequential_transfer {check,run,fold,export,aggregate}` with explicit `--state`, `--output`, and published producer/destination for run/export, under the existing bounded launchers.
 
 This authorized protocol supersedes the diagnostic proposal's lookback-based64-day embargo; the old proposal remains preserved as history.
+
+Completed in 2026: all three models reached exactly 512 updates, with no numerical/path failures. These are absolute paid-flat PnLs in USDT on separate 10,000-USDT wallets, using approximate daily execution:
+
+| Policy | July 2023 | October 2023 | January 2024 |
+|---|---:|---:|---:|
+| Fresh GRU | +581.84 | +736.40 | −29.39 |
+| CASH | 0.00 | 0.00 | 0.00 |
+| VOL | −317.02 | +1,168.18 | +877.40 |
+| CS | −523.44 | +722.70 | −82.69 |
+| SHORT | −30.89 | −162.91 | −313.56 |
+| VOL50/CS50 (fixed primary) | −405.67 | +950.33 | +394.72 |
+| CASH50/VOL25/CS25 | −218.47 | +472.43 | +189.03 |
+
+Model excess over the primary was +987.51/−213.94/−424.11 USDT; excess is distinct from profit. Mean block utility excess +0.012645 and worst −0.043231 fail the predeclared screen. The favorable July transfer does not establish stable cross-period performance; the other two blocks do not establish that learning is impossible. Fixed 512 updates do not prove convergence.
+
+| Model measure | July | October | January |
+|---|---:|---:|---:|
+| Maximum drawdown | 0.765% | 0.954% | 2.223% |
+| Maximum allocated gross before netting | 32.488% | 35.624% | 57.284% |
+| Maximum allocated per-asset gross | 10.673% | 8.202% | 14.242% |
+| Mean CASH request | 10.145% | 3.800% | 4.654% |
+| Mean SHORT request | 35.560% | 49.079% | 7.650% |
+
+`RESULT.json` preserves all policy costs, signed funding, drawdown, allocation and wallet counts. `RECEIPT.json` records exact update/initialization/provenance checks; `FORWARD_EXPORT_CHECK.json` records bitwise request reproduction and mapper/source/clock/mask checks. All 21 paired paths paid terminal closure. Mean requests are policy requests, not account cash or actual position exposure. Existing execution and data-publication limits remain. January's original native fresh startup is exported; native replay is separate, and the two 2023 native tape sets remain unavailable here. No further fits, downloads or wallets were launched during verification.
