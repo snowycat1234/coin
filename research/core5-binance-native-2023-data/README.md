@@ -53,3 +53,14 @@ All cloud Python commands used the existing unchanged resource monitor with
 one CPU, 2,000,000,000-byte address/RSS limit, swap=0, GPU=0. Resource receipts
 are provided separately. This isolated branch leaves active research branches
 unchanged and must not be merged as a strategy or economic result.
+
+Both requested intervals passed: 90,720 observed minutes per asset per family,
+zero missing minutes, and the immediately previous boundary minute present.
+All 60 complete source months passed clock, OHLC, checksum, and exact canonical
+Parquet round trip checks. Source quote-USDT volume, including observed zero
+volume minutes, is retained. All original exchange ZIPs are published without
+recompression; parts and recovery receipts are source-bound in each fold index.
+July was published first at `88d6ff788dad5ce68efee1a200605f506c067339` and all
+49 parts were independently downloaded from immutable GitHub URLs and checked.
+The latest branch adds October and the remote recovery receipts. Use the
+immutable data commits in `receipts/*-REMOTE-RECOVERY.json` for recovery.
