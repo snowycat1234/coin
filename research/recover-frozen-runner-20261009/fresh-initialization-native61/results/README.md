@@ -1,0 +1,5 @@
+One fresh512 native account completed: -358.621903USDT, May -264.355471, June -94.266431. Retained warm-date -467.419024; fresh-minus-warm +108.797121. Fresh minute drawdown 5.107807%, mean gross 15.605679%; warm 6.365858%, 23.205418%.
+
+Exactly one new fresh10k, original guardOFF native61 account,87840minutes/915actual signed funding events, full costs, paid terminal-flat closure; zero liqs. Warm/static accounts retained without rerunning. RESULTS.json includes monthly gross/net/DD, requests versus native-applied eligibility-released/ramped expert weights, cost decomposition and proxy/native bridge. Expert weights are not literal NAV allocation. Actual risk and optimizer lifetime differ; still a negative seen-development result, not pristine OOS, equal-risk causal efficacy, convergence or switching proof.
+
+Archive preserves original fresh journals unchanged, source, dependency recipe, frozen requests and public provenance hashes. Warm journals are referenced by their original public archive and exact summary/audit/execution hashes; no duplicate warm wallets, model weights, raw data or private runtime inventories.
