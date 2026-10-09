@@ -33,3 +33,11 @@ Use Python3.12 and the existing official CPU dependency
 `score` or `export`, explicit `--state` and `--output`. Use the existing bounded
 worker/controller launchers, at most two1CPU/2GB workers, shared8GB/swap0/GPU0.
 `run` requires a published producer SHA and new `--request-directory`.
+
+Completed512/512 updates without fitting failures. Both final common training
+losses are slightly lower for mixed weighting, while seen May–June charged
+daily-proxy PnL is−502.47 date versus−521.17 mixed (difference−18.70 USDT).
+Both paid terminal flattening. This pair shows no seen-period benefit from the
+weighting change; fixed completion does not establish convergence. See the
+[result receipt](results/RECEIPT.json) and [native handoff](native61-requests/INDEX.json).
+Both native transport checks passed; actual minute-native replay remains separate.
