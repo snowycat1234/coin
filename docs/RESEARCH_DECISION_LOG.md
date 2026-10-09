@@ -1698,3 +1698,6 @@ One fixed comparison implemented, no economic optimizer updates/native wallets/s
 
 
 2026-10-09 V2 authorized continuation: allfour saved model/Adam/RNG warm starts pass finite train-only loss/gradient and RNG checks;8 new synthetic safeguards pass. Original sources/checkpoints remain immutable. Same1024 additional updates/1200s per v2 stage, cumulative Adam steps, fresh objective-v2 convergence history, maximum2 independent1CPU/2GB arms/shared8GB/swap0/GPU0. Charged boundary full-fill surrogate explicitly conditional/not minute-native; all4 terminal heads before seen scoring; export frozen requests for the separate complete-tape native task. No June selection or action-pool expansion during this continuation.
+
+
+2026-10-09 V2 terminal: new321/1024/431/1024 updates, cumulative453/1167/780/1546 Adam steps, all CAPPED_NOT_CONVERGED,0 worker failures. All4 terminal before seen economic scoring. Lost-console coordinator exit120 recovered by score-only export,0 optimizer restarts. Exact terminal checkpoints and canonical native61 requests published. Conditional daily surrogate is not native execution; do not use seen scores to choose extension. One separate matched GRU WITH_CASH short expansion remains authorized. research/temporal-surrogate-resume-v2-20261009/results/RECEIPT.json.
