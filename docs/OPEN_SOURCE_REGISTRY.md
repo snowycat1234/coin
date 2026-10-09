@@ -549,3 +549,6 @@ Reuse installed PyTorch2.6.0+cpu (existing registered BSD-style PyTorch, standar
 
 
 2026-10-09 source-contract clarification: original10 aggregate context retained; historical bar-start dates_us shifted +1day by explicit causal adapter. Legacy256-close ready and future7/30/60 relative/regime/label-derived ranker eligibility excluded. No data/dependency download, upstream edit or economic fit; 35 focused tests pass.
+
+
+2026-10-09 temporal INPUT module: reuse installed NumPy2.5.3/standard NPZ/hash clocks and the existing Torch2.6.0+cpu/checkpoint stack; no install or upstream changes. Public d901f130 feature-only transfer verified once (3parts/concatSHA/ZIP CRC); no provider retrieval or numerical economic Parquet work. Retain original10 context and24 feature semantics; immutable lazy64-window index1518 decisions, real-data scaler/model fits0. Named reference-logit head remains registered only for existing VOL_MANAGED_HOLD/CSMOM21; no new action/model search. 46 focused tests and all1518 actual input windows pass.

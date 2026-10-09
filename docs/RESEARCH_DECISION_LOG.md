@@ -1683,3 +1683,6 @@ One fixed comparison implemented, no economic optimizer updates/native wallets/s
 
 
 2026-10-09 temporal source-contract correction: retain original10 aggregate semantics instead of the initially documented CORE5 rebuild; input adapter shifts daily bar start to completion+1day, preserves shorter-history features with per-feature masks, and rejects ready/future relative/regime/eligible_ranker_indices arguments. 35 tests pass; parameter counts/objective unchanged, economic fitting NOT_RUN.
+
+
+2026-10-09 temporal INPUT_READY: feature bundle d901f130 verified3parts/2246454bytes/concatSHA bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30/CRC. 1581 rows produce1518 real64-day masked windows 2020-03-05..2024-04-30, including365 input dates each2022/2023; no oldready256/future label/economic completeness filter. Input identity8c82406c392b7764ca124028045180cfc63157852fc02b1f8cfcb3c53f549e7f, compact index and full-window audit research/temporal-input-windows-20261009. 46 tests; real-data scaler/model/nativewallet0. Economic episodes/not input dates must be frozen by the separate task before fitting; rich May-June inputs still missing. Named output contract prepared, only existing pair allowed until complementary evidence; NONE/CASH unchanged.

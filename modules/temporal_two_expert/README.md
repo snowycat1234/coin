@@ -1,6 +1,6 @@
 # Temporal two-expert selector
 
-Code-ready, **economic training NOT_RUN**. One bounded comparison: shared
+Code-ready with a verified input index, **economic training NOT_RUN**. One bounded comparison: shared
 per-asset GRU64 against a matched latest-day MLP, each with NO_CASH and WITH_CASH.
 No sweep, oracle classification, native wallet replay or data download is added.
 
@@ -78,6 +78,12 @@ Donchian are exactly zero. NO_CASH uses sigmoid w: VOL=1−w, CSMOM21=w.
 WITH_CASH adds sigmoid s: CASH=1−s, VOL=s(1−w), CSMOM21=sw. Availability release,
 initial CASH, risk and terminal flattening remain mechanical mapper behavior.
 
+`fixed_expert_set` binds named non-cash actions into the model/run identity.
+The reference-logit head supports small named sets; only the existing
+VOL_MANAGED_HOLD/CSMOM21 pair is registered now. Unverified sets reject, unused
+E5 request slots stay zero, and the current pair's sigmoid semantics/parameter
+counts are unchanged. Pool expansion awaits complementary-expert evidence.
+
 `exact.py` imports the recovered prototype unmodified, with SHA256
 `46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab`.
 It uses its actual `mapped_path`, `daily_proxy`, `mapping_vjp` and original
@@ -94,6 +100,43 @@ Feature batching is independent of the
 economic path: `training_loss` concatenates ordered requests, then rolls the
 whole episode once. Separate real episodes retain independent wallets and
 row-weighted losses; gaps are never joined into one wallet.
+
+## Verified pre-May2024 input index
+
+The feature-only dataset at public commit
+`d901f130993b6f00ad6479dcc6a04b77627192b8` is bound by NPZ SHA256
+`f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c`
+and feature-manifest SHA256
+`9ecbc55c21a5eab2b400604bbd7347a6e9b1261f31b4e749364ee292031da464`.
+All three transfer parts, concatenation SHA and ZIP CRC were verified locally.
+
+`feature_windows.load_feature_inputs` opens only that NPZ and feature manifest,
+ignores `original_price_ready256`, and verifies finite/close-observation masks,
+bar-start+1day clocks, exact feature/asset order and original10 aggregate values.
+It provides lazy, unscaled `inputs.windows(decision_us)` with the existing
+`WindowBatch` contract. No source/economic Parquet or outcome audit is imported.
+
+The compact [input receipt](../../research/temporal-input-windows-20261009/INPUT_READY.json)
+and `WINDOW_INDEX.npz` enumerate **1,518** completed64-day input decisions,
+2020-03-05 through2024-04-30:302/365/365/365/121 by year2020/2021/2022/2023/2024.
+All1,518 windows were materialized in chunks and checked against the raw feature
+arrays and availability clocks. All-five latest-observed dates1,319 and
+all-five full64-observed histories1,162 are diagnostics, not global input gates.
+Missing long-history features retain masks; readiness256 is not an input filter.
+
+```bash
+python -m modules.temporal_two_expert.feature_windows \
+  --feature-npz /absolute/verified/features/CORE5_PRE_MAY2024.npz \
+  --feature-manifest /absolute/verified/FEATURE_MANIFEST.json \
+  --output /absolute/state/new-window-index
+```
+
+This uses the original completed-day availability proxy; actual historical
+publication times remain unknown. Scalers and models on this real dataset are
+NOT_FIT. Economic/funding completeness, exact full-wallet episode intersections
+and native validation belong to the separate task. These1518 input dates are
+not1518 certified economic outcomes. The transfer ends before May2024, so it
+does not yet supply the rich May–June validation input sequence.
 
 ## Local commands and future fitting interface
 

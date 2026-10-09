@@ -1,6 +1,6 @@
 # COIN 当前研究状态
 
-Temporal two-expert工程已在独立`research/temporal-two-expert-20261009`实现，经济训练NOT_RUN。CORE5×64 completed days×24 causal features+24 masks，GRU/匹配latest MLP与NO_CASH/WITH_CASH；保持原exact daily proxy/mapper/成本/paid flattening，35 focused tests通过。原子model+Adam+RNG+step/data/split checkpoint与本地duplicate guard完成；代码/复现/最小证据见[模块](../modules/temporal_two_expert/README.md)和[receipt](../modules/temporal_two_expert/TEST_RECEIPT.json)。更广pre-May2024输入、真实warmup和native restoration由另一个任务处理；May–June2024仍seen proxy，投资资格不变，未重新训练或重跑旧sweep。
+Temporal two-expert工程位于独立`research/temporal-two-expert-20261009`；feature INPUT_READY、economic episodes PENDING，真实数据scaler/model NOT_FIT。公开feature-only transfer已核3part/concatSHA/CRC；CORE5×64 completed days×24+24 masks共有1518输入决策(2020-03-05至2024-04-30)，2022/2023各365日，保留原10asset aggregates和缺失mask，不以ready256/未来标签/经济完整性筛输入。46 tests和全部1518真实窗口核验通过；原exact proxy/mapper/成本/paid flattening与13k架构保持，named fixed expert set只注册原VOL/CS pair。代码/最小证据见[模块](../modules/temporal_two_expert/README.md)、[receipt](../modules/temporal_two_expert/TEST_RECEIPT.json)、[input index](../research/temporal-input-windows-20261009/INPUT_READY.json)。另一个任务负责完整economic episode交集/native validation；冻结前不归一化/拟合，rich May–June validation输入尚未交付，仍seen proxy/投资资格不变。
 
 ## 当前最佳研究方案与证据等级
 

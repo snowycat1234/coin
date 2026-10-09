@@ -9,6 +9,17 @@ from .inputs import CORE5, FEATURE_NAMES, LOOKBACK, MARKET_CONTEXT, Standardizer
 
 SEED = 20261009
 FAMILIES = ("GRU64", "LATEST_MLP")
+E5_EXPERT_ORDER = (
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "PUBLIC_SMA50_200_SIGNED",
+    "DONCHIAN_EXIT10",
+    "CSMOM21",
+)
+DEFAULT_FIXED_EXPERT_SET = ("VOL_MANAGED_HOLD", "CSMOM21")
+# Pool expansion requires a verified, frozen named set. Only this existing pair
+# is registered now; the head/serialization interface can retain explicit names.
+VERIFIED_FIXED_EXPERT_SETS = {frozenset(DEFAULT_FIXED_EXPERT_SET)}
 
 
 class Selector(nn.Module):
@@ -20,11 +31,23 @@ class Selector(nn.Module):
         cash_enabled=False,
         dropout=0.1,
         seed=SEED,
+        fixed_expert_set=DEFAULT_FIXED_EXPERT_SET,
     ):
         super().__init__()
         if family not in FAMILIES or type(cash_enabled) is not bool or not 0 <= dropout < 1:
             raise ValueError("Fixed selector family, boolean CASH arm and valid dropout required")
         self.family, self.cash_enabled = family, cash_enabled
+        pool = tuple(fixed_expert_set)
+        if (
+            len(pool) < 2
+            or len(set(pool)) != len(pool)
+            or any(e not in E5_EXPERT_ORDER or e == "CASH" for e in pool)
+            or frozenset(pool) not in VERIFIED_FIXED_EXPERT_SETS
+        ):
+            raise ValueError(
+                "A verified frozen named expert set is required; no unverified actions"
+            )
+        self.fixed_expert_set = pool
         self.dropout_probability, self.seed = float(dropout), int(seed)
         self.normalization_provenance = standardizer.provenance
         self.standardizer_identity = standardizer.identity
@@ -44,7 +67,7 @@ class Selector(nn.Module):
             torch.manual_seed(self.seed + 1)
             self.joint = nn.Linear(160, 32)
             torch.manual_seed(self.seed + 2)
-            self.w_head = nn.Linear(32, 1)
+            self.w_head = nn.Linear(32, len(pool) - 1)
             self.s_head = nn.Linear(32, 1) if cash_enabled else None
         self.state_dropout = nn.Dropout(dropout)
         self.joint_dropout = nn.Dropout(dropout)
@@ -65,9 +88,11 @@ class Selector(nn.Module):
             symbols=list(CORE5),
             features=list(FEATURE_NAMES),
             aggregate_market_context=list(MARKET_CONTEXT),
+            fixed_expert_set=list(self.fixed_expert_set),
+            request_expert_order=list(E5_EXPERT_ORDER),
             lookback=LOOKBACK,
             input="24_scaled_values_plus24_validity_masks_per_asset_per_completed_day",
-            outputs="CASH=1-s,VOL=s*(1-w),CSMOM21=s*w;NO_CASH_s=1",
+            outputs=("CASH=1-s;named_non_cash_reference_logits;NO_CASH_s=1"),
             other_E5_outputs="exact_zero",
             hidden=32,
             dtype="float64",
@@ -118,14 +143,25 @@ class Selector(nn.Module):
             state = self.encoder(z[:, -1])
         state = torch.where(step_valid[:, -1, :, None], state, 0.0)
         joint = self.joint_dropout(torch.tanh(self.joint(self.state_dropout(state).flatten(1))))
-        w = torch.sigmoid(self.w_head(joint)).squeeze(-1)
+        logits = self.w_head(joint)
         s = (
             torch.sigmoid(self.s_head(joint)).squeeze(-1)
             if self.cash_enabled
-            else torch.ones_like(w)
+            else torch.ones_like(logits[:, 0])
         )
-        zero = torch.zeros_like(w)
-        return torch.stack((1.0 - s, s * (1.0 - w), zero, zero, s * w), dim=-1)
+        if len(self.fixed_expert_set) == 2:
+            # Preserve the original sigmoid pair exactly for the current pool.
+            w = torch.sigmoid(logits).squeeze(-1)
+            weights = torch.stack((1.0 - w, w), dim=-1)
+        else:
+            # A later evidenced set can register additional names without a
+            # hindsight classifier or changes to the E5 request mapper.
+            reference = torch.zeros_like(logits[:, :1])
+            weights = torch.cat((reference, logits), dim=-1).softmax(-1)
+        named = {name: s * weights[:, i] for i, name in enumerate(self.fixed_expert_set)}
+        named["CASH"] = 1.0 - s
+        zero = torch.zeros_like(s)
+        return torch.stack([named.get(name, zero) for name in E5_EXPERT_ORDER], dim=-1)
 
 
 def predict_windows(model, windows, *, feature_batch_size=32):
