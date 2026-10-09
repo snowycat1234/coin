@@ -1,0 +1,30 @@
+{
+  "format": "UTF-8 JSONL; minute mark file is gzip-compressed JSONL",
+  "row_fields": {
+    "provider": "string: okx",
+    "instrument_id": "string: exact native OKX instrument id",
+    "market": "string: perpetual",
+    "kind": "string: trade or mark",
+    "interval": "string: 1d or 1m",
+    "identity_sha256": "string: lowercase SHA256 of canonical manifest identity",
+    "open_ms": "integer: UTC bar opening timestamp in milliseconds",
+    "close_ms_exclusive": "integer: open_ms plus 86400000 (daily) or 60000 (minute)",
+    "received_ms": "integer: local retrieval timestamp in milliseconds",
+    "historical_available_ms": "null: historical publication timestamp is unknown",
+    "publication_time_certified": "boolean: false",
+    "available_ms": "integer: same local receipt timestamp as received_ms",
+    "availability_basis": "string: LOCAL_RETRIEVAL_ONLY",
+    "open": "string: original positive finite decimal; native quote per underlying unit",
+    "high": "string: original positive finite decimal; native quote per underlying unit",
+    "low": "string: original positive finite decimal; native quote per underlying unit",
+    "close": "string: original positive finite decimal; native quote per underlying unit",
+    "native_volume_fields": "array of three decimal strings for trade [contracts, base, quote]; null for mark",
+    "volume_units": "string: contracts,base,quote for trade; null for mark",
+    "raw_sha256": "string: lowercase local SHA256 of the exact provider response body"
+  },
+  "identity": "The instrument manifest records native metadata, ctVal, ctMult, units and metadata response SHA",
+  "price_rescaling": "None. PEPE and SATS prices remain per single underlying coin, unlike Binance thousand-coin references",
+  "ordering": "Strictly ascending unique open_ms; complete UTC grid; no forward fill",
+  "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
+  "frozen_selector_certified": false
+}

@@ -71,6 +71,18 @@ Bybit `10000SATSUSDT`、OKX `SATS-USDT-SWAP`/`PEPE-USDT-SWAP` 不等同 Binance 
 22 请求（默认仍 20），完整 June–December 共 214 条/标的；旧 acquisition source/receipt
 绑定保留在新 manifest，不以新代码 SHA 静默替换原证据。
 
+独立授权的 DOGE mark 阶段使用 `pipeline.public_mark_supplement`，固定 OKX
+`DOGE-USDT-SWAP` / 2025-12-01..2026-01-01 / 1m / 44,640 条；先核元数据和 100 条
+小页，再续完整页。每阶段最多 460 请求/10 MB response body、每响应 1 MB、至少间隔
+1 秒、墙钟 15 分钟；权限/限流/不完整页立即停止，不改主机。默认日线入口仍拒绝 minute。
+
+```bash
+python -m modules.collector_research.pipeline.public_mark_supplement \
+  --cache /path/to/external-state/public-supplements
+```
+
+mark 无成交量，不用 trade candle 替代；gzip JSONL 保留原价和全部时钟/SHA 字段。
+
 ```bash
 python -m modules.collector_research.run_pipeline \
   --work-dir /path/to/external-state/work --resource-policy server collect

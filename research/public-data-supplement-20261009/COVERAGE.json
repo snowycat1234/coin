@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-09T08:10:18.105599+00:00",
+  "created_utc": "2026-10-09T08:23:38.797079+00:00",
   "base_commit": "ef67d636a51fd3fa9e804f651aab5775f6bae5f8",
   "dataset_role": "ALTERNATIVE_VENUE_ROBUSTNESS_ONLY",
   "original_provider": "Binance",
@@ -218,7 +218,7 @@
   ],
   "bybit_status": "STOPPED_COUNTRY_PERMISSION_DENIAL_NO_FURTHER_READS",
   "binance_status": "NOT_ATTEMPTED",
-  "doge_december_minute_mark": "NOT_RUN_NOT_AUTHORIZED",
+  "doge_december_minute_mark": "COMPLETE_OKX_ROBUSTNESS_ONLY",
   "acquisition_elapsed_seconds": 14.216407574000073,
   "historical_publication_availability": "UNKNOWN_LOCAL_RECEIPT_TIMES_ONLY",
   "historical_contract_rules": "UNCONFIRMED_CURRENT_METADATA_ONLY",
@@ -228,16 +228,50 @@
     "prior_sha256": "3042ac4cb592949701c9b3bf2f3432b9ede07bb03376be6f52377a409966c77a"
   },
   "validation": {
-    "focused_and_existing_regressions": "36 passed in 0.74s",
-    "focused_adapter_tests": 21,
+    "focused_and_existing_regressions": "40 passed in 6.53s",
+    "focused_adapter_tests": 25,
     "lint": "All checks passed",
     "cache_resume_network_requests": 0,
     "local_three_bar_probe_agrees": true,
     "training": "NOT_RUN",
     "historical_backtest": "NOT_RUN",
-    "original_184_normalized_rows_preserved_byte_for_byte": true
+    "original_184_normalized_rows_preserved_byte_for_byte": true,
+    "minute_full_calendar_and_final_40_row_page": true,
+    "raw_to_normalized_independent_verification": true
   },
   "authorized_request_cap": 22,
   "june_acquisition_elapsed_seconds": 4.253499246000047,
-  "prior_acquisition_commit": "28236726b7ab8fa4f50759a314cc5303b74a86f2"
+  "prior_acquisition_commit": "28236726b7ab8fa4f50759a314cc5303b74a86f2",
+  "mark_dataset": {
+    "provider": "okx",
+    "native_instrument": "DOGE-USDT-SWAP",
+    "market": "perpetual",
+    "kind": "mark",
+    "interval": "1m",
+    "start_utc": "2025-12-01",
+    "end_utc_exclusive": "2026-01-01",
+    "manifest": "doge-mark/DOGE-USDT-SWAP/manifest.json",
+    "manifest_sha256": "0ce50bc9bfa87c0f1d35854ffa93b95b7be9fd9f79bcac06a89bf1f7b471b37c",
+    "normalized_file": "doge-mark/DOGE-USDT-SWAP/bars.jsonl.gz",
+    "normalized_sha256": "93b3f1ff404ef682dd20e9242ff984e150fc37515b4ddc4cb8345bbb0d1bc6dd",
+    "normalized_encoding": "GZIP_JSONL_UTF8",
+    "coverage": {
+      "expected_bars": 44640,
+      "observed_bars": 44640,
+      "missing_bars": 0,
+      "missing_ranges_ms_exclusive": [],
+      "status": "COMPLETE"
+    },
+    "stage_requests": 448,
+    "stage_response_body_bytes": 2762130,
+    "elapsed_seconds": 448.14803940799993,
+    "minimum_observed_request_spacing_ms": 1000,
+    "all_raw_rows_match_normalized": true,
+    "historical_publication_certified": false,
+    "original_binance_file_replaced": false,
+    "source": {
+      "path": "modules/collector_research/pipeline/public_mark_supplement.py",
+      "sha256": "fe71684ed364c6978d56901e7e21b0e67b9cd6d50127de44b3838daab6c9c0c2"
+    }
+  }
 }
