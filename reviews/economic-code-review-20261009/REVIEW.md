@@ -6,6 +6,11 @@ the retained May–June poor-return results: their inspected E5 and momentum-sho
 expert masks have no loss-of-eligibility transitions. No new defect was found in
 the reviewed accounting, feature timing or differentiable objective scope.
 
+The subsequent [executed input/configuration diagnosis](CONFIGURATION_REVIEW.md)
+reproduces frozen model exports and scaling, verifies encoder gradients, and
+quantifies feature-scale concentration, allocation saturation and omitted expert
+state. It adds a minimal calendar/state witness without implementing a new model.
+
 ## Verified defect: forced CASH release incorrectly charged to discretionary ramp
 
 Source: [`evaluate_requests61.py:117–122` at 0090a7182c75a655197afd85f4db2c66db6456f6](https://github.com/snowycat1234/coin/blob/0090a7182c75a655197afd85f4db2c66db6456f6/research/recover-frozen-runner-20261009/evaluate_requests61.py#L117).
