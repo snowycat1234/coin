@@ -87,6 +87,56 @@ does not make the strategy-selection history unseen.
 
 ## Exact frozen export interface
 
+The producer's real July/October exports at public commit
+`4d543ffe5beb171c55cb5a3930bd94d086d8c517` use
+`FROZEN_PREQUENTIAL_FORWARD63_SURROGATE_V1`. Their unchanged REQUESTS.npz arrays
+already have the seven native request fields, canonical six slots, 63 decisions
+and causal request clocks. `inspect-producer` reads only the six small hash-bound
+request/context/JSON members, validates the actual interface and declared prefix
+receipts, and never constructs an account or loads model tensors. It does not
+declare these surrogate exports native-ready. See
+[PRODUCER_INTERFACE_CHECK.json](PRODUCER_INTERFACE_CHECK.json) for both exact
+manifest hashes, checked members and remaining bindings.
+
+The producer has **62 active intervals plus the final execution override to
+CASH**. Its last request row can still contain learned noncash budgets; preserve
+that row and its masks. The original native final-day target-zero override is
+already in the adapter and engine. Never replace the row with a fabricated CASH
+prediction, truncate to61 rows or add a64th decision. The producer's outcome
+clocks are next-decision+60,000,001 microseconds for the first62 rows, with the
+paid-close clock duplicated on row62. Its64-price ABI ends in a declared known
+flat identity suffix, with the observed last price repeated and zero funding.
+Those surrogate prices/funding are not native market inputs.
+
+`RUN.json` gives `forward_end_exclusive_us = first_decision +63days`;
+`terminal_close.cutoff_us = forward_end_exclusive_us +1day` is an auxiliary
+maturity fence. Do not use that fence to extend the native calendar. For January,
+the last decision is March3, native tape end is March4 exclusive, surrogate
+paid-close clock is March3 00:01:00.000001 UTC and auxiliary fence is March5.
+Actual native delayed/partial paid-close fills keep their real clocks and costs;
+they are independently audited and are not forced to the surrogate close clock.
+
+Keep the producer bundle immutable. Add a separate native manifest with the
+schema below, referencing the **same request/model/scaler bytes**, and retaining
+the original producer manifest and its six checked small members in the bound
+`files` table. Set `producer_manifest_file` to its relative path. The adapter
+checks those original bindings and all four admitted expert targets/masks/clocks
+plus covariance inputs against the recovered canonical source context. Inactive
+SMA/Donchian columns in the producer remain zero; no private expert is substituted.
+Attach the original initialization/training sources and actual sample-clock proof
+described below, and a separate copy of the canonical evaluation packet. This is
+a provenance wrapper, not a new prediction, fit or rewrite of the producer export.
+
+Current exact blockers are the actual immutable **January REQUESTS/MANIFEST**,
+its native provenance wrapper, actual initial snapshot and strict-prefix sample/
+scaler clock proof with bound training sources. The nine-member producer format
+publishes declared birth0 and paid prefix receipts, but does not itself include
+that initial snapshot or per-sample clock packet. Canonical January agreement
+will be checked on receipt. Its seven-character `producer_commit` also needs its
+verified full40-character source commit in the native wrapper. July/October are
+inspection evidence only; their native minute tapes are absent. No wallet is
+authorized or started, including fixed controls, while these gates are pending.
+
 Use manifest schema `SOURCE_HASHED_FROZEN_NATIVE63_REQUESTS_V1`. Preserve the
 existing adapter fields: `arm_id`, `objective_version:2`,
 `prediction_role:HISTORICAL_FROZEN_REPLAY_NOT_LIVE_PREDICTIONS`, `source_files`,
@@ -181,13 +231,21 @@ authorization permits creating that plan; the string does not supply approval.
 Current status is **NO_REQUESTS / NO_WALLETS_AUTHORIZED_OR_RUN**. No output or
 request ledger is reserved by readiness or check. No fallback policy is launched.
 
-76 fixture cases validate default61 compatibility and the new63 calendar,
+96 fixture cases validate default61 compatibility and the new63 calendar,
 source hashes, strict prefix clocks, fresh initialization, masks/slots,
 availability release/ramp, control parity, zero first capacity, costs, signed
 funding/prior marks, resource counters and paid closure. Synthetic journal tests
 stub the financial auditor and explicitly do not represent account outcomes.
 Actual63 trade/mark/funding grids and source bytes are separately checked in
 READINESS.json. All testing uses private cloud-state basetemps, no market fetches.
+Twenty additional cases exercise the real producer ABI, preserved terminal row,
+61/64-day and maturity-fence rejection, active outcome/paid-close clocks, known
+flat suffix, declared prefix maturity and original producer byte/context bindings.
+To inspect a locally retained original producer bundle without execution:
+
+```sh
+PYTHONPATH="$COIN_STATE/deps" python3 research/recover-frozen-runner-20261009/evaluate_requests63.py inspect-producer --state "$COIN_STATE" --manifest <original/MANIFEST.json> --manifest-sha256 <external-original-manifest-SHA256>
+```
 
 ## Completed matched512 native61 results
 

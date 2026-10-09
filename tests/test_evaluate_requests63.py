@@ -11,7 +11,7 @@ base=native.base;CAL=native.CALENDAR;STATE=ROOT.parent/'coin-recovery-state'
 
 
 def binding(root,m):
-    m['files']={p.name:dict(bytes=p.stat().st_size,sha256=base.frozen.sha(p)) for p in sorted(root.iterdir()) if p.is_file() and p.name!='MANIFEST.json'}
+    m['files']={p.relative_to(root).as_posix():dict(bytes=p.stat().st_size,sha256=base.frozen.sha(p)) for p in sorted(root.rglob('*')) if p.is_file() and p!=root/'MANIFEST.json'}
     for field,digest in [('model_file','model_sha256'),('scaler_file','scaler_sha256'),('training_plan_file','training_plan_sha256'),('initial_state_file','initial_state_sha256')]:
         if field in m:m[digest]=m['files'][m[field]]['sha256']
     path=root/'MANIFEST.json';path.write_text(json.dumps(m));return path
@@ -167,3 +167,88 @@ def test_parameterized_actual_input_auditor_contracts_on_fixture_journals(monkey
         report=auditor.verify(Path('fixture-results'),Path('fixture-state'),calendar=CAL);assert report['continuous_days']==63 and report['actual_input_check']['funding_events']==945
     else:
         with pytest.raises(ValueError):auditor.verify(Path('fixture-results'),Path('fixture-state'),calendar=CAL)
+
+
+def producer_fixture(root):
+    """Synthetic export ABI only; no training, inference or account execution."""
+    path,m,a,c=bundle(root);p=root/'producer';p.mkdir()
+    (p/'REQUESTS.npz').write_bytes((root/'REQUESTS.npz').read_bytes())
+    (p/'MODEL_ADAM_RNG.pt').write_bytes((root/'MODEL.bin').read_bytes());(p/'SCALER.npz').write_bytes((root/'SCALER.npz').read_bytes())
+    ctx={k:v.copy() for k,v in c.items() if k!='expert_order'};ctx['expert_targets'][:,2:4]=0;ctx['expert_eligible'][:,2:4]=False
+    tt=a['decision_us'];outcomes=np.concatenate([tt[1:]+base.frozen.MINUTE+1,tt[-1:]+base.frozen.MINUTE+1])
+    ctx.update(decision_us=tt,symbol_order=a['symbol_order'],expert_order=a['expert_order'],expert_state=np.zeros((63,18)),expert_input_available_us=np.tile(tt[:,None],(1,18)),surrogate_prices=np.full((64,5),100.),surrogate_funding_coeff=np.zeros((63,5)),outcome_available_us=outcomes,initial_wallet_cash=np.array(10000.),initial_previous_quote_none=np.array(True),initial_quote_capacity_zero=np.array(True))
+    np.savez_compressed(p/'CURRENT_CONTEXT63.npz',**ctx)
+    receipt=dict(decisions=63,active_intervals=62,first_decision_us=CAL['start'],last_decision_us=int(tt[-1]),latest_active_outcome_available_us=int(outcomes[-2]),paid_terminal_close_available_us=int(outcomes[-1]),cutoff_us=CAL['end_exclusive']+base.frozen.DAY,no_future_suffix_consumed=True,terminal_price_equals_last_active_end=True,terminal_suffix='known_CASH_identity;repeat_observed_close_price;zero_funding')
+    train_start=CAL['start']-3*base.frozen.DAY;train_end=train_start+base.frozen.DAY
+    proof=dict(decisions=2,active_intervals=1,rows=[0,2],first_decision_us=train_start,last_decision_us=train_end,latest_active_outcome_available_us=train_end+base.frozen.MINUTE+1,paid_terminal_close_available_us=train_end+base.frozen.MINUTE+1,cutoff_us=CAL['start'],no_future_suffix_consumed=True)
+    scaler=dict(identity='a'*64,provenance=dict(training_cutoff_us=CAL['start'],real_row_count=2))
+    run=dict(specification=dict(algorithm=dict(parent=dict(fresh=True,step=0),parameter_birth_steps={str(i):0 for i in range(13)},versioned_sources={}),data_split_identity=dict(fold=dict(fold_id='FOLD_20240101',first_forward_decision_us=CAL['start'],forward_end_exclusive_us=CAL['end_exclusive'],forward=receipt,training_decisions=2,training_wallets=[proof],additional_embargo_days=0,scaler_identity=scaler['identity'],scaler_provenance=scaler['provenance']))))
+    model_sha=base.frozen.sha(p/'MODEL_ADAM_RNG.pt')
+    terminal=dict(fold='FOLD_20240101',fresh_initialization=True,initial_step=0,fixed_target=512,completed_updates=512,status='FRESH_FIXED512_COMPLETED',forward_economic_scoring_used_for_training=False,model_identity='b'*64,checkpoint_SHA256=model_sha)
+    result=dict(fold='FOLD_20240101',model_identity='b'*64,checkpoint_sha256=model_sha,actual_fit_completed_UTC='2026-10-01T00:00:00+00:00',optimizer_updates_during_forward=0,terminal_frozen_before_forward_economic_score=True,inference_Torch_RNG_unchanged=True,native_wallets=0)
+    for name,value in [('RUN.json',run),('SCALER.json',scaler),('TERMINAL.json',terminal),('RESULT.json',result)]: (p/name).write_text(json.dumps(value))
+    pm=dict(schema=native.PRODUCER_SCHEMA,status='COMPLETE',completed_updates=512,native_results=False,prediction_role='HISTORICAL_FROZEN_REPLAY_NOT_LIVE',fold='FOLD_20240101',terminal_close=receipt,model_identity='b'*64,scaler_identity='a'*64,versioned_sources={})
+    producer_binding(p,pm);m.update(producer_manifest_file='producer/MANIFEST.json',request_file='producer/REQUESTS.npz',model_file='producer/MODEL_ADAM_RNG.pt',scaler_file='producer/SCALER.npz')
+    path=binding(root,m);return path,m,a,c,p,pm
+
+
+def producer_binding(p,pm):
+    pm['files']={f.name:dict(bytes=f.stat().st_size,SHA256=base.frozen.sha(f)) for f in p.iterdir() if f.name!='MANIFEST.json'}
+    path=p/'MANIFEST.json';path.write_text(json.dumps(pm));return path
+
+
+def test_producer63_inspection_preserves_raw_requests_and_distinct_clocks(tmp_path,monkeypatch):
+    _,_,a,_,p,_=producer_fixture(tmp_path)
+    monkeypatch.setattr(base,'simulator',lambda *a,**k:pytest.fail('Inspection never constructs an account'))
+    payload=(p/'REQUESTS.npz').read_bytes();manifest=p/'MANIFEST.json';report=native.producer_interface(manifest,base.frozen.sha(manifest))
+    assert report['status']=='PASS_PRODUCER_INTERFACE_ONLY_NOT_NATIVE_READY' and report['covered_native_calendar'] and report['decisions']==63 and report['active_intervals']==62
+    assert report['auxiliary_maturity_fence_us']==CAL['end_exclusive']+base.frozen.DAY and report['paid_surrogate_terminal_clock_us']==CAL['end_exclusive']-base.frozen.DAY+base.frozen.MINUTE+1
+    assert report['native_prefix_bindings_still_required'] and not report['model_tensors_loaded'] and report['wallets_run']==0 and not report['terminal_request_overwritten']
+    assert (p/'REQUESTS.npz').read_bytes()==payload and a['desired_expert_budget'][-1,0]!=1
+
+
+@pytest.mark.parametrize('bad',['61decisions','64days','shifted_decision','future_feature','wrong_slot','masked_action','outcome_clock','terminal_clock','maturity_as_end','suffix_price','suffix_funding','prefix_crosses_fold','warm_start','forward_updates','float_outcome_clock'])
+def test_actual_producer63_interface_rejections(tmp_path,bad):
+    _,_,a,_,p,pm=producer_fixture(tmp_path)
+    req=p/'REQUESTS.npz';ctx=p/'CURRENT_CONTEXT63.npz';run=p/'RUN.json';result=p/'RESULT.json'
+    if bad in ('61decisions','shifted_decision','future_feature','wrong_slot','masked_action'):
+        with np.load(req,allow_pickle=False) as z:v={k:z[k].copy() for k in z.files}
+        if bad=='61decisions':v={k:x[:61] if k not in ('expert_order','symbol_order') else x for k,x in v.items()}
+        elif bad=='shifted_decision':v['decision_us']+=base.frozen.DAY
+        elif bad=='future_feature':v['feature_available_us'][0]+=1
+        elif bad=='wrong_slot':v['expert_order'][3]=base.SHORT
+        else:v['action_eligible'][0,5]=False
+        np.savez_compressed(req,**v)
+    elif bad in ('outcome_clock','suffix_price','suffix_funding','float_outcome_clock'):
+        with np.load(ctx,allow_pickle=False) as z:v={k:z[k].copy() for k in z.files}
+        if bad=='outcome_clock':v['outcome_available_us'][0]+=1
+        elif bad=='suffix_price':v['surrogate_prices'][-1,0]+=1
+        elif bad=='suffix_funding':v['surrogate_funding_coeff'][-1,0]=1
+        else:v['outcome_available_us']=v['outcome_available_us'].astype(float)
+        np.savez_compressed(ctx,**v)
+    elif bad=='forward_updates':v=json.loads(result.read_bytes());v['optimizer_updates_during_forward']=1;result.write_text(json.dumps(v))
+    else:
+        v=json.loads(run.read_bytes());fold=v['specification']['data_split_identity']['fold']
+        if bad=='terminal_clock':fold['forward']['paid_terminal_close_available_us']+=1;pm['terminal_close']=fold['forward']
+        elif bad=='64days':fold['forward_end_exclusive_us']+=base.frozen.DAY
+        elif bad=='maturity_as_end':fold['forward_end_exclusive_us']=pm['terminal_close']['cutoff_us']
+        elif bad=='prefix_crosses_fold':fold['training_wallets'][0]['paid_terminal_close_available_us']=CAL['start']
+        elif bad=='warm_start':v['specification']['algorithm']['parent']['fresh']=False
+        run.write_text(json.dumps(v))
+    manifest=producer_binding(p,pm)
+    with pytest.raises(ValueError):native.producer_interface(manifest,base.frozen.sha(manifest))
+
+
+@pytest.mark.parametrize('bad',['valid','different_admitted_context','different_request_bytes','different_model_bytes'])
+def test_native_wrapper_preserves_real_producer_bytes_and_canonical_context(tmp_path,bad):
+    path,m,a,c,p,pm=producer_fixture(tmp_path)
+    if bad=='different_admitted_context':
+        file=p/'CURRENT_CONTEXT63.npz'
+        with np.load(file,allow_pickle=False) as z:v={k:z[k].copy() for k in z.files}
+        v['expert_targets'][0,1,0]+=.001;np.savez_compressed(file,**v);producer_binding(p,pm)
+    elif bad=='different_request_bytes':m['request_file']='REQUESTS.npz';a['desired_expert_budget'][0]=[.4,.2,0,0,.2,.2];np.savez_compressed(tmp_path/'REQUESTS.npz',**a)
+    elif bad=='different_model_bytes':m['model_file']='MODEL.bin';(tmp_path/'MODEL.bin').write_bytes(b'other model bytes; never load')
+    path=binding(tmp_path,m)
+    if bad=='valid':proof,full,_=validate(path,m,a,c);assert not proof['model_tensors_loaded'] and full.shape==(63,6)
+    else:
+        with pytest.raises(ValueError):validate(path,m,a,c)

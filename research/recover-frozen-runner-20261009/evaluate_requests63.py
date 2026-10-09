@@ -9,6 +9,7 @@ import evaluate_requests61 as base
 HERE=base.HERE
 CALENDAR=dict(start=1704067200000000,end_exclusive=1709510400000000,days=63,minutes=90720,funding_events=945)
 SCHEMA='SOURCE_HASHED_FROZEN_NATIVE63_REQUESTS_V1'
+PRODUCER_SCHEMA='FROZEN_PREQUENTIAL_FORWARD63_SURROGATE_V1'
 PUBLIC=HERE/'prequential63'
 CONTRACT=PUBLIC/'ADAPTER_CONTRACT.json'
 
@@ -45,6 +46,57 @@ def prepare_context(state,output):
 def canonical_contexts(state,extended=True):
     contract=base.frozen.read(CONTRACT);record=contract['context_files']['MOMENTUM_SHORT_CONTEXTS63.npz']
     return base.contexts(state,extended,CALENDAR,(PUBLIC/'MOMENTUM_SHORT_CONTEXTS63.npz',record['sha256']))
+
+
+def producer_interface(path,expected):
+    """Inspect the real surrogate export without converting it or running a wallet.
+
+    Only six small members are read. Model/scaler tensors, training inputs and
+    optimizer history are not inspected; this is explicitly not native readiness.
+    """
+    import numpy as np
+    from datetime import datetime,UTC
+    require=base.frozen.require
+    require(path.stat().st_size<262144 and base.frozen.sha(path)==base.digest(expected),'Externally pinned producer manifest differs')
+    m=base.frozen.read(path)
+    require(m['schema']==PRODUCER_SCHEMA and m['status']=='COMPLETE' and m['completed_updates']==512 and m['native_results'] is False and m['prediction_role']=='HISTORICAL_FROZEN_REPLAY_NOT_LIVE','Exact completed retrospective surrogate63 export required')
+    names=('REQUESTS.npz','CURRENT_CONTEXT63.npz','RUN.json','SCALER.json','TERMINAL.json','RESULT.json');used={}
+    for name in names:
+        entry=m['files'][name];p=base.member(path.parent,name)
+        require(type(entry['bytes']) is int and 0<=entry['bytes']<2**20 and p.stat().st_size==entry['bytes'] and base.frozen.sha(p)==base.digest(entry['SHA256']),'Bound small producer member differs: '+name)
+        used[name]=entry.copy()
+    def arrays(name):
+        p=base.member(path.parent,name)
+        with zipfile.ZipFile(p) as z:require(sum(v.file_size for v in z.infolist())<=8*2**20,'Producer packet decompression limit')
+        with np.load(p,allow_pickle=False) as z:return {k:z[k].copy() for k in z.files}
+    a=arrays('REQUESTS.npz');c=arrays('CURRENT_CONTEXT63.npz');run=base.frozen.read(path.parent/'RUN.json')['specification'];fold=run['data_split_identity']['fold'];terminal=m['terminal_close']
+    start=fold['first_forward_decision_us'];end=fold['forward_end_exclusive_us'];cal=dict(start=start,end_exclusive=end,days=63,minutes=90720,funding_events=945)
+    base.calendar_values(cal)
+    require(fold['fold_id']==m['fold'] and fold['forward']==terminal and end==start+63*base.frozen.DAY,'Producer63 calendar/receipt differs; maturity fence is not native end')
+    require(c['expert_order'].tolist()==list(base.E5+(base.SHORT,)) and c['symbol_order'].tolist()==list(base.frozen.SYMBOLS) and np.array_equal(c['decision_us'],a['decision_us']),'Producer canonical E6/CORE5/decision identities differ')
+    context={k:c[k] for k in ('expert_targets','expert_eligible','target_available_us','past_returns30')};context['expert_order']=base.E5+(base.SHORT,)
+    full,_=base.validate(dict(expert_order=list(context['expert_order']),allowed_actions=list(base.COMPACT+(base.SHORT,)),uses_feedback_features=False),a,context,cal)
+    require((full[:,2:4]==0).all() and (c['expert_targets'][:,2:4]==0).all(),'Unused producer E5 slots must remain zero')
+    require(c['expert_state'].shape==(63,18) and np.isfinite(c['expert_state']).all(),'Original18 expert input state required')
+    inputs=base.clock(c['expert_input_available_us'],(63,18),'producer expert input clocks')
+    require((inputs.max(1)<=a['feature_available_us']).all() and (c['target_available_us'].max(1)<=a['feature_available_us']).all(),'Producer current expert inputs cross feature availability')
+    tt=a['decision_us'];outcome=base.clock(c['outcome_available_us'],(63,),'producer outcome clocks')
+    require(np.array_equal(outcome[:-1],tt[1:]+base.frozen.MINUTE+1) and outcome[-1]==outcome[-2],'Exact delayed62 active outcomes and duplicate paid-terminal clock required')
+    require(terminal['decisions']==63 and terminal['active_intervals']==62 and terminal['first_decision_us']==start and terminal['last_decision_us']==int(tt[-1]) and terminal['latest_active_outcome_available_us']==int(outcome[:-1].max()) and terminal['paid_terminal_close_available_us']==int(outcome[-1]) and terminal['cutoff_us']==end+base.frozen.DAY,'Producer terminal clocks/counts differ')
+    require(terminal['no_future_suffix_consumed'] is True and terminal['terminal_price_equals_last_active_end'] is True and terminal['terminal_suffix']=='known_CASH_identity;repeat_observed_close_price;zero_funding','Known terminal identity receipt required')
+    prices=c['surrogate_prices'];funding=c['surrogate_funding_coeff']
+    require(prices.shape==(64,5) and np.isfinite(prices).all() and (prices>0).all() and np.array_equal(prices[-1],prices[-2]) and funding.shape==(63,5) and np.isfinite(funding).all() and (funding[-1]==0).all(),'Surrogate known-flat suffix differs; never use it as native market input')
+    require(c['initial_wallet_cash'].shape==() and c['initial_wallet_cash']==10000 and c['initial_previous_quote_none'].shape==c['initial_quote_capacity_zero'].shape==() and c['initial_previous_quote_none'].dtype==c['initial_quote_capacity_zero'].dtype==bool and bool(c['initial_previous_quote_none']) and bool(c['initial_quote_capacity_zero']),'Producer original fresh-start declaration differs')
+    algorithm=run['algorithm'];births=algorithm['parameter_birth_steps'];t=base.frozen.read(path.parent/'TERMINAL.json');score=base.frozen.read(path.parent/'RESULT.json');scaler=base.frozen.read(path.parent/'SCALER.json')
+    require(algorithm['parent']==dict(fresh=True,step=0) and len(births)==13 and all(type(v) is int and v==0 for v in births.values()) and t['fresh_initialization'] is True and t['initial_step']==0 and t['fixed_target']==t['completed_updates']==512 and t['status']=='FRESH_FIXED512_COMPLETED' and t['forward_economic_scoring_used_for_training'] is False,'Declared fresh512 training provenance differs')
+    require(t['fold']==score['fold']==m['fold'] and t['model_identity']==score['model_identity']==m['model_identity'] and t['checkpoint_SHA256']==score['checkpoint_sha256']==m['files']['MODEL_ADAM_RNG.pt']['SHA256'] and scaler['identity']==fold['scaler_identity']==m['scaler_identity'] and scaler['provenance']==fold['scaler_provenance'] and algorithm['versioned_sources']==m['versioned_sources'],'Producer identity/receipt bindings differ')
+    fit=datetime.fromisoformat(score['actual_fit_completed_UTC']);require(fit.tzinfo is not None and fit<=datetime.now(UTC),'Retrospective fit must retain its actual timestamp')
+    require(score['optimizer_updates_during_forward']==0 and score['terminal_frozen_before_forward_economic_score'] is True and score['inference_Torch_RNG_unchanged'] is True and score['native_wallets']==0,'Frozen inference declaration differs')
+    proofs=fold['training_wallets'];require(proofs and sum(p['decisions'] for p in proofs)==fold['training_decisions'],'Declared natural prefix sizes differ')
+    for proof in proofs:
+        require(proof['decisions']>=2 and proof['active_intervals']==proof['decisions']-1 and proof['rows']==[0,proof['decisions']] and proof['last_decision_us']==proof['first_decision_us']+(proof['decisions']-1)*base.frozen.DAY and proof['latest_active_outcome_available_us']==proof['paid_terminal_close_available_us']==proof['last_decision_us']+base.frozen.MINUTE+1 and proof['cutoff_us']==start and proof['paid_terminal_close_available_us']<start and proof['no_future_suffix_consumed'] is True,'Declared paid prefix must mature strictly before forward start')
+    require(fold['additional_embargo_days']==0 and scaler['provenance']['training_cutoff_us']==start,'Original strict-prefix cutoff/no-extra-embargo differs')
+    return dict(status='PASS_PRODUCER_INTERFACE_ONLY_NOT_NATIVE_READY',producer_schema=PRODUCER_SCHEMA,producer_manifest_SHA256=expected,fold=m['fold'],calendar=cal,covered_native_calendar=cal==CALENDAR,decisions=63,active_intervals=62,last_decision_us=int(tt[-1]),paid_surrogate_terminal_clock_us=int(outcome[-1]),auxiliary_maturity_fence_us=terminal['cutoff_us'],actual_fit_completed_UTC=score['actual_fit_completed_UTC'],request_arrays_unchanged=True,terminal_request_overwritten=False,terminal_execution_override='ORIGINAL_FINAL_DAY_TARGET_ZERO_PAID_NATIVE_CLOSURE;ACTUAL_FILL_CLOCKS_AUDITED_SEPARATELY',small_members_verified=used,declared_training_samples=fold['training_decisions'],declared_scaler_rows=scaler['provenance']['real_row_count'],prefix_proof_scope='HASH_BOUND_DECLARED_RECEIPTS_NOT_ACTUAL_PER_SAMPLE_CLOCKS_OR_OPTIMIZER_REPLAY',uninspected_members=sorted(set(m['files'])-set(names)),native_manifest_schema=SCHEMA,native_prefix_bindings_still_required=True,model_tensors_loaded=False,wallets_run=0,fits=0,provider_downloads=0)
 
 
 def prefix_provenance(path,m,a,c):
@@ -92,6 +144,16 @@ def prefix_provenance(path,m,a,c):
             require(np.array_equal(actual,expected),'Canonical source context value differs: '+key)
         require(np.array_equal(z['decision_us'],a['decision_us']) and np.all(z['market_state13_available_us']<=a['feature_available_us']),'Canonical context/feature clocks differ')
     require(np.all(c['target_available_us'].max(1)<=a['feature_available_us']),'Current expert inputs are later than reported feature availability')
+    if 'producer_manifest_file' in m:
+        original=base.member(path.parent,m['producer_manifest_file']);require(m['producer_manifest_file'] in m['files'],'Original producer manifest must be bound')
+        producer=producer_interface(original,m['files'][m['producer_manifest_file']]['sha256']);require(producer['calendar']==CALENDAR,'Producer fold differs from covered native calendar')
+        source=base.frozen.read(original);require(m['files'][m['request_file']]['sha256']==source['files']['REQUESTS.npz']['SHA256'] and m['model_sha256']==source['files']['MODEL_ADAM_RNG.pt']['SHA256'] and m['scaler_sha256']==source['files']['SCALER.npz']['SHA256'],'Native wrapper must preserve actual producer request/model/scaler bytes')
+        for name,entry in producer['small_members_verified'].items():
+            p=base.member(original.parent,name);relative=p.relative_to(path.parent.resolve()).as_posix();require(relative in m['files'] and m['files'][relative]['sha256']==entry['SHA256'],'Original producer evidence member must also be native-bound')
+        with np.load(original.parent/'CURRENT_CONTEXT63.npz',allow_pickle=False) as z:
+            for key in ('expert_targets','expert_eligible','target_available_us'):
+                require(np.array_equal(z[key][:,[0,1,4,5]],c[key][:,[0,1,4,5]]),'Producer admitted context differs from canonical source: '+key)
+            require(np.array_equal(z['past_returns30'],c['past_returns30']),'Producer covariance inputs differ from canonical source')
     return dict(status='PASS_HASH_BOUND_FRESH_INITIALIZATION_STRICT_PREFIX_SAMPLE_CLOCKS_AND_CANONICAL_CONTEXT',initial_state_SHA256=m['initial_state_sha256'],training_samples=len(decision),scaler_samples=len(scaler),context_SHA256=contract['context_files']['CANONICAL_CONTEXTS63.npz']['sha256'],optimizer_updates_at_initialization=0,model_tensors_loaded=False,producer_training_history_scope='DECLARED_SCHEDULE_AND_HASHED_SOURCES_CLOCKS_NOT_INDEPENDENT_OPTIMIZER_REPLAY',fits=0)
 
 
@@ -113,11 +175,13 @@ def readiness(state):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=('readiness','check','run','context'));p.add_argument('--state',type=Path,required=True);p.add_argument('--manifest',type=Path);p.add_argument('--manifest-sha256');p.add_argument('--contract-sha256');p.add_argument('--output',type=Path);p.add_argument('--execution-plan',type=Path);p.add_argument('--execution-plan-sha256');p.add_argument('--plan-commit');args=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=('readiness','check','run','context','inspect-producer'));p.add_argument('--state',type=Path,required=True);p.add_argument('--manifest',type=Path);p.add_argument('--manifest-sha256');p.add_argument('--contract-sha256');p.add_argument('--output',type=Path);p.add_argument('--execution-plan',type=Path);p.add_argument('--execution-plan-sha256');p.add_argument('--plan-commit');args=p.parse_args()
     for k in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','POLARS_MAX_THREADS','NUMEXPR_NUM_THREADS'):os.environ[k]='1'
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_AS,(6000000000,6000000000));resource.setrlimit(resource.RLIMIT_CPU,(600,600))
     def blocked(*a,**kw):raise RuntimeError('Offline native63 forbids network')
     socket.create_connection=blocked;socket.socket.connect=blocked
+    if args.command=='inspect-producer':
+        base.frozen.require(args.manifest is not None and args.manifest_sha256 is not None,'Actual externally pinned producer bundle required');print(json.dumps(producer_interface(args.manifest,args.manifest_sha256)),flush=True);return
     if args.command=='context':base.frozen.require(args.output is not None,'Fresh output required');print(json.dumps(prepare_context(args.state,args.output)),flush=True);return
     if args.command=='readiness':print(json.dumps(readiness(args.state)),flush=True);return
     base.frozen.require(args.manifest is not None and args.manifest_sha256 is not None and args.contract_sha256 is not None and base.frozen.sha(CONTRACT)==base.digest(args.contract_sha256),'Real requests and external published contract SHA required')
