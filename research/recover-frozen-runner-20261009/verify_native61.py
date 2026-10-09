@@ -25,7 +25,7 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def verify(directory, state=None, *, calendar=None):
+def verify(directory, state=None, *, calendar=None, market_work=None):
     start,end,days,minutes,funding=(START,END,61,87840,915) if calendar is None else tuple(calendar[k] for k in ('start','end_exclusive','days','minutes','funding_events'))
     require(end-start==days*86400000000 and minutes==days*1440,'Audit calendar dimensions differ')
     from modules.transformer_v3.isolated_audit import verify as financial
@@ -44,7 +44,7 @@ def verify(directory, state=None, *, calendar=None):
     audit.update(continuous_days=days, capital_USDT=10000, terminal_paid_flat=True, liquidations=len(liqs), account_stitching=False)
     if state is not None:
         import polars as pl
-        base = state / 'h1_validation/original/h1_market/data/normalized'
+        base = (market_work or state / 'h1_validation/original/h1_market') / 'data/normalized'
         @lru_cache(maxsize=12)
         def rows(symbol, month, kind):
             family = 'klines' if kind == 'trade' else 'markPriceKlines'

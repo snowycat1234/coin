@@ -154,25 +154,25 @@ def mapped(full,c,original_mapper,calendar=None):
     return np.asarray(fractions),np.asarray(budgets)
 
 
-def market(state,calendar=None):
-    if calendar is None:return frozen.market(state)
+def market(state,calendar=None,market_work=None):
+    if calendar is None and market_work is None:return frozen.market(state)
     start,end,_,_,_=calendar_values(calendar)
     from modules.collector_research.validation import runtime,data
-    runtime.WORK=data.WORK=state/'h1_validation/original/h1_market'
+    runtime.WORK=data.WORK=market_work or state/'h1_validation/original/h1_market'
     return data.market_window(list(frozen.SYMBOLS),start,end)
 
 
-def simulator(state,contract,calendar=None):
+def simulator(state,contract,calendar=None,market_work=None):
     from scripts.investment import perpetual_directional as original
     from scripts.investment.resumable_perpetual import NativeDailySimulator
     from quant.bybit_isolated_account import BybitIsolatedAccount
     frozen.require(original.COSTS[0]==contract['cost'],'Original execution cost differs')
-    sim=NativeDailySimulator(market(state,calendar),'LONG_SHORT',original.COSTS[0],dict(id='RAW_AS_FRACTION',scale=1.),account_factory=BybitIsolatedAccount,persist_cash_close=True,final_day_target_zero=True)
+    sim=NativeDailySimulator(market(state,calendar,market_work),'LONG_SHORT',original.COSTS[0],dict(id='RAW_AS_FRACTION',scale=1.),account_factory=BybitIsolatedAccount,persist_cash_close=True,final_day_target_zero=True)
     frozen.require(float(sim.account.nav())==10000 and sim.previous_quote is None and all(p.quantity==0 for p in sim.account.positions.values()),'Original fresh account/startup differs')
     return sim
 
 
-def source_market_check(state,calendar=None,contract_path=None):
+def source_market_check(state,calendar=None,contract_path=None,market_work=None):
     start,end,days,minutes,funding=calendar_values(calendar)
     contract=frozen.read(contract_path or HERE/'EVALUATE_REQUESTS61_ADAPTER.json')
     for n,h in contract['source_sha256'].items():frozen.require(frozen.sha(frozen.REPO/n)==h,'Frozen adapter/financial source differs: '+n)
@@ -182,15 +182,19 @@ def source_market_check(state,calendar=None,contract_path=None):
     m=frozen.read(base/'h1_market/reports/DATASET_MANIFEST.json')
     for r in m['artifacts']:
         p=base/'h1_market'/r['relative_path'];frozen.require(p.stat().st_size==r['bytes'] and frozen.sha(p)==r['sha256'],'Retained actual market bytes differ')
+    if market_work is not None:
+        frozen.require(market_work.resolve()==member(state,contract['market_work_relative']).resolve(),'Explicit bound minute/daily/funding root required')
+        for r in contract['market_artifacts']:
+            p=member(market_work,r['relative_path']);frozen.require(p.stat().st_size==r['bytes'] and frozen.sha(p)==r['sha256'],'Published original-derived minute or retained context bytes differ')
     status='PASS_REUSED_EXACT_INPUT_GRID_PROOF_WITH_CURRENT_IDENTICAL_SOURCE_BYTES' if calendar is None else 'PASS_CURRENT_SOURCE_AND_MARKET_BYTE_IDENTITIES_GRID_CHECK_REQUIRED_BY_CALENDAR_ENTRYPOINT'
     return dict(status=status,registered_files=len(m['artifacts']),original_engine_sha256=contract['engine_sha256'],minutes=minutes,funding_events=funding)
 
 
-def check(state,manifest,expected,calendar=None,contract_path=None,short_context=None,request_schema=SCHEMA,provenance_check=None):
+def check(state,manifest,expected,calendar=None,contract_path=None,short_context=None,request_schema=SCHEMA,provenance_check=None,context_override=None,market_work=None):
     _,_,days,_,_=calendar_values(calendar)
     import numpy as np
-    source=source_market_check(state,calendar,contract_path);m,a=load_bundle(manifest,expected,calendar,request_schema);mapper=frozen.modules(state)
-    c=contexts(state,SHORT in m['expert_order'],calendar,short_context)
+    source=source_market_check(state,calendar,contract_path,market_work);m,a=load_bundle(manifest,expected,calendar,request_schema);mapper=frozen.modules(state)
+    c=contexts(state,SHORT in m['expert_order'],calendar,short_context) if context_override is None else context_override(state,SHORT in m['expert_order'],calendar,short_context)
     provenance=provenance_check(manifest,m,a,c) if provenance_check is not None else None
     full,report=validate(m,a,c,calendar);fractions,budgets=mapped(full,c,mapper.mapper,calendar)
     if provenance is not None:report['prefix_provenance']=provenance
@@ -202,12 +206,12 @@ def check(state,manifest,expected,calendar=None,contract_path=None,short_context
     return m,fractions,budgets,report
 
 
-def audit(directory,state,calendar=None):
+def audit(directory,state,calendar=None,market_work=None):
     start,end,days,minutes,funding=calendar_values(calendar)
     import polars as pl
     import verify_native61
     trades=frozen.read(directory/'account/trades.json')
-    if trades:return verify_native61.verify(directory,state,calendar=calendar)
+    if trades:return verify_native61.verify(directory,state,calendar=calendar,market_work=market_work)
     # A legitimately inactive request path has no fictitious paid close.
     from modules.transformer_v3.isolated_audit import verify as financial
     a=financial(directory/'account',list(frozen.SYMBOLS),1);s=frozen.read(directory/'account/summary.json');e=frozen.read(directory/'EXECUTION.json');funds=frozen.read(directory/'account/funding.json')
@@ -224,7 +228,7 @@ def audit(directory,state,calendar=None):
     return a
 
 
-def run(state,manifest,expected,output,execution_plan,plan_hash,commit,calendar=None,contract_path=None,short_context=None,request_schema=SCHEMA,provenance_check=None):
+def run(state,manifest,expected,output,execution_plan,plan_hash,commit,calendar=None,contract_path=None,short_context=None,request_schema=SCHEMA,provenance_check=None,context_override=None,market_work=None):
     _,_,days,minutes,_=calendar_values(calendar)
     contract_path=contract_path or HERE/'EVALUATE_REQUESTS61_ADAPTER.json'
     import numpy as np
@@ -232,11 +236,11 @@ def run(state,manifest,expected,output,execution_plan,plan_hash,commit,calendar=
     relative=execution_plan.resolve().relative_to(frozen.REPO).as_posix()
     frozen.require(subprocess.check_output(['git','-C',str(frozen.REPO),'show',commit+':'+relative])==execution_plan.read_bytes(),'Published future request-specific execution plan required')
     plan=frozen.read(execution_plan);frozen.require(plan['request_manifest_sha256']==expected and plan['adapter_contract_sha256']==frozen.sha(contract_path),'Future plan/request/adapter binding differs')
-    m,fractions,budgets,gate=check(state,manifest,expected,calendar,contract_path,short_context,request_schema,provenance_check);frozen.require(plan['arm_id']==m['arm_id'] and not output.exists(),'Fresh explicitly planned arm required')
+    m,fractions,budgets,gate=check(state,manifest,expected,calendar,contract_path,short_context,request_schema,provenance_check,context_override,market_work);frozen.require(plan['arm_id']==m['arm_id'] and not output.exists(),'Fresh explicitly planned arm required')
     ledger=state/('native61-request-ledger' if calendar is None else 'native-calendar-request-ledger')/expected;ledger.parent.mkdir(parents=True,exist_ok=True)
     with ledger.open('x') as f:f.write('RESERVED_FROZEN_REQUEST_IDENTITY\n')
     from scripts.investment import perpetual_directional as old
-    contract=frozen.read(contract_path);sim=simulator(state,contract,calendar)
+    contract=frozen.read(contract_path);sim=simulator(state,contract,calendar,market_work)
     sim.budget=[1.]+[0.]*(budgets.shape[1]-1)
     output.mkdir(parents=True,exist_ok=False);receipt=dict(policy=m['arm_id'],request_manifest_sha256=expected,request_payload_sha256=gate['request_payload_sha256'],plan_commit=commit,started_UTC=datetime.now(UTC).isoformat(),limits=contract['limits'],export_provenance=m)
     (output/'STARTED.json').write_text(json.dumps(receipt,indent=2)+'\n');(output/'REQUEST_GATE.json').write_text(json.dumps(gate,indent=2)+'\n')
@@ -256,7 +260,7 @@ def run(state,manifest,expected,output,execution_plan,plan_hash,commit,calendar=
         (output/'EXECUTION.json').write_text(json.dumps(receipt,indent=2)+'\n');ledger.write_text(json.dumps(dict(status=status,request_manifest_sha256=expected))+'\n')
     from pyarrow.parquet import read_table
     actual=read_table(output/'account/targets.parquet')['target_weight'].to_numpy().reshape(days,5);frozen.require(np.array_equal(actual,fractions),'Saved account targets differ from frozen mapped requests')
-    report=audit(output,state,calendar);report['mapped_request_targets_exact']=True
+    report=audit(output,state,calendar,market_work);report['mapped_request_targets_exact']=True
     with (output/'INDEPENDENT_AUDIT.json').open('x') as f:json.dump(report,f,indent=2);f.write('\n')
     ledger.write_text(json.dumps(dict(status='COMPLETE_AND_AUDITED',request_manifest_sha256=expected))+'\n');print(json.dumps(dict(status='COMPLETE_AND_AUDITED',arm=m['arm_id'],net_PnL=saved['summary']['net_PnL'])),flush=True)
 
