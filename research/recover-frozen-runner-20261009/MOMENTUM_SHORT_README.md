@@ -1,0 +1,13 @@
+# One fixed momentum short challenge
+
+Freeze one new short/cash mirror of the existing fixed30-day absolute-momentum long/cash source, predating June inspection at commit713618686ac2208f52e9b15fe072a9d5149b25b9. The original long source is unchanged. This is a new COIN hypothesis selected after seeing June, not a reproduced public strategy or pristine out-of-sample result.
+
+A flat asset enters short when its completed daily close is below its close30days earlier. A held short exits on equality or reversal. Exit occurs before entry; no same-day re-entry. Genuine200completed contiguous daily bars are required. No SMA filter. Each active CORE5 asset receives raw−.12, with inactive budget in cash. Keep the original30-day covariance10%annual scale-down mapper, cash-to-expert dailyL1≤.1 ramp, unchanged guard-OFF account and all costs/execution/funding rules.
+
+Freeze four separate fresh10k accounts: May1–July1exclusive2024 (continuous61days), November2022, January2023 and OKXJuly15–October9exclusive2026. May/June are separate monthly attribution within one account, never a June capital reset. All inputs are retained, verified public bytes; no provider downloads. No horizon search, risk increase, additional variant, model fit or automatic promotion. The requested June2%–5% is a research target only.
+
+The hypothesis is that a fixed return-sign test can react to persistent downside without waiting for a fresh20-day low. It may retain shorts through rebounds; earlier response and profit are not guaranteed. Mechanical acceptance uses causal target identity and independent account/source reconciliation, regardless of profit sign. Report net/price/cost/funding, realized exposure/volatility/drawdown, entries/exits and paid terminal closure across all four regimes.
+
+`MOMENTUM_SHORT_PLAN.json` binds source hashes and `MOMENTUM_SHORT_PREFLIGHT.json` binds exact inputs/targets before wallets. Three focused state/equality/future-and-warmup tests pass; all four preflights pass with zero wallets. Publish and verify the remote plan commit before invoking `momentum_short_challenge.py run --case CASE --state STATE --output NEW_DIRECTORY --plan-commit COMMIT`; then run `verify_momentum_short.py --directory NEW_DIRECTORY --state STATE --write`. Use the existing dependency recipe. Each wallet is sequential, one CPU,6GB address space and600seconds; preserve failed prefixes and never duplicate completed wallets.
+
+Input publication times and historical exchange/account rules remain uncertified. Binance/OKX market inputs with the frozen Bybit-style isolated1x account are conditional research proxies. Keep paused hold diagnostics unstarted.
