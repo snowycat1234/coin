@@ -11,6 +11,7 @@ import ast
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Union
@@ -73,18 +74,21 @@ def _context():
     binding = json.loads(binding_path.read_text())
     if binding["package_version"] != PACKAGE_VERSION or Path(binding["target"]) != KERNEL_TARGET:
         raise ValueError("Wrong official package version or supplementary target")
+    # Location may move; the historical binding and every executable byte
+    # remain pinned. No alternate package/version is resolved or installed.
+    kernel_target = Path(os.environ.get("COIN_RSI2_KERNEL_TARGET", str(KERNEL_TARGET))).expanduser().resolve()
     for relative in ("jesse_rust/__init__.py", binding["extension_relative_path"],
                      "jesse_rust-1.3.0.dist-info/METADATA"):
-        if _sha(KERNEL_TARGET / relative) != binding["installed_files"][relative]["sha256"]:
+        if _sha(kernel_target / relative) != binding["installed_files"][relative]["sha256"]:
             raise ValueError(f"Official installed artifact changed: {relative}")
     if "jesse_rust" in sys.modules:
         package = sys.modules["jesse_rust"]
-        if Path(package.__file__).resolve() != (KERNEL_TARGET / "jesse_rust/__init__.py").resolve():
+        if Path(package.__file__).resolve() != (kernel_target / "jesse_rust/__init__.py").resolve():
             raise ValueError("An unbound jesse_rust package is already imported")
     else:
         spec = importlib.util.spec_from_file_location(
-            "jesse_rust", KERNEL_TARGET / "jesse_rust/__init__.py",
-            submodule_search_locations=[str(KERNEL_TARGET / "jesse_rust")])
+            "jesse_rust", kernel_target / "jesse_rust/__init__.py",
+            submodule_search_locations=[str(kernel_target / "jesse_rust")])
         package = importlib.util.module_from_spec(spec)
         sys.modules["jesse_rust"] = package
         try:
@@ -93,7 +97,7 @@ def _context():
             sys.modules.pop("jesse_rust", None)
             raise
     extension = sys.modules["jesse_rust.jesse_rust"]
-    if Path(extension.__file__).resolve() != (KERNEL_TARGET / binding["extension_relative_path"]).resolve():
+    if Path(extension.__file__).resolve() != (kernel_target / binding["extension_relative_path"]).resolve():
         raise ValueError("An unbound compiled kernel is loaded")
     constants = ast.parse((VENDOR / "JESSE_CONSTANTS_ORIGINAL.py").read_text())
     mappings = [node for node in constants.body if isinstance(node, ast.Assign)
