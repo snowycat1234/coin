@@ -42,7 +42,17 @@ def package(state,public):
         root=state/'results61'/name;s=read(root/'account/summary.json');a=read(root/'INDEPENDENT_AUDIT.json');assert a['status'].startswith('PASS_')
         controls[name]=dict(status='REUSED_COMPLETED_AUDITED_ACCOUNT_NO_RERUN',net_PnL_USDT=s['net_PnL'],months=s['months'],minute_max_drawdown=s['minute_max_drawdown'],realized_exposure=s['realized_exposure'],summary_SHA256=sha(root/'account/summary.json'),audit_SHA256=sha(root/'INDEPENDENT_AUDIT.json'),public_relative_path='../comparison61/ARTIFACT.json')
     parent=HERE/'temporal-v2-native61-cash-results/V2_GRU64_WITH_CASH/RESULT.json'
-    result=dict(status='PASS_TWO_COMPLETE_AUDITED_SHORT_EXPANSION_NATIVE61_WALLETS',accounts={n:pairs[n][1] for n in ARMS},primary_short_minus_matched_control_USDT=delta,reused_static_controls=controls,reused_parent_GRU_withCash=read(parent),primary_comparison='TWO_SEPARATE_FRESH_SHARED_WALLETS_SAME_TAPES_AND_CONTRACT; NO_STITCHING',interpretation='Seen development with capped unequal updates and unequal actual exposure. Independent-account differences are comparisons, not causal expansion effects or executable switching gains.',new_native_wallets=2,fits=0,model_inference=0,provider_downloads=0,completed_wallet_reruns=0,account_stitching=False,historical_publication_and_exchange_account_rules_certified=False)
+    import numpy as np
+    import evaluate_requests61 as adapter
+    contexts=adapter.contexts(state,True);mapper=adapter.frozen.modules(state).mapper;allocation={}
+    for arm in ARMS:
+        plan=read(HERE/'temporal-short-native61-plans'/(arm+'.json'));bundle=state/'temporal-short-exports'/plan['public_export']['commit']/arm/'MANIFEST.json'
+        m,a=adapter.load_bundle(bundle,plan['request_manifest_sha256']);full,_=adapter.validate(m,a,contexts);targets,budgets=adapter.mapped(full,contexts,mapper)
+        assert hashlib.sha256(targets.tobytes()).hexdigest()==plan['mapping_preflight']['fractions_f64_sha256'] and hashlib.sha256(budgets.tobytes()).hexdigest()==plan['mapping_preflight']['budgets_f64_sha256']
+        allocation[arm]={}
+        for label,mask in (('ALL',np.ones(61,bool)),('MAY',np.arange(61)<31),('JUNE',np.arange(61)>=31)):
+            allocation[arm][label]=dict(request_mean=dict(zip(contexts['expert_order'],map(float,full[mask].mean(0)))),ramped_budget_mean=dict(zip(contexts['expert_order'],map(float,budgets[mask].mean(0)))),requested_short_maximum=float(full[mask,5].max()),ramped_short_maximum=float(budgets[mask,5].max()))
+    result=dict(status='PASS_TWO_COMPLETE_AUDITED_SHORT_EXPANSION_NATIVE61_WALLETS',accounts={n:pairs[n][1] for n in ARMS},primary_short_minus_matched_control_USDT=delta,request_and_ramped_budget_allocation=allocation,allocation_scope='READ_ONLY_REMAPPING_OF_FROZEN_REQUESTS_EXACT_SAVED_TARGET_AND_PLAN_BUDGET_SHA256; EXPERT_SIMPLEX_WEIGHTS_NOT_LITERAL_NAV_ALLOCATION',reused_static_controls=controls,reused_parent_GRU_withCash=read(parent),primary_comparison='TWO_SEPARATE_FRESH_SHARED_WALLETS_SAME_TAPES_AND_CONTRACT; NO_STITCHING',interpretation='Seen development with capped unequal updates and unequal actual exposure. Independent-account differences are comparisons, not causal expansion effects or executable switching gains.',new_native_wallets=2,fits=0,model_inference=0,provider_downloads=0,completed_wallet_reruns=0,account_stitching=False,historical_publication_and_exchange_account_rules_certified=False)
     write_once(public/'RESULTS.json',(json.dumps(result,indent=2)+'\n').encode())
     root=state/'portable-short-expansion-native61';root.mkdir(exist_ok=False)
     for arm in ARMS:shutil.copytree(pairs[arm][0],root/'accounts'/arm)
