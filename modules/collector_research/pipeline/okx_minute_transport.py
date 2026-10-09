@@ -284,7 +284,9 @@ def build(repo, commit, instrument, output, prefix=None):
         parts=len(parts),
         compressed_bytes=manifest["compressed_bytes"],
         complete_instrument_date_shards=len(shards),
-        incomplete_instrument_date_shards=len(all_shards) - len(shards),
+        incomplete_instrument_date_shards=sum(s["status"] != "COMPLETE" for s in all_shards),
+        reused_complete_prefix_asset_days=sum(s["status"] == "COMPLETE" for s in all_shards)
+        - len(shards),
         verified_minute_rows=manifest["verified_minute_rows"],
     )
 
