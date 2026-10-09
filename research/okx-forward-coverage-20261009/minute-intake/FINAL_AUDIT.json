@@ -1,7 +1,6 @@
 {
-  "version": "okx-stopped-intake-audit-1",
-  "dataset_role": "OKX_ONLY_PUBLIC_OFFLINE_RESEARCH",
-  "audit_script_sha256": "d216b7fbc0dea2bd32b4e1d235ded9aadf58a6c2ed64f82293e903639cce03f8",
+  "version": "okx-final-quarantine-audit-1",
+  "audit_script_sha256": "d9f48fec0a6cb2248427d2683dae607b71b8a928cf6506a86ffb9a8f7bf8c53e",
   "binding": {
     "version": "okx-core5-minute-intake-1",
     "source_commit": "7371bd1ae7c6409a31fac9f7bbbb9d5ca1353cb6",
@@ -47,106 +46,94 @@
     "training": false,
     "wallet_backtest": false
   },
-  "complete_shards": 222,
-  "verified_minute_rows": 639360,
-  "verified_boundary_marks": 5,
-  "incomplete_shards": [
+  "resume_stage": {
+    "version": "okx-minute-quarantine-resume-1",
+    "source_commit": "40c81f57a4c22847bf92b08cc2052b2198f517f8",
+    "source_sha256": "492c2885e34054b838ad934f84167f47abbf9774683c179abd63dbf60c567fb6",
+    "started_ms": 1791544311060,
+    "original_limits_unchanged": true,
+    "starting_requests": 4444,
+    "elapsed_seconds": 1248.668
+  },
+  "complete_shards": 429,
+  "verified_minute_rows": 1235520,
+  "full_window_ready": false,
+  "quarantined_instrument_dates": [
     {
       "instrument_id": "SOL-USDT-SWAP",
-      "date": "2026-08-28",
-      "status": "INCOMPLETE_COVERAGE",
       "start_ms": 1787875200000,
-      "end_ms_exclusive": 1787961600000,
-      "manifest": "SOL-USDT-SWAP/2026-08-28.manifest.json",
-      "bars_files": {
-        "trade": "SOL-USDT-SWAP/2026-08-28.trade.jsonl.gz",
-        "mark": "SOL-USDT-SWAP/2026-08-28.mark.jsonl.gz"
-      },
-      "bars_sha256": {
-        "trade": "c9900b73947cc5ad95d5b702c979dbfd0d4e08d01b71833dd5d31dcdb00fc6d7",
-        "mark": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
-      },
-      "responses_file": "SOL-USDT-SWAP/2026-08-28.responses.jsonl.gz",
-      "responses_sha256": "18c9952e32ff63170ff6df47d68f79aec5c8d234ae230a43ec15c91d6597ec36",
-      "coverage": {
-        "trade": {
-          "expected_bars": 1440,
-          "observed_bars": 599,
-          "missing_bars": 841,
-          "missing_ranges_ms_exclusive": [
-            [
-              1787905800000,
-              1787905860000
-            ],
-            [
-              1787911200000,
-              1787961600000
-            ]
-          ],
-          "status": "INCOMPLETE_COVERAGE"
-        },
-        "mark": {
-          "expected_bars": 1440,
-          "observed_bars": 0,
-          "missing_bars": 1440,
-          "missing_ranges_ms_exclusive": [
-            [
-              1787875200000,
-              1787961600000
-            ]
-          ],
-          "status": "INCOMPLETE_COVERAGE"
-        }
-      },
-      "identity_sha256": "fc413793af22d6babf6aea175bd284e99e05f34a3a37ecd231029d6741c21810",
-      "contract_value": "1",
-      "contract_multiplier": "1",
-      "manifest_sha256": "519f103af60dc067dcdb16d2c81830363428a87b0eb4624f0d1a6cd37a308c2f"
+      "end_ms_exclusive": 1787961600000
     }
   ],
-  "funding_clocks_within_complete_shards": 666,
-  "strict_prior_funding_marks_verified": 661,
-  "native_rule": "MARK_CLOSE_MS_EXCLUSIVE_STRICTLY_LESS_THAN_FUNDING_TIME_MS",
-  "missing_strict_prior_funding_marks": [
+  "missing_or_unconfirmed_intervals": [
+    {
+      "instrument_id": "SOL-USDT-SWAP",
+      "kind": "trade",
+      "start_ms": 1787905800000,
+      "end_ms_exclusive": 1787905860000,
+      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
+    },
+    {
+      "instrument_id": "SOL-USDT-SWAP",
+      "kind": "trade",
+      "start_ms": 1787911200000,
+      "end_ms_exclusive": 1787961600000,
+      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
+    },
+    {
+      "instrument_id": "SOL-USDT-SWAP",
+      "kind": "mark",
+      "start_ms": 1787875200000,
+      "end_ms_exclusive": 1787961600000,
+      "reason": "INCOMPLETE_SOURCE_OR_QUARANTINED"
+    }
+  ],
+  "verified_original_boundary_marks": 5,
+  "verified_two_minute_boundary_requests": 5,
+  "boundary_overlap_checks": [
     {
       "instrument_id": "BTC-USDT-SWAP",
-      "funding_time_ms": 1784073600000,
-      "required_open_ms": 1784073480000,
-      "status": "MISSING_STRICT_PRIOR_MARK",
-      "boundary_mark_closes_at_event": true
+      "open_ms": 1784073540000,
+      "OHLC_identical": true
     },
     {
       "instrument_id": "ETH-USDT-SWAP",
-      "funding_time_ms": 1784073600000,
-      "required_open_ms": 1784073480000,
-      "status": "MISSING_STRICT_PRIOR_MARK",
-      "boundary_mark_closes_at_event": true
+      "open_ms": 1784073540000,
+      "OHLC_identical": true
     },
     {
       "instrument_id": "SOL-USDT-SWAP",
-      "funding_time_ms": 1784073600000,
-      "required_open_ms": 1784073480000,
-      "status": "MISSING_STRICT_PRIOR_MARK",
-      "boundary_mark_closes_at_event": true
+      "open_ms": 1784073540000,
+      "OHLC_identical": true
     },
     {
       "instrument_id": "XRP-USDT-SWAP",
-      "funding_time_ms": 1784073600000,
-      "required_open_ms": 1784073480000,
-      "status": "MISSING_STRICT_PRIOR_MARK",
-      "boundary_mark_closes_at_event": true
+      "open_ms": 1784073540000,
+      "OHLC_identical": true
     },
     {
       "instrument_id": "DOGE-USDT-SWAP",
-      "funding_time_ms": 1784073600000,
-      "required_open_ms": 1784073480000,
+      "open_ms": 1784073540000,
+      "OHLC_identical": true
+    }
+  ],
+  "funding_clocks_within_complete_shards": 1287,
+  "strict_prior_funding_marks_verified": 1286,
+  "missing_strict_prior_funding_marks": [
+    {
+      "instrument_id": "SOL-USDT-SWAP",
+      "funding_time_ms": 1787961600000,
+      "required_mark_open_ms": 1787961480000,
       "status": "MISSING_STRICT_PRIOR_MARK",
-      "boundary_mark_closes_at_event": true
+      "reason": "PRECEDING_DAY_QUARANTINED"
     }
   ],
   "initial_positions": "ZERO_PER_PARENT_HANDOFF_NOT_ACCOUNT_INSPECTED",
-  "no_second_prestart_mark_in_saved_raw": true,
-  "additional_prestart_reads": 0,
+  "archive_check": {
+    "path": "ARCHIVE_CHECK.json",
+    "sha256": "431a384f0004124329c43a04cd1791fd52103fdc1b6e25004b8fca0dc5f8d89e"
+  },
+  "original_API_confirm_unchanged": "0",
   "historical_publication_certified": false,
   "historical_instrument_rules_certified": false,
   "account_settlement_verified": false,
