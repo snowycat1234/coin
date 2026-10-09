@@ -546,3 +546,6 @@ No new dependency/upstream source/version/license/local upstream edits. Reuse ex
 ## 2026-10-09 Temporal two-expert code module
 
 Reuse installed PyTorch2.6.0+cpu (existing registered BSD-style PyTorch, standard nn.GRU/Linear/Adam/autograd), NumPy2.5.3, pytest9.1.1 and Ruff0.16.9; no installation or third-party source changes. Fresh-environment CPU wheel recipe uses official https://download.pytorch.org/whl/cpu. Own fixed GRU32/latest-MLP composition and exact VJP adapter import user-owned recovered prototype SHA256 46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab unchanged from public recovery commit239cb35bc1626c4828199491cb4b0e817efcc54e; no financial kernel rewrite. Existing24 features inspected at v2 0350589199d4566ac519b0e581ff86eb065ba934 and v3 c7d0ae99f53a46fac497ede31fe4962b5b4f19a5 small policy head/objective inspected; neither old sweep rerun nor oracle loss reused. 29 focused tests, economic fits/native wallets0; broader data/native restoration remain separate.
+
+
+2026-10-09 source-contract clarification: original10 aggregate context retained; historical bar-start dates_us shifted +1day by explicit causal adapter. Legacy256-close ready and future7/30/60 relative/regime/label-derived ranker eligibility excluded. No data/dependency download, upstream edit or economic fit; 35 focused tests pass.

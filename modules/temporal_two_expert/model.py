@@ -5,7 +5,7 @@ from __future__ import annotations
 import torch
 from torch import nn
 
-from .inputs import CORE5, FEATURE_NAMES, LOOKBACK, Standardizer
+from .inputs import CORE5, FEATURE_NAMES, LOOKBACK, MARKET_CONTEXT, Standardizer
 
 SEED = 20261009
 FAMILIES = ("GRU64", "LATEST_MLP")
@@ -64,6 +64,7 @@ class Selector(nn.Module):
             seed=self.seed,
             symbols=list(CORE5),
             features=list(FEATURE_NAMES),
+            aggregate_market_context=list(MARKET_CONTEXT),
             lookback=LOOKBACK,
             input="24_scaled_values_plus24_validity_masks_per_asset_per_completed_day",
             outputs="CASH=1-s,VOL=s*(1-w),CSMOM21=s*w;NO_CASH_s=1",

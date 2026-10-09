@@ -15,6 +15,20 @@ import numpy as np
 
 DAY_US = 86_400_000_000
 CORE5 = ("BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT")
+# Preserve the original six aggregate feature semantics. CORE5 selects rows of
+# the original24 matrix; it does not rebuild the market context over five assets.
+MARKET_CONTEXT = (
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "1000PEPEUSDT",
+    "XRPUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "DOGEUSDT",
+    "1000SATSUSDT",
+    "ORDIUSDT",
+)
 FEATURE_NAMES = (
     "mom1",
     "mom5",
@@ -205,6 +219,7 @@ class WindowBatch:
                 source=self.source_sha256,
                 symbols=CORE5,
                 features=FEATURE_NAMES,
+                aggregate_market_context=MARKET_CONTEXT,
                 **{
                     k: array_digest(v)
                     for k, v in dict(
@@ -255,6 +270,50 @@ class Standardizer:
                 provenance=self.provenance,
             )
         )
+
+
+def adapt_historical_inputs(*, dates_us, x, availability, symbols, feature_names, source_sha256):
+    """Project the original10 causal matrix, shifting bar START to completion.
+
+    Explicit keyword inputs prevent forwarding the historical artifact's ready
+    (256-close history), relative/regime (future7/30/60 labels), or label-derived
+    eligible_ranker_indices into either features or masks. Availability is the
+    causal completed-close observation flag, not the old ready/label gate.
+    """
+    values, observed = np.asarray(x), np.asarray(availability)
+    order = tuple(symbols)
+    if (
+        values.ndim != 3
+        or values.shape[1:] != (10, 24)
+        or values.dtype.kind != "f"
+        or observed.shape != values.shape[:2]
+        or observed.dtype != bool
+        or len(order) != 10
+        or set(order) != set(MARKET_CONTEXT)
+        or tuple(feature_names) != FEATURE_NAMES
+    ):
+        raise ValueError("Original10 named24 causal features and asset availability required")
+    starts = _clock(dates_us, (len(values),))
+    if (
+        np.any(starts % DAY_US)
+        or np.any(np.diff(starts) != DAY_US)
+        or np.any(starts > np.iinfo(np.int64).max - DAY_US)
+    ):
+        raise ValueError("Original dates_us must be consecutive daily bar-start microseconds")
+    # All six aggregates are the same original10 context repeated per asset.
+    if not np.array_equal(
+        values[:, :, 18:],
+        np.broadcast_to(values[:, :1, 18:], values[:, :, 18:].shape),
+        equal_nan=True,
+    ):
+        raise ValueError("Preserve the original shared10-asset aggregate context")
+    completed = starts.astype(np.int64) + DAY_US
+    indices = [order.index(symbol) for symbol in CORE5]
+    selected = values[:, indices]
+    step_valid = observed[:, indices]
+    valid = np.isfinite(selected) & step_valid[..., None]
+    clocks = np.broadcast_to(completed[:, None, None], selected.shape)
+    return FeatureTimeline(selected, valid, step_valid, completed, clocks, source_sha256)
 
 
 def load_feature_npz(path, *, expected_sha256):

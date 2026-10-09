@@ -23,8 +23,10 @@ from .inputs import (
     CORE5,
     DAY_US,
     FEATURE_NAMES,
+    MARKET_CONTEXT,
     FeatureTimeline,
     Standardizer,
+    adapt_historical_inputs,
     fit_standardizer,
     load_feature_npz,
 )
@@ -644,3 +646,70 @@ def test_changed_source_and_arm_identity_reject(tmp_path, monkeypatch):
             patch.setattr(cp, "source_identity", lambda: {"modified_source": "d" * 64})
             with pytest.raises(ValueError, match="binding"):
                 cp.load_checkpoint(output, model, opt, binding)
+
+
+def historical_inputs(count=80):
+    rng = np.random.default_rng(910)
+    values = rng.normal(0.0, 0.1, (count, 10, 24))
+    values[:, :, 18:] = values[:, :1, 18:]
+    values[:72, :, 4:6] = np.nan  # mom120/mom200 unavailable; shorter fields survive.
+    observed = np.ones((count, 10), dtype=bool)
+    observed[30, 4] = False
+    return dict(
+        dates_us=np.arange(19600, 19600 + count, dtype=np.int64) * DAY_US,
+        x=values,
+        availability=observed,
+        symbols=MARKET_CONTEXT,
+        feature_names=FEATURE_NAMES,
+        source_sha256="e" * 64,
+    )
+
+
+def test_historical_bar_start_shift_real64_masks_and_original10_aggregates():
+    source = historical_inputs()
+    timeline = adapt_historical_inputs(**source)
+    np.testing.assert_array_equal(timeline.completed_us, source["dates_us"] + DAY_US)
+    assert np.all(timeline.available_us == timeline.completed_us[:, None, None])
+    decision = int(source["dates_us"][64])
+    window = timeline.windows(np.array([decision], dtype=np.int64))
+    indices = [MARKET_CONTEXT.index(symbol) for symbol in CORE5]
+    np.testing.assert_array_equal(window.values[0], source["x"][:64, indices])
+    assert not window.valid[..., 4:6].any() and window.valid[..., 0].any()
+    assert not window.step_valid[0, 30, CORE5.index("XRPUSDT")]
+    assert not window.valid[0, 30, CORE5.index("XRPUSDT")].any()
+    np.testing.assert_array_equal(timeline.values[:, :, 18:], source["x"][:, indices, 18:])
+    # No use of the current incomplete bar; changing it cannot alter this window.
+    changed = {**source, "x": source["x"].copy()}
+    changed["x"][64:] += 99.0
+    assert (
+        adapt_historical_inputs(**changed).windows(window.decision_us).identity == window.identity
+    )
+    with pytest.raises(ValueError, match="64 real"):
+        timeline.windows(np.array([source["dates_us"][63]], np.int64))
+
+
+@pytest.mark.parametrize("forbidden", ["ready", "relative", "regime", "eligible_ranker_indices"])
+def test_historical_ready_and_future_labels_never_enter_inputs_or_masks(forbidden):
+    source = historical_inputs()
+    # The 256-close ready gate could be entirely false while 64-day windows are usable.
+    assert len(adapt_historical_inputs(**source).windows(source["dates_us"][64:]).values) == 16
+    with pytest.raises(TypeError, match="unexpected keyword"):
+        adapt_historical_inputs(**source, **{forbidden: np.zeros(80, dtype=bool)})
+
+
+def test_historical_source_order_is_named_and_aggregate_changes_reject():
+    source = historical_inputs()
+    original = adapt_historical_inputs(**source)
+    reverse = np.arange(9, -1, -1)
+    reordered = {
+        **source,
+        "symbols": tuple(reversed(MARKET_CONTEXT)),
+        "x": source["x"][:, reverse],
+        "availability": source["availability"][:, reverse],
+    }
+    actual = adapt_historical_inputs(**reordered)
+    np.testing.assert_array_equal(actual.values, original.values)
+    wrong = {**source, "x": source["x"].copy()}
+    wrong["x"][10, 2, 18] += 1.0
+    with pytest.raises(ValueError, match="aggregate context"):
+        adapt_historical_inputs(**wrong)

@@ -27,10 +27,25 @@ breadth1 breadth5 breadth20 breadth60 dispersion20 market_vol20
 ```
 
 These are the existing `feature_frame` eighteen fields and `market_features`
-six fields in `modules/collector_research/pipeline/`. Produce market aggregates
-over the declared CORE5 universe, retaining the existing rolling/gap semantics;
-bind that universe and all upstream input hashes in the producer manifest.
+six fields in `modules/collector_research/pipeline/`. Retain the original six
+aggregates over the historical10-asset context (BTC, ETH, SOL, 1000PEPE, XRP,
+WIF, WLD, DOGE, 1000SATS, ORDI; all USDT). CORE5 selects five per-asset rows
+without recomputing those aggregates. Rebuilding them needs an explicit new
+design/data identity. Bind the context and upstream hashes in the producer manifest.
 This module accepts precomputed features and does not regenerate labels/data.
+
+`adapt_historical_inputs(dates_us=..., x=..., availability=..., symbols=...,
+feature_names=..., source_sha256=...)` projects the original10 matrix and shifts
+historical **bar-start** `dates_us` by one day to completed-feature availability.
+Windows at decision D therefore contain bars ending by D, excluding the bar
+starting at D. `availability` is causal asset observation; per-feature validity
+is finite values AND observation. Missing long-history features retain masks
+while valid short-history features remain usable after64 actual daily steps.
+The old `ready` means256 consecutive closes; it is never a global window gate
+or a completeness mask. Future `relative`/`regime` horizons7/30/60 and
+label-derived `eligible_ranker_indices` are rejected as adapter arguments and
+never become inputs or action masks. Expert eligibility comes separately from
+the existing causal bank/mapper, not a historical future-label eligibility list.
 
 NPZ fields, loaded with `allow_pickle=False` and an expected archive SHA256:
 

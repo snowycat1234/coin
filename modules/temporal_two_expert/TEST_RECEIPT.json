@@ -17,9 +17,9 @@
     "RSS_sampling_seconds": 0.25,
     "aggregate_RSS_stop_bytes": 1000000000,
     "cpu_index": 0,
-    "elapsed_seconds": 10.093866317999982,
+    "elapsed_seconds": 11.293261922000056,
     "exit_code": 0,
-    "maximum_sampled_descendant_RSS_bytes": 265175040,
+    "maximum_sampled_descendant_RSS_bytes": 265732096,
     "per_process_address_limit_bytes": 1000000000,
     "resource_only_launcher": true,
     "single_CPU_affinity_enforced": true,
@@ -95,25 +95,55 @@
   ],
   "schema": "TEMPORAL_TWO_EXPERT_ENGINEERING_RECEIPT_V1",
   "source_SHA256": {
-    "modules/temporal_two_expert/README.md": "d7ab3c1694551e4411a9029285f4266ad9dbdfc928597ce09d8673fe96d70842",
+    "modules/temporal_two_expert/README.md": "3829b276563d9ffda05c31f4d1112a0c88fc88ca1a57606de2a844e1241233ef",
     "modules/temporal_two_expert/__init__.py": "ad6d5ac2359ed3d189ee1bf0a9c70134c3426d9f2561d55b22d3ce8840ee805b",
     "modules/temporal_two_expert/__main__.py": "e4ccfcd756b37f25150764ac647dd1966c644341308a2b2c3ad94db891bfc0b0",
     "modules/temporal_two_expert/checkpoint.py": "27694838ea9254b82a53fa34cc50b9943dd63c2a44caab97e45718007673b7f3",
     "modules/temporal_two_expert/exact.py": "5e74b2e80a956064db9c641d775e10737ec2d20bf5d287ee975aac057956ddbb",
-    "modules/temporal_two_expert/inputs.py": "a81598468a0c94cd17b2427989206d9990d9e6b59d3907d1eef6113ae98592eb",
-    "modules/temporal_two_expert/model.py": "376f9c588baf315d07abc5bc3bbf375c38c7b236c3ccc09505157014d8450021",
+    "modules/temporal_two_expert/inputs.py": "e9b175aadede32539eefc25cc64c4d98964e7e2b166278f972c41f1dedcffcf5",
+    "modules/temporal_two_expert/model.py": "ff623e3c2805f74c42557896702cc7c336e2ae426634a324ce9f9d3de639622e",
     "modules/temporal_two_expert/requirements.txt": "4a2f8ff20967af285500b0f0b491a9e17a66974fb027953b1d8f4351585a882b",
     "modules/temporal_two_expert/runner.py": "8fd0084f4b43f17e426302b21af8f5e1b12e19501cd3ae8d00b0808ea6d642ef",
-    "modules/temporal_two_expert/test_temporal.py": "677d39feebbf668517cf256d080496c7145813c690bf827d9fc9e551a3150165"
+    "modules/temporal_two_expert/test_temporal.py": "0904ef5550b4c79ebe6d4be7caf9e1a2dc6de9a3987b2391e27ff9eb8cd1bd39"
+  },
+  "source_contract_clarification": {
+    "aggregate_market_context": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "1000PEPEUSDT",
+      "XRPUSDT",
+      "WIFUSDT",
+      "WLDUSDT",
+      "DOGEUSDT",
+      "1000SATSUSDT",
+      "ORDIUSDT"
+    ],
+    "aggregate_values_rebuilt": false,
+    "economic_objective_or_parameter_counts_changed": false,
+    "excluded": [
+      "ready",
+      "relative",
+      "regime",
+      "eligible_ranker_indices"
+    ],
+    "future_relative_regime_horizons_days": [
+      7,
+      30,
+      60
+    ],
+    "historical_dates_us": "daily_bar_start; completion/availability=dates_us+86400000000",
+    "legacy_ready": "256 consecutive closes; never per-feature or global64-day input gate",
+    "prior_published_commit": "f90d798f5dc3d26310c87f940c8da9b2c0031ee1"
   },
   "status": "PASS_CODE_READY_DATA_NOT_READY",
   "tests": {
     "errors": 0,
     "failed": 0,
-    "junit_SHA256": "512637ac3f25f8bee6928fea77c41feefb30666ef785ef3cd730fb3c8ea6eed9",
+    "junit_SHA256": "c174552372f4cdfdf4728cef3d319434c8d75fdd92a48042751121e4f4dfc7ec",
     "optimizer_tests": "synthetic scalar objectives only; economic tests take no optimizer steps",
-    "passed": 29,
-    "pytest_seconds": 7.966,
+    "passed": 35,
+    "pytest_seconds": 8.879,
     "scope": [
       "causal clocks and actual64-day calendar",
       "train-only unique-row normalization",
@@ -125,7 +155,10 @@
       "safe serialization and Adam moments/RNG resume",
       "atomic interruption and duplicate run identity",
       "runner resume with synthetic non-economic loss",
-      "original terminal maturity exemption and immutable context arrays"
+      "original terminal maturity exemption and immutable context arrays",
+      "historical bar-start to completed-feature +1day timing and future-bar exclusion",
+      "original10 aggregate values/order retained while CORE5 rows selected",
+      "legacy256-close ready and future7/30/60 labels/ranker eligibility rejected; short-history feature masks preserved"
     ]
   }
 }
