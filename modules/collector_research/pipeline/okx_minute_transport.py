@@ -94,7 +94,7 @@ def verify_and_extract(folder, output=None):
     )
 
 
-def build(repo, commit, instrument, output):
+def build(repo, commit, instrument, output, prefix=None):
     """Snapshot only this public dataset from a fixed commit; never reread providers."""
     repo, output = Path(repo), Path(output)
     if instrument not in [asset + "-USDT-SWAP" for asset in ASSETS]:
@@ -103,8 +103,11 @@ def build(repo, commit, instrument, output):
         ["git", "rev-parse", "--verify", commit + "^{commit}"], cwd=repo, text=True
     ).strip()
     index = json.loads(git_bytes(repo, commit, PUBLIC_PREFIX / "COVERAGE.json"))
+    prefix_hashes = {m["path"]: m["sha256"] for m in prefix["members"]} if prefix else {}
     all_shards = [s for s in index["shards"] if s["instrument_id"] == instrument]
     shards = [s for s in all_shards if s["status"] == "COMPLETE"]
+    if prefix:
+        shards = [s for s in shards if "minute-intake/" + s["manifest"] not in prefix_hashes]
     if not shards:
         raise ValueError("Bundle requires completed verified shards")
     gaps = []
@@ -125,6 +128,14 @@ def build(repo, commit, instrument, output):
     ]
     if index.get("final_audit"):
         paths.append(PUBLIC_PREFIX / index["final_audit"]["path"])
+    if index.get("archive_check"):
+        check_path = PUBLIC_PREFIX / index["archive_check"]["path"]
+        paths.append(check_path)
+        if instrument == "SOL-USDT-SWAP":
+            check = json.loads(git_bytes(repo, commit, check_path))
+            paths.extend(
+                PUBLIC_PREFIX / check[name] for name in ("archive_file", "observation_file")
+            )
     failure = index.get("failure", {})
     if failure.get("instrument_id") == instrument and failure.get("diagnostic_manifest"):
         diagnostic_path = PUBLIC_PREFIX / failure["diagnostic_manifest"]
@@ -143,7 +154,7 @@ def build(repo, commit, instrument, output):
         ).splitlines()
     )
     # Keep incomplete raw/normalized proofs explicitly labelled; never certify them.
-    for shard in all_shards:
+    for shard in shards if prefix else all_shards:
         paths.extend(
             PUBLIC_PREFIX / name
             for name in (shard["manifest"], *shard["bars_files"].values(), shard["responses_file"])
@@ -165,12 +176,15 @@ def build(repo, commit, instrument, output):
                 for path in (name, *proof["bars_files"].values(), proof["responses_file"])
             )
     identity = json.loads(git_bytes(repo, commit, ROOT / instrument / "manifest.json"))["identity"]
+    if prefix and prefix["identity_sha256"] != fingerprint(identity):
+        raise ValueError("Delta native identity differs from immutable prefix")
     output.mkdir(parents=True, exist_ok=True)
     # Build outside the published artifacts tree, then atomically expose a verified bundle.
     with tempfile.TemporaryDirectory(dir=output.parent.parent) as scratch:
         scratch = Path(scratch)
         archive_path = scratch / "bundle.tar.gz"
         members = []
+        reused_paths = []
         with archive_path.open("wb") as stream:
             with gzip.GzipFile(fileobj=stream, mode="wb", filename="", mtime=0) as compressed:
                 with tarfile.open(fileobj=compressed, mode="w|") as archive:
@@ -178,6 +192,9 @@ def build(repo, commit, instrument, output):
                         raw = git_bytes(repo, commit, path)
                         relative = str(path.relative_to(ROOT))
                         safe_path(relative)
+                        if prefix_hashes.get(relative) == hashlib.sha256(raw).hexdigest():
+                            reused_paths.append(relative)
+                            continue
                         info = tarfile.TarInfo(relative)
                         info.size, info.mode, info.mtime = len(raw), 0o644, 0
                         archive.addfile(info, io.BytesIO(raw))
@@ -208,6 +225,9 @@ def build(repo, commit, instrument, output):
                 )
         manifest = dict(
             version="okx-minute-transport-1",
+            transport_kind="DELTA_REQUIRING_PINNED_PREFIX" if prefix else "COMPLETE_SNAPSHOT",
+            prefix_dependency=prefix.get("transport_reference") if prefix else None,
+            excluded_unchanged_prefix_members=len(reused_paths),
             dataset_role="OKX_ONLY_PUBLIC_OFFLINE_RESEARCH",
             repository="https://github.com/snowycat1234/coin",
             branch=BRANCH,
