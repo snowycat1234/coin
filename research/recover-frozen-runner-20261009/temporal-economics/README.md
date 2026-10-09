@@ -22,3 +22,21 @@ For decision midnight t, the observation starts t-1 day and completes at t under
 `PRE_MAY_ECONOMIC_OUTCOMES.npz` contains only the 839 decision/observation dates, episode IDs, start/end execution clocks, five-asset actual start/end prices and funding-per-unit outcomes. It contains no features, labels, trained weights, simulated profits or label-conditioned masks. It must never become a model input or feature-availability mask. Its hash and exact boundaries are in `ECONOMIC_READINESS.json`.
 
 The original feature NPZ retains ten-asset aggregate semantics and per-feature missingness. No CORE5 aggregate redefinition was made here. Raw official archive ZIPs are absent from this new transfer: prior checksum/CRC receipts are historical producer evidence, distinct from this fresh outer transport and numerical Parquet audit. This certifies conditional daily proxy economic dependencies, not complete historical native minute execution, publication time, instrument/account rules or unseen validation. No exchange downloads, training or wallets for these episodes occurred.
+
+## Input and original expert-context intersection
+
+`TRAIN_CONTEXT_READY.json` binds the exact input index at `256f6fd8206b1616d59eb3129145bfa74ebde924`. All 839 economic dates intersect its 1,518 valid calendar windows. Requiring actual complete CORE5 31-close/30-return past covariance context and unchanged original VOL/CS eligibility leaves **778 dates in five runs**:
+
+| First decision | Last decision | Decisions |
+| --- | --- | ---: |
+| 2022-01-02 | 2022-02-24 | 54 |
+| 2022-05-04 | 2022-07-30 | 88 |
+| 2022-08-01 | 2022-10-01 | 62 |
+| 2022-10-03 | 2023-02-23 | 144 |
+| 2023-02-25 | 2024-04-29 | 430 |
+
+The 61 excluded economic dates have incomplete actual past covariance context. No all-64-prices, ready256 or globally complete-feature gate is imposed; missing feature history stays masked. Original VOL per-asset 200-bar eligibility is retained, including genuine partial-pool eligibility after historical gaps. CSMOM keeps the original weekly January 1, 2024 anchor and past21 rank/past30 covariance rules.
+
+`bind_temporal_economics.py` calls the hash-verified original `bar_frame` and `existing_targets` functions for VOL and CSMOM only. The full original close matrix matches the actual OHLC source exactly with NaNs preserved. Targets, raw targets, expert eligibility and per-asset eligibility match all 182 available saved reference dates exactly: 121 pre-May H1 dates, 30 November 2022 dates and 31 January 2023 dates. No teacher utility/label, feedback, scaler, search or training function is invoked.
+
+`PRE_MAY_TWO_EXPERT_ECONOMIC_CONTEXTS.npz` is the compact outcome/context handoff: 778 dates, five episode IDs, real completed prices and30 returns, unchanged targets/eligibility, actual start/end prices, funding and clocks. Its three named slots are CASH/VOL/CS, explicitly mapped to original E5 indices0/1/4. It does not pad or admit other experts. The consumer must preserve that identity and freeze fresh CASH budget ramp, conditional financial costs and paid episode terminal closure in its training plan. This is ready for that plan; no scaler or model has been fitted. Pool expansion is separate from the two-expert comparison.
