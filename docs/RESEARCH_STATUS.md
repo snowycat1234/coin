@@ -1,6 +1,6 @@
 # COIN 当前研究状态
 
-Temporal two-expert工程位于独立`research/temporal-two-expert-20261009`；feature INPUT_READY、economic episodes PENDING，真实数据scaler/model NOT_FIT。公开feature-only transfer已核3part/concatSHA/CRC；CORE5×64 completed days×24+24 masks共有1518输入决策(2020-03-05至2024-04-30)，2022/2023各365日，保留原10asset aggregates和缺失mask，不以ready256/未来标签/经济完整性筛输入。46 tests和全部1518真实窗口核验通过；原exact proxy/mapper/成本/paid flattening与13k架构保持，named fixed expert set只注册原VOL/CS pair。代码/最小证据见[模块](../modules/temporal_two_expert/README.md)、[receipt](../modules/temporal_two_expert/TEST_RECEIPT.json)、[input index](../research/temporal-input-windows-20261009/INPUT_READY.json)。另一个任务负责完整economic episode交集/native validation；冻结前不归一化/拟合，rich May–June validation输入尚未交付，仍seen proxy/投资资格不变。
+Temporal two-expert在独立`research/temporal-two-expert-20261009`已冻结单一四-fit协议；778 dates/5真实连续wallets(54/88/62/144/430)，61 seen May–June真实64日输入已核，62工程/数值/resume tests PASS。Adam.001、seed20261009、GRU64/latestMLP×NO/WITH_CASH；CPU1/RAM2GB/swap0/GPU0，每arm最多1024updates/1200s，train-only stopping，cap明确NOT_CONVERGED；四个terminal snapshot保存后才评分seen development，不选epoch/LR/架构。原exact mapper/objective/paid closure保持，named3仅映射E5 0/1/4；unused market13常量已182原reference parity验证。代码/固定数据/source绑定与最小receipt见[模块](../modules/temporal_two_expert/README.md)、[frozen protocol](../research/temporal-four-fit-20261009/READY.json)。用户已授权满足gate后立即四fit；本commit为PRE_RUN freeze，结果待实际运行。保持conditional proxy/非native、非unseen OOS；独立native任务不重复。
 
 ## 当前最佳研究方案与证据等级
 

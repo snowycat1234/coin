@@ -1,6 +1,6 @@
 # Temporal two-expert selector
 
-Code-ready with a verified input index, **economic training NOT_RUN**. One bounded comparison: shared
+Ready with frozen778-date/five-wallet training and61 seen-development inputs. One bounded comparison: shared
 per-asset GRU64 against a matched latest-day MLP, each with NO_CASH and WITH_CASH.
 No sweep, oracle classification, native wallet replay or data download is added.
 
@@ -191,3 +191,39 @@ do not certify missing economic outcomes. May–June2024 remains seen proxy
 validation. Historical native restoration/validation is owned by the separate
 task. Neither the old tiny failure nor engineering tests establish an economic
 result for this selector.
+
+## Frozen four-fit entry
+
+[Protocol and ready receipt](../../research/temporal-four-fit-20261009/READY.json)
+bind all source/data bytes. Adam0.001, seed20261009, dropout0.1, batch32; zero
+readouts give matching starting allocations across architectures. One shared
+train-only scaler; exact full-wallet VJP with identical-dropout feature replay
+bounds graph memory. Named3 slots map to originalE5 indices0/1/4; other slots
+are unavailable. The legacy unused market13 field is a known constant, proven
+neutral on182 original reference contexts.
+
+Five genuinely continuous training episodes contain54/88/62/144/430 dates. Each
+starts with fresh10k CASH and pays its terminal close. Training uses the new
+verified execution-boundary prices and event funding. Seen May–June scoring
+retains the original daily-proxy dependencies. These are conditional proxy
+results; native validation remains separate.
+
+Fit only this frozen packet via the resource launcher:
+
+```bash
+python -m modules.temporal_two_expert.bounded_comparison --report STATE/resources.json \
+  python -m modules.temporal_two_expert.comparison fit \
+  --packet STATE/FROZEN_PACKET.json \
+  --packet-sha256 0bd135091a913d67fec6af6da1f51a8cda80a09eca1da5a64582ebe68302ddea \
+  --prototype STATE/recovery/source/modules/direct_path/prototype.py \
+  --output STATE/four-fit
+```
+
+Reconstruct the packet's relative files from its pinned public source commits.
+`comparison check` verifies it without fitting. CPU1, RAM2GB, swap/GPU0, maximum
+1024 updates and1200seconds per arm, serial totalwall5000seconds. Every completed
+update atomically saves model/Adam/RNG and training stop history. Train-only
+convergence is operational: eval every16, minimum128updates, five stable losses,
+gradients≤10% initial norm and mean request change≤0.001. Caps explicitly mean
+CAPPED_NOT_CONVERGED. All four terminal snapshots precede development scoring;
+no epoch, architecture or LR is selected on development.

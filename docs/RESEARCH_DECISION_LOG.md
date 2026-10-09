@@ -1686,3 +1686,6 @@ One fixed comparison implemented, no economic optimizer updates/native wallets/s
 
 
 2026-10-09 temporal INPUT_READY: feature bundle d901f130 verified3parts/2246454bytes/concatSHA bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30/CRC. 1581 rows produce1518 real64-day masked windows 2020-03-05..2024-04-30, including365 input dates each2022/2023; no oldready256/future label/economic completeness filter. Input identity8c82406c392b7764ca124028045180cfc63157852fc02b1f8cfcb3c53f549e7f, compact index and full-window audit research/temporal-input-windows-20261009. 46 tests; real-data scaler/model/nativewallet0. Economic episodes/not input dates must be frozen by the separate task before fitting; rich May-June inputs still missing. Named output contract prepared, only existing pair allowed until complementary evidence; NONE/CASH unchanged.
+
+
+2026-10-09 temporal single comparison: freeze GRU64/latestMLP x NO/WITH_CASH, seed20261009, Adam.001; 778 train dates in5 real complete wallets,61 seen dev; train-only stop and atomic Adam/RNG resume; CPU1/RAM2GB/1024steps/1200s each. Caps are NOT_CONVERGED. READY gates passed; execute exactly4 authorized fits, freeze all terminal heads before seen scoring. See research/temporal-four-fit-20261009/READY.json. Native replay and pool expansion remain separate.

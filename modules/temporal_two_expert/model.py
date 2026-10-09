@@ -32,6 +32,7 @@ class Selector(nn.Module):
         dropout=0.1,
         seed=SEED,
         fixed_expert_set=DEFAULT_FIXED_EXPERT_SET,
+        zero_readout=False,
     ):
         super().__init__()
         if family not in FAMILIES or type(cash_enabled) is not bool or not 0 <= dropout < 1:
@@ -48,6 +49,9 @@ class Selector(nn.Module):
                 "A verified frozen named expert set is required; no unverified actions"
             )
         self.fixed_expert_set = pool
+        if type(zero_readout) is not bool:
+            raise ValueError("Explicit matched readout initialization flag required")
+        self.zero_readout = zero_readout
         self.dropout_probability, self.seed = float(dropout), int(seed)
         self.normalization_provenance = standardizer.provenance
         self.standardizer_identity = standardizer.identity
@@ -69,6 +73,11 @@ class Selector(nn.Module):
             torch.manual_seed(self.seed + 2)
             self.w_head = nn.Linear(32, len(pool) - 1)
             self.s_head = nn.Linear(32, 1) if cash_enabled else None
+        if zero_readout:
+            for head in (self.w_head, self.s_head):
+                if head is not None:
+                    nn.init.zeros_(head.weight)
+                    nn.init.zeros_(head.bias)
         self.state_dropout = nn.Dropout(dropout)
         self.joint_dropout = nn.Dropout(dropout)
         self.double()  # exact mapper simplex tolerance is 1e-12
@@ -85,6 +94,7 @@ class Selector(nn.Module):
             cash_enabled=self.cash_enabled,
             dropout=self.dropout_probability,
             seed=self.seed,
+            initial_readout="zero_matched_allocations" if self.zero_readout else "seeded_random",
             symbols=list(CORE5),
             features=list(FEATURE_NAMES),
             aggregate_market_context=list(MARKET_CONTEXT),

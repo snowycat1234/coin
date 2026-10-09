@@ -67,6 +67,7 @@ def run_binding(
     max_steps,
     checkpoint_every=1,
     max_seconds=120.0,
+    algorithm=None,
 ):
     # Everything that changes gradient/RNG consumption or stopping is bound.
     if (
@@ -76,7 +77,7 @@ def run_binding(
         or max_steps < 1
         or type(checkpoint_every) is not int
         or not 1 <= checkpoint_every <= max_steps
-        or not 0 < max_seconds <= 120
+        or not 0 < max_seconds <= 1200
     ):
         raise ValueError("Explicit finite step/time/checkpoint budget required")
     record = dict(
@@ -98,6 +99,7 @@ def run_binding(
         deterministic_algorithms=torch.are_deterministic_algorithms_enabled(),
         cpu_only=True,
         checkpoint_selection="last_completed_training_step_only",
+        algorithm=algorithm or {"name": "fixed_steps"},
     )
     return dict(run_id=digest(record), specification=record)
 
@@ -211,7 +213,9 @@ def _verify_moments(model, optimizer, step):
             raise ValueError("Complete finite Adam moments and matching completed step required")
 
 
-def save_checkpoint(directory, model, optimizer, binding, *, step, elapsed_seconds=0.0):
+def save_checkpoint(
+    directory, model, optimizer, binding, *, step, elapsed_seconds=0.0, trainer_state=None
+):
     """Call inside run_guard after a complete update and zero_grad(set_to_none=True).
 
     A new immutable generation is fsynced before latest.json changes. A crash
@@ -245,6 +249,7 @@ def save_checkpoint(directory, model, optimizer, binding, *, step, elapsed_secon
         optimizer=optimizer.state_dict(),
         rng=_rng_state(),
         training=model.training,
+        trainer_state=trainer_state or {},
     )
     final = directory / f"step-{step:08d}-{uuid.uuid4().hex}.pt"
     fd, temporary = tempfile.mkstemp(prefix=".checkpoint-", dir=directory)
@@ -312,4 +317,5 @@ def load_checkpoint(directory, model, optimizer, binding):
         elapsed_seconds=state["elapsed_seconds"],
         model_identity=state["model_identity"],
         checkpoint_SHA256=pointer["SHA256"],
+        trainer_state=state.get("trainer_state", {}),
     )

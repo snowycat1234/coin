@@ -1,0 +1,64 @@
+{
+  "architecture_or_LR_search": false,
+  "arm_order": [
+    "GRU64_NO_CASH",
+    "LATEST_MLP_NO_CASH",
+    "GRU64_WITH_CASH",
+    "LATEST_MLP_WITH_CASH"
+  ],
+  "capped_status": "CAPPED_NOT_CONVERGED;no_negative_feasibility_conclusion",
+  "checkpoint_selection": "terminal_completed_training_step_only;no_dev_selected_epoch",
+  "convergence": {
+    "evaluate_every": 16,
+    "evaluation": "deterministic_training_path_eval_dropout_off;no_development_access",
+    "gradient_absolute_floor": 1e-10,
+    "gradient_ratio_to_initial": 0.1,
+    "interpretation": "operational_train_only_criterion;not_global_optimality_or_alpha",
+    "loss_abs_tolerance": 1e-07,
+    "loss_relative_tolerance": 0.001,
+    "minimum_updates": 128,
+    "request_mean_abs_change_tolerance": 0.001,
+    "stable_evaluations": 5
+  },
+  "development": "freeze_all_four_terminal_models_before_scoring;seen_MayJune2024_only",
+  "dropout": 0.1,
+  "economic_rollout": "complete_chronological_wallet_once_per_step",
+  "feature_batch_size": 32,
+  "fixed_expert_set": [
+    "VOL_MANAGED_HOLD",
+    "CSMOM21"
+  ],
+  "gradient": "exact_request_VJP_then_RNG_identical_feature_replay;no_wallet_minibatches",
+  "initialization": "zero_w_and_s_readouts;matched_NO_CASH_[0,.5,0,0,.5];WITH_CASH_[.5,.25,0,0,.25]",
+  "limits": {
+    "CPU_threads": 1,
+    "GPU": false,
+    "checkpoint_every_completed_update": 1,
+    "maximum_updates_per_fit": 1024,
+    "memory_bytes": 2000000000,
+    "seconds_per_fit": 1200.0,
+    "serial_fits": true,
+    "swap": false,
+    "total_wall_seconds": 5000
+  },
+  "model_observed_wallet": false,
+  "objective": "unchanged_recovered_daily_logNAV_minus5_negative_daily_return_squared",
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "foreach": false,
+    "gradient_norm_clip": 1.0,
+    "lr": 0.001,
+    "name": "Adam",
+    "weight_decay": 0.0
+  },
+  "planned_fits": 4,
+  "schema": "TEMPORAL_MATCHED_FOUR_FIT_V1",
+  "seed": 20261009,
+  "shared_normalizer": "one_unique_train_window_rows_valid_only_mean_std_ddof0;after_episode_freeze",
+  "status": "FROZEN_SINGLE_COMPARISON",
+  "unverified_actions": false
+}

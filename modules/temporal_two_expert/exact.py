@@ -8,6 +8,7 @@ import sys
 import zipfile
 from dataclasses import dataclass, replace
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import torch
@@ -259,3 +260,97 @@ def training_loss(model, episodes, prototype, *, feature_batch_size=32):
         for e in episodes
     ]
     return torch.stack(losses).sum() / total
+
+
+def feature_chunk(windows, start, size):
+    """Views of an already validated window batch; no new economic boundary."""
+    return SimpleNamespace(
+        **{
+            name: getattr(windows, name)[start : start + size]
+            for name in ("values", "valid", "step_valid")
+        }
+    )
+
+
+def replay_request_gradients(
+    model, windows, gradients, rng_states, requests, *, feature_batch_size
+):
+    """Bound graph memory to one feature chunk and replay identical dropout."""
+    final_rng = torch.get_rng_state().clone()
+    try:
+        for k, start in enumerate(range(0, len(windows.values), feature_batch_size)):
+            torch.set_rng_state(rng_states[k])
+            output = predict_windows(
+                model,
+                feature_chunk(windows, start, feature_batch_size),
+                feature_batch_size=feature_batch_size,
+            )
+            expected = torch.tensor(
+                requests[start : start + feature_batch_size], dtype=output.dtype
+            )
+            if not torch.equal(output.detach().cpu(), expected):
+                raise ValueError("Dropout/deterministic replay differs; preserve last checkpoint")
+            output.backward(
+                torch.tensor(
+                    gradients[start : start + feature_batch_size],
+                    dtype=output.dtype,
+                    device=output.device,
+                )
+            )
+    finally:
+        # Replay does not consume a second random stream.
+        torch.set_rng_state(final_rng)
+
+
+def memory_bounded_gradients(model, episodes, prototype, *, feature_batch_size=32):
+    """Exact full-path gradient with a two-pass exogenous feature calculation.
+
+    First compute ordered requests without retaining graphs. Roll the *whole*
+    wallet with the unchanged prototype, then replay feature chunks with their
+    original RNG and exact request VJPs. Parameters stay fixed until every
+    episode gradient is accumulated. No wallet or economic minibatch resets.
+    """
+    episodes = tuple(episodes)
+    if (
+        model.mean.device.type != "cpu"
+        or not episodes
+        or any(e.role != "TRAIN" for e in episodes)
+        or len({e.wallet_id for e in episodes}) != len(episodes)
+        or len({e.split_cutoff_us for e in episodes}) != 1
+    ):
+        raise ValueError("Distinct complete CPU TRAIN wallets with common cutoff required")
+    ordered = sorted(episodes, key=lambda e: e.start_us)
+    if any(a.end_us > b.start_us for a, b in zip(ordered, ordered[1:], strict=False)):
+        raise ValueError("Overlapping wallets would double-count training chronology")
+    total = sum(len(e.contexts) for e in episodes)
+    loss_sum = 0.0
+    request_paths = []
+    for episode in episodes:
+        rng_states, chunks = [], []
+        with torch.no_grad():
+            for start in range(0, len(episode.windows.values), feature_batch_size):
+                rng_states.append(torch.get_rng_state().clone())
+                chunks.append(
+                    predict_windows(
+                        model,
+                        feature_chunk(episode.windows, start, feature_batch_size),
+                        feature_batch_size=feature_batch_size,
+                    )
+                    .cpu()
+                    .numpy()
+                    .copy()
+                )
+        requests = np.concatenate(chunks)
+        loss, gradients, _ = request_loss_and_gradient(requests, episode, prototype)
+        weight = len(episode.contexts) / total
+        replay_request_gradients(
+            model,
+            episode.windows,
+            gradients * weight,
+            rng_states,
+            requests,
+            feature_batch_size=feature_batch_size,
+        )
+        loss_sum += loss * weight
+        request_paths.append(requests)
+    return float(loss_sum), np.concatenate(request_paths)
