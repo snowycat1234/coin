@@ -1,0 +1,75 @@
+{
+  "binding": {
+    "version": "okx-core5-minute-intake-1",
+    "source_commit": "7371bd1ae7c6409a31fac9f7bbbb9d5ca1353cb6",
+    "source_sha256": "94195768e449d6c85f23c724cdeacc3b992a91106cd36ece736f5215b543eba7",
+    "adapter_source_sha256": "70abcfa148bcce671ba19562396c313d671af36e474b3353bbb82fded1c2807c",
+    "input_commit": "856ecfabe3d889f87a3e1f1cdb6672d127c41d53",
+    "provider": "okx",
+    "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP",
+      "DOGE"
+    ],
+    "market": "perpetual",
+    "start_ms": 1784073600000,
+    "end_ms_exclusive": 1791504000000,
+    "kinds": [
+      "trade",
+      "mark"
+    ],
+    "page_sizes": {
+      "trade": 300,
+      "mark": 100
+    },
+    "documented_ip_limits": {
+      "trade": "20/2s",
+      "mark": "20/2s"
+    },
+    "official_docs": {
+      "trade": "https://app.okx.com/docs-v5/en/#order-book-trading-market-data-get-candlesticks-history",
+      "mark": "https://app.okx.com/docs-v5/en/#public-data-rest-api-get-mark-price-candlesticks-history"
+    },
+    "shared_min_spacing_ms": 250,
+    "max_requests": 14000,
+    "max_response_body_bytes": 160000000,
+    "max_wall_seconds": 14400,
+    "dataset_role": "OKX_ONLY_PUBLIC_OFFLINE_RESEARCH",
+    "historical_publication_certified": false,
+    "historical_instrument_rules_certified": false,
+    "account_settlement_verified": false,
+    "frozen_selector_certified": false,
+    "training": false,
+    "wallet_backtest": false
+  },
+  "requests": [
+    {
+      "request_key": "a568c3d4eb9cbba1c49fc680ad4cee9171f945fe88662ec20c023d6914bcacbd",
+      "url": "https://www.okx.com/api/v5/market/history-candles",
+      "params": {
+        "instId": "SOL-USDT-SWAP",
+        "bar": "1m",
+        "after": 1787905860000,
+        "before": 1787905799999,
+        "limit": 1
+      },
+      "attempt": 1,
+      "requested_ms": 1791543080690,
+      "status": "OK",
+      "http_status": 200,
+      "response_headers": {
+        "Date": "Fri, 09 Oct 2026 10:51:21 GMT",
+        "Content-Type": "application/json"
+      },
+      "retryable": false,
+      "received_ms": 1791543081087,
+      "body_bytes": 122,
+      "raw_sha256": "10c20a2a2c971f2fef82821cda0bf2da0e6cdd1d4148bf47abc4ee13c1186874",
+      "raw_file": "10c20a2a2c971f2fef82821cda0bf2da0e6cdd1d4148bf47abc4ee13c1186874.raw",
+      "checksum_basis": "LOCAL_SHA256_NOT_PROVIDER_ATTESTATION"
+    }
+  ],
+  "scope": "ONLY_MISSING_2026_08_28_0830_UTC_TRADE_MINUTE"
+}
