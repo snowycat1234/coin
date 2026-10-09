@@ -61,3 +61,34 @@ uses one independent 10,000-USDT account, prior-minute quote capacity, isolated
 closure. Historical publication, contract/account rules and actual exchange
 settlement remain uncertified. This preserves an offline conditional research
 runner, not trading/deployment permission or investment qualification.
+
+## Authorized 86-day comparison
+
+`EXECUTION_PLAN.json` freezes the user's subsequent continuation: three serial
+fresh 10,000-USDT wallets for VOL, CSMOM21 and fixed 50/50 allocation on the full
+July 15–October 9 calendar. `execute_wallet.py` enforces one CPU, one numerical
+thread, a 6,000,000,000-byte address-space limit, a 600-second alarm and a 15 GiB
+disk reserve. All retained and selected input hashes are checked before each
+wallet. No 44/41-day account is stitched or rerun.
+
+Use the full published plan commit SHA, and a fresh output for each policy:
+
+```bash
+PYTHONPATH=../coin-recovery-state/deps python3 \
+  research/recover-frozen-runner-20261009/execute_wallet.py \
+  --state ../coin-recovery-state --output ../coin-recovery-state/results86/FIXED_VOL_HOLD \
+  --policy FIXED_VOL_HOLD --plan-commit PUBLISHED_PLAN_COMMIT
+PYTHONPATH=../coin-recovery-state/deps python3 \
+  research/recover-frozen-runner-20261009/verify_portable.py \
+  --root ../coin-recovery-state/results86 --policy FIXED_VOL_HOLD --write-audit
+```
+
+The journal-only verifier uses the original independent Decimal cash auditor
+and liquidation-event witness adapter, preserved under `verification_helpers`.
+It does not import the financial engine. Results, actual execution receipts,
+independent audits and all journal bytes belong in the portable result package;
+raw market archives remain at the existing pinned public data commit.
+
+The two small source bodies requested by the separate native model worker are
+under `auxiliary/`, with original SHA256 and provenance in `auxiliary/SOURCES.json`.
+They are distinct from this comparison's financial implementation.

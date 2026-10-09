@@ -14,6 +14,8 @@ import json
 import os
 from pathlib import Path
 import sys
+import shutil
+import time
 
 REPO = Path(__file__).resolve().parents[2]
 os.environ["QUANT_ROOT"] = str(REPO)
@@ -201,7 +203,7 @@ def check(state):
     return report
 
 
-def run(state, policy, output):
+def run(state, policy, output, *, limit_seconds=600, reserve_bytes=15 * 1024**3):
     # This command must only be invoked after the user's continuation.
     source_check()
     root = state / "okx86/selected"
@@ -220,8 +222,11 @@ def run(state, policy, output):
     output.mkdir(parents=True, exist_ok=False)
     sim.budget = [1., 0., 0., 0., 0.]
     status, error = "RUNNING", None
+    started = time.monotonic()
     try:
         for i, stamp in enumerate(range(START, END, DAY)):
+            require(time.monotonic() - started < limit_seconds, "Per-wallet time budget exhausted")
+            require(shutil.disk_usage(output).free >= reserve_bytes, "15 GiB disk reserve required")
             sim.budget = budgets[i].tolist()
             rows = target.filter(pl.col("available_us") == stamp)
             actual = sim.advance_day(dict(zip(rows["symbol"], rows["target_weight"], strict=True)))

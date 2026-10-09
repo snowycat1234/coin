@@ -1,0 +1,163 @@
+{
+  "schema": "FROZEN_OKX86_THREE_SERIAL_FRESH_ACCOUNT_PLAN_V1",
+  "status": "FROZEN_BEFORE_ACTUAL_START",
+  "repository": "snowycat1234/coin",
+  "branch": "research/recover-frozen-runner-20261009",
+  "prior_recovery_commit": "0fa7723c4843afd74f89786e637cc61f225916ce",
+  "calendar": {
+    "start_UTC": "2026-07-15T00:00:00Z",
+    "end_UTC_exclusive": "2026-10-09T00:00:00Z",
+    "days": 86,
+    "minutes_per_wallet": 123840
+  },
+  "policies": [
+    "FIXED_VOL_HOLD",
+    "FIXED_CSMOM21",
+    "STATIC50"
+  ],
+  "fixed_requests": {
+    "FIXED_VOL_HOLD": [
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "FIXED_CSMOM21": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "STATIC50": [
+      0,
+      0.5,
+      0,
+      0,
+      0.5
+    ]
+  },
+  "expert_order": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "PUBLIC_SMA50_200_SIGNED",
+    "DONCHIAN_EXIT10",
+    "CSMOM21"
+  ],
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "fresh_capital_USDT_each": 10000,
+  "initial_budget_each": [
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "fresh_positions_each": "FLAT",
+  "three_serial_independent_wallets": true,
+  "stitched_prior_44_41_accounts": false,
+  "guard_enabled": false,
+  "daily_budget_L1_limit": 0.1,
+  "gross_target_limit": 0.6,
+  "asset_target_limit": 0.3,
+  "past_completed_daily_covariance_days": 30,
+  "annual_covariance_risk_limit": 0.1,
+  "weekly_rank_anchor_us": 1704067200000000,
+  "cost": "BASE27",
+  "fee_per_side_fraction": 0.00055,
+  "half_spread_bps": 4,
+  "slippage_bps": 4,
+  "signed_actual_funding_field": "realizedRate",
+  "funding_scale": 1,
+  "account": "ORIGINAL_CONDITIONAL_BYBIT_STYLE_ISOLATED_1X_MMR_0.005",
+  "execution": "PREVIOUS_COMPLETED_MINUTE_QUOTE_USDT_CAPACITY_0.1_PERCENT_SHARED_BY_ALL_LEGS; REDUCTIONS_FIRST; ORIGINAL_DELAY_AND_PARTIAL_FILL_RULES",
+  "maximum_attempts": 5,
+  "original_daily_zero_retry_policy": "PERSIST_UNTIL_FILLED_OR_SUPERSEDED_NO_FREE_FILL",
+  "terminal": "ORIGINAL_GLOBAL_FINAL_DAY_ZERO_AND_PAID_NATIVE_FLATTENING",
+  "limits": {
+    "cpu_count": 1,
+    "numerical_threads": 1,
+    "memory_bytes": 6000000000,
+    "memory_enforcement": "RLIMIT_AS_STRICTER_THAN_RSS_FOR_SINGLE_CHILDLESS_PROCESS",
+    "wall_seconds_per_wallet": 600,
+    "disk_reserve_bytes": 16106127360
+  },
+  "data_commit": "542ce02443810b9feaa15e3114b3af8d6583dc4f",
+  "data_role": "OBSERVED_OKX_PUBLIC_ARCHIVE_PRECEDENCE_INPUT_WITH_UNCERTIFIED_HISTORICAL_CLOCK_AND_ACCOUNT_RULES",
+  "archive_precedence": {
+    "instrument_id": "SOL-USDT-SWAP",
+    "timestamp_ms": 1787905800000,
+    "source_policy": "API_COMPLETED_ROWS_PLUS_EXACTLY_ONE_CONFIRMED_OFFICIAL_ARCHIVE_ROW",
+    "archive_sha256": "7627821a2365ec575cd78b3622469fc426c06b99f1650f808945c3f32cede15a",
+    "resolved_shard_manifest": "gap-resolution/SOL-USDT-SWAP/2026-08-28.manifest.json",
+    "resolved_shard_manifest_sha256": "f55b50c0c0631af1539cd275e2a2a2ba42368c317d56d36b04b598c610a8ab6e",
+    "resolved_trade_sha256": "55a1ed43da06fc7324cae412bf67ca38cd712ea24b1b06c979453e1432e3bd44",
+    "original_API_confirm": "0",
+    "selected_archive_confirm": "1",
+    "both_originals_preserved": true,
+    "original_API_only_window_ready": false
+  },
+  "recovery_receipt_sha256": "768a55520b037cdc1b794a853e967d36efb651ef83a7784ddcb7a383d27a1343",
+  "transport_index_sha256": {
+    "transport-prefix-d15-768k": "9eb931004b3659c2337ffe3bd8ecbd597582254e9fe1252da827292983a6a3fe",
+    "transport-delta-after-d15-768k": "9045c36297157ba557ac8c48cb3b0839b7b85961b0cc20cddbb194a506507b4e",
+    "transport-gap-resolution-768k": "1c8c9188bfa6a0fb339b0167f65f2f5a3f19ef4a13ea86f071c0879d17973e5d"
+  },
+  "proofs": {
+    "prior_source_and_target_proof": "VERIFICATION.json",
+    "prior_source_and_target_proof_sha256": "adb5c30632b4db9576b1fe3a391fb6a5a45a0753184ef4cab3fb74231c4aae3d",
+    "prior_target_validation": "REUSED_EXACT_ZERO_ERROR_ON_SEPARATE_44_41_JOURNALS; TARGET_MATH_UNCHANGED",
+    "before_each_wallet": "CURRENT_SOURCE_AND_ALL_RETAINED_AND_SELECTED_INPUT_HASHES",
+    "after_each_wallet": "INDEPENDENT_DECIMAL_JOURNAL_MINUTE_NAV_WALLET_COST_FUNDING_RECONCILIATION; PAID_FLAT; LIQUIDATION_WITNESSES"
+  },
+  "new_fits": 0,
+  "new_market_downloads": 0,
+  "recipe_tuning": false,
+  "historical_rules_certified": false,
+  "path_basis": "SOURCE_PATHS_RELATIVE_TO_REPOSITORY; DATA_RECEIPT_AND_INPUT_PATHS_RELATIVE_TO_CALLER_STATE",
+  "source_sha256": {
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "scripts/investment/perpetual_directional.py": "805c786ea647e09965e70df59331efe49d8c24bb097ab0180c5f94a5f4737ec6",
+    "src/quant/perpetual_account.py": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+    "src/quant/bybit_isolated_account.py": "d82cfca41a76f12aea60ea2608a5c5d26670d7c55394cb07619b69fdffd2619a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "scripts/investment/public_donchian_daily.py": "82796e9dac68089a24a6d4bd61c561672043e446c806cbe87a6737a459d35c4a",
+    "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/research/public_cross_section_momentum.py": "7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f",
+    "modules/transformer_v2/portfolio.py": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+    "scripts/investment/regime_ranking_screen.py": "b53242077d36b6542a1c2c5684f39f2dce6574841e20b7787fdd06c9b84aebf2",
+    "scripts/investment/frozen_expert_mixture.py": "4c510dd0a91cb13a78ade6e17715a2601cbfbb20304310d42ad2091e97fb9a22",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+    "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+    "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+    "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+    "third_party/jesse_example_smacrossover/DOWNLOAD_PREBIND_20261003_V1.json": "92bd24b56d831496c09db22395aac8b2ba1b10049801f49d47bbf0bfa7e97e8c",
+    "third_party/jesse_example_smacrossover/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_smacrossover/UPSTREAM.md": "f413521f1c8f8fb9314a4eedd800252db71723815d42b271f3f0d8378d52f159",
+    "third_party/jesse_example_smacrossover/smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+    "modules/transformer_v3/isolated_audit.py": "6bbf7ec53ab55ff47f2b4c620d46bc2c952860fd13409a9ae37fe34ceb022b4e",
+    "scripts/investment/audit_shared_direction.py": "fe57a59d1dbc84eef1a1ce423368c90f41950d0c1976b598c9e2ee81b4af85c4",
+    "research/recover-frozen-runner-20261009/baseline.py": "fd705dfa57761e7074c0e3c7effb9800404bdacace74157ec1bc9997c97aa205",
+    "research/recover-frozen-runner-20261009/execute_wallet.py": "5b6479c07bea453a35df36a0c829b22254657fd2d50faa8a1f1fac4d99d25008",
+    "research/recover-frozen-runner-20261009/verify_portable.py": "98bf0d09479b0e882240e09781d2229eab575279cd2c9e8013b1cbdced478bc6",
+    "research/recover-frozen-runner-20261009/FINANCIAL_CONFIG.json": "84cb7726bbd38a700cc9b31c456b5b8bf5f93d3b4948293bd05ea6ea19cafd68",
+    "research/recover-frozen-runner-20261009/RECOVERY_MANIFEST.json": "76c980a52fbe4e84b7d39fe0589a5d929a984fead800dad5ddd63d9d1e2adc72",
+    "research/recover-frozen-runner-20261009/requirements.txt": "9e55883b7403328989bd5cf8755c30e46f6f60ea03ce62844c9c3d61aed3eb57",
+    "research/recover-frozen-runner-20261009/verification_helpers/scripts/investment/audit_shared_direction.py": "fe57a59d1dbc84eef1a1ce423368c90f41950d0c1976b598c9e2ee81b4af85c4",
+    "research/recover-frozen-runner-20261009/verification_helpers/modules/transformer_v3/isolated_audit.py": "6bbf7ec53ab55ff47f2b4c620d46bc2c952860fd13409a9ae37fe34ceb022b4e"
+  }
+}
