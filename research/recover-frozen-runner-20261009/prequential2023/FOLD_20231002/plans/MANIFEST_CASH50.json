@@ -1,0 +1,461 @@
+{
+  "schema": "SOURCE_HASHED_FROZEN_NATIVE63_REQUESTS_V1",
+  "arm_id": "CASH50",
+  "policy_role": "FIXED_CONTROL",
+  "objective_version": 2,
+  "prediction_role": "HISTORICAL_FROZEN_REPLAY_NOT_LIVE_PREDICTIONS",
+  "source_files": [
+    "source/modules/collector_research/pipeline/make_labels.py",
+    "source/modules/collector_research/pipeline/train.py",
+    "source/modules/temporal_two_expert/__init__.py",
+    "source/modules/temporal_two_expert/__main__.py",
+    "source/modules/temporal_two_expert/bounded_comparison.py",
+    "source/modules/temporal_two_expert/checkpoint.py",
+    "source/modules/temporal_two_expert/comparison.py",
+    "source/modules/temporal_two_expert/conftest.py",
+    "source/modules/temporal_two_expert/development_inputs.py",
+    "source/modules/temporal_two_expert/exact.py",
+    "source/modules/temporal_two_expert/feature_windows.py",
+    "source/modules/temporal_two_expert/inputs.py",
+    "source/modules/temporal_two_expert/model.py",
+    "source/modules/temporal_two_expert/runner.py",
+    "source/modules/temporal_two_expert/synthetic_throughput.py",
+    "source/modules/temporal_two_expert/test_comparison.py",
+    "source/modules/temporal_two_expert/test_development.py",
+    "source/modules/temporal_two_expert/test_feature_windows.py",
+    "source/modules/temporal_two_expert/test_temporal.py",
+    "source/modules/temporal_two_expert/training_packet.py",
+    "source/modules/temporal_episode_weighting_v2/gradient.py",
+    "source/modules/temporal_expert_input/__init__.py",
+    "source/modules/temporal_expert_input/__main__.py",
+    "source/modules/temporal_expert_input/checkpoint.py",
+    "source/modules/temporal_expert_input/conftest.py",
+    "source/modules/temporal_expert_input/export.py",
+    "source/modules/temporal_expert_input/gradient.py",
+    "source/modules/temporal_expert_input/inputs.py",
+    "source/modules/temporal_expert_input/model.py",
+    "source/modules/temporal_expert_input/stage.py",
+    "source/modules/temporal_prequential_transfer/__init__.py",
+    "source/modules/temporal_prequential_transfer/__main__.py",
+    "source/modules/temporal_prequential_transfer/conftest.py",
+    "source/modules/temporal_prequential_transfer/data.py",
+    "source/modules/temporal_prequential_transfer/export.py",
+    "source/modules/temporal_prequential_transfer/model.py",
+    "source/modules/temporal_prequential_transfer/protocol.py",
+    "source/modules/temporal_prequential_transfer/stage.py",
+    "source/modules/temporal_prequential_transfer/test_transfer.py",
+    "source/modules/temporal_risk_proxy_v2/__init__.py",
+    "source/modules/temporal_risk_proxy_v2/conftest.py",
+    "source/modules/temporal_risk_proxy_v2/diagnose.py",
+    "source/modules/temporal_risk_proxy_v2/native_contract.py",
+    "source/modules/temporal_risk_proxy_v2/proxy.py",
+    "source/modules/temporal_risk_proxy_v2/test_native_contract.py",
+    "source/modules/temporal_risk_proxy_v2/test_proxy.py",
+    "source/modules/temporal_short_expansion/__init__.py",
+    "source/modules/temporal_short_expansion/__main__.py",
+    "source/modules/temporal_short_expansion/adapter.py",
+    "source/modules/temporal_short_expansion/checkpoint.py",
+    "source/modules/temporal_short_expansion/conftest.py",
+    "source/modules/temporal_short_expansion/export.py",
+    "source/modules/temporal_short_expansion/gradient.py",
+    "source/modules/temporal_short_expansion/model.py",
+    "source/modules/temporal_short_expansion/stage.py",
+    "source/modules/temporal_short_expansion/test_expansion.py",
+    "source/modules/temporal_surrogate_resume_v2/__init__.py",
+    "source/modules/temporal_surrogate_resume_v2/__main__.py",
+    "source/modules/temporal_surrogate_resume_v2/bounded_controller.py",
+    "source/modules/temporal_surrogate_resume_v2/conftest.py",
+    "source/modules/temporal_surrogate_resume_v2/export.py",
+    "source/modules/temporal_surrogate_resume_v2/gradient.py",
+    "source/modules/temporal_surrogate_resume_v2/stage.py",
+    "source/modules/temporal_surrogate_resume_v2/test_resume.py"
+  ],
+  "files": {
+    "CANONICAL_CONTEXTS63.npz": {
+      "bytes": 10229,
+      "sha256": "6ce6fd783b1328e115e18f606934f1084ed11d8c07bdc12fec07872967b88ffe"
+    },
+    "CASH50_PLAN.json": {
+      "bytes": 228,
+      "sha256": "2e06e93e79021d060081758da6507c01340de06ddc2f96a31bb65d6e03b7a9ce"
+    },
+    "CASH50_REQUESTS.npz": {
+      "bytes": 2777,
+      "sha256": "f23ad237cd8d03057b1eddc0d0ca5cfbf15c787b41b92d4405bab8d81b13dc91"
+    },
+    "PREFIX_PROOF.json": {
+      "bytes": 1427,
+      "sha256": "c9a3345f1eb75338415e2429dee6fd068ced9cd4d94976e884a49bf73a09f06d"
+    },
+    "READY.json": {
+      "bytes": 135194,
+      "sha256": "57a72ada0eb4f586fc89a717640618f06012cf096c683bb5d5d427a754a40900"
+    },
+    "STATIC50_PLAN.json": {
+      "bytes": 230,
+      "sha256": "30182077451092071e2a1c8cd697bbc2ea22f84122ff1c05f7b90fa2a0c299ee"
+    },
+    "STATIC50_REQUESTS.npz": {
+      "bytes": 2770,
+      "sha256": "f8c7555a2a01d9546341795871c8836720d23ef20bbd674e48c89f43925c98f6"
+    },
+    "TRAINING_CLOCKS.npz": {
+      "bytes": 14983,
+      "sha256": "7d3e441fa047f0482153815f5bbc02124c2714395f76e560bb0b674ce4ece685"
+    },
+    "producer/CURRENT_CONTEXT63.npz": {
+      "bytes": 16380,
+      "sha256": "903d560057c72a8c2e221ddd9b62d9357a0d4af5482c6c8506cef85f5c0b564c"
+    },
+    "producer/MANIFEST.json": {
+      "bytes": 7731,
+      "sha256": "9c3818341ce3ffb8879868f484d2ab1e11f35ab7ff77f4b4b4a8ce9c2e105def"
+    },
+    "producer/MODEL_ADAM_RNG.pt": {
+      "bytes": 388715,
+      "sha256": "068b8098c9c18588e06fe52fe62e8d694e0564ace0594a4383602fd591e1d423"
+    },
+    "producer/PAIRED_PATHS.npz": {
+      "bytes": 20768,
+      "sha256": "02fa996d5f007269d389adbaa61b9367e15c0177c3fa6185f12a92ab3d6dd3e6"
+    },
+    "producer/REQUESTS.npz": {
+      "bytes": 4763,
+      "sha256": "436fc5d872740d941cb3b1e194add0ded75c64313d3f830c9ef4b07175660f09"
+    },
+    "producer/RESULT.json": {
+      "bytes": 12353,
+      "sha256": "f2a1fe2f422721ba3466c488af4af586554352478f64116e8ee8fb07692fd262"
+    },
+    "producer/RUN.json": {
+      "bytes": 24452,
+      "sha256": "4ef7b6f342ab44e11ef74fdb83132459d3c7eb01e158bf704b172ba353fef8e6"
+    },
+    "producer/SCALER.json": {
+      "bytes": 767,
+      "sha256": "bfdfb125856a18bc19462b96918ae81b38e0b75778422e59870d8b3a83eae0ed"
+    },
+    "producer/SCALER.npz": {
+      "bytes": 1029,
+      "sha256": "4b3d9d7d575c4e7cf6b6458476674a0f0dc2db50a4dfb10ce0966ccee1357f33"
+    },
+    "producer/TERMINAL.json": {
+      "bytes": 29697,
+      "sha256": "b064ddf97437d567e4da052bb74522f7b8f3e4ab37dd92889e8088fe032edb92"
+    },
+    "source/modules/collector_research/pipeline/make_labels.py": {
+      "bytes": 5070,
+      "sha256": "28a416779f50f17d73e9a7375328fb0e127e99702f88cce48f20b6ff4f8e05d8"
+    },
+    "source/modules/collector_research/pipeline/train.py": {
+      "bytes": 18765,
+      "sha256": "b43020d7a7c6357ee71d645042e10695c3d4030fee049323d27cb5fb93d03ab8"
+    },
+    "source/modules/temporal_episode_weighting_v2/gradient.py": {
+      "bytes": 11312,
+      "sha256": "477839d859810f86634163edb91bbcb527de8403365af4084a2cf182c356159f"
+    },
+    "source/modules/temporal_expert_input/__init__.py": {
+      "bytes": 62,
+      "sha256": "e217258eb90daa2253e63e16570bda52ff06e6a6922c9db38c948135af854365"
+    },
+    "source/modules/temporal_expert_input/__main__.py": {
+      "bytes": 4467,
+      "sha256": "0395bd36560c1213cec6b20b9b17104bc18c1e2eaf6e01ceebdcf522a28b8792"
+    },
+    "source/modules/temporal_expert_input/checkpoint.py": {
+      "bytes": 9314,
+      "sha256": "1e04c2f0cb36f1c964e2ba93e5baea127a54c49e27d573b468cd0adc0a01d08e"
+    },
+    "source/modules/temporal_expert_input/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_expert_input/export.py": {
+      "bytes": 13169,
+      "sha256": "04fdd22adf7f0f8b16db495c6b1f34e73516716688240c2250a3f500fe4c0123"
+    },
+    "source/modules/temporal_expert_input/gradient.py": {
+      "bytes": 3940,
+      "sha256": "d0e19d31d77e8cb08470d0fea96305465e3076b2ab107e11991fde2b26175083"
+    },
+    "source/modules/temporal_expert_input/inputs.py": {
+      "bytes": 2549,
+      "sha256": "13a5e7cf84918004f19423ac7b25ea49f69387ba0b72cfceb0f882a286e82f7d"
+    },
+    "source/modules/temporal_expert_input/model.py": {
+      "bytes": 2916,
+      "sha256": "ca3ca013896ce3aed057af98bde055cf9799afc9ca1a462fa347cb2fc5e49344"
+    },
+    "source/modules/temporal_expert_input/stage.py": {
+      "bytes": 15949,
+      "sha256": "f9e9fd1dea9a024a0750e25122d7d2f6988985640077cb2fb9149a348f77501c"
+    },
+    "source/modules/temporal_prequential_transfer/__init__.py": {
+      "bytes": 74,
+      "sha256": "39c71d55539b613825cdaa49a44569ba5917831c7e786166607bb6bf75f4fa8b"
+    },
+    "source/modules/temporal_prequential_transfer/__main__.py": {
+      "bytes": 7629,
+      "sha256": "18c846fcaa9a0c9e3496c71a945ad59ad2e00a565a0ea320f01e1a3c9ee9afe8"
+    },
+    "source/modules/temporal_prequential_transfer/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_prequential_transfer/data.py": {
+      "bytes": 8185,
+      "sha256": "e0dfd812ac9d305c9d2eb30765a9460112113bd790260504f85f6c2304a320e2"
+    },
+    "source/modules/temporal_prequential_transfer/export.py": {
+      "bytes": 10871,
+      "sha256": "f6fde9d1dc1e60f6dc0df2fc0c7bca03531adff03080a5296e6f192c556c55f0"
+    },
+    "source/modules/temporal_prequential_transfer/model.py": {
+      "bytes": 1333,
+      "sha256": "c206ad770f94ead2e5e8c926cc66f3a959d266b5911b78c621882e8154ccbbc4"
+    },
+    "source/modules/temporal_prequential_transfer/protocol.py": {
+      "bytes": 3387,
+      "sha256": "6b1e49d0f22208edf2e875071d2b72d86b272c1090a804f4c28f1443726fae2d"
+    },
+    "source/modules/temporal_prequential_transfer/stage.py": {
+      "bytes": 10927,
+      "sha256": "cd42f0bd3cb7fc943565a844c1d08e21294d10bda57b1c97b7d3553b436a6e9d"
+    },
+    "source/modules/temporal_prequential_transfer/test_transfer.py": {
+      "bytes": 10864,
+      "sha256": "872c7e1452da76c154a6178971f20df4846bede5bb3f18305154eae5b0caaced"
+    },
+    "source/modules/temporal_risk_proxy_v2/__init__.py": {
+      "bytes": 78,
+      "sha256": "d50a6745c7aba9a4668ec42c95185c0fa3b409da35e250c64704cce5f2170a72"
+    },
+    "source/modules/temporal_risk_proxy_v2/conftest.py": {
+      "bytes": 537,
+      "sha256": "aa5247d440a1b02b8553effd490319b6afe905daef95f0610a5a4761bfc79ef1"
+    },
+    "source/modules/temporal_risk_proxy_v2/diagnose.py": {
+      "bytes": 7181,
+      "sha256": "4937716d4fd15670af4aa29762f3bdacdce22064046a33cda738713bd382d948"
+    },
+    "source/modules/temporal_risk_proxy_v2/native_contract.py": {
+      "bytes": 690,
+      "sha256": "b3de5e3cb5800c4f235e884c85903cc4575e809674c26a619f5894857ff9e708"
+    },
+    "source/modules/temporal_risk_proxy_v2/proxy.py": {
+      "bytes": 13307,
+      "sha256": "c438a85a1853f7b8cef02dede194dd3c905d93f74bbb2882b5ae0fd8d50ad040"
+    },
+    "source/modules/temporal_risk_proxy_v2/test_native_contract.py": {
+      "bytes": 8037,
+      "sha256": "f0bb9e954c409d483ff2c62bc8aa2b3929683c60de41d54d9e56671fb2d9ee57"
+    },
+    "source/modules/temporal_risk_proxy_v2/test_proxy.py": {
+      "bytes": 7800,
+      "sha256": "be6caf755468d8f7bc734b7b761a26715d675d2b1d33f9b91dfd317add787e1a"
+    },
+    "source/modules/temporal_short_expansion/__init__.py": {
+      "bytes": 64,
+      "sha256": "0857c4cda0b7fc64053e06bf02f23d500054698c2a2d9b1dcef500d254cd6073"
+    },
+    "source/modules/temporal_short_expansion/__main__.py": {
+      "bytes": 4449,
+      "sha256": "de96a0b7b1f1645ab11db178e093b4bf2b2911def285c863257c1c5545e074e6"
+    },
+    "source/modules/temporal_short_expansion/adapter.py": {
+      "bytes": 6493,
+      "sha256": "a29dfa919b144f69ad50e3ef59a62d74aa966ebed28c57aa6b7eb89f5bcd1a1d"
+    },
+    "source/modules/temporal_short_expansion/checkpoint.py": {
+      "bytes": 16372,
+      "sha256": "566c6df9939ad8d1edd1bffe49e027bd324778fbb2e6f673dc27e929716af239"
+    },
+    "source/modules/temporal_short_expansion/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_short_expansion/export.py": {
+      "bytes": 12086,
+      "sha256": "c317aae8f399cf9b298771b1c4d6f716a7fa63a5fa659a4bbeab85f516025e83"
+    },
+    "source/modules/temporal_short_expansion/gradient.py": {
+      "bytes": 2694,
+      "sha256": "e7e7913af02a9e6c3481886b44528bc431e1be00ca4c77986bbf7db513ec4d51"
+    },
+    "source/modules/temporal_short_expansion/model.py": {
+      "bytes": 2806,
+      "sha256": "09e38c0d94c21debb1127adfadf12314c93420c747334945b85aaec049e7eaec"
+    },
+    "source/modules/temporal_short_expansion/stage.py": {
+      "bytes": 14644,
+      "sha256": "42b667afa68066f0d3eb0d9c2cdff8d3cefc375123e7d5af710f1debe612228b"
+    },
+    "source/modules/temporal_short_expansion/test_expansion.py": {
+      "bytes": 7580,
+      "sha256": "da4cdf7e8c01726d60047fc2f0d539c2ef7fd27cc5a003afc758735add757c86"
+    },
+    "source/modules/temporal_surrogate_resume_v2/__init__.py": {
+      "bytes": 81,
+      "sha256": "51ffa8aa3aa0fd5c74a4a35ccde5ce4fb2c22f13c129e1c4a34781b4c393e501"
+    },
+    "source/modules/temporal_surrogate_resume_v2/__main__.py": {
+      "bytes": 7645,
+      "sha256": "671896a31d47fa3c24d0a32f5702d3ac47c944ec4f1dc1c33fbdd91ce0b12ba2"
+    },
+    "source/modules/temporal_surrogate_resume_v2/bounded_controller.py": {
+      "bytes": 3855,
+      "sha256": "21d8dcb268ceec9334828fe49b8b8112bd7adb607f7d7b3c2213728a33006519"
+    },
+    "source/modules/temporal_surrogate_resume_v2/conftest.py": {
+      "bytes": 146,
+      "sha256": "18698a2cbcd5bc152c40f735dbd718da285ce17a19c372edd529d59f4313380d"
+    },
+    "source/modules/temporal_surrogate_resume_v2/export.py": {
+      "bytes": 10973,
+      "sha256": "080ef01a40512410678845816564a67caab38ca8f963dbaeadcbf3622c345c1f"
+    },
+    "source/modules/temporal_surrogate_resume_v2/gradient.py": {
+      "bytes": 3214,
+      "sha256": "c93bb567d11d49de6b45c689e216070d9053ea5371a39983181fa56f69c7c228"
+    },
+    "source/modules/temporal_surrogate_resume_v2/stage.py": {
+      "bytes": 13237,
+      "sha256": "e611a8f8d6332b9471d0d23354178961dc3432156b45dd4652d5854b67d784fe"
+    },
+    "source/modules/temporal_surrogate_resume_v2/test_resume.py": {
+      "bytes": 9045,
+      "sha256": "83d2801ebc9cf5fcb855c2412bf79b7ea95ba2e1367f4d3d4e17f03c730ef6e5"
+    },
+    "source/modules/temporal_two_expert/__init__.py": {
+      "bytes": 80,
+      "sha256": "ad6d5ac2359ed3d189ee1bf0a9c70134c3426d9f2561d55b22d3ce8840ee805b"
+    },
+    "source/modules/temporal_two_expert/__main__.py": {
+      "bytes": 1675,
+      "sha256": "e4ccfcd756b37f25150764ac647dd1966c644341308a2b2c3ad94db891bfc0b0"
+    },
+    "source/modules/temporal_two_expert/__pycache__/feature_windows.cpython-312.pyc": {
+      "bytes": 16774,
+      "sha256": "4b6ed314ebfc392b33f93e48cda631ce39da59b03dd885fe9d68bb462131c9e4"
+    },
+    "source/modules/temporal_two_expert/__pycache__/inputs.cpython-312.pyc": {
+      "bytes": 21946,
+      "sha256": "a896c6cedd0ae3f21eceea5ab2fbbb9ef1bc581ca21ba846299a2cbf332b2a72"
+    },
+    "source/modules/temporal_two_expert/bounded_comparison.py": {
+      "bytes": 3532,
+      "sha256": "6d4cced2d0e4038fc2a5c0bc1953d70d0fec0c5580b65c354a088e894f8e09db"
+    },
+    "source/modules/temporal_two_expert/checkpoint.py": {
+      "bytes": 11076,
+      "sha256": "2a12ed501542e31d3d1e5cf8020a901b2e79a241faa851ca40055fc904f0daef"
+    },
+    "source/modules/temporal_two_expert/comparison.py": {
+      "bytes": 17385,
+      "sha256": "2aa3ef65f42961140495c87eedec84fb666df04d58ae1b7b11e1f6eb8a11b401"
+    },
+    "source/modules/temporal_two_expert/conftest.py": {
+      "bytes": 570,
+      "sha256": "7e139d026b81a9e0a5e13d9db6ac7fb99f1046dd39b4cd8fc37f1f5fe0e03c86"
+    },
+    "source/modules/temporal_two_expert/development_inputs.py": {
+      "bytes": 4723,
+      "sha256": "eba67514829c809a0c143ced82fce18e262d1e4ec971247e482946cd40854d46"
+    },
+    "source/modules/temporal_two_expert/exact.py": {
+      "bytes": 13872,
+      "sha256": "feae1ecfc9c639803e814faa87ae008f39f77caeed60b77e27c2a9c94f3a9042"
+    },
+    "source/modules/temporal_two_expert/feature_windows.py": {
+      "bytes": 11965,
+      "sha256": "6132b39410112462edc865e45d933c0a3b7e528a181681b5900cc525e4166d63"
+    },
+    "source/modules/temporal_two_expert/inputs.py": {
+      "bytes": 14531,
+      "sha256": "e9b175aadede32539eefc25cc64c4d98964e7e2b166278f972c41f1dedcffcf5"
+    },
+    "source/modules/temporal_two_expert/model.py": {
+      "bytes": 8739,
+      "sha256": "6ab473b139356c750457991961758bdd450e872d1779d58cfa7a9e09b50ef8a2"
+    },
+    "source/modules/temporal_two_expert/runner.py": {
+      "bytes": 4098,
+      "sha256": "8fd0084f4b43f17e426302b21af8f5e1b12e19501cd3ae8d00b0808ea6d642ef"
+    },
+    "source/modules/temporal_two_expert/synthetic_throughput.py": {
+      "bytes": 3522,
+      "sha256": "a6cab04f5b08c912c7cf937617460f8761ed86530dedc476cf3f89c3a152c5bc"
+    },
+    "source/modules/temporal_two_expert/test_comparison.py": {
+      "bytes": 10630,
+      "sha256": "5d0b1d1a433a1f012e2d76ede8d58e2e294cb7555270282a67548fde84dd3a66"
+    },
+    "source/modules/temporal_two_expert/test_development.py": {
+      "bytes": 3612,
+      "sha256": "e58648954dc9023f0f68c8d2336efc0680769113344deddace0a937ebbc00532"
+    },
+    "source/modules/temporal_two_expert/test_feature_windows.py": {
+      "bytes": 8247,
+      "sha256": "4d719b194ea5b2e17e08ba5979ec0f74a2f8ae6cae92540cee5da8211d39fe88"
+    },
+    "source/modules/temporal_two_expert/test_temporal.py": {
+      "bytes": 29188,
+      "sha256": "739409c7fa8e5108f6389f4209ca268c68def07799f6b5c428635ba32aecbe7f"
+    },
+    "source/modules/temporal_two_expert/training_packet.py": {
+      "bytes": 9760,
+      "sha256": "cb6edb60bc3ec5a81dbee3201892de72b6e48d5b0c16df227e75557d21f57187"
+    },
+    "training/economic.npz": {
+      "bytes": 159443,
+      "sha256": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676"
+    },
+    "training/feature_manifest.json": {
+      "bytes": 4075,
+      "sha256": "9ecbc55c21a5eab2b400604bbd7347a6e9b1261f31b4e749364ee292031da464"
+    },
+    "training/features.npz": {
+      "bytes": 555574,
+      "sha256": "f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c"
+    },
+    "training/short.npz": {
+      "bytes": 24815,
+      "sha256": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d"
+    }
+  },
+  "request_file": "CASH50_REQUESTS.npz",
+  "producer_commit": "c49cbe28f3f8265987c1e7fe2141d87ce220f339",
+  "expert_order": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "PUBLIC_SMA50_200_SIGNED",
+    "DONCHIAN_EXIT10",
+    "CSMOM21",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "allowed_actions": [
+    "CASH",
+    "VOL_MANAGED_HOLD",
+    "CSMOM21",
+    "MOMENTUM30_SHORT_ONLY"
+  ],
+  "uses_feedback_features": false,
+  "calendar": {
+    "start": 1696204800000000,
+    "end_exclusive": 1701648000000000,
+    "days": 63,
+    "minutes": 90720,
+    "funding_events": 945
+  },
+  "adapter_contract_sha256": "b773fa76705644ce2da5be48343696c704b15ab6254a836e5ac397d885f85c3a",
+  "training_cutoff_us": 1696204800000000,
+  "maximum_training_label_available_us": 0,
+  "maximum_scaler_input_available_us": 0,
+  "actual_fit_completed_UTC": null,
+  "actual_export_completed_UTC": "2026-10-09T22:20:23.268526+00:00",
+  "training_plan_file": "CASH50_PLAN.json",
+  "training_plan_sha256": "2e06e93e79021d060081758da6507c01340de06ddc2f96a31bb65d6e03b7a9ce",
+  "model_sha256": null,
+  "scaler_sha256": null
+}
