@@ -1,0 +1,14 @@
+# Exact cached July continuation
+
+The two immutable 256-update checkpoints and July comparison protocol from 27f8a91ecdde570bd837eaf89699a49b35ace65d are unchanged. This portable continuation restores the previously serialized numeric feature rows and economic contexts from 90b8fd65d092b52091b3fee7717c0478b265bc6e. Its reconstructed episode, every context array, and complete input binding match the original paired preflight exactly. Raw-event reconstruction is REUSED from the original producer's receipt, not independently rerun here. This avoids re-downloading market archives and preserves the known August 12 minute-mark gap.
+
+The old saved Codex turn failed on usage quota. Its unpublished temporary output directory cannot be inspected from this computer. The latest public branch has only the zero-inference preflight; this checkout's 28 saved result receipts contain no exact checkpoint/calendar pair. The previous directory is not deleted or modified. This computer makes one recorded execution of the fixed pair, without outcome-based selection, new training, or alternate recipes. If an earlier unpublished result is recovered later, compare identities and deterministic outputs rather than treating it as a new trial.
+
+Original frozen fitting and evaluation sources remain unchanged. The paired evaluation loop is copied verbatim into modules/temporal_cached_july/evaluate.py, with explicit imports of the cached loader and an additional source-identity publication gate. Two cache identity/tamper tests and four original paired tests pass. The portable resource launcher retains one CPU/thread, 2 GB process RSS, 4 GB address space, 1,200 seconds, no swap/GPU; because this computer lacks a cgroup mount, it additionally stops at 8 GB host used memory measured as MemTotal minus MemAvailable. No financial limits change.
+
+Use Python 3.12 and research/temporal-added-history-july-20261010/requirements.txt, plus requests (a transitive import absent from that short requirements list). Restore the existing recovery ZIP into STATE/recovery. No feature or market download is required by the cached loader. Verify public code and PRESCORE bytes, then run once with an exclusive output directory:
+
+    PYTHONPATH=.:src python research/temporal-cached-july-20261010/bounded_cloud.py --report STATE/PAIR_RUN.json python -m modules.temporal_cached_july.evaluate run --state STATE --economics STATE/unused --output STATE/paired-once --publication STATE/CACHED_PUBLIC_READBACK.json
+    PYTHONPATH=.:src python -m modules.temporal_added_history_july.verify --output STATE/paired-once
+
+The public readback receipt must include both original and cached PRESCORE paths and exact SHA256 values. Additional cache source hashes are bound before scoring. No predictions or wallets have been run at this preflight publication.
