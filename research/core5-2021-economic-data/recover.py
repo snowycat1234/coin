@@ -8,6 +8,8 @@ import json
 from pathlib import Path,PurePosixPath
 import re
 import shutil
+import time
+from urllib.error import HTTPError
 from urllib.request import urlopen
 import zipfile
 
@@ -20,30 +22,41 @@ def sha(path):
     return h.hexdigest()
 
 def remote(url,limit):
-    with urlopen(url,timeout=30) as r:
-        assert r.status==200
-        body=r.read(limit+1)
-        assert len(body)<=limit,'Response exceeds declared bound'
-    return body
+    for attempt in range(3):
+        try:
+            with urlopen(url,timeout=30) as r:
+                assert r.status==200
+                body=r.read(limit+1)
+                assert len(body)<=limit,'Response exceeds declared bound'
+            return body
+        except HTTPError as e:
+            if e.code not in (500,502,503,504) or attempt==2:raise
+            time.sleep(.5*(attempt+1))
 
 def safe(name):
     p=PurePosixPath(name)
     assert not p.is_absolute() and '..' not in p.parts and '\\' not in name
     return p
 
-def main(commit,output,cache):
+def main(commit,output,cache,resume=False):
     assert re.fullmatch('[0-9a-f]{40}',commit),'Immutable full commit required'
     assert shutil.disk_usage(output.parent).free>15*2**30+500*2**20
-    output.mkdir(exist_ok=False)
+    output.mkdir(exist_ok=resume)
     base=f'https://raw.githubusercontent.com/snowycat1234/coin/{commit}/{PREFIX}/'
     body=remote(base+'Y2021/INDEX.json',500000)
-    (output/'INDEX.json').write_bytes(body);index=json.loads(body)
+    if (output/'INDEX.json').exists():assert (output/'INDEX.json').read_bytes()==body,'Resume index differs'
+    else:(output/'INDEX.json').write_bytes(body)
+    index=json.loads(body)
     assert index['schema']=='CORE5_FIXED2021_RECOVERABLE_ECONOMIC_PACKET_V1'
     assert index['maximum_part_bytes']==768*1024
-    parts=output/'parts';parts.mkdir()
+    parts=output/'parts';parts.mkdir(exist_ok=resume)
     def obtain(r):
         assert re.fullmatch(r'originals\.zip\.part[0-9]{4}',r['name'])
         assert 0<r['bytes']<=768*1024
+        path=parts/r['name']
+        if path.exists():
+            assert resume and path.stat().st_size==r['bytes'] and sha(path)==r['SHA256'],'Existing part is not verified'
+            return r['bytes']
         b=remote(base+'Y2021/'+r['name'],r['bytes'])
         assert len(b)==r['bytes'] and hashlib.sha256(b).hexdigest()==r['SHA256']
         (parts/r['name']).write_bytes(b)
@@ -51,11 +64,12 @@ def main(commit,output,cache):
     with ThreadPoolExecutor(max_workers=4) as pool:part_bytes=sum(pool.map(obtain,index['parts']))
     assert part_bytes==index['package_bytes']
     package=output/'originals.zip'
-    with package.open('xb') as out:
-        for r in index['parts']:
-            with (parts/r['name']).open('rb') as f:shutil.copyfileobj(f,out,1048576)
+    if not package.exists():
+        with package.open('xb') as out:
+            for r in index['parts']:
+                with (parts/r['name']).open('rb') as f:shutil.copyfileobj(f,out,1048576)
     assert sha(package)==index['package_SHA256']
-    folder=output/'Y2021';folder.mkdir()
+    folder=output/'Y2021';folder.mkdir(exist_ok=resume)
     with zipfile.ZipFile(package) as z:
         assert z.testzip() is None
         assert z.namelist()==[r['name'] for r in index['members']]
@@ -63,14 +77,15 @@ def main(commit,output,cache):
         for r in index['members']:
             info=z.getinfo(r['name']);assert info.file_size==r['bytes'] and info.compress_type==zipfile.ZIP_STORED
             path=folder/safe(r['name']);path.parent.mkdir(parents=True,exist_ok=True)
-            with z.open(r['name']) as f,path.open('xb') as out:shutil.copyfileobj(f,out,1048576)
+            if not path.exists():
+                with z.open(r['name']) as f,path.open('xb') as out:shutil.copyfileobj(f,out,1048576)
             assert sha(path)==r['SHA256']
     raw=json.loads((folder/'RAW_MANIFEST.json').read_text())
     for r in raw['records']:
         path=folder/safe(r['relative_raw_path']);assert path.stat().st_size==r['size'] and sha(path)==r['SHA256']
         assert Path(str(path)+'.CHECKSUM').read_text()==r['checksum_text']
         with zipfile.ZipFile(path) as z:assert z.testzip() is None and len(z.namelist())==1
-    protocol=output/'protocol';protocol.mkdir()
+    protocol=output/'protocol';protocol.mkdir(exist_ok=resume)
     files=['PROTOCOL.json','ORIGINAL_SOURCE_MANIFEST.json','conditional_selector_inputs.py','conditional_selector_core.py','RECIPE_SOURCE_RECEIPT.json']
     protocol_hashes={}
     for name in files:
@@ -82,7 +97,9 @@ def main(commit,output,cache):
     assert protocol_hashes['conditional_selector_core.py']=='c0a086ba583dfe4f059b8942988ec2209ac767e4cfe59699f06e804b94890533'
     references=index['cached_inputs'];feature=output/'FEATURE_ARCHIVE.zip'
     feature_body_bytes=0
-    if cache:
+    if feature.exists():
+        assert resume and sha(feature)==references['archive_SHA256']
+    elif cache:
         assert sha(cache)==references['archive_SHA256'] and cache.stat().st_size==references['archive_bytes']
         shutil.copyfile(cache,feature)
     else:
@@ -99,6 +116,7 @@ def main(commit,output,cache):
             assert hashlib.sha256(z.read(r['member'])).hexdigest()==r['SHA256']
     receipt=dict(schema='REMOTE2021_ECONOMIC_PACKET_READBACK_V1',status='ALL_REMOTE_PARTS_MEMBERS_ORIGINALS_AND_CACHED_SOURCE_BINDINGS_VERIFIED',
         checked_UTC=datetime.now(timezone.utc).isoformat(),source_commit=commit,index_SHA256=sha(output/'INDEX.json'),
+        recovery_script_SHA256=sha(Path(__file__)),resumed_verified_parts=resume,
         package_SHA256=sha(package),remote_parts=len(index['parts']),remote_part_body_bytes=part_bytes,
         every_part_and_package_and_member_SHA256_verified=True,outer_and_all_original_inner_ZIP_CRC_verified=True,
         original_archive_count=len(raw['records']),original_archive_bytes=sum(r['size'] for r in raw['records']),
@@ -112,4 +130,5 @@ def main(commit,output,cache):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--commit',required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--cached-feature-archive',type=Path)
-    a=p.parse_args();main(a.commit,a.output,a.cached_feature_archive)
+    p.add_argument('--resume',action='store_true',help='Reuse only exact already-verified parts after a transient failure')
+    a=p.parse_args();main(a.commit,a.output,a.cached_feature_archive,a.resume)
