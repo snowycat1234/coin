@@ -14,7 +14,9 @@ Commands from the repository root (Python3.12; exact dependencies listed):
 
     PYTHONPATH=.:src python -m modules.temporal_scaler_refit prepare --state STATE --economics STATE/early2021 --output STATE/scaler-refit
     PYTHONPATH=.:src python research/temporal-cached-july-20261010/bounded_cloud.py --report STATE/SCALER_SLICE1.json python -m modules.temporal_scaler_refit worker --state STATE --economics STATE/early2021 --output STATE/scaler-refit --publication STATE/SCALER_PUBLIC_READBACK.json
-    PYTHONPATH=.:src python -m modules.temporal_scaler_refit.evaluate --state STATE --economics STATE/early2021 --fit STATE/scaler-refit --output STATE/scaler-eval-once --publication STATE/SCALER_TERMINAL_READBACK.json
+    PYTHONPATH=.:src python -m modules.temporal_scaler_score_fixed.evaluate --state STATE --economics STATE/early2021 --fit STATE/scaler-refit --output STATE/scaler-eval-once --publication STATE/SCALER_TERMINAL_READBACK.json
     PYTHONPATH=.:src python -m modules.temporal_scaler_refit.verify --output STATE/scaler-eval-once
 
 For recovery, restore PREFIT.zip and bound state inputs without replacing an existing live/completed claim. Public readback must confirm source/READY bytes before worker; terminal checkpoint/receipt/source graph must be public and verified before score. The inherited file lock and exclusive evaluation directory remain enforced. This publication contains zero optimizer updates and no candidate economic scores.
+
+Completed results and launcher import correction are in RESULTS.md and EVALUATOR_IMPORT_FIX.md. The initial prefit status above describes that publication stage, not current completion.
