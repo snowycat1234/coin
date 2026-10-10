@@ -8,3 +8,15 @@ python -m modules.temporal_selected_refit worker --state STATE --output OUTPUT
 ```
 
 The worker checkpoints every complete update; bounded slice recovery restores model, Adam, Python/NumPy/Torch RNG and progress. Only terminal256 is selected. No reserve stopping, recipe adjustment, or extra fits. Q4 is project-seen but untouched by this tuning study; score once after refit freeze against fixed VOL, Static50 and Cash50. Daily surrogate only; native replay follows exported requests. Supplied Q4 economic source is152606ad56fe6d8943b27ce89c8c57e2068ee944; Dec31 00:01:00.000001 UTC paid closure, no synthetic input rows or later return.
+
+The refit completed exactly256 updates in710.112s, no failure. All13 Adam states have age256. Frozen checkpoint SHA256 `58db72621c9596a195267869a9cfa75f56c52162521f3ff77bf5d69c7d7bb88a`, model identity `38eb7275e4f69382083cbc3d81463d5fd2de955be2ad55919bed42c55c435e84`; public freeze6124170 was byte-verified before Q4 input access. The original fitting sources remain unchanged.
+
+Q4 input binding:155 real feature rows,92 windows of64×5×24 plus24 masks/time masks and18 current expert inputs; original ten-asset aggregates and scheduled weekly rank state. Same pre-May907-row scaler, no Q4 normalization fit. Supplied derived tables/NPZ from152606ad were materialized offline and byte-verified, with independent strict-prior event funding reconstruction; no provider acquisition or minute-wallet replay. Real92 prices/91 funding intervals, no economic padding. Six synthetic terminal/causal/accounting tests plus two economic binding tests and two refit tests pass.
+
+```sh
+python -m modules.temporal_q4_reserved.bind --state STATE --economics ECONOMICS --fit-output OUTPUT --output INPUT_BINDING.json
+python -m modules.temporal_q4_reserved.evaluate --state STATE --economics ECONOMICS --fit-output OUTPUT --input-binding INPUT_BINDING.json --output Q4_RESULT
+python -m modules.temporal_q4_reserved.verify --output Q4_RESULT
+```
+
+Scoring uses an exclusive result directory and refuses a repeat. Fixed controls keep their prescribed requests; the learned raw requests are preserved. Native requests bind exact clocks, action masks, model, optimizer snapshot, scaler, protocol and source bytes. The old61-day native adapter is reference-only:92-day calendar adaptation/real native execution remains NOT_RUN. Daily boundary full-fill, continuous quantities and source venue/cost/funding assumptions remain diagnostic limitations. Financial path failures are retained and comparisons become UNKNOWN rather than fabricating a terminal result.

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="10" time="3.149" timestamp="2026-10-10T06:31:25.674053+00:00" hostname="76d10942597e"><testcase classname="modules.temporal_selected_refit.test_refit" name="test_exact_single_recipe_and256_binding" time="1.045" /><testcase classname="modules.temporal_selected_refit.test_refit" name="test_dropout_adam_all_rng_exact_resume_and_cap" time="0.415" /><testcase classname="modules.temporal_q4_reserved.test_contract" name="test_original_builder_future_suffix_missing_step_and_real64" time="0.605" /><testcase classname="modules.temporal_q4_reserved.test_contract" name="test_complete_real_terminal_context_mapper_and_independent_accounting" time="0.011"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/workspace/coin-state/work/temporal-two-expert-20261009/selected-refit/all1...oin-state/work/temporal-two-expert-20261009/selected-refit/all10-pytest'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/workspace/coin-state/work/temporal-two-expert-20261009/selected-refit/all10-pytest/recovery1/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_q4_reserved.test_terminal" name="test_no_padding_paid_terminal_parity_including_gradients[1.0]" time="0.013" /><testcase classname="modules.temporal_q4_reserved.test_terminal" name="test_no_padding_paid_terminal_parity_including_gradients[6.0]" time="0.012" /><testcase classname="modules.temporal_q4_reserved.test_terminal" name="test_terminal_requires_real_known_economics" time="0.001" /><testcase classname="modules.temporal_q4_reserved.test_terminal" name="test_unexecutable_boundary_reduction_stops_without_free_exit" time="0.005" /><testcase classname="research.temporal-selected-refit-q4-20261010.test_q4_economics" name="test_real_unpadded_economics_and_exact_clocks" time="0.531" /><testcase classname="research.temporal-selected-refit-q4-20261010.test_q4_economics" name="test_unknown_or_modified_economics_rejected" time="0.003" /></testsuite></testsuites>
