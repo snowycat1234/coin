@@ -1,0 +1,25 @@
+# CORE5 2021 economic packet
+
+Fixed January 1–December 31, 2021 calendar: **365 real decisions, 364 distinct eligible active intervals, one separate episode**. It starts from fresh CASH and requires a charged final CASH decision at December 31 00:01:00.000001 UTC. No economic dates or held intervals are excluded after source validation. No 2020 decisions, January 2022 held outcome, training, inference, backtest or wallet was added.
+
+[Y2021/INDEX.json](Y2021/INDEX.json) is the consumer entry point. Concatenate its ordered parts and verify every part, wrapper and member hash. All parts are at most 768 KiB. The wrapper contains 130 unchanged official ZIPs/checksums, compact execution/funding Parquets, original context targets and masks, explicit episodes/exclusions, and an unpadded economic array. Existing feature history, original ten-asset aggregates, signed funding and December event marks are referenced at immutable feature commit `e0d3400b23842f11f167a63e7d80856d76501de8`.
+
+Acquisition used **164,656,739 bytes (157.0289 MiB)** of new official archive bodies, below the 180 MiB cap. The initial 115 monthly files used 164,149,016 bytes. BTC, SOL and XRP monthly marks omitted July 1 and July 24–27, totaling 21,600 source minutes. Fifteen targeted official daily mark files added exactly those real missing minutes for 507,723 bytes. Original holes and source provenance remain recorded; no interpolation or synthetic observations were used. All trade minutes and January–November mark minutes are complete after this repair. December's full native mark tape was not reacquired or published.
+
+Independent raw-CSV checks verify all 1,825 actual 00:01 OPEN execution prices, all 1,825 preceding completed-minute quote-USDT observations, and 5,010 freshly sourced owned funding marks. Another 450 owned December marks match immutable cached actual event values and latest strictly-prior completed-minute clocks. All 5,470 retained signed event records, including both bracketing events per asset, preserve original timestamp, rate and nominal hours. The first unowned January 1 midnight mark remains UNKNOWN; it is not needed by fresh CASH. Actual zero-volume source minutes remain present, and all execution-point preceding quote volumes are positive.
+
+Original E5 slots remain CASH=0, VOL=1, CS=4; the published target axis explicitly names these slots. Original fixed-five `(30,5)` finite past returns are ready for every decision. The original target functions reverify DOGE VOL eligibility from January 26 and SOL from April 2, retaining 25 and 91 earlier per-asset VOL exclusions respectively. CS membership is available throughout. Existing per-feature/time masks, including missing premium observations, remain unchanged. There is no all-64-complete or ready256 admission gate, scaler fit, pool change, or selection by returns. Historical completed-day publication proxies and the existing conditional funding-unit/cross-venue cost contract remain as before; this packet is not a native December minute-tape certification or a performance claim.
+
+Run these commands through the project's approved bounded Python launcher, with the full immutable package commit from the publication receipt:
+
+```sh
+python research/core5-2021-economic-data/recover.py --commit <40-character-commit> --output <new-directory> --cached-feature-archive <verified-FEATURE_ARCHIVE.zip>
+python research/core5-2021-economic-data/validate.py --root <new-directory> --source-root <checkout-of-0090a7182c75a655197afd85f4db2c66db6456f6> --feature-archive <new-directory>/FEATURE_ARCHIVE.zip --core-source <new-directory>/protocol/conditional_selector_core.py
+python research/core5-2021-economic-data/audit_packet.py --root <new-directory> --feature-archive <new-directory>/FEATURE_ARCHIVE.zip
+```
+
+Omit `--cached-feature-archive` to recover its three immutable public parts. The unchanged normalizer and expert dependencies match the branch's `0090a718...` base and are checked by exact source hashes. The archived original expert recipe and causal helper are included unchanged under `protocol/`. Recovery fetches public GitHub parts, verifies SHA-256 and inner/outer ZIP CRCs, and performs no provider redownload.
+
+`ECONOMICS.npz` has prices `(365,5)` and funding coefficients `(364,5)`, explicit execution/interval/maturity clocks, quote-USDT observations and readiness masks. Funding charge is `-signed_quantity * funding_coeff` over `(start_execution,end_execution]`. `EPISODES.json` requires the last decision to be paid CASH. Consumers with the older N+1 loader contract must adapt explicitly; do not manufacture an extra price or funding row. The original context targets at the terminal date are inputs, and do not waive the forced CASH closure. Feature-window references select the unchanged cached feature NPZ; economic completeness is not an input feature.
+
+Validation and independent raw checks are in `evidence/`. Remote readback and canonical restoration receipts will bind the published immutable package. All acquisition and verification Python ran with one CPU, a 2,000,000,000-byte address/RSS cap, no GPU/swap, and a 15 GiB disk reserve.
