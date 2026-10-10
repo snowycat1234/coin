@@ -34,7 +34,7 @@ def package(state):
     for arm in accounts:shutil.copytree(pairs[arm][0],root/'accounts'/arm)
     shutil.copytree(PUBLIC,root/'plans',ignore=shutil.ignore_patterns('results'));shutil.copytree(april.CONTRACT.parent,root/'april63')
     for name in ('RESULTS.json','README.md'):shutil.copyfile(RESULTS/name,root/name)
-    for name in ('april_native63.py','prepare_april63.py','package_april63.py','evaluate_requests61.py','evaluate_requests63.py','prequential63_producer.py','package_prequential63.py','verify_native61.py','native61.py','requirements.txt','requirements-native61.txt'):shutil.copyfile(HERE/name,root/name)
+    for name in ('april_native63.py','prepare_april63.py','package_april63.py','verify_april63_public.py','evaluate_requests61.py','evaluate_requests63.py','prequential63_producer.py','package_prequential63.py','verify_native61.py','native61.py','requirements.txt','requirements-native61.txt'):shutil.copyfile(HERE/name,root/name)
     for name in ('modules/transformer_v3/isolated_audit.py','scripts/investment/audit_shared_direction.py'):p=root/'verification_helpers'/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(HERE/'verification_helpers'/name,p)
     for name in ('producer/REQUESTS.npz','producer/CURRENT_CONTEXT63.npz','producer/PAIRED_PATHS.npz','producer/RUN.json','producer/TERMINAL.json','producer/SCALER.npz','READY.json','STATIC50_REQUESTS.npz','CASH50_REQUESTS.npz','TRAINING_CLOCKS.npz','PREFIX_PROOF.json'):
         p=root/'frozen-request-evidence'/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(wrapper/name,p)
