@@ -8,7 +8,7 @@ read=run.read;sha=run.sha;encoded=run.encoded;write_once=run.write_once;PUBLIC=r
 
 def months(directory):
     import polars as pl
-    minute=pl.read_parquet(directory/'account/minute.parquet');previous=dict(nav=10000.,cumulative_fees=0.,cumulative_execution_costs=0.,cumulative_funding=0.);result=[]
+    minute=pl.read_parquet(directory/'account/minute_nav_inventory.parquet');previous=dict(nav=10000.,cumulative_fees=0.,cumulative_execution_costs=0.,cumulative_funding=0.);result=[]
     for month,frame in minute.with_columns(pl.from_epoch('close_us',time_unit='us').dt.offset_by('-1us').dt.strftime('%Y-%m').alias('month')).partition_by('month',as_dict=True).items():
         row=frame.row(-1,named=True);net=row['nav']-previous['nav'];fees=row['cumulative_fees']-previous['cumulative_fees'];cost=row['cumulative_execution_costs']-previous['cumulative_execution_costs'];fund=row['cumulative_funding']-previous['cumulative_funding']
         result.append(dict(month=month[0],minute_observations=frame.height,last_close_us=row['close_us'],net_PnL_USDT=net,price_PnL_USDT=net+fees+cost-fund,fees_USDT=fees,execution_cost_USDT=cost,funding_USDT=fund,ending_NAV=row['nav'],terminal_tail_included=row['close_us']==run.END));previous=row
@@ -37,7 +37,7 @@ def package(state,arm):
     for name in ['CHECKPOINT.json',pointer['snapshot']['path'],*[v['path'] for v in pointer['minute_chunks']]]:
         target=root/'accounts'/arm/'recovery'/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/'recovery'/name,target)
     repo=root/'repo';helper=repo/run.HERE.relative_to(run.REPO);helper.mkdir(parents=True,exist_ok=True)
-    for name in ('q4_native92.py','verify_q4_native92.py','package_q4_native92.py','verify_q4_native92_public.py','prefix_static_native63.py','evaluate_requests63.py','evaluate_requests61.py','native61.py','package_prequential63.py','requirements.txt','requirements-native61.txt','EVALUATE_REQUESTS61_ADAPTER.json','NATIVE61_PLAN.json'):
+    for name in ('q4_native92.py','verify_q4_native92.py','finalize_q4_native92.py','package_q4_native92.py','verify_q4_native92_public.py','prefix_static_native63.py','evaluate_requests63.py','evaluate_requests61.py','native61.py','package_prequential63.py','requirements.txt','requirements-native61.txt','EVALUATE_REQUESTS61_ADAPTER.json','NATIVE61_PLAN.json'):
         shutil.copyfile(run.HERE/name,helper/name)
     for n,h in read(PUBLIC/'ADAPTER_CONTRACT.json')['source_sha256'].items():
         p=run.REPO/n;assert sha(p)==h;target=repo/n;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)

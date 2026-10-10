@@ -16,10 +16,12 @@ Run only an explicitly authorized, not-yet-completed account after its exact pla
 
 ```sh
 python ../q4_native92.py check --state STATE --arm SELECTED_FULL773_256
-python ../q4_native92.py run --state STATE --arm SELECTED_FULL773_256 --plan-commit PUBLIC_PLAN_COMMIT
+python ../finalize_q4_native92.py start --state STATE --arm NOT_YET_STARTED_ARM --plan-commit PUBLIC_PLAN_COMMIT
 ```
 
 The runner uses one CPU, numeric threads1,6GB address-space/RSS bound,600seconds per account and15GiB free disk reserve. Each completed decision commits the original full financial/scheduler snapshot plus an immutable numeric minute chunk. Interrupted accounts resume only from the exact original plan/request/source binding; completed accounts must not advance.
+
+The precommitted read-only auditor requested `account/minute.parquet`; original `save_case` writes `account/minute_nav_inventory.parquet`. `finalize_q4_native92.py` translates only this filename while running the unchanged auditor. The frozen runner, auditor, plans, financial source and original account journals remain intact. It can finish a completed account without any advance, or start one not-yet-started account through the original runner and finalize after this known postprocessing error. Any other missing input still stops. READ_ONLY_FILENAME_CORRECTION.json binds the correction; no financial parameter, request or budget changes.
 
 Each result preserves untouched journals, summary, final account/scheduler state and all92 numeric chunks in ordered768KiB public parts with member SHA256 and ZIP CRC verification. The public verifier fetches those parts, audits the archive's original code against actual retained inputs and restores the completed account without advancing it. A separate full-minute monthly attribution includes the terminal tail; the original summary's complete-day table remains untouched. Report net/price PnL, funding, fees, execution cost, minute drawdown, exposure, terminal timing, identities and recovery receipts.
 

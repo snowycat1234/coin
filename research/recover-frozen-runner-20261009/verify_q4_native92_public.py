@@ -31,7 +31,7 @@ def verify(state,arm,commit):
     code="""import json
 from pathlib import Path
 import q4_native92 as run
-import verify_q4_native92 as auditor
+import finalize_q4_native92 as auditor
 state=Path(STATE);account=Path(ACCOUNT)
 run.source_check(state);run.base.frozen.modules(state)
 audit=auditor.verify(account,state)
