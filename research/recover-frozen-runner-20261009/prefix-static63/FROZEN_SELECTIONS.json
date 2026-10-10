@@ -1,0 +1,133 @@
+{
+  "fits": 0,
+  "folds": [
+    {
+      "E6_slot": 5,
+      "first_forward_decision_us": 1688342400000000,
+      "fold": "2023-07-03",
+      "labels_by_original_wallet": {
+        "0": 33,
+        "1": 67,
+        "2": 41,
+        "3": 123,
+        "4": 107
+      },
+      "latest_label_available_us": 1688256060000001,
+      "mature_labels": 371,
+      "prefix_means": {
+        "CSMOM21": -0.0045964824482549686,
+        "MOMENTUM30_SHORT_ONLY": 0.001055019175196636,
+        "VOL_MANAGED_HOLD": 0.0002886616617303752
+      },
+      "selected_control": "SHORT",
+      "selected_expert": "MOMENTUM30_SHORT_ONLY"
+    },
+    {
+      "E6_slot": 1,
+      "first_forward_decision_us": 1696204800000000,
+      "fold": "2023-10-02",
+      "labels_by_original_wallet": {
+        "0": 33,
+        "1": 67,
+        "2": 41,
+        "3": 123,
+        "4": 198
+      },
+      "latest_label_available_us": 1696118460000001,
+      "mature_labels": 462,
+      "prefix_means": {
+        "CSMOM21": -0.007854602438923905,
+        "MOMENTUM30_SHORT_ONLY": -0.0019208483030170175,
+        "VOL_MANAGED_HOLD": 0.000595287588523413
+      },
+      "selected_control": "VOL",
+      "selected_expert": "VOL_MANAGED_HOLD"
+    },
+    {
+      "E6_slot": 1,
+      "first_forward_decision_us": 1704067200000000,
+      "fold": "2024-01-01",
+      "labels_by_original_wallet": {
+        "0": 33,
+        "1": 67,
+        "2": 41,
+        "3": 123,
+        "4": 289
+      },
+      "latest_label_available_us": 1703980860000001,
+      "mature_labels": 553,
+      "prefix_means": {
+        "CSMOM21": -0.0027988504111354437,
+        "MOMENTUM30_SHORT_ONLY": -0.0030653146270050464,
+        "VOL_MANAGED_HOLD": 0.006178977916745639
+      },
+      "selected_control": "VOL",
+      "selected_expert": "VOL_MANAGED_HOLD"
+    },
+    {
+      "E6_slot": 1,
+      "first_forward_decision_us": 1711929600000000,
+      "fold": "2024-04-01",
+      "labels_by_original_wallet": {
+        "0": 33,
+        "1": 67,
+        "2": 41,
+        "3": 123,
+        "4": 380
+      },
+      "latest_label_available_us": 1711843260000001,
+      "mature_labels": 644,
+      "prefix_means": {
+        "CSMOM21": -0.0021163232653063847,
+        "MOMENTUM30_SHORT_ONLY": -0.0040145987140903895,
+        "VOL_MANAGED_HOLD": 0.00887768886528937
+      },
+      "selected_control": "VOL",
+      "selected_expert": "VOL_MANAGED_HOLD"
+    }
+  ],
+  "forward_outcomes_read": 0,
+  "protocol": {
+    "accounting": "unchanged_charged_daily_boundary_kernel_costs_funding_endogenous_risk_reductions",
+    "candidates": [
+      "VOL_MANAGED_HOLD",
+      "CSMOM21",
+      "MOMENTUM30_SHORT_ONLY"
+    ],
+    "controls": [
+      "Static50=VOL50_CS50",
+      "Cash50=CASH50_VOL25_CS25"
+    ],
+    "criterion": "largest_arithmetic_mean_of_cost_after21activeinterval_standalone_NAV_returns_on_identical_mature_prefix_labels",
+    "downloads": 0,
+    "exclusions": "incomplete_features;unmatured_labels;cross_episode_gap_or_paid_terminal_windows;unchanged_direct21_cohort",
+    "expert_inactivity": "preserved;flat_short_and_eligibility_release_to_cash_remain_outcomes",
+    "explicit_CASH_candidate": false,
+    "fits": 0,
+    "folds": [
+      "2023-07-03",
+      "2023-10-02",
+      "2024-01-01",
+      "2024-04-01"
+    ],
+    "mapper": "same_causal_eligibility_release_L1.1_cash_start20decision_ramp_gross.6_asset.3",
+    "maximum_surrogate_replays": 4,
+    "model_parameters": 0,
+    "native_rollouts": 0,
+    "requests": "constant_onehot_selected_canonical_E6_slot_for_all63_decisions;no_explicit_CASH_request",
+    "role": "repeatedly_examined_historical_development_not_novel_pristine_OOS",
+    "schema": "ONE_MATURE_PREFIX_STATIC_THREE_EXPERT_NO_CASH_BENCHMARK_V1",
+    "source_labels": "inherited_standalone_marked_subperiods_not_fresh21day_wallet_or_switching_profits",
+    "stop": "one_specification;no_weights_lookback_choice_rule_alternatives;await_native_decision",
+    "ties": "exact_argmax_first_in_fixed_VOL_CS_SHORT_order;no_tolerance_or_search",
+    "wallet": "one_continuous_fresh10000_shared_CORE5_wallet_per_fold;common_paid_terminal_flattening",
+    "weighting": "each_complete_common_nominated_label_equal_weight;unchanged371_462_553_644_rows;no_alternative_lookback"
+  },
+  "selection_identity": "91370d0943efdab455a2bd9d00da653ea71269cd0dc8ad95e9063e2a4757a665",
+  "source_files": {
+    "INPUTS.npz": "20bc280e95435450677ddc0fa8edc979d5e5543abf4fda65236645e74db5a788",
+    "PREPARED.json": "22072e506663f5fd062c982cdc2f9ee9664193026290f4b037722ad1e19d6aed",
+    "TRAIN_STANDALONE_PATHS.npz": "4315d9987354d58080e5e3ae78ac96ff40965f6934582043207fe2ed70c67e23"
+  },
+  "status": "ALL_FOUR_PREFIX_ONLY_STATIC_CHOICES_FROZEN_BEFORE_FORWARD_READ"
+}
