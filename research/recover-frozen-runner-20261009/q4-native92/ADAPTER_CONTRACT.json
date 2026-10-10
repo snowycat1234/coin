@@ -1,0 +1,914 @@
+{
+  "schema": "Q4_NATIVE92_CALENDAR_AND_TERMINAL_ADAPTER_V1",
+  "engine_sha256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+  "financial_reference": {
+    "path": "research/recover-frozen-runner-20261009/april63/ADAPTER_CONTRACT.json",
+    "sha256": "5163c9b4e0cf7305662b715b46d0dabd4e8de35fc8ee38728aff8ff74f9c9b77"
+  },
+  "financial_contract": {
+    "guard_enabled": false,
+    "MMR": 0.005,
+    "isolated_leverage": 1,
+    "auto_margin": false,
+    "fee_each_side_fraction": 0.00055,
+    "halfspread_bp": 4,
+    "slippage_bp": 4,
+    "actual_signed_funding_scale": 1,
+    "gross_target_cap": 0.6,
+    "asset_target_cap": 0.3,
+    "expert_budget_daily_L1_cap": 0.1,
+    "expert_budget_daily_L1_reference": "AFTER_MANDATORY_ELIGIBILITY_RELEASE_TO_CASH",
+    "covariance_past_days": 30,
+    "annual_vol_target": 0.1,
+    "quantity_owned_by_original_engine": ".99*currentNAV*signed_fraction/completed_daily_close",
+    "lot": 1e-08,
+    "min_notional_USDT": 10,
+    "previous_minute_quote_participation": 0.001,
+    "max_attempts": 5,
+    "reductions_before_increases": true,
+    "funding_before_fills": true,
+    "funding_uses_strictly_prior_completed_mark": true,
+    "fresh_first_funding_unheld": true,
+    "persist_cash_close": true,
+    "final_day_target_zero": true,
+    "terminal_paid_close": true
+  },
+  "cost": {
+    "id": "BASE27",
+    "half_spread_bps": 4,
+    "slippage_bps": 4,
+    "roundtrip_bps": 27
+  },
+  "limits": {
+    "cpu_count": 1,
+    "memory_bytes": 6000000000,
+    "per_wallet_seconds": 600,
+    "disk_reserve_bytes": 16106127360
+  },
+  "request_calendar": {
+    "start": 1727740800000000,
+    "end_exclusive": 1735689600000000,
+    "days": 92,
+    "minutes": 132480,
+    "funding_events": 1380
+  },
+  "execution_calendar": {
+    "start": 1727740800000000,
+    "end_exclusive": 1735603560000000,
+    "decisions": 92,
+    "full_held_days": 91,
+    "terminal_minutes": 6,
+    "minutes": 131046,
+    "funding_events": 1370
+  },
+  "terminal": {
+    "request_decisions": 92,
+    "held_intervals": 91,
+    "producer_paid_close_us": 1735603260000001,
+    "producer_paid_close_UTC": "2024-12-31T00:01:00.000001Z",
+    "native_close_signal_us": 1735603200000000,
+    "native_first_eligible_close_us": 1735603260000001,
+    "native_last_eligible_attempt_us": 1735603500000001,
+    "native_window_end_exclusive_us": 1735603560000000,
+    "original_terminal_attempts": 5,
+    "last_request_preserved": true,
+    "last_execution_target_zero": true,
+    "extra_full_day_exposure": false,
+    "January1_outcome_consumed": false,
+    "terminal_price_and_quantity": "ACTUAL_TRADE_OPEN_PREVIOUS_QUOTE_CAPACITY_LOT_AND_FEE_RULES;NO_FORCED_FILL",
+    "minute_exact_epsilon_daily_fill_parity_claimed": false,
+    "unavoidable_difference": "The daily producer assumes one complete paid close at its epsilon-time execution price. Native closure may be partial or delayed through five original attempt-minutes, and includes actual funding ownership until fills. A remaining position stops evaluation; no invented fill or extra holding day."
+  },
+  "source_sha256": {
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "scripts/investment/perpetual_directional.py": "805c786ea647e09965e70df59331efe49d8c24bb097ab0180c5f94a5f4737ec6",
+    "src/quant/perpetual_account.py": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+    "src/quant/bybit_isolated_account.py": "d82cfca41a76f12aea60ea2608a5c5d26670d7c55394cb07619b69fdffd2619a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/investment/public_sma_daily.py": "a675428941dbae1fe07dbab5f6edd33597475bda5df4c2b1bf9f0a0c74048be3",
+    "scripts/investment/public_donchian_daily.py": "82796e9dac68089a24a6d4bd61c561672043e446c806cbe87a6737a459d35c4a",
+    "scripts/investment/public_long_development_adapter.py": "15ea3a089f39149d9d669fa3425fa35821c2c01b3cce1c15f751fd1723a9406f",
+    "scripts/investment/vol_managed_perpetual_target.py": "6d6c563885accfe47258580a658a43054e94307bbec85b6dc0c06f96b88b9307",
+    "scripts/investment/donchian_daily_pool_target.py": "5fb64b5bbd6399590d226beeecf29e154ee820d166edb177490c5c349a8084fa",
+    "scripts/research/public_cross_section_momentum.py": "7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f",
+    "modules/transformer_v2/portfolio.py": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+    "scripts/investment/regime_ranking_screen.py": "b53242077d36b6542a1c2c5684f39f2dce6574841e20b7787fdd06c9b84aebf2",
+    "scripts/investment/frozen_expert_mixture.py": "4c510dd0a91cb13a78ade6e17715a2601cbfbb20304310d42ad2091e97fb9a22",
+    "src/quant/metrics.py": "a425ca9025c3001bfe539fdbaf969683de4aeb1de05b9876a554bb075f9bd3e7",
+    "third_party/jesse_example_donchian/JESSE_LICENSE": "8985ca8447e233f34397a52fe77989c02e27b8145d43bd8c715ae9c7a96056d4",
+    "third_party/jesse_example_donchian/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_donchian/UPSTREAM.md": "491c6c8b38dbf9dac3ca240e1c2cb1323f39ca0a249934b7d932075e5f552bb9",
+    "third_party/jesse_example_donchian/donchian_indicator_original.py": "b7e96ebe3ba476c771a65b353c269a84d02e04587f0d76166c5f322bbbb3a401",
+    "third_party/jesse_example_donchian/donchian_original.py": "fc635b257ad1e12951dc140dae46a63bd37e9abfa5f2d681ef1e754d8ce393fe",
+    "third_party/jesse_example_smacrossover/DOWNLOAD_PREBIND_20261003_V1.json": "92bd24b56d831496c09db22395aac8b2ba1b10049801f49d47bbf0bfa7e97e8c",
+    "third_party/jesse_example_smacrossover/LICENSE": "80d873148413a3eb2f96bbe22657bf57ae42046e4d95e81852109c5f3a949d2d",
+    "third_party/jesse_example_smacrossover/UPSTREAM.md": "f413521f1c8f8fb9314a4eedd800252db71723815d42b271f3f0d8378d52f159",
+    "third_party/jesse_example_smacrossover/smacrossover_original.py": "453440d7b934c494934a1c56b3826d94638594f79ad4e4c7faaff36b96d33fae",
+    "research/recover-frozen-runner-20261009/native61.py": "61a38b3432b8df39d87ac873fe375ee0bf57827a9ceb94b70e20a7156362e63c",
+    "research/recover-frozen-runner-20261009/recover_h1.py": "26f272b55f390ad292c6d8560232cba8604e006634c20abc18ee6a8124436770",
+    "research/recover-frozen-runner-20261009/auxiliary/conditional_selector_core.py": "c0a086ba583dfe4f059b8942988ec2209ac767e4cfe59699f06e804b94890533",
+    "research/recover-frozen-runner-20261009/auxiliary/regime_ranking_screen.py": "b53242077d36b6542a1c2c5684f39f2dce6574841e20b7787fdd06c9b84aebf2",
+    "modules/collector_research/pipeline/common.py": "0f24665c50c21fecef4e06f74230bbb113d210d014077068377c67f34fa57390",
+    "modules/collector_research/pipeline/download.py": "2ffb1694c613be8350d2979c918d3b03a9345d8b2769bfb89b3e230375bdb707",
+    "modules/collector_research/pipeline/normalize.py": "ee394086066c96bc23e83b45bf0bc2777264ab4eb57128886394fee47fecd4ff",
+    "modules/collector_research/validation/data.py": "be2fb7e02130aacb8940f6bc47e019f35c87bd814f27921a51dfa510e0034db8",
+    "research/recover-frozen-runner-20261009/verify_native61.py": "2457a282b705144e4b2c9ed0790acbdee57e5afb722ea920b0de17c6b8bdc232",
+    "research/recover-frozen-runner-20261009/verification_helpers/scripts/investment/audit_shared_direction.py": "fe57a59d1dbc84eef1a1ce423368c90f41950d0c1976b598c9e2ee81b4af85c4",
+    "research/recover-frozen-runner-20261009/verification_helpers/modules/transformer_v3/isolated_audit.py": "6bbf7ec53ab55ff47f2b4c620d46bc2c952860fd13409a9ae37fe34ceb022b4e",
+    "research/recover-frozen-runner-20261009/evaluate_requests61.py": "1400e8aa87f98a29412647d35a6de203e6cc2e44517de676c0360d99ab11ee7f",
+    "tests/test_evaluate_requests61.py": "901c3dd349acf931f592b302d0c612b6c7d6d7a1d4fb2c30be67284afae08312",
+    "research/recover-frozen-runner-20261009/evaluate_requests63.py": "cbedfc44390b6a7c691b465ff9e843bfc9939d62cbada13c29b8aeb19b748493",
+    "research/recover-frozen-runner-20261009/momentum_training_context.py": "deea3039f089b47351f04e478ba53a67323b1c92be043b401260aa9e8d284a16",
+    "research/recover-frozen-runner-20261009/momentum_short_challenge.py": "6760a8400299b0a322b0c5e94ff89a7f5d93230d6046c90897684f3a032d046d",
+    "scripts/investment/momentum_short_pool_target.py": "943b9df49e6c7c0cb19983281c794ee738985aa889c8fde09e6109895c7808ca",
+    "scripts/investment/momentum_cash_pool_target.py": "9f2fe9aae324db2e5ccbcca0ca843b8612625f2aba1cece6937f5db09cb586a4",
+    "tests/test_evaluate_requests63.py": "c0005de6f23d61821c9d4238046eaf986fe68450e6b63816c7ad9bf9dab3c883",
+    "research/recover-frozen-runner-20261009/EVALUATE_REQUESTS61_ADAPTER.json": "9e29ad31a3c795e531e556c2da2f04dfa30d2d71e8df74111731360fc4ca07b2",
+    "research/recover-frozen-runner-20261009/prequential63_producer.py": "ab93142eb8db7a433ff4218108fbd81fa02c3208d4e1837d79ea376cd90c1e21",
+    "research/recover-frozen-runner-20261009/prepare_april63.py": "006ab2ec6abe28109bd882a3a1e7236272c77209e923a2e1a3f8820d6fd53654",
+    "research/recover-frozen-runner-20261009/prefix_static_native63.py": "c0cce40d53fcf1d730899851ff3c1aae76a643d9335691b7c47e243281d74809",
+    "research/recover-frozen-runner-20261009/q4_native92.py": "68c48052119ad27924a298cfe6dd801fd3efe341eeff7678af1c79d4662ad8ed",
+    "research/recover-frozen-runner-20261009/verify_q4_native92.py": "d3ce9aeb4228f355c3b5bdb443055079ca2ae9c5e5406454baca3ecb7555699a"
+  },
+  "market_work_relative": "q4-data/Q42024/normalized",
+  "market_artifacts": [
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/klines/2024-09.parquet",
+      "bytes": 109209,
+      "sha256": "cf34ca7eacd52dcb08a8f6f9219ae5fb4bc58c3fc756bac65cccd2191764c750",
+      "published_sha256": "fdecf0fe9cb23be4316dbf00bc5f494dc1b3333c831e329600c53436f80a2204",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/klines/2024-10.parquet",
+      "bytes": 3656039,
+      "sha256": "651962c8f4c45a9bb1620a5c3d72e5418c84c9777c8b2ee1ee21fe83a7a66e94",
+      "published_sha256": "731cc97bc420a1af734660ba5210406ea6fc1e98c92ede8c54a539b2429ede0b",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/klines/2024-11.parquet",
+      "bytes": 3777362,
+      "sha256": "a997c20433dadd9f031afccb29e725f33fc251c79e6336dfb7bf6fea8a5e252f",
+      "published_sha256": "09de38418d13bac0d9d74bd4fb37c38db3bb2c96501ce3d3a2bf02db1df6b241",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/klines/2024-12.parquet",
+      "bytes": 3772374,
+      "sha256": "75e90ef873797a4d7ca50850419fda778f72261253bc0cc6c02784fdf34a1d98",
+      "published_sha256": "219c55230535527905b898b677c09db370199f1d3ffc824c718c376cdcd47678",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/markPriceKlines/2024-09.parquet",
+      "bytes": 64861,
+      "sha256": "a48da9af28074c29d9267151691e3e3062bb70029dfc193de2fe8a70c33be091",
+      "published_sha256": "338c779c240bbbeb668fad48751cc69b1ae85f13cc42b765b86a013946e51c74",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/markPriceKlines/2024-10.parquet",
+      "bytes": 2087367,
+      "sha256": "a9222d1174a0da8942b77927e15fd16f318edd04466a1869b2545f0127c2267e",
+      "published_sha256": "0503b4e8d0d390a9ebdbbcda29e2eb969a7d74759aad03347bec7029f4f912c0",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/markPriceKlines/2024-11.parquet",
+      "bytes": 2159205,
+      "sha256": "1878caa5fcb33d4e380a5d21ec4c4eadf9bc66d92b6d4f360b105d15b1574210",
+      "published_sha256": "0f096de2daf89a264643e806085b26ad1ea69eb184f2fb748015cbd3cbf12a19",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/BTCUSDT/markPriceKlines/2024-12.parquet",
+      "bytes": 2188386,
+      "sha256": "4348444220c20c70e349a834abbdc671139b69111d29b45eb88fcdc5b909f8d8",
+      "published_sha256": "6e40a7aac689ea867d1131408c0a1341334f1b9b0f3d98b6c495355586d89290",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/BTCUSDT_funding_events.parquet",
+      "bytes": 11148,
+      "sha256": "ef457eeb1cfe7d4b72cbaeee2743a4817ccdf9bc7ea5ab873329b79b4ae7a7b5",
+      "published_sha256": "ef457eeb1cfe7d4b72cbaeee2743a4817ccdf9bc7ea5ab873329b79b4ae7a7b5",
+      "published_parquet_bytes_identical": true,
+      "role": "actual_event_funding_with_strictly_prior_marks"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/economics/BTCUSDT_funding_intervals.parquet",
+      "bytes": 8755,
+      "sha256": "47492d13c7d177ac1960619a8ba600f03cbafbf7043ca9812888a0e129484dac",
+      "published_sha256": "47492d13c7d177ac1960619a8ba600f03cbafbf7043ca9812888a0e129484dac",
+      "published_parquet_bytes_identical": true,
+      "role": "91_actual_held_funding_intervals_no_terminal_padding"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/BTCUSDT_daily.parquet",
+      "bytes": 18455,
+      "sha256": "e629686461579b8ed08ca00e311505259581710872216385d1fdd7e12b97ba1b",
+      "published_sha256": "e629686461579b8ed08ca00e311505259581710872216385d1fdd7e12b97ba1b",
+      "published_parquet_bytes_identical": true,
+      "role": "92_execution_economic_rows_not_model_daily_features"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/klines/2024-09.parquet",
+      "bytes": 110478,
+      "sha256": "63d32d4fb798b62e8f7599fbd06a54c4c5d6ecf830055ab7fbc8615dae65d2b9",
+      "published_sha256": "c7f9a45b651216c21bcbb08966c897622a4c8f5332df88b940da5722cf207303",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/klines/2024-10.parquet",
+      "bytes": 3753907,
+      "sha256": "3c02742459a4beae8d91403c27cdecbbd5f68d0969dd97d1bc1f2aca0851604c",
+      "published_sha256": "b246853dd7ede4f219cc3676aea97688cd3723c886ec04bf3555731beba2b4df",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/klines/2024-11.parquet",
+      "bytes": 3898081,
+      "sha256": "d80884832137cb28c5395d7f88e345d9d896dc23d1203ab8bb9b452b94fdee1e",
+      "published_sha256": "6ece7092bf1f676b2b6cba1757ab8b881dcbbf6d198ff40b686d983de6064ce5",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/klines/2024-12.parquet",
+      "bytes": 3924378,
+      "sha256": "1a4c8202bc9420e842859cdb9932f13ffb24400e8f3c2837a3cded2b4517410c",
+      "published_sha256": "1baa83e51e117fe060a6c56f16c9264d0625e92c97a89558b14e0c360b14009f",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/markPriceKlines/2024-09.parquet",
+      "bytes": 64176,
+      "sha256": "004d8d5126b0b9f1bd0d4c847fdf2a86e995b378d2a3cdf4a02bf8ae0c356c76",
+      "published_sha256": "5725fdc12f81580f3b525e0d245306d9f7497c6817fa3c612136bd57a4974609",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/markPriceKlines/2024-10.parquet",
+      "bytes": 2048331,
+      "sha256": "9d9be5046e009d689a5c461b500b0bac3708e26dbf954eb210add6d751217aee",
+      "published_sha256": "3f746864591223a16240487d69673899b16384d16ff9fd5e27fb850a4d64fcf4",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/markPriceKlines/2024-11.parquet",
+      "bytes": 2137763,
+      "sha256": "eee5d0d8cec8b62fff5283a54a07e927d383faf77558cd41adb6c6983e9c37e3",
+      "published_sha256": "1084c29311848e1bfb501cd6025bf290b0324ff5db4c917fdf79d5e2d14eacae",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/ETHUSDT/markPriceKlines/2024-12.parquet",
+      "bytes": 2158894,
+      "sha256": "d92e25590f18a3e0e1458e3f54848be6e44211815ad7d977fa8ee2006f8cb774",
+      "published_sha256": "6c1ff6f438c05af1c2c9611fd65da43b29c778a9961ca23b315a7a715b52d552",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/ETHUSDT_funding_events.parquet",
+      "bytes": 11382,
+      "sha256": "d71c50d7c9ae27ff1a2422cae9194c21bcdfb01b5a11e9b1578200cae2fc0699",
+      "published_sha256": "d71c50d7c9ae27ff1a2422cae9194c21bcdfb01b5a11e9b1578200cae2fc0699",
+      "published_parquet_bytes_identical": true,
+      "role": "actual_event_funding_with_strictly_prior_marks"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/economics/ETHUSDT_funding_intervals.parquet",
+      "bytes": 8774,
+      "sha256": "b8547df2b63d1a008294cfe542b8747b8c6e12cf685d2042303683d9b7c84bdb",
+      "published_sha256": "b8547df2b63d1a008294cfe542b8747b8c6e12cf685d2042303683d9b7c84bdb",
+      "published_parquet_bytes_identical": true,
+      "role": "91_actual_held_funding_intervals_no_terminal_padding"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/ETHUSDT_daily.parquet",
+      "bytes": 19145,
+      "sha256": "a4a0e1be2806c589216628f2a9323b7432b6cb63fa296c371d483fc36f272b94",
+      "published_sha256": "a4a0e1be2806c589216628f2a9323b7432b6cb63fa296c371d483fc36f272b94",
+      "published_parquet_bytes_identical": true,
+      "role": "92_execution_economic_rows_not_model_daily_features"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/klines/2024-09.parquet",
+      "bytes": 99624,
+      "sha256": "cf0c306c3455eaf427ceff3857c3eb94e380a3843a08904a6c8ac17cfcc3ba2d",
+      "published_sha256": "14c17b025c417ffa5e7421f1f51cedc07f70480d244921f7a0d6f6b24ce55f87",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/klines/2024-10.parquet",
+      "bytes": 3070598,
+      "sha256": "5a6856d95bd0a38a04296da750a33443e9b77f3af9a92c3af78503db1d645b78",
+      "published_sha256": "985aeed700789c027b806bdfd375acbb7e6a3449185295aab52a10fd1dfb03d8",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/klines/2024-11.parquet",
+      "bytes": 3017439,
+      "sha256": "a7254fabacad548f671e0ed298ec840d5a9ff58f87525210f7bb8adf3ae65d71",
+      "published_sha256": "04ea46f6aecd391f2c40e165770a7acf0ae216e1920173bb3afbe17ff65442c2",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/klines/2024-12.parquet",
+      "bytes": 2982728,
+      "sha256": "55844759174d0f0dc0e90ae8a398cf86083c7a42c94c0cf93fc05d678a8e20a2",
+      "published_sha256": "41cf9a40c1f60d651576b2d53a3ced00f0d229d8f023f3ae18fc64083989e38d",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/markPriceKlines/2024-09.parquet",
+      "bytes": 65716,
+      "sha256": "43e321a6c4e05eae8e26785584d82cedc605ca58400285f8ca87ef10a3caf6d2",
+      "published_sha256": "8313a8f4652b4e1cd490009ba30ce1039816ac5aef97e868a5eb620ef09f1d8c",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/markPriceKlines/2024-10.parquet",
+      "bytes": 1988384,
+      "sha256": "aee02d76ff6707fb14755d865496c69fd30dbe9dd793cfde4a63e7d016a6fd1f",
+      "published_sha256": "18ab378c3b6f9fbe7fa8b800cf0201cddeeb19c7398b77fac4632d8306c3db99",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/markPriceKlines/2024-11.parquet",
+      "bytes": 2005505,
+      "sha256": "a02e8c3af07f63d6e5213227ad166a5de3f3225d32dcf74609651673a6acd80c",
+      "published_sha256": "b4036baa9fcc1ca47ba402bd2829757adc7684ae04f5da34eea6b1461ba9dcc1",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/SOLUSDT/markPriceKlines/2024-12.parquet",
+      "bytes": 1982827,
+      "sha256": "b518afff1e594d883672e5e163d872298cd567f7f8fca128a996bec5bde73471",
+      "published_sha256": "77ad805390d7cdcfe7c648f8cdf9944870513380e697416cd2ceaddfea73e95b",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/SOLUSDT_funding_events.parquet",
+      "bytes": 11685,
+      "sha256": "b2af733f9662a7bba37ef63b4b5947d5fd81a369cc527be35a6477f867145d23",
+      "published_sha256": "b2af733f9662a7bba37ef63b4b5947d5fd81a369cc527be35a6477f867145d23",
+      "published_parquet_bytes_identical": true,
+      "role": "actual_event_funding_with_strictly_prior_marks"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/economics/SOLUSDT_funding_intervals.parquet",
+      "bytes": 8958,
+      "sha256": "64ebff473b75a3bfce70cebd6e7d696a56fc9584cd44bc3c718a96fae9c38074",
+      "published_sha256": "64ebff473b75a3bfce70cebd6e7d696a56fc9584cd44bc3c718a96fae9c38074",
+      "published_parquet_bytes_identical": true,
+      "role": "91_actual_held_funding_intervals_no_terminal_padding"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/SOLUSDT_daily.parquet",
+      "bytes": 18869,
+      "sha256": "cc7d76dd235824fc9f7c46dcd039997147a65088a629cdf175a638d7e15ba429",
+      "published_sha256": "cc7d76dd235824fc9f7c46dcd039997147a65088a629cdf175a638d7e15ba429",
+      "published_parquet_bytes_identical": true,
+      "role": "92_execution_economic_rows_not_model_daily_features"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/klines/2024-09.parquet",
+      "bytes": 102549,
+      "sha256": "620a8b9f5f54efdcac6d17c3fa29bb0ef24be02d7f6a9eb099b95e4132813144",
+      "published_sha256": "e932f0e8de556bd039ceb04f1abf32a24a99efc0c67f839aaeb9a828b13cb9c2",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/klines/2024-10.parquet",
+      "bytes": 3313292,
+      "sha256": "3126fb0b20970967e1d24999e8ccc9afd2f68c1de4589a0704c6770092af142a",
+      "published_sha256": "d24e4c740d46377206631f7fa9f877df76597cf176b5b3b9db9b0279e602b83b",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/klines/2024-11.parquet",
+      "bytes": 3497297,
+      "sha256": "92b82f4af8a73603b7a9fa3334501e9d8bebfb67942c6f3ff5bdf2c54958721f",
+      "published_sha256": "9c115536b48b3c8f6412f533f4b08c66cfdf3b4eba28d5535c5865242bf42d64",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/klines/2024-12.parquet",
+      "bytes": 3554528,
+      "sha256": "f53b0cd1abc7c91a1aa15dca1a26c86e26ed743e25d7b95a3f6c9c8bc462ac74",
+      "published_sha256": "c545079507b28c4c392ae01c2dcf6ef37724298a552ff3a24ef78d0a5e4530cc",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/markPriceKlines/2024-09.parquet",
+      "bytes": 69756,
+      "sha256": "6863bd34acfc2fd7abaabae21a3f8676b9873a471df342757ec4d00ce0678cad",
+      "published_sha256": "af59d06b8896db6422f4b2ec41b50de3839b52dbfee3a78beb15b079c9848945",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/markPriceKlines/2024-10.parquet",
+      "bytes": 1908318,
+      "sha256": "ac6b7f32b21a5e4b26fd45c04e9e7fddd8d5e2529ca83d449f0f2fa339274e30",
+      "published_sha256": "8cf412ec7a27389b01546470a357362db68d23d400682d991c399c9f57762de3",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/markPriceKlines/2024-11.parquet",
+      "bytes": 2090241,
+      "sha256": "06857353c84b01eac05e5db7bb937baf66e0f17b2831d399ecfc51ed4097a8ba",
+      "published_sha256": "707e6f0d93e9d915961829a221346740c22c7f46ac979e999ede0bb4b2ad6899",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/XRPUSDT/markPriceKlines/2024-12.parquet",
+      "bytes": 2102227,
+      "sha256": "4826341fa0608ecee32f1a4be55d93cae486b4025f517709922da9a9d4894c89",
+      "published_sha256": "a9fcfe202b13d66f0f64a3dd68e99d703ee8a8826cdd1692d2ce27ed0d9f37e4",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/XRPUSDT_funding_events.parquet",
+      "bytes": 11486,
+      "sha256": "4e127d7ff282d1d00e1b1f71df5449506e4531709b79a4c0feba324a53b81b7c",
+      "published_sha256": "4e127d7ff282d1d00e1b1f71df5449506e4531709b79a4c0feba324a53b81b7c",
+      "published_parquet_bytes_identical": true,
+      "role": "actual_event_funding_with_strictly_prior_marks"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/economics/XRPUSDT_funding_intervals.parquet",
+      "bytes": 8764,
+      "sha256": "fea8017d5aaa1ebd50409709f428b067c868f1362897049dbc529855aa94df3d",
+      "published_sha256": "fea8017d5aaa1ebd50409709f428b067c868f1362897049dbc529855aa94df3d",
+      "published_parquet_bytes_identical": true,
+      "role": "91_actual_held_funding_intervals_no_terminal_padding"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/XRPUSDT_daily.parquet",
+      "bytes": 20083,
+      "sha256": "b0a77dbb862c6444c87bebe3414a4ac5d96b058be6e841395188074d8ab21da0",
+      "published_sha256": "b0a77dbb862c6444c87bebe3414a4ac5d96b058be6e841395188074d8ab21da0",
+      "published_parquet_bytes_identical": true,
+      "role": "92_execution_economic_rows_not_model_daily_features"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/klines/2024-09.parquet",
+      "bytes": 109781,
+      "sha256": "b19094a5c498fea8ce89d93cbbbc3a1cd611deeff9f730a2ac0ff4bd328abafb",
+      "published_sha256": "6eec681f7503a4ee7a0be5ad49903eb9564ec419cec574a85b2ef9239ca4f8b3",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/klines/2024-10.parquet",
+      "bytes": 3315932,
+      "sha256": "ba07a09d85f980dad6df1a818c765e947d93507b453e21e10a1b7105c97846e9",
+      "published_sha256": "c7203c088c84ef5347e56677e8fd50606001b06caf8963ea4f580e77970d9e7f",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/klines/2024-11.parquet",
+      "bytes": 3620782,
+      "sha256": "763a514f4fbc405f85d08369f45eb3cdaf04d6a476e0f875194a931d38220bab",
+      "published_sha256": "a81ceb6764b5fa05daa00c1d157f1cc16dae5022f1fd1a3bba0ac689aff67c13",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/klines/2024-12.parquet",
+      "bytes": 3564032,
+      "sha256": "2e567a7d01d8bbd41a1518e6f7cc60618c4d64df4eb3aa9d36174df03139d884",
+      "published_sha256": "16d0f54bb79aab96a23f01bea8a06445566fb293973a0d0434af142a36fc391f",
+      "published_parquet_bytes_identical": false,
+      "role": "klines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/markPriceKlines/2024-09.parquet",
+      "bytes": 71933,
+      "sha256": "608533083593ed606c0489579a070d999eecebcbda8603b4982e8d00f62850fb",
+      "published_sha256": "cc1267e1fbbcfa67a149ca28fa1df3d1a3a234b7df199ef8b07a2b88d0a5a402",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/markPriceKlines/2024-10.parquet",
+      "bytes": 2146252,
+      "sha256": "ed6bd242274ffa3112d629e8eea4b5dae114f588fc6a3345191e4b4d1631fdb8",
+      "published_sha256": "c3f41fe4fa81d31295cdc0cecc9899c4c8b7efa8a2a20da276dfb2c14b283ba7",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/markPriceKlines/2024-11.parquet",
+      "bytes": 2276441,
+      "sha256": "164aa756e541d30ed1ac6bafb2407210b44b557925acbb9a8e4ba6bc4012fb9a",
+      "published_sha256": "cb0cc8b3c2333c6ce8ee7f04201026dcc099c3e41e0f2b4df1412dd48f63dde1",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/minute/DOGEUSDT/markPriceKlines/2024-12.parquet",
+      "bytes": 2225027,
+      "sha256": "e777da5b8ac6ac29cf2dadbae23adcb36f9ea31fbae22b2d4c2cb3ef1c487839",
+      "published_sha256": "c60eee634cb5c0e770098dfefa7ff4d613203cb6a8b6045cfdaa48dee53c5933",
+      "published_parquet_bytes_identical": false,
+      "role": "markPriceKlines_native_minute"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/DOGEUSDT_funding_events.parquet",
+      "bytes": 11802,
+      "sha256": "21a5d91d15cb8c08a6184c2fcc3461269e60e3e55df0854d241c5485a783e248",
+      "published_sha256": "21a5d91d15cb8c08a6184c2fcc3461269e60e3e55df0854d241c5485a783e248",
+      "published_parquet_bytes_identical": true,
+      "role": "actual_event_funding_with_strictly_prior_marks"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/economics/DOGEUSDT_funding_intervals.parquet",
+      "bytes": 8849,
+      "sha256": "9905532df93c3fa95ebde7c546c36cef90b99cec3b7ec78d8bbc246e2ae316df",
+      "published_sha256": "9905532df93c3fa95ebde7c546c36cef90b99cec3b7ec78d8bbc246e2ae316df",
+      "published_parquet_bytes_identical": true,
+      "role": "91_actual_held_funding_intervals_no_terminal_padding"
+    },
+    {
+      "path": "q4-data/Q42024/normalized/data/normalized/DOGEUSDT_daily.parquet",
+      "bytes": 20175,
+      "sha256": "5ec7d1cf2ea491abc3d9d0caab62d60221f1ef5651c835a39014e2dd74aafaaa",
+      "published_sha256": "5ec7d1cf2ea491abc3d9d0caab62d60221f1ef5651c835a39014e2dd74aafaaa",
+      "published_parquet_bytes_identical": true,
+      "role": "92_execution_economic_rows_not_model_daily_features"
+    },
+    {
+      "path": "q4-data/Q42024/ECONOMICS.npz",
+      "bytes": 9584,
+      "sha256": "9d58444304b3eceb15de444c50a8ae3242d73aed931b6aca08abb424373d3078",
+      "published_sha256": "9d58444304b3eceb15de444c50a8ae3242d73aed931b6aca08abb424373d3078",
+      "published_parquet_bytes_identical": true,
+      "role": "92 observed execution prices and 91 actual funding coefficients; unpadded"
+    }
+  ],
+  "daily_sizing_sources": [
+    {
+      "path": "h1_validation/original/h1_market/data/normalized/BTCUSDT_daily.parquet",
+      "bytes": 147747,
+      "sha256": "b7605ed848fa4968d15186fbd45f60fb9e8b6bd4da21fd333bcd9093031a2739"
+    },
+    {
+      "path": "h1_validation/original/h1_market/data/normalized/ETHUSDT_daily.parquet",
+      "bytes": 147787,
+      "sha256": "5f7e2d42113511b6895ea6f1424c8242a7fa58901c9c24036b88b143c7ff530f"
+    },
+    {
+      "path": "h1_validation/original/h1_market/data/normalized/SOLUSDT_daily.parquet",
+      "bytes": 133521,
+      "sha256": "01ecad5e8a420aac528e8792ca262e0a1a508fe6069bcc192a2ae4c0302e47f0"
+    },
+    {
+      "path": "h1_validation/original/h1_market/data/normalized/XRPUSDT_daily.parquet",
+      "bytes": 147481,
+      "sha256": "5d3717d54c953ecd310dd711bfb47d493d11fe55c7c932108615fba10b816fbe"
+    },
+    {
+      "path": "h1_validation/original/h1_market/data/normalized/DOGEUSDT_daily.parquet",
+      "bytes": 155027,
+      "sha256": "540b192f6fc6c4d8a5e4247b25891797e843e94644297d4ff6135ff6d88287fd"
+    }
+  ],
+  "official_archive_sources": [
+    {
+      "path": "q4-data/Q42024/raw/klines/BTCUSDT/BTCUSDT-1m-2024-10.zip",
+      "bytes": 1878910,
+      "sha256": "aa8c79ad120a8d870e23276d1ad5966f99f59bc0a1886ef5927a3808a5efee36"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/BTCUSDT/BTCUSDT-1m-2024-11.zip",
+      "bytes": 1876449,
+      "sha256": "9c3dad038f4b043ec51d4200f57d15a0a07b3fc32b3ea3dca6a96543b9624941"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/BTCUSDT/BTCUSDT-1m-2024-12.zip",
+      "bytes": 1929835,
+      "sha256": "bfce141d2a152c2b94d85b797fe18ebfa195fa0e6091a7ccc06663ae1309466f"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/BTCUSDT/BTCUSDT-1m-2024-09-30.zip",
+      "bytes": 62806,
+      "sha256": "afb82c9cd8cb5127cb51ad49f09800c6ad13fe2f3f20687240f16e6fbe9f8fbe"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/BTCUSDT/BTCUSDT-1m-2024-10.zip",
+      "bytes": 1052266,
+      "sha256": "90aad4b8ab9fa46454d11ca5825e6688c57fa8813c93d6df3a7e49e7e92cc11a"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/BTCUSDT/BTCUSDT-1m-2024-11.zip",
+      "bytes": 1062869,
+      "sha256": "e7087d29fee5643844a9fafb77c263a28b7f5dcca788d891081a8d73c76c6b82"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/BTCUSDT/BTCUSDT-1m-2024-12.zip",
+      "bytes": 1094627,
+      "sha256": "e130a234850304431c747c6f832aae250586f953f015b92dbe4a51c4604d6a59"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/BTCUSDT/BTCUSDT-1m-2024-09-30.zip",
+      "bytes": 34448,
+      "sha256": "dfa76305052ca8425b086db6275605c27949a84bb09541db9425a310da52c977"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2024-10.zip",
+      "bytes": 801,
+      "sha256": "26db65ac8020d80ece35df79c254c5f7e24427529bcceeb2972748c4fe2d2707"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2024-11.zip",
+      "bytes": 746,
+      "sha256": "e1b19cccfe2cdcba48b022790789b7b01edd86c075f39bc152e44c267d43bd51"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2024-12.zip",
+      "bytes": 808,
+      "sha256": "069409f525ebf6370ee1c7defe475167de4b97284c5ac8e68768652968cd3dc9"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/ETHUSDT/ETHUSDT-1m-2024-10.zip",
+      "bytes": 1907533,
+      "sha256": "d1f340994285a075a97d7d0ed5e9aca3d82dadbba8f817b2f886188420a009f1"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/ETHUSDT/ETHUSDT-1m-2024-11.zip",
+      "bytes": 1921220,
+      "sha256": "4170f68dd576e8af35ecc9b19808dcb673c0423838bd560c7c4c1fabefdad5ad"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/ETHUSDT/ETHUSDT-1m-2024-12.zip",
+      "bytes": 1981846,
+      "sha256": "82018947075e35e5ac0a771bb97a22118008db2c6fb6a94f8c1a2c4ebb34d12b"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/ETHUSDT/ETHUSDT-1m-2024-09-30.zip",
+      "bytes": 63463,
+      "sha256": "8692076c0fad3ad45e4837d0e89648d1b9b657de9950622f65c7072ce95c8be7"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/ETHUSDT/ETHUSDT-1m-2024-10.zip",
+      "bytes": 981813,
+      "sha256": "1f05c0c899a9117fd4b2ce2522484c0e2106b8da1227318f224de44f21000fa7"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/ETHUSDT/ETHUSDT-1m-2024-11.zip",
+      "bytes": 1003502,
+      "sha256": "e60f9df9063cdb54387d700bf1bfb2322d30b9510615bc462951f1c98f8c72d5"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/ETHUSDT/ETHUSDT-1m-2024-12.zip",
+      "bytes": 1023864,
+      "sha256": "19b9ceda7d035adf49e05736ef09b2c68ede9a30f69d1ef57d31d853788c6174"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/ETHUSDT/ETHUSDT-1m-2024-09-30.zip",
+      "bytes": 32339,
+      "sha256": "8f0322b45519a21b3befb74f144dbfe084c8dd836e9b6a9fa3ddf56315ed8a4b"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/ETHUSDT/ETHUSDT-fundingRate-2024-10.zip",
+      "bytes": 748,
+      "sha256": "2124978c335473a5d9c0f0e9f238193d56c21ac7e250e065a36e9d1201beb049"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/ETHUSDT/ETHUSDT-fundingRate-2024-11.zip",
+      "bytes": 809,
+      "sha256": "636a4c7c86445c2774b4eae8598c480fcbc57de7dde5d40f6937c7fac510797c"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/ETHUSDT/ETHUSDT-fundingRate-2024-12.zip",
+      "bytes": 837,
+      "sha256": "11a0847e8aacb32eeb725611fda4fe6a8419c03eb0c16e14dfc3b9287e78ecc9"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/SOLUSDT/SOLUSDT-1m-2024-10.zip",
+      "bytes": 1602398,
+      "sha256": "f167b2be29ec4eef66fe38a17a6ade84034abf302c49deee31875a6f6cea6f53"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/SOLUSDT/SOLUSDT-1m-2024-11.zip",
+      "bytes": 1556146,
+      "sha256": "cc26ccf5eb442a5d66daa7396eb589d7c9934ba3301503a753c03ddbe94a4af0"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/SOLUSDT/SOLUSDT-1m-2024-12.zip",
+      "bytes": 1584587,
+      "sha256": "631fd8d38ebc10376e985bc232f64a388a8ae50ffeb588098c4bcf39de45e05e"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/SOLUSDT/SOLUSDT-1m-2024-09-30.zip",
+      "bytes": 55155,
+      "sha256": "403da332ff3916ba1b0683be7542fa73b595e90668fea0500d6bfbbb3587a36a"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/SOLUSDT/SOLUSDT-1m-2024-10.zip",
+      "bytes": 962757,
+      "sha256": "61054a248239c022818372cbc75268ef55db4305f934a0b06f1cabeaa9b60bbd"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/SOLUSDT/SOLUSDT-1m-2024-11.zip",
+      "bytes": 963205,
+      "sha256": "56564cc5a34bd159ab3862c2d670ec84ca2a0f61102ebb3f00ef71abbf606211"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/SOLUSDT/SOLUSDT-1m-2024-12.zip",
+      "bytes": 974893,
+      "sha256": "81313e892e9beb4ce64be6f94de624e85afdc95a3d5d9148a2b707ba9239894a"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/SOLUSDT/SOLUSDT-1m-2024-09-30.zip",
+      "bytes": 32509,
+      "sha256": "aa8d2b3d231417dab8bb88ca10e16be9d2d4aeccab5238fe1a659c34b2447547"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/SOLUSDT/SOLUSDT-fundingRate-2024-10.zip",
+      "bytes": 839,
+      "sha256": "dbece64e8c5bc69c487cc03c00f6a4d4da2cad9152c73860386fcdc7d2ec9d05"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/SOLUSDT/SOLUSDT-fundingRate-2024-11.zip",
+      "bytes": 790,
+      "sha256": "f53a9b637d695a251200e48929a573b4bf04cc2d99d5a3a09fe7bdca622918aa"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/SOLUSDT/SOLUSDT-fundingRate-2024-12.zip",
+      "bytes": 893,
+      "sha256": "bae83020ac2ccfa6dd8d1362d373a92b4d5a7e396cef52e78dc2e7d81e63f621"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/XRPUSDT/XRPUSDT-1m-2024-10.zip",
+      "bytes": 1636869,
+      "sha256": "5a739dc9a458fef0e5aecfb457e3523686d451e598ead2df86adbb65b4144dd9"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/XRPUSDT/XRPUSDT-1m-2024-11.zip",
+      "bytes": 1764695,
+      "sha256": "f2177e1c6e95f5dff765dc5643abdcd6a151795947e69ea85b7eb7211ab926bd"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/XRPUSDT/XRPUSDT-1m-2024-12.zip",
+      "bytes": 1898405,
+      "sha256": "659add47d41b25189bfed69ae3052253df648443e2aa0376537ccece6a39d6ee"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/XRPUSDT/XRPUSDT-1m-2024-09-30.zip",
+      "bytes": 57373,
+      "sha256": "39c3836af1e1fc4103e82729b629246510502133d64b4ebaeb87f88bf742565a"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/XRPUSDT/XRPUSDT-1m-2024-10.zip",
+      "bytes": 767286,
+      "sha256": "d533f8283d33fc2da04803e7e6c3ca5daab985f906f0cf17b21c76e3c8670576"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/XRPUSDT/XRPUSDT-1m-2024-11.zip",
+      "bytes": 826252,
+      "sha256": "4e09fd3989c855c0b6ecc29f490770979551254940f7effd09c20ee92be443c9"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/XRPUSDT/XRPUSDT-1m-2024-12.zip",
+      "bytes": 891705,
+      "sha256": "6515ec39d81bebd9c8803e4297a549a45fc7f2ec178653ef027b177c8119f4fb"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/XRPUSDT/XRPUSDT-1m-2024-09-30.zip",
+      "bytes": 28266,
+      "sha256": "08690dc27993dfeaa3eb45d6bd531b14e3bb4d06f30741a917993ea25189b0a3"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/XRPUSDT/XRPUSDT-fundingRate-2024-10.zip",
+      "bytes": 740,
+      "sha256": "f9d62565da4bf7d1caddc9cb09b1a73a4a312a7419c5c0439c662fc3f58dd993"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/XRPUSDT/XRPUSDT-fundingRate-2024-11.zip",
+      "bytes": 771,
+      "sha256": "95c733e5ad58f4c26c75b71a2081de8f692a4ce271006b7f5b3c87854a848c70"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/XRPUSDT/XRPUSDT-fundingRate-2024-12.zip",
+      "bytes": 805,
+      "sha256": "be526ba15c6c4c3ae8cddda1411a13f665f635be444c992efd2f66e6bbfa37d8"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/DOGEUSDT/DOGEUSDT-1m-2024-10.zip",
+      "bytes": 1796269,
+      "sha256": "e37aeacb3b453a0800be4df79aae1b0637bd58441ba03e5fbd6f9b4bf8c7fc2a"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/DOGEUSDT/DOGEUSDT-1m-2024-11.zip",
+      "bytes": 1892782,
+      "sha256": "effde135f4c2497d6ccbc4b44d04e583dd3faeb21bb46f589e360aa2710b649b"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/DOGEUSDT/DOGEUSDT-1m-2024-12.zip",
+      "bytes": 1913496,
+      "sha256": "1f6b940265db6d595f294e5752616c564bbf00ede60c676abdc3093c3e4e9729"
+    },
+    {
+      "path": "q4-data/Q42024/raw/klines/DOGEUSDT/DOGEUSDT-1m-2024-09-30.zip",
+      "bytes": 58763,
+      "sha256": "8917985c64a4c542011c54a0d227b5043fb7d064ec04e1d1760ace119a4d9b15"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/DOGEUSDT/DOGEUSDT-1m-2024-10.zip",
+      "bytes": 831674,
+      "sha256": "47d8916abaa039d4efda9a388399f0d2243376f0096c63923d3aeee916ca8704"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/DOGEUSDT/DOGEUSDT-1m-2024-11.zip",
+      "bytes": 861544,
+      "sha256": "6923236a08816da88a4fd355ec0a5c606903a85d0248a170f665180d80dba75f"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/DOGEUSDT/DOGEUSDT-1m-2024-12.zip",
+      "bytes": 866419,
+      "sha256": "8da2a04429bf153cba0a2a536c95a4fb7775271c11c87a32a2ae171eeaa8e650"
+    },
+    {
+      "path": "q4-data/Q42024/raw/markPriceKlines/DOGEUSDT/DOGEUSDT-1m-2024-09-30.zip",
+      "bytes": 27044,
+      "sha256": "b114df23f42f0ade3da77d6f33dee4bac84818451e99f36e1206508462abfae6"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/DOGEUSDT/DOGEUSDT-fundingRate-2024-10.zip",
+      "bytes": 763,
+      "sha256": "c038f18bf93552ca8432d04482839ab50d5b6e903c1b63083c335d479236ba22"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/DOGEUSDT/DOGEUSDT-fundingRate-2024-11.zip",
+      "bytes": 798,
+      "sha256": "45d7e6671e7bb1efc2ed557fd7139135468d0bea7dbc7906fe0c8b727c2777a0"
+    },
+    {
+      "path": "q4-data/Q42024/raw/fundingRate/DOGEUSDT/DOGEUSDT-fundingRate-2024-12.zip",
+      "bytes": 897,
+      "sha256": "5b94b4960510e5e217048ee5268038d60a6dbcf45755063790f9c35602231983"
+    }
+  ],
+  "normalization_source_SHA256": {
+    "modules/collector_research/pipeline/normalize.py": "ee394086066c96bc23e83b45bf0bc2777264ab4eb57128886394fee47fecd4ff",
+    "modules/collector_research/pipeline/common.py": "0f24665c50c21fecef4e06f74230bbb113d210d014077068377c67f34fa57390",
+    "modules/collector_research/pipeline/download.py": "2ffb1694c613be8350d2979c918d3b03a9345d8b2769bfb89b3e230375bdb707",
+    "modules/collector_research/pipeline/storage.py": "60384e783bb853fa3c14599f8d863a7fe69efba08889a577c3be3b3d06b8995b"
+  },
+  "source_producer_commit": "657aeaff93889da600ad88b3603739508ba03216",
+  "source_data_commit": "152606ad56fe6d8943b27ce89c8c57e2068ee944",
+  "consumer_SHA256": "d972444cb43320ef3f356bd90d83a2a51dcea5d3ce552784870f99b40d2dbe23",
+  "parquet_encoding_scope": "Original published economic/funding bytes retained. Native minute Parquets have different container bytes but exact frozen-normalizer source values and identical original source/quote/clock/supplement receipts.",
+  "daily_sizing_price": "UNCHANGED_ORIGINAL_ENGINE_COMPLETED_DAILY_CLOSE;ACTUAL_00:01_OPENS_ARE_EXECUTION_ONLY",
+  "historical_publication_and_account_rules_certified": false,
+  "state_source_dependencies": [
+    {
+      "path": "h1_validation/original/source_increment/modules/native_action/e5_inputs.py",
+      "bytes": 7738,
+      "sha256": "1c10de00307b17343f12c3764d1b6465f4776a098a8ec7bd6d6bbfa2b76edf81"
+    },
+    {
+      "path": "e5-bear-original/source_increment/modules/native_action/e5_teacher.py",
+      "bytes": 13413,
+      "sha256": "29808c7aab49ec946a1abde0623ada019aa4734593e97695b85986085cf936fd"
+    }
+  ]
+}

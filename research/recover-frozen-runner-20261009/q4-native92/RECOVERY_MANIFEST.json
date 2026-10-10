@@ -1,0 +1,65 @@
+{
+  "schema": "Q4_NATIVE92_MINIMAL_RELATIVE_RECOVERY_V1",
+  "repository": "snowycat1234/coin",
+  "financial_engine": {
+    "path": "scripts/investment/resumable_perpetual.py",
+    "sha256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585"
+  },
+  "producer": {
+    "commit": "657aeaff93889da600ad88b3603739508ba03216",
+    "path": "research/temporal-selected-refit-q4-20261010/q4-results/native-handoff",
+    "manifest_SHA256": "ff28cd141f7f40d879365e8e635da4795f2eeef2626ab664869c095e321987a3"
+  },
+  "actual_inputs": {
+    "commit": "152606ad56fe6d8943b27ce89c8c57e2068ee944",
+    "path": "research/core5-q4-2024-native-data",
+    "consumer": "CONSUMER_INDEX.json",
+    "consumer_SHA256": "d972444cb43320ef3f356bd90d83a2a51dcea5d3ce552784870f99b40d2dbe23",
+    "recovery_script": "recover.py",
+    "offline_normalizer": "validate.py",
+    "original_delta_zip_SHA256": "c7f728bd797782953ae73c7fd9d1231e638a5fbdc0401db99f6129e9e880ecb7",
+    "source_index": "Q42024/INDEX.json",
+    "source_index_SHA256": "5a532f0c712d3f1255174dd6fa92397c7f733469142eeb2dda9e9d9cb7ad5d2c",
+    "raw_archive_count": 55,
+    "original_funding_and_economic_members": "RESTORE_ORIGINAL15_PARQUET_MEMBERS_FROM_VERIFIED_DELTA_ZIP;DO_NOT_SUBSTITUTE_NEW_ENCODINGS",
+    "normalization_scope": "CURRENT_MINUTE_PARQUET_FILE_HASHES_BOUND_IN_ADAPTER_CONTRACT;SOURCE_NUMERIC_AND_CLOCK_RECEIPTS_EQUAL_ORIGINAL"
+  },
+  "retained_history": {
+    "commit": "d69e9ac94478c5be54cb46c622afec7aaf3c61f7",
+    "path": "research_artifacts/e5_h1_tail_coverage_pair_20261008/INDEX.json",
+    "recovery_entry": "research/recover-frozen-runner-20261009/recover_h1.py",
+    "daily": "h1_validation/original/h1_market/data/normalized/SYMBOL_daily.parquet",
+    "mapper": "h1_validation/original/source_increment/modules/native_action/e5_inputs.py",
+    "teacher": "e5-bear-original/source_increment/modules/native_action/e5_teacher.py",
+    "identity": "EXACT_STATE_RELATIVE_FILE_HASHES_IN_ADAPTER_CONTRACT"
+  },
+  "state_roots": {
+    "q4_producer": "q4-public/657aeaff93889da600ad88b3603739508ba03216/research/temporal-selected-refit-q4-20261010/q4-results",
+    "q4_actual": "q4-data/Q42024",
+    "q4_archive_preserved": "q4-data/published-original",
+    "native_accounts": "q4-native92/ARM"
+  },
+  "adapter_contract": "ADAPTER_CONTRACT.json",
+  "dependency_recipe": "../requirements-native61.txt",
+  "entry": "../q4_native92.py",
+  "request_calendar": {
+    "start": 1727740800000000,
+    "end_exclusive": 1735689600000000,
+    "days": 92,
+    "minutes": 132480,
+    "funding_events": 1380
+  },
+  "execution_calendar": {
+    "start": 1727740800000000,
+    "end_exclusive": 1735603560000000,
+    "decisions": 92,
+    "full_held_days": 91,
+    "terminal_minutes": 6,
+    "minutes": 131046,
+    "funding_events": 1370
+  },
+  "resume": "FULL_ORIGINAL_SNAPSHOT_AND_ORDERED_NUMERIC_MINUTE_CHUNKS;NO_COMPLETED_ACCOUNT_ADVANCE",
+  "private_runtime_inventory_included": false,
+  "credentials_included": false,
+  "provider_downloads": 0
+}
