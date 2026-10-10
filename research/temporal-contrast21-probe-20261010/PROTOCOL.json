@@ -1,0 +1,86 @@
+{
+  "budget": {
+    "CPU_threads": 1,
+    "GPU": false,
+    "fit_wall_seconds": 120,
+    "fits": 4,
+    "prepare_surrogate_paths": 27,
+    "prepare_wall_seconds": 120,
+    "resident_bytes": 2000000000,
+    "shared_bytes": 8000000000,
+    "swap": false
+  },
+  "created_UTC": "2026-10-10T00:50:09.164425+00:00",
+  "neural_updates": 0,
+  "new_closed_form_fits": 0,
+  "new_label_rollouts": 0,
+  "protocol": {
+    "baselines": [
+      "same_prefix_contrast_mean",
+      "constant_VOL_action"
+    ],
+    "classification": "repeatedly_examined_historical_development;not_new_pristine_OOS",
+    "coefficients_per_fit": 18,
+    "constant_VOL_error": "decision_error1-sign_agreement;MSE_undefined_for_action_without_forecast_magnitude",
+    "direction": "sign(forecast)==sign(contrast);zero_threshold_fixed;zero_prediction_abstains;contrast_ties_excluded_and_counted",
+    "effective_N": "UNKNOWN;42overlap_windows_and2full_disjoint_spans_are_not_independent_sample_counts",
+    "features": [
+      "CORE5_mean_mom5",
+      "CORE5_mean_mom20",
+      "CORE5_mean_vol10",
+      "CORE5_mean_vol30",
+      "breadth5",
+      "breadth20",
+      "dispersion20",
+      "market_vol20"
+    ],
+    "folds": [
+      "2023-07-03",
+      "2023-10-02",
+      "2024-01-01",
+      "2024-04-01"
+    ],
+    "forward": "same_original63decision_blocks;42full21active_windows;fixed_disjoint0_21",
+    "no_downloads": true,
+    "no_grid": true,
+    "no_native_rollouts": true,
+    "no_neural_training": true,
+    "no_shared_wallet_policy": true,
+    "no_threshold_optimization": true,
+    "objective": "mean_squared_error_plus_lambda_squared_slope_norm;unpenalized_intercept",
+    "outputs": 2,
+    "path_state": "inherited_standalone_holdings;not_fresh21day_wallets_or_realizable_shared_wallet_switching",
+    "planned_fits": 4,
+    "predictions": "both_outputs_signed;no_nonnegative_risk_clip",
+    "ridge_penalty": 1.0,
+    "schema": "ONE_FIXED21DAY_SIGNED_STANDALONE_CONTRAST_RIDGE_V1",
+    "standardization": "same_prefix_feature_mean_and_population_std;zero_std_to1",
+    "stop": "exactly_one_specification_four_closed_form_fits_regardless_of_outcome;no_continuation",
+    "target": "(VOL_NAV[k+21]/VOL_NAV[k]-1)-(other_NAV[k+21]/other_NAV[k]-1)",
+    "target_scaling": "none;signed_fractional_NAV_return_differences",
+    "targets": [
+      "VOL_MINUS_SHORT",
+      "VOL_MINUS_CS"
+    ],
+    "training": "original778_nomination;full21activeintervals_in_one_original_wallet;all8features_valid;actual_outcome_clock_strictly_before_fold",
+    "truncated": "start42_has20activeintervals_plus_paidclose;separate_secondary_record_never_full21_training_or_primary_score",
+    "wallet": "each_original_standalone_cash10000_path;existing_ramp_mapper_costs_funding_risk_reductions_paid_terminal"
+  },
+  "source_HEAD": "eb9cafa5d17627c8e07658797e321f4df18859fe",
+  "sources": {
+    "modules/temporal_contrast21_probe/__init__.py": "e16936d2027ae3eb04295dcd96583b49b85f71f3e94dd558acf797c0273b86f1",
+    "modules/temporal_contrast21_probe/labels.py": "eec1e5f87e1362f5091962e399519b1d430e392261520d73c90b62ac00b00b97",
+    "modules/temporal_contrast21_probe/probe.py": "aed5e7c54466762cf79284e2c8837f38adeca45118b60196f7b5e762f26665ff",
+    "modules/temporal_contrast21_probe/test_probe.py": "626a008016f1c3e0023b0905bbf494b0f3b89c931c798949d93109d348f7a8f6",
+    "modules/temporal_horizon21_probe/probe.py": "ae58bff95234357685b4519b4b41be758d36b1797cfcffb9ab40b6b4f7692376",
+    "modules/temporal_predictability_probe/probe.py": "31a887292f2dc88ef7a3cc6647b342c9d1a4d53864bde2183a6a43033628866e",
+    "modules/temporal_prequential_transfer/data.py": "e0dfd812ac9d305c9d2eb30765a9460112113bd790260504f85f6c2304a320e2",
+    "modules/temporal_risk_proxy_v2/proxy.py": "c438a85a1853f7b8cef02dede194dd3c905d93f74bbb2882b5ae0fd8d50ad040",
+    "modules/temporal_short_expansion/adapter.py": "a29dfa919b144f69ad50e3ef59a62d74aa966ebed28c57aa6b7eb89f5bcd1a1d",
+    "modules/temporal_two_expert/exact.py": "feae1ecfc9c639803e814faa87ae008f39f77caeed60b77e27c2a9c94f3a9042",
+    "modules/temporal_two_expert/inputs.py": "e9b175aadede32539eefc25cc64c4d98964e7e2b166278f972c41f1dedcffcf5",
+    "modules/temporal_two_expert/training_packet.py": "cb6edb60bc3ec5a81dbee3201892de72b6e48d5b0c16df227e75557d21f57187",
+    "research/temporal-economic-relevance-20261010/READ_ECONOMIC_RELEVANCE.py": "2f8258e17c9a3962555e8e905c613562c623aa1e92bee619a330b6f0e0882c40"
+  },
+  "status": "ONE_SIGNED21_CONTRAST_SPECIFICATION_FROZEN_BEFORE_CACHE_OR_FIT"
+}
