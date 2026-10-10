@@ -24,4 +24,14 @@ Omit `--cached-feature-archive` to recover its three immutable public parts. The
 
 The independently published expansion adapter at `556fc9d157747a76f28a15d03dd953e6ca44529a` requires a strict seven-field NPZ and fixed economic table paths. [consumer/CONSUMER_INDEX.json](consumer/CONSUMER_INDEX.json) binds that layout. Its 365 real prices, 364 real signed funding coefficients and exact table bytes are copied from the recovered source packet. The richer quote/readiness fields remain in the original packet; no price, funding, date, closure or mask semantics change. `export_consumer.py` verifies this equality, and `check_adapter.py` invokes the actual pinned `load_packet` without a model or scaler fit.
 
+The reviewed wire consumer is immutable commit `1009a6cf6d7c79e3cd914861dc2aeafc3d23709e`, index SHA-256 `3ba1e64d7c91150a73c28642bed46d1dd2325fcf8fa8aade9425164f526d66ba`. All 17 files passed remote readback; the actual adapter accepted prices `(365,5)` and funding `(364,5)` with all entries known. The original source packet at `29030f34a5a2f4b8c83569a42063fef9b2b99545` passed all 212 part hashes and 130 original inner ZIP CRCs, and regenerated 81 identical canonical artifacts. [PUBLICATION.json](PUBLICATION.json) binds this handoff and all exclusions. A harmless adapter warning casts the unowned January 1 UNKNOWN mark clock; every owned interval passes without altering that source value.
+
+For just the small model consumer, use the current helper through the approved bounded launcher:
+
+```sh
+python research/core5-2021-economic-data/recover_consumer.py --commit 1009a6cf6d7c79e3cd914861dc2aeafc3d23709e --consumer-sha256 3ba1e64d7c91150a73c28642bed46d1dd2325fcf8fa8aade9425164f526d66ba --output <new-packet-directory>
+```
+
+This fetches only 558,517 bytes from public GitHub, verifies every supplied economic table and array by SHA-256, and supplies the directory expected by the expansion adapter. It performs no official provider download.
+
 Validation, independent raw checks, remote readback and canonical restoration receipts are in `evidence/`. All acquisition and verification Python ran with one CPU, a 2,000,000,000-byte address/RSS cap, no GPU/swap, and a 15 GiB disk reserve. After a transient GitHub 503, recovery resumed exact verified parts; `--resume` preserves this behavior for consumers without any provider redownload.
