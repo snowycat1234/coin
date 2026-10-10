@@ -1,0 +1,69 @@
+{
+  "analysis": "Condition on original corrected p.argmax==SHORT. Report correct count/precision, false-positive counts by winning class, SHORT-minus-VOL and SHORT-minus-best-nonSHORT utility. Three prespecified between-state contrasts, all states including counterexamples. Whole-row phase0 anchored at each block first decision and all21 phases without selection/pooling; 1000 moving21-day-block bootstrap draws descriptive only.",
+  "clocks": "Unchanged completed-day boundary proxy; every valid feature available<=its completed step<=decision; actual historical exchange publication time remains UNKNOWN.",
+  "contrasts": {
+    "funding_premium": [
+      "NEGATIVE_BOTH",
+      "POSITIVE_BOTH"
+    ],
+    "trend_rebound": [
+      "REBOUND_WITHIN_FALL",
+      "CONTINUING_FALL"
+    ],
+    "volatility_shock": [
+      "HIGH_SHOCK",
+      "ORDINARY"
+    ]
+  },
+  "counterexample_rule": "For each mechanism, latest-date tie-broken worst-margin false-positive and lowest-margin correct SHORT inside each observed state; also three worst false-positive dates overall. Outcomes rank illustrations only, never cutpoints, states or policies.",
+  "cutpoint_role": "744 mature TRAIN decision-date inputs only; no TRAIN outcome-conditioned cutpoint, 2023/2024 summary or search",
+  "cutpoints": {
+    "funding7": 0.0,
+    "mom20": 0.0,
+    "mom5": 0.0,
+    "premium7": 0.0,
+    "vol10_over_vol60_q75": 1.0781770944595337
+  },
+  "discovery_IO_exception": "Before the hard diagnostic guard, one broad source grep traversed 2025-named code and acquisition metadata. No 2025 market/outcome tensors or score-result files were consumed. Do not claim absolute zero 2025 text IO across source discovery.",
+  "feature_SHA256": "2e8acb5bbf6fdf6c71befade6a3732c371dd771948f8603843bfa1585310713c",
+  "frozen_at_UTC": "2026-10-10T16:17:23.144270+00:00",
+  "funding_semantics": "feature_frame copies daily funding; funding_windows sums raw archived calc-time event rates within completed calendar day with causal completeness bracket. Seven-day mean is mean daily sums, not one event, 8h rate, actual owned funding PnL or APR. Raw positive scaling does not affect signs; rate units/publication timing are not natively certified.",
+  "mechanisms": {
+    "funding_premium": "For each of seven latest completed days, equal mean across >=3 observed CORE5 assets separately for funding and premium; require all seven daily means. NEGATIVE_BOTH iff both seven-day means<0; POSITIVE_BOTH iff both>0; otherwise MIXED_OR_ZERO; missing UNKNOWN.",
+    "trend_rebound": "Latest completed-day CORE5 medians mom20 and mom5; each needs >=3 observed assets. Continuing fall: mom20<0,mom5<=0; rebound: mom20<0,mom5>0; nonfalling20: mom20>=0. Missing stays UNKNOWN.",
+    "volatility_shock": "Latest completed-day median of per-asset vol10/vol60, needing >=3 paired valid assets and positive vol60. HIGH_SHOCK iff strictly above TRAIN decision-date q75, otherwise ORDINARY; missing UNKNOWN."
+  },
+  "original_plan_SHA256": "2d700b057290368dea2cea9672c5988fc97e3d9c303f0a1f6afabf3bb067071e",
+  "prediction_SHA256": {
+    "AUDIT2024_POSTHOC": "b0a084dc653f8803c975c9e4b6f6af50b8abbb17621bd08e7159994ca55bba5c",
+    "SELECT2023": "0efef53738bc442c36d8e2b6b0c7faa11d55ecb0232cb8ee3a96cde9fa742fca",
+    "TRAIN": "003d081db55918ad5e6b07e03c0ad191cb6e69e3e46290e9f1dbc4363ae58967"
+  },
+  "prefix_summary_valid": {
+    "funding7": 737,
+    "mom20": 744,
+    "mom5": 744,
+    "premium7": 720,
+    "vol10_over_vol60": 744
+  },
+  "premium_semantics": "Completed daily premiumIndexKlines close, not mark-minus-index from simultaneous owned execution; seven-day mean of daily closes, not seven-day return or event rate.",
+  "resources": "one CPU/thread; no GPU/swap; RSS2GB/address4GB/host8GB/wall1200s",
+  "scaler_SHA256": "62f03243d0c710fbef50ef59c6f029c7f532adddc1d106f9b324421fd9c3aa8c",
+  "scaler_identity": "e68ed7582a538e67c1f5cdc6775a2100ae4fdecddb5fc91816c0b7d340d64d73",
+  "schema": "THREE_CAUSAL_INPUT_ASSOCIATIONS_PREDECLARED_V1",
+  "scope": "Seen development history; TRAIN fitted, 2023 selected CE20, 2024 already audited and now posthoc diagnostic only. No new holdout claim; no 2025 market/outcome/calibration consumption; no model fit, new inference, filter/strategy output or threshold grid.",
+  "selection_SHA256": "e882be7979cd7ba5a9f16fd0fe7c4e72b5a8ea7747aef7d9f444443eb3e3fcfa",
+  "snapshot": {
+    "checkpoint": {
+      "SHA256": "0e130809433fe7d43adc4c6f52bafaa6dcd3a04214c0472151be124a8a1858ef",
+      "path": "step-00000240.pt",
+      "step": 240
+    },
+    "epoch": 20,
+    "model_identity": "f62161e1b1d9e07c17ce8cc867f797fe9d5802101d77c429dc9de13aa002a71a"
+  },
+  "source_SHA256": "dc85b0133dc8922b3906863efbac481da81e20dd60ba05c1022c81b7e1b4a4c4",
+  "status": "DEFINITIONS_AND_PREFIX_CUTPOINT_FROZEN_BEFORE_LATER_RELATIONSHIPS",
+  "stopping": "Evaluate exactly these three mechanisms once; no extra bins/features/intersections chosen from outcomes. Propose at most one bounded next test, never adopt from posthoc errors.",
+  "target_SHA256": "047320019f744027d7c8e6a487df764928bc6c3452cc94d459c7e0bd9e3c0a09"
+}
