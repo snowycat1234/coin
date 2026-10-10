@@ -1,0 +1,1227 @@
+{
+  "actual_fit_tasks": [
+    {
+      "candidate": "BASE_DATE_LR1E3",
+      "change": "baseline; fresh initialization with1024-update cap",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.08206686930091185,
+        0.1337386018237082,
+        0.09422492401215805,
+        0.2188449848024316,
+        0.47112462006079026
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.001,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__BASE_DATE_LR1E3",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "LOW_LR3E4",
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.08206686930091185,
+        0.1337386018237082,
+        0.09422492401215805,
+        0.2188449848024316,
+        0.47112462006079026
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.0003,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__LOW_LR3E4",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "MIXED_WALLET_HALF",
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.14103343465045592,
+        0.1668693009118541,
+        0.14711246200607903,
+        0.2094224924012158,
+        0.33556231003039516
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.001,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__MIXED_WALLET_HALF",
+      "wallet_equal_mix": 0.5
+    },
+    {
+      "candidate": "BASE_DATE_LR1E3",
+      "change": "baseline; fresh initialization with1024-update cap",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.07209612817089453,
+        0.11748998664886515,
+        0.08277703604806408,
+        0.19225634178905207,
+        0.5353805073431241
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.001,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__BASE_DATE_LR1E3",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "LOW_LR3E4",
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.07209612817089453,
+        0.11748998664886515,
+        0.08277703604806408,
+        0.19225634178905207,
+        0.5353805073431241
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.0003,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__LOW_LR3E4",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "MIXED_WALLET_HALF",
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.13604806408544728,
+        0.1587449933244326,
+        0.14138851802403204,
+        0.19612817089452605,
+        0.36769025367156205
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.001,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__MIXED_WALLET_HALF",
+      "wallet_equal_mix": 0.5
+    }
+  ],
+  "candidate_settings": {
+    "BASE_DATE_LR1E3": {
+      "change": "baseline; fresh initialization with1024-update cap",
+      "lr": 0.001,
+      "wallet_equal_mix": 0.0
+    },
+    "LOW_LR3E4": {
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "lr": 0.0003,
+      "wallet_equal_mix": 0.0
+    },
+    "MIXED_WALLET_HALF": {
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "lr": 0.001,
+      "wallet_equal_mix": 0.5
+    }
+  },
+  "common": {
+    "architecture": "unchanged_GRU64_CORE5_24values24masks_GRU32_joint160to32_plus18expertinputs_E6fouractiveactions",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "checkpoint_every_completed_update": true,
+    "checkpoint_retention": "atomic latest resume plus initial/best-development/matched512/terminal snapshots; retain every scheduled metric, not1024 separate frozen files",
+    "controls": {
+      "primary": "frozen prefix-static VOL both selectedfolds",
+      "supplementary": [
+        "Static50",
+        "Cash50"
+      ]
+    },
+    "determinism": "same withinfold initial model/Python/NumPy/Torch RNG and emptyAdam; train dropout.1 with exact chunk RNG replay; eval dropout off and inference deterministic; snapshot binds model/scaler/source/run recipe/Adam/RNG",
+    "dropout": 0.1,
+    "economics": "continuous original natural wallets, separate10k; no batch reset/splicing; same costs/funding/risk/caps/L1.1/paidclose; no observed wallet features",
+    "episode_coefficient_definition": "n_i is original decision count including paid-close row; N=sum(n_i); K=5; objective loss already mean-normalized by each complete wallet's decision count",
+    "epoch_definition": "one completed optimizer update uses a full gradient pass through all five complete chronological wallets;1024 epochs reuse the same actual653/744dates, not new independent observations",
+    "epsilon": 1e-08,
+    "foreach": false,
+    "full_dataset_gradient_pass_per_update": true,
+    "gradient_norm_clip": 1.0,
+    "initialization": "fresh model/empty Adam/allRNG; same initial trainable bytes withinfold; no warm checkpoint",
+    "max_completed_full_path_updates": 1024,
+    "neural_window_batch_size": 32,
+    "normalization": "unique prefix feature rows valid-only; cutoff strict; no development or reserve observations",
+    "objective": "same charged-boundary economic own-path v2; only declared episode coefficients vary",
+    "optimizer": "Adam",
+    "parameters": 13699,
+    "restore_strategy": "original strict contracts remain unchanged; new study bindings must explicitly declare candidate recipe before fit",
+    "seed": 20261009,
+    "weight_decay": 0.0
+  },
+  "compute": {
+    "GPU": 0,
+    "cumulative_fit_wall_stop_seconds": 3600,
+    "estimate_scope": "history-based~3.6-4.2CPUhours/~1.8-2.1hours at2workers plusvalidation; earlystop may reduce; no synthetic benchmark fit",
+    "estimated_cpu_seconds_for6x1024": [
+      13032.637300307993,
+      15176.906528267922
+    ],
+    "exact_resume": "atomic model/Adam/RNG;1200second slices count completed updates once; no restart of failed updates",
+    "maximum_concurrent_fits": 2,
+    "maximum_six_fit_wall_hours_at2workers": 3.0,
+    "measured_seconds_per_full_update": [
+      2.121197477263671,
+      2.4701996302519404
+    ],
+    "per_fit_threads": 1,
+    "resident_per_fit_bytes": 2000000000,
+    "shared_bytes": 8000000000,
+    "swap": 0
+  },
+  "economic_wallets": 0,
+  "effective_information": "600+actual active dates perfit; overlapping64day windows do not create independent days; statistical effective N unknown",
+  "executable_scope": "cached-input audit and proposed task/settings emitter only; training adapter not implemented and no fitting entrypoint provided",
+  "folds": {
+    "FOLD_20240101": {
+      "active_dates": 653,
+      "actual_distinct_eligible_active_training_dates": 653,
+      "all64_steps_all5_assets_observed_windows": 625,
+      "decision_rows": 658,
+      "eligible_training_decision_us_SHA256": "6bcda95a0d925664927580f13778f5a6d1cb2372d4a435c394270a163961d608",
+      "feature_mask_observations": 4910706,
+      "first_training_date": "2022-01-02",
+      "independent_effective_information": "UNKNOWN; overlapping64-step windows and dependent prices are not independent observations",
+      "last_context_date": "2023-12-31",
+      "natural_wallets": [
+        {
+          "active_dates": 53,
+          "decisions": 54,
+          "episode": 0,
+          "first": "2022-01-02",
+          "last_paid_close": "2022-02-24"
+        },
+        {
+          "active_dates": 87,
+          "decisions": 88,
+          "episode": 1,
+          "first": "2022-05-04",
+          "last_paid_close": "2022-07-30"
+        },
+        {
+          "active_dates": 61,
+          "decisions": 62,
+          "episode": 2,
+          "first": "2022-08-01",
+          "last_paid_close": "2022-10-01"
+        },
+        {
+          "active_dates": 143,
+          "decisions": 144,
+          "episode": 3,
+          "first": "2022-10-03",
+          "last_paid_close": "2023-02-23"
+        },
+        {
+          "active_dates": 309,
+          "decisions": 310,
+          "episode": 4,
+          "first": "2023-02-25",
+          "last_paid_close": "2023-12-31"
+        }
+      ],
+      "original_regime_calendar_counts": {
+        "2022_early_bear": 53,
+        "2022_midyear_crisis_bear": 87,
+        "2022_sideways_and_autumn_crisis": 151,
+        "2023_midyear_sideways": 183,
+        "2023_rebound": 88,
+        "late2023_early2024_bull_calendar": 91
+      },
+      "paid_close_rows": 5,
+      "per_CORE5_SHORT_asset_eligible_counts": [
+        653,
+        653,
+        488,
+        488,
+        653
+      ],
+      "per_CORE5_expert_asset_eligible_counts": [
+        [
+          653,
+          653,
+          488,
+          488,
+          653
+        ],
+        [
+          653,
+          653,
+          653,
+          653,
+          653
+        ]
+      ],
+      "unique_prefix_normalization_feature_rows": 787,
+      "validation_end_exclusive": "2024-03-04",
+      "validation_role": "PROJECT_SEEN_DEVELOPMENT",
+      "validation_start": "2024-01-01",
+      "wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ]
+    },
+    "FOLD_20240401": {
+      "active_dates": 744,
+      "actual_distinct_eligible_active_training_dates": 744,
+      "all64_steps_all5_assets_observed_windows": 716,
+      "decision_rows": 749,
+      "eligible_training_decision_us_SHA256": "fb3ea5b6e68c19721f44cb0a141df483bfe9a45dfa111d5ed150f67a1654ef35",
+      "feature_mask_observations": 5609586,
+      "first_training_date": "2022-01-02",
+      "independent_effective_information": "UNKNOWN; overlapping64-step windows and dependent prices are not independent observations",
+      "last_context_date": "2024-03-31",
+      "natural_wallets": [
+        {
+          "active_dates": 53,
+          "decisions": 54,
+          "episode": 0,
+          "first": "2022-01-02",
+          "last_paid_close": "2022-02-24"
+        },
+        {
+          "active_dates": 87,
+          "decisions": 88,
+          "episode": 1,
+          "first": "2022-05-04",
+          "last_paid_close": "2022-07-30"
+        },
+        {
+          "active_dates": 61,
+          "decisions": 62,
+          "episode": 2,
+          "first": "2022-08-01",
+          "last_paid_close": "2022-10-01"
+        },
+        {
+          "active_dates": 143,
+          "decisions": 144,
+          "episode": 3,
+          "first": "2022-10-03",
+          "last_paid_close": "2023-02-23"
+        },
+        {
+          "active_dates": 400,
+          "decisions": 401,
+          "episode": 4,
+          "first": "2023-02-25",
+          "last_paid_close": "2024-03-31"
+        }
+      ],
+      "original_regime_calendar_counts": {
+        "2022_early_bear": 53,
+        "2022_midyear_crisis_bear": 87,
+        "2022_sideways_and_autumn_crisis": 151,
+        "2023_midyear_sideways": 183,
+        "2023_rebound": 88,
+        "late2023_early2024_bull_calendar": 182
+      },
+      "paid_close_rows": 5,
+      "per_CORE5_SHORT_asset_eligible_counts": [
+        744,
+        744,
+        579,
+        579,
+        744
+      ],
+      "per_CORE5_expert_asset_eligible_counts": [
+        [
+          744,
+          744,
+          579,
+          579,
+          744
+        ],
+        [
+          744,
+          744,
+          744,
+          744,
+          744
+        ]
+      ],
+      "unique_prefix_normalization_feature_rows": 878,
+      "validation_end_exclusive": "2024-06-03",
+      "validation_role": "PROJECT_SEEN_DEVELOPMENT",
+      "validation_start": "2024-04-01",
+      "wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ]
+    }
+  },
+  "hypothesis_evidence": {
+    "learning_rate": "April loss still decreases256->512 and gradient~.001<clip1; current gates often near-extreme and request changes can jump>1; lowerlr is a controlled hypothesis, not established cure",
+    "weighting": "April longest401-date episode53.54% date weight; atinitialization91.44% signed gradient projection; shorter crisis episodes receive less date mass. Earlier warm mixed512 lost18.69USDT vsdate on seen MayJune; not evidence of guaranteed improvement; fresh chronological test resolves this hypothesis"
+  },
+  "later_selected_final_refits": 1,
+  "missing_inputs": [
+    "Six-fit candidate adapter/new source/run/checkpoint bindings must admit only these lr and mixing overrides; old strict loader/contracts remain unchanged",
+    "Reserved92 actual00:01 prices and91 strict-prior event-funding coefficients not cached here; restore small derived packet from existing public accepted-source/native-tail sources, no provider redownload",
+    "Rebuild missing reserved serialized feature rows with original10-asset builder and source/mask parity; do not fit scaler on them",
+    "Confirm exact reserved execution/funding clocks/completeness in immutable input receipt before any final economic score; no fallback date or mark filling"
+  ],
+  "model_inferences": 0,
+  "original_curves": {
+    "FOLD_20240101": [
+      {
+        "gradient_norm": 8.083891297915066e-05,
+        "signed_episode_gradient_projection": [
+          -0.09507355727102824,
+          -0.15752783918379956,
+          -0.05318617387433118,
+          0.5341870476742171,
+          0.7716005226549417
+        ],
+        "training_date_mean_loss": -3.810021481642257e-05,
+        "update": 0
+      },
+      {
+        "gradient_norm": 0.0005225732201611422,
+        "signed_episode_gradient_projection": [
+          0.05764938482710059,
+          0.10871390596191302,
+          0.10227740186618893,
+          0.2738436400965943,
+          0.45751566724820325
+        ],
+        "training_date_mean_loss": -0.00073993248896947,
+        "update": 128
+      },
+      {
+        "gradient_norm": 0.0009823389683298758,
+        "signed_episode_gradient_projection": [
+          0.04768921125171085,
+          0.11198201796389927,
+          0.07699033626371961,
+          0.044501300946614,
+          0.7188371335740563
+        ],
+        "training_date_mean_loss": -0.0010307104460367286,
+        "update": 256
+      },
+      {
+        "gradient_norm": 0.0006631048685935746,
+        "signed_episode_gradient_projection": [
+          -0.012691686379832335,
+          0.11513096132063932,
+          -0.028326014818676894,
+          0.14442813405367144,
+          0.7814586058241983
+        ],
+        "training_date_mean_loss": -0.0011238989820784575,
+        "update": 512
+      }
+    ],
+    "FOLD_20240401": [
+      {
+        "gradient_norm": 0.0001036770425475026,
+        "signed_episode_gradient_projection": [
+          -0.07861022078703243,
+          -0.1249348474726776,
+          -0.055876071290382814,
+          0.3449779925326841,
+          0.9144431470174087
+        ],
+        "training_date_mean_loss": -6.870467367053956e-05,
+        "update": 0
+      },
+      {
+        "gradient_norm": 0.0005256204317073724,
+        "signed_episode_gradient_projection": [
+          0.323551955768932,
+          0.15673312476117152,
+          0.2290858417164981,
+          -0.05437105851006665,
+          0.34500013626346515
+        ],
+        "training_date_mean_loss": -0.000660103552499686,
+        "update": 128
+      },
+      {
+        "gradient_norm": 0.0010840261087619438,
+        "signed_episode_gradient_projection": [
+          0.06624100791652192,
+          0.07392829960521147,
+          0.36252881847042107,
+          -0.10646442866674029,
+          0.6037663026745858
+        ],
+        "training_date_mean_loss": -0.0010207617706543316,
+        "update": 256
+      },
+      {
+        "gradient_norm": 0.0009984081624258346,
+        "signed_episode_gradient_projection": [
+          0.05207443577101043,
+          0.25827978656484285,
+          0.1993437587769436,
+          0.1507575146794844,
+          0.33954450420771853
+        ],
+        "training_date_mean_loss": -0.001126615035531505,
+        "update": 512
+      }
+    ]
+  },
+  "original_gap_policy": "retain5 independent natural episodes and their missing calendars; do not concatenate calendars or wallets",
+  "original_training_packet": {
+    "active_dates": 773,
+    "actual_distinct_eligible_active_training_dates": 773,
+    "all64_steps_all5_assets_observed_windows": 745,
+    "decision_rows": 778,
+    "eligible_training_decision_us_SHA256": "e703541d7563e04a6a1ad50dd1b38c6b3959d8a78ff3ee954bce6dea373ee3e6",
+    "feature_mask_observations": 5832306,
+    "first_training_date": "2022-01-02",
+    "independent_effective_information": "UNKNOWN; overlapping64-step windows and dependent prices are not independent observations",
+    "last_context_date": "2024-04-29",
+    "natural_wallets": [
+      {
+        "active_dates": 53,
+        "decisions": 54,
+        "episode": 0,
+        "first": "2022-01-02",
+        "last_paid_close": "2022-02-24"
+      },
+      {
+        "active_dates": 87,
+        "decisions": 88,
+        "episode": 1,
+        "first": "2022-05-04",
+        "last_paid_close": "2022-07-30"
+      },
+      {
+        "active_dates": 61,
+        "decisions": 62,
+        "episode": 2,
+        "first": "2022-08-01",
+        "last_paid_close": "2022-10-01"
+      },
+      {
+        "active_dates": 143,
+        "decisions": 144,
+        "episode": 3,
+        "first": "2022-10-03",
+        "last_paid_close": "2023-02-23"
+      },
+      {
+        "active_dates": 429,
+        "decisions": 430,
+        "episode": 4,
+        "first": "2023-02-25",
+        "last_paid_close": "2024-04-29"
+      }
+    ],
+    "original_regime_calendar_counts": {
+      "2022_early_bear": 53,
+      "2022_midyear_crisis_bear": 87,
+      "2022_sideways_and_autumn_crisis": 151,
+      "2023_midyear_sideways": 183,
+      "2023_rebound": 88,
+      "late2023_early2024_bull_calendar": 211
+    },
+    "paid_close_rows": 5,
+    "per_CORE5_SHORT_asset_eligible_counts": [
+      773,
+      773,
+      608,
+      608,
+      773
+    ],
+    "per_CORE5_expert_asset_eligible_counts": [
+      [
+        773,
+        773,
+        608,
+        608,
+        773
+      ],
+      [
+        773,
+        773,
+        773,
+        773,
+        773
+      ]
+    ],
+    "unique_prefix_normalization_feature_rows": 907,
+    "wallet_lengths": [
+      54,
+      88,
+      62,
+      144,
+      430
+    ]
+  },
+  "performed_fits": 0,
+  "planned_initial_fits": 6,
+  "provider_downloads": 0,
+  "reserved_final": {
+    "accepted_monthly_source_inventory": {
+      "manifest_SHA256": {
+        "docs/archive/MULTI_ASSET_CONTINUOUS_RELEASE_METADATA_20261004_V1/ACCEPTED-CONTINUOUS-INPUT_MANIFEST.json": "847d8a6e561d782ae641d492697ee03fd7b3ba2eda65298e5d0f02cb0c7b1e50",
+        "docs/archive/MULTI_ASSET_WINTER_RELEASE_METADATA_20261004_V1/ACCEPTED-WINTER-INPUT_MANIFEST.json": "56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193"
+      },
+      "monthly_records": 45,
+      "records": [
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-10",
+          "normalized_sha256": "e74fa2d82ee056f1efe276cd18fdda4fe7e7603e78807f5aa92b8caf813d6a2a",
+          "receipt_sha256": "07141e5f04b0ec38e4acd90eedf72921566f66177c818b8783d698922795ef9f",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-11",
+          "normalized_sha256": "3e10c459252c772a42a4ea985e017e7a73744fc835e2c5de5071c54c5fd84e52",
+          "receipt_sha256": "49b0d860531608bccfad275b17838d97a60663aada1b85374ee844db302a3213",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-12",
+          "normalized_sha256": "0a37a12e132dab315a5f3bf1114a90e88bc2f2340241747683202ec8b52dd285",
+          "receipt_sha256": "881f10ab3f74afcbe5fa26d050089ebbb248a6a156fd157323c388c5db5cd2df",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-10",
+          "normalized_sha256": "ed3872af05602b6b2d3e2b377e48df9b9b0cc94e1338b54dde172160ca5e137c",
+          "receipt_sha256": "bb24d9d3bff1747d5af930a3a832ec5cf3f017f0385c5acc1c83b6893319166f",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-11",
+          "normalized_sha256": "49173ea1096ad56e4061fb8fa1fbb1c6aaf947b7610bd6bae0eb2d63d3098f39",
+          "receipt_sha256": "0aa2d0903bf42546d152470f9c9c4d19f6b267d5ed9ffc51003aa5cacaf88699",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-12",
+          "normalized_sha256": "9612ff424e4349c3b4c22a87e2d5dadd3abd89fe8635a797212e22f64fea390f",
+          "receipt_sha256": "fc3862ed045bcbfc6531c421060c3268e22d6c6ce298acbbf5800a8654ef1094",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-10",
+          "normalized_sha256": "191fbffb53fe0e56c1dda6d06c5e0c1aab8d509f0a9c39620755997167ca3b3c",
+          "receipt_sha256": "dca29e9f960c64df9fc17f5e660cf931a32b95e61ca346df914d640fd8bf4800",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-11",
+          "normalized_sha256": "aeb13b1c4709288fcc344a7d1b144b9a4045a2877a1bee5b1432db15572cc726",
+          "receipt_sha256": "607fd477111b96811cbb2a078e483ac7eb7e29aa03c176e7c31d88fdaa8df53b",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-12",
+          "normalized_sha256": "3d146998ccd3da9020d7859da693d44b6cba4f00277b5d7e40caddd11feb9b0c",
+          "receipt_sha256": "d1d72f068d21bdf68b7570d3bd6eb3b4a9ef37a7cf56026c045301a10bb8f453",
+          "symbol": "BTCUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-10",
+          "normalized_sha256": "9002a76a00d262549ee0cd4620a8bd7b37e404140230f36cc9eb517fff4932ac",
+          "receipt_sha256": "32c0c87212c8f3e6d3eaa78487eb52103df6a5a8094e692cae280d5d59eba101",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "c038f18bf93552ca8432d04482839ab50d5b6e903c1b63083c335d479236ba22"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-11",
+          "normalized_sha256": "c0b61e2e3ceb74e99810ab4b326ed21f963a751588c225c19c9415f7a78adfc7",
+          "receipt_sha256": "0884f9e80a0cf09faa00970b9055ba49e647de55e2868e3e3252d90d2e8091ec",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "45d7e6671e7bb1efc2ed557fd7139135468d0bea7dbc7906fe0c8b727c2777a0"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-12",
+          "normalized_sha256": "6d56176a9491fda20510daf93c8a1f35c116d0da879a7fd9007897b02121d2eb",
+          "receipt_sha256": "83c05af6a368d7cb7d73891223360c8bd9ca2a718ae8819649b369a7fa53166c",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "5b94b4960510e5e217048ee5268038d60a6dbcf45755063790f9c35602231983"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-10",
+          "normalized_sha256": "7ca4a1454ecced996f10bd875212b89aa5098303d0e4a1039c2eaf7098b6d345",
+          "receipt_sha256": "348868b170f138d0f0b1583e1bb75758f3d3dfc485994d56e4c2e063847386b2",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "e37aeacb3b453a0800be4df79aae1b0637bd58441ba03e5fbd6f9b4bf8c7fc2a"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-11",
+          "normalized_sha256": "ad1fbb68e6215e750cd89d1fd8d24475940b52883e43b9d47037f17f060a81af",
+          "receipt_sha256": "50b18e62d17ed5f3e023cd91f786d5ef7c20284c5a92611d73345bf183711b7e",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "effde135f4c2497d6ccbc4b44d04e583dd3faeb21bb46f589e360aa2710b649b"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-12",
+          "normalized_sha256": "9e4e6b296349f073eaedb0da7d5073bcb0b1da6f3edeaa821a81bb39d154cc94",
+          "receipt_sha256": "fa6c986800f614c474caf5d43f984d7b490cb3a0a5c29c314182056e8c9a70da",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "1f6b940265db6d595f294e5752616c564bbf00ede60c676abdc3093c3e4e9729"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-10",
+          "normalized_sha256": "c9128a8284f5ae358b3fe12b584e5e711c6b94460bccf08e0eb994aa2dc14f5e",
+          "receipt_sha256": "c390c81d7aef02a0e1e4c771c6a71f9807c3ab387d14bc79b613dc5b53e25704",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "47d8916abaa039d4efda9a388399f0d2243376f0096c63923d3aeee916ca8704"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-11",
+          "normalized_sha256": "0040eb787d4d1699da46a386feb0161141b95b0b256fc9e1081728bb0096fb22",
+          "receipt_sha256": "bd3329521ebf56aa578678bc502d760125b9d7aad6c9f6547e6b2cc36cf638bd",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "6923236a08816da88a4fd355ec0a5c606903a85d0248a170f665180d80dba75f"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-12",
+          "normalized_sha256": "49c8b2c8794ca7064515826fc3db3368b4ec9db55e4d073fbcd291bf4fb17c8e",
+          "receipt_sha256": "bc83257f8f3f33f99e1add9841314e6eb3a7a803886c102bc74a5060492add01",
+          "symbol": "DOGEUSDT",
+          "zip_sha256_if_recorded_at_top_level": "8da2a04429bf153cba0a2a536c95a4fb7775271c11c87a32a2ae171eeaa8e650"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-10",
+          "normalized_sha256": "bfcc2778c7b968b62c4e3661fc3e3141705f9921b50fcf77aa06ed1dc72bd570",
+          "receipt_sha256": "b03a61f4ea4e353ab8e4e1f9a75eeb47bfcd8abdfa10d3760d7036e102f470e9",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-11",
+          "normalized_sha256": "38b4b7e8569780d05ba7a605f6098e9dd7888b510566175afa87a45505137a58",
+          "receipt_sha256": "31df99a5fe78326ce6e82a229ac13a560b248571c6c728ef5b4969d8b8c94215",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-12",
+          "normalized_sha256": "d1121963c48f1f096c2efa5357c84e753dd34683279e91b4b1efcab0dd8e8d34",
+          "receipt_sha256": "b21a0adfd5a07421e7e078ae38b3d889def1dd9b795438572b1da60ae1b466a6",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-10",
+          "normalized_sha256": "e9a5aa180695d23fdc75c98c2d3b285260e6aa199506e9b64d1d5855c6be5877",
+          "receipt_sha256": "86e72d37efe409f5a8ef2fe18d280ca1dbb961a32f185c8f1945492307207540",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-11",
+          "normalized_sha256": "257c6d33a7bc2320ff4a50424e6647fc89b6521d296363d3898f4451b44e2d60",
+          "receipt_sha256": "8678eb9bb0d983c1303c558d26b79bd028fca5f356bce32196ae53e280087015",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-12",
+          "normalized_sha256": "31560d83116a9300b69029f084bd749e9938ef236cc5bb961b1db26092e78612",
+          "receipt_sha256": "d34eab9e39beac6e495f1a9f81cc38ea79790510bb5768ad76bffddcffd1e2ec",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-10",
+          "normalized_sha256": "ebb60aa661e6f7088baca14dbba4e54cb4300a20e6307e9104fff3fa2d53df83",
+          "receipt_sha256": "276714c55c112b06a68498fe0b21c3d05d705b3fc29af1bdafe2669b39fa0048",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-11",
+          "normalized_sha256": "a6f0abd9f55146fed99da97e258451a4f90f7aef4fd09979a7f5d1c18062ea85",
+          "receipt_sha256": "8320eae1d71b18ec5b7b6ac413ecd525ae8c5b33ac9c6f19b9171dc4cab3d05b",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-12",
+          "normalized_sha256": "6761bc9015688096d7ca75ec6b9aefa6acd31af2a523440cde0e63fdf7adff92",
+          "receipt_sha256": "aadb4f0718e842c9540a1135841a4e9256ebb61c8b54c4d6ba46736354726871",
+          "symbol": "ETHUSDT",
+          "zip_sha256_if_recorded_at_top_level": null
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-10",
+          "normalized_sha256": "f84329ac6af351ac81016d392a5cd43a7a40d9ef0640df8042a74992a84a9f88",
+          "receipt_sha256": "6cd61bdad7f6d316e9c0209c23377a25716fabab7dc28b503cc0800280876cb1",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "dbece64e8c5bc69c487cc03c00f6a4d4da2cad9152c73860386fcdc7d2ec9d05"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-11",
+          "normalized_sha256": "51bee90ee6932092d83eee97c3591b0434c32c2430803df7486ef8b97e555611",
+          "receipt_sha256": "09e663db45d4682bb9d08dd5e948ac7f4c8af230d9a5b9b74681822d1509241a",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "f53a9b637d695a251200e48929a573b4bf04cc2d99d5a3a09fe7bdca622918aa"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-12",
+          "normalized_sha256": "5e5e8620c6e4294ae7f7e0304ca095f66b4dc94ff428e1b891818777cf0b1287",
+          "receipt_sha256": "e6c08efe8ea53d8472985d39d71e77feb2679c7e6d1457bf5a3a0ba76a12d2a9",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "bae83020ac2ccfa6dd8d1362d373a92b4d5a7e396cef52e78dc2e7d81e63f621"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-10",
+          "normalized_sha256": "fc4476bb82ed169ff68bee905ccf988b4b113bafdf6a9c053b60dfcf907ff95d",
+          "receipt_sha256": "7bc539b9fc0f6392dfc6c53abf65745da4416643e12cb2a4883c67c4762181de",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "f167b2be29ec4eef66fe38a17a6ade84034abf302c49deee31875a6f6cea6f53"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-11",
+          "normalized_sha256": "811062739054d1f736887dc1cd8273ddf51fc905d9768a686968ba9ecc3df401",
+          "receipt_sha256": "27462bdcc752e4f80463a12373878db520ce75bbf12bf02efe9c597ee4413d72",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "cc26ccf5eb442a5d66daa7396eb589d7c9934ba3301503a753c03ddbe94a4af0"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-12",
+          "normalized_sha256": "de677d9d02468e02f334353d7b288ce7813466f69d441be604e7746ce99a7fb8",
+          "receipt_sha256": "79ff934b9e11d500b517b2baa4eb1869429de0fc4c1fec59f27ea0fae8fe30c8",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "631fd8d38ebc10376e985bc232f64a388a8ae50ffeb588098c4bcf39de45e05e"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-10",
+          "normalized_sha256": "767b23e102f647d8e3fdcc76e58e93036e0852b1673c268d80ca8ddaf15b68d0",
+          "receipt_sha256": "d3662ce162f42451b0f1aadbfc42d035e6b17594119d0b853274e815825c3abb",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "61054a248239c022818372cbc75268ef55db4305f934a0b06f1cabeaa9b60bbd"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-11",
+          "normalized_sha256": "0d842538d6e0dbc4e8d686c551cd01a1ac6f4b8f19ec82758063a25ea088c2a7",
+          "receipt_sha256": "0d08c7687ff7a185005016fc0de412a0a87f4e768596d6e3f38ebbe9540de2ef",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "56564cc5a34bd159ab3862c2d670ec84ca2a0f61102ebb3f00ef71abbf606211"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-12",
+          "normalized_sha256": "f77669d1d59cdd54ea5adab06128b4f3b740a45f62d286df7c5073b8f8cb5b79",
+          "receipt_sha256": "666929927a993778397bb7f26dc4d721233a8d84a46045a02b4d77d9de167c09",
+          "symbol": "SOLUSDT",
+          "zip_sha256_if_recorded_at_top_level": "81313e892e9beb4ce64be6f94de624e85afdc95a3d5d9148a2b707ba9239894a"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-10",
+          "normalized_sha256": "716725fd3afe09b04d3fdb5734e3d09ba7090c8c2ca94c3149cf837dde04520b",
+          "receipt_sha256": "d9ecb7f77f0031f9b23309bfb971e8390ded25da59d3e1fc0fb00431bc7c651d",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "f9d62565da4bf7d1caddc9cb09b1a73a4a312a7419c5c0439c662fc3f58dd993"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-11",
+          "normalized_sha256": "2175ceb4ee33a5da98152d5d8a895dbfe23160b5ca019fdb02f4f0f4381e1d95",
+          "receipt_sha256": "27e0c7cc13743c783df50de0864573032a83a09ce09ea34b625c22f947eab145",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "95c733e5ad58f4c26c75b71a2081de8f692a4ce271006b7f5b3c87854a848c70"
+        },
+        {
+          "interval": null,
+          "kind": "fundingRate",
+          "month": "2024-12",
+          "normalized_sha256": "fa1a902d5d57e05b5a0b6859c8be81028f9b0c2b1180f11a5b6029dbc3d70c08",
+          "receipt_sha256": "0b3539044aa6c1a9e7a15fa91e22b91ef093e14e7b76953310220b7751d89e3f",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "be526ba15c6c4c3ae8cddda1411a13f665f635be444c992efd2f66e6bbfa37d8"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-10",
+          "normalized_sha256": "2e6a2df7512cc995bae5a6256191cd0398a603b5b934a4fc88e0adaab0ba73d8",
+          "receipt_sha256": "1b9f0f23ec99ed2eb76ace2763a97101138984da38a4fc252a640a5a70e22755",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "5a739dc9a458fef0e5aecfb457e3523686d451e598ead2df86adbb65b4144dd9"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-11",
+          "normalized_sha256": "92278f4881bbaadd768a4a0bd7840d39f31beb255b2dab558e25358c895e4b17",
+          "receipt_sha256": "feafbaf5369bb00c80cff851c1ece88cfd85b0f82bc7362d3de0cbec354cf3f0",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "f2177e1c6e95f5dff765dc5643abdcd6a151795947e69ea85b7eb7211ab926bd"
+        },
+        {
+          "interval": "1m",
+          "kind": "klines",
+          "month": "2024-12",
+          "normalized_sha256": "3528703d49ff252cb1cff62cead6be15f34ac508b908221a61942beda44bec58",
+          "receipt_sha256": "ce087e15ddcf851153f1e8289a29ab00a69cabde7f2d26c077b286dc59cfdf7e",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "659add47d41b25189bfed69ae3052253df648443e2aa0376537ccece6a39d6ee"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-10",
+          "normalized_sha256": "5b20d68226711d62606ec1cbd47fce086472a37d5927a7f009edb5748d8f3ceb",
+          "receipt_sha256": "a03a011770bcc2645342e39b12f4e70880b5e6d168daa6bc33cf7cedf9fa4ea9",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "d533f8283d33fc2da04803e7e6c3ca5daab985f906f0cf17b21c76e3c8670576"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-11",
+          "normalized_sha256": "be6eab49503c37661ddf7c7ac0d2883d87d7b31260bdcda415c37b7dfe282070",
+          "receipt_sha256": "5f3d16ef97ec8938a5f2ea349e63d8799c9f4b0b9ca6119e95d5f6a01eec32f9",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "4e09fd3989c855c0b6ecc29f490770979551254940f7effd09c20ee92be443c9"
+        },
+        {
+          "interval": "1m",
+          "kind": "markPriceKlines",
+          "month": "2024-12",
+          "normalized_sha256": "c518b44e92663bf7fc94efec70dd01f882e39bc00121873726ea6e1fc0359730",
+          "receipt_sha256": "86f0a4228b31bd6ad25bee67e6225b784c0506f4b6da931aae3cbaf369634416",
+          "symbol": "XRPUSDT",
+          "zip_sha256_if_recorded_at_top_level": "6515ec39d81bebd9c8803e4297a549a45fc7f2ec178653ef027b177c8119f4fb"
+        }
+      ],
+      "scope": "source identities only; not restored execution economics or minute/funding/publication certification",
+      "source_main_commit": "ef67d636a51fd3fa9e804f651aab5775f6bae5f8"
+    },
+    "active_intervals": 91,
+    "decisions": 92,
+    "end_exclusive": "2025-01-01",
+    "final_controls": [
+      "frozen prefix-static VOL",
+      "Static50",
+      "Cash50"
+    ],
+    "final_refit": "One later selected-recipe fresh fit on cached full778 decisions/773 activeeligible dates; step budget = rounded-down median of two selected development best updates, minimum256; no reserve-based stopping",
+    "final_selection_step_tie": "median of two integers rounded down; freeze before final inference",
+    "paid_close": "2024-12-31T00:01:00.000001Z",
+    "primitive_coverage": {
+      "1000PEPEUSDT": {
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "1000SATSUSDT": {
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "BTCUSDT": {
+        "actual_execution_prices_present": 0,
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "DOGEUSDT": {
+        "actual_execution_prices_present": 0,
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "ETHUSDT": {
+        "actual_execution_prices_present": 0,
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "ORDIUSDT": {
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "SOLUSDT": {
+        "actual_execution_prices_present": 0,
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "WIFUSDT": {
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "WLDUSDT": {
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      },
+      "XRPUSDT": {
+        "actual_execution_prices_present": 0,
+        "feature_funding_complete": 155,
+        "observed_close": 155,
+        "premium_complete": 155,
+        "present": 155,
+        "required_completed_steps": 155
+      }
+    },
+    "prior_use": "native HGB/teacher/student tail Aug13,2024-Jan2,2025; all92 dates overlap known project development",
+    "reserve_market_returns_computed": false,
+    "reserve_results_read": false,
+    "start": "2024-10-01",
+    "status": "PROJECT_SEEN_HISTORICAL_RESERVED_FOR_THIS_STUDY_NOT_UNTOUCHED",
+    "tail_manifest_SHA256": "2af208be38c5f9031e0fe03d4636e7ebd1ef45912d32d596bba7cd5b9ddd3551",
+    "tail_metadata_public_source": {
+      "commit": "d69e9ac94478c5be54cb46c622afec7aaf3c61f7",
+      "index": "research_artifacts/native_20261008/INDEX.json",
+      "member": "original_inputs/TAIL_MANIFEST.json"
+    }
+  },
+  "schema": "PROPOSED_SIX_FIT_600_ACTIVE_DATE_TEMPORAL_TUNING_PLAN_V1",
+  "selection": {
+    "budget_note": "same max1024 and rule; report actual updates and best checkpoint; preserve matched512 diagnostic when reached",
+    "candidate_rank": "highest arithmetic mean best-checkpoint utility_excess across the two fixed development folds; tie within1e-5 uses best worst-fold utility, then baseline/LOW_LR/MIXED fixed order",
+    "checkpoint_tie": "earlier completed update",
+    "checkpoints": [
+      256,
+      384,
+      512,
+      640,
+      768,
+      896,
+      1024
+    ],
+    "criterion": "validation own-path utility minus frozenVOL; deterministic eval; no gradient into validation",
+    "improvement_threshold": 1e-05,
+    "min_updates_before_stop": 512,
+    "patience": 3,
+    "promotion": "none; no ROI-dependent relaxation; numeric failure stops thatfit without recipe retry",
+    "record_all_results": true,
+    "stop_rule": "After>=512, stop after3 consecutive scheduled checks without utility_excess improvement>1e-5; save best development checkpoint; never resume to rescue result"
+  },
+  "source_SHA256": {
+    "FROZEN_PACKET.json": "0bd135091a913d67fec6af6da1f51a8cda80a09eca1da5a64582ebe68302ddea",
+    "development-features/FEATURES.npz": "800e39e53170fc87a279322b61f0f7f7b7a7812759267c58b1d4db948ab3aa8f",
+    "development-features/MANIFEST.json": "5fef36b0ffefe28b617678ff8e77fa058163aaf7076eceea29bc94ee96efe879",
+    "docs/archive/MULTI_ASSET_CONTINUOUS_RELEASE_METADATA_20261004_V1/ACCEPTED-CONTINUOUS-INPUT_MANIFEST.json": "847d8a6e561d782ae641d492697ee03fd7b3ba2eda65298e5d0f02cb0c7b1e50",
+    "docs/archive/MULTI_ASSET_WINTER_RELEASE_METADATA_20261004_V1/ACCEPTED-WINTER-INPUT_MANIFEST.json": "56f1eb1b768e14d4c67198156732c1d4a22e6a901e980c24ebee9f20bbf86193",
+    "economic-contexts/CONTEXTS.npz": "66c5fdb2317689ed1d084c3f8eeb6e1781fa04ccc15e6243784a03a3555e7676",
+    "economic-contexts/TRAIN_CONTEXT_READY.json": "ca9bc89060fd23e6aedd1d52c04f2c100bb52053eca2e2ad8eed04baff254efe",
+    "feature-input/verified/FEATURE_MANIFEST.json": "9ecbc55c21a5eab2b400604bbd7347a6e9b1261f31b4e749364ee292031da464",
+    "feature-input/verified/features/CORE5_PRE_MAY2024.npz": "f164dc8986727e12446f4a807aed72382e8fd665ad7eda9ba14590811ebc680c",
+    "recovery/direct_path_fragments/INDEX.json": "e4fecc49cd1bb05f72dc0f8d24e793a5d7e4d2436c89a18bd9d7c625a7849be8",
+    "research/temporal-april-transfer-20261009/forward/FOLD_20240401/MANIFEST.json": "99f07ef591581a51babb0b4a8b3079310f24a8bfe0e91b09103c4a68ffa82130",
+    "research/temporal-april-transfer-20261009/forward/FOLD_20240401/RUN.json": "e1e7941ca683c683368aa788546d291ada54b1765cc44693323d6f812398e5bb",
+    "research/temporal-april-transfer-20261009/forward/FOLD_20240401/SCALER.json": "ba9251b1d51ca8bca091e99fa86bfb2a1d83a66f6516df8a02346fd7578384c7",
+    "research/temporal-april-transfer-20261009/forward/FOLD_20240401/TERMINAL.json": "3330ea0f3e09eb80d0ad656b06616d8ff1bc14d23e303027cc71a15c6e4eeba7",
+    "research/temporal-prequential-transfer-20261009/forward/FOLD_20240101/MANIFEST.json": "62ec3efa0d02c964ffcc59fb16f679740b9854556f1aefa3aeefd5737836b14f",
+    "research/temporal-prequential-transfer-20261009/forward/FOLD_20240101/RUN.json": "eeeea99ab082b73094efd32d208b0a849fb6c81acf5cd60c19c4022a1a304beb",
+    "research/temporal-prequential-transfer-20261009/forward/FOLD_20240101/SCALER.json": "143f82d39704c0152d299b32ada0ba282e7eb2b3a539bbaba718bc0d75d3a049",
+    "research/temporal-prequential-transfer-20261009/forward/FOLD_20240101/TERMINAL.json": "292d5bbee181e106b147f50c1bd53a1a42ec2d28694a37f2055b863b6a9187b8",
+    "short-source/TRAIN778_MOMENTUM_SHORT_CONTEXTS.npz": "64accfc82f78034af0da48561ef7e2fabfc8712760066860194e3d2bce9e382d",
+    "source_tables_not_model_inputs/daily_features/1000PEPEUSDT.parquet": "4bfa132e44ff47bf62068a0ca6006e0febea979ed97627fe9a68905748e28f0e",
+    "source_tables_not_model_inputs/daily_features/1000SATSUSDT.parquet": "7a160d12c07b25153e325203778627f98520341dadd752fca828c8aa0617a8f9",
+    "source_tables_not_model_inputs/daily_features/BTCUSDT.parquet": "890342bb2a7b8d73c847e6d8e0b17145beecedabe33ae3a2d1e125cc1e2cdfb5",
+    "source_tables_not_model_inputs/daily_features/DOGEUSDT.parquet": "96a457efb6040048b528f677f17602d45b871ea9b5de66f08f3977a47542e357",
+    "source_tables_not_model_inputs/daily_features/ETHUSDT.parquet": "c6a7e254f784cd8a7565585932255ca3e286566f34f167a604459768b5272138",
+    "source_tables_not_model_inputs/daily_features/ORDIUSDT.parquet": "01f14c9f32f961d2d0ff1cc33f1024edb811c04973bde0fa8648ed779058c7c5",
+    "source_tables_not_model_inputs/daily_features/SOLUSDT.parquet": "be772916935c705c4806d32c3b94cbcbba24371506600edb95a69323633d785c",
+    "source_tables_not_model_inputs/daily_features/WIFUSDT.parquet": "5c187724198692d74f4bad3aad17a12556d733386aa8c8acd3a922242b1b8a91",
+    "source_tables_not_model_inputs/daily_features/WLDUSDT.parquet": "30301c16480da63931d487bae1588e2c3de6d1a6ce3f4a32bd99e2d52b279058",
+    "source_tables_not_model_inputs/daily_features/XRPUSDT.parquet": "8b3b66251a0eb6a852926909fecec782effbf5416082f8095db1eeefed672dc2",
+    "source_tables_not_model_inputs/economics/BTCUSDT_daily.parquet": "5c9f712d92adbe2df4a3569916f6380167854b87c6ac9d47b530afa8852870ce",
+    "source_tables_not_model_inputs/economics/DOGEUSDT_daily.parquet": "8b1b5c205650deee95206a238d529377f0b23683bd6acc3d8568fe4d81fe0d9c",
+    "source_tables_not_model_inputs/economics/ETHUSDT_daily.parquet": "8423b65fb495b01213e28888284c9b2008ce66dc384ed3867f242fa424a3d931",
+    "source_tables_not_model_inputs/economics/SOLUSDT_daily.parquet": "edf64911e9065f24674fc57530f6ad1fec428346cccfe37f50cc6ab6936e6438",
+    "source_tables_not_model_inputs/economics/XRPUSDT_daily.parquet": "dd7c6d5dca2212692a27f5d87f92d804d7cd9011007126c3b80055dbcd6dfe6b"
+  },
+  "source_coverage_audit": {
+    "calendar_missing_decision_dates": 71,
+    "exclusion_note": "71 dates missing inside retained calendar;61 covariance exclusions at another admission stage; categories overlap, never add them",
+    "feature_calendar_first": "2020-01-02",
+    "feature_calendar_last": "2024-04-30",
+    "feature_only_history": "2020-2021 feature context supplies no economic training dates in this packet",
+    "first600_active_dates": 600,
+    "first600_cutoff_exclusive": "2023-11-09",
+    "insufficient_early_prefixes": {
+      "2023-07-01": 469,
+      "2023-10-01": 561
+    },
+    "missing_ranges": [
+      {
+        "days": 68,
+        "first": "2022-02-25",
+        "last": "2022-05-03"
+      },
+      {
+        "days": 1,
+        "first": "2022-07-31",
+        "last": "2022-07-31"
+      },
+      {
+        "days": 1,
+        "first": "2022-10-02",
+        "last": "2022-10-02"
+      },
+      {
+        "days": 1,
+        "first": "2023-02-24",
+        "last": "2023-02-24"
+      }
+    ],
+    "previous_day_cutoff_active_dates": 599,
+    "producer_covariance_excluded_dates": 61,
+    "producer_economic_candidate_dates": 839
+  },
+  "status": "READY_FOR_REVIEW_NO_FITS_STARTED"
+}
