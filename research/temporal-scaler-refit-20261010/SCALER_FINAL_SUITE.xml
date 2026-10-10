@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="11" time="7.555" timestamp="2026-10-10T19:52:21.093219+08:00" hostname="55e3d063133b"><testcase classname="modules.temporal_scaler_refit.test_refit" name="test_exact_training_data_and_only_normalization_change" time="5.024" /><testcase classname="modules.temporal_scaler_refit.test_refit" name="test_cached_periods_keep_distinct_terminal_abis" time="0.084" /><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_gap_admission_rejects_unknown_prices_funding_and_context_without_splicing" time="0.005"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x7fdb469fc440&gt;, _basetemp=PosixPath('/tmp/pytest-of-agent/pytest-2'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/tmp/pytest-of-agent/pytest-2/recovery0/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_cash_only_dates_do_not_create_extra_history_and_future_clocks_rejected" time="0.000"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x7fdb469fc440&gt;, _basetemp=PosixPath('/tmp/pytest-of-agent/pytest-2'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/tmp/pytest-of-agent/pytest-2/recovery0/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_real_terminal_request_vjp_exact_original_parity_and_finite_difference" time="0.000"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x7fdb469fc440&gt;, _basetemp=PosixPath('/tmp/pytest-of-agent/pytest-2'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/tmp/pytest-of-agent/pytest-2/recovery0/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_feature_masks_dropout_replay_date_weights_and_old_kernel_unchanged" time="0.000"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x7fdb469fc440&gt;, _basetemp=PosixPath('/tmp/pytest-of-agent/pytest-2'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/tmp/pytest-of-agent/pytest-2/recovery0/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_before_after_counts_preserve_original_five_and_deduplicate_warmup" time="0.000"><error message="failed on setup with &quot;ValueError: Recovered prototype already loaded from another path&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x7fdb469fc440&gt;, _basetemp=PosixPath('/tmp/pytest-of-agent/pytest-2'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="session")
+    def recovery(tmp_path_factory):
+&gt;       return prepare_recovery(tmp_path_factory.mktemp("recovery") / "exact")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+modules/temporal_two_expert/conftest.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+modules/temporal_two_expert/exact.py:47: in prepare_recovery
+    load_prototype(destination / "source/modules/direct_path/prototype.py")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/tmp/pytest-of-agent/pytest-2/recovery0/exact/source/modules/direct_path/prototype.py')
+
+    def load_prototype(path):
+        """Import exact source under an isolated module name, without overrides."""
+        path = Path(path).resolve()
+        if sha(path) != PROTOTYPE_SHA256:
+            raise ValueError("Exact recovered prototype source required")
+        name = "_coin_temporal_exact_prototype_" + PROTOTYPE_SHA256
+        if name in sys.modules:
+            module = sys.modules[name]
+            if Path(module.__file__).resolve() != path:
+&gt;               raise ValueError("Recovered prototype already loaded from another path")
+E               ValueError: Recovered prototype already loaded from another path
+
+modules/temporal_two_expert/exact.py:60: ValueError</error></testcase><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_source_hash_completeness_clock_and_independent_funding_gates" time="1.095" /><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_proposal_is_one_fixed_recipe_and_cannot_authorize_fitting" time="0.006" /><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_source_reader_rejects_missing_bracket_even_with_three_held_events" time="0.163" /><testcase classname="modules.temporal_history_expansion.test_expansion" name="test_source_reader_retains_unknown_mark_interval_and_rejects_shifted_clock" time="0.764" /></testsuite></testsuites>
