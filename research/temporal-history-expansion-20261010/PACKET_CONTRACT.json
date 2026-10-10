@@ -1,0 +1,37 @@
+{
+  "schema": "EARLY2021_EXPANSION_CONSUMER_REQUIREMENTS_V1",
+  "status": "PENDING_SOURCE_PACKET_AND_FINAL_REVIEW",
+  "inventory_commit": "f7cf1354c35c5a04f3ecc5464664391ae730ae12",
+  "data_task_download_cap_bytes": 188743680,
+  "adapter_provider_downloads": 0,
+  "caller_binding": ["immutable source commit", "exact CONSUMER_INDEX.json SHA256"],
+  "CONSUMER_INDEX_required_fields": {
+    "symbols_order": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"],
+    "source_download_complete": true,
+    "official_archive_receipts_verified": true,
+    "normalization_source_SHA256": "nonempty inherited source path -> SHA256 map",
+    "economic_SHA256_or_economic_array_SHA256": "exact ECONOMICS.npz SHA256; both must agree if present",
+    "economic_table_artifacts": "15 daily/event/interval table path,bytes,SHA256 records",
+    "execution_and_held_funding_ready": "true only for completely known arrays without masks"
+  },
+  "ECONOMICS_npz": {
+    "symbol_order": "same fixed CORE5 order",
+    "decision_us": "int64[365]: 2021-01-01 through2021-12-31 UTC daily",
+    "execution_us": "decision_us +60000001us: actual trade1m OPEN at00:01",
+    "funding_interval_start_us": "execution_us[:-1]",
+    "funding_interval_end_us": "execution_us[1:]",
+    "prices": "float64[365,5]: positive observed execution price",
+    "funding_coeff": "float64[364,5]: sum(signed_rate*actual_strict_prior_mark) in(start,end]",
+    "optional_price_known": "bool[365,5]; required together with funding_known for gaps",
+    "optional_funding_known": "bool[364,5]; unknown entries in value arrays must be NaN",
+    "extra_fields_or_economic_padding": "rejected"
+  },
+  "economic_tables": {
+    "daily": "normalized/data/normalized/SYMBOL_daily.parquet: dt,exec_price,complete_kline,unique_minutes",
+    "events": "normalized/data/normalized/SYMBOL_funding_events.parquet: calc_time_ms,funding_interval_hours,last_funding_rate,past_mark_price,past_mark_available_us",
+    "intervals": "normalized/economics/SYMBOL_funding_intervals.parquet: funding_interval_complete,mark_funding_per_unit",
+    "coverage": "original funding_windows both-sided completeness recomputed; actual signed events and marks independently checked"
+  },
+  "gaps": "source-complete maximal runs only; no invented prices, future padding or gap splicing",
+  "fit": "NOT_RUN; final dates, wallets, scaler, source identity and protocol reviewed before any optimizer update"
+}
