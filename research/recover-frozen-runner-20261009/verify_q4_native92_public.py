@@ -26,7 +26,20 @@ def verify(state,arm,commit):
         if v['path'].startswith('accounts/'+arm+'/'):
             p=original/v['path'][len('accounts/'+arm+'/'):];assert p.stat().st_size==v['bytes'] and digest(p.read_bytes())==v['sha256'];count+=1
         if v['path'].startswith('repo/'):
-            p=run.REPO/v['path'][5:];assert p.stat().st_size==v['bytes'] and digest(p.read_bytes())==v['sha256']
+            raw_source=subprocess.check_output(['git','show',commit+':'+v['path'][5:]],cwd=run.REPO);assert len(raw_source)==v['bytes'] and digest(raw_source)==v['sha256']
+    # The portable archive intentionally carries the financial source subset.
+    # Recover its transitive imports from the exact already-public plan tree;
+    # no runtime inventory, installed environment or provider data is copied.
+    source_commit=result['source_plan_commit'];source_repo=state/'public-q4-native92-source'/source_commit;source_repo.mkdir(parents=True,exist_ok=True)
+    names=subprocess.check_output(['git','ls-tree','-r','--name-only',source_commit,'--','src','scripts','modules'],cwd=run.REPO).decode().splitlines()
+    for name in names:
+        if not name.endswith('.py'):continue
+        raw_source=subprocess.check_output(['git','show',source_commit+':'+name],cwd=run.REPO);p=source_repo/name;p.parent.mkdir(parents=True,exist_ok=True)
+        if p.exists():assert p.read_bytes()==raw_source
+        else:p.write_bytes(raw_source)
+        target=extracted/'repo'/name;target.parent.mkdir(parents=True,exist_ok=True)
+        if target.exists():assert target.read_bytes()==raw_source
+        else:target.write_bytes(raw_source)
     account=extracted/'accounts'/arm
     code="""import json
 from pathlib import Path
@@ -41,8 +54,9 @@ assert pointer['completed_decisions']==92 and sim.rows_written==131046 and all(p
 assert sim.account.trades==run.read(account/'account/trades.json') and sim.funding_journal==run.read(account/'account/funding.json')
 print(json.dumps(dict(audit=audit,state_hash=sim.state_hash(),NAV=float(sim.account.nav()),original_account_journal_exact=True)))
 """.replace('STATE',repr(str(state))).replace('ACCOUNT',repr(str(account)))
-    env=os.environ.copy();env.update(PYTHONPATH=str(state/'deps'),OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',POLARS_MAX_THREADS='1');portable=json.loads(subprocess.check_output([sys.executable,'-c',code],cwd=extracted/'repo'/run.HERE.relative_to(run.REPO),env=env))
+    env=os.environ.copy();env.update(PYTHONPATH=os.pathsep.join(map(str,(state/'deps',source_repo/'src',source_repo))),OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',POLARS_MAX_THREADS='1');portable=json.loads(subprocess.check_output([sys.executable,'-c',code],cwd=extracted/'repo'/run.HERE.relative_to(run.REPO),env=env))
     receipt=dict(status='PASS_PUBLIC_ORIGINAL_Q4_JOURNALS_CHECKPOINT_RESTORE_AND_ACTUAL_INPUT_AUDIT',arm=arm,artifact_commit=commit,archive_SHA256=artifact['sha256'],archive_bytes=artifact['bytes'],parts=len(chunks),members=len(manifest['files']),original_account_files_byte_identical=count,engine_SHA256=run.ENGINE_SHA,final_checkpoint_state_hash=portable['state_hash'],completed_minutes=131046,terminal_paid_flat=True,account_journal_exact=True,restored_account_NAV=portable['NAV'],portable_actual_input_audit=portable['audit'],wallet_advanced_after_restore=False,wallets_run=0,completed_wallet_reruns=0,fits=0,model_inference=0,provider_downloads=0)
+    receipt['transitive_public_repository_source_commit']=source_commit
     (root/'PUBLIC_READBACK.json').write_bytes(run.encoded(receipt));print(json.dumps({k:v for k,v in receipt.items() if k!='portable_actual_input_audit'}),flush=True);return receipt
 
 
