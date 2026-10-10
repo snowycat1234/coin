@@ -27,7 +27,7 @@ def normalize(raw: bytes, symbol: str, day: str) -> dict:
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         body = archive.read(f"{symbol}-metrics-{day}.csv")
     rows = list(csv.DictReader(io.StringIO(body.decode("utf-8-sig"))))
-    lines = body.splitlines()
+    lines = body.splitlines(keepends=True)
     assert len(lines) == len(rows) + 1, "Multiline CSV records are outside schema"
     grouped = defaultdict(list)
     for index, row in enumerate(rows):

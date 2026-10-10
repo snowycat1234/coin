@@ -86,6 +86,53 @@ def test_nonterminal_conflict_does_not_invent_terminal_missing():
     assert row["terminal_valid"] and not row["complete_positive_288_grid"]
 
 
+def replace_csv(raw, symbol, day, transform):
+    name = f"{symbol}-metrics-{day}.csv"
+    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+        original = archive.read(name)
+    result = io.BytesIO()
+    with zipfile.ZipFile(result, "w", zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(name, transform(original))
+    return result.getvalue(), symbol, day
+
+
+def test_line_ending_differences_are_not_byte_identical_duplicates():
+    raw, symbol, day = fixture(duplicate=287)
+    changed = replace_csv(raw, symbol, day, lambda body: body[:-2] + b"\n")
+    row = inputs.normalize(*changed)
+    assert not row["terminal_valid"] and row["conflicting_timestamp_count"] == 1
+
+
+def test_alternate_timestamp_serialization_grouped_by_actual_time():
+    raw, symbol, day = fixture(duplicate=287)
+    changed = replace_csv(
+        raw,
+        symbol,
+        day,
+        lambda body: (
+            body.rsplit(b"2022-01-01 23:55:00", 1)[0]
+            + b"2022-01-01T23:55:00"
+            + body.rsplit(b"2022-01-01 23:55:00", 1)[1]
+        ),
+    )
+    row = inputs.normalize(*changed)
+    assert not row["terminal_valid"] and row["conflicting_timestamp_count"] == 1
+
+
+@pytest.mark.parametrize("invalid", [b"-2", b"NaN", b"inf"])
+def test_negative_nonfinite_terminal_quantity_masked(invalid):
+    raw, symbol, day = fixture()
+    changed = replace_csv(
+        raw,
+        symbol,
+        day,
+        lambda body: body.replace(
+            b"2022-01-01 23:55:00,BTCUSDT,2,", b"2022-01-01 23:55:00,BTCUSDT," + invalid + b","
+        ),
+    )
+    assert not inputs.normalize(*changed)["terminal_valid"]
+
+
 def daily_sequence():
     source = inputs.normalize(*fixture())
     records = []
