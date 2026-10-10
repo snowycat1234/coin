@@ -49,6 +49,26 @@ trade-as-mark or synthetic zero was used. Native consumers must preserve this
 gap and apply the original missing-mark stop/diagnostic rules; this pack must
 not be labeled a complete native minute tape.
 
+A bounded official recovery probe on 2026-10-10 is **NO_GO**. The documented
+`GET https://fapi.binance.com/fapi/v1/markPriceKlines` request for BTCUSDT,
+`interval=1m`, `startTime=1723456800000`, `endTime=1723457159999`, `limit=6`
+spanned 10:00 through 10:05 UTC. At 02:36:15 UTC it returned HTTP 451 with an
+explicit restricted-location denial. That route stopped after its first
+request, without retries, other symbols, alternate hosts or location bypass.
+No API bars were returned, so API neighbor comparison was not run and record
+existence remains unknown. No repair or source precedence was applied.
+
+Only the ten small official CHECKSUM sidecars were reread; all were
+byte-identical to the first acquisition and matched the cached archive hashes.
+No archive ZIP was downloaded again. The four observed neighboring bars in
+the requested window match exactly between the cached daily and monthly
+archives for every asset, including all twelve numeric columns. The official
+correction log at `binance/binance-public-data` commit
+`f446ce3812bd4e5521f21faecd4ae3c6460e49fc` lists only 2022 updates and no
+applicable correction. See `receipts/mark-gap-api-NO_GO.json`, the preserved
+response and bounded audit receipt. All ten missing native marks remain
+unfilled; existing economic array and original-pack hashes are unchanged.
+
 The frozen normalizer's `numeric_csv`, price/funding validators, `canonical`,
 `aggregate_price`, `mark_funding` and `funding_windows` are imported directly.
 Their four source/dependency hashes match the original68 source manifest at
