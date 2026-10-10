@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="4.241" timestamp="2026-10-10T04:42:48.261397+00:00" hostname="76d10942597e"><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_exact_guard_constants_bytecode_signature_and_sources" time="0.009"><failure message="AssertionError: assert {&lt;function tr...x05P\x02\x07'} == {&lt;function tr...x05P\x02\x07'}&#10;  &#10;  Differing items:&#10;  {&lt;function main at 0x7fc2f767a0c0&gt;: b'\xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x00\x00\x00\x03\x00\x00...\xcb\t\x17O!\x06\xcb \x02O&amp;\x03\xcc\x10\x10O3\x18\xcd\nA\x1eO9\x03\xcf\x1b\x0bO&amp;\x03\xcf&amp;\x05O0\x07\xcf9\x05P\x02\x07'} != {&lt;function main at 0x7fc2f767a0c0&gt;: b'\xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x00\x00\x00\x03\x00\x00...\xcb\t\x17O!\x06\xcb \x02O&amp;\x03\xcc\x10\x10O3\x18\xcd\nA\x1eO9\x03\xcf\x1b\x0bO&amp;\x03\xcf&amp;\x05O0\x07\xcf9\x05P\x02\x07'}&#10;  {&lt;function train_slice at 0x7fc2f767bce0&gt;: b'\xe3\x03\x00\x00\x00\x00\x00\x0...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">def test_exact_guard_constants_bytecode_signature_and_sources():
+        hashes = sources()
+        original = {fn: marshal.dumps(fn.__code__) for fn in (stage.train_slice, controller.main)}
+        for fn, is_controller in ((stage.train_slice, False), (controller.main, True)):
+            changed = extension.patched_function(fn, controller=is_controller)
+            assert changed.__code__.co_code == fn.__code__.co_code
+            assert inspect.signature(changed) == inspect.signature(fn)
+            extension._same_except_guard(fn.__code__, changed.__code__)
+        patched_stage = extension.patched_function(stage.train_slice)
+        assert 5400.0 in patched_stage.__code__.co_consts
+        patched_controller = extension.patched_function(controller.main, controller=True)
+        queue = next(
+            c
+            for c in patched_controller.__code__.co_consts
+            if isinstance(c, types.CodeType) and c.co_name == "worker_queue"
+        )
+        assert sum(type(c) is int and c == 5400 for c in queue.co_consts) == 1
+        assert sum(type(c) is float and c == 5400 for c in queue.co_consts) == 1
+        assert 1100.0 in queue.co_consts
+        assert 12000 in queue.co_consts
+        assert 1024 in patched_stage.__code__.co_consts
+&gt;       assert original == {fn: marshal.dumps(fn.__code__) for fn in original}
+E       AssertionError: assert {&lt;function tr...x05P\x02\x07'} == {&lt;function tr...x05P\x02\x07'}
+E         
+E         Differing items:
+E         {&lt;function main at 0x7fc2f767a0c0&gt;: b'\xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x00\x00\x00\x03\x00\x00...\xcb\t\x17O!\x06\xcb \x02O&amp;\x03\xcc\x10\x10O3\x18\xcd\nA\x1eO9\x03\xcf\x1b\x0bO&amp;\x03\xcf&amp;\x05O0\x07\xcf9\x05P\x02\x07'} != {&lt;function main at 0x7fc2f767a0c0&gt;: b'\xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x00\x00\x00\x03\x00\x00...\xcb\t\x17O!\x06\xcb \x02O&amp;\x03\xcc\x10\x10O3\x18\xcd\nA\x1eO9\x03\xcf\x1b\x0bO&amp;\x03\xcf&amp;\x05O0\x07\xcf9\x05P\x02\x07'}
+E         {&lt;function train_slice at 0x7fc2f767bce0&gt;: b'\xe3\x03\x00\x00\x00\x00\x00\x0...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+../coin-state/work/temporal-two-expert-20261009/tuning-tools/test_runtime_extension.py:57: AssertionError</failure></testcase><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_unexpected_guard_source_fails_closed" time="0.001" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_existing_clock_and_slice_indices_retained" time="0.013" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_zero_update_archive_and_exact_state_resume[CUMULATIVE_RESOURCE_CAP-True]" time="1.231" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_zero_update_archive_and_exact_state_resume[RUNNING-False]" time="0.227" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_numeric_failure_and_completed_terminal_untouched" time="0.118" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_cap_status_cannot_reenable_early_stop_snapshot" time="0.212" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_real_completed_adam_moments_and_rng_survive_metadata_only_copy" time="0.569" /><testcase classname="coin-state.work.temporal-two-expert-20261009.tuning-tools.test_runtime_extension" name="test_published_authorization_and_prepared_overlay_identity" time="0.289" /></testsuite></testsuites>
