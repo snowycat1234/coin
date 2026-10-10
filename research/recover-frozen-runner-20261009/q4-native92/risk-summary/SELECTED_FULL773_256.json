@@ -1,0 +1,2471 @@
+{
+  "schema": "SAVED_NATIVE_ISOLATED_POSITION_LIFETIME_RISK_V1",
+  "status": "PASS_JOURNAL_ONLY_POSITION_LIFETIME_RISK_SUMMARY",
+  "account_label": "SELECTED_FULL773_256",
+  "source_account_hashes": {
+    "summary.json": {
+      "bytes": 14620,
+      "sha256": "517d9222295bdba3167e1e2a56148beee9ee2d3899bebb3707f8ae16f2932b1c"
+    },
+    "trades.json": {
+      "bytes": 648801,
+      "sha256": "6c3983d4f38d0ff5f5cec81a09e93153685596e7780bba93e59e046bcddb16f1"
+    },
+    "funding.json": {
+      "bytes": 1213721,
+      "sha256": "80542909c06720583ea022ade588c5a4c7c727cdb1d0bf315595009b274bf1f5"
+    },
+    "liquidations.json": {
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    "minute_nav_inventory.parquet": {
+      "bytes": 17897909,
+      "sha256": "af555137203c6954c413d0176707cd0d75a03ca6ea3190b99d93a1665d9950ba"
+    }
+  },
+  "account_binding_identity": "f6442107c9e9a4e921c74fef591a375bc3e37621b589980d6d244ac222de5c54",
+  "engine_version": "native_daily_scheduler_v1",
+  "account_version": "bybit_style_isolated_bankruptcy_takeover_v1",
+  "financial_source_SHA256": {
+    "scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "src/quant/bybit_isolated_account.py": "d82cfca41a76f12aea60ea2608a5c5d26670d7c55394cb07619b69fdffd2619a",
+    "src/quant/perpetual_account.py": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110"
+  },
+  "diagnostic_source_SHA256": "05061221be9653a6e38d0f0de8760f5847ae0484428b7447438bb7fd7f26fca5",
+  "diagnostic": {
+    "near_adverse_price_distance_fraction": 0.05,
+    "near_definition": "0<SIGNED_ADVERSE_DISTANCE<=THRESHOLD;ACTUAL_CROSSED_LIQUIDATIONS_SEPARATE",
+    "policy_or_risk_limit_change": false
+  },
+  "calendar": {
+    "first_minute_close_us": 1727740860000000,
+    "last_minute_close_us": 1735603560000000,
+    "minutes": 131046
+  },
+  "account_free_cash": {
+    "first_USDT": "10000.0",
+    "minimum_event_USDT": "8277.525658208172461356446212000000000000",
+    "minimum_minute_USDT": 8277.525658208173,
+    "never_added_to_isolated_collateral": true
+  },
+  "funding_debits_consuming_isolated_collateral": 0,
+  "assets": {
+    "BTCUSDT": {
+      "lifetimes": 4,
+      "long_lifetimes": 2,
+      "short_lifetimes": 2,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "actual_liquidations": 0,
+      "minimum_margin_headroom": {
+        "value": "12.35766939120469558395460",
+        "witness": {
+          "event_us": 1727815320000000,
+          "event_UTC": "2024-10-01T20:42:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "9907.243669976244",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00020627",
+            "entry_price": "63474.43896",
+            "isolated_collateral": "13.092872524279200000000",
+            "mark_price": "60211.219432620004",
+            "isolated_equity": "12.419768232366528225080",
+            "maintenance": "0.06209884116183264112540",
+            "margin_headroom": "12.35766939120469558395460",
+            "normalized_margin_headroom": "0.995",
+            "engine_trigger_headroom": "12.35766939120469558395460",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "BTCUSDT:0:1727740860000001"
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.7979119901644835066513866272689211349746",
+        "witness": {
+          "event_us": 1732304160000000,
+          "event_UTC": "2024-11-22T19:36:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10564.747548345866",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00040602",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "36.4546738572432",
+            "mark_price": "99600.44045390001",
+            "isolated_equity": "32.4695768813939179398",
+            "maintenance": "0.2021988541654624103010",
+            "margin_headroom": "32.2673780272284555294990",
+            "normalized_margin_headroom": "0.7979119901644835066513866272689211349746",
+            "engine_trigger_headroom": "32.26737802722845552949900000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.7939422787706303548770016191730558556964",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "BTCUSDT:1:1731888060000001"
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "12.35766939120469558395460",
+        "witness": {
+          "event_us": 1727815320000000,
+          "event_UTC": "2024-10-01T20:42:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "9907.243669976244",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00020627",
+            "entry_price": "63474.43896",
+            "isolated_collateral": "13.092872524279200000000",
+            "mark_price": "60211.219432620004",
+            "isolated_equity": "12.419768232366528225080",
+            "maintenance": "0.06209884116183264112540",
+            "margin_headroom": "12.35766939120469558395460",
+            "normalized_margin_headroom": "0.995",
+            "engine_trigger_headroom": "12.35766939120469558395460",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "BTCUSDT:0:1727740860000001"
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.7939422787706303548770016191730558556964",
+        "witness": {
+          "event_us": 1732304160000000,
+          "event_UTC": "2024-11-22T19:36:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10564.747548345866",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00040602",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "36.4546738572432",
+            "mark_price": "99600.44045390001",
+            "isolated_equity": "32.4695768813939179398",
+            "maintenance": "0.2021988541654624103010",
+            "margin_headroom": "32.2673780272284555294990",
+            "normalized_margin_headroom": "0.7979119901644835066513866272689211349746",
+            "engine_trigger_headroom": "32.26737802722845552949900000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.7939422787706303548770016191730558556964",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "BTCUSDT:1:1731888060000001"
+      }
+    },
+    "ETHUSDT": {
+      "lifetimes": 4,
+      "long_lifetimes": 3,
+      "short_lifetimes": 1,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "actual_liquidations": 0,
+      "minimum_margin_headroom": {
+        "value": "5.924032605432499999999999999999999999992",
+        "witness": {
+          "event_us": 1731419400000000,
+          "event_UTC": "2024-11-12T13:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10037.943871050851",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3212.35",
+            "isolated_equity": "5.953801613499999999999999999999999999992",
+            "maintenance": "0.0297690080675",
+            "margin_headroom": "5.924032605432499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "5.924032605432499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "ETHUSDT:0:1727740860000001"
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.5112867292901395722262259059439147850738",
+        "witness": {
+          "event_us": 1733516520000000,
+          "event_UTC": "2024-12-06T20:22:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.061765980987",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00681378",
+            "entry_price": "3098.531931304400215844292638796389863298",
+            "isolated_collateral": "21.11271490288329610271552429637806532275",
+            "mark_price": "4087.0",
+            "isolated_equity": "14.37751094576659220543104859275613064549",
+            "maintenance": "0.139239594300",
+            "margin_headroom": "14.23827135146659220543104859275613064549",
+            "normalized_margin_headroom": "0.5112867292901395722262259059439147850738",
+            "engine_trigger_headroom": "14.23827135146659220543104859275613064549",
+            "liquidation_price": "6166.232699113234260386652017505253459300",
+            "adverse_price_distance": "0.5087430142190443504738566228297659552973",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "ETHUSDT:1:1731456060000001"
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "5.924032605432499999999999999999999999993",
+        "witness": {
+          "event_us": 1731419400000000,
+          "event_UTC": "2024-11-12T13:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10037.943871050851",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3212.35",
+            "isolated_equity": "5.953801613499999999999999999999999999992",
+            "maintenance": "0.0297690080675",
+            "margin_headroom": "5.924032605432499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "5.924032605432499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "ETHUSDT:0:1727740860000001"
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.5087430142190443504738566228297659552973",
+        "witness": {
+          "event_us": 1733516520000000,
+          "event_UTC": "2024-12-06T20:22:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.061765980987",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00681378",
+            "entry_price": "3098.531931304400215844292638796389863298",
+            "isolated_collateral": "21.11271490288329610271552429637806532275",
+            "mark_price": "4087.0",
+            "isolated_equity": "14.37751094576659220543104859275613064549",
+            "maintenance": "0.139239594300",
+            "margin_headroom": "14.23827135146659220543104859275613064549",
+            "normalized_margin_headroom": "0.5112867292901395722262259059439147850738",
+            "engine_trigger_headroom": "14.23827135146659220543104859275613064549",
+            "liquidation_price": "6166.232699113234260386652017505253459300",
+            "adverse_price_distance": "0.5087430142190443504738566228297659552973",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "ETHUSDT:1:1731456060000001"
+      }
+    },
+    "SOLUSDT": {
+      "lifetimes": 2,
+      "long_lifetimes": 1,
+      "short_lifetimes": 1,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "actual_liquidations": 0,
+      "minimum_margin_headroom": {
+        "value": "1.597274404554499863696343000000000000002",
+        "witness": {
+          "event_us": 1733021880000000,
+          "event_UTC": "2024-12-01T02:58:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509831031806",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00684943",
+            "entry_price": "151.9138688917289133072277296172667482508",
+            "isolated_collateral": "1.040523411003074770673924828072395383473",
+            "mark_price": "234.36999999999998",
+            "isolated_equity": "1.605300909099999863011400000000000000002",
+            "maintenance": "0.0080265045454999993150570",
+            "margin_headroom": "1.597274404554499863696343000000000000002",
+            "normalized_margin_headroom": "0.9950000000000000000000000000000000000012",
+            "engine_trigger_headroom": "1.597274404554499863696343000000000000002",
+            "liquidation_price": "-2.936239055321799785918094254376008238699E-37",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "SOLUSDT:0:1727740860000001"
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9118258944453096262310294615449109307734",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "SOLUSDT:1:1733097660000001"
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.597274404554499863696343000000000000002",
+        "witness": {
+          "event_us": 1733021880000000,
+          "event_UTC": "2024-12-01T02:58:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509831031806",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00684943",
+            "entry_price": "151.9138688917289133072277296172667482508",
+            "isolated_collateral": "1.040523411003074770673924828072395383473",
+            "mark_price": "234.36999999999998",
+            "isolated_equity": "1.605300909099999863011400000000000000002",
+            "maintenance": "0.0080265045454999993150570",
+            "margin_headroom": "1.597274404554499863696343000000000000002",
+            "normalized_margin_headroom": "0.9950000000000000000000000000000000000012",
+            "engine_trigger_headroom": "1.597274404554499863696343000000000000002",
+            "liquidation_price": "-2.936239055321799785918094254376008238699E-37",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "SOLUSDT:0:1727740860000001"
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9072894472092633096826163796466775430583",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "SOLUSDT:1:1733097660000001"
+      }
+    },
+    "XRPUSDT": {
+      "lifetimes": 3,
+      "long_lifetimes": 2,
+      "short_lifetimes": 1,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "actual_liquidations": 0,
+      "minimum_margin_headroom": {
+        "value": "1.418075377158323560825445454850449461560",
+        "witness": {
+          "event_us": 1731802380000000,
+          "event_UTC": "2024-11-17T00:13:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.865706688475",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-6.29622822",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "4.37467972146439178041272272742522473078",
+            "mark_price": "1.1586",
+            "isolated_equity": "1.454549427236783560825445454850449461560",
+            "maintenance": "0.036474050078460",
+            "margin_headroom": "1.418075377158323560825445454850449461560",
+            "normalized_margin_headroom": "0.1943951074953118085336030075274271800691",
+            "engine_trigger_headroom": "1.418075377158323560825445454850449461562",
+            "liquidation_price": "1.382705643327431105837843228379380229680",
+            "adverse_price_distance": "0.1934279676570266751578139378382360000690",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "XRPUSDT:1:1731456060000001"
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.09631502899254902147301305314217048423327",
+        "witness": {
+          "event_us": 1731769560000000,
+          "event_UTC": "2024-11-16T15:06:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10250.27702469249",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-30.71759067",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "21.34287644933760035960553863170703750520",
+            "mark_price": "1.2617817199999999",
+            "isolated_equity": "3.92685850882665139097014426341407501040",
+            "maintenance": "0.193794471949242746641204665",
+            "margin_headroom": "3.73306403687740864432893959841407501040",
+            "normalized_margin_headroom": "0.09631502899254902147301305314217048423327",
+            "engine_trigger_headroom": "3.733064036877408644328939598414075010388",
+            "liquidation_price": "1.382705643327431105837843228379380229679",
+            "adverse_price_distance": "0.09583584974382987211245079914643829276912",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "XRPUSDT:1:1731456060000001"
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.418075377158323560825445454850449461562",
+        "witness": {
+          "event_us": 1731802380000000,
+          "event_UTC": "2024-11-17T00:13:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.865706688475",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-6.29622822",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "4.37467972146439178041272272742522473078",
+            "mark_price": "1.1586",
+            "isolated_equity": "1.454549427236783560825445454850449461560",
+            "maintenance": "0.036474050078460",
+            "margin_headroom": "1.418075377158323560825445454850449461560",
+            "normalized_margin_headroom": "0.1943951074953118085336030075274271800691",
+            "engine_trigger_headroom": "1.418075377158323560825445454850449461562",
+            "liquidation_price": "1.382705643327431105837843228379380229680",
+            "adverse_price_distance": "0.1934279676570266751578139378382360000690",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "XRPUSDT:1:1731456060000001"
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.09583584974382987211245079914643829276912",
+        "witness": {
+          "event_us": 1731769560000000,
+          "event_UTC": "2024-11-16T15:06:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10250.27702469249",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-30.71759067",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "21.34287644933760035960553863170703750520",
+            "mark_price": "1.2617817199999999",
+            "isolated_equity": "3.92685850882665139097014426341407501040",
+            "maintenance": "0.193794471949242746641204665",
+            "margin_headroom": "3.73306403687740864432893959841407501040",
+            "normalized_margin_headroom": "0.09631502899254902147301305314217048423327",
+            "engine_trigger_headroom": "3.733064036877408644328939598414075010388",
+            "liquidation_price": "1.382705643327431105837843228379380229679",
+            "adverse_price_distance": "0.09583584974382987211245079914643829276912",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "XRPUSDT:1:1731456060000001"
+      }
+    },
+    "DOGEUSDT": {
+      "lifetimes": 2,
+      "long_lifetimes": 1,
+      "short_lifetimes": 1,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "actual_liquidations": 0,
+      "minimum_margin_headroom": {
+        "value": "1.361430139901557388434799647500000000000",
+        "witness": {
+          "event_us": 1733854320000000,
+          "event_UTC": "2024-12-10T18:12:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.73752765",
+            "entry_price": "0.1245365461582636466999545235711153661632",
+            "isolated_collateral": "0.465458784702011655530911285589620422375",
+            "mark_price": "0.36608999999999997",
+            "isolated_equity": "1.368271497388499887874170500000000000000",
+            "maintenance": "0.0068413574869424994393708525",
+            "margin_headroom": "1.361430139901557388434799647500000000000",
+            "normalized_margin_headroom": "0.99500000000000",
+            "engine_trigger_headroom": "1.361430139901557388434799647500000000000",
+            "liquidation_price": "-5.380980625706620553739842520964537107944E-41",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "DOGEUSDT:0:1727740860000001"
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9553060334835085806612349171111686623326",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "DOGEUSDT:1:1734307260000001"
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.361430139901557388434799647500000000000",
+        "witness": {
+          "event_us": 1733854320000000,
+          "event_UTC": "2024-12-10T18:12:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.73752765",
+            "entry_price": "0.1245365461582636466999545235711153661632",
+            "isolated_collateral": "0.465458784702011655530911285589620422375",
+            "mark_price": "0.36608999999999997",
+            "isolated_equity": "1.368271497388499887874170500000000000000",
+            "maintenance": "0.0068413574869424994393708525",
+            "margin_headroom": "1.361430139901557388434799647500000000000",
+            "normalized_margin_headroom": "0.99500000000000",
+            "engine_trigger_headroom": "1.361430139901557388434799647500000000000",
+            "liquidation_price": "-5.380980625706620553739842520964537107944E-41",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "DOGEUSDT:0:1727740860000001"
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9505532671477697320012287732449439426196",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        },
+        "lifetime_id": "DOGEUSDT:1:1734307260000001"
+      }
+    }
+  },
+  "lifetimes": [
+    {
+      "id": "BTCUSDT:0:1727740860000001",
+      "symbol": "BTCUSDT",
+      "side": "LONG",
+      "start_us": 1727740860000001,
+      "start_UTC": "2024-10-01T00:01:00.000001+00:00",
+      "end_us": 1731888060000001,
+      "end_UTC": "2024-11-18T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 69120,
+      "event_observations": 376,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "12.35766939120469558395460",
+        "witness": {
+          "event_us": 1727815320000000,
+          "event_UTC": "2024-10-01T20:42:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "9907.243669976244",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00020627",
+            "entry_price": "63474.43896",
+            "isolated_collateral": "13.092872524279200000000",
+            "mark_price": "60211.219432620004",
+            "isolated_equity": "12.419768232366528225080",
+            "maintenance": "0.06209884116183264112540",
+            "margin_headroom": "12.35766939120469558395460",
+            "normalized_margin_headroom": "0.995",
+            "engine_trigger_headroom": "12.35766939120469558395460",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9950",
+        "witness": {
+          "event_us": 1727740860000001,
+          "event_UTC": "2024-10-01T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "9986.899926395832446440",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00020627",
+            "entry_price": "63474.43896",
+            "isolated_collateral": "13.0928725242792",
+            "mark_price": "63423.5",
+            "isolated_equity": "13.0823653450000",
+            "maintenance": "0.065411826725",
+            "margin_headroom": "13.0169535182750",
+            "normalized_margin_headroom": "0.9950",
+            "engine_trigger_headroom": "13.0169535182750",
+            "liquidation_price": "0.00",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "12.35766939120469558395460",
+        "witness": {
+          "event_us": 1727815320000000,
+          "event_UTC": "2024-10-01T20:42:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "9907.243669976244",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00020627",
+            "entry_price": "63474.43896",
+            "isolated_collateral": "13.092872524279200000000",
+            "mark_price": "60211.219432620004",
+            "isolated_equity": "12.419768232366528225080",
+            "maintenance": "0.06209884116183264112540",
+            "margin_headroom": "12.35766939120469558395460",
+            "normalized_margin_headroom": "0.995",
+            "engine_trigger_headroom": "12.35766939120469558395460",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999999",
+        "witness": {
+          "event_us": 1731715260000001,
+          "event_UTC": "2024-11-16T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10176.916594375554889598228119012496424040",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00120868",
+            "entry_price": "64487.88783342236888645438876747026194062",
+            "isolated_collateral": "77.94522026650094882567969061546595620238",
+            "mark_price": "91155.8",
+            "isolated_equity": "110.1781923440000000000000000000000000000",
+            "maintenance": "0.550890961720",
+            "margin_headroom": "109.6273013822800000000000000000000000000",
+            "normalized_margin_headroom": "0.9950000000000000000000000000",
+            "engine_trigger_headroom": "109.6273013822800000000000000000000000000",
+            "liquidation_price": "8.319639554180095272388461929026153369954E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999999",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "ETHUSDT:0:1727740860000001",
+      "symbol": "ETHUSDT",
+      "side": "LONG",
+      "start_us": 1727740860000001,
+      "start_UTC": "2024-10-01T00:01:00.000001+00:00",
+      "end_us": 1731456060000001,
+      "end_UTC": "2024-11-13T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 61920,
+      "event_observations": 340,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "5.924032605432499999999999999999999999992",
+        "witness": {
+          "event_us": 1731419400000000,
+          "event_UTC": "2024-11-12T13:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10037.943871050851",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3212.35",
+            "isolated_equity": "5.953801613499999999999999999999999999992",
+            "maintenance": "0.0297690080675",
+            "margin_headroom": "5.924032605432499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "5.924032605432499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9949999999999999999999999999999999999987",
+        "witness": {
+          "event_us": 1731369660000001,
+          "event_UTC": "2024-11-12T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "9802.246537579490282321324320999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3374.01",
+            "isolated_equity": "6.253423874099999999999999999999999999992",
+            "maintenance": "0.0312671193705",
+            "margin_headroom": "6.222156754729499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "6.222156754729499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "5.924032605432499999999999999999999999993",
+        "witness": {
+          "event_us": 1731419400000000,
+          "event_UTC": "2024-11-12T13:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10037.943871050851",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3212.35",
+            "isolated_equity": "5.953801613499999999999999999999999999992",
+            "maintenance": "0.0297690080675",
+            "margin_headroom": "5.924032605432499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "5.924032605432499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999988",
+        "witness": {
+          "event_us": 1731369660000001,
+          "event_UTC": "2024-11-12T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "9802.246537579490282321324320999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00185341",
+            "entry_price": "2505.270799452001562695523457837366518033",
+            "isolated_collateral": "4.64329395241233421631551013199035347818",
+            "mark_price": "3374.01",
+            "isolated_equity": "6.253423874099999999999999999999999999992",
+            "maintenance": "0.0312671193705",
+            "margin_headroom": "6.222156754729499999999999999999999999992",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999987",
+            "engine_trigger_headroom": "6.222156754729499999999999999999999999993",
+            "liquidation_price": "4.340445745451420917694621768254333819369E-36",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999988",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "SOLUSDT:0:1727740860000001",
+      "symbol": "SOLUSDT",
+      "side": "LONG",
+      "start_us": 1727740860000001,
+      "start_UTC": "2024-10-01T00:01:00.000001+00:00",
+      "end_us": 1733097660000001,
+      "end_UTC": "2024-12-02T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 89280,
+      "event_observations": 482,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "1.597274404554499863696343000000000000002",
+        "witness": {
+          "event_us": 1733021880000000,
+          "event_UTC": "2024-12-01T02:58:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509831031806",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00684943",
+            "entry_price": "151.9138688917289133072277296172667482508",
+            "isolated_collateral": "1.040523411003074770673924828072395383473",
+            "mark_price": "234.36999999999998",
+            "isolated_equity": "1.605300909099999863011400000000000000002",
+            "maintenance": "0.0080265045454999993150570",
+            "margin_headroom": "1.597274404554499863696343000000000000002",
+            "normalized_margin_headroom": "0.9950000000000000000000000000000000000012",
+            "engine_trigger_headroom": "1.597274404554499863696343000000000000002",
+            "liquidation_price": "-2.936239055321799785918094254376008238699E-37",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9949999999999999999999999999999999999996",
+        "witness": {
+          "event_us": 1729209660000001,
+          "event_UTC": "2024-10-18T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "8308.281717231514223545121642000000000000",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.02622802",
+            "entry_price": "145.7781854948838707824919166852170797281",
+            "isolated_collateral": "441.1580296493751364080363636963094464556",
+            "mark_price": "150.29744053",
+            "isolated_equity": "454.8343258661696505999999999999999999998",
+            "maintenance": "2.2741716293308482530",
+            "margin_headroom": "452.5601542368388023469999999999999999998",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999996",
+            "engine_trigger_headroom": "452.5601542368388023469999999999999999997",
+            "liquidation_price": "6.645752976899868605294644099141829408609E-38",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999993",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.597274404554499863696343000000000000002",
+        "witness": {
+          "event_us": 1733021880000000,
+          "event_UTC": "2024-12-01T02:58:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509831031806",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00684943",
+            "entry_price": "151.9138688917289133072277296172667482508",
+            "isolated_collateral": "1.040523411003074770673924828072395383473",
+            "mark_price": "234.36999999999998",
+            "isolated_equity": "1.605300909099999863011400000000000000002",
+            "maintenance": "0.0080265045454999993150570",
+            "margin_headroom": "1.597274404554499863696343000000000000002",
+            "normalized_margin_headroom": "0.9950000000000000000000000000000000000012",
+            "engine_trigger_headroom": "1.597274404554499863696343000000000000002",
+            "liquidation_price": "-2.936239055321799785918094254376008238699E-37",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999993",
+        "witness": {
+          "event_us": 1729209660000001,
+          "event_UTC": "2024-10-18T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "8308.281717231514223545121642000000000000",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.02622802",
+            "entry_price": "145.7781854948838707824919166852170797281",
+            "isolated_collateral": "441.1580296493751364080363636963094464556",
+            "mark_price": "150.29744053",
+            "isolated_equity": "454.8343258661696505999999999999999999998",
+            "maintenance": "2.2741716293308482530",
+            "margin_headroom": "452.5601542368388023469999999999999999998",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999996",
+            "engine_trigger_headroom": "452.5601542368388023469999999999999999997",
+            "liquidation_price": "6.645752976899868605294644099141829408609E-38",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999993",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "XRPUSDT:0:1727740860000001",
+      "symbol": "XRPUSDT",
+      "side": "LONG",
+      "start_us": 1727740860000001,
+      "start_UTC": "2024-10-01T00:01:00.000001+00:00",
+      "end_us": 1731456060000001,
+      "end_UTC": "2024-11-13T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 61920,
+      "event_observations": 338,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "5.989700209142159999999999999999999999998",
+        "witness": {
+          "event_us": 1731390540000000,
+          "event_UTC": "2024-11-12T05:49:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10038.316514341886",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "10.06318824",
+            "entry_price": "0.5344061245203957940809447401549776907435",
+            "isolated_collateral": "5.37782942765762259514082471721742727495",
+            "mark_price": "0.5982",
+            "isolated_equity": "6.019799205167999999999999999999999999998",
+            "maintenance": "0.030098996025840",
+            "margin_headroom": "5.989700209142159999999999999999999999998",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999997",
+            "engine_trigger_headroom": "5.989700209142159999999999999999999999998",
+            "liquidation_price": "1.998528040323410973743344418324292630980E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999997",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9949999999999999999999999999999999999992",
+        "witness": {
+          "event_us": 1731024060000001,
+          "event_UTC": "2024-11-08T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "9158.520251530589254153776266999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "238.48384155",
+            "entry_price": "0.5344061245203957940809447401549776907435",
+            "isolated_collateral": "127.4472255234716402988864532854256220430",
+            "mark_price": "0.5558",
+            "isolated_equity": "132.5493191334899999999999999999999999999",
+            "maintenance": "0.662746595667450",
+            "margin_headroom": "131.8865725378225499999999999999999999999",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999992",
+            "engine_trigger_headroom": "131.8865725378225499999999999999999999999",
+            "liquidation_price": "4.216546442303984914918646052972107977684E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999993",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "5.989700209142159999999999999999999999998",
+        "witness": {
+          "event_us": 1731390540000000,
+          "event_UTC": "2024-11-12T05:49:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10038.316514341886",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "10.06318824",
+            "entry_price": "0.5344061245203957940809447401549776907435",
+            "isolated_collateral": "5.37782942765762259514082471721742727495",
+            "mark_price": "0.5982",
+            "isolated_equity": "6.019799205167999999999999999999999999998",
+            "maintenance": "0.030098996025840",
+            "margin_headroom": "5.989700209142159999999999999999999999998",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999997",
+            "engine_trigger_headroom": "5.989700209142159999999999999999999999998",
+            "liquidation_price": "1.998528040323410973743344418324292630980E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999997",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999993",
+        "witness": {
+          "event_us": 1731024060000001,
+          "event_UTC": "2024-11-08T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "9158.520251530589254153776266999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "238.48384155",
+            "entry_price": "0.5344061245203957940809447401549776907435",
+            "isolated_collateral": "127.4472255234716402988864532854256220430",
+            "mark_price": "0.5558",
+            "isolated_equity": "132.5493191334899999999999999999999999999",
+            "maintenance": "0.662746595667450",
+            "margin_headroom": "131.8865725378225499999999999999999999999",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999992",
+            "engine_trigger_headroom": "131.8865725378225499999999999999999999999",
+            "liquidation_price": "4.216546442303984914918646052972107977684E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999993",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "DOGEUSDT:0:1727740860000001",
+      "symbol": "DOGEUSDT",
+      "side": "LONG",
+      "start_us": 1727740860000001,
+      "start_UTC": "2024-10-01T00:01:00.000001+00:00",
+      "end_us": 1734307260000001,
+      "end_UTC": "2024-12-16T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 109440,
+      "event_observations": 584,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "1.361430139901557388434799647500000000000",
+        "witness": {
+          "event_us": 1733854320000000,
+          "event_UTC": "2024-12-10T18:12:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.73752765",
+            "entry_price": "0.1245365461582636466999545235711153661632",
+            "isolated_collateral": "0.465458784702011655530911285589620422375",
+            "mark_price": "0.36608999999999997",
+            "isolated_equity": "1.368271497388499887874170500000000000000",
+            "maintenance": "0.0068413574869424994393708525",
+            "margin_headroom": "1.361430139901557388434799647500000000000",
+            "normalized_margin_headroom": "0.99500000000000",
+            "engine_trigger_headroom": "1.361430139901557388434799647500000000000",
+            "liquidation_price": "-5.380980625706620553739842520964537107944E-41",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9949999999999999999999999999999999999989",
+        "witness": {
+          "event_us": 1730620800000000,
+          "event_UTC": "2024-11-03T08:00:00+00:00",
+          "phase": "BEFORE_FUNDING",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "8402.321408757733908849265403999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3046.93561959",
+            "entry_price": "0.1210520726997273338997254891306605854158",
+            "isolated_collateral": "368.8378721339974281398188941552451212894",
+            "mark_price": "0.15187134",
+            "isolated_equity": "462.7421954408635505999999999999999999995",
+            "maintenance": "2.3137109772043177530",
+            "margin_headroom": "460.4284844636592328469999999999999999995",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999989",
+            "engine_trigger_headroom": "460.4284844636592328469999999999999999994",
+            "liquidation_price": "1.650146769051116003634563385910279428819E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999987",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.361430139901557388434799647500000000000",
+        "witness": {
+          "event_us": 1733854320000000,
+          "event_UTC": "2024-12-10T18:12:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3.73752765",
+            "entry_price": "0.1245365461582636466999545235711153661632",
+            "isolated_collateral": "0.465458784702011655530911285589620422375",
+            "mark_price": "0.36608999999999997",
+            "isolated_equity": "1.368271497388499887874170500000000000000",
+            "maintenance": "0.0068413574869424994393708525",
+            "margin_headroom": "1.361430139901557388434799647500000000000",
+            "normalized_margin_headroom": "0.99500000000000",
+            "engine_trigger_headroom": "1.361430139901557388434799647500000000000",
+            "liquidation_price": "-5.380980625706620553739842520964537107944E-41",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999986",
+        "witness": {
+          "event_us": 1730649600000000,
+          "event_UTC": "2024-11-03T16:00:00+00:00",
+          "phase": "BEFORE_FUNDING",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "8402.173791133253416185055403999999999999",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "3046.93561959",
+            "entry_price": "0.1210520726997273338997254891306605854158",
+            "isolated_collateral": "368.8378721339974281398188941552451212894",
+            "mark_price": "0.14589912",
+            "isolated_equity": "444.5452255948357607999999999999999999995",
+            "maintenance": "2.2227261279741788040",
+            "margin_headroom": "442.3224994668615819959999999999999999995",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999989",
+            "engine_trigger_headroom": "442.3224994668615819959999999999999999994",
+            "liquidation_price": "1.650146769051116003634563385910279428819E-40",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999986",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "ETHUSDT:1:1731456060000001",
+      "symbol": "ETHUSDT",
+      "side": "SHORT",
+      "start_us": 1731456060000001,
+      "start_UTC": "2024-11-13T00:01:00.000001+00:00",
+      "end_us": 1733702460000001,
+      "end_UTC": "2024-12-09T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 37440,
+      "event_observations": 186,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "7.285134300043431485209860573831169160405",
+        "witness": {
+          "event_us": 1731834600000000,
+          "event_UTC": "2024-11-17T09:10:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.738236314064",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00225359",
+            "entry_price": "3205.905793801335516942406465646184345957",
+            "isolated_collateral": "7.22479723785275170762623778691558458020",
+            "mark_price": "3163.3154634099997",
+            "isolated_equity": "7.320778380519362191329475573831169160405",
+            "maintenance": "0.035644080475930706119615",
+            "margin_headroom": "7.285134300043431485209860573831169160405",
+            "normalized_margin_headroom": "1.021927652890757959879734585601482097815",
+            "engine_trigger_headroom": "7.285134300043431485209860573831169160410",
+            "liquidation_price": "6379.912027465344312323196946559570837725",
+            "adverse_price_distance": "1.016843435712196975004711030449235918224",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.5112867292901395722262259059439147850738",
+        "witness": {
+          "event_us": 1733516520000000,
+          "event_UTC": "2024-12-06T20:22:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.061765980987",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00681378",
+            "entry_price": "3098.531931304400215844292638796389863298",
+            "isolated_collateral": "21.11271490288329610271552429637806532275",
+            "mark_price": "4087.0",
+            "isolated_equity": "14.37751094576659220543104859275613064549",
+            "maintenance": "0.139239594300",
+            "margin_headroom": "14.23827135146659220543104859275613064549",
+            "normalized_margin_headroom": "0.5112867292901395722262259059439147850738",
+            "engine_trigger_headroom": "14.23827135146659220543104859275613064549",
+            "liquidation_price": "6166.232699113234260386652017505253459300",
+            "adverse_price_distance": "0.5087430142190443504738566228297659552973",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "7.285134300043431485209860573831169160410",
+        "witness": {
+          "event_us": 1731834600000000,
+          "event_UTC": "2024-11-17T09:10:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.738236314064",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00225359",
+            "entry_price": "3205.905793801335516942406465646184345957",
+            "isolated_collateral": "7.22479723785275170762623778691558458020",
+            "mark_price": "3163.3154634099997",
+            "isolated_equity": "7.320778380519362191329475573831169160405",
+            "maintenance": "0.035644080475930706119615",
+            "margin_headroom": "7.285134300043431485209860573831169160405",
+            "normalized_margin_headroom": "1.021927652890757959879734585601482097815",
+            "engine_trigger_headroom": "7.285134300043431485209860573831169160410",
+            "liquidation_price": "6379.912027465344312323196946559570837725",
+            "adverse_price_distance": "1.016843435712196975004711030449235918224",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.5087430142190443504738566228297659552973",
+        "witness": {
+          "event_us": 1733516520000000,
+          "event_UTC": "2024-12-06T20:22:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.061765980987",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00681378",
+            "entry_price": "3098.531931304400215844292638796389863298",
+            "isolated_collateral": "21.11271490288329610271552429637806532275",
+            "mark_price": "4087.0",
+            "isolated_equity": "14.37751094576659220543104859275613064549",
+            "maintenance": "0.139239594300",
+            "margin_headroom": "14.23827135146659220543104859275613064549",
+            "normalized_margin_headroom": "0.5112867292901395722262259059439147850738",
+            "engine_trigger_headroom": "14.23827135146659220543104859275613064549",
+            "liquidation_price": "6166.232699113234260386652017505253459300",
+            "adverse_price_distance": "0.5087430142190443504738566228297659552973",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "XRPUSDT:1:1731456060000001",
+      "symbol": "XRPUSDT",
+      "side": "SHORT",
+      "start_us": 1731456060000001,
+      "start_UTC": "2024-11-13T00:01:00.000001+00:00",
+      "end_us": 1731888060000001,
+      "end_UTC": "2024-11-18T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 7200,
+      "event_observations": 38,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "1.418075377158323560825445454850449461560",
+        "witness": {
+          "event_us": 1731802380000000,
+          "event_UTC": "2024-11-17T00:13:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.865706688475",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-6.29622822",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "4.37467972146439178041272272742522473078",
+            "mark_price": "1.1586",
+            "isolated_equity": "1.454549427236783560825445454850449461560",
+            "maintenance": "0.036474050078460",
+            "margin_headroom": "1.418075377158323560825445454850449461560",
+            "normalized_margin_headroom": "0.1943951074953118085336030075274271800691",
+            "engine_trigger_headroom": "1.418075377158323560825445454850449461562",
+            "liquidation_price": "1.382705643327431105837843228379380229680",
+            "adverse_price_distance": "0.1934279676570266751578139378382360000690",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.09631502899254902147301305314217048423327",
+        "witness": {
+          "event_us": 1731769560000000,
+          "event_UTC": "2024-11-16T15:06:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10250.27702469249",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-30.71759067",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "21.34287644933760035960553863170703750520",
+            "mark_price": "1.2617817199999999",
+            "isolated_equity": "3.92685850882665139097014426341407501040",
+            "maintenance": "0.193794471949242746641204665",
+            "margin_headroom": "3.73306403687740864432893959841407501040",
+            "normalized_margin_headroom": "0.09631502899254902147301305314217048423327",
+            "engine_trigger_headroom": "3.733064036877408644328939598414075010388",
+            "liquidation_price": "1.382705643327431105837843228379380229679",
+            "adverse_price_distance": "0.09583584974382987211245079914643829276912",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.418075377158323560825445454850449461562",
+        "witness": {
+          "event_us": 1731802380000000,
+          "event_UTC": "2024-11-17T00:13:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10365.865706688475",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-6.29622822",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "4.37467972146439178041272272742522473078",
+            "mark_price": "1.1586",
+            "isolated_equity": "1.454549427236783560825445454850449461560",
+            "maintenance": "0.036474050078460",
+            "margin_headroom": "1.418075377158323560825445454850449461560",
+            "normalized_margin_headroom": "0.1943951074953118085336030075274271800691",
+            "engine_trigger_headroom": "1.418075377158323560825445454850449461562",
+            "liquidation_price": "1.382705643327431105837843228379380229680",
+            "adverse_price_distance": "0.1934279676570266751578139378382360000690",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.09583584974382987211245079914643829276912",
+        "witness": {
+          "event_us": 1731769560000000,
+          "event_UTC": "2024-11-16T15:06:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10250.27702469249",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-30.71759067",
+            "entry_price": "0.6948095857720341306835162222606385654140",
+            "isolated_collateral": "21.34287644933760035960553863170703750520",
+            "mark_price": "1.2617817199999999",
+            "isolated_equity": "3.92685850882665139097014426341407501040",
+            "maintenance": "0.193794471949242746641204665",
+            "margin_headroom": "3.73306403687740864432893959841407501040",
+            "normalized_margin_headroom": "0.09631502899254902147301305314217048423327",
+            "engine_trigger_headroom": "3.733064036877408644328939598414075010388",
+            "liquidation_price": "1.382705643327431105837843228379380229679",
+            "adverse_price_distance": "0.09583584974382987211245079914643829276912",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "BTCUSDT:1:1731888060000001",
+      "symbol": "BTCUSDT",
+      "side": "SHORT",
+      "start_us": 1731888060000001,
+      "start_UTC": "2024-11-18T00:01:00.000001+00:00",
+      "end_us": 1733097660000001,
+      "end_UTC": "2024-12-02T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 20160,
+      "event_observations": 94,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "29.1262157147826485325",
+        "witness": {
+          "event_us": 1733090640000000,
+          "event_UTC": "2024-12-01T22:04:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509190843113",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00035865",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "32.2015387884840",
+            "mark_price": "97870.77955319",
+            "isolated_equity": "29.3017224902164065",
+            "maintenance": "0.1755067754337579675",
+            "margin_headroom": "29.1262157147826485325",
+            "normalized_margin_headroom": "0.8297746808577153993667549966502749855811",
+            "engine_trigger_headroom": "29.12621571478264853250000000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.8256464486146421884246318374629601846580",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.7979119901644835066513866272689211349746",
+        "witness": {
+          "event_us": 1732304160000000,
+          "event_UTC": "2024-11-22T19:36:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10564.747548345866",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00040602",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "36.4546738572432",
+            "mark_price": "99600.44045390001",
+            "isolated_equity": "32.4695768813939179398",
+            "maintenance": "0.2021988541654624103010",
+            "margin_headroom": "32.2673780272284555294990",
+            "normalized_margin_headroom": "0.7979119901644835066513866272689211349746",
+            "engine_trigger_headroom": "32.26737802722845552949900000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.7939422787706303548770016191730558556964",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "29.12621571478264853250000000000000000001",
+        "witness": {
+          "event_us": 1733090640000000,
+          "event_UTC": "2024-12-01T22:04:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10845.509190843113",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00035865",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "32.2015387884840",
+            "mark_price": "97870.77955319",
+            "isolated_equity": "29.3017224902164065",
+            "maintenance": "0.1755067754337579675",
+            "margin_headroom": "29.1262157147826485325",
+            "normalized_margin_headroom": "0.8297746808577153993667549966502749855811",
+            "engine_trigger_headroom": "29.12621571478264853250000000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.8256464486146421884246318374629601846580",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.7939422787706303548770016191730558556964",
+        "witness": {
+          "event_us": 1732304160000000,
+          "event_UTC": "2024-11-22T19:36:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10564.747548345866",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00040602",
+            "entry_price": "89785.41416",
+            "isolated_collateral": "36.4546738572432",
+            "mark_price": "99600.44045390001",
+            "isolated_equity": "32.4695768813939179398",
+            "maintenance": "0.2021988541654624103010",
+            "margin_headroom": "32.2673780272284555294990",
+            "normalized_margin_headroom": "0.7979119901644835066513866272689211349746",
+            "engine_trigger_headroom": "32.26737802722845552949900000000000000001",
+            "liquidation_price": "178677.4411144278606965174129353233830846",
+            "adverse_price_distance": "0.7939422787706303548770016191730558556964",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "XRPUSDT:2:1731888060000001",
+      "symbol": "XRPUSDT",
+      "side": "LONG",
+      "start_us": 1731888060000001,
+      "start_UTC": "2024-11-18T00:01:00.000001+00:00",
+      "end_us": 1735603260000001,
+      "end_UTC": "2024-12-31T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 61920,
+      "event_observations": 304,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "1.694054361270707039999999999999999999996",
+        "witness": {
+          "event_us": 1735572480000000,
+          "event_UTC": "2024-12-30T15:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10627.503017973157",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.85079480",
+            "entry_price": "1.703410035121378730128708980185909260264",
+            "isolated_collateral": "1.44925240014908639242410893105547463190",
+            "mark_price": "2.00114904",
+            "isolated_equity": "1.702567197256991999999999999999999999996",
+            "maintenance": "0.0085128359862849600",
+            "margin_headroom": "1.694054361270707039999999999999999999996",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999977",
+            "engine_trigger_headroom": "1.694054361270707039999999999999999999996",
+            "liquidation_price": "4.727711987119055054793699333552734950987E-39",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999975",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9949999999999999999999999999999999999977",
+        "witness": {
+          "event_us": 1735516860000001,
+          "event_UTC": "2024-12-30T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10815.294953879651380426878948447418321640",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.85079480",
+            "entry_price": "1.703410035121378730128708980185909260264",
+            "isolated_collateral": "1.44925240014908639242410893105547463190",
+            "mark_price": "2.0888",
+            "isolated_equity": "1.777140178239999999999999999999999999996",
+            "maintenance": "0.008885700891200",
+            "margin_headroom": "1.768254477348799999999999999999999999996",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999977",
+            "engine_trigger_headroom": "1.768254477348799999999999999999999999996",
+            "liquidation_price": "4.727711987119055054793699333552734950987E-39",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999976",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "1.694054361270707039999999999999999999996",
+        "witness": {
+          "event_us": 1735572480000000,
+          "event_UTC": "2024-12-30T15:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10627.503017973157",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.85079480",
+            "entry_price": "1.703410035121378730128708980185909260264",
+            "isolated_collateral": "1.44925240014908639242410893105547463190",
+            "mark_price": "2.00114904",
+            "isolated_equity": "1.702567197256991999999999999999999999996",
+            "maintenance": "0.0085128359862849600",
+            "margin_headroom": "1.694054361270707039999999999999999999996",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999977",
+            "engine_trigger_headroom": "1.694054361270707039999999999999999999996",
+            "liquidation_price": "4.727711987119055054793699333552734950987E-39",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999975",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9999999999999999999999999999999999999975",
+        "witness": {
+          "event_us": 1735574400000000,
+          "event_UTC": "2024-12-30T16:00:00+00:00",
+          "phase": "BEFORE_FUNDING",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10627.499659521095539398734178447418321640",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.85079480",
+            "entry_price": "1.703410035121378730128708980185909260264",
+            "isolated_collateral": "1.44925240014908639242410893105547463190",
+            "mark_price": "2.0202",
+            "isolated_equity": "1.718775654959999999999999999999999999996",
+            "maintenance": "0.008593878274800",
+            "margin_headroom": "1.710181776685199999999999999999999999996",
+            "normalized_margin_headroom": "0.9949999999999999999999999999999999999977",
+            "engine_trigger_headroom": "1.710181776685199999999999999999999999996",
+            "liquidation_price": "4.727711987119055054793699333552734950987E-39",
+            "adverse_price_distance": "0.9999999999999999999999999999999999999975",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "SOLUSDT:1:1733097660000001",
+      "symbol": "SOLUSDT",
+      "side": "SHORT",
+      "start_us": 1733097660000001,
+      "start_UTC": "2024-12-02T00:01:00.000001+00:00",
+      "end_us": 1735603260000001,
+      "end_UTC": "2024-12-31T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 41760,
+      "event_observations": 192,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "24.6389043574095445234087820",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9118258944453096262310294615449109307734",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "24.63890435740954452340878200000000000000",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9072894472092633096826163796466775430583",
+        "witness": {
+          "event_us": 1733448660000000,
+          "event_UTC": "2024-12-06T01:31:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10885.068117773733",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.10932382",
+            "entry_price": "236.890336",
+            "isolated_collateral": "25.89775645260352",
+            "mark_price": "247.16938213999998",
+            "isolated_equity": "24.7740118626224673864764",
+            "maintenance": "0.1351075052129228630676180",
+            "margin_headroom": "24.6389043574095445234087820",
+            "normalized_margin_headroom": "0.9118258944453096262310294615449109307734",
+            "engine_trigger_headroom": "24.63890435740954452340878200000000000000",
+            "liquidation_price": "471.4235542288557213930348258706467661692",
+            "adverse_price_distance": "0.9072894472092633096826163796466775430583",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "BTCUSDT:2:1733702460000001",
+      "symbol": "BTCUSDT",
+      "side": "SHORT",
+      "start_us": 1733702460000001,
+      "start_UTC": "2024-12-09T00:01:00.000001+00:00",
+      "end_us": 1734307260000001,
+      "end_UTC": "2024-12-16T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 10080,
+      "event_observations": 46,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "28.1809973740607970766560",
+        "witness": {
+          "event_us": 1734305280000000,
+          "event_UTC": "2024-12-15T23:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.847694280372",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00029088",
+            "entry_price": "101218.86008",
+            "isolated_collateral": "29.4425420200704",
+            "mark_price": "105030.70000000001",
+            "isolated_equity": "28.3337540241407970912",
+            "maintenance": "0.1527566500800000145440",
+            "margin_headroom": "28.1809973740607970766560",
+            "normalized_margin_headroom": "0.9224147478784772521353520562580986192273",
+            "engine_trigger_headroom": "28.18099737406079707665599999999999999999",
+            "liquidation_price": "201430.5673233830845771144278606965174129",
+            "adverse_price_distance": "0.9178256197795793553585592599583070838079",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9224147478784772521353520562580986192273",
+        "witness": {
+          "event_us": 1734305280000000,
+          "event_UTC": "2024-12-15T23:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.847694280372",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00029088",
+            "entry_price": "101218.86008",
+            "isolated_collateral": "29.4425420200704",
+            "mark_price": "105030.70000000001",
+            "isolated_equity": "28.3337540241407970912",
+            "maintenance": "0.1527566500800000145440",
+            "margin_headroom": "28.1809973740607970766560",
+            "normalized_margin_headroom": "0.9224147478784772521353520562580986192273",
+            "engine_trigger_headroom": "28.18099737406079707665599999999999999999",
+            "liquidation_price": "201430.5673233830845771144278606965174129",
+            "adverse_price_distance": "0.9178256197795793553585592599583070838079",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "28.18099737406079707665599999999999999999",
+        "witness": {
+          "event_us": 1734305280000000,
+          "event_UTC": "2024-12-15T23:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.847694280372",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00029088",
+            "entry_price": "101218.86008",
+            "isolated_collateral": "29.4425420200704",
+            "mark_price": "105030.70000000001",
+            "isolated_equity": "28.3337540241407970912",
+            "maintenance": "0.1527566500800000145440",
+            "margin_headroom": "28.1809973740607970766560",
+            "normalized_margin_headroom": "0.9224147478784772521353520562580986192273",
+            "engine_trigger_headroom": "28.18099737406079707665599999999999999999",
+            "liquidation_price": "201430.5673233830845771144278606965174129",
+            "adverse_price_distance": "0.9178256197795793553585592599583070838079",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9178256197795793553585592599583070838079",
+        "witness": {
+          "event_us": 1734305280000000,
+          "event_UTC": "2024-12-15T23:28:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.847694280372",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-0.00029088",
+            "entry_price": "101218.86008",
+            "isolated_collateral": "29.4425420200704",
+            "mark_price": "105030.70000000001",
+            "isolated_equity": "28.3337540241407970912",
+            "maintenance": "0.1527566500800000145440",
+            "margin_headroom": "28.1809973740607970766560",
+            "normalized_margin_headroom": "0.9224147478784772521353520562580986192273",
+            "engine_trigger_headroom": "28.18099737406079707665599999999999999999",
+            "liquidation_price": "201430.5673233830845771144278606965174129",
+            "adverse_price_distance": "0.9178256197795793553585592599583070838079",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "ETHUSDT:2:1733702460000001",
+      "symbol": "ETHUSDT",
+      "side": "LONG",
+      "start_us": 1733702460000001,
+      "start_UTC": "2024-12-09T00:01:00.000001+00:00",
+      "end_us": 1734912060000001,
+      "end_UTC": "2024-12-23T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 20160,
+      "event_observations": 92,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "28.886735535572549908500",
+        "witness": {
+          "event_us": 1733854200000000,
+          "event_UTC": "2024-12-10T18:10:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00824613",
+            "entry_price": "4010.185584",
+            "isolated_collateral": "33.068511649789920000000",
+            "mark_price": "3520.66909091",
+            "isolated_equity": "29.031895010625678300000",
+            "maintenance": "0.1451594750531283915",
+            "margin_headroom": "28.886735535572549908500",
+            "normalized_margin_headroom": "0.99500",
+            "engine_trigger_headroom": "28.8867355355725499085",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.995",
+        "witness": {
+          "event_us": 1733702460000001,
+          "event_UTC": "2024-12-09T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10868.733045466809884308931245999999999960",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00824613",
+            "entry_price": "4010.185584",
+            "isolated_collateral": "33.06851164978992",
+            "mark_price": "4006.58412121",
+            "isolated_equity": "33.0388135194334173",
+            "maintenance": "0.1651940675971670865",
+            "margin_headroom": "32.8736194518362502135",
+            "normalized_margin_headroom": "0.995",
+            "engine_trigger_headroom": "32.8736194518362502135",
+            "liquidation_price": "0.000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "28.8867355355725499085",
+        "witness": {
+          "event_us": 1733854200000000,
+          "event_UTC": "2024-12-10T18:10:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.73467973008",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00824613",
+            "entry_price": "4010.185584",
+            "isolated_collateral": "33.068511649789920000000",
+            "mark_price": "3520.66909091",
+            "isolated_equity": "29.031895010625678300000",
+            "maintenance": "0.1451594750531283915",
+            "margin_headroom": "28.886735535572549908500",
+            "normalized_margin_headroom": "0.99500",
+            "engine_trigger_headroom": "28.8867355355725499085",
+            "liquidation_price": "0.00000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": null,
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "DOGEUSDT:1:1734307260000001",
+      "symbol": "DOGEUSDT",
+      "side": "SHORT",
+      "start_us": 1734307260000001,
+      "start_UTC": "2024-12-16T00:01:00.000001+00:00",
+      "end_us": 1735603260000001,
+      "end_UTC": "2024-12-31T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 21600,
+      "event_observations": 110,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "29.4189489587209897065",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9553060334835085806612349171111686623326",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "29.41894895872098970650000000000000000000",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": {
+        "value": "0.9505532671477697320012287732449439426196",
+        "witness": {
+          "event_us": 1734310200000000,
+          "event_UTC": "2024-12-16T00:50:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10868.613482450724",
+          "metrics": {
+            "side": "SHORT",
+            "quantity": "-74.26562649",
+            "entry_price": "0.406434592",
+            "isolated_collateral": "30.18411960208754208",
+            "mark_price": "0.41466443",
+            "isolated_equity": "29.57292552710633346",
+            "maintenance": "0.1539765683853437535",
+            "margin_headroom": "29.4189489587209897065",
+            "normalized_margin_headroom": "0.9553060334835085806612349171111686623326",
+            "engine_trigger_headroom": "29.41894895872098970650000000000000000000",
+            "liquidation_price": "0.8088250587064676616915422885572139303483",
+            "adverse_price_distance": "0.9505532671477697320012287732449439426196",
+            "positive_price_trigger": true,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "BTCUSDT:3:1734912060000001",
+      "symbol": "BTCUSDT",
+      "side": "LONG",
+      "start_us": 1734912060000001,
+      "start_UTC": "2024-12-23T00:01:00.000001+00:00",
+      "end_us": 1735603260000001,
+      "end_UTC": "2024-12-31T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 11520,
+      "event_observations": 58,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "38.4595388539873593780000000",
+        "witness": {
+          "event_us": 1735514100000000,
+          "event_UTC": "2024-12-29T23:15:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10774.253120567677",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00041556",
+            "entry_price": "95233.62600",
+            "isolated_collateral": "39.5752856205600000000000000",
+            "mark_price": "93013.77146099",
+            "isolated_equity": "38.6528028683290044000000000",
+            "maintenance": "0.1932640143416450220",
+            "margin_headroom": "38.4595388539873593780000000",
+            "normalized_margin_headroom": "0.995000000",
+            "engine_trigger_headroom": "38.45953885398735937800",
+            "liquidation_price": "0E-9",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9950",
+        "witness": {
+          "event_us": 1734912060000001,
+          "event_UTC": "2024-12-23T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10755.005334931594813813563279962813459780",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00049130",
+            "entry_price": "95233.62600",
+            "isolated_collateral": "46.7882804538000",
+            "mark_price": "95157.5",
+            "isolated_equity": "46.7508797500000",
+            "maintenance": "0.233754398750",
+            "margin_headroom": "46.5171253512500",
+            "normalized_margin_headroom": "0.9950",
+            "engine_trigger_headroom": "46.5171253512500",
+            "liquidation_price": "0.00",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "38.45953885398735937800",
+        "witness": {
+          "event_us": 1735514100000000,
+          "event_UTC": "2024-12-29T23:15:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10774.253120567677",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.00041556",
+            "entry_price": "95233.62600",
+            "isolated_collateral": "39.5752856205600000000000000",
+            "mark_price": "93013.77146099",
+            "isolated_equity": "38.6528028683290044000000000",
+            "maintenance": "0.1932640143416450220",
+            "margin_headroom": "38.4595388539873593780000000",
+            "normalized_margin_headroom": "0.995000000",
+            "engine_trigger_headroom": "38.45953885398735937800",
+            "liquidation_price": "0E-9",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": null,
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    },
+    {
+      "id": "ETHUSDT:3:1735516860000001",
+      "symbol": "ETHUSDT",
+      "side": "LONG",
+      "start_us": 1735516860000001,
+      "start_UTC": "2024-12-30T00:01:00.000001+00:00",
+      "end_us": 1735603260000001,
+      "end_UTC": "2024-12-31T00:01:00.000001+00:00",
+      "closing_cause": "NORMAL_PAID_CLOSE",
+      "minute_observations": 1440,
+      "event_observations": 8,
+      "near_minute_observations": 0,
+      "near_event_observations": 0,
+      "crossed_minute_observations": 0,
+      "crossed_event_observations": 0,
+      "actual_liquidations": 0,
+      "partial_liquidation_instructions": 0,
+      "minimum_margin_headroom": {
+        "value": "74.24995106734081250",
+        "witness": {
+          "event_us": 1735572840000000,
+          "event_UTC": "2024-12-30T15:34:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10627.503017973157",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.02257277",
+            "entry_price": "3356.332920",
+            "isolated_collateral": "75.76173104658840000",
+            "mark_price": "3305.88875",
+            "isolated_equity": "74.62306639933750000",
+            "maintenance": "0.3731153319966875",
+            "margin_headroom": "74.24995106734081250",
+            "normalized_margin_headroom": "0.9950",
+            "engine_trigger_headroom": "74.2499510673408125",
+            "liquidation_price": "0.000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_normalized_margin_headroom": {
+        "value": "0.9950",
+        "witness": {
+          "event_us": 1735516860000001,
+          "event_UTC": "2024-12-30T00:01:00.000001+00:00",
+          "phase": "AFTER_RECORDED_FILL",
+          "precision": "DECIMAL_RECEIPT_DELTAS;ORIGINAL_STATE_RECONCILIATION_TOLERANCE_1E-24",
+          "account_free_cash": "10702.658032502644676806878948447418321640",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.02257277",
+            "entry_price": "3356.332920",
+            "isolated_collateral": "75.76173104658840",
+            "mark_price": "3353.65",
+            "isolated_equity": "75.70117011050000",
+            "maintenance": "0.3785058505525",
+            "margin_headroom": "75.32266425994750",
+            "normalized_margin_headroom": "0.9950",
+            "engine_trigger_headroom": "75.32266425994750",
+            "liquidation_price": "0.000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_engine_trigger_headroom": {
+        "value": "74.2499510673408125",
+        "witness": {
+          "event_us": 1735572840000000,
+          "event_UTC": "2024-12-30T15:34:00+00:00",
+          "phase": "SAVED_MINUTE_CLOSE",
+          "precision": "FLOAT64_MARK_FROM_SAVED_SIGNED_NOTIONAL_DIV_QUANTITY;DECIMAL_RECEIPT_STATE_AND_SOURCE_PRICE_HELPER",
+          "account_free_cash": "10627.503017973157",
+          "metrics": {
+            "side": "LONG",
+            "quantity": "0.02257277",
+            "entry_price": "3356.332920",
+            "isolated_collateral": "75.76173104658840000",
+            "mark_price": "3305.88875",
+            "isolated_equity": "74.62306639933750000",
+            "maintenance": "0.3731153319966875",
+            "margin_headroom": "74.24995106734081250",
+            "normalized_margin_headroom": "0.9950",
+            "engine_trigger_headroom": "74.2499510673408125",
+            "liquidation_price": "0.000",
+            "adverse_price_distance": null,
+            "positive_price_trigger": false,
+            "threshold_crossed": false
+          }
+        }
+      },
+      "minimum_adverse_price_distance": null,
+      "near_minute_intervals": [],
+      "actual_liquidation_witnesses": []
+    }
+  ],
+  "actual_liquidations": 0,
+  "original_liquidation_loss_USDT": 0.0,
+  "original_liquidation_loss_decimal_USDT": "0",
+  "original_net_PnL_USDT": 987.7465752571462,
+  "original_net_PnL_decimal_USDT": "987.74657525714617189536502499999999996",
+  "flat_asset_minute_rows": 30270,
+  "reconciliation": {
+    "maximum_free_cash_error_USDT": 0.0,
+    "per_asset_maximum_errors": {
+      "BTCUSDT": {
+        "quantity": 0.0,
+        "collateral_USDT": 0.0,
+        "equity_USDT": 1.1368683772161603e-13
+      },
+      "ETHUSDT": {
+        "quantity": 0.0,
+        "collateral_USDT": 0.0,
+        "equity_USDT": 5.684341886080802e-14
+      },
+      "SOLUSDT": {
+        "quantity": 0.0,
+        "collateral_USDT": 0.0,
+        "equity_USDT": 1.1368683772161603e-13
+      },
+      "XRPUSDT": {
+        "quantity": 0.0,
+        "collateral_USDT": 0.0,
+        "equity_USDT": 5.684341886080802e-14
+      },
+      "DOGEUSDT": {
+        "quantity": 0.0,
+        "collateral_USDT": 0.0,
+        "equity_USDT": 1.1368683772161603e-13
+      }
+    },
+    "final_original_flat_cash_NAV_PnL": true,
+    "decimal_state_tolerance_USDT": "1E-24",
+    "all_input_hashes_unchanged": true
+  },
+  "scope": "ALL_SAVED_HELD_MINUTE_CLOSES_PLUS_RECORDED_PRE_POST_FILL_FUNDING_AND_PRE_TAKEOVER;NOT_UNOBSERVED_INTRAMINUTE_OR_NATIVE_EXCHANGE_CERTIFICATION",
+  "precision": "FLOAT64_MINUTE_SCAN;DECIMAL_RECEIPT_STATE_SOURCE_PRICE_HELPER_FOR_ALL_PRICES_AND_WITNESSES;ORIGINAL_JOURNALS_UNCHANGED",
+  "positive_price_trigger_note": "FLAT_IS_NA;LONG_LP<=0_HAS_NO_POSITIVE_PRICE_TRIGGER;TINY_POSITIVE_LONG_LP_CAN_REFLECT_ORIGINAL_DECIMAL_ROUNDOFF;NEGATIVE_DISTANCE_MEANS_ENGINE_THRESHOLD_CROSSED",
+  "quantity_note": "SCALING_QUANTITY_AND_COLLATERAL_TOGETHER_DOES_NOT_CHANGE_FIXED_LEVERAGE_LIQUIDATION_PRICE",
+  "historical_risk_tiers_certified": false,
+  "new_wallets": 0,
+  "account_or_simulator_instances": 0,
+  "downloads": 0,
+  "model_fits": 0,
+  "completed_account_files_modified": false
+}
