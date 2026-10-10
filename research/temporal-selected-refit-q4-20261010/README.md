@@ -20,3 +20,5 @@ python -m modules.temporal_q4_reserved.verify --output Q4_RESULT
 ```
 
 Scoring uses an exclusive result directory and refuses a repeat. Fixed controls keep their prescribed requests; the learned raw requests are preserved. Native requests bind exact clocks, action masks, model, optimizer snapshot, scaler, protocol and source bytes. The old61-day native adapter is reference-only:92-day calendar adaptation/real native execution remains NOT_RUN. Daily boundary full-fill, continuous quantities and source venue/cost/funding assumptions remain diagnostic limitations. Financial path failures are retained and comparisons become UNKNOWN rather than fabricating a terminal result.
+
+Test harness receipt: the combined pytest process retained a9-pass/1-fixture-error receipt because two module fixtures attempted different immutable prototype paths. The path guard remains strict. `ISOLATED_TESTS.py` verifies the same10 focused tests in three separate processes; all pass (2/6/2), with zero reserve inference/wallets. Use that runner for the aggregate suite.
