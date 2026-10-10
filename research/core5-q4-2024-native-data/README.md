@@ -91,9 +91,15 @@ python research/core5-q4-2024-native-data/validate.py \
 Omit `--cache-root` to recover all 45 existing originals from their public
 references. The source-root dependency hashes must match the supplied manifest.
 `verify_restoration.py` compares the 56 derived artifacts and their coverage
-between two restored roots without acquiring data. Immutable readback and
-restoration results are recorded in `receipts/REMOTE_RECOVERY.json` and
-`receipts/RESTORATION_CHECK.json` when completed.
+between two restored roots without acquiring data. Immutable readback passed at commit
+`c2b88a1bf77b59bc21a6591718ca12867020222a`: both new parts and all 55
+original SHA256/inner CRC checks passed. Forty-four referenced originals were
+reused from a verified cache and one small original was fetched by exact public
+ranges; all 45 had already been selectively recovered and verified from the
+public source during production. All 56 canonical artifacts regenerated from
+these recovered originals have byte-identical sizes and SHA256s, including
+native minute Parquets and the unpadded economic array. Coverage evidence also
+agrees. See `receipts/REMOTE_RECOVERY.json` and `receipts/RESTORATION_CHECK.json`.
 
 `CONSUMER_INDEX.json` binds the direct economic array, tables, original source
 commit, recipe and normalization hashes. `protocol/CACHED_PRIMITIVE_BINDINGS.json`
