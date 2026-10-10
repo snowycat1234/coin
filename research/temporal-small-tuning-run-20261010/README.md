@@ -17,3 +17,10 @@ Every completed update is fsynced; slices resume exact model/Adam/RNG.
 Only approved scheduled validation snapshots select checkpoints and recipes.
 Original checkpoint loaders and their fixedAdam contract remain unchanged.
 Runtime/checkpoints/resources live in STATE; terminal evidence will be added here.
+
+The two actual baseline workers and completed snapshots are confirmed in
+[TRAINING_START.json](TRAINING_START.json); all42prefit/11start public files
+passed byte readback. Dependencies reuse the installed pinned
+[CPU recipe](../temporal-july-frozen-transfer-20261010/requirements-transfer.txt).
+Public snapshots use MODEL_ADAM_RNG.pt; restore that body under the generation
+filename recorded by INITIAL.json/POINTER.json before invoking the strict loader.
