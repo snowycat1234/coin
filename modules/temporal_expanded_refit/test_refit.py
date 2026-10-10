@@ -1,6 +1,7 @@
 import copy
 import json
 
+import numpy as np
 import pytest
 import torch
 
@@ -23,7 +24,7 @@ from .stage import optimizer_ages
 
 def worker_fixture(tmp_path, monkeypatch, status="RUNNING", slices=0):
     _, scaler = samples()
-    data = dict(synthetic=True, counts=dict(synthetic=True))
+    data = dict(synthetic=True, counts=dict(synthetic=True), real_receipt_scalar=np.float64(1e-12))
     monkeypatch.setattr(stage, "inputs", lambda *args: ([], None, data, scaler))
     output = tmp_path / "fit"
     stage.prepare(None, None, output)

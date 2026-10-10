@@ -85,6 +85,8 @@ def prepare(state, economics, output):
         )
         p = save(folder, model, optimizer, binding, step=0, elapsed=0.0, history=history)
         _atomic_json(folder / "INITIAL.json", p)
+        # Verify the real source/data receipt is restricted-loader safe before public freeze.
+        load(folder, model, optimizer, binding)
         np.savez_compressed(
             folder / "SCALER.npz", mean=scaler.mean, scale=scaler.scale, count=scaler.count
         )

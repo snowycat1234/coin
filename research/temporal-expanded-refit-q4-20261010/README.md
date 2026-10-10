@@ -14,3 +14,5 @@ PYTHONPATH=.:src taskset -c3 python research/temporal-april-transfer-20261009/BO
 ```
 
 Worker requires an actual verified public prefit readback bound to READY.json. Each invocation consumes one durable slice before any gradient; max3,1100s per slice,1200s hard guard. Checkpoint every completed update includes model, Adam and all RNG. Failure stops without a new recipe. Tests use synthetic fixtures and no economic fitting.
+
+The first published initialization failed restricted Torch loading before STARTED, gradients, or updates: a real receipt np.float64 was serialized in the checkpoint binding. The correction canonicalizes the same numeric binding to plain JSON types and verifies restricted load during preparation. Both initializations and resource receipts are retained; prefit-safe is the executable freeze. Same model, scaler, recipe and sole authorized economic fit.

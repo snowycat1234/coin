@@ -64,7 +64,10 @@ def binding_for(model, data, settings):
         optimizer=dict(OPTIMIZER, lr=settings["lr"]),
         checkpoint_selection="fixed256_terminal_only;reserve_never_read",
     )
-    return dict(run_id=digest(spec), specification=spec)
+    # Real receipts can contain np.float64 (JSON accepts it, restricted Torch does not).
+    # Store the exact same numeric binding using only plain JSON scalar/container types.
+    result = dict(run_id=digest(spec), specification=spec)
+    return json.loads(json.dumps(result, allow_nan=False))
 
 
 def verify(model, optimizer, binding, *, completed=False):
