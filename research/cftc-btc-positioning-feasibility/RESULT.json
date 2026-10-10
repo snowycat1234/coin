@@ -1,0 +1,156 @@
+{
+  "schema": "CFTC_BTC_LEGACY_POSITIONING_FEASIBILITY_PARTIAL_V1",
+  "status": "NO_GO_OFFICIAL_ARCHIVE_ACCESS_DENIED_AND_HISTORICAL_RELEASE_CLOCK_UNVERIFIED",
+  "created_UTC": "2026-10-10T00:37:56.307482+00:00",
+  "requested_contract_code": "133741",
+  "report_family": "Legacy Futures Only",
+  "interval_UTC_start_inclusive": "2021-01-01",
+  "interval_UTC_end_exclusive": "2024-07-01",
+  "official_download_budget_bytes": 31457280,
+  "direct_official_body_bytes": 17,
+  "direct_attempts": 1,
+  "original_market_archives_downloaded": 0,
+  "no_access_bypass": true,
+  "primary_source_metadata_checks": {
+    "general_friday_1530_eastern_uses_previous_tuesday": true,
+    "holidays_can_change_release_schedule": true,
+    "historical_release_list_unavailable_beyond_13_months": true,
+    "current_schedule_tentative_2026_only": true,
+    "legacy_all_OI_long_short_field_order": true,
+    "contract_units_field_documented": true,
+    "weekly_change_long_short_fields_documented": true,
+    "legacy_futures_only_years_listed": true
+  },
+  "verified_schema_field_descriptions": [
+    {
+      "one_based_field_number": 1,
+      "official_description": "Market and Exchange Names",
+      "interpretation_or_required_check": "Must verify all observed names match the same CME Bitcoin product"
+    },
+    {
+      "one_based_field_number": 3,
+      "official_description": "As of Date in Form YYYY-MM-DD",
+      "interpretation_or_required_check": "Position observation date; never the publication timestamp"
+    },
+    {
+      "one_based_field_number": 4,
+      "official_description": "CFTC Contract Market Code",
+      "interpretation_or_required_check": "Requested exact text 133741; actual historical rows not acquired"
+    },
+    {
+      "one_based_field_number": 8,
+      "official_description": "Open Interest (All)",
+      "interpretation_or_required_check": "Count of all outstanding contracts, conditional on per-row Contract Units confirmation"
+    },
+    {
+      "one_based_field_number": 9,
+      "official_description": "Noncommercial Positions-Long (All)",
+      "interpretation_or_required_check": "Long noncommercial contract positions; exclude spreading and trader-count columns"
+    },
+    {
+      "one_based_field_number": 10,
+      "official_description": "Noncommercial Positions-Short (All)",
+      "interpretation_or_required_check": "Short noncommercial contract positions; exclude spreading and trader-count columns"
+    },
+    {
+      "one_based_field_number": 39,
+      "official_description": "Change in Noncommercial-Long (All)",
+      "interpretation_or_required_check": "Independent cross-check against prior observed consecutive report"
+    },
+    {
+      "one_based_field_number": 40,
+      "official_description": "Change in Noncommercial-Short (All)",
+      "interpretation_or_required_check": "Independent cross-check against prior observed consecutive report"
+    },
+    {
+      "one_based_field_number": 126,
+      "official_description": "Contract Units",
+      "interpretation_or_required_check": "Actual Bitcoin units/continuity NOT_VERIFIED without original reports"
+    }
+  ],
+  "feature_proposal": "((noncommercial_short_t - noncommercial_long_t) - (noncommercial_short_previous_week - noncommercial_long_previous_week)) / total_open_interest_t",
+  "feature_formula_status": "Explicit reading of supplied proposal; NOT_COMPUTED; current OI denominator. No claimed paper reproduction.",
+  "feature_scope": "CME product trader-category positioning, not retail identity and not crypto-wide positioning",
+  "release_rule": "First daily 00:00 UTC decision strictly after verified publication timestamp plus 48 hours; neither Tuesday observation dates nor a synthetic Friday calendar qualify.",
+  "release_dependencies": "Both current and prior-week values must have source-supported availability. Require consecutive observed report weeks and verified contract/units continuity. Exclude unknown releases rather than forward-fill.",
+  "actual_contract_continuity": "UNKNOWN_NOT_ASSESSED_NO_ORIGINAL_ARCHIVES",
+  "actual_CME_Bitcoin_units": "UNKNOWN_NOT_VERIFIED",
+  "actual_CSV_headers": "UNKNOWN_NOT_VERIFIED_SCHEMA_DOCUMENTATION_ONLY",
+  "observed_historical_report_rows": 0,
+  "missing_reports": "UNKNOWN_NOT_ASSESSED_NOT_ZERO",
+  "historical_publication_mapping": "NOT_ESTABLISHED_2021_THROUGH_JUNE2024",
+  "historical_exceptions_and_delays": "NOT_ESTABLISHED_NO_STANDARD_CALENDAR_IMPUTATION",
+  "daily_decisions_in_requested_domain": 1277,
+  "eligible_daily_decisions": 0,
+  "exclusion_file": {
+    "path": "DAILY_EXCLUSIONS.csv",
+    "SHA256": "3d491841904a4a91ce73dc2a3df40d3a90e05f3cb6fc914b14a0e1897822c6eb"
+  },
+  "crisis_coverage": [
+    {
+      "name": "Terra 2022",
+      "status": "NO_GO_PUBLICATION_AND_RAW_REPORT_EVIDENCE_UNVERIFIED"
+    },
+    {
+      "name": "FTX 2022",
+      "status": "NO_GO_PUBLICATION_AND_RAW_REPORT_EVIDENCE_UNVERIFIED"
+    }
+  ],
+  "four_historical_folds_status": "NO_GO_FOR_ALL_FOLDS_IN_REQUESTED_DOMAIN; not independently relabeled usable",
+  "original_archive_checksums": "UNAVAILABLE_NO_ORIGINAL_ARCHIVE_BYTES",
+  "snapshot_sources": [
+    {
+      "path": "web-snapshots/cftc-cot-faq.web.txt",
+      "original_URL": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
+      "bytes": 29515,
+      "SHA256": "cf1eb6170768c97da0686b94ee2941173bd06100d0d20c9cf3d5679d49a926fa",
+      "representation": "WEB_TOOL_RENDERED_TEXT_CACHE_SNAPSHOT_NOT_ORIGINAL_HTML",
+      "checksum_binds": "Preserved rendered snapshot bytes, NOT original CFTC HTML/archive"
+    },
+    {
+      "path": "web-snapshots/cftc-historical-compressed.web.txt",
+      "original_URL": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+      "bytes": 17952,
+      "SHA256": "9c820f5ef625386e37b87796ee1d4f352d0cfbd1c6fe43501ad7da6d6fbd6789",
+      "representation": "WEB_TOOL_RENDERED_TEXT_CACHE_SNAPSHOT_NOT_ORIGINAL_HTML",
+      "checksum_binds": "Preserved rendered snapshot bytes, NOT original CFTC HTML/archive"
+    },
+    {
+      "path": "web-snapshots/cftc-legacy-variables.web.txt",
+      "original_URL": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalViewable/cotvariableslegacy.html",
+      "bytes": 9775,
+      "SHA256": "9da3ef0c1cda13648901fce8c0b8d92f5c43982aca4a20dea14addf0815b7cd6",
+      "representation": "WEB_TOOL_RENDERED_TEXT_CACHE_SNAPSHOT_NOT_ORIGINAL_HTML",
+      "checksum_binds": "Preserved rendered snapshot bytes, NOT original CFTC HTML/archive"
+    },
+    {
+      "path": "web-snapshots/cftc-release-schedule.web.txt",
+      "original_URL": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm",
+      "bytes": 5601,
+      "SHA256": "f8dbaf84f0719fce0655cb1720e8dc37ad7f313ff770dfef6d9c462f6812a477",
+      "representation": "WEB_TOOL_RENDERED_TEXT_CACHE_SNAPSHOT_NOT_ORIGINAL_HTML",
+      "checksum_binds": "Preserved rendered snapshot bytes, NOT original CFTC HTML/archive"
+    }
+  ],
+  "exact_denial": {
+    "URL": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+    "HTTP_status": 403,
+    "body": "error code: 1010",
+    "body_bytes": 17,
+    "body_SHA256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c"
+  },
+  "paper": {
+    "DOI": "10.1016/j.jbef.2023.100812",
+    "status": "NOT_RETRIEVED_NOT_REPRODUCED_ALIGNMENT_AND_PERFORMANCE_NOT_ADOPTED"
+  },
+  "model_fits": 0,
+  "parameter_tuning": 0,
+  "backtests": 0,
+  "trading": 0,
+  "reopen_requirements": [
+    "Lawfully reachable official original archive bytes (or existing source-bound cache) for 2021\u2013June2024",
+    "Exact CME product/code/units continuity and report-gap audit",
+    "Source-supported historical release timestamps and exceptions; date-only evidence requires an explicit conservative timestamp upper bound",
+    "Apply strict release+48h daily eligibility and test chronology before any fit"
+  ]
+}
