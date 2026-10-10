@@ -1,0 +1,251 @@
+{
+  "actual_fit_tasks": [
+    {
+      "candidate": "BASE_DATE_LR1E3",
+      "change": "baseline; fresh initialization with1024-update cap",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.08206686930091185,
+        0.1337386018237082,
+        0.09422492401215805,
+        0.2188449848024316,
+        0.47112462006079026
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.001,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__BASE_DATE_LR1E3",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "LOW_LR3E4",
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.08206686930091185,
+        0.1337386018237082,
+        0.09422492401215805,
+        0.2188449848024316,
+        0.47112462006079026
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.0003,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__LOW_LR3E4",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "MIXED_WALLET_HALF",
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        310
+      ],
+      "eligible_dates": 653,
+      "episode_coefficients": [
+        0.14103343465045592,
+        0.1668693009118541,
+        0.14711246200607903,
+        0.2094224924012158,
+        0.33556231003039516
+      ],
+      "fold": "FOLD_20240101",
+      "lr": 0.001,
+      "objective_decision_rows": 658,
+      "task_id": "FOLD_20240101__MIXED_WALLET_HALF",
+      "wallet_equal_mix": 0.5
+    },
+    {
+      "candidate": "BASE_DATE_LR1E3",
+      "change": "baseline; fresh initialization with1024-update cap",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.07209612817089453,
+        0.11748998664886515,
+        0.08277703604806408,
+        0.19225634178905207,
+        0.5353805073431241
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.001,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__BASE_DATE_LR1E3",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "LOW_LR3E4",
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.07209612817089453,
+        0.11748998664886515,
+        0.08277703604806408,
+        0.19225634178905207,
+        0.5353805073431241
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.0003,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__LOW_LR3E4",
+      "wallet_equal_mix": 0.0
+    },
+    {
+      "candidate": "MIXED_WALLET_HALF",
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "complete_wallet_lengths": [
+        54,
+        88,
+        62,
+        144,
+        401
+      ],
+      "eligible_dates": 744,
+      "episode_coefficients": [
+        0.13604806408544728,
+        0.1587449933244326,
+        0.14138851802403204,
+        0.19612817089452605,
+        0.36769025367156205
+      ],
+      "fold": "FOLD_20240401",
+      "lr": 0.001,
+      "objective_decision_rows": 749,
+      "task_id": "FOLD_20240401__MIXED_WALLET_HALF",
+      "wallet_equal_mix": 0.5
+    }
+  ],
+  "candidate_settings": {
+    "BASE_DATE_LR1E3": {
+      "change": "baseline; fresh initialization with1024-update cap",
+      "lr": 0.001,
+      "wallet_equal_mix": 0.0
+    },
+    "LOW_LR3E4": {
+      "change": "only learning rate; test slower movement/less saturated or abrupt requests",
+      "lr": 0.0003,
+      "wallet_equal_mix": 0.0
+    },
+    "MIXED_WALLET_HALF": {
+      "change": "only episode weighting;0.5*n/N+0.5/K; retain every eligible date",
+      "lr": 0.001,
+      "wallet_equal_mix": 0.5
+    }
+  },
+  "common": {
+    "architecture": "unchanged_GRU64_CORE5_24values24masks_GRU32_joint160to32_plus18expertinputs_E6fouractiveactions",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "checkpoint_every_completed_update": true,
+    "checkpoint_retention": "atomic latest resume plus initial/best-development/matched512/terminal snapshots; retain every scheduled metric, not1024 separate frozen files",
+    "controls": {
+      "primary": "frozen prefix-static VOL both selectedfolds",
+      "supplementary": [
+        "Static50",
+        "Cash50"
+      ]
+    },
+    "determinism": "same withinfold initial model/Python/NumPy/Torch RNG and emptyAdam; train dropout.1 with exact chunk RNG replay; eval dropout off and inference deterministic; snapshot binds model/scaler/source/run recipe/Adam/RNG",
+    "dropout": 0.1,
+    "economics": "continuous original natural wallets, separate10k; no batch reset/splicing; same costs/funding/risk/caps/L1.1/paidclose; no observed wallet features",
+    "episode_coefficient_definition": "n_i is original decision count including paid-close row; N=sum(n_i); K=5; objective loss already mean-normalized by each complete wallet's decision count",
+    "epoch_definition": "one completed optimizer update uses a full gradient pass through all five complete chronological wallets;1024 epochs reuse the same actual653/744dates, not new independent observations",
+    "epsilon": 1e-08,
+    "foreach": false,
+    "full_dataset_gradient_pass_per_update": true,
+    "gradient_norm_clip": 1.0,
+    "initialization": "fresh model/empty Adam/allRNG; same initial trainable bytes withinfold; no warm checkpoint",
+    "max_completed_full_path_updates": 1024,
+    "neural_window_batch_size": 32,
+    "normalization": "unique prefix feature rows valid-only; cutoff strict; no development or reserve observations",
+    "objective": "same charged-boundary economic own-path v2; only declared episode coefficients vary",
+    "optimizer": "Adam",
+    "parameters": 13699,
+    "restore_strategy": "original strict contracts remain unchanged; new study bindings must explicitly declare candidate recipe before fit",
+    "seed": 20261009,
+    "weight_decay": 0.0
+  },
+  "compute": {
+    "GPU": 0,
+    "cumulative_fit_wall_stop_seconds": 3600,
+    "estimate_scope": "history-based~3.6-4.2CPUhours/~1.8-2.1hours at2workers plusvalidation; earlystop may reduce; no synthetic benchmark fit",
+    "estimated_cpu_seconds_for6x1024": [
+      13032.637300307993,
+      15176.906528267922
+    ],
+    "exact_resume": "atomic model/Adam/RNG;1200second slices count completed updates once; no restart of failed updates",
+    "maximum_concurrent_fits": 2,
+    "maximum_six_fit_wall_hours_at2workers": 3.0,
+    "measured_seconds_per_full_update": [
+      2.121197477263671,
+      2.4701996302519404
+    ],
+    "per_fit_threads": 1,
+    "resident_per_fit_bytes": 2000000000,
+    "shared_bytes": 8000000000,
+    "swap": 0
+  },
+  "final_refit": "NOT_RUN; return selected recipe and frozen step count",
+  "identity": "12eac7c7dc429ffc0c4ab7f7a506aeff5dc2877d83248ea3d61baad48ebac760",
+  "initial_fits": 6,
+  "prior_warm_mixed_result": "date-502.47/mixed-521.17USDT; old warm negative result retained, no promise of improvement",
+  "reserve": "NO_RESERVED_OUTCOME_READ_OR_SELECTION",
+  "resource_slice_training_seconds": 1100,
+  "reviewed_plan_SHA256": "3413d12255e2adcd7a8c5df28849c50db8ef9476685af59dd29b19dce50e03e1",
+  "reviewed_plan_commit": "8487347381b5d96f783cb17f6936415f457d0498",
+  "schema": "APPROVED_SIX_FRESH_TEMPORAL_TUNING_V1",
+  "seed": 20261009,
+  "selection": {
+    "budget_note": "same max1024 and rule; report actual updates and best checkpoint; preserve matched512 diagnostic when reached",
+    "candidate_rank": "highest arithmetic mean best-checkpoint utility_excess across the two fixed development folds; tie within1e-5 uses best worst-fold utility, then baseline/LOW_LR/MIXED fixed order",
+    "checkpoint_tie": "earlier completed update",
+    "checkpoints": [
+      256,
+      384,
+      512,
+      640,
+      768,
+      896,
+      1024
+    ],
+    "criterion": "validation own-path utility minus frozenVOL; deterministic eval; no gradient into validation",
+    "improvement_threshold": 1e-05,
+    "min_updates_before_stop": 512,
+    "patience": 3,
+    "promotion": "none; no ROI-dependent relaxation; numeric failure stops thatfit without recipe retry",
+    "record_all_results": true,
+    "stop_rule": "After>=512, stop after3 consecutive scheduled checks without utility_excess improvement>1e-5; save best development checkpoint; never resume to rescue result"
+  }
+}
