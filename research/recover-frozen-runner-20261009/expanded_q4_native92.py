@@ -109,11 +109,11 @@ def finish(state):
 
 
 def execute(state,commit):
+    contract=source_check(state);fractions,budgets,gate=check(state);planpath=PUBLIC/'EXECUTION_PLAN.json';plan=read(planpath)
+    need(len(commit)==40 and subprocess.check_output(['git','show',commit+':'+planpath.relative_to(REPO).as_posix()],cwd=REPO)==planpath.read_bytes() and plan['authorization']==AUTHORIZATION and plan['new_wallets']==1 and plan['mapping_preflight']==gate and plan['adapter_contract_sha256']==sha(PUBLIC/'ADAPTER_CONTRACT.json'),'Published exact one-account plan required')
     from scripts.investment import perpetual_directional as old
     from scripts.investment.resumable_perpetual import NativeDailySimulator
     from quant.bybit_isolated_account import BybitIsolatedAccount
-    contract=source_check(state);fractions,budgets,gate=check(state);planpath=PUBLIC/'EXECUTION_PLAN.json';plan=read(planpath)
-    need(len(commit)==40 and subprocess.check_output(['git','show',commit+':'+planpath.relative_to(REPO).as_posix()],cwd=REPO)==planpath.read_bytes() and plan['authorization']==AUTHORIZATION and plan['new_wallets']==1 and plan['mapping_preflight']==gate and plan['adapter_contract_sha256']==sha(PUBLIC/'ADAPTER_CONTRACT.json'),'Published exact one-account plan required')
     root=account(state);book=ledger(state,gate);binding=dict(arm=ARM,producer_commit=PRODUCER,plan_commit=commit,plan_sha256=sha(planpath),adapter_contract_sha256=sha(PUBLIC/'ADAPTER_CONTRACT.json'),request_sha256=gate['request_sha256'],engine_sha256=q4.ENGINE_SHA,execution_calendar=q4.EXECUTION_CAL)
     if root.exists():
         need(read(root/'BINDING.json')==binding and read(book)['binding']==binding and read(book)['status'] in ('RUNNING','INTERRUPTED_RESUMABLE'),'Only exact uncompleted reserved account may resume')
@@ -228,7 +228,7 @@ os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resour
 def offline(*a,**k):raise RuntimeError('Public recovered financial audit forbids network')
 socket.create_connection=offline;socket.socket.connect=offline
 state=Path(STATE);root=Path(ACCOUNT)
-ex.source_check(state);audit=ex.audit92.verify(root,state)
+ex.source_check(state);ex.q4.base.frozen.modules(state);audit=ex.audit92.verify(root,state)
 sim,pointer=ex.q4.restore(root/'recovery',ex.read(root/'BINDING.json'),ex.q4.window(state));summary=ex.read(root/'account/summary.json')
 assert pointer['completed_decisions']==92 and sim.rows_written==131046 and all(p.quantity==0 for p in sim.account.positions.values()) and abs(float(sim.account.nav())-summary['NAV'])<1e-8
 assert sim.account.trades==ex.read(root/'account/trades.json') and sim.funding_journal==ex.read(root/'account/funding.json')

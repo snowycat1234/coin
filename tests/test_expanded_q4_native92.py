@@ -1,5 +1,5 @@
 """Saved-request rejection fixtures; no account or simulator construction."""
-import json,sys
+import builtins,json,sys
 from pathlib import Path
 import numpy as np
 import pytest
@@ -36,3 +36,14 @@ def test_new_binding_authorizes_one_and_preserves_original_contract():
     assert plan['comparator_commit']==ex.COMPARATORS and set(ex.read(ex.PUBLIC/'COMPARATORS.json'))==set(ex.q4.ARMS)
     assert plan['mapping_preflight']['request_sha256']!=ex.sha(ex.q4.PUBLIC/'producer/REQUESTS.npz')
     assert plan['mapping_preflight']['wallets_run']==0
+
+
+def test_source_initialization_precedes_financial_imports(tmp_path,monkeypatch):
+    original_import=builtins.__import__
+    def guarded_import(name,*args,**kwargs):
+        if name in ('scripts.investment','scripts.investment.resumable_perpetual','quant.bybit_isolated_account'):
+            raise AssertionError('Financial import preceded checked saved-cloud initialization')
+        return original_import(name,*args,**kwargs)
+    def unverified(state):raise ValueError('unverified source must stop before imports')
+    monkeypatch.setattr(ex,'source_check',unverified);monkeypatch.setattr(builtins,'__import__',guarded_import)
+    with pytest.raises(ValueError,match='unverified source'):ex.execute(tmp_path,'0'*40)
