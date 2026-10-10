@@ -54,3 +54,13 @@ Focused checks cover actual causal coverage/prefix invariance, warmup/counts,
 fresh initialization/full RNG, empty-Adam serialization, changed-prefix rejection,
 and the exact512 export barrier. Tests use separate STATE temporary directories;
 they perform no historical optimization or native replay.
+
+The current environment needed a resource-only launch adjustment after update488:
+the2GB virtual-address cap blocked native library maps/input reloading although
+resident memory remained below650MB. The published
+`research/temporal-april-transfer-20261009/BOUNDED_RESIDENT_RUNTIME.py` keeps
+resident memory≤2GB/shared≤8GB/CPU1/swap0/GPU0 and permits4GB virtual addresses.
+`ONE_THREAD_RUNTIME.py` preloads serial Arrow CPU/IO readers, with allocator
+arena1. It invokes this unchanged frozen module and restores the same atomic
+model/Adam/RNG checkpoint. Use that guarded runtime for prepare/fit/export in this
+environment; all failed resource receipts and exact488→512 continuity are retained.
