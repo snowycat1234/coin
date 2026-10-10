@@ -1,0 +1,743 @@
+{
+  "status": "ONE_BOUNDED_CONTROL_COMPLETE_NO_TRADING_QUALIFICATION",
+  "selected_epoch": 20,
+  "plan_SHA256": "2d700b057290368dea2cea9672c5988fc97e3d9c303f0a1f6afabf3bb067071e",
+  "selection_SHA256": "e882be7979cd7ba5a9f16fd0fe7c4e72b5a8ea7747aef7d9f444443eb3e3fcfa",
+  "validation_scores_SHA256": "7d9cb90141f83b9add2c0006fd894171d233095b4e0c40c9006e2b851f9ae0b4",
+  "audit_scores_SHA256": "f1357c99861853046944f34473a9bf6de60314f96d019387d3ea36ad1c7a736d",
+  "train_class_counts": [
+    16,
+    312,
+    234,
+    182
+  ],
+  "train_prior": [
+    0.021505376344086023,
+    0.41935483870967744,
+    0.31451612903225806,
+    0.2446236559139785
+  ],
+  "scaler": {
+    "identity": "e68ed7582a538e67c1f5cdc6775a2100ae4fdecddb5fc91816c0b7d340d64d73",
+    "provenance": {
+      "completed_us_SHA256": "e3feb5c33313424b53f962eeda351ae73c8c9252f8255217159a82858bbc8df7",
+      "real_row_count": 850,
+      "rule": "unique_training_window_rows_valid_only_shared_assets_ddof0_no_clip",
+      "training_cutoff_us": 1672531200000000,
+      "training_window_identities": [
+        "7aa7ea6685c108a8b95eee154ea933d69400153bdd39f9407bf51409aa17e4bf",
+        "952f94047f98e76df5bbe91d2e94c04455e94b6a1a873f599f5f25d651b44815",
+        "78ffd810b0ae00ce5f3d4de9cc31559396336880b237be064c037df1eb8b66f9"
+      ]
+    }
+  },
+  "epochs": {
+    "20": {
+      "TRAIN": {
+        "overlap_model": {
+          "rows": 744,
+          "logloss": 1.026811144623885,
+          "Brier": 0.6053697640618071,
+          "accuracy": 0.4932795698924731,
+          "SHORT_precision": 0.5323741007194245,
+          "SHORT_recall": 0.4065934065934066,
+          "SHORT_prevalence": 0.2446236559139785,
+          "SHORT_true_positive": 74,
+          "true_counts": [
+            16,
+            312,
+            234,
+            182
+          ],
+          "predicted_counts": [
+            4,
+            599,
+            2,
+            139
+          ],
+          "opportunity_regret": 0.014418605098267312
+        },
+        "overlap_train_prior": {
+          "rows": 744,
+          "logloss": 1.155249674357186,
+          "Brier": 0.6649179095849231,
+          "accuracy": 0.41935483870967744,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.2446236559139785,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            16,
+            312,
+            234,
+            182
+          ],
+          "predicted_counts": [
+            0,
+            744,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.020555910241734313
+        },
+        "phase0_model": {
+          "rows": 36,
+          "logloss": 1.0651258771749317,
+          "Brier": 0.6199388051256078,
+          "accuracy": 0.4444444444444444,
+          "SHORT_precision": 0.5714285714285714,
+          "SHORT_recall": 0.5,
+          "SHORT_prevalence": 0.2222222222222222,
+          "SHORT_true_positive": 4,
+          "true_counts": [
+            1,
+            12,
+            15,
+            8
+          ],
+          "predicted_counts": [
+            0,
+            29,
+            0,
+            7
+          ],
+          "opportunity_regret": 0.012902203196860439
+        },
+        "phase0_prior": {
+          "rows": 36,
+          "logloss": 1.1911938903071628,
+          "Brier": 0.6834990557675261,
+          "accuracy": 0.3333333333333333,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.2222222222222222,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            1,
+            12,
+            15,
+            8
+          ],
+          "predicted_counts": [
+            0,
+            36,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.01947815138240875
+        },
+        "phase0_paired_uncertainty": {
+          "differences": {
+            "Brier_model_minus_prior": {
+              "bootstrap95": [
+                -0.0973839510789299,
+                -0.029725557149464493
+              ],
+              "mean": -0.0635602506419183
+            },
+            "accuracy_model_minus_prior": {
+              "bootstrap95": [
+                0.027777777777777776,
+                0.2222222222222222
+              ],
+              "mean": 0.1111111111111111
+            },
+            "logloss_model_minus_prior": {
+              "bootstrap95": [
+                -0.18468303190096574,
+                -0.06956844223137384
+              ],
+              "mean": -0.12606801313223087
+            },
+            "opportunity_regret_model_minus_prior": {
+              "bootstrap95": [
+                -0.014047494973111493,
+                -0.0007822936031134636
+              ],
+              "mean": -0.0065759481855483075
+            }
+          },
+          "draws": 1000,
+          "method": "paired IID bootstrap on phase0 disjoint21 horizons; residual serial dependence",
+          "rows": 36
+        }
+      },
+      "SELECT2023": {
+        "overlap_model": {
+          "rows": 344,
+          "logloss": 1.324051970409789,
+          "Brier": 0.6711596987649844,
+          "accuracy": 0.5755813953488372,
+          "SHORT_precision": 0.4861878453038674,
+          "SHORT_recall": 0.8543689320388349,
+          "SHORT_prevalence": 0.29941860465116277,
+          "SHORT_true_positive": 88,
+          "true_counts": [
+            27,
+            162,
+            52,
+            103
+          ],
+          "predicted_counts": [
+            0,
+            163,
+            0,
+            181
+          ],
+          "opportunity_regret": 0.01764924117442197
+        },
+        "overlap_train_prior": {
+          "rows": 344,
+          "logloss": 1.307053247934485,
+          "Brier": 0.6951564840134765,
+          "accuracy": 0.47093023255813954,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.29941860465116277,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            27,
+            162,
+            52,
+            103
+          ],
+          "predicted_counts": [
+            0,
+            344,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.015272380910566074
+        },
+        "phase0_model": {
+          "rows": 17,
+          "logloss": 1.5117023541306442,
+          "Brier": 0.6969610670131035,
+          "accuracy": 0.5882352941176471,
+          "SHORT_precision": 0.5555555555555556,
+          "SHORT_recall": 1.0,
+          "SHORT_prevalence": 0.29411764705882354,
+          "SHORT_true_positive": 5,
+          "true_counts": [
+            2,
+            8,
+            2,
+            5
+          ],
+          "predicted_counts": [
+            0,
+            8,
+            0,
+            9
+          ],
+          "opportunity_regret": 0.012974078654425222
+        },
+        "phase0_prior": {
+          "rows": 17,
+          "logloss": 1.4108717046533976,
+          "Brier": 0.7174350315915474,
+          "accuracy": 0.47058823529411764,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.29411764705882354,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            2,
+            8,
+            2,
+            5
+          ],
+          "predicted_counts": [
+            0,
+            17,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.01566082491719113
+        },
+        "phase0_paired_uncertainty": {
+          "differences": {
+            "Brier_model_minus_prior": {
+              "bootstrap95": [
+                -0.10449201673479507,
+                0.0624988363467555
+              ],
+              "mean": -0.020473964578444054
+            },
+            "accuracy_model_minus_prior": {
+              "bootstrap95": [
+                -0.23529411764705882,
+                0.4117647058823529
+              ],
+              "mean": 0.11764705882352941
+            },
+            "logloss_model_minus_prior": {
+              "bootstrap95": [
+                -0.12016254760613448,
+                0.3515206853980253
+              ],
+              "mean": 0.10083064947724679
+            },
+            "opportunity_regret_model_minus_prior": {
+              "bootstrap95": [
+                -0.02005319386031815,
+                0.01385168313129788
+              ],
+              "mean": -0.0026867462627659065
+            }
+          },
+          "draws": 1000,
+          "method": "paired IID bootstrap on phase0 disjoint21 horizons; residual serial dependence",
+          "rows": 17
+        }
+      }
+    },
+    "100": {
+      "TRAIN": {
+        "overlap_model": {
+          "rows": 744,
+          "logloss": 0.28673297958089244,
+          "Brier": 0.1493299005490415,
+          "accuracy": 0.896505376344086,
+          "SHORT_precision": 0.8777777777777778,
+          "SHORT_recall": 0.8681318681318682,
+          "SHORT_prevalence": 0.2446236559139785,
+          "SHORT_true_positive": 158,
+          "true_counts": [
+            16,
+            312,
+            234,
+            182
+          ],
+          "predicted_counts": [
+            13,
+            308,
+            243,
+            180
+          ],
+          "opportunity_regret": 0.0009452415263158579
+        },
+        "overlap_train_prior": {
+          "rows": 744,
+          "logloss": 1.155249674357186,
+          "Brier": 0.6649179095849231,
+          "accuracy": 0.41935483870967744,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.2446236559139785,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            16,
+            312,
+            234,
+            182
+          ],
+          "predicted_counts": [
+            0,
+            744,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.020555910241734313
+        },
+        "phase0_model": {
+          "rows": 36,
+          "logloss": 0.35952026820160493,
+          "Brier": 0.2123432395469219,
+          "accuracy": 0.8055555555555556,
+          "SHORT_precision": 0.7777777777777778,
+          "SHORT_recall": 0.875,
+          "SHORT_prevalence": 0.2222222222222222,
+          "SHORT_true_positive": 7,
+          "true_counts": [
+            1,
+            12,
+            15,
+            8
+          ],
+          "predicted_counts": [
+            0,
+            15,
+            12,
+            9
+          ],
+          "opportunity_regret": 0.0027400400821383773
+        },
+        "phase0_prior": {
+          "rows": 36,
+          "logloss": 1.1911938903071628,
+          "Brier": 0.6834990557675261,
+          "accuracy": 0.3333333333333333,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.2222222222222222,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            1,
+            12,
+            15,
+            8
+          ],
+          "predicted_counts": [
+            0,
+            36,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.01947815138240875
+        },
+        "phase0_paired_uncertainty": {
+          "differences": {
+            "Brier_model_minus_prior": {
+              "bootstrap95": [
+                -0.5722767999894746,
+                -0.3556687183927575
+              ],
+              "mean": -0.47115581622060415
+            },
+            "accuracy_model_minus_prior": {
+              "bootstrap95": [
+                0.3048611111111112,
+                0.6666666666666666
+              ],
+              "mean": 0.4722222222222222
+            },
+            "logloss_model_minus_prior": {
+              "bootstrap95": [
+                -1.024291797959692,
+                -0.6461135704050684
+              ],
+              "mean": -0.8316736221055577
+            },
+            "opportunity_regret_model_minus_prior": {
+              "bootstrap95": [
+                -0.025063902000515254,
+                -0.009712984968562356
+              ],
+              "mean": -0.01673811130027037
+            }
+          },
+          "draws": 1000,
+          "method": "paired IID bootstrap on phase0 disjoint21 horizons; residual serial dependence",
+          "rows": 36
+        }
+      },
+      "SELECT2023": {
+        "overlap_model": {
+          "rows": 344,
+          "logloss": 2.5461982717088705,
+          "Brier": 1.0643230207774543,
+          "accuracy": 0.3488372093023256,
+          "SHORT_precision": 0.34558823529411764,
+          "SHORT_recall": 0.912621359223301,
+          "SHORT_prevalence": 0.29941860465116277,
+          "SHORT_true_positive": 94,
+          "true_counts": [
+            27,
+            162,
+            52,
+            103
+          ],
+          "predicted_counts": [
+            3,
+            14,
+            55,
+            272
+          ],
+          "opportunity_regret": 0.03168428561622719
+        },
+        "overlap_train_prior": {
+          "rows": 344,
+          "logloss": 1.307053247934485,
+          "Brier": 0.6951564840134765,
+          "accuracy": 0.47093023255813954,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.29941860465116277,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            27,
+            162,
+            52,
+            103
+          ],
+          "predicted_counts": [
+            0,
+            344,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.015272380910566074
+        },
+        "phase0_model": {
+          "rows": 17,
+          "logloss": 2.866901220834918,
+          "Brier": 1.094678456674563,
+          "accuracy": 0.35294117647058826,
+          "SHORT_precision": 0.3333333333333333,
+          "SHORT_recall": 1.0,
+          "SHORT_prevalence": 0.29411764705882354,
+          "SHORT_true_positive": 5,
+          "true_counts": [
+            2,
+            8,
+            2,
+            5
+          ],
+          "predicted_counts": [
+            0,
+            0,
+            2,
+            15
+          ],
+          "opportunity_regret": 0.037853655194247084
+        },
+        "phase0_prior": {
+          "rows": 17,
+          "logloss": 1.4108717046533976,
+          "Brier": 0.7174350315915474,
+          "accuracy": 0.47058823529411764,
+          "SHORT_precision": null,
+          "SHORT_recall": 0.0,
+          "SHORT_prevalence": 0.29411764705882354,
+          "SHORT_true_positive": 0,
+          "true_counts": [
+            2,
+            8,
+            2,
+            5
+          ],
+          "predicted_counts": [
+            0,
+            17,
+            0,
+            0
+          ],
+          "opportunity_regret": 0.01566082491719113
+        },
+        "phase0_paired_uncertainty": {
+          "differences": {
+            "Brier_model_minus_prior": {
+              "bootstrap95": [
+                -0.044281750791469565,
+                0.7873228700236559
+              ],
+              "mean": 0.3772434250830157
+            },
+            "accuracy_model_minus_prior": {
+              "bootstrap95": [
+                -0.5294117647058824,
+                0.29411764705882354
+              ],
+              "mean": -0.11764705882352941
+            },
+            "logloss_model_minus_prior": {
+              "bootstrap95": [
+                0.4449333007636218,
+                2.472111010736503
+              ],
+              "mean": 1.4560295161815209
+            },
+            "opportunity_regret_model_minus_prior": {
+              "bootstrap95": [
+                -0.008480937953203,
+                0.05558815131508102
+              ],
+              "mean": 0.022192830277055958
+            }
+          },
+          "draws": 1000,
+          "method": "paired IID bootstrap on phase0 disjoint21 horizons; residual serial dependence",
+          "rows": 17
+        }
+      }
+    }
+  },
+  "audit2024": {
+    "overlap_model": {
+      "rows": 100,
+      "logloss": 1.5457864640661978,
+      "Brier": 0.7184355607387218,
+      "accuracy": 0.55,
+      "SHORT_precision": 0.53125,
+      "SHORT_recall": 0.6296296296296297,
+      "SHORT_prevalence": 0.27,
+      "SHORT_true_positive": 17,
+      "true_counts": [
+        12,
+        52,
+        9,
+        27
+      ],
+      "predicted_counts": [
+        0,
+        68,
+        0,
+        32
+      ],
+      "opportunity_regret": 0.01099227907845567
+    },
+    "overlap_train_prior": {
+      "rows": 100,
+      "logloss": 1.3969080246104588,
+      "Brier": 0.7050820904150769,
+      "accuracy": 0.52,
+      "SHORT_precision": null,
+      "SHORT_recall": 0.0,
+      "SHORT_prevalence": 0.27,
+      "SHORT_true_positive": 0,
+      "true_counts": [
+        12,
+        52,
+        9,
+        27
+      ],
+      "predicted_counts": [
+        0,
+        100,
+        0,
+        0
+      ],
+      "opportunity_regret": 0.008593982317876496
+    },
+    "phase0_model": {
+      "rows": 5,
+      "logloss": 1.9288605697319519,
+      "Brier": 0.7834756834305351,
+      "accuracy": 0.6,
+      "SHORT_precision": 0.5,
+      "SHORT_recall": 1.0,
+      "SHORT_prevalence": 0.2,
+      "SHORT_true_positive": 1,
+      "true_counts": [
+        1,
+        3,
+        0,
+        1
+      ],
+      "predicted_counts": [
+        0,
+        3,
+        0,
+        2
+      ],
+      "opportunity_regret": 0.006532506994089004
+    },
+    "phase0_prior": {
+      "rows": 5,
+      "logloss": 1.5709200402840868,
+      "Brier": 0.7254046710602381,
+      "accuracy": 0.6,
+      "SHORT_precision": null,
+      "SHORT_recall": 0.0,
+      "SHORT_prevalence": 0.2,
+      "SHORT_true_positive": 0,
+      "true_counts": [
+        1,
+        3,
+        0,
+        1
+      ],
+      "predicted_counts": [
+        0,
+        5,
+        0,
+        0
+      ],
+      "opportunity_regret": 0.007460239513867317
+    },
+    "phase0_SHORT_precision_Wilson95": [
+      0.09453120573423074,
+      0.9054687942657693
+    ],
+    "phase0_SHORT_recall_Wilson95": [
+      0.20654931437723745,
+      1.0
+    ],
+    "phase0_paired_uncertainty": {
+      "differences": {
+        "Brier_model_minus_prior": {
+          "bootstrap95": [
+            -0.08325846266561251,
+            0.17132029125767945
+          ],
+          "mean": 0.0580710123702969
+        },
+        "accuracy_model_minus_prior": {
+          "bootstrap95": [
+            -0.6,
+            0.6
+          ],
+          "mean": 0.0
+        },
+        "logloss_model_minus_prior": {
+          "bootstrap95": [
+            -0.11945205452876828,
+            0.9460034347430664
+          ],
+          "mean": 0.3579405294478647
+        },
+        "opportunity_regret_model_minus_prior": {
+          "bootstrap95": [
+            -0.016702275679694532,
+            0.013919078120359599
+          ],
+          "mean": -0.0009277325197783119
+        }
+      },
+      "draws": 1000,
+      "method": "paired IID bootstrap on phase0 disjoint21 horizons; residual serial dependence",
+      "rows": 5
+    },
+    "all_phase_ranges_do_not_select": {
+      "logloss_model_minus_prior": [
+        -0.12425060392309661,
+        0.4889394513340988
+      ],
+      "SHORT_precision_minus_prevalence": [
+        -0.2,
+        0.75
+      ]
+    },
+    "raw_q_diagnostic_only": {
+      "rows": 100,
+      "logloss": 1.4469561891314442,
+      "Brier": 0.7735533946407027,
+      "accuracy": 0.28,
+      "SHORT_precision": 0.3108108108108108,
+      "SHORT_recall": 0.8518518518518519,
+      "SHORT_prevalence": 0.27,
+      "SHORT_true_positive": 23,
+      "true_counts": [
+        12,
+        52,
+        9,
+        27
+      ],
+      "predicted_counts": [
+        8,
+        4,
+        14,
+        74
+      ],
+      "opportunity_regret": 0.03189330787512788
+    }
+  },
+  "no2025_IO": true,
+  "verification": {
+    "focused_tests": 4,
+    "ruff": "PASS",
+    "fits": 1,
+    "epochs": 100,
+    "updates": 1200,
+    "audit_models": 1,
+    "audit_selected_epoch": 20,
+    "checkpoint_recovery": "synthetic dropout/Adam/RNG bit exact; full exact checkpoint validators passed at240/1200",
+    "io_guards": "all four stages show zero2025 paths",
+    "not_run": [
+      "repository-wide tests",
+      "financial wallet replay",
+      "unselected100epoch2024audit"
+    ]
+  }
+}
