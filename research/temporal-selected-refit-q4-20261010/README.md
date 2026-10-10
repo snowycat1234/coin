@@ -22,3 +22,14 @@ python -m modules.temporal_q4_reserved.verify --output Q4_RESULT
 Scoring uses an exclusive result directory and refuses a repeat. Fixed controls keep their prescribed requests; the learned raw requests are preserved. Native requests bind exact clocks, action masks, model, optimizer snapshot, scaler, protocol and source bytes. The old61-day native adapter is reference-only:92-day calendar adaptation/real native execution remains NOT_RUN. Daily boundary full-fill, continuous quantities and source venue/cost/funding assumptions remain diagnostic limitations. Financial path failures are retained and comparisons become UNKNOWN rather than fabricating a terminal result.
 
 Test harness receipt: the combined pytest process retained a9-pass/1-fixture-error receipt because two module fixtures attempted different immutable prototype paths. The path guard remains strict. `ISOLATED_TESTS.py` verifies the same10 focused tests in three separate processes; all pass (2/6/2), with zero reserve inference/wallets. Use that runner for the aggregate suite.
+
+The reserved once-only Q4 daily result is complete, with no financial/path failure. Classification: **PROJECT_SEEN_BUT_UNTOUCHED_BY_THIS_TUNING_STUDY**. All four10000USDT wallets paid terminal flattening at Dec31 00:01:00.000001UTC.
+
+| Frozen policy | Net PnL (USDT) | Daily maximum drawdown |
+|---|---:|---:|
+| Selected full773/fresh256 | +984.82 | 1.660% |
+| Frozen VOL | +1266.22 | 3.200% |
+| Static50 | +1446.98 | 1.812% |
+| Cash50 | +732.28 | 0.908% |
+
+Primary model–VOL gap: **−281.39866790USDT**, utility **−0.02223799150**, daily drawdown difference−1.539724 percentage points. This single daily-surrogate comparison trails the frozen primary control; no promotion or selector-impossibility conclusion. No further fitting, tuning, checkpoint selection or downloads after this result. Read-only verification covers368 saved daily rows, all costs/signed funding/paid close/NAV/utility/caps, exact request/model/scaler/source identities; maximum NAV residual1.8189894e−12USDT. No second inference or economic rollout. Fit sampled RSS423.33MB/shared5.804GB, swap0/GPU0. Full result in `q4-results/RESULT.json`; all actual native model and control requests plus frozen checkpoint, scaler, current18 inputs and source closure in `q4-results/native-handoff/MANIFEST.json`. Native92 calendar adapter/replay remains NOT_RUN; use supplied152606ad sources, without duplicating provider acquisition.
