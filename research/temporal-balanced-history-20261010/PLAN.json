@@ -1,0 +1,119 @@
+{
+  "status": "READY_NOT_TRAINED",
+  "arms": [
+    "NATURAL",
+    "BALANCED"
+  ],
+  "active_intervals": 1290,
+  "decisions": 1293,
+  "training_periods": [
+    [
+      "2020-10-15",
+      "2020-12-31"
+    ],
+    [
+      "2021-01-01",
+      "2021-12-31"
+    ],
+    [
+      "2022-01-02",
+      "2024-04-30"
+    ]
+  ],
+  "training_cutoff_us": 1714521600000000,
+  "steps_each": 256,
+  "lr": 0.0003,
+  "parameters": 13699,
+  "initialization": "same neutral SHORT prior1/3, fresh same seed; no parent weights",
+  "scaler_identity": "fea988be218271d7552784942428751ff0ca38c6f533a17c8def5bf5fc4b4682",
+  "scaler_provenance": {
+    "rule": "unique_training_window_rows_valid_only_shared_assets_ddof0_no_clip",
+    "training_cutoff_us": 1714521600000000,
+    "real_row_count": 1357,
+    "completed_us_SHA256": "5b5f012688719cce8e83386005725a5966ffc25bd334e4ac81e237ddc5ac61ad",
+    "training_window_identities": [
+      "577e54e7d0492d3d00319135409d66b737e0412df0d10015949f6a1d9b27c23f",
+      "64bb76f9616e87e6a8621059beedc8dd535a8c6912700820726c6e3c1e5cd302",
+      "7c8a8fa767faef0b6aeb8f79b783b8ef6ec161b12e2d34491d9efe448098fc80"
+    ]
+  },
+  "initial_model_identity": "3a2c78b030aec8239fc437b7fa44ef9aaa84ab59059d0bfeba6837a7ca750c05",
+  "episode_identities": [
+    "f476d7cbe0b33a5e76f07e02fa04524101317edef0b68480164db65ac629a263",
+    "4c4e3fba55a2c85e888e07c1914f39b98dbbb68804abf97d6c81ddf2df734947",
+    "1effa0b70e4ee99b5d49edad39da2c449664bb78ed5fc21ac766c52a99b89298"
+  ],
+  "source_binding": {
+    "Y2020": "eca1bb73cd78fec8605886415d7265ee4cc07dc9303288040b8574cda3158a0c",
+    "Y2021": "31edd7f1ed906c3dab37662e2de0f30f6680e8922642c41cf97f292b99fecb18",
+    "Y2022_TO_APR2024": "01e05e5975c5317318b86d4bcbe75e0fc1d365a35d906dcefa7aee8f9c738875"
+  },
+  "weight_rule": "clipped inverse-sqrt count of causal price regime x21day hindsight best fixed-policy utility; mean1,range[.5,2]; final20active days and paid terminal have weight1; no shuffled/reset wallets",
+  "labels_not_model_inputs": true,
+  "winner_names": [
+    "CASH",
+    "VOL",
+    "CS",
+    "SHORT"
+  ],
+  "joint_counts": {
+    "DOWN/CS": 74,
+    "SIDE/CS": 35,
+    "SIDE/VOL": 140,
+    "DOWN/VOL": 114,
+    "UP/VOL": 183,
+    "UP/CS": 109,
+    "UP/CASH": 28,
+    "UP_PULLBACK/VOL": 55,
+    "UP/SHORT": 100,
+    "UP_PULLBACK/SHORT": 53,
+    "UP_PULLBACK/CS": 47,
+    "DOWN_REBOUND/CS": 45,
+    "DOWN_REBOUND/SHORT": 44,
+    "DOWN/SHORT": 55,
+    "SIDE/SHORT": 66,
+    "DOWN_REBOUND/VOL": 49,
+    "DOWN_REBOUND/CASH": 3,
+    "SIDE/CASH": 9,
+    "DOWN/CASH": 7,
+    "UP_PULLBACK/CASH": 14
+  },
+  "weight_ranges": [
+    [
+      0.6434699820833386,
+      1.645033782383758
+    ],
+    [
+      0.6434699820833386,
+      2.0
+    ],
+    [
+      0.6434699820833386,
+      2.0
+    ]
+  ],
+  "weight_SHA256": "f69877d2428ec042b14ed57a15061d4e92027f707b3b2b4692bccc4981f29fee",
+  "uniform_gradient_golden": true,
+  "finite_difference_checks": [
+    {
+      "row": 10,
+      "finite_difference": 6.132464897218651e-06,
+      "analytic": 6.132463743442796e-06
+    },
+    {
+      "row": 30,
+      "finite_difference": 1.399765560080625e-05,
+      "analytic": 1.3997659489507663e-05
+    },
+    {
+      "row": 60,
+      "finite_difference": 1.2412610110763833e-05,
+      "analytic": 1.2412608457689698e-05
+    }
+  ],
+  "teacher_wallets": 9,
+  "validation": "2025 fixed continuous annual wallet, now seen-development forward validation; no gradient/scaler/model selection from2025; report both arms regardless of outcome",
+  "selection": "fixed256 only; no early-best or grid",
+  "resources": "singleCPU,2GBprocess,4GBaddress,8GBhostused,1200secperfit,checkpoint eachstep; noGPU/swap",
+  "original_financial_kernels_unchanged": true
+}
