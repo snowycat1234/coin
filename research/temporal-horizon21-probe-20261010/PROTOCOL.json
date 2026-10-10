@@ -1,0 +1,77 @@
+{
+  "downloads": 0,
+  "fits_completed": 0,
+  "focused_tests": 6,
+  "forward_scores_observed": 0,
+  "protocol": {
+    "baseline": "same_prefix_training_mean;mean_latest20_fully_matured21day_targets_at_calendar_starts_t-40..t-21",
+    "baseline_continuity": "each_target_wholly_inside_one_original_wallet_or_current_forward_block;never_splice_gaps",
+    "baselines": [
+      "same_prefix_training_mean",
+      "causal_latest20_fully_matured21day_target_mean"
+    ],
+    "calibration": "forward_bias_meanratio_correlation_and_OLS_actual_on_forecast;descriptive_not_used_to_adjust",
+    "classification": "historical_project_seen_research;small63day_blocks;not_pristine_OOS",
+    "coefficients_per_fit": 18,
+    "feature_selection": "canonical_names_fixed_before_forward_scoring;no_selection_or_grid",
+    "feature_semantics": "four_CORE5_means;original_ten_asset_market_context_aggregates_unchanged",
+    "features": [
+      "CORE5_mean_mom5",
+      "CORE5_mean_mom20",
+      "CORE5_mean_vol10",
+      "CORE5_mean_vol30",
+      "breadth5",
+      "breadth20",
+      "dispersion20",
+      "market_vol20"
+    ],
+    "final_forward_day": "43starts;laststart_day42_ends_at_block_exclusive_end;no_outcome_day_outside63dayblock",
+    "folds": [
+      "2023-07-03",
+      "2023-10-02",
+      "2024-01-01",
+      "2024-04-01"
+    ],
+    "forecast_starts": 43,
+    "forward": "same63daily_outcome_days;start0..42;endpoint<=block_exclusive_end;no_outcome_day_outsideblock",
+    "forward_decisions": 63,
+    "horizon_days": 21,
+    "no_continuation": true,
+    "no_downloads": true,
+    "no_existing_model_changes": true,
+    "no_horizon_grid": true,
+    "no_hyperparameter_grid": true,
+    "no_policy_or_profit_claim": true,
+    "no_retuning": true,
+    "no_wallets": true,
+    "objective": "mean_squared_error_plus_lambda_squared_slope_norm;unpenalized_intercept",
+    "outputs_per_fit": 2,
+    "overlap": "43overlapping_forecasts_perblock;fixed_disjoint_starts0_21_42_cover63days;statistical_effective_N_unknown",
+    "planned_closed_form_fits": 4,
+    "predecessor": "nextday_probe_be9e4ef00cb13a13994c1ab400a7758aca388463_preserved",
+    "ridge_penalty": 1.0,
+    "risk_forecast": "clip_linear_forecast_at0_before_scoring;record_raw_negative_count",
+    "risk_name": "21day_average_daily_squared_asset_return_proxy_NOT_intraday_realized_variance",
+    "schema": "ONE_FIXED21DAY_EIGHT_FEATURE_TWO_TARGET_RIDGE_V1",
+    "standardization": "each_prefix_feature_mean_and_population_std_only;zero_std_to1",
+    "target": "mean_asset(close[t+21]/close[t]-1);mean_over21days(mean_over5assets(daily_simple_return_squared))",
+    "target_clock": "complete22actualcloses;available_at_decision_plus21days",
+    "target_scaling": "none;fractions_and_fraction_squared",
+    "targets": [
+      "CORE5_mean_21day_asset_cumulative_return",
+      "21day_average_daily_CORE5_squared_asset_return"
+    ],
+    "trailing_missing": "prefix_mean_fallback_if_any20eligible_matured_target_missing;report_count",
+    "training_dates": "original778_nomination;all22closeclocks_in_same_original_wallet;feature_valid;label_end_strictly_before_fold"
+  },
+  "sources": {
+    "modules/temporal_horizon21_probe/__init__.py": "8bc90231a9778f1e6ddf10965903308f439ce7eb853be205360b0adc09227200",
+    "modules/temporal_horizon21_probe/probe.py": "ae58bff95234357685b4519b4b41be758d36b1797cfcffb9ab40b6b4f7692376",
+    "modules/temporal_horizon21_probe/test_probe.py": "a585ed846863835361d80364ced91095fafac2573f23fad7709f51a083971a9c",
+    "modules/temporal_predictability_probe/__init__.py": "bc006afddb2cb8cdc7458e822da5027e72670595edd54b6a7e35d4cb62c63ca1",
+    "modules/temporal_predictability_probe/probe.py": "31a887292f2dc88ef7a3cc6647b342c9d1a4d53864bde2183a6a43033628866e",
+    "modules/temporal_predictability_probe/test_probe.py": "270f687e599115396ae88fc96287bee8660582f5bc3fdbd0cf5ff762bcaf61aa"
+  },
+  "status": "FIXED21DAY_PROTOCOL_BEFORE_ANY_FORWARD_SCORE",
+  "wallets": 0
+}
