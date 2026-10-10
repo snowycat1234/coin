@@ -1,0 +1,17 @@
+{
+  "schema": "BOUNDED_OI_INPUT_FEASIBILITY_V1",
+  "created_at_UTC": "2026-10-10T16:28:39Z",
+  "assets": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"],
+  "through": "2024-04-30",
+  "roles": "2021/2022 prefix feasibility, 2023 previously selected history, 2024 already seen diagnostic; input-only and no new holdout claim",
+  "questions": ["official direct metrics archive existence", "first directly verified useful coverage versus unverified absolute beginning", "actual fields and sample quality", "observation, period-end, publication and revision clocks distinguished", "historical units certified versus inferred"],
+  "official_pattern_evidence": "Official repository issue258 names both daily metrics ZIP and CHECKSUM paths; collaborator darienhuang marked the missing objects fixed on 2023-10-17. General naming/daily publication/checksum/revision policy in Binance Public Data README.",
+  "head_plan": "Five assets: monthly first-day anchors from 2021-01 through 2024-04, plus 2020-10-15, 2021-11-30, 2024-04-30. BTC additional 2020-08-31, 2020-09-01. Maximum220 HEAD requests; no S3 LIST or trading REST.",
+  "get_plan": "Maximum45 ZIP plus matching CHECKSUM objects, at most512KB each, at most15MB total. Five assets for 2021-12-01, 2022-01-01, 2022-12-31, 2023-01-01, 2023-12-31, 2024-04-30; BTC2020-09-01,2021-01-01; five-asset stress dates 2022-03-07/08 and BTC2024-02-16, SOL2023-12-08/12. Representative sample only, not entire-history completeness certification.",
+  "stop": "Stop a network stream on permission/access denial, never bypass. 404 means sampled object missing. Stop on budget or schema/ZIP safety violation. No training, model inference, new feature, threshold or trading replay.",
+  "causality": "Archive create_time never asserted equal to publication. Current docs' REST period-end semantics do not retrospectively certify archive create_time. Conservative lag is a proposal only, not a verified historical release clock.",
+  "resources": "Single CPU/thread, RSS2GB/address4GB/host8GB/wall1200s, GPU0/swap0; all Python under state/bounded_cloud.py.",
+  "out_of_scope": ["2025 market/outcome files", "bulk full-history download", "CFTC retry", "S3 LIST retry", "region-blocked Binance/Bybit REST retry", "third-party outreach", "model or portfolio changes"],
+  "discovery_IO_note": "Required git show of current research status included prior2025 findings as text; no2025 market, model, outcome or score files read. Public README/current API documentation can contain later dates; these are documentation only.",
+  "prior_reuse": "Parent reports prior derivatives-positioning research found no verified days/weeks OI edge; no exact prior artifact path exists in this fallback. Bounded filename checks found no local OI artifact. No prior blocked route retried."
+}
