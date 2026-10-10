@@ -70,6 +70,17 @@ Native minute Parquets are derived locally to avoid storing the same large
 minute data twice. `recover.py` adapts only the existing recovery prefix/fold,
 verifies each remote part/wrapper/member, then each recovered official ZIP.
 
+The original pack was recovered from immutable public commit
+`58e333b03adc72ddd8bd8503340fb5998aa892fd`: all 37 remote parts, all 60 official
+archives and their original SHA/ZIP CRC checks passed. Local canonical
+restoration from those recovered bytes completed successfully. Every one of
+the 56 derived artifact sizes and SHA256s exactly equals the first validation,
+including native minute Parquets and the economic array. The restored coverage
+and supplementary source checks also agree, including the two genuine mark
+gaps. See `receipts/REMOTE_RECOVERY.json` and `receipts/RESTORATION_CHECK.json`.
+`verify_restoration.py` reproduces the comparison of two restored roots; it
+does not acquire data.
+
 ```bash
 # Use the existing project bounded launcher and an unoccupied output path.
 python research/core5-july2024-native-data/recover.py \
@@ -84,6 +95,10 @@ normalizer hashes must match the manifest. Restoration does not acquire market
 data or invoke a model/wallet. `CONSUMER_INDEX.json` supplies the compact source
 and readiness contract.
 
+The same 7,293-byte economic array is also published directly as
+`JULY2024/ECONOMICS.npz`, with SHA256
+`9c503a8dd01be93dd1b7e0ddeb267a4f6bf38daec20db5ac026b0ea20af774a9`,
+so the model task can fetch it without the original-archive pack.
 `ECONOMICS.npz` contains `decision_us[63]`, `execution_us[63]`,
 `prices[63,5]`, `funding_interval_start_us[62]`,
 `funding_interval_end_us[62]`, `funding_coeff[62,5]` and `symbol_order[5]`.
