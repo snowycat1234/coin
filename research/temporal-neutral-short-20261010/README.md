@@ -1,0 +1,13 @@
+# One neutral SHORT-prior ablation, not a search
+
+Prior normalization-only model remains almost unused SHORT even inside all six training wallets. Its fixed readout has a global evaluation SHORT request upper bound7.873%, observed training maxima below0.723%. Earlier512 prequential models did learn large short gates, so this is not evidence of broken wiring or universal architecture failure.
+
+Change only fresh r_head.bias from logit(.01) to logit(1/3). Initial CASH=.5, VOL=CS=SHORT=1/6; other parameters, random states, 1137active economic intervals,1273-row standardizer, seed, Adam.0003,256updates,13699parameter architecture, dateweighting, full shared-wallet costs/risk/caps and paid closures identical to the frozen comparator2d280cbba43158157890fd9280a9e1038724696e. No changes to original sources or saved models. A new explicit initialization contract and source-bound run are used.
+
+Two real-data tests passed: all initial state_dict entries and RNG equal except r_head.bias; empty optimizer; exact neutral requests; fixed data/scaler; both evaluator/verifier import successfully. Same inherited9 synthetic clock/gap/gradient/availability/closure tests already passed for unchanged financial path. Initial lint autofix removed a reexport and test collection caught it before prepare/fit; explicit inputs-as-inputs restores the public interface. No model was trained in failed setup. Prepare successfully saves and loads step0 via unchanged atomic restricted checkpoint validators. Not a full-repository test claim.
+
+One CPU/thread,2GBprocessRSS/4GBaddress,8GBhostused, noGPU/swap. One fresh fit, exactly256terminal updates, no early-epoch selection, at mostthree1100second slices (hard1200); exact model/Adam/RNG checkpoint perupdate. Numeric/path failures stop this recipe. No alternative seed, data weighting, architecture, learning rate or second initialization candidate.
+
+After public source/READY verification, run modules.temporal_neutral_short worker with existing state/economics and unique neutral-short output. Publish and verify terminal first, then evaluate once each on existing July63/Q4 92decision periods with modules.temporal_neutral_short.evaluate and independently reconcile saved155rows using modules.temporal_neutral_short.verify. Reuse comparator/controls; report losses too. Also measure training SHORT use without optimization. Increased short use alone is not financial success. These are already seen historical development periods, not pristineOOS or native/live validation; no promotion, reliable liveAPR unavailable.
+
+No provider downloads, no extra data, no current account information. PREFIT.zip contains exact initial state and source/financial bindings; checkpoints retain identity and deterministic recovery.
