@@ -1,0 +1,326 @@
+{
+  "schema": "EARLY2020_2021_ECONOMIC_EXPANSION_FEASIBILITY_V1",
+  "role": "Metadata and cached-source feasibility only; no new training dates certified, no outcome-based date selection",
+  "CORE5_order": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "data_contract": {
+    "source_contract_commit": "b8299bc22321b9dadf707f14da83ac40a39b5491",
+    "current_fixed5_Context_mapper_source_SHA256": "46a0ca0b76bf29d50133bdd85b5730f4fd029f05378ce2ef086752b869a8fcab",
+    "existing_context_binder_commit": "3e64c8f649112112d3b4bb78bf92eb867c281659",
+    "existing_context_binder_path": "research/recover-frozen-runner-20261009/bind_temporal_economics.py",
+    "existing_training_ready_SHA256": "ca9bc89060fd23e6aedd1d52c04f2c100bb52053eca2e2ad8eed04baff254efe",
+    "initial_budget": "Fresh CASH; unchanged daily ramp and charged final cash decision",
+    "execution_price": "Actual trade 1m OPEN at 00:01; execution clock 00:01:00.000001 UTC",
+    "funding": "Actual signed event rates/timestamps; strict-prior completed source minute marks; charge -signed_quantity*sum(rate*mark) in (start_execution,end_execution]",
+    "past_covariance": "Current Context requires complete finite 30x5 real returns; do not fill missing/unlisted assets with zeros",
+    "current_source_unit_and_cross_venue_proxy_assumptions_preserved": true,
+    "historical_actual_publication_time_or_native_account_rules_certified": false
+  },
+  "candidate_calendar": {
+    "first_with_existing_64_calendar_feature_window": "2020-03-05",
+    "early_feature_windows": 667,
+    "first_with_unchanged_complete_CORE5_30_return_context": "2020-10-15",
+    "last_added_decision": "2021-12-31",
+    "distinct_candidate_dates": 443,
+    "years": {
+      "2020": 78,
+      "2021": 365
+    },
+    "additional_active_intervals_if_one_separate_paid_terminal_episode_maximum": 442,
+    "existing_active_intervals_reference": 773,
+    "prospective_active_total_maximum": 1215,
+    "economic_inputs_ready_now_for_additional_dates": 0,
+    "count_status": "Maximum pending exact original execution-price/funding-mark validation, original expert admission and gap splitting",
+    "earlier_masked_assets": "2020-01-01..2020-09-13 includes genuine missing/unlisted CORE5 history; fixed5 covariance ready only October15; earlier dynamic-subset path would need an explicitly reviewed adapter contract",
+    "not_counted": [
+      "feature history alone",
+      "asset-days",
+      "cash-only padding",
+      "unverified funding marks",
+      "synthetic prices",
+      "duplicated source days"
+    ]
+  },
+  "existing_inputs": {
+    "feature_archive": {
+      "immutable_commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+      "index_path": "research/temporal-feature-data-20261009/INDEX.json",
+      "archive_SHA256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+      "archive_bytes": 2246454,
+      "ordered_public_parts": [
+        {
+          "index": 0,
+          "file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart000",
+          "bytes": 786432,
+          "SHA256": "6381910ab1137dfcb6c3066fa058a318ea90ee82f89ff944ad61428d2302369a"
+        },
+        {
+          "index": 1,
+          "file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart001",
+          "bytes": 786432,
+          "SHA256": "1d25dbbf4b0f3bbf498a7c51427672d436c7e217d150154667ac4e0650f66578"
+        },
+        {
+          "index": 2,
+          "file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart002",
+          "bytes": 673590,
+          "SHA256": "11196af8c36712aca4ecd84d67177a407f1b7f27750b0da5fcd2813a2bab8b18"
+        }
+      ],
+      "parts_base_path": "research/temporal-feature-data-20261009/",
+      "reuse": "Ten original daily primitive tables and feature/time masks, actual signed funding event tables, and December2021 event-level strictly prior mark evidence; cached, no reacquisition needed"
+    },
+    "cached_real_covariance_window_for_first_candidate": "31 raw daily closes September14 through October14,2020; available by October15",
+    "actual_00_01_trade_execution_prices_before2022_in_cached_economic_daily_tables": 0,
+    "December2021_held_marks_reusable": true,
+    "December2021_reusable_actual_marked_held_events_per_asset": 90,
+    "stored_mark_clocks_independently_match_latest_strict_prior_completed_minute": true,
+    "December2021_mark_integrity": "Frozen delivered event values and source ZIP SHA/coverage receipts retained; full original ZIPs not present or freshly checksum/CRC reverified here",
+    "original_December2021_mark_sources": [
+      {
+        "symbol": "BTCUSDT",
+        "key": "data/futures/um/monthly/markPriceKlines/BTCUSDT/1m/BTCUSDT-1m-2021-12.zip",
+        "sha256": "b7d4014d14c149012c7b64423f1a683ab0364269945e02c1789dcdbe44ebce61",
+        "bytes": 1262041,
+        "coverage": {
+          "rows": 44640,
+          "expected_minutes": 44640,
+          "missing_minutes": 0,
+          "internal_gap_minutes": 0
+        },
+        "derived_sha256": "53b006c58408a875eb6a208559e72ac5a36be8967e6c7e3b5048d984e913fd84"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "key": "data/futures/um/monthly/markPriceKlines/ETHUSDT/1m/ETHUSDT-1m-2021-12.zip",
+        "sha256": "b9ebe1d8656a66dd6d24f4c46e0d651f876f849933fd910bf39ca7e2db7acdb6",
+        "bytes": 1160118,
+        "coverage": {
+          "rows": 44640,
+          "expected_minutes": 44640,
+          "missing_minutes": 0,
+          "internal_gap_minutes": 0
+        },
+        "derived_sha256": "a74c6670692c4c093dcfe21033fa66fabc557be269ec4ac3ecd3f391d15a5223"
+      },
+      {
+        "symbol": "SOLUSDT",
+        "key": "data/futures/um/monthly/markPriceKlines/SOLUSDT/1m/SOLUSDT-1m-2021-12.zip",
+        "sha256": "84d97be7f56036b79ba3fb799ed87815568b4b7a44123883775808686177d61c",
+        "bytes": 1095940,
+        "coverage": {
+          "rows": 44640,
+          "expected_minutes": 44640,
+          "missing_minutes": 0,
+          "internal_gap_minutes": 0
+        },
+        "derived_sha256": "a5744d832e10de50913221b49f0cff2009276298d2314f117cfe3093bf193252"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "key": "data/futures/um/monthly/markPriceKlines/XRPUSDT/1m/XRPUSDT-1m-2021-12.zip",
+        "sha256": "2a1f482ee495261fa4a970d304eada5dd73810db5adcb4bdc25ce7ac060cc83c",
+        "bytes": 860247,
+        "coverage": {
+          "rows": 44640,
+          "expected_minutes": 44640,
+          "missing_minutes": 0,
+          "internal_gap_minutes": 0
+        },
+        "derived_sha256": "e99afe79e6c719cb091c4ea4d64bb521dc22d74ff7380eb84b3bb07df6d99476"
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "key": "data/futures/um/monthly/markPriceKlines/DOGEUSDT/1m/DOGEUSDT-1m-2021-12.zip",
+        "sha256": "51b92bf5fd35cb83f254586c3017b94d68753078d914efdeec699651da70bf64",
+        "bytes": 860849,
+        "coverage": {
+          "rows": 44640,
+          "expected_minutes": 44640,
+          "missing_minutes": 0,
+          "internal_gap_minutes": 0
+        },
+        "derived_sha256": "1c4059fa9ab41a18aa44b8d8e280e6729081141e1c76c5760789ddf57f8cf4e3"
+      }
+    ],
+    "sparse_mark_original_bytes_avoided": 5239195
+  },
+  "availability_and_gaps": {
+    "assets": [
+      {
+        "symbol": "BTCUSDT",
+        "first_cached_observed_daily_bar": "2020-01-01",
+        "first_completed_observation": "2020-01-02",
+        "observation_is_not_verified_exact_intraday_listing_time": true,
+        "first_31_real_closes_covariance_decision": "2020-02-01",
+        "first_VOL_200_real_completed_bars_decision": "2020-07-19",
+        "primitive_table_SHA256": "890342bb2a7b8d73c847e6d8e0b17145beecedabe33ae3a2d1e125cc1e2cdfb5",
+        "funding_event_table_SHA256": "ade62f232d4a5bc7f66c34a0df8648903f8468f1dd131b590814c08da1631090",
+        "original_signed_funding_events_2020_2021": 2193,
+        "stored_strict_prior_marks_2020_2021": 92,
+        "stored_mark_event_range": [
+          "2021-12-01 08:00:00+00:00",
+          "2021-12-31 16:00:00+00:00"
+        ],
+        "stored_mark_age_us_range": [
+          1000,
+          60000000
+        ]
+      },
+      {
+        "symbol": "ETHUSDT",
+        "first_cached_observed_daily_bar": "2020-01-01",
+        "first_completed_observation": "2020-01-02",
+        "observation_is_not_verified_exact_intraday_listing_time": true,
+        "first_31_real_closes_covariance_decision": "2020-02-01",
+        "first_VOL_200_real_completed_bars_decision": "2020-07-19",
+        "primitive_table_SHA256": "c6a7e254f784cd8a7565585932255ca3e286566f34f167a604459768b5272138",
+        "funding_event_table_SHA256": "d49f5c887b60d63f905cd2836717d3281c3d538f8c35c7a118f2595cba75ee09",
+        "original_signed_funding_events_2020_2021": 2193,
+        "stored_strict_prior_marks_2020_2021": 92,
+        "stored_mark_event_range": [
+          "2021-12-01 08:00:00+00:00",
+          "2021-12-31 16:00:00+00:00"
+        ],
+        "stored_mark_age_us_range": [
+          1000,
+          60000000
+        ]
+      },
+      {
+        "symbol": "SOLUSDT",
+        "first_cached_observed_daily_bar": "2020-09-14",
+        "first_completed_observation": "2020-09-15",
+        "observation_is_not_verified_exact_intraday_listing_time": true,
+        "first_31_real_closes_covariance_decision": "2020-10-15",
+        "first_VOL_200_real_completed_bars_decision": "2021-04-02",
+        "primitive_table_SHA256": "be772916935c705c4806d32c3b94cbcbba24371506600edb95a69323633d785c",
+        "funding_event_table_SHA256": "d8f45b5f83e524932d0b93d7293f5e2ee93d542778f43db2eb5fadef29249e25",
+        "original_signed_funding_events_2020_2021": 1423,
+        "stored_strict_prior_marks_2020_2021": 92,
+        "stored_mark_event_range": [
+          "2021-12-01 08:00:00+00:00",
+          "2021-12-31 16:00:00+00:00"
+        ],
+        "stored_mark_age_us_range": [
+          1000,
+          60000000
+        ]
+      },
+      {
+        "symbol": "XRPUSDT",
+        "first_cached_observed_daily_bar": "2020-01-06",
+        "first_completed_observation": "2020-01-07",
+        "observation_is_not_verified_exact_intraday_listing_time": true,
+        "first_31_real_closes_covariance_decision": "2020-02-06",
+        "first_VOL_200_real_completed_bars_decision": "2020-07-24",
+        "primitive_table_SHA256": "8b3b66251a0eb6a852926909fecec782effbf5416082f8095db1eeefed672dc2",
+        "funding_event_table_SHA256": "b81ef7e3343b206c22bcac4145c20b52e9fda81879178275b1e01722cb858d8a",
+        "original_signed_funding_events_2020_2021": 2177,
+        "stored_strict_prior_marks_2020_2021": 92,
+        "stored_mark_event_range": [
+          "2021-12-01 08:00:00+00:00",
+          "2021-12-31 16:00:00+00:00"
+        ],
+        "stored_mark_age_us_range": [
+          1000,
+          60000000
+        ]
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "first_cached_observed_daily_bar": "2020-07-10",
+        "first_completed_observation": "2020-07-11",
+        "observation_is_not_verified_exact_intraday_listing_time": true,
+        "first_31_real_closes_covariance_decision": "2020-08-10",
+        "first_VOL_200_real_completed_bars_decision": "2021-01-26",
+        "primitive_table_SHA256": "96a457efb6040048b528f677f17602d45b871ea9b5de66f08f3977a47542e357",
+        "funding_event_table_SHA256": "e97407a991096b15c5352f88a184a112f0486f40112412cb7aeaf498e14dacdc",
+        "original_signed_funding_events_2020_2021": 1619,
+        "stored_strict_prior_marks_2020_2021": 92,
+        "stored_mark_event_range": [
+          "2021-12-01 08:00:00+00:00",
+          "2021-12-31 16:00:00+00:00"
+        ],
+        "stored_mark_age_us_range": [
+          1000,
+          60000000
+        ]
+      }
+    ],
+    "feature_premium_missing_bar_dates": [
+      "2021-07-01",
+      "2021-07-24",
+      "2021-07-25",
+      "2021-07-26",
+      "2021-07-27"
+    ],
+    "premium_missingness": "Keep per-feature masks; these five dates are not automatically excluded from economic supervision",
+    "cached_post_listing_daily_close_gaps_2020_2021": 0,
+    "minute_execution_and_mark_gaps": "UNKNOWN until source acquisition and point/minute validation; LIST existence is not content completeness",
+    "weekly_CS_anchor_us": 1704067200000000,
+    "CS_membership_rule": "Original 31 real closes per eligible asset and fixed weekly rank; at least four eligible assets for top/bottom two",
+    "VOL_membership_rule": "Original per-asset 200 completed bars; DOGE false until January26,2021 and SOL false until April2,2021",
+    "feature_rule": "Preserve missing time/feature masks and original ten-asset aggregate constituents; no all64-price or ready256 gate added"
+  },
+  "missing_data_estimate": {
+    "official_archive_LIST_checked_UTC": "2026-10-10T08:09:56.638299+00:00",
+    "first_month_daily_sources": "October15..31 trade and October14..31 mark context; daily/monthly numerical parity remains unverified",
+    "full_150_monthly_archives_for_native_tape_bytes": 207134495,
+    "full_150_monthly_archives_MiB": 197.5388479232788,
+    "current_daily_surrogate_145_monthly_archives_with_cached_December_marks_bytes": 201895300,
+    "smallest_observed_archive_plan_bytes": 196660959,
+    "smallest_observed_archive_plan_MiB": 187.55050563812256,
+    "smallest_estimate_scope": "Observed official monthly sources plus partial October daily optimization and cached December event-mark reuse; not a proof of global transport optimum",
+    "funding_original_body_downloads_required_for_accepted_cached_event_rows": 0,
+    "original_funding_checksum_recheck": "Optional tiny CHECKSUM metadata, not new large rate archives",
+    "earlier_provider_body_budget_bytes": 188743680,
+    "whole_extension_fits_earlier_180MiB_budget": false,
+    "download_plan_path": "DOWNLOAD_PLAN.json"
+  },
+  "recommendation": {
+    "action": "Recommend complete2021 first as a separately predeclared data-only acquisition phase, then a frozen matched expanded-data comparison",
+    "candidate_decisions": 365,
+    "maximum_new_active_intervals": 364,
+    "prospective_active_total_maximum": 1137,
+    "current_daily_surrogate_missing_original_bytes": 164149016,
+    "current_daily_surrogate_missing_original_MiB": 156.5447006225586,
+    "full_native_2021_minute_original_bytes": 169388211,
+    "full_native_2021_minute_original_MiB": 161.54118633270264,
+    "fits_earlier_180MiB_budget": true,
+    "larger_2020_2021_scope": "Feasible conditionally under same late2020+2021 causal economic contract; requires a larger explicitly authorized acquisition budget or separately bounded phases",
+    "preserve_original_dynamic_expert_masks": true,
+    "freeze_dates_before_economic_outcome_or_model_comparison": true,
+    "no_claim_that_more_data_improves_returns": true
+  },
+  "execution": {
+    "provider_archive_body_download_bytes": 0,
+    "public_market_archive_body_download_bytes": 0,
+    "official_LIST_metadata_bytes": 190810,
+    "futures_API_requests": 0,
+    "CFTC_requests": 0,
+    "models_fit": 0,
+    "scalers_fit": 0,
+    "wallets_run": 0,
+    "active_branches_modified": false
+  },
+  "inspected_public_source_scope": {
+    "feature_source_commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+    "native_storage_commit": "d69e9ac94478c5be54cb46c622afec7aaf3c61f7",
+    "indexes": [
+      "research_artifacts/native_20261008/INDEX.json",
+      "research_artifacts/e5_h1_tail_coverage_pair_20261008/INDEX.json",
+      "research_artifacts/e5_bear_recovery_20261008/INDEX.json",
+      "research_artifacts/direct_path_fragments_20261008/INDEX.json",
+      "research_artifacts/e5_fixed7d_horizon_probe_20261008/INDEX.json",
+      "research_artifacts/frozen_e5_2025h1_20261008/INDEX.json"
+    ],
+    "conclusion": "Inspected published minute archive packs cover2022-2025 research windows; no reusable 2020-2021 execution tape identified. Early daily/funding sources reuse the three small feature-transfer parts.",
+    "exhaustive_all_Git_history_or_nested_archive_body_search": false
+  }
+}
