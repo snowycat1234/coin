@@ -1,0 +1,15 @@
+# Short timing diagnosis: fixed supervised control
+
+Same 13,699-parameter network and 1,230 mature 21-day training windows, 20 epochs / 400 minibatches / 24,600 presentations. Training ended before 2025 evaluation; terminal frozen at 972f3936d8e12ea0b3a6dbabe0aee04e8cd7912c. This is a diagnostic, not a new profitable strategy.
+
+The prior direct-utility model requested approximately 8% SHORT and received approximately 8%; the low allocation is already upstream of mapping. No proof of a mapping cap causing the annual low short share. Training winner labels contain 318 SHORT examples (25.85%), yet average fixed SHORT 21-day utility is negative (-0.00458), while VOL is positive (+0.00839). Winner frequency and average utility differ. These observations support investigating the learning objective and discrimination rather than forcing a permanent short allocation. They do not prove causal attribution.
+
+Explicit class-balanced supervision learns some in-sample distinctions: raw SHORT recall 57.23%. The preregistered prior correction reduces this to 8.49%, because weak class separation does not overcome VOL's greater training frequency. This correction is a model assumption, not validated calibration.
+
+2025 seen-development forward check: 344 overlapping 21-day labels. Corrected model log loss 1.41085 versus frozen training-prior baseline 1.35007, Brier 0.79162 versus 0.76606, SHORT recall 0%. On the fixed disjoint 17-window grid, log loss 1.35110 versus 1.30405; four SHORT opportunities, zero recalled. No incremental predictive skill established.
+
+Post-hoc raw-output inspection (not a selected replacement): chooses SHORT on 171/344 windows, recalls 36/84 true SHORT winners (42.86%), precision 36/171=21.05%, below SHORT's 84/344=24.42% prevalence. Increasing the selection count alone fails to solve timing. Labels overlap heavily and are winners among fixed continuous-wallet experts, not tradable switching-oracle returns.
+
+Representation is not constant: joint feature standard deviations are nonzero; 25.88% of activations have absolute value above .99. Saturation warrants a controlled training-only test, but is not proven to be the cause. Next: a small balanced training-only memorization/gradient control, then inspect predictive features and payoff margins without tuning to 2025. Do not discard the selector route based on this control.
+
+The first scorer stopped before predictions on a dtype guard. The published corrected scorer explicitly casts value and expert inputs to float64, preserves boolean masks; retry succeeded, no retraining. No new wallets, trading returns, APR/CAGR, native minute simulation or live verification in this module. Prior 2025 direct-utility results remain NATURAL -0.41934%, BALANCED -2.24005%, with daily max drawdowns 5.70683% and 5.38960%. CORE5, 10,000 USDT each, fee5.5bp+spread4bp+slippage4bp per side, real funding, paid close, gross cap60%, asset cap30%. Live APR and advantage over real Bybit bot population cannot be reliably estimated.

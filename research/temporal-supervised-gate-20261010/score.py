@@ -10,7 +10,7 @@ S=Path('../coin_single_state');D=S/'supervised-gate';R=S/'data-expansion';torch.
 pub=json.loads((D/'FROZEN.json').read_text());t=json.loads((D/'TERMINAL.json').read_text());assert pub['model_identity']==t['model_identity'] and pub['checkpoint_SHA256']==sha(D/t['checkpoint']['path'])
 a,y,w,scaler,receipt=data(S);m,_=initialize(scaler);x=torch.load(D/t['checkpoint']['path'],weights_only=True);m.load_state_dict(x['model']);m.eval();assert model_identity(m)==t['model_identity'];before=model_identity(m)
 with torch.no_grad():
- q=np.concatenate([m(*[torch.tensor(v[i:i+32].copy()) for v in a]).numpy()[:,SLOTS] for i in range(0,len(y),32)])
+ q=np.concatenate([m(*[torch.tensor(v[i:i+32].copy(),dtype=torch.float64 if j in [0,3] else torch.bool) for j,v in enumerate(a)]).numpy()[:,SLOTS] for i in range(0,len(y),32)])
 trainprior=np.bincount(y,minlength=4)/len(y);labels=json.loads((S/'balanced-history/LABELS.json').read_text());meanutility=np.asarray([r['hindsight_fixed_policy_21day_utility'] for r in labels]).mean(0)
 _,p,_,_=training(S)
 expected={'features2025/FEATURES.npz':'81550b0443d2c725cdce7950ecc46e676dd12d5aa76185f4bd8d97e4e003ef06','features2025/EXPERTS.npz':'e6c783bb0b6927218afa426c6535485e3336955ecfdcbd17fefba22432b6cf4e','economics2025/ECONOMICS.npz':'0ad850e9ca4549fe1442aeceaa3de5d3abbfb8c0c1e7a3d4c0f812d0ffb8fb4d'}
