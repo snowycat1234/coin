@@ -14,7 +14,8 @@ repo = Path('/workspace/coin-temporal')
 commit = subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
 names = subprocess.check_output(['git','ls-tree','-r','--name-only',commit,
     'modules/temporal_selected_refit','modules/temporal_q4_reserved',
-    'research/temporal-selected-refit-q4-20261010'],cwd=repo,text=True).splitlines()
+    'research/temporal-selected-refit-q4-20261010','docs/RESEARCH_STATUS.md',
+    'docs/OPEN_SOURCE_REGISTRY.md','docs/RESEARCH_DECISION_LOG.md'],cwd=repo,text=True).splitlines()
 def verify(name):
     with urllib.request.urlopen(f'https://raw.githubusercontent.com/snowycat1234/coin/{commit}/{name}', timeout=15) as response:
         body=response.read()
