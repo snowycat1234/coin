@@ -13,3 +13,16 @@ COIN_CPD_STATE=/workspace/mark-continuous-state QUANT_ROOT=/workspace/coin-tail-
 Official-source holes are explicit: Q3's original strict grid attempt failed and its receipts remain in `failures/Q3_INITIAL`. The gapped source amendment does not relax wallet certification. Its raw cold restore ran from source `8323f8feabc88d419bf0bf376824b24629d8a571`, artifact `075e50d9c9cf7b210b848113962ade220693ca4f`. Check out that source before repeating `cold_gapped.py`; the immutable original and gapped binding manifests are retained.
 
 October reuse exposed the inherited trade-only October source selector. `mark_reader.py` now selects the independently bound family/symbol/URL record from the existing public index. No archive redownload, financial-kernel changes, or trade/mark substitution. Active `mark_source.py` and `cold_mark.py` use an explicit `SOURCE_CURRENT_SHA256.txt` for new phases; old phase source code and manifests reproduce from their recorded Git source SHA. `COMBINE_GAPPED_SHA256.txt` separately freezes the actual-missing-mask join, leaving the original unused combine manifest unchanged.
+
+Final source outcome: `result/COVERAGE.json` records 699 calendar dates, **696 common valid risk dates**, 5,032,773 observed mark minutes, and 27 unfilled source minutes on 2022-07-12/13. Complete minute continuity remains failed. New raw ZIPs total 47,963,120 bytes: 50 monthly originals and 5 daily companions. Six published source phase cold restores passed, including explicit gapped Q3 semantics. The joined daily panel and masks are byte-identical on public restore; zero fits, new forecast labels or wallets ran.
+
+Minimal source-certificate reproduction from this recorded code branch, using a fresh task STATE (all Python stays under `launch.sh`):
+
+```bash
+export COIN_CPD_STATE=/workspace/mark-reproduce
+export QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE="$COIN_CPD_STATE"
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python -m pytest -q research/core5-continuous-mark-20261011/test_mark.py research/core5-continuous-mark-20261011/test_gapped.py research/core5-continuous-mark-20261011/test_combine.py research/core5-continuous-mark-20261011/test_reader.py --basetemp="$COIN_CPD_STATE/tests"
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/core5-continuous-mark-20261011/combine_mark.py --commit c4f44417a665ded2c43e6767221efea004d90dd1 --output "$COIN_CPD_STATE/combined" --expected research/core5-continuous-mark-20261011/result/MARK_DAILY_CONTINUOUS.npz
+```
+
+Each `phases/*/RECOVERY.json` records its actual scientific source SHA; check out that SHA to reparse its originals with the corresponding `cold_mark.py` or `cold_gapped.py`, using the artifact SHA from its `PUBLIC_RESTORE.json`. Frozen old bindings remain unchanged. Seven original full-grid source invocations include two blocked attempts (Q3 holes and October reader); six completed phases comprise five original full-grid successes and one explicit partial-source resume. Two finite gap checks and the original unit import collision are preserved. Source-only random seed is not applicable. No model STOP, old ledger, or upside label was modified; trade-tail diagnostics neither invalidate the frozen mark-five-minute label nor establish original PnL error.
