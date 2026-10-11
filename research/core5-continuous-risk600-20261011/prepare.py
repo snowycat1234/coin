@@ -167,7 +167,11 @@ def old_five():
         raw=z.read('prepared/FIVE_MIN_CLOSES.npz')
         with np.load(io.BytesIO(raw),allow_pickle=False) as a:
             assert tuple(a['symbol_order'])==SYMBOLS
-            return a['available_us'].copy(),np.column_stack([a[s] for s in SYMBOLS]),digest(raw)
+            # Original HAR source panel contains prices only, on the independently
+            # verified complete2021 minute grid. Do not invent a stored clock field.
+            t=np.arange(1609459200000000+300000000,1640995200000000+300000000,300000000,dtype=np.int64)
+            c=np.column_stack([a[s] for s in SYMBOLS]);assert len(t)==len(c)
+            return t,c,digest(raw)
 
 
 def bind_current(value,commit):
@@ -266,7 +270,7 @@ def run(phase,state,source,previous=None,previous_commit=None):
     if phase=='Y2021':
         t,c,sha=old_five();np.testing.assert_array_equal(t,five_available);np.testing.assert_array_equal(c,closes)
         oldref=dict(commit=OLD5,path=OLD5PATH,wrapper_SHA256=OLD5SHA,member='prepared/FIVE_MIN_CLOSES.npz',member_SHA256=sha,
-                    all_actual_source_end5min_closes_exact=True)
+                    all_actual_source_end5min_closes_exact=True,old_clock_not_stored='Reconstructed from actual complete2021 UTC minute grid')
     else:
         np.savez_compressed(state/'FIVE_MIN.npz',symbol_order=np.asarray(SYMBOLS),available_us=five_available,close=closes)
     valid=np.isfinite(measured['RV_1m']).all(1)
