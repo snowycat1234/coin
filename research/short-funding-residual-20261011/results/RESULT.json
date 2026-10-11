@@ -1,0 +1,159 @@
+{
+  "schema": "SETTLED_FUNDING_TRAINING_RESIDUAL_ABLATION_V1",
+  "decision": "STOP_TRAINING_DIAGNOSTIC_NO_DEVELOPMENT_READ",
+  "source_commit": "e347fa4f8dc5d65c9a419b45eb330476d8c734ed",
+  "protocol_sha256": "5d8506265b0ba2f89aff1e9f0104403cf813a7fc00e4046d5987cbe2dbbc5bb5",
+  "models_sha256": "dc4e690d7a59221cb82a8a16fdb0d52996fbe5144d64dbac03b35225ec723e67",
+  "source_preflight": {
+    "status": "PASS",
+    "source": [
+      {
+        "symbol": "BTCUSDT",
+        "price_rows": 1095,
+        "funding_rows": 3288,
+        "latest_price_available_us": 1672444800000000,
+        "latest_funding_event_us": 1672502400000000
+      },
+      {
+        "symbol": "ETHUSDT",
+        "price_rows": 1095,
+        "funding_rows": 3288,
+        "latest_price_available_us": 1672444800000000,
+        "latest_funding_event_us": 1672502400000000
+      },
+      {
+        "symbol": "SOLUSDT",
+        "price_rows": 1095,
+        "funding_rows": 2593,
+        "latest_price_available_us": 1672444800000000,
+        "latest_funding_event_us": 1672502400000000
+      },
+      {
+        "symbol": "XRPUSDT",
+        "price_rows": 1095,
+        "funding_rows": 3272,
+        "latest_price_available_us": 1672444800000000,
+        "latest_funding_event_us": 1672502400000000
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "price_rows": 1095,
+        "funding_rows": 2714,
+        "latest_price_available_us": 1672444800000000,
+        "latest_funding_event_us": 1672502400000000
+      }
+    ],
+    "archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "price_patch_sha256": "30e9c45227ae26731e945ccd32b6152b634f87c58ddc2afd4a21da0f51b4b2a4",
+    "role_rows": {
+      "fit2021": 255,
+      "train_screen2022H1": 125,
+      "train_screen2022H2": 123
+    },
+    "role_market_weeks": {
+      "fit2021": 51,
+      "train_screen2022H1": 25,
+      "train_screen2022H2": 25
+    },
+    "causal_exclusions": [
+      {
+        "role": "train_screen2022H2",
+        "decision_us": 1668384000000000,
+        "symbol": "SOLUSDT",
+        "reason": "PAST_SETTLED_FUNDING_NOT_READY"
+      },
+      {
+        "role": "train_screen2022H2",
+        "decision_us": 1668988800000000,
+        "symbol": "SOLUSDT",
+        "reason": "PAST_SETTLED_FUNDING_NOT_READY"
+      }
+    ],
+    "latest_returned_price_clock_us": 1672444800000000,
+    "training_boundary_us": 1672531200000000,
+    "development_rows_returned": 0,
+    "feature_scope": "Four price/vol features + four symbol indicators; one lagged settled funding sum in augmented arm only",
+    "future_funding_used_as_input": false
+  },
+  "fits": 2,
+  "attempt": 1,
+  "seeds": {
+    "bootstrap": 811031,
+    "model": "DETERMINISTIC_CLOSED_FORM"
+  },
+  "overall": {
+    "baseline_mse": 2.4356493629236473,
+    "augmented_mse": 2.401267947170467,
+    "relative_mse_gain": 0.014115913512243054,
+    "baseline_selected_asset_weeks": 43,
+    "augmented_selected_asset_weeks": 52,
+    "augmented_active_market_weeks": 24,
+    "baseline_mean_calendar_price_cost_proxy": 0.0025770373057997773,
+    "augmented_mean_calendar_price_cost_proxy": 0.002160639127926057,
+    "calendar_price_cost_increment": -0.0004163981778737204,
+    "scope": "Static reference capital, independent paid entry/exit close-price opportunity proxy; no funding, minute execution, wallet, collateral or risk path"
+  },
+  "halves": {
+    "train_screen2022H1": {
+      "baseline_mse": 1.600142913997238,
+      "augmented_mse": 1.5687599346436922,
+      "relative_mse_gain": 0.019612610273134642,
+      "baseline_selected_asset_weeks": 22,
+      "augmented_selected_asset_weeks": 25,
+      "augmented_active_market_weeks": 12,
+      "baseline_mean_calendar_price_cost_proxy": 0.004969202757060575,
+      "augmented_mean_calendar_price_cost_proxy": 0.0050442153252072755,
+      "calendar_price_cost_increment": 7.501256814670106e-05,
+      "scope": "Static reference capital, independent paid entry/exit close-price opportunity proxy; no funding, minute execution, wallet, collateral or risk path"
+    },
+    "train_screen2022H2": {
+      "baseline_mse": 3.2847412825643074,
+      "augmented_mse": 3.247312675348084,
+      "relative_mse_gain": 0.011394689565019206,
+      "baseline_selected_asset_weeks": 21,
+      "augmented_selected_asset_weeks": 27,
+      "augmented_active_market_weeks": 12,
+      "baseline_mean_calendar_price_cost_proxy": 0.00018487185453897991,
+      "augmented_mean_calendar_price_cost_proxy": -0.0007229370693551618,
+      "calendar_price_cost_increment": -0.0009078089238941419,
+      "scope": "Static reference capital, independent paid entry/exit close-price opportunity proxy; no funding, minute execution, wallet, collateral or risk path"
+    }
+  },
+  "conditional_bootstrap": {
+    "relative_mse_gain_interval": [
+      0.003979962813150555,
+      0.03522168979114921
+    ],
+    "replicates": 1000,
+    "seed": 811031,
+    "block_market_weeks": 4,
+    "resampling": "Joint assets, contiguous circular four-week blocks separately within both 2022 halves; conditional descriptive interval"
+  },
+  "funding_standardized_coefficient": -0.09823997150158335,
+  "gates": {
+    "relative_mse_gain_at_least_1percent": true,
+    "conditional_joint_interval_lower_positive": true,
+    "both_training_halves_mse_improve": true,
+    "expected_crowding_coefficient_positive": false,
+    "active_weeks_at_least20": true,
+    "absolute_price_cost_proxy_positive": true,
+    "calendar_price_cost_increment_nonnegative": false
+  },
+  "future_funding_description": {
+    "raw_rate_sum_mean": -0.0009177870161290322,
+    "hypothetical_fraction_sum_mean": -0.0009177870161290322,
+    "hypothetical_percent_sum_mean": -9.177870161290322e-06,
+    "nominal_hours_min": 160.0,
+    "nominal_hours_max": 176.0,
+    "scope": "Future settled-rate sums as outcome description only; NOT actual fixed-quantity receipts, no charge marks/venue unit/publication certification, no cash credit"
+  },
+  "development_reads": 0,
+  "new_native_wallets": 0,
+  "provider_downloads": 0,
+  "actual_funding_cash": "NOT_BOUND",
+  "native_execution_risk": "NOT_BOUND",
+  "paper_replication": false,
+  "unseen_OOS": false,
+  "economic_scope": "Static reference capital, independent paid entry/exit close-price opportunity proxy; no funding, minute execution, wallet, collateral or risk path",
+  "elapsed_seconds": 1.3321782430029998
+}

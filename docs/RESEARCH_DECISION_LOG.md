@@ -1963,3 +1963,7 @@ See research/slow-momentum-cpd-cost-objective-20261011/README.md.
 2021拟合/2022两个半年度训练内诊断，Monday7日非重叠、严格label_end<split_end，2020暖源；2023–24开发值/Q32026/新保留集不读。相同因果price+funding掩码、fit255资产周/51市场周、screen248资产周/50市场周，两个SOL旧过去间隔不完整输入共同排除。原源全255/248eligible futureprice有效，不按未来标签删mask。事件窗[D−8d,D−1d)，actual clock严格排除上界；预检因官方毫秒抖动与精确间隔断言冲突，在fit0时退出，初始失败/时钟诊断保留，修正仅名义间隔QA≤60sec抖动、缺事件继续UNKNOWN且时钟不移动。
 
 唯一两deterministic ridge拟合，sum squared normalized error+alpha1 slopes penalty/intercept不惩罚，2021-only scaler；BASE27单位short价格成本按入/出价比与fee-on-fill，实际资金费/native钱包/风险仍NOT_BOUND。1000次joint-date4周block bootstrap seed811031，1%预测改善/CI下界正/两half改善/2021fund系数正/至少20活动周/绝对价格成本代理正/成对代理增量非负全部过才另冻结开发阶段；不强制做空比例、选择月份或反转失败系数。任一失败STOP并保持development0。1CPU/4GBaddress/2GBsampledRSS/8GBhost/1200s/10MiB输出/15GiBreserve/GPU0/swap0。7边界/因果/费用/缺事件/单位缩放/闭式数学测试PASS；源与协议小模块正常commit/push并实际远端逐字节读回后才真实拟合。必要模型及结果按明确用户授权公开保存研究分支；原CPD STOP/main/独立分布文件/collector锁及失落账本说明不动。见 research/short-funding-residual-20261011/README.md。
+
+## 2026-10-11 结算资金费单通道最终训练诊断
+
+e347fa4f预拟合公开冻结后，唯一1尝试/2fit完成。训练MSE增量+1.411591%/条件CI下界+.397996%，但2021coef负、成对周价格成本增量负：5PASS/2FAIL，STOP_TRAINING_DIAGNOSTIC_NO_DEVELOPMENT_READ。不得事后反号或以预测改善称short可交易净收益；开发/wallet/搜参0。两必要模型与逐行证据公开保存，后续只做远端恢复核验。详细结果见research/short-funding-residual-20261011/results/RESULT.json。
