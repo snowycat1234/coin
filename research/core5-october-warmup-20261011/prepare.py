@@ -51,7 +51,9 @@ def run(state,inventory,source):
     raw=git("show",OLD+":"+OLD_PATH+"RECOVERY.zip")
     assert len(raw)==2484855 and digest(raw)=="42e59bf2200034f433816fc70b8a2da43eb36363810ba356d8ffdc3ddb7be929"
     oldzip=zipfile.ZipFile(io.BytesIO(raw))
-    old_manifest=json.loads(git("show",OLD+":"+OLD_PATH+"MANIFEST.json"))
+    old_manifest_bytes=git("show",OLD+":"+OLD_PATH+"MANIFEST.json")
+    assert digest(old_manifest_bytes)=="8191e0e26287ded3c02302b63f9c7f1f90b2396ff04e09385d9bbcf9b2b18ad6"
+    old_manifest=json.loads(old_manifest_bytes)
     old_id={x["path"]:x["SHA256"] for x in old_manifest["members"]}
     rows=[]
     samples={}
