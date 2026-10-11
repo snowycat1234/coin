@@ -24,9 +24,17 @@ def stamp(day):
     return int(datetime.fromisoformat(day).replace(tzinfo=timezone.utc).timestamp() * 1_000_000)
 
 
+def encode_scalar(value):
+    if isinstance(value, np.generic):
+        return value.item()
+    raise TypeError('Unsupported metadata scalar: ' + type(value).__name__)
+
+
 def save(path, data):
+    # Serialize first so an unsupported metadata scalar leaves no partial file.
+    raw = json.dumps(data, indent=2, allow_nan=False, default=encode_scalar)
     with path.open('x') as f:
-        json.dump(data, f, indent=2, allow_nan=False); f.write('\n')
+        f.write(raw + '\n')
 
 
 def prices(root, archive_path=None):
