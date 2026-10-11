@@ -1911,3 +1911,33 @@ Runner/full-calendar adapter intentionally not implemented pending parentreview.
 Native483inputs/funding/CPDwallet NOT_BOUND, fundingnotknownzero/netProfit/APRUNKNOWN.
 No training/wallet authorization follows from proposal; lock/lostledgers/otherwork
 untouched. See research/slow-momentum-cpd-objective-diagnostic-20261011.
+
+## 2026-10-11 authorized cost objective stopped at real-calendar preflight
+
+Parent authorized exact8ae13d1d proposal717cd852: sixfresh64/fullcalendar/BASE27
+coefficient1/no checkpoint/fee/step rescue, source publication before scientific
+fits. Implemented cost_training calendar/outputVJP and audit_cost_training source-
+vol/label/clock/Decimal/model/Adam/bootstrap/gate readback; final31math fixturesPASS.
+Reviewer prefit fixes actual-step failure counts, strengthens independent source/
+decision checks, makes terminal INVALID STOP explicit; no economic knobs changed.
+Config58cdef3f429187b9486515ecb2859356f3c005432a1f3616cff4dfa9d21e7793 binds final
+source; old proposal and all185+24delivery files/4fit sources/12models unchanged.
+
+Real729-calendar check exits InvalidScore before STARTED/model construction:
+causal input/vol mask2528, old mature sample_index2526/SHA983baa27 matches. Two
+missing future returns at SOL/XRP decision2022-02-26T00:00UTC, labelendFeb27;
+rawsource dtFeb26–28 closeNULL/complete_klinefalse. Predicate-bound pre2023/source
+hash/clocks verified, no index-error fix would restore missing values. Old2526
+supervised completeness excludes future missing labels and cannot mask a full
+causal trading path. Frozen STOP requires eligible outcomes finite and exact old
+axis; no future filter/CASH/zero/fill/newdate/newsource/endpoint compromise.
+
+PREFIT_DATA_BLOCKED, hypothesisNOT_TESTED. Scientific attempt4 never started,
+newfreshfits/updates/historicalLSTMpredictions/developmentexports/wallets/downloads0;
+cumulative3science/12fresh/13824updates. Six64 training/actual results/native/audit
+NOT_RUN. One rawsource read-only filter literal setup error corrected/preserved;
+not scientific recipe retry. Independent review confirms STOP. Whole repo tests
+NOT_RUN, fundingnotknownzero/native/netProfit/APRUNKNOWN. Oldgross STOP, collector
+lock/lost2026ledgers and unrelated work retained. Publish useful checked module,
+final source/config hashes and failure receipts, verify remote; no new proposal.
+See research/slow-momentum-cpd-cost-objective-20261011/README.md.
