@@ -65,7 +65,7 @@ def fit_quantile(x,y,q=Q):
         residual_positive=result.x[k:k+n].tolist(),residual_negative=result.x[k+n:].tolist(),dual=dual.tolist())
 
 
-def calibrate(p,indices,cutoff):
+def calibrate(p,indices,cutoff,on_fit=None):
     ix=np.asarray(indices,dtype=int)
     if len(ix)!=211 or np.any(np.diff(ix)!=1) or np.any(ix+1>=len(p['available'])) or np.any(p['available'][ix+1]>cutoff):
         raise ValueError('All211training labels must be mature before fit')
@@ -86,6 +86,8 @@ def calibrate(p,indices,cutoff):
         model=fit_quantile(x,y)
         models.append(dict(symbol=symbol,mean=mean.tolist(),std=std.tolist(),LP=model,
             empirical_scaled=float(np.quantile(y,Q)),empirical_unconditional=float(np.quantile(actual[:,j],Q))))
+        if on_fit is not None:
+            on_fit(models[-1])
     return dict(models=models,quantile=Q,training_rows=211,train_indices=ix.tolist(),fit_label_cutoff_us=int(cutoff),
         maximum_training_label_mature_us=int(p['available'][ix+1].max()),historical_fits=5)
 
