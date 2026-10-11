@@ -1,0 +1,101 @@
+{
+  "schema": "FROZEN_REPAIRED_SOURCE_CPD_COST_OBJECTIVE_ATTEMPT4_V1",
+  "authorization": "Explicit parent ten-day true-price recovery, training GP/scaler refreeze and same sixfresh64; original blocked/unrun version unchanged.",
+  "proposal_file": "research/slow-momentum-cpd-objective-diagnostic-20261011/COST_OBJECTIVE_PROPOSAL.json",
+  "proposal_sha256": "717cd852a17a8cb553a9443d49e32bc0894b53f73aceeb2df1d3859a17432a0d",
+  "frozen_financial_and_training_knobs": "Exactly proposal; no new cost multipliers/fees/holding/checkpoint/seed/date/budget search. Six fresh same10xhidden16 tanh LSTM/63days/seeds2001,2002,2003; baseline zero after shared scaler.",
+  "source_files": {
+    "modules/slow_momentum_cpd/cost_training.py": "0c97c1a441fa8dd84eeaaa44c6aadb2687c16e1d1d865790166b14c2a70f2301",
+    "modules/slow_momentum_cpd/audit_cost_training.py": "6180ddedf645b1bb0ac51751fbf912234c91c197a4177a3226569ece07d38188",
+    "modules/slow_momentum_cpd/test_cost_training.py": "b94f6c9f5d1acbadb04ec83f1e657d3620b313d5b60b13d90445c1393e74fe44",
+    "modules/slow_momentum_cpd/core.py": "f1df90bcf9f3248c84d2adb4503ae760464777412b3ac545da135a64e7a504c5",
+    "modules/slow_momentum_cpd/run.py": "dc157a6b5e09abd72b2c40ac1d2fd40658b2eca225b13b41a560b5f79183381a",
+    "modules/slow_momentum_cpd/sharpe.py": "b85d47476c2bdd312306bc04a1d3240502c17e047422106afb2ccfa36074a915",
+    "modules/slow_momentum_cpd/diagnose_training.py": "489e971d298a4f1a5cd98aa162bde02717cb5448c53b1d0f8e6dd5afc9a9fecf",
+    "modules/slow_momentum_cpd/objective_diagnostic.py": "b93a1f287269266aa81b302a9906388e50df5549f6d3eecb51cd09229ce08439",
+    "modules/slow_momentum_cpd/cost_feasibility.py": "4e09ff35ca3634845fedc3bbbf19e61bdf8049733663b9f192e43dbac1d015bf",
+    "modules/slow_momentum_cpd/test_objective_diagnostic.py": "89f9a3fd4b503780580117be73721b89f6c59c018ca5fb610da033372ed9ce57",
+    "modules/slow_momentum_cpd/test_cost_feasibility.py": "583b76b7ece5988cb2e0ad311ecd422589ae372623128b9c0c30e8de4946b6e4",
+    "modules/slow_momentum_cpd/repaired_data.py": "9bc3e581f0f69b09c3b0460afe5bbb0284c990a0cf2b502ebd0f34737ed83465",
+    "modules/slow_momentum_cpd/repaired_cost.py": "309774d7dd40d7ccf5242768edcc1daa160f147c738e3728780bdef9c5fc3a88",
+    "modules/slow_momentum_cpd/audit_repaired_cost.py": "11b61d762f3b61b064db1874e9a5ec9b54e265fb4068ffb944a10364f16547f5",
+    "modules/slow_momentum_cpd/test_repaired_data.py": "3fe9e3bd20402bdd8b8b27472ccec59361b0cfd481b1a943da879a0194282fb7",
+    "modules/collector_research/pipeline/normalize.py": "ee394086066c96bc23e83b45bf0bc2777264ab4eb57128886394fee47fecd4ff",
+    "modules/collector_research/pipeline/download.py": "2ffb1694c613be8350d2979c918d3b03a9345d8b2769bfb89b3e230375bdb707",
+    "modules/collector_research/pipeline/common.py": "0f24665c50c21fecef4e06f74230bbb113d210d014077068377c67f34fa57390",
+    "modules/collector_research/pipeline/storage.py": "60384e783bb853fa3c14599f8d863a7fe69efba08889a577c3be3b3d06b8995b",
+    "modules/collector_research/config.env": "56fb1588191db994dafc38ca1f8d0fd6dad87360bd7a20854c4432c6adcec340",
+    "research/slow-momentum-cpd-cost-data-repair-20261011/PROTOCOL.json": "5fa00098366e56ef93a38b3586c3e0ba42effd0e7203d469ef9493372879cf2e"
+  },
+  "updates_per_fit": 64,
+  "gradient_updates": 384,
+  "feature_chunk": 128,
+  "Adam": {
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "gradient_norm_cap": 1
+  },
+  "cost": {
+    "id": "BASE27",
+    "fee": 0.00055,
+    "half_spread": 0.0004,
+    "slip": 0.0004,
+    "multiplier": 1,
+    "adverse_fill_fee": true,
+    "paid_entry_mask_drift_terminal": true
+  },
+  "loss": {
+    "scope": "Whole five-asset chronological static-reference daily net-price-cost portfolio",
+    "epsilon": 1e-09,
+    "float64": true,
+    "scored_epsilon": 0
+  },
+  "required_preflight_tests": 40,
+  "score_STOP_semantics": "Epsilon loss may be finite at zero variance; terminal train score INVALID causes FAILED with partial snapshot. All required final scores must be VALID, otherwise STOP. Report every actually run seed/block and mark unrun on failure.",
+  "near_cash_reporting": "Parent forbids near-all-cash as success: report all mean|p|/quantiles/threshold fractions/exposure; mean eligible|p|<.001 OR99% below .001 flags near-cash; no dead-zone applied, no training/loss change. Flagged CPD ensemble cannot yield PASS_PROXY_GATES_ONLY.",
+  "limits": {
+    "cpu": 1,
+    "address_space_bytes": 4000000000,
+    "sampled_RSS_stop": 2000000000,
+    "host_used_stop": 8000000000,
+    "GPU": 0,
+    "swap": 0,
+    "fit_and_final_score_wall_seconds": 1200,
+    "state_bytes": 10485760,
+    "disk_reserve": 16106127360
+  },
+  "environment": {
+    "Python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "Torch": "2.6.0+cpu",
+    "Numpy": "2.5.3"
+  },
+  "guard": "Reuse published reconstructed cloud bounded guard99432c34; not recovered byte-exact WSL or shared cgroup enforcement. stdout stage/update counts; localhost8765 connection refused, no collector altered.",
+  "no_automatic_retry": true,
+  "financial_result_scope": "Traditional-futures-paper CPD adaptation; old historical development validation, not new OOS; actualfunding/nativewalletNOTBOUND, realnetProfit/APRUNKNOWN",
+  "prefit_artifacts": {
+    "DATA_REPAIR.json": "30e9c45227ae26731e945ccd32b6152b634f87c58ddc2afd4a21da0f51b4b2a4",
+    "FROZEN_TRAINING.json": "6f01b307271f52333da9acd4028189e9f6e5c9c795c9a98234bc5de01da6ecc7",
+    "CALENDAR.json": "ecffa4b415900135d4ef98a5427f6f5958bf8e2128eb9d3960e9024588c44c11"
+  },
+  "data_version": "Ten true missing2022SOL/XRPcloses restored; newly fit training GP/scaler and naturally recomputed causal mask;3142endpoints729calendar; old2526 artifacts unused.",
+  "gp_scaler_refreeze": {
+    "groups": 1,
+    "optimizer_calls": 2,
+    "iterations": [
+      24,
+      47
+    ],
+    "maxiter_each": 60,
+    "scaler_fits": 1,
+    "validation_reads": 0,
+    "execution_source_commit": "fb08e7024c177597f475979e106cbb22084c0e26",
+    "execution_source_sha256": "25b2b870a8f0c12f0d7c7b87eb376e71d1b678771dca224ae927167ea397c769",
+    "started_receipt_optimizer_calls": "planned2; both calls completed, independently recorded terminal statuses; no refit retry"
+  },
+  "same_financial_knobs_verified_from": "58cdef3f429187b9486515ecb2859356f3c005432a1f3616cff4dfa9d21e7793"
+}

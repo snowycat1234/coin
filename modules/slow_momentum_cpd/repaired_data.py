@@ -199,10 +199,14 @@ def training_episode(repair, frozen):
 def refreeze(state):
     if (state / 'REFREEZE_STARTED.json').exists():
         raise FileExistsError('No implicit GP/scaler refit retry')
-    write_json(state / 'REFREEZE_STARTED.json', dict(gp_groups=1, optimizer_calls=2, maxiter_each=60, per_asset_windows=64, validation_reads=0))
+    write_json(state / 'REFREEZE_STARTED.json', dict(planned_gp_groups=1, planned_optimizer_calls=2, maxiter_each=60, per_asset_windows=64, validation_reads=0))
     repair = json.loads((state / 'DATA_REPAIR.json').read_text())
+    if repair['status'] != 'PASS' or repair['recovery_commit'] != RECOVERY_COMMIT or repair['recovery_archive_sha256'] != RECOVERY_SHA or repair['original_archive_sha256'] != sha(ARCHIVE.read_bytes()):
+        raise ValueError('Unverified repair source before GP fit')
     available, close = read_training_close(ARCHIVE)
     close = apply_patch(available, close, repair['records'])
+    if sha(close.astype('<f8').tobytes()) != repair['repaired_training_close_sha256']:
+        raise ValueError('Repaired training price identity differs before GP fit')
     trend, returns, vol = trend_features(close)
     start, end = utc_us('2021-01-01'), utc_us('2023-01-01')
     rows = sample_index(trend, returns, vol, available, start, end)
