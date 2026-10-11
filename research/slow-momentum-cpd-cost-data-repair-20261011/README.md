@@ -40,4 +40,6 @@ COIN_CPD_STATE="$state" bash research/slow-momentum-cpd-20261011/launch.sh \
 
 去掉 --run 即为只读来源/身份检查，不初始化模型、不重新拟合 GP、不读取历史验证结果。已完成复现的审计命令使用同一 bounded launch，运行 `python -m modules.slow_momentum_cpd.audit_repaired_cost --state "$state" --config-sha d54f4b20133bd281c04d1ae3eeb4f9f51a7de14d0d0cf54d439ff9f520aef891 --output "$state/INDEPENDENT_AUDIT.json"`。CONFIG SHA 即该值；实际训练发布源码为 `14939d25ad8f0b88a58181273fc736304c683799`，训练前公开核验 26 个文件。
 
+方便入口的默认 CHECK_ONLY 已在新 STATE 实测通过，重新核验原始分钟来源及公开 27 个文件，新增 GP/模型初始化/训练/验证均为零。旧工件保护函数要求原来的 12 个检查点存在，虽然它们不进入新模型输入；冷环境缺失时明确停止。按 AGENTS 模型留 STATE，提供 [模型与收据恢复包](/workspace/slow-momentum-cost-repaired-state/MODEL_STATE_RECOVERY.zip)，1,067,209 字节，SHA256 `eea641c4cc965ff3d04a93b7aa259874d81bd6cfa2d5711ac7f45dc74a7ab454`；包括原来的 12 个保护检查点、本次 6 个完整 model/Adam/RNG 检查点及相应收据。全部 32 个有效载荷成员 SHA/CRC 读回通过，ZIP 自含 INDEX；公开 [恢复索引](results/MODEL_STATE_RECOVERY_INDEX.json)。冷环境先转存该包，核验 SHA 后以 `unzip -n MODEL_STATE_RECOVERY.zip -d /workspace` 恢复，禁止覆盖现存状态。行情仍从固定公开 Git 对象恢复。该包未上传 Git 或 Library；应在释放环境前保存。
+
 真实 signed 资金费、分钟可用性与成交、lot/minimum/capacity、共享钱包风险及实际终端账本尚未绑定；在门槛失败后它们为 NOT_RUN，不能补零或近似。没有真实钱包净收益/APR或上线资格结论。2026-03-01 至 2026-09-01 的 collector 锁、失落的 2026 Q1/Q2 账本及另一收益分布研究均未改变，未使用 Library、账户密钥、创建凭证、付费、实盘或部署。
