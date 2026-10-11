@@ -138,8 +138,12 @@ def run(state,source):
         funding_name=f'derived/economics/{s}_funding_intervals.parquet';funding_raw=year_archive.read(funding_name)
         assert digest(funding_raw)==year_members[funding_name]['SHA256'] and len(funding_raw)==year_members[funding_name]['bytes']
         funding_frame=pq.read_table(io.BytesIO(funding_raw),columns=['dt','symbol','mark_funding_per_unit','funding_interval_complete']).to_pandas()
-        assert len(funding_frame)==365 and np.array_equal(past.dt.to_numpy(),funding_frame.dt.to_numpy())
+        assert len(funding_frame)==364 and np.array_equal(past.dt.to_numpy()[:-1],funding_frame.dt.to_numpy())
         past=past.merge(funding_frame,on=['dt','symbol'],how='left',validate='one_to_one')
+        # The original archive omits the final funding interval. Retain its
+        # UNKNOWN coefficient; only the observed completeness flag becomes false.
+        past['funding_interval_complete']=past.funding_interval_complete.fillna(False).astype(bool)
+        assert past.mark_funding_per_unit.iloc[-1]!=past.mark_funding_per_unit.iloc[-1]
         # Complete mark-day truth comes from separately recovered actualsources;
         # it is an outcome-quality flag, never a predecision availability mask.
         past['complete_mark']=True
@@ -151,6 +155,7 @@ def run(state,source):
         economic_records.append(dict(symbol=s,member=name,member_SHA256=members[name]['SHA256'],rows=len(f),
             year2021_member_SHA256=digest(year_raw),year2021_source_commit='94fe13c494c82bb6e6868e6614eb7298fb15b3c3',
             year2021_funding_interval_SHA256=digest(funding_raw),
+            year2021_missing_funding_interval_date='2021-12-31',
             last_available_us=int(f.available_us.max()),rate_unit='UNCONFIRMED_CONDITIONAL_RAW_FRACTION',precise_charge_mark=False))
     reader.close()
     np.savez_compressed(state/'SOURCE_PREPARED.npz',symbol_order=np.asarray(SYMBOLS),decision_us=decisions,baseline=baseline,baseline_ready=ready,
