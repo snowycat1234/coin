@@ -9,3 +9,7 @@ COIN_CPD_STATE=/workspace/mark-continuous-state QUANT_ROOT=/workspace/coin-tail-
 ```
 
 阶段命令在远端协议发布后填入确切sourceSHA并执行，不使用猜测SHA。全程0模型fit/收益label/wallet，数据完成后独立审核下一钱包机制所需fundingunit/精确收费mark/历史风险阶梯/venue等；mark分钟齐全不等于全native认证。已发表upside标签定义只读结论在UPSIDE_LABEL_REVIEW.md，旧STOP保持。
+
+Official-source holes are explicit: Q3's original strict grid attempt failed and its receipts remain in `failures/Q3_INITIAL`. The gapped source amendment does not relax wallet certification. Its raw cold restore ran from source `8323f8feabc88d419bf0bf376824b24629d8a571`, artifact `075e50d9c9cf7b210b848113962ade220693ca4f`. Check out that source before repeating `cold_gapped.py`; the immutable original and gapped binding manifests are retained.
+
+October reuse exposed the inherited trade-only October source selector. `mark_reader.py` now selects the independently bound family/symbol/URL record from the existing public index. No archive redownload, financial-kernel changes, or trade/mark substitution. Active `mark_source.py` and `cold_mark.py` use an explicit `SOURCE_CURRENT_SHA256.txt` for new phases; old phase source code and manifests reproduce from their recorded Git source SHA. `COMBINE_GAPPED_SHA256.txt` separately freezes the actual-missing-mask join, leaving the original unused combine manifest unchanged.

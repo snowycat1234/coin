@@ -23,7 +23,9 @@ def run(commit,phase,state):
     raw=git('show',commit+':'+PREFIX+'phases/'+phase+'/SOURCE_INDEX.json');index=json.loads(raw)
     proofraw=git('show',commit+':'+PREFIX+'phases/'+phase+'/RECOVERY.json');assert digest(proofraw)==index['proof_SHA256']
     proof=bind_current(json.loads(proofraw),commit)
-    for line in git('show',commit+':'+PREFIX+'SOURCE_SHA256.txt').decode().splitlines():
+    manifest=proof.get('source_binding_manifest','SOURCE_SHA256.txt')
+    assert manifest in ('SOURCE_SHA256.txt','SOURCE_CURRENT_SHA256.txt')
+    for line in git('show',commit+':'+PREFIX+manifest).decode().splitlines():
         sha,p=line.split(maxsplit=1)
         assert digest(git('show',proof['source_commit']+':'+p))==digest(git('show',commit+':'+p))==digest((ROOT/p).read_bytes())==sha,p
     saved={}

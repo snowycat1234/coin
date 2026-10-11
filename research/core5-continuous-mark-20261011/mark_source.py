@@ -18,7 +18,8 @@ BASE_SOURCE='306b58c4a52035ac9f374de7c25d40dff22fb658'
 OLD_PREFIX='research/core5-continuous-risk600-20261011/'
 PREFIX='research/core5-continuous-mark-20261011/'
 sys.path.insert(0,str(ROOT/OLD_PREFIX))
-from prepare import SourceReader,bind_current,digest,git,save
+from prepare import bind_current,digest,git,save
+from mark_reader import MarkSourceReader as SourceReader
 from primitives import SYMBOLS,measure
 
 PHASES={'REUSE_2021_JAN_NOV':[(2021,m) for m in range(1,12)],'DEC2021':[(2021,12)],
@@ -144,15 +145,16 @@ def complete_month(reader,row,left,right,acquire_daily=None,gap_records=None):
                      repairs=repairs,CRC=True,exact_complete_grid=True)
 
 
-def bindings():
-    for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():
+def bindings(manifest):
+    assert manifest in ('SOURCE_SHA256.txt','SOURCE_CURRENT_SHA256.txt')
+    for line in (HERE/manifest).read_text().splitlines():
         sha,p=line.split(maxsplit=1);assert digest((ROOT/p).read_bytes())==sha,p
 
 
-def run(phase,state,source,previous_commit=None):
+def run(phase,state,source,previous_commit=None,source_manifest='SOURCE_SHA256.txt'):
     assert git('rev-parse','HEAD').decode().strip()==source and not git('status','--porcelain')
     assert state.resolve().is_relative_to(Path('/workspace')) and not state.exists()
-    bindings();state.mkdir();configure(state,phase)
+    bindings(source_manifest);state.mkdir();configure(state,phase)
     from modules.collector_research.pipeline.download import Job,fetch,session
     from modules.collector_research.pipeline.normalize import month_limits
     from modules.collector_research.pipeline.common import bounds
@@ -251,6 +253,7 @@ def run(phase,state,source,previous_commit=None):
     assert len(ft)==len(five) and np.all(np.diff(available)==86400000000)
     valid=np.isfinite(full['RV_1m']).all(1)
     proof=dict(status='PASS_REAL_CONTINUOUS_INDEPENDENT_MARK_PHASE',phase=phase,source_commit=source,
+        source_binding_manifest=source_manifest,
         protocol_SHA256=digest((HERE/'PROTOCOL.json').read_bytes()),source_inventory_SHA256=invsha,
         plan_SHA256=digest((HERE/'INVENTORY.json').read_bytes()),hash_only_SHA256=hashsha,
         code_SHA256={name:digest((HERE/name).read_bytes()) for name in ('mark_source.py','publish_mark.py','cold_mark.py')},
@@ -270,4 +273,5 @@ def run(phase,state,source,previous_commit=None):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--phase',choices=PHASES,required=True);p.add_argument('--state',type=Path,required=True)
     p.add_argument('--source-commit',required=True);p.add_argument('--previous-commit')
-    a=p.parse_args();run(a.phase,a.state,a.source_commit,a.previous_commit)
+    p.add_argument('--source-manifest',choices=('SOURCE_SHA256.txt','SOURCE_CURRENT_SHA256.txt'),default='SOURCE_SHA256.txt')
+    a=p.parse_args();run(a.phase,a.state,a.source_commit,a.previous_commit,a.source_manifest)
