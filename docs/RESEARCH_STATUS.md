@@ -271,3 +271,5 @@ REUSE_2021_JAN_NOV publicrawcoldPASS at076363371d5733ce9e5aebaf08456842e543eaf5:
 Independentmark DEC2021complete:5true missingofficialmonthly originals5239195B,223200actualminute rows/31completed dates,7.707129seconds; originalSHA/bytes matchpriorHASH_ONLY receipts, no gap/repair or fakepriorboundary. TrueNov30mark23:59 carried fromsource-backedpreviousphase; firstcoldNovboundary reparse next. Sourcesnewbytes publishedonce inparts, source-only0fit/wallet. ContinueQ1 onlyafterpubliccoldPASS.
 
 DEC2021publicrawcoldPASS at6ee3b514:223200markminutes/allprimitives/clocks exact plus5Novpreviousmonth actualrawboundary checks,6.703291seconds,0providerdownload/originalSTATE/fit/wallet. Sourcephasepublishedbeforecold, bothremoteverified; continueQ12022.
+
+Independentmark Q12022complete:15new officialmonthly originals14530437B/648000actualminutes/90dates, allpriorHASH_ONLY SHA/bytesmatch, no gap/repair/imputation.26.515675seconds, trueDecemberboundary/sourceidentity carried, cumulative new19769632B. Sourceparts uploadedonce; source-only0fit/wallet. Quarterlypubliccold next beforeQ2, oldSTOPs remain.
