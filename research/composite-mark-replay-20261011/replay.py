@@ -61,7 +61,7 @@ def funding_sources(state,start,end):
 def run(state,source,expected=None):
     assert not state.exists() and state.resolve().is_relative_to(Path('/workspace')) and not git('status','--porcelain')
     if expected is None:assert git('rev-parse','HEAD').decode().strip()==source
-    for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():
+    for line in (HERE/'REPLAY_CURRENT_SHA256.txt').read_text().splitlines():
         sha,p=line.split(maxsplit=1);assert digest(git('show',source+':'+p))==digest((ROOT/p).read_bytes())==sha,p
     state.mkdir();configure(state,'REUSE_OCTNOV2022');start_clock=time.monotonic()
     protocol=json.loads((HERE/'PROTOCOL.json').read_text());start,end=utc('2022-10-01'),utc('2022-10-04')
@@ -115,12 +115,13 @@ def run(state,source,expected=None):
         begin=time.monotonic();window=dict(start=start,end=end,symbols=SYMBOLS,daily=pl.DataFrame(daily),events=events,minute_blocks=blocks)
         sim=NativeDailySimulator(window,'LONG_SHORT',COSTS[0],UNITS[0],target_factory=target_factory)
         while sim.cursor<end and sim.stop is None:sim.advance_day();bounded()
-        result=sim.result();assert result['summary']['completion']=='COMPLETE_CONDITIONAL_ACCOUNT' and result['summary']['terminal_cash_realized']
+        result=sim.result()
         cases[name]=result;timings[name]=time.monotonic()-begin
         body={k:result[k] for k in ('summary','trades','funding','rejections','breaches','extrema','target_meta')}
         body['targets']=result['targets'].to_dicts();save(state/(name+'.json'),body)
         np.savez_compressed(state/(name+'.npz'),**{k:result['minute'][k].to_numpy() for k in result['minute'].columns})
-        print('PAIRED_NATIVE_COMPATIBILITY',name,'4320minutes',timings[name],flush=True)
+        print('PAIRED_NATIVE_COMPATIBILITY',name,result['summary']['completed_minutes'],'minutes',
+            result['summary']['completion'],'paidflat',result['summary']['terminal_cash_realized'],timings[name],flush=True)
     for key in ('summary','trades','funding','rejections','breaches','extrema','target_meta'):assert cases['OLD_CLOSE'][key]==cases['COMPOSITE_OHLC'][key],key
     assert cases['OLD_CLOSE']['minute'].equals(cases['COMPOSITE_OHLC']['minute']) and cases['OLD_CLOSE']['targets'].equals(cases['COMPOSITE_OHLC']['targets'])
     # Known genuine July holes are inspected at their completion clocks, never
@@ -138,10 +139,13 @@ def run(state,source,expected=None):
             gaps.append(dict(symbol=s,missing_open_ms=int(ms),first_source_clock_detection_us=at+MINUTE,path_status='NOT_CERTIFIABLE_IF_OWNED_NO_POSTHOC_INTERVAL_DELETE'))
         bounded()
     gap_reader.close();assert len(gaps)==27
-    report=dict(status='PASS_COMPOSITE_SOURCES_AND_SAME_KERNEL_CONDITIONAL_REPLAY',source_commit=source,
+    complete=cases['OLD_CLOSE']['summary']['completion']=='COMPLETE_CONDITIONAL_ACCOUNT' and cases['OLD_CLOSE']['summary']['terminal_cash_realized']
+    report=dict(status='PASS_COMPOSITE_SOURCES_AND_SAME_KERNEL_CONDITIONAL_REPLAY' if complete else 'STOP_DEFAULT_ACCOUNT_PAID_FLAT_GATE',source_commit=source,
         source_certificates=dict(trade=tcert,mark=mcert,gapped_july=jcert,funding=funding_proof),composites=certs,
         frozen_targets=dict(commit=protocol['frozen_target_source'],archive_SHA256=digest(target_raw),selected_TARGET='BASE',decision_us=decisions.tolist(),targets=targets.tolist()),
-        real_days=3,minutes_per_wallet=4320,wallets=2,old_wallets_rerun=0,complete_input_market_fields_and_all_account_outputs_exact=True,
+        real_days=3,required_minutes_per_wallet=4320,actual_minutes_per_wallet=cases['OLD_CLOSE']['summary']['completed_minutes'],wallets=2,
+        old_wallets_rerun=0,input_compatibility='PASS_EXACT_ALL_OBSERVED_KERNEL_OUTPUTS',paid_flat_gate_passed=bool(complete),
+        complete_input_market_fields_and_all_account_outputs_exact=True,
         conditional_cost=COSTS[0],conditional_funding_unit=UNITS[0],actual_funding_events=45,
         scope='Finite input compatibility under unchanged conditional kernel. Not a new strategy profit/risk study or native charge/liquidation certification.',
         new_risk_semantics_enabled=False,extreme_tick_path_created=False,range_availability='Only after completed minute; intraminute order UNKNOWN',
@@ -154,7 +158,7 @@ def run(state,source,expected=None):
             if k not in ('case_seconds','elapsed_seconds'):assert saved[k]==report[k],k
         save(state/'PUBLIC_RESTORE.json',dict(status='PASS_PUBLIC_COMPOSITE_REPLAY_RESTORE',artifact_commit=expected,all_source_and_account_outputs_exact=True,
             provider_downloads=0,new_strategy_trials=0,wallet_compatibility_replays=2,elapsed_seconds=time.monotonic()-start_clock))
-    save(state/'RESULT.json',report);print(json.dumps({k:report[k] for k in ('status','real_days','minutes_per_wallet','wallets','remaining_real_holes','elapsed_seconds')}))
+    save(state/'RESULT.json',report);print(json.dumps({k:report[k] for k in ('status','real_days','actual_minutes_per_wallet','wallets','remaining_real_holes','elapsed_seconds')}))
 
 
 if __name__=='__main__':
