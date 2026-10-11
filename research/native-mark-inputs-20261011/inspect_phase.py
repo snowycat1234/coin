@@ -26,6 +26,7 @@ from prepare import decoded_month
 def certificate(commit,prefix,phase):
     base=prefix+'phases/'+phase+'/'
     cold=json.loads(git('show',commit+':'+base+'PUBLIC_RESTORE.json'))
+    assert cold['status'] in ('PASS_PUBLIC_GIT_OBJECT_RAW_MINUTE_COLD_RESTORE','PASS_PUBLIC_RAW_MARK_MINUTE_COLD_RESTORE')
     artifact=cold['artifact_commit']
     iraw=git('show',artifact+':'+base+'SOURCE_INDEX.json')
     raw=git('show',artifact+':'+base+'RECOVERY.json')
@@ -48,7 +49,7 @@ def run(state,source,expected_commit=None):
     assert not git('status','--porcelain')
     if expected_commit is None:assert git('rev-parse','HEAD').decode().strip()==source
     protocol=json.loads((HERE/'PROTOCOL.json').read_text())
-    for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():
+    for line in (HERE/'SOURCE_CURRENT_SHA256.txt').read_text().splitlines():
         sha,p=line.split(maxsplit=1)
         assert digest(git('show',source+':'+p))==digest((ROOT/p).read_bytes())==sha,p
     state.mkdir();configure(state,'Q12022');start=time.monotonic();blocked=[]
@@ -63,6 +64,10 @@ def run(state,source,expected_commit=None):
         assert sum(p.stat().st_size for p in state.rglob('*') if p.is_file())<1000000000
     tradeproof,tcert=certificate(protocol['trade_source_commit'],TRADE,'Q12022')
     markproof,mcert=certificate(protocol['mark_source_commit'],MARK,'Q12022')
+    tradeprevious,tpreviouscert=certificate(protocol['trade_source_commit'],TRADE,'Y2021')
+    markprevious,mpreviouscert=certificate(protocol['mark_source_commit'],MARK,'DEC2021')
+    assert tradeproof['previous_proof_SHA256']==tpreviouscert['proof_SHA256']
+    assert markproof['previous_proof_SHA256']==mpreviouscert['proof_SHA256']
     assert tradeproof['phase']==markproof['phase']=='Q12022'
     coverage=json.loads(git('show',protocol['mark_source_commit']+':'+MARK+'result/COVERAGE.json'))
     assert coverage['remaining_missing_minutes']==27 and not coverage['full_minute_continuity']
@@ -72,14 +77,25 @@ def run(state,source,expected_commit=None):
     for s in SYMBOLS:
         tr=next(r for r in tradeproof['sources'] if r['source']['symbol']==s and r['source']['month']=='2022-01')
         mr=next(r for r in markproof['sources'] if r['source']['symbol']==s and r['source']['month']=='2022-01')
+        for record,previous,family in ((tr,tradeprevious,'klines'),(mr,markprevious,'markPriceKlines')):
+            past=record['past_boundary']
+            assert past==previous['end_boundaries'][s]
+            assert past['open_ms']==left-60000 and past['available_us']==left*1000 and past['close']>0
+            prior_source=past['source']
+            assert prior_source['symbol']==s and prior_source['family']==family and prior_source['month']=='2021-12'
         tf,te=decoded_month(reader,tr['source'],left,right)
         mf,me=complete_month(reader,mr['source'],left,right)
         assert te['CRC'] and me['CRC'] and te['exact_complete_grid'] and me['exact_complete_grid']
         assert len(tf)==len(mf)==44640
-        trade[s]=source_bars(tf,tr['source'],'klines');mark[s]=source_bars(mf,mr['source'],'markPriceKlines')
+        trade_added=sum(r['added_actual_rows'] for r in te['repairs'])
+        mark_added=sum(r['added_actual_rows'] for r in me['repairs'])
+        trade[s]=source_bars(tf,tr['source'],'klines',added_repair_rows=trade_added)
+        mark[s]=source_bars(mf,mr['source'],'markPriceKlines',added_repair_rows=mark_added)
         source_records.append(dict(symbol=s,trade_ZIP_SHA256=tr['source']['ZIP_SHA256'],mark_ZIP_SHA256=mr['source']['ZIP_SHA256'],
             trade_official_URL=tr['source']['official_URL'],mark_official_URL=mr['source']['official_URL'],
-            actual_trade_minutes=len(tf),actual_mark_minutes=len(mf),reused_first_boundary_certificate=True))
+            actual_trade_minutes=len(tf),actual_mark_minutes=len(mf),first_boundary_status='REUSED_CERTIFICATE_CHECKED',
+            source_frame_provenance='ORIGINAL_MONTHLY_NO_ADDED_REPAIR_ROWS',trade_added_repair_rows=trade_added,mark_added_repair_rows=mark_added,
+            trade_previous_proof_SHA256=tpreviouscert['proof_SHA256'],mark_previous_proof_SHA256=mpreviouscert['proof_SHA256']))
         print('DUAL_SOURCE_VERIFIED',s,'2022-01',len(tf),len(mf),flush=True);bounded()
     reader.close()
     from scripts.investment.resumable_perpetual import MarketTape
@@ -114,7 +130,7 @@ def run(state,source,expected_commit=None):
         wicks[s]=dict(mark_high_above_close_minutes=int((mark[s].values['high']>mark[s].values['close']).sum()),
                       mark_low_below_close_minutes=int((mark[s].values['low']<mark[s].values['close']).sum()))
     economic=dict(funding=funding_readiness(None,venue='BINANCE',product='USD_M_PERPETUAL'),
-        risk=risk_rule_readiness({},event_us=left*1000,venue='BINANCE',product='USD_M_PERPETUAL'),
+        risk=risk_rule_readiness({},symbol='BTCUSDT',event_us=left*1000,venue='BINANCE',product='USD_M_PERPETUAL'),
         venue_execution='BLOCKED_BINANCE_PRICE_BYBIT_FEE_PROXY_NOT_NATIVE',arrival='BLOCKED_UNKNOWN_HISTORICAL_ARRIVAL',
         current_kernel_charge_hook='STRICTLY_PAST_COMPLETED_MARK_CONDITIONAL_ONLY; no exact event-price interface',
         current_kernel_risk_rule='Default/declaredMMR is not effective historical tiers or close-fee reserve certification',

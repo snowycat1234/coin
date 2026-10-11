@@ -34,7 +34,9 @@ class DomainBars:
     values:object
 
 
-def source_bars(frame,row,required_family):
+def source_bars(frame,row,required_family,*,added_repair_rows=0):
+    need(added_repair_rows==0 and row.get('kind')!='DAILY_UNION',
+         'Single original CSV provenance only; added daily repairs require a composite source contract')
     need(required_family in ('klines','markPriceKlines') and row['family']==required_family,
          'Independent trade/mark source family required')
     symbol=row['symbol'];period=row.get('source_period',row['month'])
@@ -97,6 +99,7 @@ def legacy_projection(block):
 
 def range_witness(bars,index,*,side,threshold,known_at_us,owned_since_us,events_us=()):
     need(bars.family=='markPriceKlines','Trade high/low cannot witness mark risk')
+    need(type(index) is int and 0<=index<len(bars.open_us),'Explicit valid source bar index')
     need(side in ('LONG','SHORT') and np.isfinite(threshold) and threshold>0,'Explicit side and positive threshold')
     need(known_at_us>=int(bars.available_us[index]),'Mark high/low unavailable before bar completion')
     left,right=int(bars.open_us[index]),int(bars.available_us[index])

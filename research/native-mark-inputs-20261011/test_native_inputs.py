@@ -17,7 +17,7 @@ def bars(family='markPriceKlines',symbol='BTCUSDT',data=None):
 
 
 def bound():
-    return dict(status='VERIFIED_HISTORICAL_AUTHORITY',SHA256='b'*64,venue='SYNTHETIC',product='TEST_LINEAR',
+    return dict(status='VERIFIED_HISTORICAL_AUTHORITY',SHA256='b'*64,venue='SYNTHETIC',product='TEST_LINEAR',symbol='BTCUSDT',
                 effective_from_us=0,effective_to_us=2*LEFT)
 
 
@@ -106,10 +106,34 @@ def test_wrong_event_price_clock_and_conflicting_points_refused():
 
 def test_default_mmr_cannot_certify_historical_rule_or_close_fee():
     rule=dict(tiers=[dict(max_notional_USDT='100000',MMR='.005',MMD_USDT='0')])
-    r=risk_rule_readiness(rule,event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')
+    r=risk_rule_readiness(rule,symbol='BTCUSDT',event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')
     assert r['source_status']=='HISTORICAL_NATIVE_LIQUIDATION_BLOCKED'
-    rule.update(version='SYNTHETIC',authority=bound())
-    r=risk_rule_readiness(rule,event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')
+    rule.update(version='SYNTHETIC',authority=bound(),symbol='BTCUSDT')
+    r=risk_rule_readiness(rule,symbol='BTCUSDT',event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')
     assert r['historical_tiers']=='DECLARED_EFFECTIVE_RULE' and r['source_status']=='HISTORICAL_NATIVE_LIQUIDATION_BLOCKED'
     rule['authority']['effective_to_us']=LEFT
-    assert risk_rule_readiness(rule,event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')['historical_tiers'].startswith('BLOCKED')
+    assert risk_rule_readiness(rule,symbol='BTCUSDT',event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')['historical_tiers'].startswith('BLOCKED')
+
+
+def test_other_asset_authority_cannot_certify_risk_or_funding():
+    rule=dict(symbol='BTCUSDT',version='SYNTHETIC',authority=bound(),tiers=[dict(max_notional_USDT='100000',MMR='.005',MMD_USDT='0')])
+    assert risk_rule_readiness(rule,symbol='DOGEUSDT',event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')['historical_tiers'].startswith('BLOCKED')
+    event=funding();event['unit_authority']['symbol']='DOGEUSDT';event['charge_mark']['authority']['symbol']='DOGEUSDT'
+    status=funding_readiness(event,venue='SYNTHETIC',product='TEST_LINEAR')
+    assert status['raw_unit'].startswith('BLOCKED') and status['charge_mark'].startswith('BLOCKED')
+
+
+def test_added_daily_rows_cannot_inherit_original_monthly_sha():
+    r=row();r['ZIP_SHA256']='a'*64
+    with pytest.raises(ValueError,match='composite'):source_bars(frame(),r,'markPriceKlines',added_repair_rows=1)
+
+
+@pytest.mark.parametrize('tiers',[
+    [dict(max_notional_USDT='100',MMR='.005',MMD_USDT='1000')],
+    [dict(max_notional_USDT='100',MMR='.01',MMD_USDT='0'),dict(max_notional_USDT='200',MMR='.005',MMD_USDT='0')]
+])
+def test_negative_or_decreasing_tier_maintenance_refused(tiers):
+    rule=dict(symbol='BTCUSDT',version='SYNTHETIC',authority=bound(),tiers=tiers,
+        close_fee=dict(symbol='BTCUSDT',version='SYNTHETIC',reserve_formula='TEST_ONLY',release_rule='TEST_ONLY',authority=bound()))
+    status=risk_rule_readiness(rule,symbol='BTCUSDT',event_us=LEFT,venue='SYNTHETIC',product='TEST_LINEAR')
+    assert status['historical_tiers'].startswith('BLOCKED') and status['source_status']=='HISTORICAL_NATIVE_LIQUIDATION_BLOCKED'

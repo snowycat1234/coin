@@ -1,0 +1,8 @@
+Independent financial input review (`liquidation_semantics_review`, read-only source, no Python/outcomes) identified four concrete issues before the real January source inspection. All were corrected:
+
+- Authority, risk rule and close-fee metadata require the asset or an explicit applicable asset set. A BTC source cannot certify DOGE. Funding point/unit authority has the same binding.
+- First January trade/mark past boundaries must exactly match the preceding published phase end boundary; source symbol/family/month, open clock and completion clock are checked. This is `REUSED_CERTIFICATE_CHECKED`, not a new December CSV parse.
+- The current bar interface supports a single original CSV. Decoder-added daily repair rows and DAILY_UNION are refused; January must be `ORIGINAL_MONTHLY_NO_ADDED_REPAIR_ROWS`. Repaired months need an explicit composite source contract before this interface can accept them. No repair minute inherits a monthly original SHA.
+- The declared maintenance formula `notional * MMR - MMD` must remain nonnegative and nondecreasing across ordered tiers. MMR cannot decrease with larger tier notional. This remains metadata checking; its authority bodies and real economic inputs are not certified.
+
+19 focused synthetic cases pass, including the unchanged actual MarketTape golden projection. The frozen initial protocol/bindings and 15-case receipt remain; active corrected code is bound in SOURCE_CURRENT_SHA256.txt. No source inspection, model fit or wallet was run before these fixes. All four findings are closed within the stated single-source January scope. Intraminute order, actual liquidation time, funding charge prices, historical risk/close-fee/venue/arrival certification remain unresolved.
