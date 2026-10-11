@@ -269,3 +269,5 @@ Continuousmark firstphase PASS: REUSE_2021_JAN_NOV actualindependentmark2404800m
 REUSE_2021_JAN_NOV publicrawcoldPASS at076363371d5733ce9e5aebaf08456842e543eaf5:2404800independentmarkminute rows re-parsed, allcompletedmarkdaily/5mprice/clocks exact,0originalSTATE/download/fit/wallet.21.236819seconds; firstunknownpriorNaN retained. Reused raworiginalbytes stayonlyatoldGitrefs. Continue boundedDEC2021acquisition next; nativefunding/minuteOHLCconsumption certification not implied.
 
 Independentmark DEC2021complete:5true missingofficialmonthly originals5239195B,223200actualminute rows/31completed dates,7.707129seconds; originalSHA/bytes matchpriorHASH_ONLY receipts, no gap/repair or fakepriorboundary. TrueNov30mark23:59 carried fromsource-backedpreviousphase; firstcoldNovboundary reparse next. Sourcesnewbytes publishedonce inparts, source-only0fit/wallet. ContinueQ1 onlyafterpubliccoldPASS.
+
+DEC2021publicrawcoldPASS at6ee3b514:223200markminutes/allprimitives/clocks exact plus5Novpreviousmonth actualrawboundary checks,6.703291seconds,0providerdownload/originalSTATE/fit/wallet. Sourcephasepublishedbeforecold, bothremoteverified; continueQ12022.
