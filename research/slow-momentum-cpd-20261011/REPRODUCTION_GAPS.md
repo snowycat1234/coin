@@ -130,4 +130,3 @@ bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/pyt
 原论文精确复现仍缺原 CLC 数据、对应历史源码和选中模型／超参工件；
 原2026 Q1/Q2账本不可访问。collector 2026-03-01–2026-09-01 锁未开，
 没有改另一收益分布研究、访问 Library、账户密钥、创建凭证、付费、部署或交易。
-
