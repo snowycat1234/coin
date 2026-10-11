@@ -42,8 +42,8 @@ def run(state,inventory,source):
     save(state/"STARTED.json",dict(source_commit=source,inventory_SHA256=digest(inventory.read_bytes()),fits=0,wallets=0))
     os.environ.update(WORK_DIR=str(state/"work"),RAW_CACHE_DIR=str(state/"raw"),
         SYMBOLS=",".join(SYMBOLS),WARMUP_START="2022-10-01",START_DATE="2022-10-01",END_DATE="2022-10-31",
-        FAMILIES="klines,markPriceKlines",HTTP_RETRIES="0",HTTP_CONNECT_TIMEOUT="10",HTTP_READ_TIMEOUT="20",
-        MAX_ARCHIVE_MIB="8",MAX_UNCOMPRESSED_MIB="64",MAX_WORK_GIB=".15",MIN_FREE_GIB="15",REFRESH_CHECKSUMS="0")
+        FAMILIES="klines,markPriceKlines,fundingRate",HTTP_RETRIES="0",HTTP_CONNECT_TIMEOUT="10",HTTP_READ_TIMEOUT="20",
+        MAX_ARCHIVE_MIB="8",MAX_UNCOMPRESSED_MIB="64",MAX_WORK_GIB="16",MIN_FREE_GIB="15",REFRESH_CHECKSUMS="0")
     from modules.collector_research.pipeline.download import Job,fetch,session,parse_checksum
     from modules.collector_research.pipeline.normalize import numeric_csv,validate_price,month_limits
     from modules.collector_research.pipeline.common import bounds
@@ -123,6 +123,7 @@ def run(state,inventory,source):
                 save(state/(family+"_"+symbol+"_SOURCE.json"),rows[-1])
                 print("PREPARED",family,symbol,"44640 actual minutes; SHA/CRC/grid/boundary",flush=True)
                 assert time.monotonic()-start<600 and shutil.disk_usage(state).free>=15*1024**3
+                assert sum(p.stat().st_size for p in state.rglob('*') if p.is_file())<=200_000_000
     oldzip.close()
     available=np.arange((left+86_400_000)*1000,(right+86_400_000)*1000,DAY,dtype=np.int64)
     five_available=np.arange((left+300_000)*1000,(right+300_000)*1000,300_000_000,dtype=np.int64)
