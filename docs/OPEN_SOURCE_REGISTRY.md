@@ -568,3 +568,7 @@ positions, keeping train-frozen GP/scaler and last-step PyTorch LSTM. MIT notice
 and source identities are reused from research/slow-momentum-cpd-20261011.
 No upstream TensorFlow runtime, credentials or original CLC data were introduced.
 Execution scope/proposal: research/slow-momentum-cpd-sharpe-20261011/PROTOCOL.json.
+
+## 2026-10-11 修复数据后的 CPD 成本目标复用
+
+论文与MIT官方源码沿用e0352cb0及既有UPSTREAM/协议；未引入Transformer或selector。新增薄入口复用core.FrozenGP/Scaler、原完整路径费用目标/VJP/Adam/report/bootstrap，独立审计复用Decimal来源核验；collector.numeric_csv/validate_price/aggregate_price/parse_checksum用于十个Git恢复官方日档案。仅真实缺失训练收盘修复，未恢复或打开2026锁。源码14939d25、配置d54f4b、来源49017d88与所有字段/SHA在research/slow-momentum-cpd-cost-data-repair-20261011冻结。无新第三方模型/金融内核或论文原样复现声明。

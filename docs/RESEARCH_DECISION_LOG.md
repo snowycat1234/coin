@@ -1941,3 +1941,9 @@ NOT_RUN, fundingnotknownzero/native/netProfit/APRUNKNOWN. Oldgross STOP, collect
 lock/lost2026ledgers and unrelated work retained. Publish useful checked module,
 final source/config hashes and failure receipts, verify remote; no new proposal.
 See research/slow-momentum-cpd-cost-objective-20261011/README.md.
+
+## 2026-10-11 固定成本目标在修复训练数据后完成并停止
+
+用户追加授权的真实缺失价格恢复消除了原先预检阻塞；原阻塞版本与234份旧工件继续保留。仅恢复十个官方观测收盘价，重新冻结训练期GP/scaler，按已发布14939d25配置运行六fresh64完整路径费用目标，不改变费用/掩码/损失/Adam/预算/种子/门槛。三块与三种子完整报告，最终CPD费用后Sharpe增量−0.016973、条件CI跨0且绝对价格成本代理负，五门槛仅一项通过。停止，不扩预算、不用旧1024或其他检查点救回结果、不启动native钱包。固定修复数据适配未建立稳定增量，不否定传统期货论文；真实资金费/钱包净收益仍未知。
+
+40相关测试及独立Decimal/来源/模型/bootstrap审计通过；正常提交研究分支并核远端。代码、冻结工件、小证据与一条最小复现命令发布，行情及完整model/Adam/RNG检查点留独立STATE，SHA在FIT收据中。参见 research/slow-momentum-cpd-cost-data-repair-20261011/README.md。
