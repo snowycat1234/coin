@@ -32,11 +32,10 @@ class DomainBars:
     close_us:np.ndarray
     available_us:np.ndarray
     values:object
+    provenance:object=None
 
 
-def source_bars(frame,row,required_family,*,added_repair_rows=0):
-    need(added_repair_rows==0 and row.get('kind')!='DAILY_UNION',
-         'Single original CSV provenance only; added daily repairs require a composite source contract')
+def source_identity(row,required_family):
     need(required_family in ('klines','markPriceKlines') and row['family']==required_family,
          'Independent trade/mark source family required')
     symbol=row['symbol'];period=row.get('source_period',row['month'])
@@ -44,6 +43,10 @@ def source_bars(frame,row,required_family,*,added_repair_rows=0):
     wanted=f'https://data.binance.vision/data/futures/um/{frequency}/{required_family}/{symbol}/1m/{symbol}-1m-{period}.zip'
     need(row['official_URL']==wanted and re.fullmatch('[a-f0-9]{64}',row['ZIP_SHA256']),
          'Exact venue/product/symbol/period/source identity required')
+    return symbol,wanted
+
+
+def price_arrays(frame,required_family):
     t=frame.timestamp_ms.to_numpy();need(t.dtype.kind in 'iu' and len(t)>0,'Actual integer minute clock')
     need(np.all(t%60000==0) and np.all(np.diff(t)>0),'Unique increasing source minutes')
     end=frame.close_time_ms.to_numpy()
@@ -56,8 +59,15 @@ def source_bars(frame,row,required_family,*,added_repair_rows=0):
          np.all(values['low']<=np.minimum(values['open'],values['close'])) and
          np.all(values['low']<=values['high']),'Actual OHLC range identity')
     if required_family=='klines':need(np.all(values['quote_volume']>=0),'Nonnegative trade capacity input')
-    return DomainBars(symbol,required_family,row['ZIP_SHA256'],wanted,frozen(t*1000,np.int64),
-        frozen(end*1000,np.int64),frozen((t+60000)*1000,np.int64),MappingProxyType(values))
+    return frozen(t*1000,np.int64),frozen(end*1000,np.int64),frozen((t+60000)*1000,np.int64),MappingProxyType(values)
+
+
+def source_bars(frame,row,required_family,*,added_repair_rows=0):
+    need(added_repair_rows==0 and row.get('kind')!='DAILY_UNION',
+         'Single original CSV provenance only; added daily repairs require a composite source contract')
+    symbol,wanted=source_identity(row,required_family)
+    return DomainBars(symbol,required_family,row['ZIP_SHA256'],wanted,*price_arrays(frame,required_family),
+        MappingProxyType(dict(kind='SINGLE_ORIGINAL_CSV',source_ZIP_SHA256=row['ZIP_SHA256'])))
 
 
 def exact_boundary(bars,left):
@@ -88,7 +98,8 @@ def day_block(symbols,trade,mark,left):
             arrival_clock='UNKNOWN; next-minute completion is only a conservative source-clock proxy',
             extreme_event_us='UNKNOWN',intraminute_order='UNKNOWN',
             mark_ohlc=MappingProxyType({k:frozen(m.values[k][mi]) for k in PRICE_FIELDS}),
-            trade_ohlc=MappingProxyType({k:frozen(t.values[k][ti]) for k in PRICE_FIELDS}))
+            trade_ohlc=MappingProxyType({k:frozen(t.values[k][ti]) for k in PRICE_FIELDS}),
+            source_provenance=m.provenance)
     # This exact four-field projection is accepted unchanged by MarketTape.
     return dict(times=times,market=market,mark_sidecars=sidecars)
 
