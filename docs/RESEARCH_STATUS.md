@@ -1,5 +1,9 @@
 # COIN 当前研究状态
 
+## 2026-10-11 independent October2022 continuous warmup restored
+
+Separate research/core5-warmup-tail-risk-20261011 branch. Exhaustive35head/18014reachable-object source inventory identified existingOct2markdaily repairs; no fullOctoberprice month source. Official10monthlyZIPs12901147B acquired once, five markmonthOct2gaps filled only by five Git49017d88officialdailyZIPs(7200actualminutes). Actual446400trade/markminutes,CHECKSUM/CRC/OHLC/exactUTCgrid pass,30validRVdays eachasset/domain; Oct1firstRVNaN retained, actualOct1/Oct31boundarycloses saved. Config-preflight failure and incomplete-month assertion preserved; source53fb4aa8 reuses6cache/newdownloads4,8.46s/156.26MBsampledRSS. No refusal/route change, fits/wallets/HARrefits0. Source22parts+smallpanels published once; public original-minute cold restore pending. Next independent conditional-upward-mark-excursion risk target deduplicated, not yet fitted/frozen. All old STOPs and account semantics preserved. Details research/core5-october-warmup-20261011/README.md.
+
 ## 2026-10-11 BTC异质beta残差CS经济验收完成：本配方STOP
 
 源码fd7083ce先公开并17文件逐字节读回，固定2021Apr5–Jun7的4独立10k共享钱包实际完成、全部收费终端CASH/独立现金与清算审计PASS。原率1/.01下raw净−211.08/−194.14、residual净−324.82/−311.59USDT，成对−113.74/−117.44；alt毛价−65.39/−65.38，BTC毛价−49.14/−49.22。残差实际vol12.757%/12.749% vs对照11.438%/11.426%，比1.115超门槛；各钱包DOGE清算2次、真实承担损失约458–461USDT。8经济门槛1PASS/7FAIL，停止固定84/21配方，不事后反号/调窗或重跑。

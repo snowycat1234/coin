@@ -1,0 +1,85 @@
+{
+  "schema": "READONLY_RISK_MECHANISM_HISTORY_REVIEW_V1",
+  "method": "All reachable Git Python/protocol blob review, no fits/wallet/results-array reading; one strict rerun after overly broad initial file filter",
+  "strict_source_protocol_blobs_read": 1737,
+  "strict_category_matches": {
+    "CAViaR": 0,
+    "EVT_GPD_POT": 0,
+    "adverse_or_semivariance_paths": 15,
+    "quantile_paths": 46,
+    "quantile_blob_versions": 48
+  },
+  "precise_bindings": [
+    {
+      "commit": "bf53ddffe14052d0d3de59c31c05d8d0cf0d6a62",
+      "path": "research/distribution-prediction-20261011/experiment.py",
+      "blob_oid": "558f8d38ddf15d6ef9a60068565c4522112de998",
+      "mechanism": "two LSTMs/sorted37 quantiles; pinball/CRPS on next-day terminal log return; general conditional return quantile prediction already exists",
+      "difference_to_new_candidate": "terminal close-to-close return distribution rather than next-day intraday maximum upward mark-price excursion; no upper-semivariance linear tail sizing identified"
+    },
+    {
+      "commit": "004365a37cde172891fb11f2906ebcc644adebe8",
+      "path": "research/har-rv-risk-20261011/diagnose.py",
+      "blob_oid": "d155f17cbda54303917e3f6dc9a1f0c0714b2511",
+      "lines": [
+        77,
+        150
+      ],
+      "mechanism": "training95 percentile of next-day maxup labels used only to create ex-post short_tail diagnostic mask; no conditional maxup quantile fit or sizing policy"
+    },
+    {
+      "commit": "ef67d636a51fd3fa9e804f651aab5775f6bae5f8",
+      "path": "scripts/investment/basis_risk_diagnostic.py",
+      "blob_oid": "7618a2f8a3ce54f3fe1c4b20650c8e70c2a175dc",
+      "lines": [
+        112,
+        125,
+        128,
+        151
+      ],
+      "mechanism": "fixed-quantity mark-minus-spot valuation, decomposed mark-minus-index plus index-minus-spot; historical diagnostic, no mark/trade-basis conditional tail forecast"
+    },
+    {
+      "commit": "3acfcd0fc44907c25e6eb4c0d66776b97ff5f572",
+      "path": "research/temporal-short-input-diagnosis-20261010/diagnose.py",
+      "blob_oid": "5fa0e0455075273d7ce2b7f525b249be69c92bdb",
+      "lines": [
+        91,
+        116,
+        139
+      ],
+      "mechanism": "vol10/vol60 training75 percentile labels high-shock groups for prior short-model diagnosis; not conditional upper-price excursion forecast"
+    },
+    {
+      "commit": "004365a37cde172891fb11f2906ebcc644adebe8",
+      "path": "research/core5-2022-rv-source-20261011/recover.py",
+      "blob_oid": "a4bd521993bda1db35d354c5ad8c338d0440f532",
+      "lines": [
+        80
+      ],
+      "mechanism": "data audit computes maximum absolute mark/trade basis; no predictor or sizing"
+    }
+  ],
+  "candidate_verdict": "Next-day intraday maximum upward mark excursion conditional quantile with upper-semivariance and past normalized upside features, applied only as short-leg downward sizing, was not identified as an existing implemented recipe. It is an independent risk-target adaptation, not a new general quantile-prediction method and not a faithful CAViaR or EVT replication. Preserve every prior STOP.",
+  "identification_requirements": [
+    "Use identical causal mark/trade input clocks across fitted and empirical quantile controls",
+    "Conditional quantile and same-input volatility-scaled empirical quantile comparison must isolate information beyond generic volatility sizing",
+    "Constant unconditional quantile and matched average short exposure control are required to distinguish tail information from merely lower exposure",
+    "Freeze label maturity/purge and fixed diagnostic blocks before fits; no post-hoc window or parameter selection",
+    "Price excursion forecast does not certify legacy-entry isolated-margin risk or historical native liquidation rules"
+  ],
+  "limitations": [
+    "Only available reachable Git source/protocol blobs and known archive source directories inspected; no claim about unreachable objects or external stores",
+    "Initial broad scan erroneously loaded research RESULT.json summary keyword lines; no result arrays or wallet bodies read, no outcome values used, corrected strict scan excludes result summaries",
+    "No new strategy outcomes, fit, wallet, source data parsing, downloads or worktree changes"
+  ],
+  "scope_controls": {
+    "fits": 0,
+    "wallets": 0,
+    "result_arrays_read": 0,
+    "model_artifact_bodies_read": 0,
+    "account_or_credential_bodies_read": 0,
+    "collector_lock_bodies_read": 0,
+    "window_or_parameter_recommendations": 0
+  }
+}
