@@ -6,7 +6,7 @@ research assumption; it is never represented as verified lowest-tier data.
 """
 from copy import deepcopy
 from decimal import Decimal as D,localcontext,ROUND_CEILING
-from .perpetual_account import USDTLinearPerpetualAccount,decimal,_numbers,ZERO
+from .perpetual_account import USDTLinearPerpetualAccount,decimal,_numbers,ZERO,HALTS
 
 def liquidation_price(entry,quantity,leverage,extra,mmr,fee,deduction,side):
     e,q,l,x,m,f,d=map(decimal,(entry,quantity,leverage,extra,mmr,fee,deduction))
@@ -30,7 +30,7 @@ def validated_tiers(rows):
     return out
 
 class BybitIsolatedAccount(USDTLinearPerpetualAccount):
-    VERSION='bybit_style_isolated_bankruptcy_takeover_v1'
+    VERSION='bybit_style_isolated_bankruptcy_takeover_v2_permanent_unpaid_halt'
 
     def __init__(self,config=None,*,risk_tiers=None,risk_authority='LEGACY005_UNCERTIFIED_RESEARCH_ASSUMPTION',liquidation_journal=None,**kwargs):
         self.risk_authority=risk_authority;self.liquidations=deepcopy(liquidation_journal or [])
@@ -83,7 +83,14 @@ class BybitIsolatedAccount(USDTLinearPerpetualAccount):
         if self.liquidation_callback is not None:self.liquidation_callback(symbol,event)
 
     def _risk(self,phase):
-        if self._inside_liquidation:return
+        if self.status in HALTS or self._inside_liquidation:return
+        # Other legs' collateral or unrealized gains cannot settle an unpaid
+        # isolated debit. Preserve the shared wallet's permanent halt contract.
+        if self.unpaid_liability:
+            self.status='BANKRUPT_HALT'
+            self.halt_witness=_numbers(dict(event_us=self.clock_us,phase=phase,NAV=self.nav(),
+                unpaid_liability=self.unpaid_liability,scope='UNPAID_ISOLATED_DEBIT_NO_CROSS_LEG_TOP_UP'))
+            return
         for symbol,p in self.positions.items():
             if not p.quantity:continue
             mark=self._mark(symbol);notional=abs(p.quantity)*mark
@@ -120,8 +127,9 @@ class BybitIsolatedAccount(USDTLinearPerpetualAccount):
                 if p.quantity and hit:self._takeover(symbol,mark,phase,tier)
             finally:self._inside_liquidation=False
         nav=self.nav()
-        if nav<=0:
-            self.status='BANKRUPT_HALT';self.halt_witness=_numbers(dict(event_us=self.clock_us,NAV=nav,scope='REAL_WHOLE_WALLET_INSOLVENCY_AFTER_ISOLATED_TAKEOVERS'));return
+        if nav<=0 or self.unpaid_liability:
+            self.status='BANKRUPT_HALT';self.halt_witness=_numbers(dict(event_us=self.clock_us,phase=phase,NAV=nav,
+                unpaid_liability=self.unpaid_liability,scope='REAL_WHOLE_WALLET_INSOLVENCY_AFTER_ISOLATED_TAKEOVERS'));return
         values=[abs(p.quantity)*self._mark(s) if p.quantity else ZERO for s,p in self.positions.items()]
         breach=any(v>self.config.max_asset_weight*nav for v in values) or sum(values,ZERO)>self.config.max_gross_weight*nav
         self.status='BOUND_BREACH_REDUCTION_REQUIRED' if breach else 'ACTIVE'

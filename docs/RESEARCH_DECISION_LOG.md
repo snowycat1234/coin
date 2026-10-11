@@ -1983,3 +1983,6 @@ e347fa4f预拟合公开冻结后，唯一1尝试/2fit完成。训练MSE增量+1.
 追加四钱包真实经济验收：fd7083ce预执行源码公开读回，固定63日/2arm×2unit，额外fit0。成对net−113.7385/−117.4450USDT，两腿毛价增量负、条件bootstrap跨0、残差vol12.75%/比1.115、两组各2DOGE清算，8门槛1PASS/7FAIL，STOP_THIS_84_21_RECIPE。没有重跑/无清算反事实/扩大训练或开发。另完成零拟合同账本清算/成本/实际beta取证、无损17审计列加全部journal公开恢复包（原full37PQ不声称字节恢复）；项目保持可继续，旧STOP不改。最小复现和完整测试/失败收据见本研究README。
 
 追加公开恢复验收：34bb3f29的18part包逐字节/SHA/CRC恢复四独立账户362880分钟，独立审计对象完全相同，联合bootstrap和成对增量核对通过（差8.24e−13USDT），targets3650values可读。原workspace/STATE打开尝试0、fit/wallet0。首条命令填错SHA、首文件404之前无下载，保留失败收据；从实际GitHEAD取正确SHA在另一新目录成功，非科学重试。原main/CPD/funding工作树clean和HEAD未改，其他研究未改。
+# 2026-10-11 isolated unpaid halt correction
+
+Saved old four-wallet DOGE audit found no unpaid deficit, so retain original results and STOP. A separate public-API synthetic funding boundary exposes `BybitIsolatedAccount._risk` overriding the base unpaid-liability/permanent-HALTS checks. Corrected v2 restores those invariants without changing collateral allocation or liquidation formulas. Before/after source-bound evidence and 44 related passed tests: `research/liquidation-semantics-20261011/`. No historical wallet rerun, fit or collector lock access. Old test fixture's initial 3 failures are retained in STATE, corrected only its halt-API expectations.
