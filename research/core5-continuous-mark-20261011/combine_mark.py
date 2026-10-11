@@ -50,7 +50,7 @@ def assemble(commit):
             for t in r.get('remaining_missing_open_ms',[]):
                 gaps.append(dict(symbol=r['source']['symbol'],open_ms=t,source_ZIP_SHA256=r['source']['ZIP_SHA256']))
             for s in [r['source'],*r['source'].get('new_daily_repairs',[])]:
-                if s['kind']=='NEW_PUBLIC_PARTS':originals[s['ZIP_SHA256']]=s
+                if s.get('kind')=='NEW_PUBLIC_PARTS':originals[s['ZIP_SHA256']]=s
         row=index['artifacts']['DAILY.npz'];b=b''.join(SourceReader.part(cold['artifact_commit'],p) for p in row['parts'])
         assert digest(b)==row['SHA256'] and len(b)==row['bytes']
         with np.load(io.BytesIO(b),allow_pickle=False) as a:
@@ -102,7 +102,7 @@ def assemble(commit):
 
 def run(commit,output,expected=None):
     assert output.resolve().is_relative_to(Path('/workspace')) and not output.exists();output.mkdir()
-    for line in (HERE/'COMBINE_GAPPED_SHA256.txt').read_text().splitlines():
+    for line in (HERE/'COMBINE_CURRENT_SHA256.txt').read_text().splitlines():
         sha,p=line.split(maxsplit=1)
         assert digest(git('show',commit+':'+p))==digest((ROOT/p).read_bytes())==sha
     start=time.monotonic();full,proof=assemble(commit)
