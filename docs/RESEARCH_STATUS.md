@@ -1,5 +1,9 @@
 # COIN 当前研究状态
 
+本独立分支正在执行已获授权的 Sharpe 修正尝试2；固定6fit×1024步，
+新GP/scaler拟合0，29定向测试通过，原MSE结果保留；原生钱包尚未绑定。
+工件见[独立Sharpe实验](../research/slow-momentum-cpd-sharpe-20261011/README.md)。
+
 此独立`research/slow-momentum-cpd-20261011`分支完成一项论文CPD监督预测适配。
 训练2021–2022、验证旧2023H1/H2和2024Jan–Apr，3seed/6fit/1536updates，
 MSE增量−0.250%/−0.088%/+0.106%，全部预注册门槛FAIL，STOP。

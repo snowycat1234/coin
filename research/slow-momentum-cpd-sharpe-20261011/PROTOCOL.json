@@ -1,0 +1,28 @@
+{
+  "schema": "SHARPE_CORRECTION_EXECUTION_BINDING_V1",
+  "frozen_proposal": "research/slow-momentum-cpd-20261011/SHARPE_CORRECTION_PROPOSAL.json",
+  "proposal_sha256": "8895319f41a91ebdb44a87fe67959c5f45c62cd7ad7c325fe87e0875eadc816b",
+  "authorization": "2026-10-11 parent explicitly requested execution of the published proposal; six fits, 1024 steps each, 1200 second hard stop",
+  "scientific_attempt": 2,
+  "scope": "Raw captured-return policy probe only; original MSE experiment unchanged",
+  "implementation_choices": {
+    "moments": "Centered population variance in float64, algebraically the frozen E[z²]-E[z]²; same epsilon1e-9",
+    "scored_sharpe": "No epsilon; zero/nonfinite variance INVALID",
+    "cash_mask": "Decision-time features and current causal vol only; future-label missingness never cash",
+    "target_alignment": "Decision available D predicts completed close-to-close outcome at D+1day; strict D+1day<split_end",
+    "bootstrap": "Same contiguous calendar indices for both arms and all5 assets; block boundaries never bridged",
+    "tanh_floating_point": "Computational tanh may round to +/-1; no new clipping rule",
+    "new_gp_scaler_fit_calls": 0
+  },
+  "budgets": {
+    "fits": 6,
+    "updates_per_fit": 1024,
+    "total_updates": 6144,
+    "wallets": 0,
+    "threads": 1,
+    "gpu": 0,
+    "swap": 0,
+    "wall_seconds": 1200,
+    "outputs_bytes": 10485760
+  }
+}

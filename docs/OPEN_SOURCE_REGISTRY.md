@@ -560,3 +560,11 @@ Traditional futures results are not crypto evidence. Reuses exact public history
 archive e0d3400b23842f11f167a63e7d80856d76501de8 and conservative resource guard
 from recovery546cb9bd, independent source/module/state; no old selector or
 Transformer training, oracle utility, native-engine rewrite or locked access.
+## 2026-10-11 Sharpe correction for slow-momentum CPD
+
+Same paper v3 and upstream e0352cb0 as the registered prediction adaptation;
+new objective adapter uses captured-return negative Sharpe and bounded tanh
+positions, keeping train-frozen GP/scaler and last-step PyTorch LSTM. MIT notice
+and source identities are reused from research/slow-momentum-cpd-20261011.
+No upstream TensorFlow runtime, credentials or original CLC data were introduced.
+Execution scope/proposal: research/slow-momentum-cpd-sharpe-20261011/PROTOCOL.json.

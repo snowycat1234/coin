@@ -1725,3 +1725,19 @@ bootstrap and explicit decision-time masks. MSE/IC are diagnostic only.
 Proposal NOT_RUN/no runner; new fits/inference/wallets0. If later executed count
 attempts2/fits12/updates7680; no silent retry or paper-exact claim. Details and
 byte-preservation receipt: research/slow-momentum-cpd-20261011/REPRODUCTION_GAPS.md.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD_SHARPE attempt2 prefit
+
+User authorized execution of published proposal8895319f41a91ebdb44a87fe67959c5f45c62cd7ad7c325fe87e0875eadc816b.
+One new attempt, six fresh paired fits/three fixedseeds/1024updates each,
+same2526train endpoints/data/63last-head/h16 and exact original frozenGP/scaler.
+Centeredfloat64 training variance with sameepsilon; scoredSharpe has noepsilon.
+Decision mask uses <=t inputs only; nextmissing outcomeINVALID even atzero
+position. Fixed /5 cash divisor, strictnextday maturity, jointdate/asset/arm
+nonlinearbootstrap, laststep checkpoint; nosearch/retry/validationfit/wallet.
+29combined focusedtests/Ruff pass; independent read-only findings addressed.
+Initialprefit counts180/183/120days,694/915/600eligible,missingfuture0.
+Prefit source/tests/protocol must be pushed and exactremoteSHA/worktreebytes
+bound before fitting. Native economics NOT_RUN_NOT_BOUND; netPnL/APRUNKNOWN.
+OriginalMSE43evidence/4source/6checkpointbytes intact,lockedclosed; own state
+/workspace/slow-momentum-sharpe-state and experiment directory only.
