@@ -19,3 +19,12 @@ COIN_CPD_STATE=/workspace/jointcorr-state QUANT_ROOT=/workspace/coin-tail-risk Q
 ```bash
 COIN_CPD_STATE=/workspace/jointcorr-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/jointcorr-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/joint-correlation-risk-20261011/run.py --prepared research/joint-correlation-risk-20261011/prepared --output /workspace/jointcorr-state/result
 ```
+
+真实结果与冻结STOP见RESULTS.md及result/；模型/预测/targets已公开d34df9885c30649d5f257194e73b8bc5e5efa2cc。新STATE公共Git恢复全部665日期向量与统计精确一致，0再拟合/新科学尝试/原STATE读取/下载/钱包。一次冷恢复CLI误写SHA在首个Git读取即失败，失败空目录及守卫保留；随后使用已观察真实远端SHA成功，科学尝试仍1。
+
+公共冷恢复最小命令（引用公开Git对象，不依赖原STATE；已有NumPy/pandas/Polars/PyArrow及project import环境）：
+```bash
+COIN_CPD_STATE=/workspace/jointcorr-fresh QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/jointcorr-fresh bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/joint-correlation-risk-20261011/verify.py --artifact-commit d34df9885c30649d5f257194e73b8bc5e5efa2cc --output /workspace/jointcorr-fresh/restored
+```
+
+恢复范围是新STATE加当前本地已有的公开Git对象，不声称重新从互联网clone所有历史大对象或原WSL/VHD恢复。原始分钟/校验/跨月来源证书复用五个已公开coldsource阶段；本模块实际重建全部5分钟价格/协方差来源，核回旧637日同值。完整资源、科学/工程失败计数、阻塞和接续边界见COMPLETION.json。
