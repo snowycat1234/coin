@@ -1,0 +1,24 @@
+{
+  "status": "IDENTITY_CORRECTION_BEFORE_FIRST_HAR_FIT_OR_WALLET",
+  "original_protocol_commit": "59578cb9ad8cac3f14179db9bb2b4f115b57e9e0",
+  "supersedes_only": "PROTOCOL.json.frozen_strategy; all forecasting, splits, gates, scales and budgets unchanged",
+  "reason": "Use the original CORE5 CSMOM21 control instead of the clearly declared prior alt-rank plus BTC84beta hedge. This removes unnecessary inheritance of the failed residual-study structure. No outcomes or fits motivated the correction.",
+  "frozen_strategy": {
+    "data_source_git": "94fe13c494c82bb6e6868e6614eb7298fb15b3c3",
+    "wrapper_member": "derived/CONTEXT_INPUTS.npz",
+    "member_bytes": 34041,
+    "member_sha256": "775074cc788949e5b12953f4f22d5b724b653e358b04f44b46ecb5dbc703e7cf",
+    "compressed_expert_index": 2,
+    "original_E5_slot": 4,
+    "expert_identity": "CSMOM21; original_E5_slots=[0,1,4], expert_names=[CASH,VOL_MANAGED_HOLD,CSMOM21]",
+    "base_array": "expert_targets[:,2,:], already risk-scaled using past30daily simple covariance and annual .10",
+    "float64_C_order_base_array_sha256": "733276fc4ddead2305f53b43dd328189e63a8ef2198c11e475ed1d01145ec7ed",
+    "raw_array": "raw_targets[:,2,:], original weekly21day CORE5 intents, NOT BTCbeta hedge",
+    "float64_C_order_raw_array_sha256": "646e5e11e1cde363d0e6aa764cc5b4863c6dcfae05fe3a693e66cda878d11f93",
+    "identity_mask": "expert_eligible[:,2], asset_eligible[:,2,:], fixed5_covariance_ready; exact decision_us and target_available_us[:,2], preserve source masks and identity",
+    "symbol_order": ["BTCUSDT","ETHUSDT","SOLUSDT","XRPUSDT","DOGEUSDT"],
+    "calendar": "2021Jan1-Dec31",
+    "original_generator": "protocol/conditional_selector_inputs.py existing_targets(CSMOM21) -> public_targets; pinned public_cross_section_momentum.py SHA7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f, recipe SHA9c6658cd7682b6c5470585cbe927c20893e98a3e071cd52e56c5de280e86f207",
+    "change": "Scalar-only HAR/LAST_RV/STATIC sizing; preserve the base relative weights/directions, all availability and caps. Do not execute either stopped residual or ETH/BTC price-level recipe."
+  }
+}
