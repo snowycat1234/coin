@@ -1,7 +1,11 @@
 # COIN 当前研究状态
 
-本独立分支正在执行已获授权的 Sharpe 修正尝试2；固定6fit×1024步，
-新GP/scaler拟合0，29定向测试通过，原MSE结果保留；原生钱包尚未绑定。
+本独立分支完成 Sharpe 修正尝试2：6fit×1024步，毛策略SR0.236→0.521，
+增量+0.285，95%CI[-0.181,+0.803]跨零；前三门槛PASS、置信下界门槛FAIL，STOP。
+三个已见开发时段增量均正，seed增量+0.086/+0.677/−0.027；六fit收敛未建立。
+原29拟合前测试及1审计回归通过，保存策略/因果掩码/非线性bootstrap独立核对PASS；
+原MSE证据/源码/6checkpoint实际字节保持；新GP/scaler/验证拟合/搜参/重试均0。
+原生钱包NOT_RUN_NOT_BOUND，费用/滑点/实际资金费/风险/终端平仓未测，净利润/APR未知。
 工件见[独立Sharpe实验](../research/slow-momentum-cpd-sharpe-20261011/README.md)。
 
 此独立`research/slow-momentum-cpd-20261011`分支完成一项论文CPD监督预测适配。
@@ -12,7 +16,8 @@ MSE增量−0.250%/−0.088%/+0.106%，全部预注册门槛FAIL，STOP。
 协议与完整结果见[独立研究交付](../research/slow-momentum-cpd-20261011/README.md)。
 追加[复现差距核对](../research/slow-momentum-cpd-20261011/REPRODUCTION_GAPS.md)：
 MSE门槛不能检验论文Sharpe策略主张，CI跨零也未排除小预测增量。
-仅冻结一项tanh/Sharpe修正提案，NOT_RUN；本轮新增fit/推断/wallet均0。
+当时仅冻结一项tanh/Sharpe修正提案（原文NOT_RUN）；现已另目录按授权执行，见顶部。
+累积2科学尝试/12fit/7680updates/0wallet，不以毛SR点估计证明反转盈利或否定原论文。
 原2026Q1/Q2账本不可访问，未捏造恢复，collector2026Mar–Sep锁未打开；
 另一收益分布分支未编辑。下列原有投资状态与历史负结果保留。
 

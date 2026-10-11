@@ -1741,3 +1741,36 @@ Prefit source/tests/protocol must be pushed and exactremoteSHA/worktreebytes
 bound before fitting. Native economics NOT_RUN_NOT_BOUND; netPnL/APRUNKNOWN.
 OriginalMSE43evidence/4source/6checkpointbytes intact,lockedclosed; own state
 /workspace/slow-momentum-sharpe-state and experiment directory only.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD_SHARPE attempt2 completed
+
+Exactly six fixed1024update fits executed once at published6229da816bb7241aa5b75931090ecd84f3a1f19d;
+no newGP/scaler/validation fitting/search/retry/wallet. Same frozen proposal8895319f,
+seen development483days, original MSE43evidence/4source/6external models actually
+byte-verified before and after. Gross calendar SR trend0.2359906 versusCPD0.5206259,
+delta+0.2846353; perblock+0.0732396/+0.2677108/+0.3944196; pairedseed
++0.0861971/+0.6765799/-0.0273062. First3frozen gatesPASS; fourthFAIL because
+jointdate14day/1000rep/seed9901 CI95[-0.18057695,+0.80334791] crosseszero.
+STOP_RAW_POLICY_INCREMENT_NOT_ESTABLISHED; mixed positivepoint estimate,
+no claim that CPD has no effect, originalpaper invalid, or net profit established.
+All6tailtrainingSR drifts .2088-.7669 exceed .02, convergence notestablished;
+no extension/reselection. RankingIC mixed, notcalibratedforecast outputs.
+
+29prefit focusedtestsPASS plus1postfit receiptregressionPASS, fullrepoNOT_RUN.
+Read-only audit1 completed arithmetic then failed NumPybool JSON encoding;
+partial/failure hashes preserved. Audit-onlyfix b3d209c8d55958471c874fc2707d765ed56c3688
+published before audit2PASS, originaltrainer/test/result/checkpoints unchanged.
+2415rows, causal masks/currentvol/strictlabels/fixed5divisor, pairedRNG/batches/
+Adam1024,18validation+6training savedinferences, independent nonlinearbootstrap
+andgates reconciled; maxresidual0/8.88e-16. Zero scientificreruns.
+
+Actualtrainingtimer32.236s, wrapper37.047s, fit-childtimers28.970s (notadded);
+sampledRSS381382656B, sampledhost1149771776B, noresource stop. Successful
+readonlyaudit5.787s/sample304689152B. OneCPU/thread, GPU0/swap0, conservative
+4GBAS/2GBRSS/shared8GBusedstop/1200s/15GiBreserve guard retained. Cumulate
+2scientificattempts/12fits/7680updates. NativewalletNOT_RUN_NOT_BOUND,
+cost/slippage/actualfunding/risk/paidterminalclosureNOT_MEASURED, netPnL/APRUNKNOWN.
+Minimum next binding requirements and reproduction/evidence/source identities:
+research/slow-momentum-cpd-sharpe-20261011/README.md and results/.
+No original2026Q1/Q2ledger recovery claim; collectorlocked remainsclosed,
+other return-distribution branch unaffected. No same-window rescue recipe.
