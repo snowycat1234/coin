@@ -277,3 +277,5 @@ Independentmark Q12022complete:15new officialmonthly originals14530437B/648000ac
 Q12022publicrawcoldPASS at529c5be15f9fb128d722a120c2d19e7c245f7358:648000independentmarkminutes/allprimitives/clocks exact,5Decactualrawboundary checks,7.302995seconds,0originalSTATE/download/fit/wallet. QuarterremoteSHA verified beforecontinuingQ2; nativeexactfunding/MMR barriers stayseparate.
 
 Independentmark Q22022complete:15new officialmonthly originals14201666B/655200actualminutes/91dates; sourceSHA/bytesallmatcholdHASH_ONLY, no gap orimputation,23.885923seconds. Cumulative new33971298B. Frozenacquisition/financialkernels unchanged; finalsource-only combine adapter added forlater6publiccoldcertificate/day-calendar join, hashseparatefromunchangedfrozenacquisitionmanifest. Publiccold next beforeQ3;0fit/wallet.
+
+Q22022publicrawcoldPASS at5071b6883fc7e4fab8e01b6d1c47a7fc42fc2fc0:655200independentmarkminutes/allprimitives/clocks exact,5Marchactualrawboundary checks,5.845338seconds,0originalSTATE/download/fit/wallet. Quarterpublishedandremoteverified; continueQ32022.
