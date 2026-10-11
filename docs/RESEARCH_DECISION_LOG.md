@@ -1807,3 +1807,38 @@ stillNOT_BOUND; sharedwallet0/netPnL/APRUNKNOWN, no claimed ledger recovery.
 failures/receipts preserved; fullrepoNOT_RUN. Diagnostic2.330s internal/10.272s
 wrapper sampledRSS312975360B, noresource stop. Source/evidence/proposal/remaining
 binding gaps: research/slow-momentum-cpd-training-diagnostic-20261011/README.md.
+
+## 2026-10-11 frozen paired continuation attempt3 completed
+
+Parent reviewed9a974947 and explicitly authorized exactly one continuation of
+proposal33869fc5..., without gate/seed/budget/financial assumption changes.
+Sourcebd5440c9e9c4f636c5417368a9d3d99811d42a9b published and13public files byte-
+verified before updates.28focused tests/exact6-model-Adam-RNG preflight passed.
+Independent review fixed per-arm cumulative hash alias, invalid-audit handling,
+partial-validation markers and complete pre/post Sharpe checkpoint preservation
+before any scientific update; no recipe retry or validation query during prefit.
+
+Six original1024 models resumed through equal128 rounds to common2048 hardcap,
+adding6144updates (cumulative13824; attempts3/freshfits12/segments18/wallet0).
+TrainJ improved1.14977–1.87277, but all6 fail final3abschanges<=.02; convergence
+not established, finite-state checks passed, all6144steps gradient-clipped.
+Training stop persisted before the one final validation-producing call.
+
+Seen-development aggregateSR trend−.60722455/CPD.12935707, delta.73658162,
+CI[.03501343,1.37259648], joint14day/1000rep/seed9901, four unchanged gatesPASS;
+3/3blocks positive, seeds−.07240479/.53914746/1.53569774. AbsoluteSR decreased
+in both arms versus original1024 .23599060/.52062590. This supports a conditional
+relative increment at the frozen final checkpoint, not improved absolute policy,
+independent OOS, economic profitability or verified fast-reversion causation.
+CI omits prior validation inspection/continuation selection and training uncertainty.
+
+Independent executable auditPASS:54training checkpoint inference sets/18validation
+readbacks/2415rows, inference0/metric8.88e−16residual, batches/RNG/Adam ages/common
+stop/causal mask/purge/currentvol/nonlinear bootstrap/source identities reconciled.
+Original43MSE+47Sharpe+24diagnostic files and12external source models byte-preserved.
+Run36.024s internally/46.367s guard, sampledRSS457658368B, outputscan2683724B;
+1CPU/GPU0/swap0/hard1200s, no resource stop. No fresh GP/scaler/validation fit.
+Net costs/slippage/funding/risk/paidclosure remain NOT_BOUND_NOT_MEASURED and
+netProfit/APRUNKNOWN. Old2026Q1/Q2 unavailable, collectorlock closed, no other
+research files changed. No automatic further training or wallet. FullrepoNOT_RUN.
+See research/slow-momentum-cpd-sharpe-continuation-20261011/README.md and results.
