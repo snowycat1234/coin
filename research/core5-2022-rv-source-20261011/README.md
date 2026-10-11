@@ -22,13 +22,13 @@
 
 实际解析2.83秒，守卫4.33秒、采样RSS159.9MB，1CPU/2GBRSSstop/4GB地址空间/15GiB预留，无GPU/swap。既有2021HAR科学尝试/两项旧STOP/永久unpaidHALT修复、distribution分支和collector2026锁保持。源包中的账本只作运输字节SHA，不作研究输入。
 
-公共 [DATA_BUNDLE.zip](DATA_BUNDLE.zip) 392,857B，9个成员，保存实际5mincloses、日RV、来源receipt及主/独立审阅守卫；[PUBLIC_BUNDLE.json](PUBLIC_BUNDLE.json)逐成员绑定。下面冷恢复命令从公开Git读取到新目录，复核来源SHA及290个日RV，无原STATE读取、重拟合或新钱包。ARTIFACT_COMMIT取发布此数据包的提交：
+公共 [DATA_BUNDLE.zip](DATA_BUNDLE.zip) 392,857B，9个成员，保存实际5mincloses、日RV、来源receipt及主/独立审阅守卫；[PUBLIC_BUNDLE.json](PUBLIC_BUNDLE.json)逐成员绑定。[公开冷恢复已通过](PUBLIC_RESTORE.json)：真实remote读回、五项源码绑定、290个日RV误差0、原STATE访问0、重拟合0、钱包0。下面命令可直接复现：
 
 ```bash
 COIN_CPD_STATE=/workspace/rv2022-cold-guard QUANT_ROOT=/workspace/coin-har-risk \
 QUANT_STATE=/workspace/rv2022-cold-guard bash research/slow-momentum-cpd-20261011/launch.sh \
  /workspace/coin/.venv/bin/python research/core5-2022-rv-source-20261011/cold_verify.py \
- --commit ARTIFACT_COMMIT --directory /workspace/rv2022-cold-restored
+ --commit 8e739aebaa8549e4dab8165d4aba265ba38da59c --directory /workspace/rv2022-cold-restored
 ```
 
 需重做分钟解析时，checkout445720c4，将INDEX四byteparts按index顺序拼接为originals.zip并核上述完整SHA，再经同一守卫运行 `recover.py --archive originals.zip --output fresh-prepared --source-commit 445720c4da101d40b990ac4ba79eeb1958094d97`。既有Git原件是可恢复输入，未经新网络下载。公共冷验收只重算已测RV，不重复43万行分钟解析。
