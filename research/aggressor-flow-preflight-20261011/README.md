@@ -8,3 +8,5 @@
 COIN_CPD_STATE=/workspace/flow-preflight-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/flow-preflight-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python -m pytest -q research/aggressor-flow-preflight-20261011/test_preflight.py --basetemp=/workspace/flow-preflight-state/pytest
 COIN_CPD_STATE=/workspace/flow-preflight-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/flow-preflight-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/aggressor-flow-preflight-20261011/preflight.py --output /workspace/flow-preflight-state/result
 ```
+
+真实来源预检PASS：BTC2022January官方ZIP2,029,103B/44,640实际分钟/31完整日，所有takerbuybase/quote均不超过total，零quote分钟0。分钟quoteimbalance范围[-.88107,.88713]，日加权聚合[-.04589,.03868]；属于来源特征范围，非收益结果。0.528秒，0下载/大wrapper读取/fit/label/预测分数/钱包；source_SHA306b58c4、实际运行前冻结6164cfab。单月只证明字段可用，完整CORE5/698日flow来源尚未准备，原论文需要的逐trade方向/quote/L2仍缺，下一步必须先独立freeze完整source extraction。不能凭one-month流量自相关或引用论文声称有可学收益。
