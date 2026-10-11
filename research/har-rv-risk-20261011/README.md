@@ -24,15 +24,15 @@
 
 准备23.20秒；历史诊断1.97秒（守卫3.72秒、采样RSS153.2MB）；1CPU、无GPU/swap、2GB采样RSSstop、4GB地址空间、15GiB磁盘预留。首次准备因输出父目录缺失而停止，未解析行情/拟合，修复源码后再准备；失败receipt保留。无provider下载、凭证、实盘、Library或2026锁正文访问。
 
-公共恢复包 [RESULT_BUNDLE.zip](RESULT_BUNDLE.zip) 1,759,325B，保存实际5m closes、日RV、模型、全部预测/目标、原始控制、来源与运行/失败receipts；[PUBLIC_BUNDLE.json](PUBLIC_BUNDLE.json)绑定15成员和SHA。源码绑定 [SOURCE_SHA256.txt](SOURCE_SHA256.txt) 包括纠正后的 unpaidHALT-v2 及原共享内核；本模块未实例化钱包。公共冷恢复执行示例（ARTIFACT_COMMIT取发布此包的提交）：
+公共恢复包 [RESULT_BUNDLE.zip](RESULT_BUNDLE.zip) 1,759,325B，保存实际5m closes、日RV、模型、全部预测/目标、原始控制、来源与运行/失败receipts；[PUBLIC_BUNDLE.json](PUBLIC_BUNDLE.json)绑定15成员和SHA。源码绑定 [SOURCE_SHA256.txt](SOURCE_SHA256.txt) 包括纠正后的 unpaidHALT-v2 及原共享内核；本模块未实例化钱包。公共冷恢复已通过 [PUBLIC_RESTORE.json](PUBLIC_RESTORE.json)，目标误差1.80e−16，原STATE访问0、额外拟合0；可直接执行：
 
 ```bash
 COIN_CPD_STATE=/workspace/har-cold-guard QUANT_ROOT=/workspace/coin-har-risk \
 QUANT_STATE=/workspace/har-cold-guard bash research/slow-momentum-cpd-20261011/launch.sh \
  /workspace/coin/.venv/bin/python research/har-rv-risk-20261011/cold_verify.py \
- --commit ARTIFACT_COMMIT --directory /workspace/har-cold-restored
+ --commit b4756ec8fb59457cfd8db74a79ca6a859f07f331 --directory /workspace/har-cold-restored
 ```
 
 上述命令从真实公开Git读回，拒绝打开原研究STATE；检查原训练OLS normal equations及smearing、全部182日预测/四组目标、QLIKE和bootstrap，**0额外拟合/0钱包**。从原分钟包重新准备则checkout265afb71，运行 `prepare.py --archive existing-originals.zip --output fresh-prepared --source-commit 265afb71...`，继而 `diagnose.py --archive existing-originals.zip --prepared fresh-prepared --dependencies task-local-statsmodels0.14.5 --output fresh-diagnostic --source-commit 265afb71...`；两者同样经上述守卫。三个测试：守卫运行 `python -m pytest -q research/har-rv-risk-20261011/test_har.py --basetemp STATE/pytest`。历史重拟合命令只用于明确复现，不曾二次执行。
 
-继续独立数据价值模块：恢复已识别2022November全月trade/mark档案，检查下一日风险研究的真实连续覆盖和热身缺口；不复用这个失败配方产生新收益结果。历史2021原生MMR、资金费单位/时点、跨场所成本认证仍是未来钱包边界。
+首次公共读回因命令误抄SHA返回404，保存 [FAILED_PUBLIC_FETCH_GUARD.json](FAILED_PUBLIC_FETCH_GUARD.json)；改为真实远端SHA后成功，工件/模型未修改。独立数据价值模块已恢复2022November全月trade/mark档案，检查真实连续覆盖和30日热身缺口，见 [恢复说明](../core5-2022-rv-source-20261011/README.md)；不复用失败配方产生新收益结果。历史2021原生MMR、资金费单位/时点、跨场所成本认证仍是未来钱包边界。
