@@ -5,6 +5,7 @@ from scipy.integrate import quad
 from scipy.stats import norm
 
 from shape_ablation import matched_normal, normal_representation
+from verify_shape import clipped_exp_quad
 
 
 def scalar_moments(q, taus):
@@ -49,3 +50,16 @@ def test_clipped_normal_reference_is_distinct_from_interpolation_and_numeric_err
     assert rep['tail_clipping_expected_exp_change']['max'] < 0
     assert abs(rep['interpolation_expected_exp_change']['mean']) > 1e-8
     assert rep['maximum_Eexp_decomposition_error'] < 1e-14
+
+
+def test_clipped_exp_verifier_uses_relative_precision_for_near_unit_integral():
+    # Historical verifier failure: default quad epsrel permitted1.82e-10 error,
+    # despite epsabs1e-11. Keep a fixed low-volatility numeric regression witness.
+    taus = np.array([.00005, .00025, .001, .01, .05, .1, .5, .9, .95, .99, .999, .99975, .99995])
+    loc, scale = .0001562656270984035, .010510218359215024
+    z0, z1 = norm.ppf(taus[[0, -1]])
+    exact = (taus[0]*np.exp(loc+scale*z0)+(1-taus[-1])*np.exp(loc+scale*z1)+
+             np.exp(loc+.5*scale**2)*(norm.cdf(z1-scale)-norm.cdf(z0-scale)))
+    value, estimated_error = clipped_exp_quad(loc, scale, taus)
+    assert abs(value-exact) < 1e-12
+    assert estimated_error < 1e-12

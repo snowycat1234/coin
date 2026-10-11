@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import resource
+import sys
 import time
 from pathlib import Path
 
@@ -24,6 +25,13 @@ def gl_moments(q, taus):
         mean += (values @ weights)*(hi-lo)/2
         second += (values**2 @ weights)*(hi-lo)/2
     return mean, second-mean**2
+
+
+def clipped_exp_quad(location, scale, taus):
+    """Use explicit relative tolerance: the integral is near1, unlike raw CRPS."""
+    z0, z1 = norm.ppf(np.asarray(taus)[[0, -1]])
+    return quad(lambda u: np.exp(location+scale*np.clip(norm.ppf(u), z0, z1)), 0., 1.,
+                points=taus, epsabs=1e-12, epsrel=1e-12, limit=200)
 
 
 def main():
@@ -61,9 +69,9 @@ def main():
         ref_scores, exp_values = [], []
         for i in selected:
             ref_scores.append(np.mean([scalar_crps(q[i], y, taus) for y in pred["y"][i]]))
-            values = [quad(lambda u: float(np.interp(u, taus, q[i])), 0., 1., points=taus, epsabs=1e-11, limit=200)[0],
-                      quad(lambda u: float(np.interp(u, taus, q[i]))**2, 0., 1., points=taus, epsabs=1e-11, limit=200)[0],
-                      quad(lambda u: np.exp(np.interp(u, taus, q[i])), 0., 1., points=taus, epsabs=1e-11, limit=200)[0]]
+            values = [quad(lambda u: float(np.interp(u, taus, q[i])), 0., 1., points=taus, epsabs=1e-12, epsrel=1e-12, limit=200)[0],
+                      quad(lambda u: float(np.interp(u, taus, q[i]))**2, 0., 1., points=taus, epsabs=1e-12, epsrel=1e-12, limit=200)[0],
+                      quad(lambda u: np.exp(np.interp(u, taus, q[i])), 0., 1., points=taus, epsabs=1e-12, epsrel=1e-12, limit=200)[0]]
             mref, vref = (mm[i], vm[i]) if name == "model" else (mc[i], vc[i])
             scalar_moment_error = max(scalar_moment_error, abs(values[0]-mref), abs(values[1]-values[0]**2-vref))
             exp_values.append(values[2])
@@ -78,9 +86,8 @@ def main():
     clip_values, full_values, maximum_exp_error = [], [], 0.
     for pos, i in enumerate(selected):
         loc, sig = location[i], scale[i]
-        clipped = quad(lambda u: np.exp(loc+sig*np.clip(norm.ppf(u), z0, z1)), 0., 1.,
-                       points=[taus[0], taus[-1]], epsabs=1e-11, limit=200)[0]
-        full = quad(lambda z: np.exp(loc+sig*z)*norm.pdf(z), -12., 12., epsabs=1e-11, limit=200)[0]
+        clipped = clipped_exp_quad(loc, sig, taus)[0]
+        full = quad(lambda z: np.exp(loc+sig*z)*norm.pdf(z), -12., 12., epsabs=1e-12, epsrel=1e-12, limit=200)[0]
         formula = (taus[0]*np.exp(qc[i, 0])+(1-taus[-1])*np.exp(qc[i, -1])+
                    np.exp(loc+.5*sig*sig)*(norm.cdf(z1-sig)-norm.cdf(z0-sig)))
         maximum_exp_error = max(maximum_exp_error, abs(formula-clipped), abs(full-np.exp(loc+.5*sig*sig)))
@@ -141,4 +148,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as error:
+        if "--output" in sys.argv:
+            output = Path(sys.argv[sys.argv.index("--output")+1])
+            output.write_text(json.dumps({"status": "FAIL", "error_type": type(error).__name__,
+                                          "error": str(error), "source_verifier_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                                          "new_fits": 0, "new_neural_inference": 0}, indent=2)+"\n")
+        raise
