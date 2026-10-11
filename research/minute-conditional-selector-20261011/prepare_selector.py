@@ -53,7 +53,7 @@ def projected_source(raw,name,members,columns,left,right):
 def run(state,source):
     assert not state.exists() and state.resolve().is_relative_to(Path('/workspace'))
     assert git('rev-parse','HEAD').decode().strip()==source and not git('status','--porcelain')
-    for line in (HERE/'PREPARATION_CURRENT_SHA256.txt').read_text().splitlines():
+    for line in (HERE/'PREPARATION_COST_SHA256.txt').read_text().splitlines():
         sha,p=line.split(maxsplit=1);assert digest((ROOT/p).read_bytes())==sha,p
     state.mkdir();began=time.monotonic()
     spec=importlib.util.spec_from_file_location('old_funding_source',ROOT/'research/short-funding-residual-20261011/experiment.py')
@@ -118,7 +118,8 @@ def run(state,source):
         parity=dict(status='PASS_EXACT_NOVEMBER_MARKET13_AND_ORIGINAL_POOL',days=len(bear_ix),original_slots=slots,
             feature_columns=list(expected_features),market_max_absolute_error=0.,pool_target_max_absolute_error=0.,eligibility_exact=True)
         print('ORIGINAL_PRODUCER_PARITY_EXACT',len(bear_ix),'days',flush=True)
-    reader.close()
+    year_index=json.loads(git('show','94fe13c494c82bb6e6868e6614eb7298fb15b3c3:research/core5-2021-economic-data/Y2021/INDEX.json'))
+    year_members={r['name']:r for r in year_index['members']};year_archive=reader.wrapper('Y2021')
     # Existing synchronized five-minute source covariance, not a forecast refit.
     spec=importlib.util.spec_from_file_location('published_joint_source',ROOT/'research/joint-correlation-risk-20261011/inputs.py')
     joint=importlib.util.module_from_spec(spec);spec.loader.exec_module(joint)
@@ -129,12 +130,19 @@ def run(state,source):
     for s in SYMBOLS:
         name=f'source_tables_not_model_inputs/economics/{s}_daily.parquet'
         columns=['dt','available_us','symbol','exec_price','mark_funding_per_unit','funding_interval_complete','complete_kline','complete_mark']
-        f=projected_source(raw,name,members,columns,'2020-01-01','2022-12-01').sort_values('available_us').reset_index(drop=True)
+        recent=projected_source(raw,name,members,columns,'2022-01-01','2022-12-01')
+        year_name=f'derived/economics/{s}_daily.parquet';year_raw=year_archive.read(year_name)
+        assert digest(year_raw)==year_members[year_name]['SHA256'] and len(year_raw)==year_members[year_name]['bytes']
+        past=pq.read_table(io.BytesIO(year_raw),columns=columns).to_pandas()
+        assert len(past)==365 and int(past.available_us.min())==utc('2021-01-02') and int(past.available_us.max())==utc('2022-01-01')
+        f=pd.concat([past,recent],ignore_index=True).sort_values('available_us').reset_index(drop=True)
         assert len(f.available_us.unique())==len(f) and set(f.symbol)=={s}
-        assert np.array_equal(f.available_us.to_numpy(dtype=np.int64),available)
+        assert np.array_equal(f.available_us.to_numpy(dtype=np.int64),full['available_us'])
         f.to_parquet(state/(s+'_ECONOMIC_SOURCE.parquet'),index=False);economic[s]=f
         economic_records.append(dict(symbol=s,member=name,member_SHA256=members[name]['SHA256'],rows=len(f),
+            year2021_member_SHA256=digest(year_raw),year2021_source_commit='94fe13c494c82bb6e6868e6614eb7298fb15b3c3',
             last_available_us=int(f.available_us.max()),rate_unit='UNCONFIRMED_CONDITIONAL_RAW_FRACTION',precise_charge_mark=False))
+    reader.close()
     np.savez_compressed(state/'SOURCE_PREPARED.npz',symbol_order=np.asarray(SYMBOLS),decision_us=decisions,baseline=baseline,baseline_ready=ready,
         targets=targets,expert_eligible=eligible,asset_eligible=asset,realized_covariance=joint_data['realized_covariance'][ix],
         close=close,close_available_us=available,**{k:full[k][ix] for k in ('RV_1m','RV_5m','RSplus_1m','RSminus_1m')})
