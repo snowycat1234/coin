@@ -43,7 +43,7 @@ def run(archive,output,source_commit):
     index = json.loads(subprocess.check_output(["git","show",DATA+":"+PACKET+"INDEX.json"],cwd=ROOT))
     assert archive.stat().st_size==index["package_bytes"] and file_sha(archive)==index["package_SHA256"]
     members = {r["name"]:r for r in index["members"]}
-    output.mkdir()
+    output.mkdir(parents=True)
     start = time.monotonic()
     evidence, values, samples = [], {}, {}
     with zipfile.ZipFile(archive) as z:
