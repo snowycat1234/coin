@@ -1,0 +1,26 @@
+{
+  "status": "FROZEN_SOURCE_QUALITY_DIAGNOSTIC_BEFORE_MEASUREMENT",
+  "question": "How much completed-day trade-price excursion is missed by end5minuteclose sampling relative to actual1minuteOHLC extrema?",
+  "role": "Finite source-quality quantification, not newalpha, forecast ablation, oldquantile rescue, originalpaper replication or proof of unseenperformance",
+  "source_SHA": "306b58c4a52035ac9f374de7c25d40dff22fb658",
+  "source": "Reuse five published continuous-risk phase manifests/cold certificates, actual DAILY.npz high/low/close and original FIVE_MIN.npz price panels;2021panel from publicHAR source-only bundle b4756ec8fb59457cfd8db74a79ca6a859f07f331. No model/result decode, rawminuteCSV rescan, fresh download, price reconstruction fromreturns or originalSTATE access.",
+  "order": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"],
+  "time": "UTCfeatureday2021Jan1-2022Nov30,699sourcecalendar days; each available followingUTCday00:00, not historicalarrivalcertified.2021Jan1 has unknownpriorclose, excludedjointly;698validdays2021Jan2-2022Nov30.",
+  "formula": {
+    "anchor": "Actual previouscompletedUTCday close; never dayopen or futureclose. Firstunknownanchor remainsNaN.",
+    "up_OHLC": "max(0,log(actualdayhigh/anchor))",
+    "up_5m": "max(0,log(max(actual288end5minutecloses)/anchor))",
+    "down_OHLC": "max(0,-log(actualdaylow/anchor))",
+    "down_5m": "max(0,-log(min(actual288end5minutecloses)/anchor))",
+    "gap": "OHLC_excursion-sampled_excursion>=0 withoutclipping or correction",
+    "relative_gap": "gap/OHLC_excursion onlywhereOHLC_excursion>0; zeros retainNaN and explicitcounts",
+    "units": "10000*logpricechange=LOG_PRICE_BPS, notNAV/PnL/cost/turnoverbps"
+  },
+  "fixed_summaries": "Perasset and side: all698days;2021valid364days;2022valid334days; median/p90/max gaplogbp, fixed>10/>50logbp counts, relativegap median/p90 excludingtruezeroOHLC. Each side also jointdate maxgap acrossfiveassets, with samequantiles/bins. No pooledasset-day ESS, bootstrap, efficacy gate or threshold tuning.",
+  "invariants": "Truepricepositive/finite,288actualcloses/day, denseUTCclock, exactdayclose equality, OHLCcontainsallsampledcloses, genuinepreviousboundary,699orderedrows and698commonvalidmask; measuredOHLCexcursions exactlymatchfrozen fullminute source primitives.",
+  "budget": "One deterministic source diagnostic;1CPU/thread,4GBAS/2GBsampledRSSstop/host8GBstop/GPU0/swap0/15GiBreserve,120seconds arithmetic; publishedouterguard1200seconds. Output<=1MB. No search, fit, futurelabel, economic score, target or wallet.",
+  "seed": "NOT_APPLICABLE_DETERMINISTIC_SOURCE_ARITHMETIC",
+  "attempts": "One original diagnostic plus separate zero-refit publiccold verification; failures preserved and counted separately ifany.",
+  "stop": "Failonsource/schema/clock/order/units/unknownboundary/budget invariants; preserve diagnostics and do not impute or loosen constraints.",
+  "boundary": "All698dates are seen historicaldevelopment sources. No2023-24newoutcomes/locked2026body/Library/accountkeys/credentials/pay/live/deploy or separate distributionwrites. OldHAR/upsidequantile/CPD/residual/joint/flowSTOPs unchanged. FullmarkDec2021-Sep2022/funding/arrival/venue/MMR gaps remain; tradeOHLC is not mark, BBO, fill or liquidation certification."
+}
