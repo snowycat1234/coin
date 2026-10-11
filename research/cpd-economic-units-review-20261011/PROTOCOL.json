@@ -1,0 +1,17 @@
+{
+  "schema": "INDEPENDENT_READ_ONLY_CPD_ECONOMIC_UNITS_REVIEW_V1",
+  "target_commit": "7393eee91f37478a24055c8fd1c660ff37eda0ca",
+  "target_branch": "research/slow-momentum-cpd-20261011",
+  "review_branch": "review/cpd-economic-units-20261011",
+  "scope": "Review saved2048 primary and1024 history, raw output to daily price-return proxy, fixed costs and missing/boundary rules; no recipe modification",
+  "inputs": ["pinned source/protocol/result JSON", "both saved POSITIONS.csv", "saved cost DAILY.csv"],
+  "checks": ["15pct annual to daily sqrt365 conversion", "simple versus log price returns and causal EWMA daily sigma", "fixed5asset and exactly one3seed mean", "inverse scaled outcome and target product identity", "portfolio daily Sharpe population std with sqrt365", "mid-notional drift L1, sign reversals, entry and terminal", "fee on adverse fill,8bp friction plus5.5bp fee, no duplicate roundtrip multiplier", "missing eligible versus cash labels and previous held exposure", "all saved aggregate/block/day rows and source bytes"],
+  "method": "Independent scalar Decimal40precision and share/price cashflow fixtures; no source arithmetic for historical review. Original pure functions invoked on small synthetic fixtures only, no model object construction",
+  "seeds": [2001,2002,2003],
+  "selection": "NONE; all8policies/3blocks/2saved checkpoints retained",
+  "data_role": "Already seen development; no new OOS or market availability certification",
+  "budget": {"CPU_threads":1,"GPU":0,"swap":0,"address_space_bytes":4000000000,"command_seconds":120,"anticipated_seconds":30,"state_max_bytes":2000000,"disk_reserve_bytes":15000000000,"new_fits":0,"new_neural_inference":0,"native_wallets":0,"market_downloads":0},
+  "publication": "Only new review directory changes; commit/push review and verify remote SHA. Never push or edit target branch, force push, open locked history or change original artifacts",
+  "stop": "Input identity/shape/calendar/nonfinite mismatch stops review computation with receipt. Report any genuine source or arithmetic defect; if none, say no defect. Do not invent modifications to improve results",
+  "excluded": ["training","checkpoint/model loading","native replay","new data provider downloads","funding imputation","threshold/scale/seed search","Library","collector locked2026-03-01..2026-09-01"]
+}
