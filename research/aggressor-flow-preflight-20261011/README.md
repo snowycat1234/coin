@@ -17,3 +17,7 @@ COIN_CPD_STATE=/workspace/flow-preflight-state QUANT_ROOT=/workspace/coin-tail-r
 ```bash
 COIN_CPD_STATE=/workspace/flow-pref-fresh QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/flow-pref-fresh bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/aggressor-flow-preflight-20261011/verify.py --artifact-commit 6b1e70ae30b770704d48b84b283d23e5f41f4ba5 --output /workspace/flow-pref-fresh/restored
 ```
+
+后续去重决定：**STOP_REPEAT_TAKER_IMBALANCE_AND_GENERIC_FLOW_IMPACT**。此前“不同输入”只相对HAR/相关性/unsignedselector成立，不能证明整个项目未研究。旧hourly features_v2已有takerimbalance；用户确认日/小时scaledlog(B/S)、ridge、shallowGB、flow+OI GRU失败；[V7 OOFflow→impact](https://github.com/snowycat1234/coin/blob/40e77fc3bec0257e2a173ca08f12efa02928d839/docs/MODULE_V7_OOF_FLOW_IMPACT_20261002_V2.md)和V8冲击衰减/交互/flow-surprise进一步覆盖generic价格反应路线。未建立实质不同的可证伪假设，因此停止完整CORE5flow提取或新拟合，覆盖此前COMPLETION.next及上述推进表述；原冻结源预检证据仍有效。此修正后0新flow提取/拟合/标签/评分/钱包。
+
+“215／2151”尚无已定位CORE5taker原manifest/SHA，两者均不采用，更不能视作dailyZIP数量。另一个V7原清单的368是stream/day条目，含monthly衍生条目；September4monthlyZIP→120日分片，不能转借成CORE5档案计数。详见FINAL_DECISION.json。
