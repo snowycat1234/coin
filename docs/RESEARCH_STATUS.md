@@ -273,3 +273,5 @@ Independentmark DEC2021complete:5true missingofficialmonthly originals5239195B,2
 DEC2021publicrawcoldPASS at6ee3b514:223200markminutes/allprimitives/clocks exact plus5Novpreviousmonth actualrawboundary checks,6.703291seconds,0providerdownload/originalSTATE/fit/wallet. Sourcephasepublishedbeforecold, bothremoteverified; continueQ12022.
 
 Independentmark Q12022complete:15new officialmonthly originals14530437B/648000actualminutes/90dates, allpriorHASH_ONLY SHA/bytesmatch, no gap/repair/imputation.26.515675seconds, trueDecemberboundary/sourceidentity carried, cumulative new19769632B. Sourceparts uploadedonce; source-only0fit/wallet. Quarterlypubliccold next beforeQ2, oldSTOPs remain.
+
+Q12022publicrawcoldPASS at529c5be15f9fb128d722a120c2d19e7c245f7358:648000independentmarkminutes/allprimitives/clocks exact,5Decactualrawboundary checks,7.302995seconds,0originalSTATE/download/fit/wallet. QuarterremoteSHA verified beforecontinuingQ2; nativeexactfunding/MMR barriers stayseparate.
