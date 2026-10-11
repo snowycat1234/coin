@@ -31,7 +31,17 @@ def assert_scalar(actual, expected, tolerance=1e-12):
     return residual
 
 
-def audit(state, archive):
+def receipt_gates(block_increments, increments, delta, ci):
+    """Keep NumPy comparisons as JSON-safe booleans without changing thresholds."""
+    return {
+        "positive_in_at_least_two_blocks": bool(sum(x > 0 for x in block_increments) >= 2),
+        "positive_in_at_least_two_seeds": bool(sum(x > 0 for x in increments) >= 2),
+        "aggregate_ensemble_increment_positive": bool(delta > 0),
+        "bootstrap_lower_positive": bool(ci is not None and ci[0] > 0),
+    }
+
+
+def audit(state, archive, run_number=None):
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
     torch.set_grad_enabled(False)
@@ -46,11 +56,14 @@ def audit(state, archive):
     assert sha((state / "POSITIONS.csv").read_bytes()) == result["positions_sha256"]
     assert sha(archive.read_bytes()) == result["source_archive_sha256"]
     assert result["proposal_sha256"] == PROPOSAL_SHA
+    audit_path = "modules/slow_momentum_cpd/audit_sharpe.py"
     for path, identity in result["source_files"].items():
         published = subprocess.check_output(
             ["git", "show", result["source_commit"] + ":" + path], cwd=ROOT
         )
-        assert sha((ROOT / path).read_bytes()) == sha(published) == identity
+        assert sha(published) == identity
+        if path != audit_path:
+            assert sha((ROOT / path).read_bytes()) == identity
     publication = json.loads((state / "PREFIT_PUBLICATION.json").read_text())
     assert publication["remote_sha"] == publication["local_sha"] == result["source_commit"]
     assert publication["remote_verified_before_fit"] is True
@@ -251,12 +264,7 @@ def audit(state, archive):
             assert result["bootstrap"]["ci95"] is None
         else:
             np.testing.assert_allclose(ci, result["bootstrap"]["ci95"], atol=1e-12)
-        gates = {
-            "positive_in_at_least_two_blocks": sum(x > 0 for x in block_increments) >= 2,
-            "positive_in_at_least_two_seeds": sum(x > 0 for x in increments) >= 2,
-            "aggregate_ensemble_increment_positive": delta > 0,
-            "bootstrap_lower_positive": ci is not None and ci[0] > 0,
-        }
+        gates = receipt_gates(block_increments, increments, delta, ci)
         assert gates == result["gates"]
         expected_status = (
             "INVALID_POLICY_EVALUATION"
@@ -269,6 +277,17 @@ def audit(state, archive):
     assert maximum_inference_residual == 0 and maximum_metric_residual < 1e-12
     receipt = {
         "status": "PASS",
+        "auditor_revision": "JSON_SAFE_GATE_RECEIPT_V2",
+        "auditor_fit_source_sha256": result["source_files"][audit_path],
+        "auditor_executed_sha256": sha((ROOT / audit_path).read_bytes()),
+        "auditor_execution_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
+        "readonly_audit_run_number": run_number,
+        "auditor_change": (
+            "Builtin bool receipt conversion and explicit auditor identity; "
+            "scientific source/results unchanged"
+        ),
         "predecessor_before": preserved,
         "declared_result_status": result["status"],
         "result_sha256": sha((state / "RESULT.json").read_bytes()),
@@ -297,11 +316,12 @@ def audit(state, archive):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--state", type=Path, required=True)
+    parser.add_argument("--run-number", type=int, default=None)
     parser.add_argument(
         "--archive", type=Path, default=Path("/workspace/slow-momentum-state/source/features.zip")
     )
     args = parser.parse_args()
-    audit(args.state, args.archive)
+    audit(args.state, args.archive, args.run_number)
 
 
 if __name__ == "__main__":
