@@ -1,0 +1,194 @@
+{
+  "schema": "FROZEN_TRAINING_ADEQUACY_CONTINUATION_PROPOSAL_V1",
+  "status": "NOT_RUN_PENDING_PARENT_REVIEW",
+  "created_utc": "2026-10-11T05:50:33.239073+00:00",
+  "authorization": "Parent requested diagnosis and a frozen proposal; explicit instruction wait for review before running",
+  "executable_continuation_runner": "NOT_IMPLEMENTED",
+  "hypothesis": "One equal-budget continuation may show whether the common train objective locally flattens; not a rescue of the original failed evidence gate or an investment test",
+  "independent_experiment_id": "slow-momentum-cpd-sharpe-continuation-attempt3",
+  "future_directory": "research/slow-momentum-cpd-sharpe-continuation-20261011",
+  "future_external_state": "/workspace/slow-momentum-sharpe-continuation-state",
+  "predecessor": {
+    "fit_source_commit": "6229da816bb7241aa5b75931090ecd84f3a1f19d",
+    "delivery_commit": "edbf45e0f3901305803c98343c4e329a533ad931",
+    "original_updates_per_model": 1024,
+    "status": "STOP_RAW_POLICY_INCREMENT_NOT_ESTABLISHED",
+    "model_checkpoint_lineage_sha256": {
+      "trend-seed2001.pt": "35a4529205a20fc1055f7edea84335763ab83bd4d52d0a1655844c18a98819e2",
+      "trend_cpd-seed2001.pt": "92447c89b3c267babae369cbc17f4479a18285ab4f841cb747963b4384e6de46",
+      "trend-seed2002.pt": "ddbcfa65dfa9199205d74916154c04c7b7ba0fe53e948212d9dbda0eac9392ea",
+      "trend_cpd-seed2002.pt": "f66ef345ea03071af91f8619513e2701b374d8934d215d397741a843c04a89c6",
+      "trend-seed2003.pt": "d0a61a0bdea72ace37bf515ac5e94b533c4ad24e8c10d353cb39c2c60e0d22e8",
+      "trend_cpd-seed2003.pt": "cf18135bac1deaf7aeaade345faf4bd30f9151b18d4ebfc68dec763c349ad340"
+    },
+    "preserve": "Original attempt1/attempt2 protocols/results/source and all original checkpoints byte-unchanged"
+  },
+  "frozen_inputs": {
+    "source_commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+    "archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "source_whitelist": [
+      "dt",
+      "close",
+      "complete_kline",
+      "symbol"
+    ],
+    "feature_derivation_source": "abea0de9ec9f2e69d8d6212f10b89313bfb9cabb:modules/slow_momentum_cpd/core.py",
+    "frozen_gp_and_scaler": "Reuse exact predecessor FROZEN_TRAINING.json values after hash check; zero new GP or scaler fits",
+    "warmup": "2020 causal context, no backward fill, gaps reset; natural per-asset warmup retained",
+    "training_available_time": [
+      "2021-01-01",
+      "2023-01-01"
+    ],
+    "validation_available_time": [
+      [
+        "2023-01-01",
+        "2023-07-01"
+      ],
+      [
+        "2023-07-01",
+        "2024-01-01"
+      ],
+      [
+        "2024-01-01",
+        "2024-05-01"
+      ]
+    ],
+    "data_role": "PROJECT_SEEN_DEVELOPMENT_HISTORY; inspected in attempt1; no pristine OOS or independent confirmatory inference",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ],
+    "sequence_length": 63,
+    "maturity": "available[t+1] strictly less than split_end, equality purged; only train labels used in training",
+    "mask": "At decision t use only completed-bar availability, finite past 63 inputs, valid causal volatility and past CP window; cash for currently ineligible assets, no inferred missing prices",
+    "missing_next_return": "If any eligible decision-time asset lacks the realized next return, mark that block INVALID_MISSING_REALIZED_RETURN; do not set its return/exposure to zero or choose an ex-post eligibility mask",
+    "decision_mask_not_sample_index": "Do not reuse predecessor core.py sample_index L110-L112 to form policy CASH eligibility: it checks future returns[t+1]. Keep training mature-label indexing separate from a new purely decision-time mask.",
+    "train_endpoints": 2526,
+    "train_rows_sha256": "983baa27d9c0105c48b7c7debfea24089c28bff277014e1e43e2b27721d9e50f",
+    "reader": "diagnose_training.read_training_close limits returned bars dt+DAY<2023 before deriving features; do not call validation-producing prepare/load_close during training"
+  },
+  "continuation": {
+    "seeds": [
+      2001,
+      2002,
+      2003
+    ],
+    "arms": [
+      "trend",
+      "trend_cpd"
+    ],
+    "segments": 6,
+    "fresh_initializations": 0,
+    "resume": "Load exact model and complete Adam group/state, then restore Torch RNG and NumPy bit-generator after construction/loading; first selected minibatch is original sequence update1025, never reseed at2001/2/3",
+    "loss": {
+      "known_at_decision": "r[t+1] is a train-only outcome for learning and validation scoring, never an inference feature or oracle target",
+      "annual_days": 365,
+      "target_annual_vol": 0.15,
+      "normalized_realized_return": "v[t,a] = (0.15/sqrt(365)) * r[t+1,a]/causal_daily_vol[t,a]",
+      "captured_return": "z[t,a] = tanh(model(last63[t,a])) * v[t,a]",
+      "loss": "-sqrt(365) * mean(z) / sqrt(mean(z*z)-mean(z)^2+1e-9), pooled over the sampled asset-time endpoint rows",
+      "variance": "population moment; explicit epsilon=1e-9; stop on nonfinite loss/gradient/parameters",
+      "epsilon": 1e-09,
+      "note": "This is a paper-aligned policy objective with a crypto calendar constant, not a native leveraged portfolio or a cost/funding objective"
+    },
+    "optimizer": {
+      "Adam": true,
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "weight_decay": 0,
+      "amsgrad": false,
+      "gradient_clip_norm": 1
+    },
+    "sampling": "Same mature training rows, batch128 replacement, paired continuation batches identical per seed",
+    "unchanged": "GP/scaler/architecture/tanh/dropout/calendar/labels/causal masks/target/Adam hyperparameters; no recipe tuning"
+  },
+  "training_only_common_stop": {
+    "start_global_update": 1024,
+    "monitor_interval": 128,
+    "maximum_global_update": 2048,
+    "maximum_additional_updates_per_model": 1024,
+    "maximum_total_additional_updates": 6144,
+    "minimum_common_stop_global_update": 1408,
+    "full_train_diagnostic_loss": "J(k)=-sqrt365*mean(z_k)/sqrt(population_centered_var(z_k)+1e-9), fixed pooled2526 endpoints, recomputable from all training predictions; diagnostic ratio differs from expected minibatch ratio",
+    "rule": "After all six reach common k, first k>=1408 where EACH of six has abs(J(k)-J(k-128)), abs(J(k-128)-J(k-256)), abs(J(k-256)-J(k-384)) all <=0.02 stops ALL six together at current k. Otherwise common hard cap2048. No best checkpoint or individual stopping.",
+    "threshold": 0.02,
+    "threshold_rationale": "One prospective diagnostic in the same loss/SR numerical scale as the previously frozen .02 heuristic; not fitted to validation and not a new adoption gate",
+    "interpretation": "Locally flat train diagnostic only, not gradient stationarity/global optimum/generalization/economic convergence",
+    "nonfinite": "Immediate INVALID stop for loss/gradients/parameters/moments; preserve last saved lineage, no restart/retry or previous-checkpoint winner",
+    "records": "Every128 record full loss/SR/mean/variance/epsilon/position variance/saturation; aggregate preclip/actual post-step Adam-update norm stats and pairing/hash/RNG; save immutable per-arm checkpoints outside Git for failure evidence. These diagnostics do not become extra stop gates."
+  },
+  "validation_policy": {
+    "queries_before_common_train_stop": 0,
+    "evaluation_after_training": "Exactly one final equal-three-seed-position policy evaluation at the common train-only stopping checkpoint; then same frozen gates/1000rep14dayseed9901 bootstrap and saved-policy audit. No interim validation/inference/rank queries or checkpoint/seed selection",
+    "frozen_gates": [
+      "Ensemble portfolio-proxy Sharpe increment positive in at least 2 of 3 fixed blocks",
+      "Aggregate portfolio-proxy Sharpe increment positive in at least 2 of 3 paired seeds",
+      "Aggregate ensemble portfolio-proxy Sharpe increment positive",
+      "Paired moving-block bootstrap 95% lower bound of aggregate ensemble portfolio-proxy Sharpe increment positive"
+    ],
+    "scoring_proposal_sha256": "8895319f41a91ebdb44a87fe67959c5f45c62cd7ad7c325fe87e0875eadc816b",
+    "gate_changes": 0,
+    "history_role": "SEEN_DEVELOPMENT; original validation was already inspected when this continuation proposal was written, so laterPASS is not independent confirmation or unbiased generalization evidence",
+    "if_failure": "Stop this single continuation; no learning-rate/clip/batch/horizon/window/seed/extra-update rescue"
+  },
+  "prospective_counts_if_executed": {
+    "scientific_attempts": 3,
+    "fresh_lstm_initialization_fits_cumulative": 12,
+    "continuation_segments_this_attempt": 6,
+    "training_segments_cumulative": 18,
+    "additional_updates_formula": "6*(common_k-1024)",
+    "cumulative_updates_formula": "7680+6*(common_k-1024)",
+    "additional_updates_min_max": [
+      2304,
+      6144
+    ],
+    "cumulative_updates_min_max": [
+      9984,
+      13824
+    ],
+    "new_gp_scaler_or_validation_fits": 0,
+    "searches": 0,
+    "retries": 0,
+    "wallets": 0,
+    "formula_and_ranges_scope": "Normal completion at one common stopping step only",
+    "failed_partial_execution": "If numerical/resource failure occurs mid-round, models may have unequal and fewer than2304 total updates. Record each segment actual/logged optimizer updates separately; sum confirmed counts. Uncheckpointed/unlogged tail is UNKNOWN, not fabricated from the normal-completion formula. Failed runs do not enter validation."
+  },
+  "budget": {
+    "cpu_threads": 1,
+    "GPU": 0,
+    "swap": 0,
+    "address_space_bytes": 4000000000,
+    "sampled_descendant_RSS_stop_bytes": 2000000000,
+    "shared_host_used_stop_bytes": 8000000000,
+    "hard_wall_seconds": 1200,
+    "output_disk_limit_bytes": 10485760,
+    "disk_reserve_bytes": 16106127360,
+    "checkpoint_maximum": 48,
+    "provider_downloads": 0,
+    "paid_services": 0,
+    "new_credentials": 0,
+    "estimate": "About1-3minutes including train-only monitoring/checkpoint/audit; estimate, not a benchmark. Prior6144updates ran32.236s internally/37.047s guard. Hard1200s remains; no extension on timeout."
+  },
+  "required_before_future_execution": [
+    "Parent review/start authorization",
+    "Implement separate continuation runner/tests; publish source/protocol/test commit and verify exact remote bytes before any optimizer update",
+    "Verify train row/hash/cutoff, model/Adam/RNG lineage and paired update1025 without validation queries",
+    "Tests for common train-only stopping, exact resume including optimizer ages/RNG, no validation access before common stop, nonfinite failure and preservation of both previous attempts"
+  ],
+  "economics": "Excluded; wallets0, actual cost/funding/risk/charged closure not measured, netProfit/APRUNKNOWN; separate native input/contract binding required",
+  "actual_execution_this_followup": {
+    "optimizer_updates": 0,
+    "model_forward_passes": 0,
+    "gradient_evaluations": 0,
+    "validation_queries": 0,
+    "new_fits": 0,
+    "new_wallets": 0
+  }
+}

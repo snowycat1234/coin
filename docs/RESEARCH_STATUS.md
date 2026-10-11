@@ -7,6 +7,11 @@
 原MSE证据/源码/6checkpoint实际字节保持；新GP/scaler/验证拟合/搜参/重试均0。
 原生钱包NOT_RUN_NOT_BOUND，费用/滑点/实际资金费/风险/终端平仓未测，净利润/APR未知。
 工件见[独立Sharpe实验](../research/slow-momentum-cpd-sharpe-20261011/README.md)。
+追加[训练充分性只读诊断](../research/slow-momentum-cpd-training-diagnostic-20261011/README.md)：
+六臂训练epsilon-loss仍改善，Adam最后更新约权重L2的0.104%–0.186%，未见数值故障；
+2526端点/719日期已抽约51.9轮，采样重叠不增加独立证据。4诊断测试PASS，新增step/验证查询/钱包0。
+一次等种子/等预算双臂延长方案已冻结，NOT_RUN_PENDING_PARENT_REVIEW：最多再1024步，
+只用训练损失选共同停止点，不改变原STOP/证据门槛。按用户要求等待核对后才能运行。
 
 此独立`research/slow-momentum-cpd-20261011`分支完成一项论文CPD监督预测适配。
 训练2021–2022、验证旧2023H1/H2和2024Jan–Apr，3seed/6fit/1536updates，

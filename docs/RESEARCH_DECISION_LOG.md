@@ -1774,3 +1774,36 @@ Minimum next binding requirements and reproduction/evidence/source identities:
 research/slow-momentum-cpd-sharpe-20261011/README.md and results/.
 No original2026Q1/Q2ledger recovery claim; collectorlocked remainsclosed,
 other return-distribution branch unaffected. No same-window rescue recipe.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD training-only adequacy diagnosis
+
+Parent requested readonly diagnosis and one frozen proposal pending review;
+no newvalidation query/tuning/optimizerstep/gradient/forward/wallet. Training
+prefix predicate dt+DAY<2023 applied before feature derivation; same2526
+mature endpoints/719dates (BTC719/ETH719/SOL154/XRP406/DOGE528). Existing
+six FIT full epsilon-loss checks monotonically improve; last256 decline
+.2091-.7558, last128 .0597-.4869. Final Adam update L2 estimated algebraically
+from saved moments is .00722-.01305, .1043%-.1863% of weight norms; allsaved
+states/recordedvalues finite, RNG/batch hashes restored; no observed numerical
+failure. Recorded48/48 gradient checks clipped, all-step rateUNKNOWN. Only
+final1024 checkpoints exist, historical actualupdate/loss trace cannot be invented.
+Exact draw regeneration131072/seed=51.889epochequivalents, all2526visited,
+2.40-2.46% duplicates and4.64-4.65% sameasset overlapping63day pair fraction.
+Conditional RNG indices independent, market features not independent evidence;
+ESSUNKNOWN. Moretrainsteps could overfit; original convergence/evidence STOP retained.
+
+One separate prospective continuation freeze: six segments/0freshfit init,
+same seeds/optimizer/data/GP/scaler, exact1024 Adam/RNG lineage, max+1024 each.
+Advance all6 in128step common rounds; firstk>=1408 with all6 last3 adjacent
+fulltraining diagnostic epsilon-loss absolutechanges<=.02 stops all; else2048cap.
+No bestcheckpoint, interimvalidation, seed/recipe rescue or futureextension.
+Newupdates6*(k-1024); if authorized/ran, attempt3/continuation6/cumulativefreshfits12,
+trainingsegments18/updates9984-13824. Current remains attempts2/fits12/updates7680.
+ProposalNOT_RUN_PENDING_PARENT_REVIEW, runnerNOT_IMPLEMENTED; user explicitly
+said waitforreview beforetraining. Nativeinputs/profile/latency/masks/risk/paidclosure
+stillNOT_BOUND; sharedwallet0/netPnL/APRUNKNOWN, no claimed ledger recovery.
+
+4focused diagnostics testsPASS after isolatedtmp-parent/UTC-reader issues,
+failures/receipts preserved; fullrepoNOT_RUN. Diagnostic2.330s internal/10.272s
+wrapper sampledRSS312975360B, noresource stop. Source/evidence/proposal/remaining
+binding gaps: research/slow-momentum-cpd-training-diagnostic-20261011/README.md.
