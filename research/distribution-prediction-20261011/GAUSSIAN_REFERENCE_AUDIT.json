@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "upstream_commit": "bf0a6554054735448ea02910e0ced335c7481969",
+  "synthetic_only": true,
+  "real_dataset_loaded": false,
+  "neural_fit_or_inference": 0,
+  "notebook_evidence": {
+    "cell17": "TestDataset lookforward=30 test=True",
+    "cell16": "obs kept as raw daily log returns; future y divided by100",
+    "cell21": "Gaussian mean/std of past observed_returns; numpy std default ddof0"
+  },
+  "dataset_source_lines": {
+    "future_shift": 469,
+    "past_x_slice": 486,
+    "past_timestamps": 488,
+    "observed_return_lookup": 523
+  },
+  "witness": {
+    "past_start": "2017-01-06 00:00:00+00:00",
+    "past_end": "2017-02-04 00:00:00+00:00",
+    "future_start": "2017-02-05 00:00:00+00:00",
+    "future_end": "2017-03-06 00:00:00+00:00",
+    "past_count": 30,
+    "future_count": 30,
+    "obs_mean": 0.0029500000000000004,
+    "obs_std_ddof0": 0.000865544144839919,
+    "future_mean": 0.0059499999999999996,
+    "obs_is_past_not_future": true
+  },
+  "coin_differences": {
+    "lookback_and_horizon": 22,
+    "control_std_ddof": 1,
+    "model_scale": "causal origin sqrt EWMA variance, plus learned positive market multiplier",
+    "original_control": "rolling22 mean and sample std; causal but different volatility conditioning",
+    "primary_new_control": "zero mean and same known causal EWMA origin sigma; no learned multiplier",
+    "representation": "same37 quantiles, piecewise-linear quantile CDF with fixed endpoint atoms for all COIN arms",
+    "paper_scoring": "original notebook uses continuous Gaussian CDF and smoothed neural CDF; original CRPS routine not valid return-axis integration"
+  },
+  "conclusion": "original COIN pair is paired and causal, but not an exact notebook replication or architecture-isolating comparison",
+  "source_sha256": {
+    "results.ipynb": "57fea318efc8515146b486c56d5002b765b70638eede1478da528e9fb21fdf5a",
+    "utils/data_utils.py": "4b5b2549b92cf3c976942fa2591e4f8f0f48429dc5572ec7226fe2433e1cbc03",
+    "utils/result_utils.py": "85926c83e945645a681ee23e9b52511c03ecbf6845e1c4c3c15e6aa29417de5f",
+    "LSTM.py": "693682fad10c54dca14a0525c867005ce7bf9f72bc33ce8d6bf71da269831bc9"
+  }
+}

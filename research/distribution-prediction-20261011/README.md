@@ -64,3 +64,23 @@ the first command in both economic arguments. The saved verifier has the fixed
 experiment's explicit shapes; it cannot certify another protocol implicitly.
 The economic probe does inference only. It refuses altered fit artifacts and
 does not create native accounts when its sufficiency gate fails.
+
+The post-result, no-fit follow-up is in [DIAGNOSTIC_REPORT.md](DIAGNOSTIC_REPORT.md).
+Original results are preserved. Matching the known origin EWMA scale narrows the
+model's CRPS gain to0.99699986%; Q4 tail risk is8/178 with concentrated shocks and
+wide dependence-sensitive intervals. Zero selection already occurs before costs.
+The next single shape-ablation plan is frozen in NEXT_EXPERIMENT_PLAN.md and is
+NOT_RUN. Reproduce only the saved-forecast diagnostic in a fresh output directory:
+
+```sh
+bash "$R/bounded.sh" "$PY" -m pytest -q -o addopts= "$R/test_diagnostic.py" --basetemp=/workspace/distribution-state/diagnostic-contract-new
+bash "$R/bounded.sh" timeout 120 "$PY" "$R/diagnose.py" --fit-state /workspace/distribution-state/run-001 --economic-state /workspace/distribution-state/economic-001 --state /workspace/distribution-state/diagnostic-new
+bash "$R/bounded.sh" timeout 120 "$PY" "$R/verify_diagnostic.py" --fit-state /workspace/distribution-state/run-001 --economic-state /workspace/distribution-state/economic-001 --diagnostic-state /workspace/distribution-state/diagnostic-new --output /workspace/distribution-state/diagnostic-verify-new.json
+bash "$R/bounded.sh" timeout 120 "$PY" "$R/audit_gaussian_reference.py" --upstream /workspace/dist-pred-upstream --output /workspace/distribution-state/gaussian-reference-new.json
+bash "$R/bounded.sh" timeout 120 "$PY" "$R/diagnostic_witnesses.py" --economic-state /workspace/distribution-state/economic-001 --output /workspace/distribution-state/expected-return-witnesses-new.json
+```
+
+If the original STATE artifacts are absent in a fresh workspace, first reproduce
+the one-fit and economic phases above using their frozen configurations, then pass
+those fresh paths here. Model/forecast binaries remain in STATE under AGENTS.md;
+small structured results, source/data identities and commands are versioned.
