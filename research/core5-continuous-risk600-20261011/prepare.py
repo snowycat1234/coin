@@ -91,7 +91,7 @@ class SourceReader:
             assert digest(raw)==index['index_SHA256']
             record=next(r for r in json.loads(raw)['monthly_sources'] if r['family']=='klines' and r['symbol']==row['symbol'])
             prefix=str(Path(index['index_path']).parent)+'/'
-            b=b''.join(self.part(index['commit'],dict(**p,path=prefix+p['path'])) for p in record['parts'])
+            b=b''.join(self.part(index['commit'],{**p,'path':prefix+p['path']}) for p in record['parts'])
             check=git('show',index['commit']+':'+prefix+record['checksum_path'])
         else:
             z=self.wrapper(row['wrapper_id']);b=z.read(row['member'])
