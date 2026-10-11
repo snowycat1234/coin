@@ -84,3 +84,17 @@ If the original STATE artifacts are absent in a fresh workspace, first reproduce
 the one-fit and economic phases above using their frozen configurations, then pass
 those fresh paths here. Model/forecast binaries remain in STATE under AGENTS.md;
 small structured results, source/data identities and commands are versioned.
+
+The user subsequently authorized the frozen moment-matched shape ablation.
+It is now completed in [SHAPE_REPORT.md](SHAPE_REPORT.md); the earlier NOT_RUN
+plan is a preserved historical snapshot. With exactly matched raw log-return
+means/variances, model CRPS improves0.693% (paired95% interval0.233%–1.267%).
+This is small shape information on seen history, not tradable-return evidence.
+Registered gates are preserved while their point cutoffs are not interpreted as
+economic boundaries; the earlier EWMA gain interval is0.468%–1.657%. The report
+includes moment/finite-support/integration verification and two reproduction
+commands. Main calculation ran once with0 fitting and0 new neural inference.
+**All additional experiments for this recipe are stopped after this delivery.**
+The190KB SHAPE_PAIRED_SCORES.csv contains saved score evidence, no model/market
+forecasts. verify_shape_ci.py reproduces both reported intervals from this Git
+evidence without STATE predictions, training or inference; command in SHAPE_REPORT.md.
