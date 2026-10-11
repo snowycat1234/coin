@@ -1,0 +1,4398 @@
+{
+  "schema": "SAVED2048_OBJECTIVE_DIAGNOSTIC_V1",
+  "checkout_head": "0f33e1ab95f296f49e0a36658dcd61615cd90e01",
+  "protocol_sha256": "d975d2c542c8f52ac4dcf2f9c823cc2bc6badfb86176214f77e880c930425eff",
+  "executing_source_sha256": "b93a1f287269266aa81b302a9906388e50df5549f6d3eecb51cd09229ce08439",
+  "positions_sha256": "2d391cdaa5cfdaade0b7c98b89cd5ae0df2cdeb4f9b1d7308b0160acc866cfac",
+  "cost_result_sha256": "5347c76ff3925b60ffc3ca0fbe2281392eb756737d7f3118173f512000e1c108",
+  "components_meaning": "Signed exact symmetric target decomposition plus previous-realized price drift; absolute components may offset and must not be costed separately",
+  "categories_meaning": "Actual trade amount grouped by sign change, same-sign amplitude, or paid boundary; groups are descriptive, never oracle causal return attribution",
+  "descriptive_near_zero_thresholds": [
+    0.001,
+    0.01,
+    0.05
+  ],
+  "blocks": [
+    {
+      "start": "2023-01-01",
+      "policies": {
+        "trend_seed2001": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": -0.0007369158976786568,
+            "fixed_cost_adjusted_price_proxy": -0.0014915738223366956,
+            "drift_trade_turnover": 0.5590056299370696,
+            "descriptive_target_turnover": 0.5627859004606752,
+            "fee": 0.0003074534207083833,
+            "half_spread": 0.00022360225197482788,
+            "slippage": 0.00022360225197482788,
+            "fixed_cost_total": 0.000754657924658039,
+            "entry_cost": 1.9466437059209147e-06,
+            "terminal_cost": 1.5275888194600735e-05,
+            "break_even_nominal_per_side_bps": -13.182620321044272,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.006133163423724816,
+            "gross_target_max": 0.017351256766653275,
+            "abs_target_max": 0.010818012903572916,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 302,
+            "nonzero_trade_changes_below_reference_10USDT": 490,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002481299432805833,
+                "min_signed_target": -0.010818012903572916,
+                "max_signed_target": 0.004477462727526276,
+                "gross_price_proxy": 0.0007275193699767164,
+                "drift_trade_turnover": 0.18801365695700703,
+                "fixed_cost": 0.0002538181167834367
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.001664205093674697,
+                "min_signed_target": -0.005915148026533968,
+                "max_signed_target": 0.002851725638698072,
+                "gross_price_proxy": -0.00014881130843370934,
+                "drift_trade_turnover": 0.16864475849818797,
+                "fixed_cost": 0.00022767048944952948
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0005137176656994083,
+                "min_signed_target": -0.003285537969311422,
+                "max_signed_target": 0.0023780746113007322,
+                "gross_price_proxy": -0.0005495886470009557,
+                "drift_trade_turnover": 0.05338940418572571,
+                "fixed_cost": 7.207593746973441e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.00036490203279290577,
+                "min_signed_target": -0.0027992580339259443,
+                "max_signed_target": 0.002444017162023293,
+                "gross_price_proxy": -0.00022455136050233892,
+                "drift_trade_turnover": 0.04746296105158642,
+                "fixed_cost": 6.407509622224028e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0011090391987519726,
+                "min_signed_target": -0.0052555509658280064,
+                "max_signed_target": 0.0024289311485549353,
+                "gross_price_proxy": -0.0005414839517183694,
+                "drift_trade_turnover": 0.10149484924456248,
+                "fixed_cost": 0.00013701828473309808
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.001441488482213882,
+              "fixed_cost": 1.9466437059209147e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.0004857602329432486,
+              "fixed_cost": 6.559900489758807e-07
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 129,
+              "turnover": 0.17037973275517065,
+              "fixed_cost": 0.00023000929364818743
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 560,
+              "turnover": 0.37538417951806713,
+              "fixed_cost": 0.0005067701090603545
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.011314468948674949,
+              "fixed_cost": 1.5275888194600735e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.5536541939060574,
+              "signed_trade_projection": 0.5533741296273469
+            },
+            "vol_scaling": {
+              "absolute_component": 0.01872531865073987,
+              "signed_trade_projection": -0.0035962460735519644
+            },
+            "price_drift": {
+              "absolute_component": 0.022939906273500125,
+              "signed_trade_projection": -0.004013971280557162
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.013241717663832078,
+              "signed_trade_projection": 0.013241717663832078
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.951563910473908e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.030682475061940235,
+          "position_abs_quantiles": [
+            0.005225649802014232,
+            0.024697236716747284,
+            0.06424247547984124,
+            0.12270866811275491
+          ],
+          "abs_position_below_counts": {
+            "0.001": 20,
+            "0.01": 145,
+            "0.05": 564
+          },
+          "position_abs_max": 0.16236595809459686
+        },
+        "trend_seed2002": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": 0.0015659877426202667,
+            "fixed_cost_adjusted_price_proxy": 0.0002768588058038842,
+            "drift_trade_turnover": 0.9549108339636957,
+            "descriptive_target_turnover": 0.9666087031514095,
+            "fee": 0.0005252002696454259,
+            "half_spread": 0.0003819643335854783,
+            "slippage": 0.0003819643335854783,
+            "fixed_cost_total": 0.0012891289368163826,
+            "entry_cost": 3.2860926135823288e-06,
+            "terminal_cost": 1.1724797694689627e-05,
+            "break_even_nominal_per_side_bps": 16.399308573346897,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 0.8232049981817647,
+            "gross_target_mean": 0.0093372944575936,
+            "gross_target_max": 0.026275786608313426,
+            "abs_target_max": 0.013922450512330523,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 198,
+            "nonzero_trade_changes_below_reference_10USDT": 362,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0034637555499789333,
+                "min_signed_target": -0.013922450512330523,
+                "max_signed_target": 0.007956738806350078,
+                "gross_price_proxy": 0.0003772383191809828,
+                "drift_trade_turnover": 0.33213446009420056,
+                "fixed_cost": 0.0004483813551423104
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.003242834075367765,
+                "min_signed_target": -0.012216333757147244,
+                "max_signed_target": 0.006987722516209276,
+                "gross_price_proxy": 0.0008945665410872537,
+                "drift_trade_turnover": 0.3453366729279864,
+                "fixed_cost": 0.0004662041148435036
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0007139625826026079,
+                "min_signed_target": -0.005642757836884878,
+                "max_signed_target": 0.003765247570510319,
+                "gross_price_proxy": 0.00044535117348767927,
+                "drift_trade_turnover": 0.07259812338056972,
+                "fixed_cost": 9.800727060925278e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0007353336201387452,
+                "min_signed_target": -0.004948574502342181,
+                "max_signed_target": 0.005459278723296847,
+                "gross_price_proxy": 1.1487659298703956e-05,
+                "drift_trade_turnover": 0.0827332246965255,
+                "fixed_cost": 0.00011168984828573931
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.001181408629505548,
+                "min_signed_target": -0.003969062099311979,
+                "max_signed_target": 0.0027623891075673956,
+                "gross_price_proxy": -0.00016265595043435312,
+                "drift_trade_turnover": 0.12210835286441353,
+                "fixed_cost": 0.00016484634793557647
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.002433349585011055,
+              "fixed_cost": 3.286092613582329e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.003879858869581176,
+              "fixed_cost": 5.236102336031973e-06
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 107,
+              "turnover": 0.2797252072730461,
+              "fixed_cost": 0.00037762047180507445
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 582,
+              "turnover": 0.6601861994285108,
+              "fixed_cost": 0.000891261472367005
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.008686218807546484,
+              "fixed_cost": 1.1724797694689625e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.9619155600150645,
+              "signed_trade_projection": 0.9613351682814354
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02861174710790599,
+              "signed_trade_projection": -0.009712379509122647
+            },
+            "price_drift": {
+              "absolute_component": 0.03409983805924573,
+              "signed_trade_projection": -0.01171138207075551
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.014999427262138714,
+              "signed_trade_projection": 0.014999427262138714
+            }
+          },
+          "maximum_signed_decomposition_residual": 3.5236570605778894e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.046902856569657016,
+          "position_abs_quantiles": [
+            0.00795189356431365,
+            0.0371838565915823,
+            0.09737949892878538,
+            0.17535620346665476
+          ],
+          "abs_position_below_counts": {
+            "0.001": 8,
+            "0.01": 95,
+            "0.05": 441
+          },
+          "position_abs_max": 0.2506101131439209
+        },
+        "trend_seed2003": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": -0.0006914174373682451,
+            "fixed_cost_adjusted_price_proxy": -0.0014733158566768378,
+            "drift_trade_turnover": 0.5791837889517928,
+            "descriptive_target_turnover": 0.5828969525524366,
+            "fee": 0.00031855138814715844,
+            "half_spread": 0.00023167351558071712,
+            "slippage": 0.00023167351558071712,
+            "fixed_cost_total": 0.0007818984193085927,
+            "entry_cost": 3.6015672169410647e-06,
+            "terminal_cost": 1.7510308138295997e-05,
+            "break_even_nominal_per_side_bps": -11.937789878745965,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.008219745791916552,
+            "gross_target_max": 0.02177171204534707,
+            "abs_target_max": 0.0127853052242921,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 236,
+            "nonzero_trade_changes_below_reference_10USDT": 489,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.003402600122231868,
+                "min_signed_target": -0.0127853052242921,
+                "max_signed_target": 0.011458983402893372,
+                "gross_price_proxy": 0.0010049261284534256,
+                "drift_trade_turnover": 0.18154695762183928,
+                "fixed_cost": 0.00024508795062198657
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0024879845927818453,
+                "min_signed_target": -0.00943751323566287,
+                "max_signed_target": 0.004792418801320725,
+                "gross_price_proxy": -0.0007238670823322124,
+                "drift_trade_turnover": 0.18147144020349798,
+                "fixed_cost": 0.0002449867627762385
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0005496430306317994,
+                "min_signed_target": -0.0034673927530719005,
+                "max_signed_target": 0.001208903850877884,
+                "gross_price_proxy": 1.5337406905171103e-05,
+                "drift_trade_turnover": 0.0436936858763744,
+                "fixed_cost": 5.8986469184646396e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0006987330361863707,
+                "min_signed_target": -0.004328364073739919,
+                "max_signed_target": 0.0064863392730568365,
+                "gross_price_proxy": -0.00040478318633531266,
+                "drift_trade_turnover": 0.07469183048011553,
+                "fixed_cost": 0.00010083414925275796
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.00108078501008467,
+                "min_signed_target": -0.004850550157707339,
+                "max_signed_target": 0.0027124439766089536,
+                "gross_price_proxy": -0.0005830307040593169,
+                "drift_trade_turnover": 0.09777987476996557,
+                "fixed_cost": 0.0001320030874729633
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.002667254776253541,
+              "fixed_cost": 3.6015672169410647e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.0005695850092816674,
+              "fixed_cost": 7.68690969407318e-07
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 91,
+              "turnover": 0.1307328593572756,
+              "fixed_cost": 0.00017648451123148258
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 598,
+              "turnover": 0.4322418572838772,
+              "fixed_cost": 0.0005835333417524652
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.012972232525104507,
+              "fixed_cost": 1.7510308138295997e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.5684473754561047,
+              "signed_trade_projection": 0.5676435832518758
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02571626997908418,
+              "signed_trade_projection": -0.0012831105017901748
+            },
+            "price_drift": {
+              "absolute_component": 0.030626023598154865,
+              "signed_trade_projection": -0.0033857561089328334
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.016209072310639717,
+              "signed_trade_projection": 0.016209072310639717
+            }
+          },
+          "maximum_signed_decomposition_residual": 3.0357660829594124e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.03984760714803724,
+          "position_abs_quantiles": [
+            0.0060961973387748,
+            0.030393910594284534,
+            0.08087339028716088,
+            0.17292489543557174
+          ],
+          "abs_position_below_counts": {
+            "0.001": 11,
+            "0.01": 103,
+            "0.05": 510
+          },
+          "position_abs_max": 0.19189275801181793
+        },
+        "trend_ensemble": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": 4.5884802524454764e-05,
+            "fixed_cost_adjusted_price_proxy": -0.0008238575298895406,
+            "drift_trade_turnover": 0.6442535945209691,
+            "descriptive_target_turnover": 0.6508469575309442,
+            "fee": 0.0003543394567972199,
+            "half_spread": 0.0002577014378083877,
+            "slippage": 0.0002577014378083877,
+            "fixed_cost_total": 0.0008697423324139953,
+            "entry_cost": 2.5353464903785276e-06,
+            "terminal_cost": 1.4836998009195452e-05,
+            "break_even_nominal_per_side_bps": 0.7122164767830614,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 18.954910658064996,
+            "gross_target_mean": 0.007423501511680122,
+            "gross_target_max": 0.01989308082075689,
+            "abs_target_max": 0.010857970793398291,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 260,
+            "nonzero_trade_changes_below_reference_10USDT": 448,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002977649207887988,
+                "min_signed_target": -0.010857970793398291,
+                "max_signed_target": 0.005691576802967431,
+                "gross_price_proxy": 0.0007032279392037085,
+                "drift_trade_turnover": 0.2154834110672943,
+                "fixed_cost": 0.0002909022955205541
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0023423350879869837,
+                "min_signed_target": -0.009100117919744567,
+                "max_signed_target": 0.0034907296459604532,
+                "gross_price_proxy": 7.2960501071106325e-06,
+                "drift_trade_turnover": 0.21747962324073472,
+                "fixed_cost": 0.0002935974881647298
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0005127616858770488,
+                "min_signed_target": -0.003349890564078047,
+                "max_signed_target": 0.002073820271511197,
+                "gross_price_proxy": -2.9633355536035067e-05,
+                "drift_trade_turnover": 0.049448109364834514,
+                "fixed_cost": 6.675496068120304e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0005449891006921794,
+                "min_signed_target": -0.003879635481245516,
+                "max_signed_target": 0.003848866126124965,
+                "gross_price_proxy": -0.00020594896251298253,
+                "drift_trade_turnover": 0.06434360083070084,
+                "fixed_cost": 8.686395173898963e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0010457664292359223,
+                "min_signed_target": -0.003669678288599443,
+                "max_signed_target": 0.0021966022114901394,
+                "gross_price_proxy": -0.00042905686873734636,
+                "drift_trade_turnover": 0.0974988500174048,
+                "fixed_cost": 0.00013162363630851872
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.0018774225366388194,
+              "fixed_cost": 2.5353464903785276e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.0013198458507982756,
+              "fixed_cost": 1.7812111664033207e-06
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 105,
+              "turnover": 0.17578449299376153,
+              "fixed_cost": 0.0002373033396652318
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 584,
+              "turnover": 0.45428085971266174,
+              "fixed_cost": 0.0006132854370827867
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.010990973427108646,
+              "fixed_cost": 1.4836998009195452e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.6419163547840782,
+              "signed_trade_projection": 0.6410669507233431
+            },
+            "vol_scaling": {
+              "absolute_component": 0.0230024351668972,
+              "signed_trade_projection": -0.004596389850371081
+            },
+            "price_drift": {
+              "absolute_component": 0.02744181306690468,
+              "signed_trade_projection": -0.0064052081665488285
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.014188241814545739,
+              "signed_trade_projection": 0.014188241814545739
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.6020852139652106e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.036645347069226265,
+          "position_abs_quantiles": [
+            0.00611734523748358,
+            0.029047492891550064,
+            0.07296462655067446,
+            0.1453112562994163
+          ],
+          "abs_position_below_counts": {
+            "0.001": 9,
+            "0.01": 116,
+            "0.05": 524
+          },
+          "position_abs_max": 0.1866829792658488
+        },
+        "trend_cpd_seed2001": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": -3.1882900584298654e-05,
+            "fixed_cost_adjusted_price_proxy": -0.0005933280977985118,
+            "drift_trade_turnover": 0.4158853208783236,
+            "descriptive_target_turnover": 0.41390869630548077,
+            "fee": 0.00022873694051155422,
+            "half_spread": 0.00016635412835132942,
+            "slippage": 0.00016635412835132942,
+            "fixed_cost_total": 0.0005614451972142131,
+            "entry_cost": 4.120584000924442e-06,
+            "terminal_cost": 1.1546236706748489e-05,
+            "break_even_nominal_per_side_bps": -0.7666272162952031,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.0044576724013970425,
+            "gross_target_max": 0.00973598166108337,
+            "abs_target_max": 0.0041673863702207424,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 347,
+            "nonzero_trade_changes_below_reference_10USDT": 577,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0015361783203022238,
+                "min_signed_target": -0.0041673863702207424,
+                "max_signed_target": 0.003940991125043243,
+                "gross_price_proxy": 0.00121266587397521,
+                "drift_trade_turnover": 0.1343922615964531,
+                "fixed_cost": 0.0001814290195822271
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0010119265184521129,
+                "min_signed_target": -0.002631717545663048,
+                "max_signed_target": 0.003247566705089973,
+                "gross_price_proxy": -0.0001368892759309938,
+                "drift_trade_turnover": 0.1158142814693959,
+                "fixed_cost": 0.00015634934021496586
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0003598533780781099,
+                "min_signed_target": -0.0025863594511978914,
+                "max_signed_target": 0.0013582444879934607,
+                "gross_price_proxy": -0.00027493293180837306,
+                "drift_trade_turnover": 0.03639016144706797,
+                "fixed_cost": 4.9126838924031755e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0003967707423949889,
+                "min_signed_target": -0.001814434475902258,
+                "max_signed_target": 0.002487413678519184,
+                "gross_price_proxy": -0.0004381139139600928,
+                "drift_trade_turnover": 0.038585109242989316,
+                "fixed_cost": 5.209009024815772e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0011529434421696072,
+                "min_signed_target": -0.003819734954853602,
+                "max_signed_target": 0.003469871554906442,
+                "gross_price_proxy": -0.0003946126528600489,
+                "drift_trade_turnover": 0.09070350712241733,
+                "fixed_cost": 0.00012244990824483064
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.0030512899506267895,
+              "fixed_cost": 4.120584000924442e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.0010176743313323722,
+              "fixed_cost": 1.3743081240044888e-06
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 107,
+              "turnover": 0.10902762607684656,
+              "fixed_cost": 0.00014718495420561304
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 582,
+              "turnover": 0.29423670142866865,
+              "fixed_cost": 0.00039721911417692283
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.008552029090849664,
+              "fixed_cost": 1.1546236706748489e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.403692855964408,
+              "signed_trade_projection": 0.4020871580422594
+            },
+            "vol_scaling": {
+              "absolute_component": 0.013050587062518573,
+              "signed_trade_projection": -0.0011219957366857894
+            },
+            "price_drift": {
+              "absolute_component": 0.01700118145541921,
+              "signed_trade_projection": 0.002299165199941208
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.012620993372808826,
+              "signed_trade_projection": 0.012620993372808826
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.3010426069826053e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.023141366362612645,
+          "position_abs_quantiles": [
+            0.0036719019059091806,
+            0.02015789784491062,
+            0.04611958228051663,
+            0.08183528542518627
+          ],
+          "abs_position_below_counts": {
+            "0.001": 16,
+            "0.01": 191,
+            "0.05": 643
+          },
+          "position_abs_max": 0.11783701926469803
+        },
+        "trend_cpd_seed2002": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": 0.000678328953528958,
+            "fixed_cost_adjusted_price_proxy": -0.0002792012867281852,
+            "drift_trade_turnover": 0.7092818805347281,
+            "descriptive_target_turnover": 0.7126073929136281,
+            "fee": 0.0003901047358293608,
+            "half_spread": 0.00028371275221389126,
+            "slippage": 0.00028371275221389126,
+            "fixed_cost_total": 0.0009575302402571432,
+            "entry_cost": 8.596723240454366e-06,
+            "terminal_cost": 9.72551342148003e-06,
+            "break_even_nominal_per_side_bps": 9.563601892911255,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 1.4116016060875192,
+            "gross_target_mean": 0.007355605215564008,
+            "gross_target_max": 0.019858535563208293,
+            "abs_target_max": 0.010425797715740922,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 251,
+            "nonzero_trade_changes_below_reference_10USDT": 419,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0029832686656322592,
+                "min_signed_target": -0.010425797715740922,
+                "max_signed_target": 0.0062824946687803015,
+                "gross_price_proxy": 0.000699159412789486,
+                "drift_trade_turnover": 0.2524527666014418,
+                "fixed_cost": 0.0003408109272818048
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.002248396265012023,
+                "min_signed_target": -0.008397697491363583,
+                "max_signed_target": 0.00438643290553583,
+                "gross_price_proxy": 0.0012797601837650713,
+                "drift_trade_turnover": 0.21819863006249174,
+                "fixed_cost": 0.00029456758748988305
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0004831988370529521,
+                "min_signed_target": -0.0029458695953706337,
+                "max_signed_target": 0.002657361501765597,
+                "gross_price_proxy": -8.30351901937886e-05,
+                "drift_trade_turnover": 0.04729103720000099,
+                "fixed_cost": 6.384293675548503e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0004961025852209701,
+                "min_signed_target": -0.002350420159158077,
+                "max_signed_target": 0.004522091147642758,
+                "gross_price_proxy": -0.00016276258001106375,
+                "drift_trade_turnover": 0.052290598575157936,
+                "fixed_cost": 7.059237969199843e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0011446388626458052,
+                "min_signed_target": -0.002770120570062126,
+                "max_signed_target": 0.00420927187182729,
+                "gross_price_proxy": -0.0010547928728207472,
+                "drift_trade_turnover": 0.13904884809563547,
+                "fixed_cost": 0.00018771640903797194
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.00636586833954442,
+              "fixed_cost": 8.596723240454366e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.002352281388367374,
+              "fixed_cost": 3.1761186891667485e-06
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 140,
+              "turnover": 0.23615197757659195,
+              "fixed_cost": 0.0003187999638769567
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 549,
+              "turnover": 0.4572085201984532,
+              "fixed_cost": 0.0006172319210290853
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.007203233031771243,
+              "fixed_cost": 9.725513421480031e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.7013296259943664,
+              "signed_trade_projection": 0.7008622874284909
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02178280492991816,
+              "signed_trade_projection": -0.004343107473162499
+            },
+            "price_drift": {
+              "absolute_component": 0.02653304471521421,
+              "signed_trade_projection": -0.0031586821802837423
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.015921382759683037,
+              "signed_trade_projection": 0.015921382759683037
+            }
+          },
+          "maximum_signed_decomposition_residual": 3.686287386450715e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.03697206023911931,
+          "position_abs_quantiles": [
+            0.006053612288087607,
+            0.02922977227717638,
+            0.07264415100216867,
+            0.14298381537199023
+          ],
+          "abs_position_below_counts": {
+            "0.001": 13,
+            "0.01": 123,
+            "0.05": 518
+          },
+          "position_abs_max": 0.16603069007396698
+        },
+        "trend_cpd_seed2003": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": 0.0025379401187480767,
+            "fixed_cost_adjusted_price_proxy": 0.0018463429663806586,
+            "drift_trade_turnover": 0.5122950141193114,
+            "descriptive_target_turnover": 0.5125625956571244,
+            "fee": 0.000281761141071969,
+            "half_spread": 0.00020491800564772456,
+            "slippage": 0.00020491800564772456,
+            "fixed_cost_total": 0.0006915971523674181,
+            "entry_cost": 4.970892124162672e-06,
+            "terminal_cost": 7.987120257846724e-06,
+            "break_even_nominal_per_side_bps": 49.54059767907483,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 0.27250333735556037,
+            "gross_target_mean": 0.006464744242969214,
+            "gross_target_max": 0.01338649853697388,
+            "abs_target_max": 0.009618554706157184,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 282,
+            "nonzero_trade_changes_below_reference_10USDT": 533,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0024158741265503875,
+                "min_signed_target": -0.005547771070150167,
+                "max_signed_target": 0.009618554706157184,
+                "gross_price_proxy": 0.002084489056142361,
+                "drift_trade_turnover": 0.1919070528080925,
+                "fixed_cost": 0.0002590736041157402
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.00188637968012789,
+                "min_signed_target": -0.004651085258620803,
+                "max_signed_target": 0.004049435888696689,
+                "gross_price_proxy": 0.00032209470553866263,
+                "drift_trade_turnover": 0.16179963505707107,
+                "fixed_cost": 0.00021842936560537547
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0005207794424325688,
+                "min_signed_target": -0.003795783944434611,
+                "max_signed_target": 0.00207511101164679,
+                "gross_price_proxy": -0.00010415109979968817,
+                "drift_trade_turnover": 0.03576115726067516,
+                "fixed_cost": 4.827760812839537e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0006852314958526893,
+                "min_signed_target": -0.0037301407814778983,
+                "max_signed_target": 0.0041361873816860946,
+                "gross_price_proxy": 0.0002824361350155409,
+                "drift_trade_turnover": 0.04001617687791765,
+                "fixed_cost": 5.4021714513289426e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0009564794980056792,
+                "min_signed_target": -0.0036223851178906327,
+                "max_signed_target": 0.0027716244434460675,
+                "gross_price_proxy": -4.692867814879941e-05,
+                "drift_trade_turnover": 0.08281099211555504,
+                "fixed_cost": 0.00011179486000461767
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.0036809425995695264,
+              "fixed_cost": 4.970892124162672e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.00017885466374981162,
+              "fixed_cost": 2.414146941472451e-07
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 83,
+              "turnover": 0.11578954135325437,
+              "fixed_cost": 0.00015631143433207257
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 606,
+              "turnover": 0.38672949722184546,
+              "fixed_cost": 0.0005220862909591894
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.005916178280892076,
+              "fixed_cost": 7.987120257846722e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.5034494961834004,
+              "signed_trade_projection": 0.49965186518143784
+            },
+            "vol_scaling": {
+              "absolute_component": 0.018910953141531385,
+              "signed_trade_projection": 0.002501443292480734
+            },
+            "price_drift": {
+              "absolute_component": 0.023928379825345396,
+              "signed_trade_projection": 0.0003657301011817148
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.009775975544211415,
+              "signed_trade_projection": 0.009775975544211415
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.5720931501039814e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.032454019521055436,
+          "position_abs_quantiles": [
+            0.005070808157324791,
+            0.02717904280871153,
+            0.0672410510480404,
+            0.09855630725622191
+          ],
+          "abs_position_below_counts": {
+            "0.001": 19,
+            "0.01": 139,
+            "0.05": 533
+          },
+          "position_abs_max": 0.12176187336444855
+        },
+        "trend_cpd_ensemble": {
+          "financial": {
+            "days": 180,
+            "gross_price_proxy": 0.001061462057230912,
+            "fixed_cost_adjusted_price_proxy": 0.00041208931094533093,
+            "drift_trade_turnover": 0.4810171950584343,
+            "descriptive_target_turnover": 0.48115937868517966,
+            "fee": 0.00026455899023883366,
+            "half_spread": 0.00019240687802337373,
+            "slippage": 0.00019240687802337373,
+            "fixed_cost_total": 0.0006493727462855811,
+            "entry_cost": 5.896066455180493e-06,
+            "terminal_cost": 9.339595962494149e-06,
+            "break_even_nominal_per_side_bps": 22.06702937307605,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 0.6117719817320947,
+            "gross_target_mean": 0.0052851796319850165,
+            "gross_target_max": 0.012113841526892339,
+            "abs_target_max": 0.005424746778634805,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 308,
+            "nonzero_trade_changes_below_reference_10USDT": 542,
+            "trade_change_count": 699,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0020221412418016116,
+                "min_signed_target": -0.005337340110403892,
+                "max_signed_target": 0.005424746778634805,
+                "gross_price_proxy": 0.0013321047809690192,
+                "drift_trade_turnover": 0.16989373887661868,
+                "fixed_cost": 0.0002293559613573316
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0014905571258269723,
+                "min_signed_target": -0.004316308547578462,
+                "max_signed_target": 0.0029809647621517636,
+                "gross_price_proxy": 0.0004883218711242466,
+                "drift_trade_turnover": 0.1434141082549807,
+                "fixed_cost": 0.0001936088312826007
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.000366204796209339,
+                "min_signed_target": -0.002555599607329613,
+                "max_signed_target": 0.001557053387677334,
+                "gross_price_proxy": -0.0001540397406006166,
+                "drift_trade_turnover": 0.03544791576870518,
+                "fixed_cost": 4.785475406523787e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0004620534787774871,
+                "min_signed_target": -0.0018646075433200837,
+                "max_signed_target": 0.0030515778452702112,
+                "gross_price_proxy": -0.00010614678631853857,
+                "drift_trade_turnover": 0.037761845891061095,
+                "fixed_cost": 5.097853865751846e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0009442229893696055,
+                "min_signed_target": -0.0026143275838975306,
+                "max_signed_target": 0.003483589290059933,
+                "gross_price_proxy": -0.0004987780679431987,
+                "drift_trade_turnover": 0.09449958626706864,
+                "fixed_cost": 0.00012757466092289257
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 3,
+              "turnover": 0.004366033629913579,
+              "fixed_cost": 5.8960664551804936e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 2,
+              "turnover": 0.0009197741243930404,
+              "fixed_cost": 1.2420108978177976e-06
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 110,
+              "turnover": 0.13230162558718472,
+              "fixed_cost": 0.00017860132949608384
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 579,
+              "turnover": 0.336512141458634,
+              "fixed_cost": 0.0004542937434740055
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.006917620258308575,
+              "fixed_cost": 9.33959596249415e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.47106809411862044,
+              "signed_trade_projection": 0.4704927535091027
+            },
+            "vol_scaling": {
+              "absolute_component": 0.015293224239017746,
+              "signed_trade_projection": -0.001867267333696793
+            },
+            "price_drift": {
+              "absolute_component": 0.019014838492186735,
+              "signed_trade_projection": 0.00018828087041282442
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.012203428012615192,
+              "signed_trade_projection": 0.012203428012615192
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.734723475976807e-18,
+          "eligible_count": 694,
+          "position_abs_mean": 0.02686413362155146,
+          "position_abs_quantiles": [
+            0.004593561003760745,
+            0.023544385097920895,
+            0.05392753159006439,
+            0.0795136646802228
+          ],
+          "abs_position_below_counts": {
+            "0.001": 14,
+            "0.01": 151,
+            "0.05": 601
+          },
+          "position_abs_max": 0.11830287426710129
+        }
+      }
+    },
+    {
+      "start": "2023-07-01",
+      "policies": {
+        "trend_seed2001": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -0.0010911182684003927,
+            "fixed_cost_adjusted_price_proxy": -0.0023162302678907667,
+            "drift_trade_turnover": 0.9074900143691377,
+            "descriptive_target_turnover": 0.9211835223526348,
+            "fee": 0.0004991199879950637,
+            "half_spread": 0.00036299600574765504,
+            "slippage": 0.00036299600574765504,
+            "fixed_cost_total": 0.0012251119994903738,
+            "entry_cost": 4.944490611733181e-06,
+            "terminal_cost": 1.1722785708842149e-05,
+            "break_even_nominal_per_side_bps": -12.023474100251212,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.009658534124999238,
+            "gross_target_max": 0.02700339411088934,
+            "abs_target_max": 0.009269939216293112,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 332,
+            "nonzero_trade_changes_below_reference_10USDT": 586,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002491139723786897,
+                "min_signed_target": -0.009269939216293112,
+                "max_signed_target": 0.0059354933185146235,
+                "gross_price_proxy": 0.0003963535857550646,
+                "drift_trade_turnover": 0.2710962557507398,
+                "fixed_cost": 0.00036597977086792093
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.002423629180542992,
+                "min_signed_target": -0.007664267132491041,
+                "max_signed_target": 0.0072881466709461855,
+                "gross_price_proxy": 0.0009356433681013167,
+                "drift_trade_turnover": 0.24297536078923065,
+                "fixed_cost": 0.00032801632538237945
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0018628286659678446,
+                "min_signed_target": -0.006584029006695957,
+                "max_signed_target": 0.005281923325442367,
+                "gross_price_proxy": -0.0030055653597111714,
+                "drift_trade_turnover": 0.13126053550825517,
+                "fixed_cost": 0.00017720304538490278
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0009633894618169054,
+                "min_signed_target": -0.003910096883613382,
+                "max_signed_target": 0.003636705615029135,
+                "gross_price_proxy": -0.0005136373870792141,
+                "drift_trade_turnover": 0.09936036280370208,
+                "fixed_cost": 0.00013413671578544814
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0019175470928845999,
+                "min_signed_target": -0.006815856182857854,
+                "max_signed_target": 0.005649203335018097,
+                "gross_price_proxy": 0.0010960875245336111,
+                "drift_trade_turnover": 0.16279749951720995,
+                "fixed_cost": 0.00021977614206972266
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.0036622756273542185,
+              "fixed_cost": 4.944490611733181e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 124,
+              "turnover": 0.2700733283664723,
+              "fixed_cost": 0.0003645909564108667
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 786,
+              "turnover": 0.6250695710287303,
+              "fixed_cost": 0.0008438537667589309
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.008684839346580415,
+              "fixed_cost": 1.1722785708842149e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.9192517767540731,
+              "signed_trade_projection": 0.9124242556621773
+            },
+            "vol_scaling": {
+              "absolute_component": 0.0359568609731885,
+              "signed_trade_projection": -0.00623768253057173
+            },
+            "price_drift": {
+              "absolute_component": 0.03934336273348952,
+              "signed_trade_projection": -0.011043673736402455
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.012347114973934634,
+              "signed_trade_projection": 0.012347114973934634
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.6020852139652106e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.03602702745240909,
+          "position_abs_quantiles": [
+            0.005911074485629797,
+            0.028084613382816315,
+            0.07199494242668154,
+            0.17216544389724742
+          ],
+          "abs_position_below_counts": {
+            "0.001": 11,
+            "0.01": 159,
+            "0.05": 703
+          },
+          "position_abs_max": 0.25346818566322327
+        },
+        "trend_seed2002": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -0.0039056231716492282,
+            "fixed_cost_adjusted_price_proxy": -0.0054306656025673895,
+            "drift_trade_turnover": 1.1296597869955303,
+            "descriptive_target_turnover": 1.1521030067402678,
+            "fee": 0.0006213146013217373,
+            "half_spread": 0.00045186391479821216,
+            "slippage": 0.00045186391479821216,
+            "fixed_cost_total": 0.0015250424309181615,
+            "entry_cost": 9.793618645543147e-06,
+            "terminal_cost": 2.1847162610907754e-05,
+            "break_even_nominal_per_side_bps": -34.57344606411737,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.011324791417217614,
+            "gross_target_max": 0.04257218888464796,
+            "abs_target_max": 0.016583782488743752,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 331,
+            "nonzero_trade_changes_below_reference_10USDT": 538,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0029679733821218633,
+                "min_signed_target": -0.012888611392820859,
+                "max_signed_target": 0.00843859115791215,
+                "gross_price_proxy": 0.0004828058882505054,
+                "drift_trade_turnover": 0.3180350129207578,
+                "fixed_cost": 0.0004293470550084322
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0020434622296923925,
+                "min_signed_target": -0.016583782488743752,
+                "max_signed_target": 0.003504315207531478,
+                "gross_price_proxy": 0.0014932276327322305,
+                "drift_trade_turnover": 0.2666548497270569,
+                "fixed_cost": 0.0003599833901113684
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.002478729431223211,
+                "min_signed_target": -0.012064591640154691,
+                "max_signed_target": 0.004575034498021593,
+                "gross_price_proxy": -0.004682536039299081,
+                "drift_trade_turnover": 0.19701671875427956,
+                "fixed_cost": 0.0002659746306341347
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.001147986134755905,
+                "min_signed_target": -0.005078419583393861,
+                "max_signed_target": 0.0043786171492671425,
+                "gross_price_proxy": -0.0016559641288832931,
+                "drift_trade_turnover": 0.1144359681105174,
+                "fixed_cost": 0.00015448928557341518
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.002686640239424242,
+                "min_signed_target": -0.01625627008004716,
+                "max_signed_target": 0.00819759570598853,
+                "gross_price_proxy": 0.0004568434755504109,
+                "drift_trade_turnover": 0.2335172374829187,
+                "fixed_cost": 0.00031524806959081094
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.007254410735776255,
+              "fixed_cost": 9.793618645543148e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 159,
+              "turnover": 0.3229729965522147,
+              "fixed_cost": 0.0004359994904129199
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 751,
+              "turnover": 0.7832477470346272,
+              "fixed_cost": 0.0010574021592487895
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.016184632672912893,
+              "fixed_cost": 2.1847162610907754e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 1.1447493219025793,
+              "signed_trade_projection": 1.1400659359529548
+            },
+            "vol_scaling": {
+              "absolute_component": 0.05207461837080035,
+              "signed_trade_projection": -0.012209458385599455
+            },
+            "price_drift": {
+              "absolute_component": 0.052183471657846835,
+              "signed_trade_projection": -0.02163573398051477
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.02343904340868915,
+              "signed_trade_projection": 0.02343904340868915
+            }
+          },
+          "maximum_signed_decomposition_residual": 5.204170427930421e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.04495478869403733,
+          "position_abs_quantiles": [
+            0.004246751870959998,
+            0.028414525091648102,
+            0.09760121256113052,
+            0.2909669137001039
+          ],
+          "abs_position_below_counts": {
+            "0.001": 23,
+            "0.01": 192,
+            "0.05": 636
+          },
+          "position_abs_max": 0.4644557535648346
+        },
+        "trend_seed2003": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -0.0008815654489495346,
+            "fixed_cost_adjusted_price_proxy": -0.0019746980263559495,
+            "drift_trade_turnover": 0.8097275477908278,
+            "descriptive_target_turnover": 0.8157676788132757,
+            "fee": 0.0004453505391737528,
+            "half_spread": 0.0003238910191163311,
+            "slippage": 0.0003238910191163311,
+            "fixed_cost_total": 0.001093132577406415,
+            "entry_cost": 1.3050409909226895e-05,
+            "terminal_cost": 2.0245347062977543e-05,
+            "break_even_nominal_per_side_bps": -10.887186083204178,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.008200216679413393,
+            "gross_target_max": 0.02520026716206623,
+            "abs_target_max": 0.010389201979722852,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 368,
+            "nonzero_trade_changes_below_reference_10USDT": 633,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002142378783224179,
+                "min_signed_target": -0.010389201979722852,
+                "max_signed_target": 0.005120355125584898,
+                "gross_price_proxy": 0.0001716484817265755,
+                "drift_trade_turnover": 0.22888584054710215,
+                "fixed_cost": 0.00030899580921325603
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.001681666971860504,
+                "min_signed_target": -0.006596721542891325,
+                "max_signed_target": 0.0037849025406837982,
+                "gross_price_proxy": 0.0005731751620337998,
+                "drift_trade_turnover": 0.19560919332428084,
+                "fixed_cost": 0.00026407215879070787
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0014169472770870866,
+                "min_signed_target": -0.005602690862204241,
+                "max_signed_target": 0.0031194971784448107,
+                "gross_price_proxy": -0.0002994206044972035,
+                "drift_trade_turnover": 0.11290471952286421,
+                "fixed_cost": 0.00015242150310093268
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0011498280146493157,
+                "min_signed_target": -0.004268477916879408,
+                "max_signed_target": 0.005282306972580898,
+                "gross_price_proxy": -0.0010259569642862654,
+                "drift_trade_turnover": 0.13093250499611436,
+                "fixed_cost": 0.00017675933316581868
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0018093956325923063,
+                "min_signed_target": -0.006238116519252145,
+                "max_signed_target": 0.003127346842885008,
+                "gross_price_proxy": -0.0003010115239264411,
+                "drift_trade_turnover": 0.1413952894004662,
+                "fixed_cost": 0.0001908837731356999
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.009664572253105557,
+              "fixed_cost": 1.3050409909226895e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 144,
+              "turnover": 0.2496385166683361,
+              "fixed_cost": 0.00033700410626114253
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 766,
+              "turnover": 0.5354246139946613,
+              "fixed_cost": 0.000722832714173068
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.014999844874724264,
+              "fixed_cost": 2.0245347062977543e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.7980814347645625,
+              "signed_trade_projection": 0.7879246234663003
+            },
+            "vol_scaling": {
+              "absolute_component": 0.031308809494845484,
+              "signed_trade_projection": 0.0023435412667464715
+            },
+            "price_drift": {
+              "absolute_component": 0.034045720735747305,
+              "signed_trade_projection": -0.005205034070049042
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.02466441712782982,
+              "signed_trade_projection": 0.02466441712782982
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.6020852139652106e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.03089995431765288,
+          "position_abs_quantiles": [
+            0.004536737594753504,
+            0.024573296308517456,
+            0.0607540711760521,
+            0.12671342045068748
+          ],
+          "abs_position_below_counts": {
+            "0.001": 20,
+            "0.01": 190,
+            "0.05": 768
+          },
+          "position_abs_max": 0.16074970364570618
+        },
+        "trend_ensemble": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -0.0019594356296663874,
+            "fixed_cost_adjusted_price_proxy": -0.0031444713306954543,
+            "drift_trade_turnover": 0.8778035843536222,
+            "descriptive_target_turnover": 0.8942190144976747,
+            "fee": 0.0004827928335461692,
+            "half_spread": 0.00035112143374144893,
+            "slippage": 0.00035112143374144893,
+            "fixed_cost_total": 0.001185035701029067,
+            "entry_cost": 8.280804926822548e-06,
+            "terminal_cost": 1.7561613538852827e-05,
+            "break_even_nominal_per_side_bps": -22.322028123287215,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.008712348369851658,
+            "gross_target_max": 0.031567043001097216,
+            "abs_target_max": 0.010849250862945609,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 370,
+            "nonzero_trade_changes_below_reference_10USDT": 597,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002310488822202453,
+                "min_signed_target": -0.010849250862945609,
+                "max_signed_target": 0.005922031077796802,
+                "gross_price_proxy": 0.00035026931857738166,
+                "drift_trade_turnover": 0.25459271497271946,
+                "fixed_cost": 0.00034370001109467114
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.00182280057945999,
+                "min_signed_target": -0.010069217524223156,
+                "max_signed_target": 0.0038789293267761813,
+                "gross_price_proxy": 0.0010006820542891154,
+                "drift_trade_turnover": 0.22099400058509994,
+                "fixed_cost": 0.0002983414604897811
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0017295850945857343,
+                "min_signed_target": -0.007509236557332713,
+                "max_signed_target": 0.002581206029268482,
+                "gross_price_proxy": -0.0026625073345024858,
+                "drift_trade_turnover": 0.13417296499838968,
+                "fixed_cost": 0.00018113467425105327
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0009311944445722839,
+                "min_signed_target": -0.0040428802581469235,
+                "max_signed_target": 0.003655989996566116,
+                "gross_price_proxy": -0.0010651861600829249,
+                "drift_trade_turnover": 0.10555281873955674,
+                "fixed_cost": 0.00014249677398031206
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0019182794290311972,
+                "min_signed_target": -0.009541428536186235,
+                "max_signed_target": 0.004925422794314507,
+                "gross_price_proxy": 0.00041730649205252697,
+                "drift_trade_turnover": 0.1624910850578563,
+                "fixed_cost": 0.0002193627812132495
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.006132986357008163,
+              "fixed_cost": 8.28080492682255e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 159,
+              "turnover": 0.278922946934102,
+              "fixed_cost": 0.0003765376070000857
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 751,
+              "turnover": 0.5797370033980611,
+              "fixed_cost": 0.0007826556755633054
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.013010647664450556,
+              "fixed_cost": 1.7561613538852827e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.8855957094336937,
+              "signed_trade_projection": 0.8853240515000662
+            },
+            "vol_scaling": {
+              "absolute_component": 0.03527443770128543,
+              "signed_trade_projection": -0.010546548228867544
+            },
+            "price_drift": {
+              "absolute_component": 0.03797614575208042,
+              "signed_trade_projection": -0.01611755293903479
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.01914363402145872,
+              "signed_trade_projection": 0.01914363402145872
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.734723475976807e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.03340741338148732,
+          "position_abs_quantiles": [
+            0.004158111033029855,
+            0.025376159387330215,
+            0.06571605553229651,
+            0.17804566010832787
+          ],
+          "abs_position_below_counts": {
+            "0.001": 28,
+            "0.01": 206,
+            "0.05": 736
+          },
+          "position_abs_max": 0.2890862971544266
+        },
+        "trend_cpd_seed2001": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -0.0011912998103804548,
+            "fixed_cost_adjusted_price_proxy": -0.0020434896947485078,
+            "drift_trade_turnover": 0.6312513779230638,
+            "descriptive_target_turnover": 0.6368886245072158,
+            "fee": 0.0003471887820296017,
+            "half_spread": 0.0002525005511692255,
+            "slippage": 0.0002525005511692255,
+            "fixed_cost_total": 0.0008521898843680527,
+            "entry_cost": 6.220538466723243e-06,
+            "terminal_cost": 1.4113311946247576e-05,
+            "break_even_nominal_per_side_bps": -18.872035009255043,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.006678027076735924,
+            "gross_target_max": 0.014468270193966232,
+            "abs_target_max": 0.006386672142373628,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 467,
+            "nonzero_trade_changes_below_reference_10USDT": 703,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.001944430416979636,
+                "min_signed_target": -0.006386672142373628,
+                "max_signed_target": 0.005202095863100175,
+                "gross_price_proxy": -0.000322684184439632,
+                "drift_trade_turnover": 0.18058259509015,
+                "fixed_cost": 0.00024378664535274364
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0015872927685272231,
+                "min_signed_target": -0.005977252650268021,
+                "max_signed_target": 0.005540013868756437,
+                "gross_price_proxy": 0.00043759807530508653,
+                "drift_trade_turnover": 0.17570985445345355,
+                "fixed_cost": 0.00023720811096900914
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0014630132788307339,
+                "min_signed_target": -0.006226907750528275,
+                "max_signed_target": 0.0031228899615035827,
+                "gross_price_proxy": -0.0015711391340554489,
+                "drift_trade_turnover": 0.11527801242168981,
+                "fixed_cost": 0.00015562600807050023
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0007472955460677863,
+                "min_signed_target": -0.0017145866558802062,
+                "max_signed_target": 0.0031871907653058286,
+                "gross_price_proxy": -0.0001772638737308228,
+                "drift_trade_turnover": 0.07124865755622362,
+                "fixed_cost": 9.618576569700633e-05
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0009359950663305437,
+                "min_signed_target": -0.002684401261030474,
+                "max_signed_target": 0.0031841131815355263,
+                "gross_price_proxy": 0.0004421893065403623,
+                "drift_trade_turnover": 0.08843225840154685,
+                "fixed_cost": 0.00011938335427879337
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.004606640932815838,
+              "fixed_cost": 6.220538466723243e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 120,
+              "turnover": 0.16455214518377265,
+              "fixed_cost": 0.00022213838208889097
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 790,
+              "turnover": 0.4516350236019056,
+              "fixed_cost": 0.0006097176518661903
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.010457568204569948,
+              "fixed_cost": 1.4113311946247576e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.6321216437162306,
+              "signed_trade_projection": 0.6312720716174047
+            },
+            "vol_scaling": {
+              "absolute_component": 0.026765063427442528,
+              "signed_trade_projection": -0.010175430091785571
+            },
+            "price_drift": {
+              "absolute_component": 0.026145745723262604,
+              "signed_trade_projection": -0.004909472739941808
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.015064209137385785,
+              "signed_trade_projection": 0.015064209137385785
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.5178830414797062e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.025897301498245793,
+          "position_abs_quantiles": [
+            0.003912346856668592,
+            0.018906716257333755,
+            0.05165270119905472,
+            0.15620712041854865
+          ],
+          "abs_position_below_counts": {
+            "0.001": 21,
+            "0.01": 266,
+            "0.05": 814
+          },
+          "position_abs_max": 0.25032466650009155
+        },
+        "trend_cpd_seed2002": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": 0.00024580484461447435,
+            "fixed_cost_adjusted_price_proxy": -0.0011857970145903486,
+            "drift_trade_turnover": 1.0604459017473737,
+            "descriptive_target_turnover": 1.0669791333156393,
+            "fee": 0.000583245137806924,
+            "half_spread": 0.00042417836069894954,
+            "slippage": 0.00042417836069894954,
+            "fixed_cost_total": 0.001431601859204823,
+            "entry_cost": 8.461475637831496e-06,
+            "terminal_cost": 2.605010042296127e-05,
+            "break_even_nominal_per_side_bps": 2.3179385597081743,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 5.824140128117403,
+            "gross_target_mean": 0.010072467232434736,
+            "gross_target_max": 0.020475309406761587,
+            "abs_target_max": 0.012385938949257162,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 327,
+            "nonzero_trade_changes_below_reference_10USDT": 561,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0025960384688192796,
+                "min_signed_target": -0.012385938949257162,
+                "max_signed_target": 0.008582451945772833,
+                "gross_price_proxy": 0.0012887652837240049,
+                "drift_trade_turnover": 0.33873145369673635,
+                "fixed_cost": 0.00045728689543386925
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0019623338895446087,
+                "min_signed_target": -0.007783374759921661,
+                "max_signed_target": 0.006654230959051674,
+                "gross_price_proxy": 0.0020448776033743002,
+                "drift_trade_turnover": 0.25568484489961196,
+                "fixed_cost": 0.0003451736408683307
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0019069510558185915,
+                "min_signed_target": -0.009770948939272689,
+                "max_signed_target": 0.003854424575206046,
+                "gross_price_proxy": -0.003256020940242403,
+                "drift_trade_turnover": 0.17198299344439083,
+                "fixed_cost": 0.00023217847379914134
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0012881530294296469,
+                "min_signed_target": -0.005114245101576946,
+                "max_signed_target": 0.005347569496154098,
+                "gross_price_proxy": -0.0007294046859321909,
+                "drift_trade_turnover": 0.11903864395704958,
+                "fixed_cost": 0.00016070249028007872
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.002318990788822609,
+                "min_signed_target": -0.005814937852172753,
+                "max_signed_target": 0.008424843489831496,
+                "gross_price_proxy": 0.000897587583690764,
+                "drift_trade_turnover": 0.17500796574958516,
+                "fixed_cost": 0.00023626035882340316
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.006267031569277813,
+              "fixed_cost": 8.461475637831496e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 177,
+              "turnover": 0.3943818848031158,
+              "fixed_cost": 0.0005324084719016351
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 733,
+              "turnover": 0.6404949942055276,
+              "fixed_cost": 0.0008646818112423958
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.019301991169453487,
+              "fixed_cost": 2.6050100422961277e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 1.0524122974463668,
+              "signed_trade_projection": 1.0463885609865762
+            },
+            "vol_scaling": {
+              "absolute_component": 0.03603819652799359,
+              "signed_trade_projection": -0.007823942009277251
+            },
+            "price_drift": {
+              "absolute_component": 0.04179078311675101,
+              "signed_trade_projection": -0.0036877399686568095
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.0255690227387313,
+              "signed_trade_projection": 0.0255690227387313
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.6020852139652106e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.03808321886081401,
+          "position_abs_quantiles": [
+            0.005753969214856625,
+            0.028563402593135834,
+            0.08025015592575074,
+            0.17706911802291878
+          ],
+          "abs_position_below_counts": {
+            "0.001": 22,
+            "0.01": 170,
+            "0.05": 679
+          },
+          "position_abs_max": 0.28034335374832153
+        },
+        "trend_cpd_seed2003": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": 0.0007297539438312628,
+            "fixed_cost_adjusted_price_proxy": -0.00029830462443600084,
+            "drift_trade_turnover": 0.7615251032288881,
+            "descriptive_target_turnover": 0.764324855104008,
+            "fee": 0.0004188384856841532,
+            "half_spread": 0.00030461004129155527,
+            "slippage": 0.00030461004129155527,
+            "fixed_cost_total": 0.0010280585682672636,
+            "entry_cost": 1.0078669542629448e-05,
+            "terminal_cost": 3.5400830212259325e-05,
+            "break_even_nominal_per_side_bps": 9.582795639133698,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 1.4087742546068052,
+            "gross_target_mean": 0.008334280329461197,
+            "gross_target_max": 0.026364228266653716,
+            "abs_target_max": 0.011554756656390018,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 366,
+            "nonzero_trade_changes_below_reference_10USDT": 655,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.002430458312809088,
+                "min_signed_target": -0.006509228994062345,
+                "max_signed_target": 0.011554756656390018,
+                "gross_price_proxy": 0.0010961360451304395,
+                "drift_trade_turnover": 0.23039945451365063,
+                "fixed_cost": 0.0003110387812935685
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0015573285777919683,
+                "min_signed_target": -0.004537413322793805,
+                "max_signed_target": 0.004947587907805193,
+                "gross_price_proxy": 0.0007248864450180838,
+                "drift_trade_turnover": 0.16629797701991403,
+                "fixed_cost": 0.00022450195002684815
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0016475617643542495,
+                "min_signed_target": -0.007411218540247143,
+                "max_signed_target": 0.002488349766063207,
+                "gross_price_proxy": -0.001873055707398697,
+                "drift_trade_turnover": 0.1449770671673661,
+                "fixed_cost": 0.00019571986482045555
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.001535431790400651,
+                "min_signed_target": -0.0035808009072470955,
+                "max_signed_target": 0.006658207377168669,
+                "gross_price_proxy": 0.0005085147812223078,
+                "drift_trade_turnover": 0.09804081768770571,
+                "fixed_cost": 0.000132354880131899
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0011634998841052399,
+                "min_signed_target": -0.003931898440954547,
+                "max_signed_target": 0.0035147885040556276,
+                "gross_price_proxy": 0.0002732723798591287,
+                "drift_trade_turnover": 0.12180978684025161,
+                "fixed_cost": 0.00016444309199449252
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.007464621192315505,
+              "fixed_cost": 1.0078669542629448e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 131,
+              "turnover": 0.19940157574382988,
+              "fixed_cost": 0.00026919860337429726
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 779,
+              "turnover": 0.5284289246772629,
+              "fixed_cost": 0.0007133804651380775
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.026229981615480045,
+              "fixed_cost": 3.540083021225934e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.7388516059758812,
+              "signed_trade_projection": 0.7326214955225978
+            },
+            "vol_scaling": {
+              "absolute_component": 0.03149777927454035,
+              "signed_trade_projection": -0.004730034048459837
+            },
+            "price_drift": {
+              "absolute_component": 0.033472928367282766,
+              "signed_trade_projection": -6.096105304535162e-05
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.03369460280779555,
+              "signed_trade_projection": 0.03369460280779555
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.6020852139652106e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.03351936694380924,
+          "position_abs_quantiles": [
+            0.004813684523105622,
+            0.023789536207914352,
+            0.06975091695785524,
+            0.1851182055473328
+          ],
+          "abs_position_below_counts": {
+            "0.001": 17,
+            "0.01": 193,
+            "0.05": 750
+          },
+          "position_abs_max": 0.2921930253505707
+        },
+        "trend_cpd_ensemble": {
+          "financial": {
+            "days": 183,
+            "gross_price_proxy": -7.191367397823948e-05,
+            "fixed_cost_adjusted_price_proxy": -0.0010726067033286634,
+            "drift_trade_turnover": 0.7412540723765978,
+            "descriptive_target_turnover": 0.7484672566545633,
+            "fee": 0.0004076897714491454,
+            "half_spread": 0.00029650162895063914,
+            "slippage": 0.00029650162895063914,
+            "fixed_cost_total": 0.0010006930293504238,
+            "entry_cost": 7.153728611758605e-06,
+            "terminal_cost": 2.5188080860489393e-05,
+            "break_even_nominal_per_side_bps": -0.9701622784704701,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.006820472151398426,
+            "gross_target_max": 0.018745404138140322,
+            "abs_target_max": 0.00844643482175434,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 466,
+            "nonzero_trade_changes_below_reference_10USDT": 658,
+            "trade_change_count": 920,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0018850345254294192,
+                "min_signed_target": -0.008037368886960916,
+                "max_signed_target": 0.00844643482175434,
+                "gross_price_proxy": 0.0006874057148049374,
+                "drift_trade_turnover": 0.23119278139765698,
+                "fixed_cost": 0.0003121099524283224
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0013105393545309266,
+                "min_signed_target": -0.005053035035693082,
+                "max_signed_target": 0.004414159635395735,
+                "gross_price_proxy": 0.0010691207078991568,
+                "drift_trade_turnover": 0.1790555692458756,
+                "fixed_cost": 0.0002417245480688206
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0014722177067733985,
+                "min_signed_target": -0.005891251291852657,
+                "max_signed_target": 0.0021812063868744437,
+                "gross_price_proxy": -0.002233405260565516,
+                "drift_trade_turnover": 0.1337415467906675,
+                "fixed_cost": 0.0001805520708657158
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.001025214093727057,
+                "min_signed_target": -0.003222848782139129,
+                "max_signed_target": 0.004191462673929024,
+                "gross_price_proxy": -0.00013271792614690198,
+                "drift_trade_turnover": 0.08779004988711951,
+                "fixed_cost": 0.00011851662574349886
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0011274664709376256,
+                "min_signed_target": -0.0033949372134834447,
+                "max_signed_target": 0.004151385352506606,
+                "gross_price_proxy": 0.0005376830900300851,
+                "drift_trade_turnover": 0.10947412505527825,
+                "fixed_cost": 0.000147789832244066
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.0052980737470479,
+              "fixed_cost": 7.1537286117586064e-06
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 173,
+              "turnover": 0.2559175729710669,
+              "fixed_cost": 0.00034547652717324456
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 737,
+              "turnover": 0.4613752453286482,
+              "fixed_cost": 0.0006228746927049317
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.01866318032983449,
+              "fixed_cost": 2.5188080860489393e-05
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.7341555766666634,
+              "signed_trade_projection": 0.7314665995199645
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02566230535255001,
+              "signed_trade_projection": -0.008805411276312918
+            },
+            "price_drift": {
+              "absolute_component": 0.02860785297899924,
+              "signed_trade_projection": -0.005368369943935494
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.02396125407688239,
+              "signed_trade_projection": 0.02396125407688239
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.3010426069826053e-18,
+          "eligible_count": 915,
+          "position_abs_mean": 0.026559602374016715,
+          "position_abs_quantiles": [
+            0.0038018052776654563,
+            0.018913202608625095,
+            0.05337906206647555,
+            0.15226834580302248
+          ],
+          "abs_position_below_counts": {
+            "0.001": 14,
+            "0.01": 256,
+            "0.05": 811
+          },
+          "position_abs_max": 0.2254709154367447
+        }
+      }
+    },
+    {
+      "start": "2024-01-01",
+      "policies": {
+        "trend_seed2001": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": 1.1409099366415688e-05,
+            "fixed_cost_adjusted_price_proxy": -0.0007427088210344281,
+            "drift_trade_turnover": 0.5586058706821092,
+            "descriptive_target_turnover": 0.5731144288878322,
+            "fee": 0.0003072332238551563,
+            "half_spread": 0.0002234423482728437,
+            "slippage": 0.0002234423482728437,
+            "fixed_cost_total": 0.0007541179204008438,
+            "entry_cost": 1.1651494193904519e-05,
+            "terminal_cost": 7.942354419666885e-06,
+            "break_even_nominal_per_side_bps": 0.2042423820659838,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 66.09793605801151,
+            "gross_target_mean": 0.008435240673483894,
+            "gross_target_max": 0.02288193458681803,
+            "abs_target_max": 0.009391153983581197,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 256,
+            "nonzero_trade_changes_below_reference_10USDT": 402,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0019912039131205297,
+                "min_signed_target": -0.009391153983581197,
+                "max_signed_target": 0.0035435446468134965,
+                "gross_price_proxy": -0.0009364593374361972,
+                "drift_trade_turnover": 0.1431019380557726,
+                "fixed_cost": 0.00019318802841740147
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0021829925568804323,
+                "min_signed_target": -0.008977358183564163,
+                "max_signed_target": 0.0033732256248871486,
+                "gross_price_proxy": -0.0008514893983705741,
+                "drift_trade_turnover": 0.12861452135513615,
+                "fixed_cost": 0.0001736299784847691
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.001335043054351738,
+                "min_signed_target": -0.0056483839544734255,
+                "max_signed_target": 0.002336382515233756,
+                "gross_price_proxy": -0.0003111451473408293,
+                "drift_trade_turnover": 0.09203537937087462,
+                "fixed_cost": 0.0001242478990545456
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0018541411121455534,
+                "min_signed_target": -0.006431673485454301,
+                "max_signed_target": 0.004478990620050453,
+                "gross_price_proxy": 0.0011137969813343127,
+                "drift_trade_turnover": 0.11884028949246943,
+                "fixed_cost": 0.00016043390074416193
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.001071860036985641,
+                "min_signed_target": -0.003928586552911733,
+                "max_signed_target": 0.0022041728197449684,
+                "gross_price_proxy": 0.000996706001179703,
+                "drift_trade_turnover": 0.07601374240785636,
+                "fixed_cost": 0.00010261811369996558
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.008628532351558185,
+              "fixed_cost": 1.1651494193904519e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 121,
+              "turnover": 0.18841014977692017,
+              "fixed_cost": 0.00025434160084586834
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 474,
+              "turnover": 0.3556841043060423,
+              "fixed_cost": 0.00048018247094140415
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.005883084247588853,
+              "fixed_cost": 7.942354419666885e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.5640862928399875,
+              "signed_trade_projection": 0.5628258483705122
+            },
+            "vol_scaling": {
+              "absolute_component": 0.021045249644066594,
+              "signed_trade_projection": -0.005102701184689456
+            },
+            "price_drift": {
+              "absolute_component": 0.030148027330679967,
+              "signed_trade_projection": -0.013628893102860263
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.014511616599147037,
+              "signed_trade_projection": 0.014511616599147037
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.744386749103933e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.03773370565191726,
+          "position_abs_quantiles": [
+            0.005362366838380695,
+            0.02784303855150938,
+            0.08522907420992853,
+            0.14711077004671097
+          ],
+          "abs_position_below_counts": {
+            "0.001": 13,
+            "0.01": 113,
+            "0.05": 443
+          },
+          "position_abs_max": 0.163731187582016
+        },
+        "trend_seed2002": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": -0.00824362420578239,
+            "fixed_cost_adjusted_price_proxy": -0.009370768747296317,
+            "drift_trade_turnover": 0.8349191957920573,
+            "descriptive_target_turnover": 0.8704622366474783,
+            "fee": 0.00045920918488028206,
+            "half_spread": 0.00033396767831682297,
+            "slippage": 0.00033396767831682297,
+            "fixed_cost_total": 0.001127144541513928,
+            "entry_cost": 2.1687655390247065e-05,
+            "terminal_cost": 5.556836044874592e-06,
+            "break_even_nominal_per_side_bps": -98.7355931847029,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.018341144677993422,
+            "gross_target_max": 0.06062431379364523,
+            "abs_target_max": 0.027154173366246065,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 174,
+            "nonzero_trade_changes_below_reference_10USDT": 338,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.005829925900004253,
+                "min_signed_target": -0.027154173366246065,
+                "max_signed_target": 0.0065437472634427216,
+                "gross_price_proxy": -0.005668784477118365,
+                "drift_trade_turnover": 0.23119263868799333,
+                "fixed_cost": 0.0003121125564939609
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.004394070488611646,
+                "min_signed_target": -0.020217785346386557,
+                "max_signed_target": 0.00832539499341274,
+                "gross_price_proxy": -0.0030433591713725583,
+                "drift_trade_turnover": 0.20948355033382896,
+                "fixed_cost": 0.00028280413202870443
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.00530402997294605,
+                "min_signed_target": -0.016310303300729044,
+                "max_signed_target": 0.0035468823293507887,
+                "gross_price_proxy": -1.3359564500360632e-05,
+                "drift_trade_turnover": 0.18318778994306267,
+                "fixed_cost": 0.000247303522301343
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0013584696336768614,
+                "min_signed_target": -0.003914414171894929,
+                "max_signed_target": 0.003940413504292826,
+                "gross_price_proxy": 0.001279042229135161,
+                "drift_trade_turnover": 0.1225910163877724,
+                "fixed_cost": 0.00016549730934491193
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0014546486827546128,
+                "min_signed_target": -0.007711735001766281,
+                "max_signed_target": 0.00400930841993762,
+                "gross_price_proxy": -0.0007971632219262673,
+                "drift_trade_turnover": 0.08846420043940005,
+                "fixed_cost": 0.00011942702134500773
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.01606228422388921,
+              "fixed_cost": 2.1687655390247065e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 80,
+              "turnover": 0.1745499433224531,
+              "fixed_cost": 0.00023563452320158495
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 515,
+              "turnover": 0.6401900950258554,
+              "fixed_cost": 0.0008642655268772219
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.004116873219859858,
+              "fixed_cost": 5.556836044874592e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.8682596990775509,
+              "signed_trade_projection": 0.8499830189319924
+            },
+            "vol_scaling": {
+              "absolute_component": 0.0474031783177543,
+              "signed_trade_projection": -0.003762536638687681
+            },
+            "price_drift": {
+              "absolute_component": 0.06712433536529838,
+              "signed_trade_projection": -0.03148044394499695
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.02017915744374907,
+              "signed_trade_projection": 0.02017915744374907
+            }
+          },
+          "maximum_signed_decomposition_residual": 8.239936510889834e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.08289663487414752,
+          "position_abs_quantiles": [
+            0.008465944416821003,
+            0.04713754542171955,
+            0.22188398838043216,
+            0.35523499876260745
+          ],
+          "abs_position_below_counts": {
+            "0.001": 7,
+            "0.01": 73,
+            "0.05": 309
+          },
+          "position_abs_max": 0.46726736426353455
+        },
+        "trend_seed2003": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": 0.0003216416517278463,
+            "fixed_cost_adjusted_price_proxy": -0.00047889398102386326,
+            "drift_trade_turnover": 0.5929894624252121,
+            "descriptive_target_turnover": 0.6021091950821258,
+            "fee": 0.00032614406281153993,
+            "half_spread": 0.00023719578497008486,
+            "slippage": 0.00023719578497008486,
+            "fixed_cost_total": 0.0008005356327517095,
+            "entry_cost": 2.2781076618842555e-05,
+            "terminal_cost": 8.139146011436111e-06,
+            "break_even_nominal_per_side_bps": 5.424070276264172,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 2.4889053654937525,
+            "gross_target_mean": 0.011051328151274693,
+            "gross_target_max": 0.025686414638065303,
+            "abs_target_max": 0.011908035261769066,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 185,
+            "nonzero_trade_changes_below_reference_10USDT": 397,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0033409502276354236,
+                "min_signed_target": -0.011908035261769066,
+                "max_signed_target": 0.005128314966485479,
+                "gross_price_proxy": -0.0016937634696159282,
+                "drift_trade_turnover": 0.1595941535137219,
+                "fixed_cost": 0.0002154528524994512
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0025298610635049266,
+                "min_signed_target": -0.006820441646903895,
+                "max_signed_target": 0.0036176487225623986,
+                "gross_price_proxy": -0.0007846551810232287,
+                "drift_trade_turnover": 0.1378487896568044,
+                "fixed_cost": 0.00018609621128496556
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0019012042309553303,
+                "min_signed_target": -0.004383875196996459,
+                "max_signed_target": 0.002984444781015266,
+                "gross_price_proxy": 0.0006502215316265768,
+                "drift_trade_turnover": 0.07338194745782892,
+                "fixed_cost": 9.906534297059512e-05
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.001944210069229364,
+                "min_signed_target": -0.008207282307221345,
+                "max_signed_target": 0.007310003388898309,
+                "gross_price_proxy": 0.0015205174088906792,
+                "drift_trade_turnover": 0.13008243383125945,
+                "fixed_cost": 0.00017561061664454034
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0013351025599496478,
+                "min_signed_target": -0.003251184610982675,
+                "max_signed_target": 0.005606747310555679,
+                "gross_price_proxy": 0.0006293213618497491,
+                "drift_trade_turnover": 0.0920821379655975,
+                "fixed_cost": 0.0001243106093521574
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.016871253089316664,
+              "fixed_cost": 2.2781076618842555e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 89,
+              "turnover": 0.1804226564651255,
+              "fixed_cost": 0.0002435596915698958
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 506,
+              "turnover": 0.38966576319533797,
+              "fixed_cost": 0.0005260557185515358
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.00602978967543226,
+              "fixed_cost": 8.139146011436111e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.5808696583052756,
+              "signed_trade_projection": 0.5780203303757994
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02428774292696173,
+              "signed_trade_projection": 0.00048087653268345635
+            },
+            "price_drift": {
+              "absolute_component": 0.03619585260729671,
+              "signed_trade_projection": -0.008412787248019362
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.022901042764748927,
+              "signed_trade_projection": 0.022901042764748927
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.927345865710862e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.04885276219817267,
+          "position_abs_quantiles": [
+            0.008271605242043734,
+            0.04126672260463238,
+            0.10282949656248093,
+            0.14508906483650208
+          ],
+          "abs_position_below_counts": {
+            "0.001": 11,
+            "0.01": 74,
+            "0.05": 350
+          },
+          "position_abs_max": 0.1756848841905594
+        },
+        "trend_ensemble": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": -0.002636857818229375,
+            "fixed_cost_adjusted_price_proxy": -0.003470597958025055,
+            "drift_trade_turnover": 0.6175844293172146,
+            "descriptive_target_turnover": 0.6383101269323752,
+            "fee": 0.000339672596341908,
+            "half_spread": 0.0002470337717268858,
+            "slippage": 0.0002470337717268858,
+            "fixed_cost_total": 0.0008337401397956797,
+            "entry_cost": 1.8706742067664715e-05,
+            "terminal_cost": 7.0417000033608834e-06,
+            "break_even_nominal_per_side_bps": -42.69631313640172,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.01195136589562651,
+            "gross_target_max": 0.032630433677858416,
+            "abs_target_max": 0.014681509456324099,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 185,
+            "nonzero_trade_changes_below_reference_10USDT": 379,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0035945933041309224,
+                "min_signed_target": -0.014681509456324099,
+                "max_signed_target": 0.003950562567631297,
+                "gross_price_proxy": -0.0027663357613901627,
+                "drift_trade_turnover": 0.16899643385219226,
+                "fixed_cost": 0.00022814640288819457
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0029713820018777534,
+                "min_signed_target": -0.01146871279252521,
+                "max_signed_target": 0.005105423113620763,
+                "gross_price_proxy": -0.001559834583588787,
+                "drift_trade_turnover": 0.15157942551536685,
+                "fixed_cost": 0.00020463291077296201
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.002681223458360704,
+                "min_signed_target": -0.008637545825530507,
+                "max_signed_target": 0.002792463885927494,
+                "gross_price_proxy": 0.00010857227326179506,
+                "drift_trade_turnover": 0.11016133680123098,
+                "fixed_cost": 0.0001487177569098616
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0014632702392277906,
+                "min_signed_target": -0.00508547468487617,
+                "max_signed_target": 0.0030733615675367096,
+                "gross_price_proxy": 0.0013044522064533841,
+                "drift_trade_turnover": 0.11005860612673775,
+                "fixed_cost": 0.00014857854431212512
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.00124089689202934,
+                "min_signed_target": -0.004923707604377047,
+                "max_signed_target": 0.003940076183412756,
+                "gross_price_proxy": 0.00027628804703439436,
+                "drift_trade_turnover": 0.07678862702168673,
+                "fixed_cost": 0.00010366452491253639
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.01385402322158802,
+              "fixed_cost": 1.8706742067664715e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 87,
+              "turnover": 0.15595404486629705,
+              "fixed_cost": 0.0002105272829677289
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 508,
+              "turnover": 0.44255983723500997,
+              "fixed_cost": 0.0005974644147569257
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.005216523994319599,
+              "fixed_cost": 7.041700003360883e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.6293740524549551,
+              "signed_trade_projection": 0.6224321490807778
+            },
+            "vol_scaling": {
+              "absolute_component": 0.029298567661000093,
+              "signed_trade_projection": -0.004212176277402021
+            },
+            "price_drift": {
+              "absolute_component": 0.04231286828382874,
+              "signed_trade_projection": -0.01970609070206876
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.01907054721590762,
+              "signed_trade_projection": 0.01907054721590762
+            }
+          },
+          "maximum_signed_decomposition_residual": 4.336808689942018e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.05361191921383984,
+          "position_abs_quantiles": [
+            0.007585134450346233,
+            0.04051962370673816,
+            0.1227483444536726,
+            0.1917366606245438
+          ],
+          "abs_position_below_counts": {
+            "0.001": 9,
+            "0.01": 83,
+            "0.05": 349
+          },
+          "position_abs_max": 0.2512170225381851
+        },
+        "trend_cpd_seed2001": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": -0.0005571211236594827,
+            "fixed_cost_adjusted_price_proxy": -0.0011858202723759373,
+            "drift_trade_turnover": 0.46570289154308164,
+            "descriptive_target_turnover": 0.47835647765508127,
+            "fee": 0.0002561368354819894,
+            "half_spread": 0.0001862811566172327,
+            "slippage": 0.0001862811566172327,
+            "fixed_cost_total": 0.0006286991487164547,
+            "entry_cost": 1.6100354648566965e-05,
+            "terminal_cost": 7.343845430127653e-06,
+            "break_even_nominal_per_side_bps": -11.963016201456075,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.008028297460607696,
+            "gross_target_max": 0.019250565243864048,
+            "abs_target_max": 0.007145623596286024,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 254,
+            "nonzero_trade_changes_below_reference_10USDT": 434,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0015935675454486233,
+                "min_signed_target": -0.006998329407091811,
+                "max_signed_target": 0.00422382454114077,
+                "gross_price_proxy": -0.0004368282530669579,
+                "drift_trade_turnover": 0.1060141600086856,
+                "fixed_cost": 0.00014311930821615693
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0017336028027384446,
+                "min_signed_target": -0.007145623596286024,
+                "max_signed_target": 0.002699001664752865,
+                "gross_price_proxy": -0.0002526902065511877,
+                "drift_trade_turnover": 0.08827009397857753,
+                "fixed_cost": 0.00011916473805477056
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.001703575048130219,
+                "min_signed_target": -0.006855440083784137,
+                "max_signed_target": 0.001741731642626847,
+                "gross_price_proxy": -0.0002836534918476383,
+                "drift_trade_turnover": 0.09030856733122118,
+                "fixed_cost": 0.00012191669070468499
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.00166228770116399,
+                "min_signed_target": -0.0062126090375857895,
+                "max_signed_target": 0.0036193707886073992,
+                "gross_price_proxy": 0.000989862031755176,
+                "drift_trade_turnover": 0.10041764053481496,
+                "fixed_cost": 0.0001355633791827062
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0013352643631264194,
+                "min_signed_target": -0.0055556846104659885,
+                "max_signed_target": 0.0021062020775742237,
+                "gross_price_proxy": -0.000573811203948875,
+                "drift_trade_turnover": 0.08069242968978241,
+                "fixed_cost": 0.00010893503255813598
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.011922668073888566,
+              "fixed_cost": 1.6100354648566965e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 96,
+              "turnover": 0.11742435972601893,
+              "fixed_cost": 0.00015851595944180638
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 499,
+              "turnover": 0.33091597794870004,
+              "fixed_cost": 0.00044673898919595406
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.005439885794474249,
+              "fixed_cost": 7.343845430127653e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.4647265495475422,
+              "signed_trade_projection": 0.4618167485821527
+            },
+            "vol_scaling": {
+              "absolute_component": 0.019603159264210624,
+              "signed_trade_projection": -0.0027114824613630583
+            },
+            "price_drift": {
+              "absolute_component": 0.030853734370530485,
+              "signed_trade_projection": -0.010764928446070729
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.017362553868362815,
+              "signed_trade_projection": 0.017362553868362815
+            }
+          },
+          "maximum_signed_decomposition_residual": 1.5178830414797062e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.03931539298656086,
+          "position_abs_quantiles": [
+            0.004874444287270308,
+            0.027582360431551933,
+            0.09080579280853274,
+            0.18961104333400725
+          ],
+          "abs_position_below_counts": {
+            "0.001": 15,
+            "0.01": 119,
+            "0.05": 427
+          },
+          "position_abs_max": 0.26259416341781616
+        },
+        "trend_cpd_seed2002": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": -0.004091801625336475,
+            "fixed_cost_adjusted_price_proxy": -0.005372873775789698,
+            "drift_trade_turnover": 0.9489410000448208,
+            "descriptive_target_turnover": 0.9768048078103964,
+            "fee": 0.0005219193504173666,
+            "half_spread": 0.00037957640001792835,
+            "slippage": 0.00037957640001792835,
+            "fixed_cost_total": 0.0012810721504532233,
+            "entry_cost": 2.5160233028666435e-05,
+            "terminal_cost": 9.279895832616086e-06,
+            "break_even_nominal_per_side_bps": -43.11966313125062,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.017244893125698872,
+            "gross_target_max": 0.03828146560433986,
+            "abs_target_max": 0.016829195202912966,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 145,
+            "nonzero_trade_changes_below_reference_10USDT": 263,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.005218523533986508,
+                "min_signed_target": -0.016829195202912966,
+                "max_signed_target": 0.0057375769900777735,
+                "gross_price_proxy": -0.0026651577716355424,
+                "drift_trade_turnover": 0.2701378004332,
+                "fixed_cost": 0.0003646872032542396
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.0038082044723174034,
+                "min_signed_target": -0.012411474077999434,
+                "max_signed_target": 0.00605688639432318,
+                "gross_price_proxy": -0.0018571898628608047,
+                "drift_trade_turnover": 0.2011183242298235,
+                "fixed_cost": 0.0002715105548738014
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.004585346391595956,
+                "min_signed_target": -0.011640902301296552,
+                "max_signed_target": 0.008714204147726024,
+                "gross_price_proxy": -0.002264647267756793,
+                "drift_trade_turnover": 0.17144785939419382,
+                "fixed_cost": 0.00023145560662695948
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0019512424069121723,
+                "min_signed_target": -0.007881769364033172,
+                "max_signed_target": 0.004825075431980725,
+                "gross_price_proxy": 0.002058408915322222,
+                "drift_trade_turnover": 0.17369209102441802,
+                "fixed_cost": 0.00023448341718304157
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0016815763208868322,
+                "min_signed_target": -0.005753639788745487,
+                "max_signed_target": 0.00410806360385208,
+                "gross_price_proxy": 0.0006367843615944415,
+                "drift_trade_turnover": 0.13254492496318548,
+                "fixed_cost": 0.00017893536851518134
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.01863120457118353,
+              "fixed_cost": 2.5160233028666435e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 108,
+              "turnover": 0.2772256433428574,
+              "fixed_cost": 0.00037425841578366513
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 487,
+              "turnover": 0.6462083424498924,
+              "fixed_cost": 0.0008723736058082751
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.006875809680887555,
+              "fixed_cost": 9.279895832616086e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.9647808350890568,
+              "signed_trade_projection": 0.9561019027300666
+            },
+            "vol_scaling": {
+              "absolute_component": 0.04095604340096756,
+              "signed_trade_projection": -0.007792002300453569
+            },
+            "price_drift": {
+              "absolute_component": 0.06161552438633601,
+              "signed_trade_projection": -0.024875914636863592
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.025507014252071088,
+              "signed_trade_projection": 0.025507014252071088
+            }
+          },
+          "maximum_signed_decomposition_residual": 4.2825985813177425e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.07882004462124315,
+          "position_abs_quantiles": [
+            0.009539636876434087,
+            0.05835236608982086,
+            0.1776565447449685,
+            0.2895759943127632
+          ],
+          "abs_position_below_counts": {
+            "0.001": 8,
+            "0.01": 67,
+            "0.05": 266
+          },
+          "position_abs_max": 0.32758915424346924
+        },
+        "trend_cpd_seed2003": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": 0.0038271146702664803,
+            "fixed_cost_adjusted_price_proxy": 0.0029525549080837684,
+            "drift_trade_turnover": 0.6478232934171607,
+            "descriptive_target_turnover": 0.6485525087758637,
+            "fee": 0.00035630112744898344,
+            "half_spread": 0.00025912931736686427,
+            "slippage": 0.00025912931736686427,
+            "fixed_cost_total": 0.000874559762182712,
+            "entry_cost": 4.01267767856185e-05,
+            "terminal_cost": 5.404226958456148e-06,
+            "break_even_nominal_per_side_bps": 59.07652147052452,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": 0.22851673846548654,
+            "gross_target_mean": 0.011177311307370845,
+            "gross_target_max": 0.02971515568548325,
+            "abs_target_max": 0.016584373123452352,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 196,
+            "nonzero_trade_changes_below_reference_10USDT": 365,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0037569478194404817,
+                "min_signed_target": -0.016584373123452352,
+                "max_signed_target": 0.010918297028190669,
+                "gross_price_proxy": -0.0010769320713999117,
+                "drift_trade_turnover": 0.1674822565910089,
+                "fixed_cost": 0.00022610152024797343
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.002044746045910083,
+                "min_signed_target": -0.006481160006680498,
+                "max_signed_target": 0.004356962672861972,
+                "gross_price_proxy": -4.21095440204529e-05,
+                "drift_trade_turnover": 0.14256755244679675,
+                "fixed_cost": 0.000192466214331375
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0021599174109021577,
+                "min_signed_target": -0.008857751751427247,
+                "max_signed_target": 0.004921168304415819,
+                "gross_price_proxy": 0.003385059720086031,
+                "drift_trade_turnover": 0.10970849339644449,
+                "fixed_cost": 0.0001481049766589232
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0019012976076612463,
+                "min_signed_target": -0.005388521471830318,
+                "max_signed_target": 0.00899660849376414,
+                "gross_price_proxy": 0.0009598295481472675,
+                "drift_trade_turnover": 0.13040981168567634,
+                "fixed_cost": 0.00017605282345066185
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0013144024234568738,
+                "min_signed_target": -0.004666870570313647,
+                "max_signed_target": 0.003816671090965419,
+                "gross_price_proxy": 0.0006012670174535468,
+                "drift_trade_turnover": 0.09765517929723422,
+                "fixed_cost": 0.0001318342274937785
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.02971515568548325,
+              "fixed_cost": 4.01267767856185e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 98,
+              "turnover": 0.17348722292974672,
+              "fixed_cost": 0.00023419868710863035
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 497,
+              "turnover": 0.4406168913809687,
+              "fixed_cost": 0.000594830071330008
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.004004023420962063,
+              "fixed_cost": 5.404226958456146e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.6198645531445793,
+              "signed_trade_projection": 0.6152615149846272
+            },
+            "vol_scaling": {
+              "absolute_component": 0.025660566456313306,
+              "signed_trade_projection": -0.002494584222005565
+            },
+            "price_drift": {
+              "absolute_component": 0.0397676569597953,
+              "signed_trade_projection": 0.0013371835480934153
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.03371917910644532,
+              "signed_trade_projection": 0.03371917910644532
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.168404344971009e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.05140933731745463,
+          "position_abs_quantiles": [
+            0.0066181437112391,
+            0.03907727263867855,
+            0.114029860496521,
+            0.22936542332172385
+          ],
+          "abs_position_below_counts": {
+            "0.001": 6,
+            "0.01": 93,
+            "0.05": 373
+          },
+          "position_abs_max": 0.28323107957839966
+        },
+        "trend_cpd_ensemble": {
+          "financial": {
+            "days": 120,
+            "gross_price_proxy": -0.0002739360262431589,
+            "fixed_cost_adjusted_price_proxy": -0.0011331475110462925,
+            "drift_trade_turnover": 0.6364528624231718,
+            "descriptive_target_turnover": 0.6529201605313675,
+            "fee": 0.00035004919486459604,
+            "half_spread": 0.0002545811449692687,
+            "slippage": 0.0002545811449692687,
+            "fixed_cost_total": 0.0008592114848031335,
+            "entry_cost": 2.71291214876173e-05,
+            "terminal_cost": 6.442458027762233e-06,
+            "break_even_nominal_per_side_bps": -4.304105494948993,
+            "break_even_status": "SIGNED_PRICE_PROXY_ONLY",
+            "cost_to_positive_gross_ratio": null,
+            "gross_target_mean": 0.01094775293845562,
+            "gross_target_max": 0.023741842708842605,
+            "abs_target_max": 0.010943381048739357,
+            "asset_cap_violating_days": 0,
+            "gross_cap_violating_days": 0,
+            "nonzero_targets_below_reference_10USDT": 190,
+            "nonzero_trade_changes_below_reference_10USDT": 362,
+            "trade_change_count": 605,
+            "per_asset": [
+              {
+                "asset_index": 0,
+                "mean_abs_target": 0.0032524738454686583,
+                "min_signed_target": -0.010943381048739357,
+                "max_signed_target": 0.006810388157202032,
+                "gross_price_proxy": -0.0013929726987008042,
+                "drift_trade_turnover": 0.16364423413442228,
+                "fixed_cost": 0.00022092032898945755
+              },
+              {
+                "asset_index": 1,
+                "mean_abs_target": 0.002367525626919441,
+                "min_signed_target": -0.008536465947342304,
+                "max_signed_target": 0.003944988617933658,
+                "gross_price_proxy": -0.0007173298711441483,
+                "drift_trade_turnover": 0.1340663130183381,
+                "fixed_cost": 0.0001809898381998997
+              },
+              {
+                "asset_index": 2,
+                "mean_abs_target": 0.0023919787577170964,
+                "min_signed_target": -0.00777609034884671,
+                "max_signed_target": 0.0047844234170304175,
+                "gross_price_proxy": 0.0002789196534938664,
+                "drift_trade_turnover": 0.11352940400419333,
+                "fixed_cost": 0.00015326457268101347
+              },
+              {
+                "asset_index": 3,
+                "mean_abs_target": 0.0015958530866161528,
+                "min_signed_target": -0.004916356104073575,
+                "max_signed_target": 0.005384946869361554,
+                "gross_price_proxy": 0.0013360334984082217,
+                "drift_trade_turnover": 0.12633492682003838,
+                "fixed_cost": 0.0001705515633523125
+              },
+              {
+                "asset_index": 4,
+                "mean_abs_target": 0.0013399216217342723,
+                "min_signed_target": -0.004417486912802247,
+                "max_signed_target": 0.003343645590797241,
+                "gross_price_proxy": 0.00022141339169970474,
+                "drift_trade_turnover": 0.0988779844461797,
+                "fixed_cost": 0.00013348518158045025
+              }
+            ]
+          },
+          "categories": {
+            "INITIAL_ENTRY": {
+              "events": 5,
+              "turnover": 0.020089676110185115,
+              "fixed_cost": 2.7129121487617303e-05
+            },
+            "ELIGIBILITY_ENTRY": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "ELIGIBILITY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "SIGN_REVERSAL": {
+              "events": 104,
+              "turnover": 0.17939729223681172,
+              "fixed_cost": 0.0002421822983975815
+            },
+            "SAME_SIGN_AMPLITUDE": {
+              "events": 491,
+              "turnover": 0.43219280114478625,
+              "fixed_cost": 0.0005834576068901718
+            },
+            "SIGNAL_ZERO_ENTRY_EXIT": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            },
+            "TERMINAL_EXIT": {
+              "events": 5,
+              "turnover": 0.00477309293138865,
+              "fixed_cost": 6.442458027762233e-06
+            },
+            "CASH_NO_CHANGE": {
+              "events": 0,
+              "turnover": 0.0,
+              "fixed_cost": 0.0
+            }
+          },
+          "components": {
+            "signal": {
+              "absolute_component": 0.6366507160979135,
+              "signed_trade_projection": 0.6329400808008436
+            },
+            "vol_scaling": {
+              "absolute_component": 0.02560537501621725,
+              "signed_trade_projection": -0.0052214301671314745
+            },
+            "price_drift": {
+              "absolute_component": 0.03961549513512082,
+              "signed_trade_projection": -0.01612855725211353
+            },
+            "boundary_or_eligibility": {
+              "absolute_component": 0.02486276904157376,
+              "signed_trade_projection": 0.02486276904157376
+            }
+          },
+          "maximum_signed_decomposition_residual": 2.8189256484623115e-18,
+          "eligible_count": 600,
+          "position_abs_mean": 0.05098820562849546,
+          "position_abs_quantiles": [
+            0.006877929127464693,
+            0.040543051436543465,
+            0.11538675948977471,
+            0.16589737986524897
+          ],
+          "abs_position_below_counts": {
+            "0.001": 7,
+            "0.01": 86,
+            "0.05": 355
+          },
+          "position_abs_max": 0.2459778686364492
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "trend_seed2001": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.0018166250667126338,
+        "fixed_cost_adjusted_price_proxy": -0.00455051291126189,
+        "drift_trade_turnover": 2.0251015149883163,
+        "descriptive_target_turnover": 2.057083851701142,
+        "fee": 0.0011138066325586033,
+        "half_spread": 0.0008100406059953266,
+        "slippage": 0.0008100406059953266,
+        "fixed_cost_total": 0.0027338878445492564,
+        "entry_cost": 1.8542628511558614e-05,
+        "terminal_cost": 3.494102832310977e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 890,
+        "nonzero_trade_changes_below_reference_10USDT": 1478,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -8.970538282981408,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.008040807540296884,
+        "gross_target_max": 0.02700339411088934,
+        "abs_target_max": 0.010818012903572916
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.03481149443326899,
+      "position_abs_quantiles": [
+        0.005568643659353257,
+        0.026782343164086342,
+        0.07389409989118575,
+        0.1469841241836549
+      ],
+      "abs_position_below_counts": {
+        "0.001": 44,
+        "0.01": 417,
+        "0.05": 1710
+      },
+      "position_abs_max": 0.25346818566322327,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.013732296461126284,
+          "fixed_cost": 1.8542628511558614e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.0004857602329432486,
+          "fixed_cost": 6.559900489758807e-07
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 374,
+          "turnover": 0.6288632108985631,
+          "fixed_cost": 0.0008489418509049225
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1820,
+          "turnover": 1.3561378548528398,
+          "fixed_cost": 0.0018308063467606895
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.025882392542844218,
+          "fixed_cost": 3.494102832310977e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 2.036992263500118,
+          "signed_trade_projection": 2.0286242336600364
+        },
+        "vol_scaling": {
+          "absolute_component": 0.07572742926799497,
+          "signed_trade_projection": -0.01493662978881315
+        },
+        "price_drift": {
+          "absolute_component": 0.09243129633766961,
+          "signed_trade_projection": -0.02868653811981988
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.04010044923691375,
+          "signed_trade_projection": 0.04010044923691375
+        }
+      }
+    },
+    "trend_seed2002": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.01058325963481135,
+        "fixed_cost_adjusted_price_proxy": -0.014524575544059823,
+        "drift_trade_turnover": 2.919489816751283,
+        "descriptive_target_turnover": 2.9891739465391556,
+        "fee": 0.0016057240558474452,
+        "half_spread": 0.0011677959267005133,
+        "slippage": 0.0011677959267005133,
+        "fixed_cost_total": 0.0039413159092484724,
+        "entry_cost": 3.476736664937254e-05,
+        "terminal_cost": 3.912879635047197e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 703,
+        "nonzero_trade_changes_below_reference_10USDT": 1238,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -36.250373521042356,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.012327302677177809,
+        "gross_target_max": 0.06062431379364523,
+        "abs_target_max": 0.027154173366246065
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.055872428718367874,
+      "position_abs_quantiles": [
+        0.006135512050241232,
+        0.03470640257000923,
+        0.13416149020195006,
+        0.3018025767803195
+      ],
+      "abs_position_below_counts": {
+        "0.001": 38,
+        "0.01": 360,
+        "0.05": 1386
+      },
+      "position_abs_max": 0.46726736426353455,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.02575004454467652,
+          "fixed_cost": 3.476736664937254e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.003879858869581176,
+          "fixed_cost": 5.236102336031973e-06
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 346,
+          "turnover": 0.777248147147714,
+          "fixed_cost": 0.0010492544854195794
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1848,
+          "turnover": 2.0836240414889935,
+          "fixed_cost": 0.0028129291584930165
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.028987724700319233,
+          "fixed_cost": 3.912879635047197e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 2.9749245809951947,
+          "signed_trade_projection": 2.9513841231663824
+        },
+        "vol_scaling": {
+          "absolute_component": 0.12808954379646065,
+          "signed_trade_projection": -0.02568437453340978
+        },
+        "price_drift": {
+          "absolute_component": 0.15340764508239094,
+          "signed_trade_projection": -0.06482755999626724
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.058617628114576936,
+          "signed_trade_projection": 0.058617628114576936
+        }
+      }
+    },
+    "trend_seed2003": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.0012513412345899334,
+        "fixed_cost_adjusted_price_proxy": -0.00392690786405665,
+        "drift_trade_turnover": 1.9819007991678328,
+        "descriptive_target_turnover": 2.000773826447838,
+        "fee": 0.0010900459901324513,
+        "half_spread": 0.000792760319667133,
+        "slippage": 0.000792760319667133,
+        "fixed_cost_total": 0.0026755666294667173,
+        "entry_cost": 3.943305374501052e-05,
+        "terminal_cost": 4.5894801212709654e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 789,
+        "nonzero_trade_changes_below_reference_10USDT": 1519,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -6.313843937675139,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.008915845285777626,
+        "gross_target_max": 0.025686414638065303,
+        "abs_target_max": 0.0127853052242921
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.03858730415585959,
+      "position_abs_quantiles": [
+        0.005903986189514399,
+        0.02992403879761696,
+        0.08485294580459596,
+        0.158033589720726
+      ],
+      "abs_position_below_counts": {
+        "0.001": 42,
+        "0.01": 367,
+        "0.05": 1628
+      },
+      "position_abs_max": 0.19189275801181793,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.029203080118675763,
+          "fixed_cost": 3.943305374501052e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.0005695850092816674,
+          "fixed_cost": 7.68690969407318e-07
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 324,
+          "turnover": 0.5607940324907372,
+          "fixed_cost": 0.0007570483090625209
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1870,
+          "turnover": 1.3573322344738765,
+          "fixed_cost": 0.001832421774477069
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.03400186707526103,
+          "fixed_cost": 4.5894801212709654e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 1.9473984685259427,
+          "signed_trade_projection": 1.9335885370939756
+        },
+        "vol_scaling": {
+          "absolute_component": 0.0813128224008914,
+          "signed_trade_projection": 0.0015413072976397531
+        },
+        "price_drift": {
+          "absolute_component": 0.10086759694119887,
+          "signed_trade_projection": -0.01700357742700124
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.06377453220321846,
+          "signed_trade_projection": 0.06377453220321846
+        }
+      }
+    },
+    "trend_ensemble": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.004550408645371308,
+        "fixed_cost_adjusted_price_proxy": -0.00743892681861005,
+        "drift_trade_turnover": 2.139641608191806,
+        "descriptive_target_turnover": 2.183376098960994,
+        "fee": 0.001176804886685297,
+        "half_spread": 0.0008558566432767224,
+        "slippage": 0.0008558566432767224,
+        "fixed_cost_total": 0.002888518173238742,
+        "entry_cost": 2.9522893484865792e-05,
+        "terminal_cost": 3.9440311551409164e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 815,
+        "nonzero_trade_changes_below_reference_10USDT": 1424,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -21.26715347070121,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.00903675762165726,
+        "gross_target_max": 0.032630433677858416,
+        "abs_target_max": 0.014681509456324099
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.03991254216315429,
+      "position_abs_quantiles": [
+        0.005448336837192377,
+        0.029328747962911923,
+        0.08568380624055863,
+        0.17793764223655067
+      ],
+      "abs_position_below_counts": {
+        "0.001": 46,
+        "0.01": 405,
+        "0.05": 1609
+      },
+      "position_abs_max": 0.2890862971544266,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.021864432115235,
+          "fixed_cost": 2.9522893484865792e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.0013198458507982756,
+          "fixed_cost": 1.7812111664033207e-06
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 351,
+          "turnover": 0.6106614847941606,
+          "fixed_cost": 0.0008243682296330464
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1843,
+          "turnover": 1.4765777003457328,
+          "fixed_cost": 0.0019934055274030177
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.0292181450858788,
+          "fixed_cost": 3.9440311551409164e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 2.1568861166727267,
+          "signed_trade_projection": 2.148823151304187
+        },
+        "vol_scaling": {
+          "absolute_component": 0.08757544052918273,
+          "signed_trade_projection": -0.019355114356640647
+        },
+        "price_drift": {
+          "absolute_component": 0.10773082710281384,
+          "signed_trade_projection": -0.04222885180765238
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.052402423051912075,
+          "signed_trade_projection": 0.052402423051912075
+        }
+      }
+    },
+    "trend_cpd_seed2001": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.001780303834624236,
+        "fixed_cost_adjusted_price_proxy": -0.003822638064922957,
+        "drift_trade_turnover": 1.5128395903444691,
+        "descriptive_target_turnover": 1.5291537984677779,
+        "fee": 0.0008320625580231452,
+        "half_spread": 0.0006051358361377876,
+        "slippage": 0.0006051358361377876,
+        "fixed_cost_total": 0.0020423342302987204,
+        "entry_cost": 2.644147711621465e-05,
+        "terminal_cost": 3.3003394083123714e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 1068,
+        "nonzero_trade_changes_below_reference_10USDT": 1714,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -11.767961692613202,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.0061860366098697005,
+        "gross_target_max": 0.019250565243864048,
+        "abs_target_max": 0.007145623596286024
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.028676041158209414,
+      "position_abs_quantiles": [
+        0.0040532461367547516,
+        0.02102554962038994,
+        0.05857965797185898,
+        0.15273540794849408
+      ],
+      "abs_position_below_counts": {
+        "0.001": 52,
+        "0.01": 576,
+        "0.05": 1884
+      },
+      "position_abs_max": 0.26259416341781616,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.019580598957331195,
+          "fixed_cost": 2.644147711621465e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.0010176743313323722,
+          "fixed_cost": 1.3743081240044888e-06
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 323,
+          "turnover": 0.3910041309866381,
+          "fixed_cost": 0.0005278392957363104
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1871,
+          "turnover": 1.0767877029792743,
+          "fixed_cost": 0.0014536757552390672
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.02444948308989386,
+          "fixed_cost": 3.3003394083123714e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 1.5005410492281808,
+          "signed_trade_projection": 1.4951759782418168
+        },
+        "vol_scaling": {
+          "absolute_component": 0.05941880975417173,
+          "signed_trade_projection": -0.014008908289834419
+        },
+        "price_drift": {
+          "absolute_component": 0.0740006615492123,
+          "signed_trade_projection": -0.01337523598607133
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.04504775637855743,
+          "signed_trade_projection": 0.04504775637855743
+        }
+      }
+    },
+    "trend_cpd_seed2002": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": -0.003167667827193043,
+        "fixed_cost_adjusted_price_proxy": -0.006837872077108232,
+        "drift_trade_turnover": 2.7186687823269224,
+        "descriptive_target_turnover": 2.7563913340396637,
+        "fee": 0.0014952692240536515,
+        "half_spread": 0.0010874675129307692,
+        "slippage": 0.0010874675129307692,
+        "fixed_cost_total": 0.0036702042499151895,
+        "entry_cost": 4.2218431906952295e-05,
+        "terminal_cost": 4.505550967705739e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 723,
+        "nonzero_trade_changes_below_reference_10USDT": 1243,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": -11.651540076470146,
+        "cost_to_positive_gross_ratio": null,
+        "gross_target_mean": 0.010841941236896363,
+        "gross_target_max": 0.03828146560433986,
+        "abs_target_max": 0.016829195202912966
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.04879890531296492,
+      "position_abs_quantiles": [
+        0.006322567723691464,
+        0.033369529992341995,
+        0.11104713678359987,
+        0.24194256901741049
+      ],
+      "abs_position_below_counts": {
+        "0.001": 43,
+        "0.01": 360,
+        "0.05": 1463
+      },
+      "position_abs_max": 0.32758915424346924,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.031264104480005765,
+          "fixed_cost": 4.2218431906952295e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.002352281388367374,
+          "fixed_cost": 3.1761186891667485e-06
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 425,
+          "turnover": 0.9077595057225651,
+          "fixed_cost": 0.001225466851562257
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1769,
+          "turnover": 1.7439118568538732,
+          "fixed_cost": 0.002354287338079756
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.03338103388211228,
+          "fixed_cost": 4.5055509677057396e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 2.71852275852979,
+          "signed_trade_projection": 2.7033527511451334
+        },
+        "vol_scaling": {
+          "absolute_component": 0.09877704485887931,
+          "signed_trade_projection": -0.019959051782893318
+        },
+        "price_drift": {
+          "absolute_component": 0.12993935221830122,
+          "signed_trade_projection": -0.03172233678580415
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.06699741975048543,
+          "signed_trade_projection": 0.06699741975048543
+        }
+      }
+    },
+    "trend_cpd_seed2003": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": 0.00709480873284582,
+        "fixed_cost_adjusted_price_proxy": 0.004500593250028426,
+        "drift_trade_turnover": 1.9216434107653604,
+        "descriptive_target_turnover": 1.925439959536996,
+        "fee": 0.0010569007542051056,
+        "half_spread": 0.0007686573643061441,
+        "slippage": 0.0007686573643061441,
+        "fixed_cost_total": 0.0025942154828173937,
+        "entry_cost": 5.5176338452410624e-05,
+        "terminal_cost": 4.8792177428562195e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 844,
+        "nonzero_trade_changes_below_reference_10USDT": 1553,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": 36.9205269463603,
+        "cost_to_positive_gross_ratio": 0.3656498124899866,
+        "gross_target_mean": 0.008343901906646706,
+        "gross_target_max": 0.02971515568548325,
+        "abs_target_max": 0.016584373123452352
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.03804387174815333,
+      "position_abs_quantiles": [
+        0.0051734016276896,
+        0.02846839465200901,
+        0.07873228788375855,
+        0.1932510095834733
+      ],
+      "abs_position_below_counts": {
+        "0.001": 42,
+        "0.01": 425,
+        "0.05": 1656
+      },
+      "position_abs_max": 0.2921930253505707,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.04086071947736828,
+          "fixed_cost": 5.5176338452410624e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.00017885466374981162,
+          "fixed_cost": 2.414146941472451e-07
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 312,
+          "turnover": 0.48867834002683097,
+          "fixed_cost": 0.0006597087248150002
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1882,
+          "turnover": 1.355775313280077,
+          "fixed_cost": 0.0018302968274272748
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.03615018331733418,
+          "fixed_cost": 4.879217742856221e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 1.862165655303861,
+          "signed_trade_projection": 1.847534875688663
+        },
+        "vol_scaling": {
+          "absolute_component": 0.07606929887238505,
+          "signed_trade_projection": -0.004723174977984668
+        },
+        "price_drift": {
+          "absolute_component": 0.09716896515242346,
+          "signed_trade_projection": 0.0016419525962297786
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.07718975745845227,
+          "signed_trade_projection": 0.07718975745845227
+        }
+      }
+    },
+    "trend_cpd_ensemble": {
+      "financial": {
+        "days": 483,
+        "gross_price_proxy": 0.0007156123570095137,
+        "fixed_cost_adjusted_price_proxy": -0.0017936649034296249,
+        "drift_trade_turnover": 1.8587241298582038,
+        "descriptive_target_turnover": 1.8825467958711104,
+        "fee": 0.0010222979565525751,
+        "half_spread": 0.0007434896519432817,
+        "slippage": 0.0007434896519432817,
+        "fixed_cost_total": 0.0025092772604391384,
+        "entry_cost": 4.0178916554556394e-05,
+        "terminal_cost": 4.097013485074577e-05,
+        "asset_cap_violating_days": 0,
+        "gross_cap_violating_days": 0,
+        "nonzero_targets_below_reference_10USDT": 964,
+        "nonzero_trade_changes_below_reference_10USDT": 1562,
+        "trade_change_count": 2224,
+        "break_even_nominal_per_side_bps": 3.850019190659054,
+        "cost_to_positive_gross_ratio": 3.506475588159497,
+        "gross_target_mean": 0.007273724824177825,
+        "gross_target_max": 0.023741842708842605,
+        "abs_target_max": 0.010943381048739357
+      },
+      "eligible_count": 2209,
+      "position_abs_mean": 0.0332904790777181,
+      "position_abs_quantiles": [
+        0.004587739023069541,
+        0.02392901914815108,
+        0.07243506784240406,
+        0.15706565166513145
+      ],
+      "abs_position_below_counts": {
+        "0.001": 35,
+        "0.01": 493,
+        "0.05": 1767
+      },
+      "position_abs_max": 0.2459778686364492,
+      "categories": {
+        "INITIAL_ENTRY": {
+          "events": 13,
+          "turnover": 0.029753783487146593,
+          "fixed_cost": 4.01789165545564e-05
+        },
+        "ELIGIBILITY_ENTRY": {
+          "events": 2,
+          "turnover": 0.0009197741243930404,
+          "fixed_cost": 1.2420108978177976e-06
+        },
+        "ELIGIBILITY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "SIGN_REVERSAL": {
+          "events": 387,
+          "turnover": 0.5676164907950634,
+          "fixed_cost": 0.0007662601550669099
+        },
+        "SAME_SIGN_AMPLITUDE": {
+          "events": 1807,
+          "turnover": 1.2300801879320684,
+          "fixed_cost": 0.001660626043069109
+        },
+        "SIGNAL_ZERO_ENTRY_EXIT": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        },
+        "TERMINAL_EXIT": {
+          "events": 15,
+          "turnover": 0.030353893519531716,
+          "fixed_cost": 4.097013485074577e-05
+        },
+        "CASH_NO_CHANGE": {
+          "events": 0,
+          "turnover": 0.0,
+          "fixed_cost": 0.0
+        }
+      },
+      "components": {
+        "signal": {
+          "absolute_component": 1.8418743868831973,
+          "signed_trade_projection": 1.834899433829911
+        },
+        "vol_scaling": {
+          "absolute_component": 0.06656090460778501,
+          "signed_trade_projection": -0.015894108777141185
+        },
+        "price_drift": {
+          "absolute_component": 0.08723818660630679,
+          "signed_trade_projection": -0.0213086463256362
+        },
+        "boundary_or_eligibility": {
+          "absolute_component": 0.061027451131071345,
+          "signed_trade_projection": 0.061027451131071345
+        }
+      }
+    }
+  },
+  "new_training_updates": 0,
+  "new_model_inferences": 0,
+  "wallets": 0,
+  "new_policy_validation_queries": 0,
+  "scale_fact": "All fixed-reference weights, gross, drift-turnover and BASE27 costs are degree1 homogeneous for positive uniform rescaling. Shrinking/expanding positions alone cannot change signed margin or break-even rate. This is an algebraic fact, no rescaled strategy evaluated. Native minimum/rounding/risk would break homogeneity and remain unmeasured.",
+  "preservation": {
+    "predecessor": {
+      "status": "BYTE_UNCHANGED",
+      "manifest_files": {
+        "slow-momentum-cpd-20261011": 43,
+        "slow-momentum-cpd-sharpe-20261011": 47,
+        "slow-momentum-cpd-training-diagnostic-20261011": 24,
+        "slow-momentum-cpd-sharpe-continuation-20261011": 40
+      },
+      "original_fit_sources": 4,
+      "external_model_files": 12
+    },
+    "cost_manifest_files": 31,
+    "status": "BYTE_UNCHANGED"
+  }
+}

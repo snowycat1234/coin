@@ -1866,3 +1866,48 @@ No new updates/modelinferences/wallets/providerdownloads; cumulative3science/12f
 Collector2026Mar-Sep lock closed; lost2026Q1/Q2 ledgers not fabricated; other research
 untouched. No fee/date/model/step rescue or further training. FullrepoNOT_RUN.
 See research/slow-momentum-cpd-cost-feasibility-20261011/README.md and complete results.
+
+## 2026-10-11 CPD objective mismatch diagnostic, one proposal awaiting review
+
+Parent explicitly requires evidence/proposal before review, no training. Existing
+local27tips/152matching source versions include actual direct_path2x64/temporal4/
+1146 own-cost/funding path fits and v2/v3 cost-aware teachers. Generic own-cost
+training is not novel; no equivalent direct-position frozenCPD pair under full
+portfolio net-price-cost Sharpe found in bounded scope, not all archive bodies.
+Published source0f33e1ab/11public-byte checks preceded saved2048 diagnosis; all483
+days/3blocks/3seeds retained. CPD sign reversal30.538%/same-sign amplitude66.179%
+of actualturnover; signal signed projection98.718%, vol−.855%, drift−1.146%, paid
+boundary3.283%. Components cancel, not separately costed/oracle profits. Mean|p|
+.0332905/median.0239290, <.001 count35/2209; grossmean.72737%. Small amounts do not
+explain negative unit-cost margin; uniform degree1 proxy scaling cannot rescue it.
+Oldcost-adjusted−.179366%/BE3.85bp<13.5bp and NO_FIXED_COST_PROXY_MARGIN retained.
+
+Exactly one fresh proposal NOT_RUN_PENDING_PARENT_REVIEW: same10-channel hidden16
+tanh model, trend last2zero AFTER sharedscaler, train-only frozenGP/scaler/data,
+seeds2001/2002/2003/paired byte-identical init, sixfits64full-calendar updates=384.
+No oldmodel/Adam warmstart or resumedgross recipe. Expected729strict calendar days
+require causal-mask/purge2526axis preflight. Own price-drift/entry/mask/terminal
+BASE27 fee5.5/halfspread4/slip4bp, coefficient1, portfolio centered float64 loss
+epsilon1e-9; scoredcash/zero variance INVALID. VJP chunks128 keep entirecostpath;
+full-autograd/replay preflight NOT_RUN. Project abs.3/gross.6 limits become NEW
+proxy STOP checks (old gross runner only reported uncapped targets). Fixed64not
+convergence; no clip/fee/lambda/holding/seed/date/checkpoint/budget rescue.
+Allsix terminal checkpoints precede single final483seen export/ensemble beforecost.
+Absolute CPD pricecostproxy>0 plus aggregate/allblock/2seed netSharpe increment and
+conditional14day/1000rep/9901bootstrap lowerbound>0. Original-date costs calculated
+before joint net-series resampling, no shuffled pricepaths/retrading. Fullcalendar/
+portfolio aggregation also changes, so gross history not isolated cost-effect control.
+Prospective total1200s/1CPU/4GBAS/2GBsampledRSS-stop/8GBhost-stop/GPU0swap0/10MiB
+state/15GiBreserve; current approved diagnostic2MiB/update0 unchanged.
+
+Seven focused synthetic cost/finite-difference testsPASS; original185manifestfiles/
+4fitsources/12external oldmodels preserved. Saved arithmeticguard.503s/RSSsample
+41136128B/no stop, reconstructedguard sharedcgroup-enforcementfalse; fullrepoNOT_RUN.
+Independent readonlyreview accepted after two text clarifications, no scientific
+changes; reviewed draft/hash preserved, finalproposal717cd852a17a8cb553a9443d49e32bc0
+894b53f73aceeb2df1d3859a17432a0d. No newfits/models/wallets/downloads; cumulative3
+attempts/12freshfits/13824updates. Sixcostfits become attempt4 only if later approved.
+Runner/full-calendar adapter intentionally not implemented pending parentreview.
+Native483inputs/funding/CPDwallet NOT_BOUND, fundingnotknownzero/netProfit/APRUNKNOWN.
+No training/wallet authorization follows from proposal; lock/lostledgers/otherwork
+untouched. See research/slow-momentum-cpd-objective-diagnostic-20261011.

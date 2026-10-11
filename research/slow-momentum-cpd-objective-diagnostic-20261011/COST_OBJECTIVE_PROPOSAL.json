@@ -1,0 +1,157 @@
+{
+  "schema": "CPD_COST_OBJECTIVE_PAIR_PROPOSAL_V1",
+  "status": "NOT_RUN_PENDING_PARENT_REVIEW",
+  "authorization": "Proposal only. Parent explicitly requires review before training; no new runner released or training authorized by this file.",
+  "decision": "Freeze exactly one bounded adaptation falsification proposal; old cost-free recipe and NO_FIXED_COST_PROXY_MARGIN stop remain unchanged.",
+  "hypothesis": "With the SAME causal BASE27 cost objective in both arms, frozen CPD channels may improve direct-position portfolio net-price-cost Sharpe and retain a positive absolute price-cost proxy. Signal-dominated turnover provides an identifiable omitted objective term, not evidence that removing trades preserves edge. Cash collapse, no increment, negative absolute margin, budget failure or insufficient signal are allowed stop outcomes.",
+  "novelty_boundary": "Not a novel generic cost method; direct_path and temporal own-cost objectives already ran. Not original-paper replication or fast-reversion causation. This is a fresh objective-aligned CPD feature ablation, not resumed1024/2048 convergence repair. Full calendar and portfolio aggregation are required for causal costs; old sampled gross loss is only a historical reference, so improvement cannot isolate the effect of the cost term alone.",
+  "source_bindings": {
+    "diagnostic_source_commit": "0f33e1ab95f296f49e0a36658dcd61615cd90e01",
+    "diagnostic_result_sha256": "77fb900537d76d4c56673146af8d9ebeba2cf29f48bcfc705e1edbaa320d7927",
+    "source_precedents_sha256": "53c4c40f5bb8309802678024534e40cbbe033ab37ec452fb19151a6fcc06bb3b",
+    "feature_archive_commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+    "feature_archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "local_existing_archive": "/workspace/slow-momentum-state/source/features.zip",
+    "frozen_gp_scaler_file": "research/slow-momentum-cpd-20261011/results/FROZEN_TRAINING.json",
+    "frozen_gp_scaler_sha256": "8587adcb407ba7b55e66eed6e1d06596cbbcb1e743f5fe04a822b98eee6b4bd2",
+    "model_source_sha256": "dc157a6b5e09abd72b2c40ac1d2fd40658b2eca225b13b41a560b5f79183381a",
+    "position_and_score_source_sha256": "b85d47476c2bdd312306bc04a1d3240502c17e047422106afb2ccfa36074a915",
+    "tensor_cost_source_sha256": "b93a1f287269266aa81b302a9906388e50df5549f6d3eecb51cd09229ce08439",
+    "prospective_runner": "NOT_IMPLEMENTED_NOT_EXECUTED; freeze/public-byte-verify adapter and focused preflight tests after approval and before fits"
+  },
+  "frozen_inputs": {
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ],
+    "training_available_time": [
+      "2021-01-01",
+      "2023-01-01"
+    ],
+    "training_cutoff_label_rule": "available[t+1] strictly <2023-01-01 UTC. Purge equality; no future-outcome-derived eligibility. Retain chronological calendar including all-cash/mask exit days; no fill-forward or date resampling.",
+    "train_only_reader": "Reuse diagnose_training.read_training_close with predicate-bound pre2023 bars and frozen GP/scaler; no prepare/load_close reading validation during fit.",
+    "train_endpoint_identity_expected": 2526,
+    "train_rows_sha256": "983baa27d9c0105c48b7c7debfea24089c28bff277014e1e43e2b27721d9e50f",
+    "eligible_training_dates_in_old_axis": 719,
+    "full_training_calendar_dates_expected_from_strict_cutoff": 729,
+    "calendar_binding": "729 is normative Jan1 2021 through Dec30 2022 inclusive; full-calendar adapter/mask/outcome reconciliation still NOT_RUN. Required causal decision_mask endpoint set must equal old2526 axis and SHA; any eligible missing/nonfinite return, return<=-1 or nonpositive/nonfinite vol =>STOP, never cash substitute. GP/scaler latest fit/input and label clocks remain strictly train-only.",
+    "validation_available_time": [
+      [
+        "2023-01-01",
+        "2023-07-01"
+      ],
+      [
+        "2023-07-01",
+        "2024-01-01"
+      ],
+      [
+        "2024-01-01",
+        "2024-05-01"
+      ]
+    ],
+    "validation_days": [
+      180,
+      183,
+      120
+    ],
+    "validation_role": "All483 previously seen historical development days, independent flat-start/paid-end blocks; not new OOS. Use causal eligibility and strict mature endpoints exactly as previous experiments. No changed dates, horizon or pooled capital wallets.",
+    "new_gp_scaler_fits": 0,
+    "provider_downloads": 0
+  },
+  "pair": {
+    "arms": [
+      "trend",
+      "trend_cpd"
+    ],
+    "seeds": [
+      2001,
+      2002,
+      2003
+    ],
+    "initialization": "Six fresh models, same10-channel PositionLSTM(hidden16,tanh); reset torch seed before each arm, assert byte-identical initial parameter vectors within pair. Trend has eight causal trend channels and channels8:10 zeroed AFTER the shared scaler transform; CPD uses same first8 plus frozen GP score/location2. No old model/Adam/RNG warm-start.",
+    "sequence_days": 63,
+    "dropout": 0,
+    "selection": "All seeds paired and equal-target ensemble; no best seed/checkpoint/interval. Ensemble average positions before cost, not average independently costed wallets."
+  },
+  "exact_economic_objective": {
+    "scope": "Static reference-capital daily price/cost proxy identical to saved-policy evaluation; not shared-wallet NAV, funding-inclusive utility or native certification.",
+    "target": "w[t,a]=(.15/sqrt365)/5 *p[t,a]/current_daily_vol[t,a] when causally eligible, otherwise0.",
+    "daily_gross": "g[t]=sum_a w[t,a]*r[t+1,a]; r realized for training labels, never a current feature.",
+    "causal_trade": "delta[0]=w[0]; delta[t]=w[t]-w[t-1]*(1+r[t,a]); previous realized return is known at current decision. On mask exits previous holding is retained for paid trade calculation.",
+    "final_trade": "delta_terminal=-w[last]*(1+r[last+1]); cost assigned to final mature label end, not an extra future date. Each independently scored block starts flat and pays entry/end.",
+    "fee": 0.00055,
+    "half_spread": 0.0004,
+    "slippage": 0.0004,
+    "per_asset_cost": "C(delta)=(fee+half_spread+slippage)*abs(delta)+fee*(half_spread+slippage)*delta. Exact fee on adverse fill notional; no duplicate execution debit.",
+    "daily_net": "sum(w*r) -sum current-trade C; final day additionally pays terminal C.",
+    "training_loss": "-sqrt365*mean(daily_net)/sqrt(population_centered_variance(daily_net)+1e-9), float64 objective. Existing fixed numerical epsilon, report its train denominator fraction; not tuned on validation and not used in scored Sharpe.",
+    "scored_sharpe": "sqrt365*mean(daily_net)/sqrt(population_centered_variance(daily_net)); zero/nonfinite variance or all-cash =>INVALID, never epsilon score.",
+    "cost_multiplier": 1,
+    "abs_kink": "Declared sign(0)=0 subgradient; finite differences verified off kinks. No smooth abs, dead-zone, holding constraint, rescaling knob, fee/penalty/risk sweep.",
+    "funding": "NOT_MEASURED_NOT_KNOWN_ZERO; bound actual funding and native execution only after independent economic gate and separate reviewed readiness plan.",
+    "risk": "Retain project raw desired-target limits abs .3/gross .6 as NEW STOP checks in this proposal; original gross Sharpe runner only reported uncapped exposure and did not implement these STOP checks. No silent clipping or rescaling. Marked drift/risk-reduction, native minimum10USDT/lot/capacity/latency/collateral not represented or qualified by this proxy."
+  },
+  "computation": {
+    "updates_per_fit": 64,
+    "fresh_fits": 6,
+    "total_gradient_updates": 384,
+    "update_unit": "One complete chronological five-asset train-calendar objective. Every update uses all2526 eligible endpoints; no random-date minibatch or wallet reset. Fixed final64 checkpoint, no best checkpoint, extension, interim validation or retry.",
+    "feature_microbatch": 128,
+    "gradient": "Reuse temporal memory-bounded output-VJP pattern: no-grad causal positions on complete train axis, exact float64 dLoss/dPosition, recompute identical deterministic LSTM windows in chunks128 and accumulate parameter VJP; apply ONE Adam step after full gradient. Assert replayed outputs equal and test small full-autograd gradient equivalence before fit. Chunking never splits costs or changes objective.",
+    "optimizer": {
+      "name": "Adam",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0,
+      "gradient_norm_cap": 1
+    },
+    "checkpoints": "Save final model/Adam/RNG and source/config/hash bindings plus initial paired parameter SHA and train-only diagnostics at fixed0/16/32/48/64. No validation checkpoints used for stopping.",
+    "work_budget": "64 full passes per fit is161664 backward endpoint windows, fixed computational cap rather than convergence claim. Two-pass VJP also has forward-only windows; no promise of runtime or convergence.",
+    "guard": {
+      "cpu_threads": 1,
+      "address_space_bytes": 4000000000,
+      "RSS_stop_bytes": 2000000000,
+      "host_used_stop_bytes": 8000000000,
+      "GPU": 0,
+      "swap": 0,
+      "total_fit_and_final_score_wall_seconds": 1200,
+      "state_output_max_bytes": 10485760,
+      "disk_reserve_bytes": 16106127360
+    },
+    "stop": "Any source/axis/maturity/mask mismatch, eligible missing data, replay/gradient identity failure, nonfinite state/score, raw target-cap violation, memory/disk/wall stop =>FAILED/INSUFFICIENT_BUDGET, keep partial receipts, no arm-specific extension, resume or lower-cost retry. No native wallets.",
+    "budget_authorization": "Prospective10MiB/384updates are requested within original resource ceiling; current approved diagnostic stays2MiB/update0. Parent review required before any such work."
+  },
+  "frozen_evaluation": {
+    "predictions": "Exactly one final development export per final model across the same483days after all six64-update terminal checkpoints are frozen. No intermediate validation or threshold/cost/horizon/checkpoint searches.",
+    "necessary_gates": [
+      "CPD equal-target ensemble aggregate fixed-cost-adjusted price proxy strictly>0, before any funding/native claim.",
+      "CPD ensemble aggregate scored net-price-cost Sharpe increment over trend strictly>0.",
+      "Same net-price-cost Sharpe increment positive in all three frozen blocks and at least two of three paired seeds.",
+      "Joint14-day/1000-replicate bootstrap seed9901 conditional95% lower bound of aggregate ensemble net-price-cost Sharpe increment strictly>0; any degenerate draw =>INVALID, no dropping draws."
+    ],
+    "bootstrap": "First compute complete original-date continuous per-arm daily costs, including fixed entry/mask/drift/terminal. Reuse same within-block paired date-index draws from sharpe.joint_bootstrap via thin portfolio-series adapter, recompute nonlinear Sharpe on each jointly resampled net-series. Never reconstruct shuffled price paths or recompute trades on shuffled dates.",
+    "reports": "All gross/cost/net proxy, fee/spread/slippage/drift-turnover/entry/terminal, per-arm/per-seed/block and ensemble, target cap/mask counts, |p|/exposure and train epsilon/gradient diagnostics. No oracle return or deleting eligible losing/cash dates.",
+    "failure_action": "Any gate failure =>STOP_NO_FURTHER_RECIPE; no hypothesis rescue through seed/fee/penalty/holding/budget search.",
+    "uncertainty": "Conditional seen-development bootstrap omits prior MSE/gross/continuation and this proposal-selection history and training uncertainty. Positive results would only justify a separately scoped native-readiness check, not wallet authorization or investment qualification."
+  },
+  "actual_this_task": {
+    "training_updates": 0,
+    "fresh_fits": 0,
+    "new_model_inferences": 0,
+    "wallets": 0,
+    "new_policy_validation_queries": 0,
+    "provider_downloads": 0,
+    "scientific_training_attempts_cumulative": 3,
+    "fresh_fits_cumulative": 12,
+    "training_updates_cumulative": 13824
+  },
+  "prospective_lineage": "Only if later authorized and started: scientific attempt4, six fresh fits,384 new updates; full completion totals18freshfits/14208updates. No current training attempt increment.",
+  "blockers": "End-to-end full-calendar/VJP training adapter and its preflight tests remain NOT_IMPLEMENTED_NOT_RUN, intentionally pending parent review. Current algebra/diagnostic7tests passed. Native483-day inputs/funding/CPD wallet adapter still NOT_BOUND. Locked2026 collector/lost2026 ledgers remain unavailable and unused."
+}
