@@ -1,0 +1,64 @@
+{
+  "schema": "FROZEN_FOUR_WALLET_EXECUTION_BINDING_V1",
+  "tests": {
+    "adapter_final": {
+      "tests": 14,
+      "test_report": "ECONOMIC_ADAPTER_FINAL_TESTS.xml",
+      "SHA256": "739a493d81b970d3036a979ad7b7df969853ee3f94b0b7256c1d4d54680517c9"
+    },
+    "kernel": {
+      "tests": 11,
+      "test_report": "ECONOMIC_KERNEL_TESTS.xml",
+      "SHA256": "7ef2163e9259c2e56ece50a8b79d30db8cc30b7111a8dfba3305dceeec5c5154"
+    },
+    "legacy_v2": {
+      "tests": 12,
+      "passed": 11,
+      "failed": 1,
+      "reason": "Old risk_reduction_research_v2 requires predecessor controller SHA via AST adapter; current unchanged source intentionally differs. Do not patch frozen source/assertion. This task calls current simulate directly, not old adapted_simulate."
+    },
+    "synthetic_fixture": {
+      "tests": 14,
+      "passed": 13,
+      "failed": 1,
+      "reason": "Initial12minute synthetic fixture omitted UTC day endpoint required by mature save_case. Fixture start shifted12minutes before midnight; real63UTCday window and finance source unchanged."
+    }
+  },
+  "files": {
+    "economics.py": {
+      "SHA256": "fa15717f467e785fa27aabcc878830861a119e2033f8c45d444254e8d93b507a",
+      "bytes": 14721
+    },
+    "restore_minutes.py": {
+      "SHA256": "03567cc9aaa8345a9843af4db9e803033251d0c70945f09787a928388808b287",
+      "bytes": 8866
+    },
+    "test_economics.py": {
+      "SHA256": "ca269ade632482375ffb5f7cce16347071ed7aee6b714150d097153865715fe0",
+      "bytes": 5407
+    },
+    "PROTOCOL.json": {
+      "SHA256": "2d67f68f44b476aadee4e200126ef1e44c348aaaa10f52d494a9cd8a6b33eb9a",
+      "bytes": 6257
+    },
+    "diagnostic/SAVED_TARGETS.npz": {
+      "SHA256": "414b90f4804ad890ab78fbf9154647c848cca4d8b866c9dacf6aa6de02fefec2",
+      "bytes": 38969
+    }
+  },
+  "native_finance_unchanged": {
+    "scripts/investment/perpetual_directional.py": "805c786ea647e09965e70df59331efe49d8c24bb097ab0180c5f94a5f4737ec6",
+    "src/quant/perpetual_account.py": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+    "src/quant/bybit_isolated_account.py": "d82cfca41a76f12aea60ea2608a5c5d26670d7c55394cb07619b69fdffd2619a",
+    "src/quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "scripts/research/public_cross_section_momentum.py": "7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f",
+    "modules/transformer_v2/portfolio.py": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+    "scripts/investment/bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "scripts/investment/audit_shared_direction.py": "fe57a59d1dbc84eef1a1ce423368c90f41950d0c1976b598c9e2ee81b4af85c4"
+  },
+  "windows": 1,
+  "wallets": 4,
+  "additional_fits": 0,
+  "parameter_search": false
+}

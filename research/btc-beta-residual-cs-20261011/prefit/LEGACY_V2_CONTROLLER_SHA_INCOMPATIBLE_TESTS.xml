@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="12" time="11.178" timestamp="2026-10-11T17:43:40.573002+00:00" hostname="ecc195fa67cf"><testcase classname="tests.test_perpetual_directional_controller" name="test_new_perpetual_controller_chronology_capacity_risk_and_halt" time="0.040" /><testcase classname="tests.test_perpetual_risk_reduction_v2" name="test_risk_reduction_legal_quantity_exact_completion_and_future_prefix" time="0.001"><failure message="ValueError: Unchanged controller/account source scripts/investment/perpetual_directional.py">tmp_path = PosixPath('/workspace/btc-beta-residual-kernel-tests-state/tmp/test_risk_reduction_legal_quan0')
+
+    def test_risk_reduction_legal_quantity_exact_completion_and_future_prefix(tmp_path):
+        cost=fix.base.COSTS[0]
+        # A tiny target tail must neither round to zero nor be treated as epsilon.
+        buy=fix.risk_reduction_request(D('-1'),D('-.9999999974'),D('1000'),cost)
+        sell=fix.risk_reduction_request(D('1'),D('.9999999974'),D('1000'),cost)
+        assert buy==D('.00999201') and buy*D('1000.8')==D('10.000003608')
+        assert sell==D('.01000801') and sell*D('999.2')==D('10.000003592')
+        assert fix.risk_target_reached(D('-.9999999974'),D('-.99000799'))
+        assert fix.risk_target_reached(D('.9999999974'),D('.98999199'))
+        assert not fix.risk_target_reached(D('-.9999999974'),D('-1'))
+        assert not fix.risk_target_reached(D('-.5'),D('.4'))
+        assert not fix.risk_target_reached(D('0'),D('.00000001'))
+        assert fix.risk_target_reached(D('0'),D('0'))
+        assert fix.risk_reduction_request(D('-1'),D('-1'),D('1000'),cost)==0
+        with pytest.raises(ValueError,match='reducing toward target'):
+            fix.risk_reduction_request(D('-1'),D('.1'),D('1000'),cost)
+    
+        # Clip a legal gross request to the actual lot inventory; never cross zero.
+        account=USDTLinearPerpetualAccount()
+        account.update_marks(START,{s:dict(price='2500',close_us=START,available_us=START) for s in fix.base.SYMBOLS})
+        opened=account.execute_fill('BTCUSDT','SELL','.005',START+MINUTE+1,START,'synthetic-dust-open',
+            execution_mid_price='2500',quote_available_us=START+MINUTE,available_quantity='.005')
+        assert opened['status']=='FILLED' and account.positions['BTCUSDT'].quantity==D('-.005')
+        clipped=fix.risk_reduction_request(D('-.005'),D('-.0049999974'),D('1000'),cost)
+        assert clipped==D('.005')
+        rejected=account.execute_fill('BTCUSDT','BUY',clipped,START+3*MINUTE+1,START+2*MINUTE,'synthetic-dust-close',
+            execution_mid_price='1000',quote_available_us=START+3*MINUTE,available_quantity='.005',reduce_only=True)
+        assert rejected['status']=='REJECTED' and rejected['executed_quantity']==0
+        assert rejected['reason']=='BELOW_MIN_NOTIONAL_OR_CAPACITY'
+        assert account.positions['BTCUSDT'].quantity==D('-.005') and len(account.trades)==1
+    
+        def targets(_bars,decisions,mode):
+            assert mode=='LONG_SHORT'
+            return pl.DataFrame([dict(available_us=int(t),symbol=s,target_weight=-.3 if s=='BTCUSDT' else 0.)
+                for t in decisions for s in fix.base.SYMBOLS]),dict(scope='NEW_RISK_SCHEDULER_SYNTHETIC_FIXED_TARGET')
+        stub=SimpleNamespace(fixed_targets=targets)
+&gt;       fixed,proof=fix.adapted_simulate(stub)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_perpetual_risk_reduction_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/investment/perpetual_risk_reduction_research_v2.py:88: in adapted_simulate
+    base.need(base.sha(ROOT/path)==digest,'Unchanged controller/account source '+path)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ok = False
+message = 'Unchanged controller/account source scripts/investment/perpetual_directional.py'
+
+    def need(ok,message):
+&gt;       if not bool(ok):raise ValueError(message)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: Unchanged controller/account source scripts/investment/perpetual_directional.py
+
+scripts/investment/perpetual_directional.py:51: ValueError</failure></testcase><testcase classname="tests.test_perpetual_settlement" name="test_exact_full_close_release_and_nonnegative_debit" time="0.009" /><testcase classname="tests.test_execution_v2" name="test_canonical_default_and_boundary_receipt_semantics" time="0.000" /><testcase classname="tests.test_execution_v2" name="test_no_invalid_decision_or_config_delay[-1]" time="0.000" /><testcase classname="tests.test_execution_v2" name="test_no_invalid_decision_or_config_delay[True]" time="0.000" /><testcase classname="tests.test_execution_v2" name="test_no_invalid_decision_or_config_delay[1.5]" time="0.000" /><testcase classname="tests.test_execution_v2" name="test_no_early_receipt_or_changed_canonical_parameters" time="0.000" /><testcase classname="tests.test_execution_v2" name="test_actual_cross_engine_price_capacity_quantity_cash_and_expiry[params0]" time="1.657" /><testcase classname="tests.test_execution_v2" name="test_actual_cross_engine_price_capacity_quantity_cash_and_expiry[params1]" time="1.778" /><testcase classname="tests.test_execution_v2" name="test_actual_cross_engine_price_capacity_quantity_cash_and_expiry[params2]" time="1.861" /><testcase classname="tests.test_execution_v2" name="test_actual_cross_engine_price_capacity_quantity_cash_and_expiry[params3]" time="1.671" /></testsuite></testsuites>

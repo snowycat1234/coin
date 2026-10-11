@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="14" time="3.851" timestamp="2026-10-11T17:45:32.023530+00:00" hostname="ecc195fa67cf"><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_ols_intercept_beta_and_residuals_match_independent_lstsq" time="0.002" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_pure_heterogeneous_market_returns_have_zero_residual_not_common_subtraction" time="0.000" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_common_scale_preserves_large_hedge_neutrality_and_covariance_caps" time="0.001" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_future_suffix_cannot_change_prior_beta_ranks_or_weights" time="0.013" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_missing_current_input_clears_both_policies_without_forward_fill" time="0.003" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_symbol_reordering_transports_every_beta_and_target_coordinate" time="0.018" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_raw_weekly_intents_match_original_cs_in_the_same_four_asset_pool" time="0.011" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_ranks_stay_weekly_while_risk_and_hedge_may_move_daily" time="0.010" /><testcase classname="research.btc-beta-residual-cs-20261011.test_signals" name="test_noninteger_or_duplicate_clock_and_unknown_asset_rejected" time="0.000" /><testcase classname="research.btc-beta-residual-cs-20261011.test_economics" name="test_saved_target_calendar_order_and_no_refit" time="0.004" /><testcase classname="research.btc-beta-residual-cs-20261011.test_economics" name="test_joint_bootstrap_units_identical_indices" time="0.020" /><testcase classname="research.btc-beta-residual-cs-20261011.test_economics" name="test_price_cash_attribution_retains_short_hedge_cost_and_funding" time="0.000" /><testcase classname="research.btc-beta-residual-cs-20261011.test_economics" name="test_missing_saved_decision_cannot_delete_future_label_or_fill" time="0.000" /><testcase classname="research.btc-beta-residual-cs-20261011.test_economics" name="test_bybit_shared_cash_hedge_cost_owned_funding_and_charged_terminal" time="0.037"><failure message="ValueError: daily_nav must contain at least one UTC daily valuation">tmp_path = PosixPath('/workspace/btc-beta-residual-adapter-final-tests-state/tmp/test_bybit_shared_cash_hedge_c0')
+
+    def test_bybit_shared_cash_hedge_cost_owned_funding_and_charged_terminal(tmp_path):
+        from scripts.investment import perpetual_directional as kernel
+        from quant.bybit_isolated_account import BybitIsolatedAccount
+        from modules.transformer_v3.isolated_audit import verify
+        n = 12
+        market = {s: dict(open=np.full(n, 100.), close=np.full(n, 100.),
+                          mark=np.full(n, 100.), quote_volume=np.full(n, 100000000.)) for s in e.SYMBOLS}
+        daily = pl.DataFrame([dict(symbol=s, close_us=e.START, close=100.) for s in e.SYMBOLS])
+    
+        def factory(_daily, decisions, mode):
+            rows = [dict(symbol=s, available_us=int(t), target_weight=(-.1 if s == 'BTCUSDT' else
+                    .1 if s == 'ETHUSDT' else 0.)) for t in decisions for s in e.SYMBOLS]
+            return pl.DataFrame(rows), dict(scope='SYNTHETIC_COST_AND_HEDGE_COUNTEREXAMPLE')
+    
+        events = [dict(symbol=s, event_us=e.START + 3 * e.MINUTE + 1000,
+                       raw_rate=.001, reported_interval_hours=8.) for s in e.SYMBOLS[:2]]
+        window = dict(symbols=e.SYMBOLS, start=e.START, end=e.START + n * e.MINUTE,
+                      daily=daily, market=market, events=events)
+        case = kernel.simulate(window, 'LONG_SHORT', kernel.COSTS[0], kernel.UNITS[0],
+                               target_factory=factory, account_factory=BybitIsolatedAccount,
+                               persist_cash_close=True)
+        directory = tmp_path / 'case'
+&gt;       summary = kernel.save_case(case, directory)['summary']
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+research/btc-beta-residual-cs-20261011/test_economics.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/investment/perpetual_directional.py:524: in save_case
+    summary['daily_metrics']=daily_metrics(daily,10000.)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+daily_nav = shape: (0, 5)
+┌────────────┬─────┬──────┬─────────────────┬──────────┐
+│ day_end_us ┆ nav ┆ fees ┆ execution_costs ┆ t...    │
+╞════════════╪═════╪══════╪═════════════════╪══════════╡
+└────────────┴─────┴──────┴─────────────────┴──────────┘
+initial_cash = 10000.0
+
+    def daily_metrics(daily_nav: pl.DataFrame, initial_cash: float) -&gt; dict[str, float | int]:
+        """Compute net mark-to-market statistics, including the initial cash observation."""
+        if daily_nav.is_empty():
+&gt;           raise ValueError("daily_nav must contain at least one UTC daily valuation")
+E           ValueError: daily_nav must contain at least one UTC daily valuation
+
+src/quant/metrics.py:14: ValueError</failure></testcase></testsuite></testsuites>
