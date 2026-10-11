@@ -10,3 +10,10 @@ COIN_CPD_STATE=/workspace/flow-preflight-state QUANT_ROOT=/workspace/coin-tail-r
 ```
 
 真实来源预检PASS：BTC2022January官方ZIP2,029,103B/44,640实际分钟/31完整日，所有takerbuybase/quote均不超过total，零quote分钟0。分钟quoteimbalance范围[-.88107,.88713]，日加权聚合[-.04589,.03868]；属于来源特征范围，非收益结果。0.528秒，0下载/大wrapper读取/fit/label/预测分数/钱包；source_SHA306b58c4、实际运行前冻结6164cfab。单月只证明字段可用，完整CORE5/698日flow来源尚未准备，原论文需要的逐trade方向/quote/L2仍缺，下一步必须先独立freeze完整source extraction。不能凭one-month流量自相关或引用论文声称有可学收益。
+
+原始来源结果6b1e70ae30b770704d48b84b283d23e5f41f4ba5公开、远端SHA核验；新STATE再次直接从公开Gitparts恢复同一月44,640分钟，特征NPZ字节及来源摘要一致，0原STATE读取/下载/fit/label/预测分数/wallet。原始准备1次+来源冷核验1次，重复解析总89,280行，同一个月并非两独立样本。源码、计数、budget和完整源/经济阻塞见COMPLETION.json。
+
+最小公共来源冷核验：
+```bash
+COIN_CPD_STATE=/workspace/flow-pref-fresh QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/flow-pref-fresh bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/aggressor-flow-preflight-20261011/verify.py --artifact-commit 6b1e70ae30b770704d48b84b283d23e5f41f4ba5 --output /workspace/flow-pref-fresh/restored
+```
