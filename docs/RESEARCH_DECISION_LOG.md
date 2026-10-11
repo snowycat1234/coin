@@ -1967,3 +1967,5 @@ See research/slow-momentum-cpd-cost-objective-20261011/README.md.
 ## 2026-10-11 结算资金费单通道最终训练诊断
 
 e347fa4f预拟合公开冻结后，唯一1尝试/2fit完成。训练MSE增量+1.411591%/条件CI下界+.397996%，但2021coef负、成对周价格成本增量负：5PASS/2FAIL，STOP_TRAINING_DIAGNOSTIC_NO_DEVELOPMENT_READ。不得事后反号或以预测改善称short可交易净收益；开发/wallet/搜参0。两必要模型与逐行证据公开保存，后续只做远端恢复核验。详细结果见research/short-funding-residual-20261011/results/RESULT.json。
+
+追加远端恢复验收：cf394f9e公开结果提交37研究文件及4来源INDEX/parts独立读回，2,246,454B档案SHA/CRC保持；两模型496预测及统计完全一致，fits0/旧workspace读取尝试0。运行原科学源码，仅公开INDEX替代git读取；不是重训或新依赖安装。STOP与全部科学计数不变。
