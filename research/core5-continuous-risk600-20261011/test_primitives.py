@@ -2,9 +2,15 @@ import unittest
 import numpy as np
 import pandas as pd
 from primitives import measure
+from run_phase import budget
 
 
 class PrimitiveTests(unittest.TestCase):
+    def test_acquisition_budget_refuses_before_download(self):
+        budget(51063650,35000000)
+        with self.assertRaises(ValueError):budget(70000001,30000000)
+        with self.assertRaises(ValueError):budget(0,35000001)
+
     def frame(self):
         n=3*1440;t=np.arange(n,dtype=np.int64)*60000
         close=np.exp(np.cumsum(np.sin(np.arange(n)*.23)*.001))

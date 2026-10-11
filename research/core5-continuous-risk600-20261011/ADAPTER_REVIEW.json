@@ -1,0 +1,146 @@
+{
+  "Q1_previous_proof_exact": true,
+  "additional_metadata_checks": {
+    "Q12022": {
+      "actual_source_count": 15,
+      "immutable_index_bytes_exact": true,
+      "immutable_proof_bytes_exact": true,
+      "index_artifacts_same_as_proof": true,
+      "new_source_part_sizes_exact": true,
+      "prior_hash_only_identity_exact": true,
+      "reused_and_repair_source_inventory_exact": true,
+      "source_checksum_name_digest_exact": true
+    },
+    "Y2021": {
+      "actual_source_count": 60,
+      "immutable_index_bytes_exact": true,
+      "immutable_proof_bytes_exact": true,
+      "index_artifacts_same_as_proof": true,
+      "new_source_part_sizes_exact": true,
+      "prior_hash_only_identity_exact": true,
+      "reused_and_repair_source_inventory_exact": true,
+      "source_checksum_name_digest_exact": true
+    }
+  },
+  "blocking_source_or_numeric_issue_identified": false,
+  "issues": [
+    {
+      "finding": "Only per-phase35MB is asserted; protocol total100MB is not enforced/reserved before acquisition. Theoretical threecap sum105MB exceeds frozen total. Current actuals supplied by parent keep all remainingQ3 within86,063,650B.",
+      "id": "GENERIC_CUMULATIVE_ACQUISITION_GUARD",
+      "path": "research/core5-continuous-risk600-20261011/prepare.py:226-227",
+      "recommended_action": "Document/enforce current cumulative bound in orchestration/join without altering running phase code. Add generic pre-acquisition cumulative reservation before any additional future acquisition.",
+      "severity": "MEDIUM_GENERIC_BOUND_GAP",
+      "trigger": "Standalone repeated later quarter acquisition under unchanged generic adapter"
+    },
+    {
+      "finding": "Producer proof pins prepare.py and primitives.py only. Cold verifier checks those, but does not assert shared normalize.py/download.py/common.py or cold_verify.py/publish.py hashes. All three shared dependencies presently exactly match producer source_commit for bothreviewedphases; no current dependency drift was found.",
+      "id": "COLD_FULL_CODE_DEPENDENCY_BINDING",
+      "path": "research/core5-continuous-risk600-20261011/cold_verify.py:39-40",
+      "recommended_action": "Future clean verification should bind/assert shared dependency and verifier code or use exact immutable producer checkout; record verifier SHA separately without rewriting completed evidence.",
+      "severity": "LOW_REPRODUCIBILITY_GAP",
+      "trigger": "Later invocation from checkout with changed shared collector pipeline or verifier"
+    },
+    {
+      "finding": "Times and closes are exact recomputed source columns, but its own symbol_order metadata is not asserted. Actual fixedordering code and DAILY assertion protect current values.",
+      "id": "FIVE_MIN_SYMBOL_METADATA_ASSERT",
+      "path": "research/core5-continuous-risk600-20261011/cold_verify.py:85-87",
+      "recommended_action": "Add explicit FIVE_MIN symbol_order assertion in later verification version; preserve published phase bindings.",
+      "severity": "LOW_METADATA_CHECK_GAP",
+      "trigger": "Five-minute artifact symbol_order metadata inconsistent with columns"
+    },
+    {
+      "finding": "Cold600s wall check occurs only after a month; guard walllimit is1200s, and cold code has no explicit phaseSTATE1GB or terminalreservecheck. prepare has perasset-month checks but final artifacts are written afterward. Published actual timings/RSS are comfortablywithin limits; no current overrun evidenced.",
+      "id": "COLD_PHASE_RESOURCE_LIMIT_TIMING",
+      "path": "research/core5-continuous-risk600-20261011/cold_verify.py:75",
+      "recommended_action": "Use hard600s external phase timeout and explicit finalSTATE/reserve checks for later operations; avoid describing sampledRSS as kernelpeak.",
+      "severity": "LOW_GENERIC_BOUND_GAP",
+      "trigger": "Single month restoration or final output spends beyond600s/1GBSTATE"
+    }
+  ],
+  "mechanical_findings": [
+    {
+      "evidence": "prepare.py:247-257 checks previous open_ms=month start-60000 and available_us=month start*1000; validate_price requires inclusive close_time=open+59999; cold_verify.py:58-66 independently decodes five prior December months for Q1. Five-minute endpoints close[4::5] make preceding day 23:59 1m close the previous five-minute endpoint. Day availability is next UTC00:00 replay proxy, not certified historical publication arrival.",
+      "name": "True previous-close clock",
+      "verdict": "PASS_STATIC_AND_PUBLISHED_METADATA"
+    },
+    {
+      "evidence": "primitives.py:15,19,25,28-29,35-37 propagate unknown prior into first Jan1 RV1m/RV5m, both semivariances and up/down max excursion. Y2021 reports365 calendar/364 joint validRV days; Q1 reports90/90. First-day OHLC and volume may remain observed. This review did not inspect NPZ cells; published cold receipt reports all recomputed primitives exact.",
+      "name": "First boundary unknown",
+      "verdict": "PASS_STATIC_AND_PUBLISHED_COUNTS"
+    },
+    {
+      "evidence": "Immutable source wrappers/parts and named raw member ZIPs bindSHA256, official checksum and CRC; decoded_month validates exact full UTC minute grid, compares all canonical fields for common rows, deduplicates exact identities, refuses conflicts or missing. Q1 six SOL/XRP Feb26-28 day archives add8640 actual minutes with0 common minutes. Vacuous common-field equality is not empirical overlap verification.",
+      "name": "Source identity and repair union",
+      "verdict": "PASS_METADATA_AND_REPORTED_COLD"
+    },
+    {
+      "evidence": "Fixed CORE5 orderBTC,ETH,SOL,XRP,DOGE; prepare and cold traverse sameorder and column_stack; DAILY symbol_order explicitly checked; old saved 2021 price panel order explicitly checked. FIVE_MIN.npz own symbol_order is written but not asserted by cold verifier.",
+      "name": "Ordering",
+      "verdict": "PASS_CORE_ORDER_WITH_MINOR_COLD_ASSERTION_GAP"
+    },
+    {
+      "evidence": "Published Y2021/Q1 receipts pin0f91452905762cab447ee3fd498c51173b380012 and4fa7c3fd7847664ca949dedd1827882e5df7d723. Index/proof/protocol/source inventory and producer moduleSHA match; localGit bytes atthosepinsmatchreviewedmetadata. Large raw wrappers/parts reuse pinned localpublicGitobjects; smallcode/index/proof readraw GitHubHTTP. Original namedSTATEattempts0, providerdownloads0. This is publicGitobject cold restoration, not an independent fresh network download of every large archive. Q1 five raw prior-month boundarychecks; Y2021firstunknown0.",
+      "name": "Cold scope",
+      "verdict": "PASS_REPORTED_PUBLIC_GIT_OBJECT_RESTORE"
+    },
+    {
+      "evidence": "Reviewed Q1 neworiginalbytes25,469,575 <=35MB; Y2021new0. Published guards1CPU,4GBAS,2GBsampledRSS,GPU0,swap0; observed phases/restore all<31s and<177MBsampledRSS. Parent separately reportsQ2=25,594,075 and activeQ3cap35MB, giving cumulative maximum86,063,650<100MB; Q2/Q3 metadata not read in this audit. No current total budget violation is asserted.",
+      "name": "Published budget evidence",
+      "verdict": "NO_CURRENT_VIOLATION_IDENTIFIED"
+    }
+  ],
+  "metadata_snapshot": {
+    "SHA256": "89621ff990944a9e92388b28ee21c6c12a30d3df3206207a2f2e3935d63479e3",
+    "path": "/workspace/continuous600-readonly-state/ADAPTER_METADATA_SNAPSHOT.json"
+  },
+  "remaining_limits": [
+    "No independent raw CSV or NPZ reparse was done by this auditor; rely on bound published cold receipts for numeric recomputation.",
+    "Only Y2021/Q1 published metadata reviewed; Q2/Q3/October-November final join and698daycontinuity are outside current delegated audit.",
+    "Trade primitives do not certify mark tape, funding execution, MMR or strategy performance."
+  ],
+  "review_UTC": "2026-10-11T20:18:37.503199+00:00",
+  "review_budget": {
+    "AS_bytes": 4000000000,
+    "CPU_seconds_limit": 110,
+    "GPU": 0,
+    "minimum_workspace_free_bytes": 16106127360,
+    "report_STATE_bytes_limit": 500000000,
+    "sampled_RSS_stop_bytes": 2000000000,
+    "swap": 0,
+    "workers": 1
+  },
+  "scope": {
+    "NPZ_opened": 0,
+    "branches_rescanned": 0,
+    "code_files": [
+      "prepare.py",
+      "primitives.py",
+      "publish.py",
+      "cold_verify.py",
+      "PROTOCOL.json"
+    ],
+    "fits": 0,
+    "metadata_only": true,
+    "new_result_or_label_reads": 0,
+    "provider_downloads": 0,
+    "published_phases": [
+      "Y2021",
+      "Q12022"
+    ],
+    "raw_CSV_opened": 0,
+    "source_ZIP_bodies_opened": 0,
+    "wallets": 0,
+    "worktree": "/workspace/coin-tail-risk",
+    "worktree_HEAD_at_review": "21fbd1e39b79c9d0a4c858103063212536f4f463",
+    "worktree_files_modified": 0
+  },
+  "source_and_code_metadata_SHA256": {
+    "PROTOCOL.json": "b7ec1b96c240ad7ab626bbf70a65dbbdd7553f15cf9ec76a431c0cf32f752051",
+    "cold_verify.py": "a64762885eea871bdaf31916363ae9651209402ce2b494f1ede8f569c7c35e91",
+    "prepare.py": "071c4ab5d2447ce7fab2a939b2f66ac2049dd15b90f014d3af1624a68cea7602",
+    "primitives.py": "24533e8c0cfb89e413c83c55524e99a6c4eca9d8fba81a02efc3fa3fa36ca6d8",
+    "publish.py": "fa97589a2a1b5653a3b7846e982e648bb7c6c66ca14a04ef5e8941b02f287325"
+  },
+  "source_inventory_SHA256": "bb9c733a8db449320af6d7c1810577b085b8d25a39a870b5cb334284d622b965",
+  "status": "PASS_REVIEWED_Y2021_Q12022_SOURCE_INTEGRITY_WITH_GENERIC_GUARD_GAPS"
+}

@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import sys
 import time
+import signal
+import shutil
 import urllib.request
 import numpy as np
 from prepare import HERE,ROOT,SYMBOLS,PHASES,SourceReader,bind_current,configure,decoded_month,digest,git,old_five,save
@@ -24,10 +26,16 @@ def run(commit,phase,state):
                         'october2022-state','october2022-complete-state','october2022-union-state','har-rv-state','tail-risk-state')):
                 blocked.append(path);raise RuntimeError('Original STATE read forbidden')
     sys.addaudithook(audit);start=time.monotonic()
+    signal.alarm(600)
+    def bounded():
+        assert time.monotonic()-start<600 and shutil.disk_usage(state).free>=15*1024**3
+        assert sum(p.stat().st_size for p in state.rglob('*') if p.is_file())<=1000000000
     def public(path):
+        bounded()
         with urllib.request.urlopen('https://raw.githubusercontent.com/snowycat1234/coin/'+commit+'/'+path,timeout=20) as r:
             b=r.read(8000001)
         assert len(b)<8000001
+        bounded()
         return b
     indexraw=public(PREFIX+'phases/'+phase+'/SOURCE_INDEX.json');index=json.loads(indexraw)
     invraw=public(PREFIX+'SOURCE_COVERAGE.json');assert digest(invraw)==index['source_inventory_SHA256']
@@ -36,8 +44,16 @@ def run(commit,phase,state):
     proof=bind_current(json.loads(proofraw),commit)
     assert proof['phase']==phase and proof['fits']==proof['wallets']==proof['labels_created']==0
     assert digest(public(PREFIX+'PROTOCOL.json'))==proof['protocol_SHA256']
+    assert digest(public(PREFIX+'cold_verify.py'))==digest(Path(__file__).read_bytes())
     for name,sha in proof['code_SHA256'].items():
         assert digest(public(PREFIX+name))==sha==digest((HERE/name).read_bytes())
+    # Shared parsers/date guards are numerical dependencies, not merely imports.
+    dependency_sha={}
+    for name in ('normalize.py','download.py','common.py'):
+        path='modules/collector_research/pipeline/'+name
+        b=git('show',proof['source_commit']+':'+path)
+        assert digest(b)==digest((ROOT/path).read_bytes())==digest(public(path))
+        dependency_sha[path]=digest(b)
     saved={}
     for name,row in index['artifacts'].items():
         b=b''.join(SourceReader.part(commit,p) for p in row['parts'])
@@ -72,7 +88,7 @@ def run(commit,phase,state):
             five.append(c);actual+=len(frame)
         days.append({k:np.column_stack(v) for k,v in daily.items()});fives.append(np.column_stack(five));times.append(t)
         print('COLD_MONTH',phase,y,m,'actual minute features and boundaries exact',flush=True)
-        assert time.monotonic()-start<600
+        bounded()
     reader.close();available=np.concatenate(times);five=np.concatenate(fives)
     np.testing.assert_array_equal(available,saved['DAILY.npz']['available_us'])
     assert tuple(saved['DAILY.npz']['symbol_order'])==SYMBOLS
@@ -83,16 +99,20 @@ def run(commit,phase,state):
         t,c,sha=old_five();np.testing.assert_array_equal(t,ft);np.testing.assert_array_equal(c,five)
         assert sha==proof['reused_public_five_min']['member_SHA256']
     else:
+        assert tuple(saved['FIVE_MIN.npz']['symbol_order'])==SYMBOLS
         np.testing.assert_array_equal(saved['FIVE_MIN.npz']['available_us'],ft)
         np.testing.assert_array_equal(saved['FIVE_MIN.npz']['close'],five)
     assert actual==proof['actual_minutes'] and not blocked
+    bounded()
     save(state/'PUBLIC_RESTORE.json',dict(status='PASS_PUBLIC_GIT_OBJECT_RAW_MINUTE_COLD_RESTORE',artifact_commit=commit,phase=phase,
         source_index_SHA256=digest(indexraw),actual_minutes=actual,calendar_days=proof['calendar_days'],
         valid_joint_RV_days=proof['valid_joint_RV_days'],boundary_previous_month_raw_checks=boundary_checks,
         exact_all_daily_primitives_and_five_min=True,original_STATE_open_attempts=len(blocked),
         public_index_and_code_HTTP_reads=True,large_originals_reused_from_public_pinned_local_Git_objects=True,
+        verifier_self_SHA256=digest(Path(__file__).read_bytes()),shared_dependency_SHA256=dependency_sha,
         provider_downloads=0,fits=0,wallets=0,labels_created=0,elapsed_seconds=time.monotonic()-start))
     print((state/'PUBLIC_RESTORE.json').read_text())
+    signal.alarm(0)
 
 
 if __name__=='__main__':
