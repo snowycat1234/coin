@@ -25,9 +25,9 @@ QUANT_ROOT="$PWD" QUANT_STATE=/workspace/upside-public-guard \
 bash research/slow-momentum-cpd-20261011/launch.sh \
 /workspace/coin/.venv/bin/python \
 research/short-upside-quantile-20261011/cold_verify.py \
---commit <published-result-artifact-SHA> --directory /workspace/upside-public-cold
+--commit 76b935ff030902cfef7972e658711803cf916d65 --directory /workspace/upside-public-cold
 ```
 
-This is a signed-semivariance/path-quantile adaptation, not the originalSlowMomentum paper, CAViaR/EVT replication or new generalquantilemethod. Semivariance originalauthorpaper and solver/source/license/readlimits: UPSTREAM.json and OPEN_SOURCE_REGISTRY. Separate distribution files untouched; all previous STOPs/accountfinancial semantics retained.
+Publiccold76b935ff passes16members/9sourcebindings, byte-exactreconstructed SOURCE_PANELS,120forecastdates/fourtargetarms error0, LPcertificateerror2.13e-14 andexactbootstrap/gates. Newfits/solvercalls/wallets/originalSTATEopens0; actualguard12.72s/RSS206.24MB. This is a signed-semivariance/path-quantile adaptation, not the originalSlowMomentum paper, CAViaR/EVT replication or new generalquantilemethod. Semivariance originalauthorpaper and solver/source/license/readlimits: UPSTREAM.json and OPEN_SOURCE_REGISTRY. Separate distribution files untouched; all previous STOPs/accountfinancial semantics retained.
 
 Real readiness remains unestablished: this predictor fails its incremental-information gate; historical fundingunit/charge-mark/holding-boundary and receive/publication certification are missing; Binanceprices/Bybitfees are a crossvenueproxy; frozenmodernBybitMMR and missing historicalclose-fee/tier certificates cannot certify2021/2022native liquidation. PriorfundingAPI451/riskAPI403 are not retried or bypassed. Newfive-minuteupside sampling cannot certify minutepeaks or legacyentry isolatedheadroom. These are precise unresolved scientific/information limits, not an engineering approval blockage or a reason to reopen failedrecipes. No lockedbody,2023/24newoutcomes,Library,credentials,pay/live/deployment.

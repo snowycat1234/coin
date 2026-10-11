@@ -16,7 +16,7 @@ QUANT_ROOT="$PWD" QUANT_STATE=/workspace/october-cold-guard \
 bash research/slow-momentum-cpd-20261011/launch.sh \
 /workspace/coin/.venv/bin/python \
 research/core5-october-warmup-20261011/cold_verify.py \
---commit <published-artifact-SHA> --directory /workspace/october-public-cold
+--commit 2cb08742a319d20cf983aa4f98650ace5330b057 --directory /workspace/october-public-cold
 ```
 
 Source preparation reproduces acquisition/union with a fresh state and published source SHA; raw cache option reuses checksum-verified archives without HTTP. Official provider refusals must halt requests. This is allowed project-seen2022source restoration, not a new historical alpha result or a HAR retry. Locked2026body, live, credentials, paidresources and Library are excluded.
