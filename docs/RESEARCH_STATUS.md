@@ -6,6 +6,8 @@
 
 继续完成同账本无fit风险/成本取证：残差清算损失略少，坏增量主要是两类毛价而非多清算/多成本；目标beta0不保证实际持仓beta0。四钱包100.708秒，完整106.612秒/采样RSS317.95MB、无资源停止。25相关测试+3无损存储测试PASS，旧V2 SHA不兼容与初始合成fixture失败收据保留。13.383MB公开包逐位保存17原分钟审计列和全部journal/summary/daily/targets；原37列PQSHA与省略冗余列显式记录。额外fit/钱包0，开发/保留集0；条件跨venue/单位/mark/MMR，不是原生或unseen/riskmatched alpha。见[结果、取证与复现](../research/btc-beta-residual-cs-20261011/README.md)。
 
+公开34bb3f29不可变结果已在新目录冷恢复：18parts/17绑定文件、362880分钟的四独立审计对象完全一致、3650保存targets恢复、成对差误差8.24e−13USDT；原workspace/STATE读取尝试0，新增fit/wallet0。首次命令误填SHA导致首文件404，失败目录/收据保留，实际GitSHA纠正另开新目录。main与原CPD/funding工作树HEAD/clean核实保持，研究差分仅新namespace及单状态/追加日志/registry。
+
 ## 2026-10-11 BTC异质beta残差排名：配置门槛通过，经济尚未运行
 
 独立分支research/btc-beta-residual-cs-20261011，协议ce8d8962/源码3f62a0f1先公开后实际运行。9测试PASS；2021全部365日共同可用，51成熟周/27改变配置（52.94%），最大模型beta误差3.3331e−17、目标cov年波动≤10%，真实未来后缀扰动过去targets误差0。1科学尝试，1476主过去OLS+740前缀因果核验，共2216；未来结果/开发/wallet0。

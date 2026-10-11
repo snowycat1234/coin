@@ -1,5 +1,7 @@
 # BTC beta残差排名：相同对冲的成对实验
 
+公开结果冷恢复已实际PASS：不可变`34bb3f29231d66daf59e0027231d884359e717b6`的18parts/13.383MB、17绑定源码/模型/结果文件，从新目录恢复全部4钱包共362,880分钟审计；四个独立审计结果与原保存对象完全一致，365×5×2保存targets可载入，成对增量误差8.24e−13USDT、bootstrap端点误差0。原工作区/STATE打开尝试0、额外fit/wallet0；完整13.491秒/采样RSS114.73MB，使用现有运行库，不称新OS安装验证。见`verification/COMPLETION.json`与`FINAL_SCOPE.json`。首条恢复命令误填非存在SHA，首次文件404/未下载；失败收据保留，用实际GitSHA在另一全新目录完成，没有科学重试。
+
 最终：`STOP_THIS_84_21_RECIPE`，仅停止本轮84/21配方。固定2021Apr5–Jun7四个真实历史条件账户全部完成、付费终端CASH，独立Decimal逐分钟现金/持仓/资金费/清算顺序核验PASS；每钱包两次DOGE逐仓清算，所有清算现金保留。完整经济源码fd7083ce先公开，17关键文件实际字节读回后运行；4钱包100.708秒/完整命令106.612秒，采样RSS317.95MB、GPU/swap0、无资源停止。额外fit/开发/新窗口0。
 
 |资金费原率尺度|raw净USDT|residual净USDT|成对净增量USDT|alt毛价增量|BTC对冲毛价增量|raw/residual实际年vol|
@@ -28,14 +30,14 @@ bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/pyt
 # 无模型/账户重跑的公开恢复，使用公开结果提交SHA：
 bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python \
   research/btc-beta-residual-cs-20261011/cold_verify.py \
-  --commit RESULT_COMMIT --state /workspace/btc-beta-cold-fresh
+  --commit 34bb3f29231d66daf59e0027231d884359e717b6 --state /workspace/btc-beta-cold-fresh
 ```
 
 2021是已有开发/训练历史；2023/2024和2026保留集未读取。恢复绑定完整来源/字段/校验/单位、科学attempt1、1476+740OLS、神经0、额外拟合0、wallet4和种子均在小JSON中。旧资金费/CPD STOP保持，原失落2026账本未捏造；本模块不是Slow Momentum论文原样复现，也不重复旧“移除alt short换BTC short”规则。
 
-首个真实里程碑：2021因果配置门槛PASS，51个成熟周中27个改变alt配置（52.94%）；最大模型beta误差3.3331e−17、共同目标协方差波动上限10%，未来后缀扰动过去目标误差0。9项数学/因果/身份/周期测试PASS。原始执行源码3f62a0f1，primary过去OLS1476次，前缀反事实过去OLS740次，共2216次；1科学尝试、神经fit/未来结果查询/钱包/开发读取0。
+首个真实里程碑（配置阶段）：2021因果配置门槛PASS，51个成熟周中27个改变alt配置（52.94%）；最大模型beta误差3.3331e−17、共同目标协方差波动上限10%，未来后缀扰动过去目标误差0。9项数学/因果/身份/周期测试PASS。原始执行源码3f62a0f1，primary过去OLS1476次，前缀反事实过去OLS740次，共2216次；1科学尝试，该配置阶段神经fit/未来结果查询/钱包/开发读取0。
 
-最终JSON遇到NumPy布尔序列化故障；保存目标、回归系数、排名与风险工件完整。10268d29只修导出类型，用保存工件恢复门槛，额外fit0。原失败导出保留为`diagnostic/ORIGINAL_FAILED_EXPORT.partial.json.txt`。完整结果与必要模型见`diagnostic/DIAGNOSTIC_RESULT.json`和`SAVED_TARGETS.npz`。这些是因果配置差异，尚无经济收益结论；下一阶段严格按原协议固定63日/4钱包运行。
+配置最终JSON遇到NumPy布尔序列化故障；保存目标、回归系数、排名与风险工件完整。10268d29只修导出类型，用保存工件恢复门槛，额外fit0。原失败导出保留为`diagnostic/ORIGINAL_FAILED_EXPORT.partial.json.txt`。完整结果与必要模型见`diagnostic/DIAGNOSTIC_RESULT.json`和`SAVED_TARGETS.npz`。配置差异本身不能证实经济优势；随后严格按原协议完成固定63日/4钱包，最终负结果见首段。
 
 独立分支 `research/btc-beta-residual-cs-20261011`，此前启动取消未运行新实验；本模块是一次固定84日回归/21日形成/周排名检验，不调整旧资金费和CPD STOP。
 
