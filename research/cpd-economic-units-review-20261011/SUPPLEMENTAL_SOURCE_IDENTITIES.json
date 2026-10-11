@@ -1,0 +1,27 @@
+{
+  "target_commit": "7393eee91f37478a24055c8fd1c660ff37eda0ca",
+  "source_identities": {
+    "scripts/investment/bybit_cost_inputs.py": {
+      "bytes": 4544,
+      "sha256": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "reviewed_lines": [
+        48,
+        66
+      ],
+      "finding": "fee fraction kept; roundtrip bp validates both sides; execution split without second debit",
+      "execution": "READ_ONLY_NOT_IMPORTED_OR_INSTANTIATED"
+    },
+    "src/quant/perpetual_account.py": {
+      "bytes": 47652,
+      "sha256": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+      "reviewed_lines": [
+        56,
+        84
+      ],
+      "finding": "Decimal fee fraction .00055; execution components4bp each; decimal conversion without percent renormalization",
+      "execution": "READ_ONLY_NOT_IMPORTED_OR_INSTANTIATED"
+    }
+  },
+  "market_data_read": false,
+  "native_wallets": 0
+}
