@@ -1691,3 +1691,20 @@ bootstrap-gap and nonpositive-price findings fixed before fit. Protocol, source,
 tests and minimum reproduction under research/slow-momentum-cpd-20261011.
 No locked reads, original2026Q1/Q2ledger recovery claim, distribution-study edits,
 live trades, account keys, credentials, paid service or Library.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD fixed screen completed
+
+Prefit source/public remote SHA abea0de9ec9f2e69d8d6212f10b89313bfb9cabb;
+one attempt,6LSTMfit×256updates/1809parameters, GP group320windows/2optimizers,
+3prescribedseeds,0validationfit/search/retry/wallet. Seen block MSE skill
+−0.249523%/−0.088108%/+0.106121%; date-mean loss improvement−0.000969767,
+14-day bootstrap95%[−0.003615307,+0.001896265], mean rank increment−0.0437386.
+All5gatesFAIL: STOP this exact supervised frozen-GP adaptation. Cannot reject
+the original online-GP/Sharpe paper or claim learned fast-reversion profit.
+14focusedtests/Ruff and2209savedforecasts/18bit-identical inference checks pass;
+allpairinitial/RNG/Adam256/maturity/scaler/GP/source identities verified.
+13.018sexperiment/17.752swrapper, sampledRSS373.629MB; no peak-kernel claim.
+Actualfunding/fees/slippage/risk/paidnativeclose NOT_RUN under the preregistered
+failure gate; no approximation supplied. OriginalQ1/Q2ledgers unavailable,
+lockedclosed/oldnegativeevidence preserved. Results/SHA/reproduce/resources:
+research/slow-momentum-cpd-20261011/README.md and results/.

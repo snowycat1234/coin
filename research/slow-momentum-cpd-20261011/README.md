@@ -1,5 +1,48 @@
 # Slow momentum / CPD minimum experiment
 
+Completed: **STOP_PREDICTION_INCREMENT_NOT_ESTABLISHED**. The complete
+[result](results/RESULT.json), [2,209 saved forecasts](results/PREDICTIONS.csv),
+[training freeze](results/FROZEN_TRAINING.json), and
+[read-only reconciliation](results/SAVED_RESULT_AUDIT.json) preserve this negative
+finding. Protocol/source were published and remote SHA verified before the one
+real scientific attempt (code commit `abea0de9ec9f2e69d8d6212f10b89313bfb9cabb`).
+The subsequent [complete gate audit](results/SAVED_RESULT_GATE_AUDIT.json) verifies
+all five gates, every CSV record and actual training scaler/GP observation axes
+with pure arithmetic, adding zero fits and zero repeated LSTM inference sets.
+
+|Seen validation|CPD ensemble MSE improvement vs trend|Daily rank-IC increment|
+|---|---:|---:|
+|2023 H1|−0.250%|−0.03667|
+|2023 H2|−0.088%|+0.02295|
+|2024 Jan–Apr|+0.106%|−0.11750|
+
+Only one block and one seed improve aggregate MSE. Date-mean squared-loss
+improvement is −0.000970, 14-day bootstrap95% interval [−0.003615,+0.001896];
+all five frozen gates fail. Both learned arms also fail to beat the training-mean
+MSE control on the last two blocks. This fixed small-budget result does not
+establish model convergence or disprove the paper's original online/Sharpe method.
+There was no seed selection, horizon/window/threshold search or extra fit.
+
+Actual counts: one attempt, six LSTM fits, 1,809 parameters per arm, 1,536 total
+updates; one GP group/two optimizers (23/51 iterations, both report convergence),
+zero validation fits, zero wallets/provider downloads. Fourteen focused tests and
+Ruff pass. Initial pytest infra failure is retained; independent review's two
+implementation findings were fixed before the real fit. Full repository tests
+and native economics are NOT_RUN, appropriate to this isolated prediction module.
+Saved forecast metrics reconcile within4.45e−16, all18 frozen inference sets are
+bit-identical, paired initial/RNG states and allAdam256 ages pass. Synthetic
+mechanism tests are not counted as market results.
+The first audit checked inference and reported MSE/rank/bootstrap; independent
+review identified missing explicit gate/record-coverage checks. The later audit
+adds those checks and recomputes unique training observations/normalisation,
+preserving both receipts and every original result byte. No science rerun occurred.
+
+Measured experiment13.018s; complete bounded command17.752s. Sampled descendant
+RSS maximum373,628,928B; shared used-memory maximum1,164,230,656B. Resource receipts
+are in results/receipts; sampling is not a kernel peak. Context, Git-object fetch,
+implementation and human/model reasoning time are outside those command timings;
+unmeasured intervals remain UNKNOWN. No new permission prompt or tool denial arose.
+
 One frozen, paired **prediction mechanism adaptation**, on already-seen historical
 crypto data. Hypothesis and complete finite recipe are in [PROTOCOL.json](PROTOCOL.json).
 This does not reproduce the paper's Sharpe-trained trading DMN. MSE output is a
@@ -44,6 +87,7 @@ mkdir -p "$COIN_CPD_STATE/tests"
 bash research/slow-momentum-cpd-20261011/launch.sh "$COIN_CPD_PYTHON" -m pytest modules/slow_momentum_cpd/test_core.py -q --basetemp="$COIN_CPD_STATE/tests/check"
 bash research/slow-momentum-cpd-20261011/launch.sh "$COIN_CPD_PYTHON" -m modules.slow_momentum_cpd.run --state "$COIN_CPD_STATE" --preflight
 bash research/slow-momentum-cpd-20261011/launch.sh "$COIN_CPD_PYTHON" -m modules.slow_momentum_cpd.run --state "$COIN_CPD_STATE"
+bash research/slow-momentum-cpd-20261011/launch.sh "$COIN_CPD_PYTHON" -m modules.slow_momentum_cpd.audit --state "$COIN_CPD_STATE"
 ```
 
 Recovery reads three pinned, already-public **local Git objects**, 2,246,454 bytes;
