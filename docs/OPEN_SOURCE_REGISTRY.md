@@ -545,3 +545,18 @@ No new dependency/upstream source/version/license/local upstream edits. Reuse ex
 ## 2026-10-09 Fixed momentum short mirror
 
 Reuse unchanged COIN `momentum_cash_pool_target.py` from commit713618686ac2208f52e9b15fe072a9d5149b25b9 (SHA9f2fe9aae324db2e5ccbcca0ca843b8612625f2aba1cece6937f5db09cb586a4), shared signed target API, native account and existing NumPy/Polars dependencies/licenses. New owned `momentum_short_pool_target.py` mirrors the fixed30-day predicate to short/cash; no public strategy replication, third-party source copy or package added. This post-June hypothesis freezes one recipe and four separate reused-input accounts under `research/recover-frozen-runner-20261009/MOMENTUM_SHORT_PLAN.json`; no parameter search or fit.
+
+## 2026-10-11 Slow momentum CPD prediction adaptation
+
+Read Wood/Roberts/Zohren arXiv2105.13727v3 and official MIT repository
+kieranjwood/trading-momentum-transformer at e0352cb0bdbf8045accb1bf1a5705ae0cb9ea624.
+Equation adapter uses existing SciPy/NumPy Matérn GPR and PyTorch LSTM primitives;
+no GPflow/TensorFlow installation, account credential or paid data. Upstream source,
+paper PDF, MIT notice and deviations are bound in
+research/slow-momentum-cpd-20261011/UPSTREAM.json and PROTOCOL.json.
+Training-frozen kernel/normalisation and fixed-prior location grid differ from
+online per-window refitting; MSE forecasts differ from Sharpe/tanh positions.
+Traditional futures results are not crypto evidence. Reuses exact public history
+archive e0d3400b23842f11f167a63e7d80856d76501de8 and conservative resource guard
+from recovery546cb9bd, independent source/module/state; no old selector or
+Transformer training, oracle utility, native-engine rewrite or locked access.

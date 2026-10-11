@@ -1,0 +1,35 @@
+{
+  "schema": "FROZEN_SLOW_MOMENTUM_CPD_PREDICTION_SCREEN_V1",
+  "frozen_before_real_fit": true,
+  "hypothesis": "Adding frozen Matérn changepoint age and evidence score to the same small trend LSTM improves one-day volatility-scaled return prediction across project-seen chronological blocks.",
+  "paper": {"url": "https://arxiv.org/abs/2105.13727v3", "version": "v3", "published_domain": "50 traditional continuous futures, Pinnacle CLC 1990-2020; not crypto", "upstream": "https://github.com/kieranjwood/trading-momentum-transformer", "upstream_commit": "e0352cb0bdbf8045accb1bf1a5705ae0cb9ea624", "license": "MIT"},
+  "recovery_base": "546cb9bd4e508020e9e24dfd30059496b82f3f8e",
+  "source": {
+    "commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+    "base": "research/temporal-feature-data-20261009/",
+    "archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "parts": [
+      {"file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart000", "bytes": 786432, "sha256": "6381910ab1137dfcb6c3066fa058a318ea90ee82f89ff944ad61428d2302369a"},
+      {"file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart001", "bytes": 786432, "sha256": "1d25dbbf4b0f3bbf498a7c51427672d436c7e217d150154667ac4e0650f66578"},
+      {"file": "coin_causal_core5_temporal_feature_data_20261009.zip.bytepart002", "bytes": 673590, "sha256": "11196af8c36712aca4ecd84d67177a407f1b7f27750b0da5fcd2813a2bab8b18"}
+    ],
+    "role": "PROJECT_SEEN_DEVELOPMENT_HISTORY",
+    "new_derivation_whitelist": ["dt", "close", "complete_kline", "symbol"],
+    "bar_start_range": ["2020-01-01", "2024-04-30"],
+    "warmup": "2020 causal context and asset-specific natural warmup; gaps reset EWM; no bfill",
+    "symbol_order": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"],
+    "availability": "daily bar start + 86400000000us; completed-day historical proxy, actual publication latency UNKNOWN",
+    "raw_source_verification": "REUSED archive/member hashes; prior producer receipts, no new original exchange ZIP recertification"
+  },
+  "training": {"dates": ["2021-01-01", "2023-01-01"], "sequence": 63, "hidden": 16, "updates": 256, "batch": 128, "lr": 0.001, "optimizer": "Adam", "gradient_clip": 1.0, "dropout": 0, "seeds": [2001, 2002, 2003], "loss": "MSE of next daily close-to-close return / causal 60-day EWM std", "readout": "last LSTM hidden + linear prediction; no tanh position", "sample_order": "same seeded replacement minibatches per pair; overlapping windows explicit", "early_stop": false, "scaler": "unique training input rows including only their past 63-day contexts", "maturity": "label_end strictly less than split_end; equality purged; one-day horizon"},
+  "validation": [["2023-01-01", "2023-07-01"], ["2023-07-01", "2024-01-01"], ["2024-01-01", "2024-05-01"]],
+  "features": ["ret1", "ret21", "ret63", "ret126", "ret252", "macd8_24", "macd16_48", "macd32_96"],
+  "pair": "Identical 10-input parameter axes and seeded initial state; baseline uses eight trend inputs plus two constant-zero channels; treatment uses the same trends plus age/severity; identical sample rows and update count.",
+  "gp": {"window": 21, "returns_per_window": 22, "per_asset_training_windows": 64, "selection": "evenly spaced finite training windows, no outcome selection", "maxiter": 60, "optimizer_calls": 2, "locations": [3, 6, 9, 12, 15, 18], "grid_prior": "fixed uniform", "parameters": "independent left/right Matérn variance and length, shared CP noise, sigmoid steepness; stationary variance/length/noise; global train-only return mean/std", "likelihood": "independent per-asset windows; fixed-prior CP grid marginal likelihood", "location_feature": "posterior mean age=(21-c)/21; official code orientation, opposite paper gamma", "severity": "sigmoid(NLML_M - NLML_CP_mixture); evidence score, not changepoint probability", "inference": "fixed covariance likelihoods; no optimizer, parameter or scaler fit on validation", "nonconvergence": "retain finite capped optimizer terminal parameters and report status; no retry or iteration extension"},
+  "prediction_gate": {"all_required": ["ensemble MSE skill versus trend positive in at least 2 of 3 blocks", "aggregate MSE improvement positive in at least 2 of 3 paired seeds", "aggregate date-mean squared-loss improvement positive", "95% moving-block bootstrap lower bound of date-mean loss improvement positive", "unweighted mean block daily-rank-IC increment at least 0.01"], "bootstrap": {"replicates": 1000, "block_days": 14, "seed": 9901}, "interpretation": "Development screening with conditional uncertainty; no pristine OOS or effective-independent-N claim", "failure_action": "STOP; no further fits, alternative horizon, seed choice, CP window search or wallet profit claims"},
+  "economic_stage": {"only_if_prediction_gate_passes": true, "scope": "existing recovered frozen shared-wallet engine with exact actual funding and native trade/mark availability; never substitute a daily toy account", "capital": 10000, "per_asset_abs_cap": 0.3, "gross_cap": 0.6, "leverage": 1, "requires": ["source-bound costs/profile", "paid slippage and fills", "actual signed event funding", "availability masks", "risk reductions", "charged terminal CASH closure", "independent cash/fees/margin conservation audit"], "missing_data_action": "report blocker, preserve code/tests; never fabricate Q1/Q2 2026 ledgers or zero funding", "wallet_budget": 2},
+  "deviations_from_paper": ["crypto historical data instead of original CLC futures", "supervised prediction MSE instead of pooled Sharpe position loss", "frozen global training scaling instead of per-window refit", "frozen GP covariance parameters and six-position posterior grid instead of online continuous location/kernel optimization", "fixed 256 updates and 3 seeds, no 50-trial hyperparameter search", "sliding overlapping 63-day supervised sequences instead of nonoverlapping paper training", "causal warmup with no backward fill; no winsorisation", "last linear readout instead of time-distributed tanh positions", "one fixed chronological train period and three old-history validation blocks"],
+  "resource_budget": {"workers": 1, "threads": 1, "aggregate_RSS_bytes": 2000000000, "address_space_bytes": 4000000000, "shared_host_used_bytes": 8000000000, "swap": 0, "gpu": 0, "run_wall_seconds": 1200, "minimum_disk_free_bytes": 16106127360, "new_provider_market_download_bytes": 0, "lstm_fits": 6, "gp_fit_groups": 1, "recipe_retries": 0},
+  "boundaries": {"locked_2026_03_01_to_2026_09_01": "DO_NOT_OPEN", "dataset_lock_json": "DO_NOT_PARSE", "live_trading": false, "account_keys": false, "credentials": false, "paid_services": false, "library": false, "other_distribution_study": "isolated branch, modules and state; no edits"},
+  "attempt_accounting": "one real scientific attempt; six paired model fits plus one GP group; synthetic tests separate; source/data/config SHA receipts; no rescore-based recipe changes"
+}

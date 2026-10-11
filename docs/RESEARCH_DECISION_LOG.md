@@ -1675,3 +1675,19 @@ Original26 daily full1440 guard stopped13/34 at ETHmark2022-07-12; keep failed s
 ## 2026-10-08 SHORT_COLLATERAL_HALF completed
 
 Fixed before wallets at ee163df,1recipe/10newwallets/10originalcontrols/0fit/search, five seen stages/two conditional units. Full10k/targets/native binding identity preserved, liquidation-first/paid persistence/normal hard risk. 2024H1/H2 net improves butSHORT negative;2025H1 net−146.66/−146.94,MDD+.7555/.7571pp despite costs down;allvol gate inherited from untouched41d original. PAUSE_EXACT_TAIL_PROTECTION_RECIPE/NONE_CASH. Readonly actualDOGEepisode shows stopMay11→normalexpertresetMay12, originalepisode−538.53 vsprotected−688.33, no originalnewSHORT opens inblock: no evidence cooldown is bottleneck. Preserve capability/history, do not tune threshold/reentry. Main report reports/SHORT_COLLATERAL_HALF_20261008.md contains full inputs/SHA/risk/resources/repro. Next choose structural hedge concentration/beta diagnosis before any single market-hedge contrast; not another exit scan or larger selector. New experiment NOT_REGISTERED_NOT_RUN; no background work. Existing caps drift, funding/MMR/proxy limitations remain.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD prediction prefit freeze
+
+One independent branch/experiment: 2021–2022 train, 2023H1/H2 and 2024Jan–Apr
+seen validation; 2526 mature train samples, common validation694/915/600.
+Three fixed seeds2001/2002/2003, identical initial16-hidden LSTM and minibatches,
+6×256 updates; treatment adds train-frozen GP age/severity, no recipe search.
+Prediction gate freezes MSE/seed/block/rank increment and14-day bootstrap before
+any real fit. Failing the gate stops before wallets. Raw paper strategy NOT_RUN;
+native economics require existing complete tape/account and paid closure.
+Fourteen causal/mechanism tests pass; first test infra parent-directory error
+retained separately, no real fit occurred. Independent read-only review's
+bootstrap-gap and nonpositive-price findings fixed before fit. Protocol, source,
+tests and minimum reproduction under research/slow-momentum-cpd-20261011.
+No locked reads, original2026Q1/Q2ledger recovery claim, distribution-study edits,
+live trades, account keys, credentials, paid service or Library.
