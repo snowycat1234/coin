@@ -12,6 +12,7 @@ from datetime import datetime,timezone
 import zipfile
 
 import numpy as np
+import pandas as pd
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -30,7 +31,7 @@ def save(path,record):
         f.write(json.dumps(record,indent=2,sort_keys=True,allow_nan=False)+"\n")
 
 
-def run(state,inventory,source):
+def run(state,inventory,source,raw_cache=None):
     git=lambda *x:subprocess.check_output(["git",*x],cwd=ROOT)
     assert git("rev-parse","HEAD").decode().strip()==source and not git("status","--porcelain")
     review=json.loads(inventory.read_bytes())
@@ -40,7 +41,9 @@ def run(state,inventory,source):
     assert state.is_relative_to(Path("/workspace")) and not state.exists()
     state.mkdir()
     save(state/"STARTED.json",dict(source_commit=source,inventory_SHA256=digest(inventory.read_bytes()),fits=0,wallets=0))
-    os.environ.update(WORK_DIR=str(state/"work"),RAW_CACHE_DIR=str(state/"raw"),
+    cache=(state/"raw") if raw_cache is None else raw_cache.resolve()
+    assert cache.is_relative_to(Path("/workspace"))
+    os.environ.update(WORK_DIR=str(state/"work"),RAW_CACHE_DIR=str(cache),
         SYMBOLS=",".join(SYMBOLS),WARMUP_START="2022-10-01",START_DATE="2022-10-01",END_DATE="2022-10-31",
         FAMILIES="klines,markPriceKlines,fundingRate",HTTP_RETRIES="0",HTTP_CONNECT_TIMEOUT="10",HTTP_READ_TIMEOUT="20",
         MAX_ARCHIVE_MIB="8",MAX_UNCOMPRESSED_MIB="64",MAX_WORK_GIB="16",MIN_FREE_GIB="15",REFRESH_CHECKSUMS="0")
@@ -60,6 +63,7 @@ def run(state,inventory,source):
     daily={}
     start=time.monotonic()
     downloaded=0
+    newly_downloaded=0
     left,right=month_limits(2022,10)
     grid=np.arange(left,right,60_000,dtype=np.int64)
     assert len(grid)==44640
@@ -82,9 +86,11 @@ def run(state,inventory,source):
                         no_imputation=True,completed_archives=len(rows),fits=0,wallets=0))
                     raise RuntimeError("Official monthly archive unavailable")
                 downloaded+=record["bytes"]
+                if record["status"]=="DOWNLOADED_VERIFIED":
+                    newly_downloaded+=record["bytes"]
                 assert downloaded<=30_000_000
                 frame,duplicates=validate_price(numeric_csv(job.path),family,left,right)
-                assert np.array_equal(frame.timestamp_ms.to_numpy(),grid)
+                source_minutes=len(frame)
                 overlap=None
                 if family=="markPriceKlines":
                     prefix="gap-repair/"+symbol+"_markPriceKlines_2022-10-02"
@@ -99,11 +105,16 @@ def run(state,inventory,source):
                         old_frame,old_duplicates=validate_price(numeric_csv(temporary),family,left+86_400_000,left+2*86_400_000)
                     finally:
                         temporary.unlink()
+                    assert len(old_frame)==1440 and old_duplicates==0
                     current=frame[(frame.timestamp_ms>=left+86_400_000)&(frame.timestamp_ms<left+2*86_400_000)].reset_index(drop=True)
-                    assert len(old_frame)==len(current)==1440 and old_duplicates==0
-                    assert np.array_equal(old_frame.to_numpy(),current.to_numpy())
+                    previous=old_frame[old_frame.timestamp_ms.isin(current.timestamp_ms)].reset_index(drop=True)
+                    assert np.array_equal(previous.to_numpy(),current.to_numpy())
+                    frame,union_duplicates=validate_price(pd.concat([frame,old_frame],ignore_index=True),family,left,right)
+                    assert union_duplicates==len(current)
                     overlap=dict(old_data_commit=OLD,member=prefix+".zip",SHA256=digest(day_bytes),
-                        rows=1440,all_source_numeric_fields_exact=True)
+                        old_observed_rows=1440,common_rows=len(current),added_genuine_source_rows=1440-len(current),
+                        all_common_numeric_fields_exact=True)
+                assert np.array_equal(frame.timestamp_ms.to_numpy(),grid)
                 close=frame.close.to_numpy(dtype=float)[4::5]
                 key=family+"_"+symbol
                 r=np.r_[np.nan,np.diff(np.log(close))].reshape(31,288)
@@ -114,16 +125,17 @@ def run(state,inventory,source):
                 daily[key+"_close"]=close.reshape(31,288)[:,-1]
                 # Boundary is source minute Oct1 23:59, available Oct2 00:00.
                 assert frame.timestamp_ms.iloc[1439]==left+86_400_000-60_000
-                rows.append(dict(family=family,symbol=symbol,raw_name=str(job.path.relative_to(state/"raw")),
-                    official_URL=job.url,received_UTC=datetime.now(timezone.utc).isoformat(),bytes=record["bytes"],
+                rows.append(dict(family=family,symbol=symbol,raw_name=str(job.path.relative_to(cache)),
+                    official_URL=job.url,verified_UTC=datetime.now(timezone.utc).isoformat(),cache_status=record["status"],bytes=record["bytes"],
                     SHA256=record["sha256"],CHECKSUM=digest(Path(str(job.path)+".CHECKSUM").read_bytes()),
-                    observed_minutes=len(frame),duplicates=duplicates,zero_quote_minutes=int((frame.quote_volume==0).sum()),
+                    original_month_source_minutes=source_minutes,observed_minutes=len(frame),duplicates=duplicates,zero_quote_minutes=int((frame.quote_volume==0).sum()),
                     exact_complete_grid=True,CRC=True,old_Oct2_mark_overlap=overlap,
                     first_required_RV_boundary_close=float(close[287]),last_Oct31_close=float(close[-1])))
                 save(state/(family+"_"+symbol+"_SOURCE.json"),rows[-1])
                 print("PREPARED",family,symbol,"44640 actual minutes; SHA/CRC/grid/boundary",flush=True)
                 assert time.monotonic()-start<600 and shutil.disk_usage(state).free>=15*1024**3
                 assert sum(p.stat().st_size for p in state.rglob('*') if p.is_file())<=200_000_000
+                assert sum(p.stat().st_size for p in cache.rglob('*') if p.is_file())<=30_100_000
     oldzip.close()
     available=np.arange((left+86_400_000)*1000,(right+86_400_000)*1000,DAY,dtype=np.int64)
     five_available=np.arange((left+300_000)*1000,(right+300_000)*1000,300_000_000,dtype=np.int64)
@@ -131,8 +143,9 @@ def run(state,inventory,source):
     np.savez_compressed(prepared/"FIVE_MIN_CLOSES.npz",available_us=five_available,symbol_order=np.asarray(SYMBOLS),**samples)
     save(state/"RECOVERY.json",dict(status="PASS_OCTOBER_CONTINUOUS_WARMUP_AND_TRUE_BOUNDARIES",source_commit=source,
         inventory_SHA256=digest(inventory.read_bytes()),protocol_SHA256=digest((HERE/"PROTOCOL.json").read_bytes()),
-        sources=rows,downloaded_archives=len(rows),downloaded_bytes=downloaded,actual_minutes=446400,
-        valid_RV_days_each_domain_asset=30,first_Oct1_RV_missing_preserved=True,old_overlap_rows_verified=7200,
+        sources=rows,source_monthly_archives=len(rows),monthly_source_bytes=downloaded,newly_downloaded_bytes=newly_downloaded,actual_minutes=446400,
+        raw_cache_path=str(cache),valid_RV_days_each_domain_asset=30,first_Oct1_RV_missing_preserved=True,
+        old_day_source_rows_verified=7200,old_common_rows_verified=sum(x["old_Oct2_mark_overlap"]["common_rows"] for x in rows if x["old_Oct2_mark_overlap"]),
         fits=0,wallets=0,HAR_refits=0,elapsed_seconds=time.monotonic()-start,
         derived={p.name:digest(p.read_bytes()) for p in prepared.iterdir()},
         scope="2022allowed seen historical source; minute-close clocks are conservative replay availability, not actual historicalarrivalpublication certification. No future completeness filter or sample deletion used."))
@@ -143,5 +156,6 @@ if __name__=="__main__":
     p.add_argument("--state",type=Path,required=True)
     p.add_argument("--inventory",type=Path,required=True)
     p.add_argument("--source-commit",required=True)
+    p.add_argument("--raw-cache",type=Path)
     a=p.parse_args()
-    run(a.state,a.inventory,a.source_commit)
+    run(a.state,a.inventory,a.source_commit,a.raw_cache)
