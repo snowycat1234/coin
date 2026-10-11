@@ -1,0 +1,18 @@
+# One settled-funding channel, conditional attribution
+
+This is a new narrow question about an existing input, not a new factor or another joint model recipe. The task reviewed all30 remote branch trees,551 distinct eligible source blobs, the current decision/registry documents, and relevant prior protocols/results. The inventory records exact head/blob identities; it is not a claim to have rerun every historical experiment.
+
+- `27f8a91ecdde570bd837eaf89699a49b35ace65d` named24 already contains funding/premium/breadth1/5/20/60/dispersion/marketvol. Joint fitted utility does not isolate one funding channel's conditional increment.
+- `3acfcd0fc44907c25e6eb4c0d66776b97ff5f572`, `research/temporal-short-input-diagnosis-20261010/RESULTS.md`, already ran seven-day cross-market funding/premium sign bins on selected SHORT mistakes; relations changed across training/2023/2024. No repeated sign threshold or inversion here.
+- `206401d9d8d3dd0c5f13ced6dcc94233c949780b`, `reports/SHORT_BREADTH_PROBE_20261008.md`, fixed leave-one-out down-breadth failed all gates and missed major2022bear coverage. Do not rerun its filter or tune its peer/period threshold.
+- `docs/CARRY_PAST_FUNDING_EXIT_20261003.md` tested permanent exit on lagged owned funding of two-leg carry, with opposite window outcomes. This is neither that income engine nor its exit rule.
+- `bf53ddffe14052d0d3de59c31c05d8d0cf0d6a62` distribution economic/diagnostic protocols already used lag2 funding/break-even on178 Q4 CSMOM short opportunities and found zero entries. Its files, models and results remain untouched. This study uses continuous per-asset funding paired with a fixed price/symbol baseline over2021–22, no distribution model, existing policy-selected sample or Q4 outcomes.
+- CPD's cost objective is closed. No Transformer/LSTM/selector/orderflow/OI/rebalanced-class recipe is reopened, and reports of lost2026Q1/Q2 ledgers are not recoverable experiment evidence.
+
+An independent read-only mechanism review found no exactly matching standalone per-asset funding-channel paired ridge attribution in the inspected history. Scope stays relative to this fixed price+symbol control, not the stronger old joint24 information set.
+
+Basis was considered: old basis-risk diagnosis exists, and current official REST basis history is only the latest30days. No complete historical executable2021–22 spot/perpetual basis plus publication tape was identified. Cached premium is an old joint input and is not an executable basis. Broad-down filtering is already tested, while changing it into a new threshold lacks a new information source. These are reasons to run one funding attribution, not proofs that either whole research direction is impossible.
+
+Official funding history describes settled timestamp/rate/charge mark, not historical predicted-rate or receive/publication snapshots. We impose a24h availability proxy and exclude its exact upper boundary. See [official history and basis documentation](https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data). This proxy does not certify real historical availability or venue units. Raw-as-fraction and raw-as-percent sums remain separate descriptions; no mark/cash is fabricated.
+
+The only planned real scientific attempt is two deterministic ridge fits. Conditional MSE is a price-target screen; because the fixed costs make the target affine in the price ratio, MSE improvement alone cannot establish paid profitable shorts. Separate preregistered activity/absolute proxy/increment gates prevent empty or negative opportunity results from passing this screen. They still do not replace native risk/cost/funding wallet verification.

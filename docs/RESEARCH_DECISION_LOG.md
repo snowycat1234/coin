@@ -1955,3 +1955,11 @@ See research/slow-momentum-cpd-cost-objective-20261011/README.md.
 冷验证代码及零拟合协议在3d19d879发布后，从该不可变公开提交另开全新目录恢复32载荷、源码、公开价格、修补记录、冻结GP/scaler和保存预测。18模型严格加载、54已保存区间重放、42,234标量逐位一致/误差0；Python文件打开审计无原工作区源码/STATE/价格缓存读取尝试。首个冷命令误填SHA，HTTP404在首个文件下载前退出；保留原失败收据，纠正后新目录成功，不是科学配方重试。42远端文件4,764,551B；无行情提供方下载，18.539秒完整命令，无守卫停止/GPU/swap。守卫RSS采样不认证为推断子进程完整峰值；既有Python/第三方运行库复用，不称全新OS或依赖安装验证。
 
 新增优化更新/GP/scaler拟合/钱包/策略评分均0，累计4科学尝试/18fresh拟合/14208更新与STOP_NO_FURTHER_RECIPE不变，旧80+234清单条目/12旧模型及源STATE保持。此模块完成公开持久化和只读恢复；实际资金费/native共享钱包未绑定仍为原科学限制，不重开训练或钱包。详见 research/slow-momentum-cpd-cost-data-repair-20261011/persistence/README.md 及 verification/COMPLETION.json。
+
+## 2026-10-11 单结算资金费通道：训练期归因运行前冻结
+
+全30远端head/551源码blob与实质历史去重后，旧24输入已用资金费/premium/breadth、7日符号分箱已不稳定、广度过滤已失败、carry退出两窗相反，分布研究已用lag2资金费但无入场。故不称新funding特征，不重跑旧阈值/联合神经模型。只问单个每资产滞后结算资金费是否在固定价格+symbol ridge控制之外增加预测信息；不能据此判断selector不可能或优于旧全部24信息集。
+
+2021拟合/2022两个半年度训练内诊断，Monday7日非重叠、严格label_end<split_end，2020暖源；2023–24开发值/Q32026/新保留集不读。相同因果price+funding掩码、fit255资产周/51市场周、screen248资产周/50市场周，两个SOL旧过去间隔不完整输入共同排除。原源全255/248eligible futureprice有效，不按未来标签删mask。事件窗[D−8d,D−1d)，actual clock严格排除上界；预检因官方毫秒抖动与精确间隔断言冲突，在fit0时退出，初始失败/时钟诊断保留，修正仅名义间隔QA≤60sec抖动、缺事件继续UNKNOWN且时钟不移动。
+
+唯一两deterministic ridge拟合，sum squared normalized error+alpha1 slopes penalty/intercept不惩罚，2021-only scaler；BASE27单位short价格成本按入/出价比与fee-on-fill，实际资金费/native钱包/风险仍NOT_BOUND。1000次joint-date4周block bootstrap seed811031，1%预测改善/CI下界正/两half改善/2021fund系数正/至少20活动周/绝对价格成本代理正/成对代理增量非负全部过才另冻结开发阶段；不强制做空比例、选择月份或反转失败系数。任一失败STOP并保持development0。1CPU/4GBaddress/2GBsampledRSS/8GBhost/1200s/10MiB输出/15GiBreserve/GPU0/swap0。7边界/因果/费用/缺事件/单位缩放/闭式数学测试PASS；源与协议小模块正常commit/push并实际远端逐字节读回后才真实拟合。必要模型及结果按明确用户授权公开保存研究分支；原CPD STOP/main/独立分布文件/collector锁及失落账本说明不动。见 research/short-funding-residual-20261011/README.md。

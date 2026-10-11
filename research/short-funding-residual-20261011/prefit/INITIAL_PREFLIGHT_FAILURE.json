@@ -1,0 +1,15 @@
+{
+  "phase": "SOURCE_QA_BEFORE_REAL_FITS",
+  "classification": "EXACT_SETTLEMENT_CADENCE_ASSUMPTION_BUG",
+  "observed_error": "ValueError: Empty training role",
+  "failure_receipt": "receipts/20261011T110609-26954.json",
+  "evidence": "SOURCE_COVERAGE_DIAGNOSIS.json",
+  "finding": "All assets had21 first-week settled events and168 nominalhours; actual official timestamps included millisecond jitter, so equality to exact declared cadence wrongly rejected input coverage",
+  "fix": "Retain actual timestamps; <=60sec jitter tolerance only for historical consecutive nominal interval QA, still total168h and missing-event rejection, strict24h upper exclusion",
+  "uncommitted_initial_source_snapshot": "NOT_SAVED; no exact initial-source SHA claim",
+  "initial_SOURCE_archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+  "scientific_fits": 0,
+  "scientific_attempts_started": 0,
+  "development_reads": 0,
+  "corrected_preflight": "DATA_PREFLIGHT.json"
+}

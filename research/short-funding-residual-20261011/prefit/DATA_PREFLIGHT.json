@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "source": [
+    {
+      "symbol": "BTCUSDT",
+      "price_rows": 1095,
+      "funding_rows": 3288,
+      "latest_price_available_us": 1672444800000000,
+      "latest_funding_event_us": 1672502400000000
+    },
+    {
+      "symbol": "ETHUSDT",
+      "price_rows": 1095,
+      "funding_rows": 3288,
+      "latest_price_available_us": 1672444800000000,
+      "latest_funding_event_us": 1672502400000000
+    },
+    {
+      "symbol": "SOLUSDT",
+      "price_rows": 1095,
+      "funding_rows": 2593,
+      "latest_price_available_us": 1672444800000000,
+      "latest_funding_event_us": 1672502400000000
+    },
+    {
+      "symbol": "XRPUSDT",
+      "price_rows": 1095,
+      "funding_rows": 3272,
+      "latest_price_available_us": 1672444800000000,
+      "latest_funding_event_us": 1672502400000000
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "price_rows": 1095,
+      "funding_rows": 2714,
+      "latest_price_available_us": 1672444800000000,
+      "latest_funding_event_us": 1672502400000000
+    }
+  ],
+  "archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+  "price_patch_sha256": "30e9c45227ae26731e945ccd32b6152b634f87c58ddc2afd4a21da0f51b4b2a4",
+  "role_rows": {
+    "fit2021": 255,
+    "train_screen2022H1": 125,
+    "train_screen2022H2": 123
+  },
+  "role_market_weeks": {
+    "fit2021": 51,
+    "train_screen2022H1": 25,
+    "train_screen2022H2": 25
+  },
+  "causal_exclusions": [
+    {
+      "role": "train_screen2022H2",
+      "decision_us": 1668384000000000,
+      "symbol": "SOLUSDT",
+      "reason": "PAST_SETTLED_FUNDING_NOT_READY"
+    },
+    {
+      "role": "train_screen2022H2",
+      "decision_us": 1668988800000000,
+      "symbol": "SOLUSDT",
+      "reason": "PAST_SETTLED_FUNDING_NOT_READY"
+    }
+  ],
+  "latest_returned_price_clock_us": 1672444800000000,
+  "training_boundary_us": 1672531200000000,
+  "development_rows_returned": 0,
+  "feature_scope": "Four price/vol features + four symbol indicators; one lagged settled funding sum in augmented arm only",
+  "future_funding_used_as_input": false
+}
