@@ -1842,3 +1842,27 @@ Net costs/slippage/funding/risk/paidclosure remain NOT_BOUND_NOT_MEASURED and
 netProfit/APRUNKNOWN. Old2026Q1/Q2 unavailable, collectorlock closed, no other
 research files changed. No automatic further training or wallet. FullrepoNOT_RUN.
 See research/slow-momentum-cpd-sharpe-continuation-20261011/README.md and results.
+
+## 2026-10-11 Saved2048 BASE27 cost feasibility, stop economic follow-on
+
+User requested no further training; one saved-policy arithmetic cost screen after
+publishing source cf9f2bd5 and verifying remote SHA/14public byte identities.
+All483seen-development days/3blocks/2arms/3seeds retained;2048primary,1024separate
+history only. Current-vol raw targets, price-drift midnotional changes and paid
+proxy exits, fixedBASE27 fee5.5+halfspread4+slippage4bp per side, fee on adverse
+fill notional, no extra execution debit. Static reference arithmetic, no wallet.
+CPD equal-seed gross .000715612357/cost .002509277260/adjusted -.001793664903;
+turnover1.858724129858, break-even3.85001919bp<13.5bp. trend adjusted-.007438926819;
+relative+.005645261915 but no absolute margin. All seed pairs reported; positive
+seed2003 and1024history not selected. NO_FIXED_COST_PROXY_MARGIN stops follow-on.
+9financial counterexamples PASS; independent Decimal580checks PASS, max2.84e-14;
+154frozen manifestfiles/4original fit sources/12oldexternal models byte-preserved.
+114existingGit parts metadata present/size match, largebodyCRC/gridNOT_RUN.
+2023H1minute coverage not located, funding clocks/units/current row coverage and
+CPD-native adapter/paid closure not bound. July3-10 is conditional readiness scope
+only with bounded proposed budget, not an executable wallet plan or authorization.
+No new updates/modelinferences/wallets/providerdownloads; cumulative3science/12fits/
+13824updates unchanged. FundingNOT_MEASURED_NOT_KNOWN_ZERO, realnetProfit/APRUNKNOWN.
+Collector2026Mar-Sep lock closed; lost2026Q1/Q2 ledgers not fabricated; other research
+untouched. No fee/date/model/step rescue or further training. FullrepoNOT_RUN.
+See research/slow-momentum-cpd-cost-feasibility-20261011/README.md and complete results.
