@@ -12,3 +12,10 @@ COIN_CPD_STATE=/workspace/jointcorr-state QUANT_ROOT=/workspace/coin-tail-risk Q
 ```
 
 真实输入/拟合/恢复命令及结果将在各完成模块追加。合成测试不冒充真实历史。
+
+来源恢复耗时0.42秒，无fit/label/providerdownload/wallet；新STATE重建与预期特征字节/全部向量一致。全部7项合成测试通过，含训练静态haircut未来不变、等比例减仓不冒充等实际风险尾部提升、原native胜出不能掩盖强对照失败。源码和全部流程在实际拟合前提交。
+
+一次真实历史命令（输出目录必须不存在，git工作树必须干净）：
+```bash
+COIN_CPD_STATE=/workspace/jointcorr-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/jointcorr-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/joint-correlation-risk-20261011/run.py --prepared research/joint-correlation-risk-20261011/prepared --output /workspace/jointcorr-state/result
+```
