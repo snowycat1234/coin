@@ -18,4 +18,4 @@
 
 信息缺口已具体化：旧5mclose尾部不能代替分钟OHLC尾部，更不能代替markprice尾部或legacyentry逐仓剩余空间。若今后设计风险标签，必须先明确所预测的价格域、采样极值和可用时钟，并冻结新独立机制；这些事实不允许复活旧HAR/quantile/JOIN/flow模型。本模块没有minute内峰值顺序、BBO、成交/费用/资金费或账户证据。连续fullmark2021Dec–2022Sep及funding/arrival/venue/MMR证书仍缺，native经济结果NOT_RUN。不可把这些已见历史称全新样本外。
 
-完整结果公开后再做零拟合公共冷恢复；原来源SHA、原代码SHA、guard与字节hash均随结果保存。
+完整结果e4b572ba888aa6c578ed13d32a0b58784cde6700已公开并核验远端；新STATE公共冷恢复PASS，源/代码绑定、699行向量/698共同mask及所有摘要字节完全一致。冷验证0.320705秒，guard1.713032秒，最大采样RSS96350208B，0refit/newmodeltrial/原STATE访问/下载。不是第二份独立历史样本。证据PUBLIC_RESTORE.json/guard，最小命令README.md，完整计数和剩余缺口COMPLETION.json。

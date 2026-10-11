@@ -10,3 +10,11 @@ COIN_CPD_STATE=/workspace/tail-resolution-state QUANT_ROOT=/workspace/coin-tail-
 ```
 
 预算：1CPU/thread、4GBAS、采样RSS2GB停止、host8GB停止、GPU0/swap0、15GiB保留，120秒算术/公开guard1200秒。0fits/futurelabels/predictionscores/targets/wallets，无搜索或收益门限。重建cloudguard不是原WSL/sharedcgroup证书。
+
+真实诊断和公共冷核验均完成。BTC上／下遗漏median20.42／26.02log-pricebp；预冻结的五币jointdate max遗漏median59.66／66.28bp。不是独立币日样本/PnL或收益证明；完整每币/年度/zero状态和限制见RESULTS.md、result/SUMMARY.json、COMPLETION.json。一次来源算术0.271342秒，公共冷验证0.320705秒，所有NPZ/摘要字节完全一致，0重拟合/原STATE读取/下载。原冻结d19859e6，公开结果e4b572ba。
+
+最小公共冷复现（新STATE目录必须不存在restored）：
+
+```bash
+COIN_CPD_STATE=/workspace/tail-resolution-fresh QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/tail-resolution-fresh bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/trade-tail-resolution-20261011/verify.py --artifact-commit e4b572ba888aa6c578ed13d32a0b58784cde6700 --output /workspace/tail-resolution-fresh/restored
+```
