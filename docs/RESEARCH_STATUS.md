@@ -6,6 +6,9 @@ MSE增量−0.250%/−0.088%/+0.106%，全部预注册门槛FAIL，STOP。
 14测试、2209预测重算及18冻结推断通过；0wallet/搜索/验证拟合/行情下载。
 未证明短期反转盈利，不是原论文复现或全新OOS；资金费/净收益/APR未知。
 协议与完整结果见[独立研究交付](../research/slow-momentum-cpd-20261011/README.md)。
+追加[复现差距核对](../research/slow-momentum-cpd-20261011/REPRODUCTION_GAPS.md)：
+MSE门槛不能检验论文Sharpe策略主张，CI跨零也未排除小预测增量。
+仅冻结一项tanh/Sharpe修正提案，NOT_RUN；本轮新增fit/推断/wallet均0。
 原2026Q1/Q2账本不可访问，未捏造恢复，collector2026Mar–Sep锁未打开；
 另一收益分布分支未编辑。下列原有投资状态与历史负结果保留。
 

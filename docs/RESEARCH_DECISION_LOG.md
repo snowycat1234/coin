@@ -1708,3 +1708,20 @@ Actualfunding/fees/slippage/risk/paidnativeclose NOT_RUN under the preregistered
 failure gate; no approximation supplied. OriginalQ1/Q2ledgers unavailable,
 lockedclosed/oldnegativeevidence preserved. Results/SHA/reproduce/resources:
 research/slow-momentum-cpd-20261011/README.md and results/.
+
+## 2026-10-11 SLOW_MOMENTUM_CPD reproduction gap follow-up (no training)
+
+Objective mismatch confirmed: original pooled captured-return Sharpe/tanh policy
+versus attempt1 next-return MSE/unbounded forecast. Failed MSE/rank screen is a
+valid finite budget stop for that registered prediction adaptation, not a test
+or rejection of the paper's strategy claim. Original loss-difference CI crosses
+zero; small population MSE benefit is not statistically excluded either.
+Crosswalk includes online versus frozen GP, sequence sampling, nominal versus
+active capacity (baseline128 dormant coefficients), lack of LSTM convergence
+evidence, data domain and untested native economics. Original results unchanged.
+One separate attempt2 proposal freezes six tanh/Sharpe policy fits, three seeds,
+1024updates each, exact original GP/scaler/data reuse, nonlinear joint-date
+bootstrap and explicit decision-time masks. MSE/IC are diagnostic only.
+Proposal NOT_RUN/no runner; new fits/inference/wallets0. If later executed count
+attempts2/fits12/updates7680; no silent retry or paper-exact claim. Details and
+byte-preservation receipt: research/slow-momentum-cpd-20261011/REPRODUCTION_GAPS.md.

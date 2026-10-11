@@ -1,0 +1,197 @@
+{
+  "schema": "FROZEN_OBJECTIVE_ALIGNED_SHARPE_CORRECTION_PROPOSAL_V1",
+  "status": "NOT_RUN",
+  "executable_runner": "NOT_IMPLEMENTED",
+  "created_utc_date": "2026-10-11",
+  "authorization_state": "Parent explicitly requested a proposal only; no training or economic execution in this follow-up",
+  "experiment_id": "slow-momentum-cpd-sharpe-correction-attempt2",
+  "claim_scope": "One paired test of the frozen-GP CPD crypto policy adaptation, not exact replication or falsification of the paper",
+  "predecessor": {
+    "scientific_attempt": 1,
+    "fit_source_commit": "abea0de9ec9f2e69d8d6212f10b89313bfb9cabb",
+    "delivery_commit": "3bf48b0d9df7a3364fb0a0ff7c9ae6a5edb291bf",
+    "status": "STOP_PREDICTION_INCREMENT_NOT_ESTABLISHED",
+    "original_protocol_sha256": "13737ee49e0865bd0c8aeee3378d3043857b5bc14a29648977ad4377961aaf16",
+    "frozen_training_sha256": "8587adcb407ba7b55e66eed6e1d06596cbbcb1e743f5fe04a822b98eee6b4bd2",
+    "preservation": "No change to predecessor source, protocol, predictions, checkpoints or results; this is a separately counted scientific attempt"
+  },
+  "frozen_inputs": {
+    "source_commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+    "archive_sha256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+    "source_whitelist": [
+      "dt",
+      "close",
+      "complete_kline",
+      "symbol"
+    ],
+    "feature_derivation_source": "abea0de9ec9f2e69d8d6212f10b89313bfb9cabb:modules/slow_momentum_cpd/core.py",
+    "frozen_gp_and_scaler": "Reuse exact predecessor FROZEN_TRAINING.json values after hash check; zero new GP or scaler fits",
+    "warmup": "2020 causal context, no backward fill, gaps reset; natural per-asset warmup retained",
+    "training_available_time": [
+      "2021-01-01",
+      "2023-01-01"
+    ],
+    "validation_available_time": [
+      [
+        "2023-01-01",
+        "2023-07-01"
+      ],
+      [
+        "2023-07-01",
+        "2024-01-01"
+      ],
+      [
+        "2024-01-01",
+        "2024-05-01"
+      ]
+    ],
+    "data_role": "PROJECT_SEEN_DEVELOPMENT_HISTORY; inspected in attempt1; no pristine OOS or independent confirmatory inference",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ],
+    "sequence_length": 63,
+    "maturity": "available[t+1] strictly less than split_end, equality purged; only train labels used in training",
+    "mask": "At decision t use only completed-bar availability, finite past 63 inputs, valid causal volatility and past CP window; cash for currently ineligible assets, no inferred missing prices",
+    "missing_next_return": "If any eligible decision-time asset lacks the realized next return, mark that block INVALID_MISSING_REALIZED_RETURN; do not set its return/exposure to zero or choose an ex-post eligibility mask",
+    "decision_mask_not_sample_index": "Do not reuse predecessor core.py sample_index L110-L112 to form policy CASH eligibility: it checks future returns[t+1]. Keep training mature-label indexing separate from a new purely decision-time mask."
+  },
+  "contrast": {
+    "baseline": "Same eight trend channels plus two zero channels",
+    "treatment": "Same eight trends plus the exact frozen CP age/evidence channels",
+    "architecture": "Stateless PyTorch LSTM(10,16), last hidden state, Linear(16,1) followed by tanh; fresh seeded initialization, no old checkpoint warm start",
+    "nominal_parameters_per_arm": 1809,
+    "dormant_baseline_input_parameters": 128,
+    "capacity_caveat": "Equal nominal parameter axes and paired seeds do not equal active function capacity; added-channel effects cannot be separated from the additional active coefficients in this single pair",
+    "common_changes_from_attempt1": [
+      "tanh position output in (-1,1)",
+      "captured-return Sharpe loss replaces forecast MSE",
+      "fixed 1024 updates replaces fixed 256"
+    ],
+    "unchanged_residual_gaps": [
+      "last-step rather than time-distributed training output",
+      "overlapping rather than nonoverlapping training sequences",
+      "no dropout or hidden-size/hyperparameter search",
+      "train-global scaling and fixed-grid frozen CPD rather than causal per-window online maximum-likelihood fitting",
+      "crypto and seen history rather than original 50 Pinnacle CLC futures"
+    ]
+  },
+  "objective": {
+    "known_at_decision": "r[t+1] is a train-only outcome for learning and validation scoring, never an inference feature or oracle target",
+    "annual_days": 365,
+    "target_annual_vol": 0.15,
+    "normalized_realized_return": "v[t,a] = (0.15/sqrt(365)) * r[t+1,a]/causal_daily_vol[t,a]",
+    "captured_return": "z[t,a] = tanh(model(last63[t,a])) * v[t,a]",
+    "loss": "-sqrt(365) * mean(z) / sqrt(mean(z*z)-mean(z)^2+1e-9), pooled over the sampled asset-time endpoint rows",
+    "variance": "population moment; explicit epsilon=1e-9; stop on nonfinite loss/gradient/parameters",
+    "epsilon": 1e-9,
+    "note": "This is a paper-aligned policy objective with a crypto calendar constant, not a native leveraged portfolio or a cost/funding objective"
+  },
+  "training": {
+    "seeds": [
+      2001,
+      2002,
+      2003
+    ],
+    "fits": 6,
+    "gp_fits": 0,
+    "scaler_fits": 0,
+    "updates_per_fit": 1024,
+    "total_updates": 6144,
+    "batch_size": 128,
+    "sampling": "Exact paired seeded replacement endpoint minibatches and common sample rows; do not bootstrap dates into training or choose seeds",
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "gradient_clip_norm": 1,
+    "dropout": 0,
+    "checkpoint_selection": "Use update 1024 for all fits; no validation early stopping, best-seed or best-checkpoint selection",
+    "full_training_diagnostics_every_updates": 128,
+    "diagnostic_fields": [
+      "full-training annualized pooled Sharpe",
+      "full-training captured mean and variance",
+      "position variance and abs(position)>0.95 fraction",
+      "last-minibatch preclip gradient norm and loss",
+      "sample identities and paired RNG/checkpoint SHA"
+    ],
+    "convergence": "No convergence assertion from a fixed update count; retain the trajectory. Heuristic tail drift is abs(full_train_Sharpe_1024-full_train_Sharpe_768)>0.02, reported per fit only; no budget extension or qualification rescue. Negative results remain budget-limited if drift/gradients do not stabilize",
+    "recipe_searches": 0,
+    "retries": 0,
+    "cumulative_if_executed": {
+      "scientific_attempts": 2,
+      "lstm_fits": 12,
+      "total_updates": 7680,
+      "gp_optimizer_calls": 2
+    }
+  },
+  "scoring": {
+    "ensemble": "Equal arithmetic mean of the three seed positions at each eligible asset/date; no seed selection",
+    "date_portfolio_proxy": "U[t]=sum_a(decision_mask[t,a]*z[t,a])/5, fixed CORE5 denominator; currently unavailable asset allocations remain cash; eligibility cannot depend on realized return",
+    "metrics": [
+      "annualized daily portfolio-proxy Sharpe",
+      "Captured-return mean/std and downside deviation; raw exposure/turnover diagnostics, not native NAV or net drawdown",
+      "paired seed/block differences",
+      "MSE and rank IC only as diagnostics, not necessary gates",
+      "positions and causal masks saved for later economic adapter audit"
+    ],
+    "zero_cost_label": "RAW_CAPTURED_RETURN_POLICY_PROBE; no fills, funding, capital conservation, leverage, charged terminal closure or net PnL/APR claim",
+    "gates_all_required": [
+      "Ensemble portfolio-proxy Sharpe increment positive in at least 2 of 3 fixed blocks",
+      "Aggregate portfolio-proxy Sharpe increment positive in at least 2 of 3 paired seeds",
+      "Aggregate ensemble portfolio-proxy Sharpe increment positive",
+      "Paired moving-block bootstrap 95% lower bound of aggregate ensemble portfolio-proxy Sharpe increment positive"
+    ],
+    "aggregate": "Compute the nonlinear Sharpe once from all valid chronological block daily proxy returns; do not average block Sharpe ratios",
+    "bootstrap": {
+      "replicates": 1000,
+      "block_days": 14,
+      "seed": 9901,
+      "scheme": "Draw the same contiguous calendar-date indices for both arms, jointly across all five assets; resample within each fixed block without bridging purged boundaries/gaps; recompute both nonlinear Sharpe values per draw. Report invalid/degenerate draws, never replace NaN by zero",
+      "ci": "2.5/97.5 percentiles; if an input block is invalid or any bootstrap score is nonfinite, gate is INVALID rather than PASS"
+    },
+    "inference_scope": "Conditional resampling uncertainty on seen history; no fresh OOS confidence claim and no attribution of any gain specifically to profitable fast reversion",
+    "stop": "One attempt. Gate failure or resource/data failure stops without seed, horizon, CP window, recipe or update extension",
+    "sharpe_definition": "sqrt(365)*mean(U)/std(U,ddof=0); zero or nonfinite variance is INVALID. Optimizer epsilon is not inserted into scored Sharpe."
+  },
+  "economics": {
+    "status": "NOT_RUN_NOT_INCLUDED_IN_THIS_PROPOSAL",
+    "reason": "The requested correction is a signal/policy probe. Native economic inputs, source/units, decision-to-fill latency and runner binding have not been certified for this policy.",
+    "possible_follow_on": "Only after explicit future start, valid incremental policy evidence and a separate concrete native-input freeze: at most one paired trend/CP shared-wallet comparison with existing actual fees/slippage/signed funding/masks/risk and charged terminal closure",
+    "required_caps": {
+      "capital": 10000,
+      "per_asset_abs": 0.3,
+      "portfolio_gross": 0.6,
+      "isolated_leverage": 1
+    },
+    "original_2026_q1_q2_ledgers": "UNAVAILABLE",
+    "collector_locked_range": "2026-03-01 through 2026-09-01 remains closed"
+  },
+  "resource_budget": {
+    "launcher": "Reuse unchanged conservative launch.sh guard; no bypass",
+    "cpu_threads": 1,
+    "gpu": 0,
+    "swap": 0,
+    "shared_used_memory_stop_bytes": 8000000000,
+    "address_space_limit_bytes": 4000000000,
+    "descendant_rss_sample_limit_bytes": 2000000000,
+    "wall_seconds_per_command": 1200,
+    "extra_output_disk_budget_bytes": 10485760,
+    "provider_downloads": 0,
+    "paid_services": 0,
+    "new_credentials": 0,
+    "wallet_runs": 0,
+    "cost_estimate": "6*1024=6144 gradient updates, four times attempt1 update count; estimated 1-5 minutes CPU for training/scoring based on the earlier 13.018-second complete attempt. Estimate is not benchmarked; data reuse and additional diagnostics alter cost. Hard stop is 1200 seconds, no automatic extension."
+  },
+  "implementation_readiness": {
+    "status": "PROPOSAL_ONLY",
+    "required_before_any_future_fit": [
+      "Implement separate attempt2 runner/state/output namespace without changing original files",
+      "Verify reused artifact/source hashes and strictly train-only sample/maturity/mask axes",
+      "Focused tests for Sharpe moments, tanh bounds, pairing, mask-before-outcome, nonlinear joint-date bootstrap and unchanged original artifacts",
+      "Publish exact runner/protocol/test commit and verify remote SHA before starting the six fits"
+    ],
+    "launch_command": "NOT_AVAILABLE: no attempt2 runner exists; do not run the original MSE reproduction command as the proposed correction"
+  }
+}
