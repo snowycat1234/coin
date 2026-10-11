@@ -1,4 +1,6 @@
-Finite reduce-only exit continuation from the saved default account, never a rewrite of the original three-day result. Frozen rules: [PROTOCOL.json](PROTOCOL.json). Original selector four failures and **STOP_DEFAULT_ACCOUNT_PAID_FLAT_GATE** remain unchanged.
+Completed **STOP_EXIT_DEADLINE_WITH_RESIDUAL**, with exact public financial-anchor exit restoration. [Result](result/RESULT.json) records every request, paid fill, funding event and available observation. Original selector four failures and **STOP_DEFAULT_ACCOUNT_PAID_FLAT_GATE** remain unchanged. Frozen rules: [PROTOCOL.json](PROTOCOL.json).
+
+The fixed60-minute extension made59 requests,11 paid CLOSE fills and applied5 actual funding events. Fees0.3612407692014832USDT, spread/slippage execution loss0.5258618082851492USDT (split evenly, already priced once), funding cash−0.06600772133978702USDT. Residual is51.39732453DOGE,3.0905211239889USDT marked notional at01:00UTC. Last successful fill00:11:00.000001; later requests were rejected by the unchanged10USDT closing minimum. This is a different second-stage blocker from the original five-attempt expiry. No exact paid-flat or complete liquidated return is claimed. Extension available-event marked-NAV change−0.6125422162714181USDT, minimum markedNAV9938.914535019261USDT, available-event drawdown0.000093019946; residual remains exposed, and intraminute/native risk remains uncertified.
 
 Saved diagnosis: DOGE remains10945.60840428 with660.0772133978703USDT terminal marked notional. Allfive terminal attempts paid actual partial CLOSE fills, then `FIVE_ATTEMPTS_EXPIRED` removed the order. The last attempt was23:59:00.000001; this is an attempt-count limitation while source data continues. The residual is step-aligned and far above10USDT; no minnotional or reduce-only rejection explains the original five partials. Read-only raw-source capacity witnesses will compare every saved executed quantity with the exact old previous-minute volume/current-open capacity floor. No native kernel implementation change is proposed.
 
@@ -21,4 +23,18 @@ bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/pyt
 research/terminal-reduce-only-exit-20261011/test_exit.py --basetemp=/workspace/exit-tests/pytest
 ```
 
-The actual extension, exact public restore and SHA-bound minimal command will be recorded after the observed run. Residuals and any halt remain explicit failures, never free clearances or retroactive original-protocol passes.
+Code was frozen/pushed/remote-verified atc49d027690e3bc035b1ab4b69c7a62b1236cb4e0 before the sole observed exit extension. Result artifact8d587b5fa68434bc4f2bbc22ec8d57d46a230fc5 was pushed/verified before publiccold. [PUBLIC_RESTORE.json](PUBLIC_RESTORE.json) verifies every anchor/journal/input/capacity/request/fill/funding/summary output exactly,0originalwallet replays/models/provider downloads/newstrategy trials. Observedmodule3.460336s, guard7.038195s/sampleRSS288854016B; coldmodule3.975670s. Independent restored-mark finding CLOSED before observed run. One observed continuation plus one exact cold continuation are repeat recovery checks, not profitable strategy trials.
+
+Minimal public restoration, with a fresh STATE:
+```bash
+COIN_CPD_STATE=/workspace/exit-public QUANT_ROOT=$PWD QUANT_STATE=/workspace/exit-public \
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python \
+research/terminal-reduce-only-exit-20261011/exit.py \
+--state /workspace/exit-public/VERIFIED \
+--source-commit c49d027690e3bc035b1ab4b69c7a62b1236cb4e0 \
+--expected-commit 8d587b5fa68434bc4f2bbc22ec8d57d46a230fc5
+```
+
+For the original observed run, use an isolated clean checkoutc49d0276, the same command with a fresh STATE and omit `--expected-commit`. Source/result/guard hashes are recorded. Large monthly originals are reused by Git SHA; they are not uploaded or provider-downloaded again.
+
+The current [Bybit Futures Trading Rules](https://www.bybit.com/en/help-center/article/Futures-Trading-Rules), updated2026Jul3, describe a closing-notional exemption while retaining a preset minimum order quantity. This current primary source does not certify2022filters or our1e-8 proxystep; it does not retrospectively authorize a factory change or a free close of this saved dust.
