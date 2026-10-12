@@ -8,6 +8,14 @@ SYMBOLS=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT')
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('unchanged_funding_risk',ROOT/'research/portfolio-risk-budget-20261012/risk_budget.py');risk=importlib.util.module_from_spec(spec);spec.loader.exec_module(risk)
 
+def owned_coefficient(times,rates,hours,marks,available,left,right):
+    ids=(times>left)&(times<=right);a=times[ids];h=hours[ids]
+    valid=(len(a)>0 and np.isfinite(h).all() and (h>0).all() and abs(float(h.sum())-24)<1e-9
+           and np.all(np.abs(np.diff(a)-h[1:]*3_600_000_000)<=JITTER)
+           and np.isfinite(rates[ids]).all() and np.isfinite(marks[ids]).all() and (marks[ids]>0).all()
+           and np.isfinite(available[ids]).all() and np.all(available[ids]<a) and np.all(available[ids]>=a-JITTER))
+    return (float(np.dot(rates[ids],marks[ids])),True) if valid else (float('nan'),False)
+
 def daily_rates(times,rates,hours,days):
     t,r,h=map(np.asarray,(times,rates,hours));assert np.all(np.diff(t)>0)
     values=np.full(len(days),np.nan);last=np.full(len(days),-1,dtype=np.int64)

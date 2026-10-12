@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
-from core import DAY,EXEC,SYMBOLS,ROOT,daily_rates,targets
+from core import DAY,EXEC,SYMBOLS,ROOT,daily_rates,targets,owned_coefficient
 HERE=Path(__file__).resolve().parent
 def sha(b):return hashlib.sha256(b).hexdigest()
 def save(p,o):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(o,sort_keys=True,indent=2,allow_nan=False)+'\n')
@@ -34,7 +34,19 @@ def source2023():
    name='source_tables_not_model_inputs/economics/'+s+'_funding_events.parquet';b=z.read(name);assert sha(b)==members[name]['SHA256']
    f=pq.read_table(io.BytesIO(b),filters=[('calc_time_ms','>=',int(inp['decision_us'][0]-31*DAY)//1000),('calc_time_ms','<',int(inp['decision_us'][-1]+2*DAY)//1000)]).to_pandas();events[s]=f
    proof.append(dict(symbol=s,source_member=name,SHA256=sha(b),projected_rows=len(f)))
- return t,p,inp,events,dict(cube_commit=commit,cube_SHA256=sha(git(commit+':'+pre+'INPUTS.npz')),raw_archive_commit=c,raw_archive_SHA256=ix['SHA256'],funding_members=proof)
+ # The older teacher retains one missing held funding interval; restore only
+ # absent strictly-past marks from already certified complete native source.
+ index=json.loads(git('f38617c5a0917490c8b90fba355ecf0d5f1b87f4:research/cs-2023-continuous-economics-20261012/source-result/SOURCE_INDEX.json'));repairs=[]
+ for s,f in events.items():
+  ev=f.calc_time_ms.to_numpy(np.int64)*1000;ids=np.flatnonzero((ev>inp['decision_us'][0]+EXEC)&(ev<=inp['decision_us'][-1]+EXEC+DAY)&~np.isfinite(f.past_mark_price.to_numpy(float)))
+  for pos in ids:
+   stamp=pd.Timestamp(int(ev[pos]),unit='us',tz='UTC').strftime('%Y-%m');assert stamp=='2023-02','No unfrozen generalized source rescue'
+   row=next(r for r in index['months'] if r['month']==stamp);raw=(Path('/workspace/cs-2023-state/SOURCE_OBSERVED/months')/(stamp+'.npz')).read_bytes();assert sha(raw)==row['source_NPZ_SHA256']
+   with np.load(io.BytesIO(raw),allow_pickle=False) as a:
+    available=a['times']+60_000_000;k=int(np.searchsorted(available,ev[pos],side='left')-1);assert k>=0 and 0<int(ev[pos]-available[k])<=60_000_000;price=float(a[s+'_mark'][k]);assert np.isfinite(price) and price>0
+    f.loc[f.index[pos],'past_mark_price']=price;f.loc[f.index[pos],'past_mark_available_us']=int(available[k]);repairs.append(dict(symbol=s,event_us=int(ev[pos]),past_mark_available_us=int(available[k]),past_mark_price=price,month=stamp,original_month_SHA256=row['source_NPZ_SHA256'],old_value='UNKNOWN',source_commit='f38617c5a0917490c8b90fba355ecf0d5f1b87f4'))
+ assert len(repairs)>0
+ return t,p,inp,events,dict(cube_commit=commit,cube_SHA256=sha(git(commit+':'+pre+'INPUTS.npz')),raw_archive_commit=c,raw_archive_SHA256=ix['SHA256'],funding_members=proof,missing_mark_source_repairs=repairs)
 def source2025():
  m=load('unchanged_existing_consumer',ROOT/'research/portfolio-risk-2025-admission-20261012/source2025.py');z,read=m.consumer();ev={};execs=[]
  with np.load(io.BytesIO(read('features2025/FEATURES.npz')),allow_pickle=False) as a:t=a['completed_day_available_us'];p=a['close'];assert tuple(a['symbol_order'])==SYMBOLS
@@ -58,7 +70,7 @@ def source2025():
  month=next(r for r in index['months'] if r['month']=='2025-12');b=(source/'months/2025-12.npz').read_bytes();assert sha(b)==month['source_NPZ_SHA256']
  with np.load(io.BytesIO(b),allow_pickle=False) as a:lastmarks={s:float(a[s+'_mark'][-1]) for s in SYMBOLS}
  path=ROOT/'research/terminal-readiness-2025-20261012/source/INPUTS.npz';b=path.read_bytes();assert sha(b)=='aded4e9a42c311c617489b2089aa58af56c2e030250d3dcba34303fab92e5257'
- with np.load(io.BytesIO(b),allow_pickle=False) as a:assert int(a['times'][0])==int(d[-1]+DAY) and tuple(a['symbol_order'])==SYMBOLS;terminal=np.array([a[s+'_close'][0] for s in SYMBOLS])
+ with np.load(io.BytesIO(b),allow_pickle=False) as a:assert int(a['times'][1])==int(d[-1]+DAY+60_000_000) and tuple(a['symbol_order'])==SYMBOLS;terminal=np.array([a[s+'_open'][1] for s in SYMBOLS])
  b=(ROOT/'research/terminal-readiness-2025-20261012/source/EVENTS.json').read_bytes();assert sha(b)=='e6151f76f6550e457e50a5342a3494e3a6073f23166f5234934771084ae2bc65'
  for e in json.loads(b):
   s=e['symbol'];assert d[-1]+DAY<=e['event_us']<d[-1]+DAY+EXEC
@@ -79,10 +91,9 @@ def prepare(state):
    expected=[e for e in native_events if e['symbol']==s];ids=(times>=d[0])&(times<d[-1]+DAY);np.testing.assert_array_equal(times[ids],np.array([e['event_us'] for e in expected]));np.testing.assert_array_equal(rates[ids],np.array([e['raw_rate'] for e in expected]));np.testing.assert_array_equal(hours[ids],np.array([e['reported_interval_hours'] for e in expected]))
    values[:,j],latest[:,j]=daily_rates(times,rates,hours,days);eventout[s]=dict(times=times.tolist(),rates=rates.tolist(),hours=hours.tolist())
    for i,at in enumerate(d):
-    ids=(times>at+EXEC)&(times<=at+EXEC+DAY);a=times[ids];h=hours[ids]
-    valid=len(a)>0 and abs(float(h.sum())-24)<1e-9 and np.isfinite(rates[ids]).all() and np.isfinite(marks[ids]).all() and (marks[ids]>0).all() and np.isfinite(available[ids]).all() and np.all(available[ids]<=a) and np.all(available[ids]>=a-60_000_000)
-    if valid:coeff[i,j]=float(np.dot(rates[ids],marks[ids]));owned[i,j]=True
-  if year==2023:np.testing.assert_allclose(coeff,inp['funding_per_unit'],rtol=1e-12,atol=1e-12);assert (owned==inp['owned_interval_valid']).all()
+    coeff[i,j],owned[i,j]=owned_coefficient(times,rates,hours,marks,available,at+EXEC,at+EXEC+DAY)
+  if year==2023:
+   old=inp['funding_per_unit'];known=np.isfinite(old);np.testing.assert_allclose(coeff[known],old[known],rtol=1e-12,atol=1e-12);assert known.sum()==1820 and owned.all() and np.all(owned[known]==inp['owned_interval_valid'][known]);provenance['unchanged_original_funding_asset_intervals']=1820;provenance['restored_missing_funding_asset_intervals']=5;inp['funding_per_unit']=coeff;inp['owned_interval_valid']=owned
   else:
    inp['funding_per_unit']=coeff;inp['owned_interval_valid']=owned
    m=load('funding_consumer_parity',ROOT/'research/portfolio-risk-2025-admission-20261012/source2025.py');z,read=m.consumer()
@@ -100,7 +111,7 @@ def prepare(state):
    for arm in out:np.testing.assert_array_equal(alt[arm][d<=cut],out[arm][d<=cut])
   arrays=dict(symbol_order=np.array(SYMBOLS),close_available_us=t,close=p,funding_day_start_us=days,daily_raw_rate_sum=values,daily_last_event_us=latest,means21=means,input_known=known,**inp,**out)
   np.savez_compressed(state/f'Y{year}.npz',**arrays);save(state/f'Y{year}_RAW_EVENTS.json',eventout)
-  allproof[str(year)]=dict(status='PASS_SOURCE_COVERAGE_CAUSAL_TARGETS',source=provenance,rows=365,funding_input_unknown_asset_days=int((~known).sum()),full_owned_source_asset_intervals=int(owned.sum()),changed_target_days=int(np.any(out['CARRY']!=out['SHORT'],axis=1).sum()),long_asset_days=int((out['CARRY']>0).sum()),cash_asset_days=int((out['CARRY']==0).sum()),risk=proof,future_rate_nan_price_nan_prefix='EXACT',original_funding_per_unit_parity='365_MPS' if year==2023 else '364_CONSUMER_PLUS_ACTUAL_TERMINAL_BOUNDARY',INPUTS_SHA256=sha((state/f'Y{year}.npz').read_bytes()),RAW_EVENTS_SHA256=sha((state/f'Y{year}_RAW_EVENTS.json').read_bytes()))
+  allproof[str(year)]=dict(status='PASS_SOURCE_COVERAGE_CAUSAL_TARGETS',source=provenance,rows=365,funding_input_unknown_asset_days=int((~known).sum()),full_owned_source_asset_intervals=int(owned.sum()),changed_target_days=int(np.any(out['CARRY']!=out['SHORT'],axis=1).sum()),long_asset_days=int((out['CARRY']>0).sum()),cash_asset_days=int((out['CARRY']==0).sum()),risk=proof,future_rate_nan_price_nan_prefix='EXACT',original_funding_per_unit_parity='364_MPS_PLUS_EXACT_PREEXISTING_FEB24_SOURCE_RECOVERY' if year==2023 else '364_CONSUMER_PLUS_ACTUAL_TERMINAL_OPEN_BOUNDARY',INPUTS_SHA256=sha((state/f'Y{year}.npz').read_bytes()),RAW_EVENTS_SHA256=sha((state/f'Y{year}_RAW_EVENTS.json').read_bytes()))
   print('ACTUAL_FUNDING_DIRECTION_PREPARED',year,365,allproof[str(year)]['changed_target_days'],allproof[str(year)]['funding_input_unknown_asset_days'],int(owned.sum()),flush=True)
  save(state/'PREPARATION.json',dict(status='PASS_TWO_FIXED_YEAR_FINANCING_DIRECTION_READY',years=allproof,protocol_SHA256=sha((HERE/'PROTOCOL.json').read_bytes()),new_fits=0,new_references=0,new_native_wallets=0,provider_GETs=0,seconds=time.monotonic()-start));assert time.monotonic()-start<120
 if __name__=='__main__':

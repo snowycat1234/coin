@@ -1,5 +1,5 @@
 import numpy as np
-from core import DAY,daily_rates,directions,reference,risk
+from core import DAY,daily_rates,directions,reference,risk,owned_coefficient
 
 def test_day_gap_is_unknown_and_actual_zero_is_known():
     t=np.arange(0,3*DAY,DAY//3,dtype=np.int64)+8000;r=np.zeros(9);h=np.full(9,8.)
@@ -22,3 +22,9 @@ def test_raw_rate_sign_cost_terminal_and_held_unknown_failure():
 def test_same_controller_golden_and_intrinsic_cash():
     c=np.eye(5)*.04;short=np.full(5,-.12);scaled,q=risk.scale(short,c);assert np.abs(scaled).sum()<=.6+1e-12 and q['post_sigma']<=.10+1e-12
     cash,q=risk.scale(np.zeros(5),c);assert not cash.any() and q['reason']=='INTRINSIC_CASH'
+
+def test_funding_mark_must_be_strictly_past_and_unknown_is_not_zero():
+    t=np.array([DAY//3,2*DAY//3,DAY])+8000;r=np.zeros(3);h=np.full(3,8.);p=np.ones(3)*100;a=t-8000
+    amount,valid=owned_coefficient(t,r,h,p,a,60_000_001,DAY+60_000_001);assert valid and amount==0
+    a[1]=t[1];amount,valid=owned_coefficient(t,r,h,p,a,60_000_001,DAY+60_000_001);assert not valid and np.isnan(amount)
+    a=t-8000;p[1]=np.nan;amount,valid=owned_coefficient(t,r,h,p,a,60_000_001,DAY+60_000_001);assert not valid and np.isnan(amount)
