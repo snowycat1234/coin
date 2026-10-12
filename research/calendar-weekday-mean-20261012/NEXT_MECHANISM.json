@@ -1,0 +1,41 @@
+{
+  "status": "SELECTED_DISTINCT_MECHANISM_SOURCE_PREFLIGHT_REQUIRED_NO_FROZEN_MODEL_OR_FIT",
+  "selected": "Completed same-contract mark-close / trade-close dislocation predicting next owned-day actual trade OPEN return, compared with a simple own-price AR1 or constant training-only benchmark",
+  "causality": "Exact trade/mark minute alignment; each completed minute available at minute-open+60s. Mark is a strictly past feature, never a tradable price or oracle basis income. Entry strictly after information maturity; label maturity and train-only fits required before full2023/2025 development gates.",
+  "dedup": {
+    "reviewer": "next_mechanism_history_review",
+    "public_heads": 66,
+    "basis_mark_premium_flow_feature_readable_identities": 205,
+    "equivalent_prediction_run_found": false,
+    "limit": "Bounded readable-source/protocol search, not a proof over all compressed history",
+    "old_non_equivalent": "9c918ae9b3c9f9caddbd77d78a45fd07cbb04dd9:scripts/investment/basis_risk_diagnostic.py is MARK_MINUS_SPOT fixed-quantity valuation decomposition, zero fits; not own-perpetual mark/trade forecast",
+    "premiumIndex": "Old daily features include premiumIndex. It is not the actual synchronized own-contract mark/trade dislocation and must not substitute for it."
+  },
+  "training_public_sources": {
+    "mark_commit": "c4f44417a665ded2c43e6767221efea004d90dd1",
+    "mark_path": "research/core5-continuous-mark-20261011/result/MARK_DAILY_CONTINUOUS.npz",
+    "mark_lineage": "464c3ac99ca619731b2f34c7ce31cbe3133b64c0",
+    "trade_commit": "0d6db3fd515eea5de421bce6cf7123b3e15ec55f",
+    "trade_path": "research/core5-continuous-risk600-20261011/continuous/DAILY_CONTINUOUS.npz",
+    "trade_lineage": "34636ef2128984989eae77a62c7b0f81fb62fcfe",
+    "certified_old_coverage": "2021Jan through2022Nov; not complete2022Dec",
+    "prior_mark_counts_not_new_training_counts": "699 available daily rows/696 old risk-valid; July12/13 27 missing mark minutes stay UNKNOWN",
+    "blocker": "New source-only preflight must establish exact common synchronized prices/features and >=600 actual mature training dates. Calendar model's721 train dates cannot be reused as evidence. Complete2022Dec is not yet certified."
+  },
+  "validation_public_sources": {
+    "2023": "f38617c5a0917490c8b90fba355ecf0d5f1b87f4 canonical actual monthly source, /workspace/cs-2023-state/SOURCE_OBSERVED/months",
+    "2025": "534a18fbed0ec7a2f7ffbb298526c51b1a2a696c canonical actual monthly source, /workspace/portfolio-risk-2025-state/PUBLIC_SOURCE_RECOVERED/source/months",
+    "fields": "times and per-symbol actual close/mark, both calendars365; exact new feature coverage still needs source-only checks",
+    "provider_downloads_needed_for_available_sources": 0
+  },
+  "rejected_before_run": {
+    "candidate": "Daily taker pressure (buy-sell)/(buy+sell)",
+    "reason": "Equals tanh(log(buy/sell)/2), same information as user-stopped daily/hourly flow. Different OLS packaging cannot bypass the prior mechanism STOP.",
+    "prior_STOP": "796cfe2b69c2fe79e1eed8e303373c9d21bd49c5:research/aggressor-flow-preflight-20261011/FINAL_DECISION.json STOP_REPEAT_TAKER_IMBALANCE_AND_GENERIC_FLOW_IMPACT"
+  },
+  "new_arrays_for_next_candidate": 0,
+  "new_fits_for_next_candidate": 0,
+  "new_references_or_wallets_for_next_candidate": 0,
+  "review_network_or_writes": 0,
+  "no_profit_selected_control_promotion": true
+}

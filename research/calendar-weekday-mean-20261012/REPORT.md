@@ -1,0 +1,30 @@
+# Calendar weekday mean: fixed information gate failed
+
+The project remains ACTIVE; this single recipe stops. Asset-specific UTC-weekday means made normalized price-return predictions worse than training-only asset constants in both mandatory old development calendars. No economic reference or native wallet was run after the failed information gate. This is a small calendar adaptation, not a replication of Slow Momentum with Fast Reversion, evidence of executable income, or a new unseen test.
+
+| Old development calendar | Dates / asset labels | Candidate normalized MSE | Constant normalized MSE | MSE gain | Paired daily joint-loss improvement 95% CI |
+|---|---:|---:|---:|---:|---:|
+| 2023 | 365 / 1,825 | 0.339188775968 | 0.333974808265 | −1.561186% | [−0.00800650185, −0.00198632246] |
+| 2025 | 365 / 1,825 | 0.361775542782 | 0.360135777330 | −0.455319% | [−0.00429572313, +0.00107317878] |
+
+Both years fail the frozen ≥2% MSE-gain and positive confidence-lower-bound requirements. The CI groups all five assets by natural date and uses the existing 14-day block bootstrap, 1,000 draws, seeds 811746/811747. Negative loss improvement means worse forecasts. Neither loss nor its CI is cash PnL.
+
+The frozen hypothesis uses 35 asset×weekday raw-return means versus five per-asset unconditional means, with the same five training standard deviations (ddof=1) used only to scale squared errors. There is one deterministic candidate fit, one constant-control fit and one normalizer fit; no optimizer, tuning, validation fit or model selection. Weekday belongs to the actual owned interval's UTC starting day, Monday=0. Prior A05 models already used weekday sin/cos in a larger hourly feature set; this is a narrow distinct conditional-mean experiment, not new raw information. Bounded review covered 66 public heads and 2,053 readable source/protocol/document identities without finding the same standalone run; that does not prove absence in every compressed historical artifact.
+
+Training reuses only decision timestamps and actual OPEN entry/end labels from `53056adaa3b54f93ef6859269106ac288331dd9c:research/monetary-policy-information-20261012/input/INPUTS.npz`, original SHA `e33cc15bd53167078252f7d58b406960d543ccb92421f430214e5360971f12f4`. It does not reuse old teacher labels, known masks, selected training indices or positive-profit selection. Of 730 natural 2021/2022 dates, 723 have common finite positive prices; seven unknown dates stay unknown. Maturity is decision+two days, strictly before 2023-01-01. December 30/31 are purged, leaving 721 actual training dates. Maximum included maturity is 2022-12-31, strictly before fit availability. Monday–Sunday counts are [103,104,104,103,102,102,103].
+
+Both full 365-date validation calendars reuse the exact public actual OPEN/funding/risk preparation from `53357f33f4e6ccb536af762fbff39b269c24d837`. No validation price normalization or parameter fit occurs. The trained coefficients were published and remote SHA verified at `1acb3ee892c5a2247b8d0eee0175f4e2d59a54bd` before validation predictions/scores. Training source was published at `53d5eea19bf5d248a059d2aeb939c5c11e28302a`; protocol was frozen at `48959dc751a9f7fe5c25f03d60950a1af023c7fa`. Original MODEL SHA is `3efa5ab65d85dbd27d289a543a6d64ae80296c8c7ca067abf7f4c79810fbfc6b`.
+
+Actual source preparation took 0.055545s, fitting 0.092346s and scoring both years 0.032015s. Four focused synthetic tests passed in 0.19s and are separate from real historical results. Two source-preparation attempts are recorded: the first stopped on a missing shared-source import API before arrays, STATE creation, fitting or scoring; an ordinary import compatibility fix exposed the unchanged ROOT/symbol order. The failure log and correction remain public. One scientific recipe, zero provider GETs, zero economic references, zero native wallets and zero old fit/wallet replays. The analytic fits use no random training seed.
+
+Public INPUTS/MODEL/SCORES packets total **374,057 bytes**, nine original members, at `8382b27b709baf52a730ff149cac689132cc1438`. Fresh restore checks exact Git bytes, hashes and ZIP CRC, training maturity/index identity, training optimum and normalizer residual arithmetic, and all saved forecast/loss bits. It makes 7,300 saved scalar forecast lookup checks; it does not fit models, create new scientific prediction sets, draw a new bootstrap, advance accounts, call providers or open original experiment STATE. The saved original CI is retained. `evidence/PUBLIC_RESTORE.json` and `evidence/COMPLETION.json` contain actual cold timing, resource receipts and 21 unchanged original native snapshot hashes.
+
+Minimal recovery from this branch, using an absent destination:
+
+```bash
+bash research/calendar-weekday-mean-20261012/reproduce.sh restore /workspace/calendar-recovered
+```
+
+`score` instead of `restore` explicitly creates two fresh prediction/loss sets and bootstrap calculations from the saved model; it is not zero-replay recovery and performs no training or economic reference. Use only when intentionally repeating the information experiment. Python and tests remain under the unchanged launch guard: one CPU/thread, 4GB per-process AS, sampled descendant RSS stop 2GB, host stop 8GB, swap/GPU off, 15GiB disk reserve. Only a verified disposable rejected-breakout cold clone was reclaimed, with its proof copied to evidence; original inputs, actual accounts and every failed preparation remain.
+
+The next selected distinct mechanism is same-contract, completed-time mark-close/trade-close dislocation predicting the next owned-day actual trade OPEN return, against a simple own-price control. `NEXT_MECHANISM.json` identifies available public sources and the still-required source preflight. Daily taker pressure was rejected before arrays/fits because it is a monotone transform of a user-stopped flow mechanism. No new mark model is frozen or fitted here, and no threshold was changed to rescue either failed recipe. No protected or unknown reserve body was read, no lost 2026 ledger recovery is claimed, and other distribution work remains untouched.
