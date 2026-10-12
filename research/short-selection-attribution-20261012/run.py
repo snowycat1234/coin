@@ -26,7 +26,9 @@ def load():
     frames={s:f[f.available_us<=maximum].copy().reset_index(drop=True) for s,f in frames.items()}
     with np.load(OLD/'result/VECTORS.npz',allow_pickle=False) as z:
         labels={k:z[k][ix] for k in ('utility','label_net_return','label_fees_USDT','label_funding_USDT','label_complete','common_feature_known','A_prediction')}
-        routed_d=z['eval_decision_us'];route_ix=np.flatnonzero(routed_d<=d[-1]);saved=dict(d=routed_d[route_ix],budgets=z['A_budgets'][route_ix],targets=z['A_targets'][route_ix])
+        routed_d=z['eval_decision_us'];route_ix=np.flatnonzero((routed_d>=m.utc('2022-01-02'))&(routed_d<=d[-1]))
+        prior=np.flatnonzero(routed_d<m.utc('2022-01-02'));require(len(prior)==1 and routed_d[prior[0]]==m.utc('2022-01-01'),'Exact past budget startup')
+        saved=dict(d=routed_d[route_ix],budgets=z['A_budgets'][route_ix],targets=z['A_targets'][route_ix],initial=z['A_budgets'][prior[0]])
     with np.load(OLD/'result/MODELS.npz',allow_pickle=False) as z:old={k:z[k].copy() for k in z.files if k.startswith('A_') or k=='training_indices'}
     with np.load(FULL/'result/MODELS.npz',allow_pickle=False) as z:full={k:z[k].copy() for k in z.files if k.startswith('OWNED_FULL_')}
     return roles,source,frames,holes,labels,saved,old,full
@@ -57,7 +59,7 @@ def run(state,source_commit,expected=None):
     np.testing.assert_allclose(restored,score[good],rtol=1e-13,atol=1e-16)
     p=np.where(np.isfinite(score),score,0.);eligible=source['expert_eligible'][calendar].copy();eligible[~good,1:]=False
     scale=float(old['A_utility_scale']);ideal,_=budget_path(p,scale,cash_index=0,eligible=eligible,max_l1=2.)
-    path,_=budget_path(p,scale,cash_index=0,eligible=eligible,max_l1=.1)
+    path,_=budget_path(p,scale,cash_index=0,eligible=eligible,max_l1=.1,initial=saved['initial'])
     np.testing.assert_array_equal(ed,saved['d']);np.testing.assert_array_equal(path,saved['budgets'])
     w=source['targets'][calendar];ideal_net=np.einsum('ne,nek->nk',ideal,w);path_net=np.einsum('ne,nek->nk',path,w);risk_net=path_net.copy()
     for j,t in enumerate(ed):
