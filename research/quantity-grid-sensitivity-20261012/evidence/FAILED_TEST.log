@@ -1,0 +1,26 @@
+/workspace/quantity-grid-state/source/bounded_cloud.py: OK
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+___________ test_one_quantity_factor_paid_capacity_dust_and_restore ____________
+
+    def test_one_quantity_factor_paid_capacity_dust_and_restore():
+        a=Closing();fine=Fine(symbols=SYMBOLS);assert a.config==fine.config
+        assert Closing.execute_fill is Fine.execute_fill and Closing._floor is Fine._floor and Closing.apply_funding is Fine.apply_funding
+        ps=profiles(SYMBOLS);prices={s:D(100)/ps[s].quantity_step for s in SYMBOLS}
+        for ac in (a,fine):ac.update_marks(0,{s:dict(price=v,close_us=0,available_us=0) for s,v in prices.items()})
+        step=ps['BTCUSDT'].quantity_step
+        for ac in (a,fine):
+            ac.execute_fill('BTCUSDT','BUY',2*step,60000001,0,'open',execution_mid_price=prices['BTCUSDT'],quote_available_us=60000000,available_quantity=2*step)
+        assert a.nav()==fine.nav() and a.fees==fine.fees
+        a.update_marks(120000000,{s:dict(price=v,close_us=120000000,available_us=120000000) for s,v in prices.items()})
+        before=a.snapshot()
+        # Capacity below one lot refuses a paid close and preserves genuine inventory.
+        r=a.execute_fill('BTCUSDT','SELL',2*step,120000001,60000000,'thin',execution_mid_price=prices['BTCUSDT'],quote_available_us=120000000,available_quantity=step/2,reduce_only=True)
+>       assert not r['fills'] and a.positions['BTCUSDT'].quantity==2*step and a.fees==D(before['fees'])
+                                                                                        ^^^^^^^^^^^^^^
+E       KeyError: 'fees'
+
+research/quantity-grid-sensitivity-20261012/test_adapter.py:63: KeyError
+=========================== short test summary info ============================
+FAILED research/quantity-grid-sensitivity-20261012/test_adapter.py::test_one_quantity_factor_paid_capacity_dust_and_restore
+1 failed, 6 passed in 4.96s
