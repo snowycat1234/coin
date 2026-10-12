@@ -47,13 +47,13 @@ def extend(account,rows,events,previous_quote,namespace):
   account.update_marks(at+MINUTE,{s:dict(price=D(str(r['mark'])),close_us=at+MINUTE,available_us=at+MINUTE) for s,r in row.items()});observe(at+MINUTE,'CAUSALLY_COMPLETED_MARK');fund(at+MINUTE,True)
   current=account.summary();trace.append(dict(close_us=at+MINUTE,summary=current));previous={s:r['quote_volume'] for s,r in row.items()};stop=at+MINUTE
   if account.status in HALTS:status='STOP_ACCOUNT_HALT';break
-  if all(p.quantity==0 for p in account.positions.values()):status='PASS_PAID_FLAT_WITHIN_60MIN';break
+  if all(p.quantity==0 for p in account.positions.values()) and account.unpaid_liability==0:status='PASS_PAID_FLAT_WITHIN_60MIN';break
  after=account.summary();now=account.snapshot()
  assert all(now['fill_requests'][k]==v for k,v in historical['fill_requests'].items()) and all(now['funding_events'][k]==v for k,v in historical['funding_events'].items())
  assert account.trades[:oldtrades]==historical['trades'] and account.funding[:oldfund]==historical['funding']
  assert all(r['leg']=='CLOSE' and not r.get('liquidation_takeover') for r in account.trades[oldtrades:])
  assert all(sum(r['symbol']==s for r in requests)<=59 for s in owned)
- exact=lambda k:float(D(after['decimal_strings'][k])-D(before['decimal_strings'][k]));paid=all(p.quantity==0 for p in account.positions.values())
+ exact=lambda k:float(D(after['decimal_strings'][k])-D(before['decimal_strings'][k]));paid=all(p.quantity==0 for p in account.positions.values()) and account.unpaid_liability==0 and account.status not in HALTS
  return dict(status=status,start_us=START,maximum_end_us=END,actual_end_us=stop,minutes=len(trace),paid_flat=paid,before=before,after=after,short_tail_marked_increment_USDT=exact('NAV'),short_tail_paid_increment_USDT=exact('NAV') if paid else None,extended_paid_total_net_USDT=after['NAV']-10000 if paid else None,old_annual_result_unchanged=True,fees_paid_USDT=exact('fees_USDT'),execution_paid_USDT=exact('execution_cost_USDT'),funding_cash_USDT=exact('funding_USDT'),new_trades=account.trades[oldtrades:],new_funding=account.funding[oldfund:],requests=requests,observations=observations,minute_trace=trace,risk_observations=risk,available_event_tail_drawdown=mdd,actual_funding_events_applied=cursor,historical_fill_request_maps_preserved=True,new_request_namespace=namespace,financial_scope='EXIT_READINESS_ALREADYSEEN_NOT_NEW_MODEL_OOS_OR_ANNUAL_RETURN')
 
 def run(state,science):

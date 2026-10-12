@@ -34,3 +34,11 @@ def test_original_profile_methods_invalid_values_and_default_snapshot_rejected()
 def test_actual_8ms_funding_preserves_eventtime_and_available_midnight_mark():
  a,p=fixture();r=extend(a,tape(p,[50000]*60),[dict(symbol='XRPUSDT',event_us=START+8000,raw_rate=.0001)],dict.fromkeys(SYMBOLS,50000),'TERMINAL60_2026JAN1_SYNTHETIC')
  assert r['new_funding'][0]['event_us']==START+8000 and r['new_funding'][0]['mark_close_us']==START and r['funding_cash_USDT']==pytest.approx(-.05)
+
+def test_owed_funding_halt_keeps_debt_and_inventory_no_exit_or_freewriteoff():
+ a,p=fixture();r=extend(a,tape(p,[9999999]*60),[dict(symbol='XRPUSDT',event_us=START,raw_rate=100)],dict.fromkeys(SYMBOLS,9999999),'TERMINAL60_2026JAN1_SYNTHETIC')
+ assert r['status']=='STOP_ACCOUNT_HALT' and not r['paid_flat'] and not r['requests'] and a.positions['XRPUSDT'].quantity==500 and a.unpaid_liability>0
+
+def test_public_restore_module_imports_without_running_accounts():
+ import archive
+ assert callable(archive.pack) and callable(archive.restore)
