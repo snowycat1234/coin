@@ -1,6 +1,7 @@
 """Synthetic account identity checks, with no economic advance or source reads."""
 import numpy as np
 import pytest
+import importlib.util
 from driver import native,Closing,SYMBOLS,DAY,targets
 
 def test_exact_reused_targets_and_static_half():
@@ -21,3 +22,13 @@ def test_native_factory_and_snapshot_contract_cannot_mix():
     assert not default.account.closing_min_notional_exempt
     with pytest.raises(ValueError,match='version'):
         native.NativeDailySimulator.from_snapshot(default.snapshot(),win,account_class=Closing)
+
+def test_publication_rejects_wrong_arm_window_and_contract():
+    from driver import HERE
+    spec=importlib.util.spec_from_file_location('unified_publication',HERE/'archive.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+    binding=dict(window='P1',arm='CS_MATCHED',account_class=Closing.VERSION,contract_from_initial_capital=True)
+    result=dict(window='P1',arm='CS_MATCHED');m.identity(binding,result,'P1','CS_MATCHED')
+    for key,arm in [('P2','CS_MATCHED'),('P1','VOL_MATCHED')]:
+        with pytest.raises(AssertionError):m.identity(binding,result,key,arm)
+    for field,value in [('account_class','default'),('contract_from_initial_capital',False)]:
+        with pytest.raises(AssertionError):m.identity(dict(binding,**{field:value}),result,'P1','CS_MATCHED')

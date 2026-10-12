@@ -17,3 +17,7 @@ COIN_CPD_STATE=/workspace/unified-exit-economics-state QUANT_ROOT=/workspace/coi
 ```
 
 完整冻结身份和预算见 PROTOCOL.json/SOURCE_SHA256.txt。归档 `archive.py pack --window P1 --arm CS_MATCHED --state <armSTATE> --destination <result/P1/CS_MATCHED>`；公开版本恢复 `archive.py restore --window P1 --arm CS_MATCHED --state <emptySTATE> --artifact-commit <packetSHA>`。P2沿用同命令替换窗口和缓存 `/workspace/cs-2023-state/SOURCE_OBSERVED`。
+
+P1 实际运行631.341437秒（科学来源9c578028），三臂均完整456日/656640分钟、付款清仓、零残仓/债务/清算、独立Decimal NAV误差最大3e-35。CS净+2637.824583（vol9.835080%/DD7.975715%）全部窗口门槛通过；HOLD净+342.136528（vol10.858409%/风险门槛失败/现金CI跨零）；STATIC50净+1466.383920（vol6.865349%/风险门槛通过），现金14日区块CI[-.000044404541,.000691541682]跨零，STOP。STATIC50对CS少1171.440664、对HOLD多1124.247392USDT，联合风险不同的同合约描述性比较。旧默认42日停止记录未覆盖；不同合约从期初重跑不能解释成旧账户中途收益补救。
+
+独立只读审阅发现归档未核CLI臂身份，发布前补齐BINDING/RESULT/INDEX窗口、臂、Closing版本和期初标记断言；新增错标签/错版本反例通过。最终相关6测试PASS3.88秒。仅归档验收增强，P1账户零重跑，科学来源及冻结金融参数不变。

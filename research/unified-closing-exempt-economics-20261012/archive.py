@@ -3,7 +3,12 @@ import argparse,gc,hashlib,importlib.util,json,shutil,sys,time,zipfile
 from pathlib import Path
 from driver import Closing,HERE,ROOT,native,b,sha,save,proto,verify,source_window,restore_snapshot,SYMBOLS
 spec=importlib.util.spec_from_file_location('ranking_lossless_codec',ROOT/'research/cs-dual-speed-ranking-20261012/archive.py');codec=importlib.util.module_from_spec(spec);spec.loader.exec_module(codec)
+def identity(binding,result,key,arm):
+    assert binding['window']==result['window']==key,'Exact window identity'
+    assert binding['arm']==result['arm']==arm,'Exact arm identity'
+    assert binding['account_class']==Closing.VERSION and binding['contract_from_initial_capital'] is True,'Exact inception contract'
 def pack(state,key,arm,dest):
+    identity(json.loads((state/'BINDING.json').read_text()),json.loads((state/'RESULT.json').read_text()),key,arm)
     verify();assert not dest.exists();dest.mkdir(parents=True);packet=state/'PUBLIC.zip';members=[];chunks=[];p=state/'account/minute_nav_inventory.parquet';frame=native.pl.read_parquet(p);save(state/'MINUTE_NUMERIC.json',dict(columns=codec.minute_fingerprint(frame),original_Parquet_SHA256=sha(p),original_Parquet_bytes=p.stat().st_size));del frame;gc.collect()
     with zipfile.ZipFile(packet,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         def add_raw(name,raw):
@@ -31,7 +36,7 @@ def restore(state,key,arm,artifact):
             p=Path(args[0]).absolute()
             for forbidden in ('/workspace/unified-exit-economics-state/OBSERVED_P1','/workspace/unified-exit-economics-state/OBSERVED_P2','/workspace/cs-hold-assembly-state/OBSERVED_P1','/workspace/cs-hold-assembly-state/OBSERVED_P2','/workspace/cs-continuous-state/SOURCE_RECOVERED','/workspace/cs-2023-state/SOURCE_OBSERVED','/workspace/cs-dual-speed-state/OBSERVED_P1','/workspace/cs-dual-speed-state/OBSERVED_P2'):
                 if p.is_relative_to(Path(forbidden)) and not p.is_relative_to(state):blocked.append(str(p));raise RuntimeError('ObservedSTATE is forbidden forpublicrestore')
-    sys.addaudithook(audit);prefix=str(HERE.relative_to(ROOT))+'/result/'+key+'/'+arm+'/';index=json.loads(b.git('show',artifact+':'+prefix+'INDEX.json'));assert index['window']==key;packet=state/'PUBLIC.zip'
+    sys.addaudithook(audit);prefix=str(HERE.relative_to(ROOT))+'/result/'+key+'/'+arm+'/';index=json.loads(b.git('show',artifact+':'+prefix+'INDEX.json'));assert index['window']==key and index['arm']==arm;packet=state/'PUBLIC.zip'
     with packet.open('xb') as f:
         for r in index['parts']:
             raw=b.git('show',artifact+':'+prefix+r['file']);assert len(raw)==r['bytes'] and hashlib.sha256(raw).hexdigest()==r['SHA256'];f.write(raw)
@@ -52,7 +57,7 @@ def restore(state,key,arm,artifact):
     # tape recovery needs retained months/EVENTS/DAILY, not duplicate ZIP wrappers.
     reclaimed=sum(p.stat().st_size for p in prepared.rglob('*.zip'))
     for p in prepared.rglob('*.zip'):p.unlink()
-    binding=json.loads((dest/'BINDING.json').read_text());body=json.loads((dest/'ACCOUNT.json').read_text());snapshot,ptr=restore_snapshot(dest/'recovery',binding);sim=native.NativeDailySimulator.from_snapshot(snapshot,win,account_class=Closing);assert sim.state_hash()==ptr['state_hash'] and sim.account.snapshot()==snapshot['account'] and sim.rows_written==ptr['completed_minutes'];case=sim.result();rebuilt=native.save_case(case,state/'REBUILT');assert rebuilt['summary']==body['summary'] and codec.minute_fingerprint(case['minute'])==json.loads((dest/'MINUTE_NUMERIC.json').read_text())['columns']
+    binding=json.loads((dest/'BINDING.json').read_text());identity(binding,json.loads((dest/'RESULT.json').read_text()),key,arm);body=json.loads((dest/'ACCOUNT.json').read_text());snapshot,ptr=restore_snapshot(dest/'recovery',binding);sim=native.NativeDailySimulator.from_snapshot(snapshot,win,account_class=Closing);assert sim.state_hash()==ptr['state_hash'] and sim.account.snapshot()==snapshot['account'] and sim.rows_written==ptr['completed_minutes'];case=sim.result();rebuilt=native.save_case(case,state/'REBUILT');assert rebuilt['summary']==body['summary'] and codec.minute_fingerprint(case['minute'])==json.loads((dest/'MINUTE_NUMERIC.json').read_text())['columns']
     for k in ('trades','funding','rejections','breaches'):assert case[k]==body[k]
     _,q=native.episodes(case['trades'],SYMBOLS)
     for s in SYMBOLS:assert q[s]==sim.account.positions[s].quantity
