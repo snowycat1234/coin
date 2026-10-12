@@ -19,3 +19,10 @@ def test_existing_calendar_exit_and_funding_financial_methods_are_unchanged():
  from scripts.investment.perpetual_closing_exempt_account import USDTLinearPerpetualAccount as Fine
  assert m.Closing.execute_fill is Fine.execute_fill and m.Closing.apply_funding is Fine.apply_funding and m.Closing._floor is Fine._floor
  assert m.proto()['fixed_order']==['Y2023','Y2025'] and m.profile_sha()==m.proto()['quantity_profile']['SHA256']
+def test_publication_rejects_cross_year_source_and_contract():
+ a=m.load('follow_own_publication_identity',HERE/'archive.py')
+ for key in ('Y2023','Y2025'):
+  binding=a.expected(key);result=dict(window=key,arm='FOLLOW',calendar=m.proto()['windows'][key]['calendar'],summary=dict(version=m.Closing.VERSION,contract=dict(quantity_profile_SHA256=m.profile_sha(),closing_min_notional_exempt=True)))
+  a.identity(binding,result,key)
+  for change in ({'source_artifact':'wrong'},{'source_index_SHA256':'wrong'},{'target_archive_SHA256':'wrong'},{'arm':'FADE'},{'account_class':'default'},{'contract_from_initial_capital':False},{'terminal_signal_us':binding['end_us']},{'quantity_profile_SHA256':'wrong'}):
+   with pytest.raises(AssertionError):a.identity(dict(binding,**change),result,key)

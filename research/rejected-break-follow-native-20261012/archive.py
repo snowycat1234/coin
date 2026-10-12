@@ -4,8 +4,8 @@ from pathlib import Path
 from driver import HERE,ROOT,native,b,Closing,profile_sha,restore_snapshot,SYMBOLS,sha,save,proto,verify,window,load,TARGET_COMMIT
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 def expected(key):
- W=proto()['windows'][key]
- return dict(window=key,arm='FOLLOW',calendar=W['calendar'],account_class=Closing.VERSION,contract_from_initial_capital=True,target_artifact=TARGET_COMMIT,target_archive_SHA256=sha(HERE/'input'/(key+'.npz')),risk_proof_SHA256=sha(HERE/'input/ORIGINAL_TARGET_PREPARATION.json'),readiness_SHA256=sha(HERE/'input/READINESS.json'),protocol_SHA256=sha(HERE/'PROTOCOL.json'),quantity_profile_SHA256=profile_sha(),end_us=native.utc(W['calendar'][1]),terminal_signal_us=native.utc(W['calendar'][1])-360000000)
+ W=proto()['windows'][key];ready=json.loads((HERE/'input/READINESS.json').read_text())['windows'][key]
+ return dict(window=key,arm='FOLLOW',calendar=W['calendar'],source_artifact=W['source_artifact'],source_index_SHA256=ready['source_index_SHA256'],account_class=Closing.VERSION,contract_from_initial_capital=True,target_artifact=TARGET_COMMIT,target_archive_SHA256=sha(HERE/'input'/(key+'.npz')),risk_proof_SHA256=sha(HERE/'input/ORIGINAL_TARGET_PREPARATION.json'),readiness_SHA256=sha(HERE/'input/READINESS.json'),protocol_SHA256=sha(HERE/'PROTOCOL.json'),quantity_profile_SHA256=profile_sha(),end_us=native.utc(W['calendar'][1]),terminal_signal_us=native.utc(W['calendar'][1])-360000000)
 def identity(binding,result,key):
  for field,value in expected(key).items():assert binding[field]==value,field
  assert result['window']==key and result['arm']=='FOLLOW' and result['calendar']==proto()['windows'][key]['calendar'] and result['summary']['version']==Closing.VERSION
