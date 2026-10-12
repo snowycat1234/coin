@@ -27,7 +27,7 @@ def load():
     with np.load(OLD/'result/VECTORS.npz',allow_pickle=False) as z:
         labels={k:z[k][ix] for k in ('utility','label_net_return','label_fees_USDT','label_funding_USDT','label_complete','common_feature_known','A_prediction')}
         routed_d=z['eval_decision_us'];route_ix=np.flatnonzero(routed_d<=d[-1]);saved=dict(d=routed_d[route_ix],budgets=z['A_budgets'][route_ix],targets=z['A_targets'][route_ix])
-    with np.load(OLD/'result/MODELS.npz',allow_pickle=False) as z:old={k:z[k].copy() for k in z.files if k.startswith('A_')}
+    with np.load(OLD/'result/MODELS.npz',allow_pickle=False) as z:old={k:z[k].copy() for k in z.files if k.startswith('A_') or k=='training_indices'}
     with np.load(FULL/'result/MODELS.npz',allow_pickle=False) as z:full={k:z[k].copy() for k in z.files if k.startswith('OWNED_FULL_')}
     return roles,source,frames,holes,labels,saved,old,full
 
@@ -40,13 +40,13 @@ def run(state,source_commit,expected=None):
     m.require(not state.exists() and state.resolve().is_relative_to(Path('/workspace')),'Fresh STATE')
     m.require(not m.git('status','--porcelain'),'Clean published source')
     if not expected:m.require(m.git('rev-parse','HEAD').decode().strip()==source_commit,'Published source')
-    m.verify_manifest(HERE/'SOURCE_SHA256.txt');state.mkdir();start=time.monotonic()
+    m.verify_manifest(HERE/'ACTIVE_SOURCE_SHA256.txt');state.mkdir();start=time.monotonic()
     roles,source,frames,holes,v,saved,old,full=load();d=source['decision_us'];symbols=tuple(source['symbol_order'])
     train=np.isin(d,roles.decision_us);known=v['common_feature_known'];complete=v['label_complete'].all(1)
     x=np.column_stack([source['baseline'],source['targets'].reshape(len(d),-1),source['expert_eligible'],source['asset_eligible'].reshape(len(d),-1)]).astype(float)
     np.testing.assert_array_equal(np.flatnonzero(train),full['OWNED_FULL_training_indices'])
     fitted=((x[train]-full['OWNED_FULL_mean'])/full['OWNED_FULL_scale'])@full['OWNED_FULL_coef'].T+full['OWNED_FULL_intercept']
-    oldtrain=old['A_training_indices'];clocks=roles.set_index('decision_us').reward_complete_maturity_us
+    oldtrain=old['training_indices'];clocks=roles.set_index('decision_us').reward_complete_maturity_us
     oldmax=int(clocks.loc[d[oldtrain]].max());fit=m.utc('2022-01-01');cutoff=m.utc('2021-12-31')
     calendar=np.flatnonzero(d>=m.utc('2022-01-02'));ed=d[calendar]
     RankProvenance(np.full(len(ed),fit,np.int64),np.full(len(ed),cutoff,np.int64),np.full(len(ed),oldmax,np.int64),
