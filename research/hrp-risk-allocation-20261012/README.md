@@ -23,3 +23,18 @@ COIN_CPD_STATE=/workspace/hrp-risk-state QUANT_ROOT=/workspace/coin-tail-risk QU
 COIN_CPD_STATE=/workspace/hrp-risk-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/hrp-risk-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/hrp-risk-allocation-20261012/run.py --state /workspace/hrp-risk-state/OBSERVED --source-commit SOURCE_SHA
 COIN_CPD_STATE=/workspace/hrp-risk-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/hrp-risk-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/hrp-risk-allocation-20261012/run.py --state /workspace/hrp-risk-state/PUBLIC_COLD --source-commit SOURCE_SHA --expected-commit RESULT_SHA
 ```
+
+Observed result: **STOP_FIXED_HRP_ALLOCATION_GATES**. Immutable science source c19d84be4d56534235d43aceacf44f85209bf9ca was pushed/remote-verified before the first actual historical allocation/account. Four new full31day/44,640minute accounts completed in67.086863s; guard sampled RSS424,181,760B, no stop. Genuine full scheduling/account snapshots restore exactly without advancing; Decimal NAV and per-asset inventory bridges all PASS. Published scientific outputs52,523,421B, taskSTATE~86MB, within frozen64MB/1GB budget.
+
+| Arm | marked net USDT /10k | realized daily annual vol | all-observation DD | worst7day return | paid-flat |
+|---|---:|---:|---:|---:|---|
+| HRP_MATCHED | -458.934971 | 10.864705% | 7.076543% | -4.839107% | FAIL |
+| IVOL_MATCHED | -463.176639 | 10.942800% | 7.150302% | -4.866496% | PASS |
+| IVAR_MATCHED | -466.584966 | 10.996511% | 7.236194% | -4.822635% | FAIL |
+| IVOL_ORIGINAL | -463.176639 | 10.942800% | 7.150302% | -4.866496% | PASS |
+
+Worst rolling window for all is Jan16–Jan23 UTC. Matched ex-ante vol is10% on all31 decisions; the matched inversevol and original10% reference have identical weights/fills/outcomes in this window, not two independent results. Realized volatility is measured from31 daily returns, not assumed equal. Actual mean gross HRP15.78099%, IVOL15.49608%, IVAR16.02386%; maxima18.65016%,18.15543%,18.84428%. All profiles retain default buffers/rejections and no liquidations. HRP actual fees3.78832, execution5.50998, funding−5.70509USDT; both comparators' full costs/funding are in RESULT and journals.
+
+HRP marked increment +4.241668USDT vs inverseVOL and +7.649995 vs inverseVAR. Mean daily return difference95% CIs [-5.35529e-5,+7.41298e-5] and [-5.00115e-5,+1.25788e-4] both cross zero. Worst7day gate also fails against inverseVAR. HRP terminal DOGE262.44490593 and inverseVAR19.66632335 remain, valued at actual past mark0.14154829; neither is paid-flat. Their values/marked NAV are preserved, not deleted/free-closed and not called liquidated return. Net/DD/risk point differences do not establish hierarchical alpha or improved prediction. The fixed continuation gates fail; no rescue or extra linkage/model attempt follows.
+
+Focused test receipt:5/5 PASS3.67s at20261012T031857 guard. Prior failed SciPy test runs and dependency setup attempts are retained under evidence/setup_receipts. Zero new supervised fits;31 policy covariance estimates plus31 suffix-audit recomputations in each full bundle, not600 supervised training days. FOMC remains two actual713-date fits with original negative fixed-policy result; no FOMC/native predecessor rerun.
