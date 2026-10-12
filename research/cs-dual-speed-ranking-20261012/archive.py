@@ -56,7 +56,7 @@ def restore(state,key,artifact):
         for name in z.namelist():
             p=dest/name;assert p.resolve().is_relative_to(dest.resolve());raw=z.read(name);r=expected[name];assert len(raw)==r['bytes'] and hashlib.sha256(raw).hexdigest()==r['SHA256'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
     for r in index['lossless_chunks']:
-        p=dest/r['original'];assert p.resolve().is_relative_to(dest.resolve()) and not p.exists();decode_chunk((dest/r['encoded']).read_bytes(),p,r['original_SHA256'])
+        p=dest/r['original'];encoded=dest/r['encoded'];assert p.resolve().is_relative_to(dest.resolve()) and not p.exists();decode_chunk(encoded.read_bytes(),p,r['original_SHA256']);encoded.unlink() # Only proven duplicate codec buffer; original NPZ is retained.
     W=proto()['windows'][key];prepared=state/'source'
     if key=='P1':prep1.build(prepared,W['source_science'],expected=W['source_artifact'])
     else:
