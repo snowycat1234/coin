@@ -15,6 +15,10 @@ def trade_body(s):
  for p in r['parts']:
   raw=git('show',TRADE+':'+p['path']);assert len(raw)==p['bytes'] and digest(raw)==p['sha256'];parts.append(raw)
  raw=b''.join(parts);assert len(raw)==r['bytes'] and digest(raw)==r['sha256'];return raw,dict(commit=TRADE,index_SHA256=INDEX_SHA,original_SHA256=r['sha256'],bytes=r['bytes'],URL=r['official_url'])
+def expected_url(s,family):
+ assert s in SYMBOLS and family in ('markPriceKlines','fundingRate')
+ if family=='markPriceKlines':return f'https://data.binance.vision/data/futures/um/daily/markPriceKlines/{s}/1m/{s}-1m-2026-01-01.zip'
+ return f'https://data.binance.vision/data/futures/um/monthly/fundingRate/{s}/{s}-fundingRate-2026-01.zip'
 def build(state,source,public=None):
  assert not state.exists() and not git('status','--porcelain');bounds()
  if public is None:assert git('rev-parse','HEAD').decode().strip()==source
@@ -28,7 +32,7 @@ def build(state,source,public=None):
    for k in ('open','close','quote_volume'):arr[s+'_'+k]=f[k].to_numpy()
    rows.append(dict(symbol=s,family='klines',trade_Git_reused=True,minutes_used=60,**proof));print('TRADE2026JAN1_GIT_REUSED',s,flush=True)
    for family,day in (('markPriceKlines',1),('fundingRate',None)):
-    job=Job(s,family,2026,1,day);assert '/2026-01' in job.url and 'data.binance.vision/' in job.url
+    job=Job(s,family,2026,1,day);assert job.url==expected_url(s,family)
     if public is None:
      r=fetch(job,connection);assert r['status'] in ('DOWNLOADED_VERIFIED','VERIFIED_CACHE','ADOPTED_VERIFIED_CACHE');newbytes+=r['bytes'];assert newbytes<2000000
     else:
