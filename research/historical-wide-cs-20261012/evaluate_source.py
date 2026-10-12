@@ -8,7 +8,7 @@ from source import HERE,ROOT,CORE5,DAY,Intake,protocol,frame,sha,save
 def build(state,selection,resume_503=False):
  previous=[]
  if state.exists() and resume_503:
-  previous=json.loads((state/'HTTP.json').read_text());errors=[r for r in previous if r['status']!=200];assert len(errors)==1 and errors[0]['status']==503,'Only one documented503 partial mayresume; no403451 orretryloop'
+  previous=json.loads((state/'HTTP.json').read_text());errors=[r for r in previous if r['status']!=200];assert 1<=len(errors)<=3 and all(r['status']==503 for r in errors) and len({r['url'] for r in errors})==len(errors),'Only distincttransient503 onceperURL/max3incidents; no403451 orrepeatedfailure'
  elif state.exists():assert not any(state.iterdir()),'Only an empty pre-provider schema-check failure may resume; never restart downloads'
  else:state.mkdir(parents=True)
  pool=json.loads((selection/'POOL.json').read_text());assert (selection/'POOL.json').read_bytes()==(HERE/'input/POOL.json').read_bytes() and pool['status']=='FROZEN_HISTORICAL_TOP20_WITH_ARCHIVE_COVERAGE_LIMITS' and pool['evaluation_price_payloads_read']==0
@@ -37,7 +37,7 @@ def build(state,selection,resume_503=False):
   clocks=opens+DAY;use=clocks<=t[-1];k=np.searchsorted(t,clocks[use]);np.testing.assert_array_equal(t[k],clocks[use]);values=f.close.to_numpy(float)[use];already=np.isfinite(p[k,j]);assert np.array_equal(p[k[already],j],values[already]),'Conflictingactualmonth/daily sourceclose; no keep-last';p[k,j]=values
  for r in pool['source_records']:
   if r['symbol'] in names and r['symbol'] not in CORE5:put(r,selection)
- with concurrent.futures.ThreadPoolExecutor(P['source_budget']['network_threads']) as workers:
+ with concurrent.futures.ThreadPoolExecutor(1 if resume_503 else P['source_budget']['network_threads']) as workers:
   jobs={workers.submit(intake.acquire,s,m):(s,m) for s in names if s not in CORE5 for m in periods}
   jobs.update({workers.submit(intake.acquire,s,'2024-01-01',True,True):(s,'2024-01-01') for s in names if s not in CORE5})
   for n,job in enumerate(concurrent.futures.as_completed(jobs),1):
