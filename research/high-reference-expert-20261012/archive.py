@@ -31,7 +31,13 @@ def pack(state,key,destination):
    raw=p.read_bytes();info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,raw);members.append(dict(name=name,bytes=len(raw),SHA256=digest(raw)))
   for name in ['BINDING.json','RESULT.json','ACCOUNT.json','DAILY.csv','MINUTE_NUMERIC.json','recovery/POINTER.json','recovery/'+pointer['snapshot_path']]+['recovery/'+r['path'] for r in pointer['chunks']]:add(name,state/name)
   for name in ('SOURCE_INDEX.json','DAILY.json','EVENTS.json'):add('source/'+name,source/name)
-  for p in needed:add('source/months/'+p.name,p)
+  # Full2025 canonical arrays were independently cold-decoded from the old
+  # public originals already. Reuse that certificate instead of duplicating
+  # its 45MB source panel into every financial account publication.
+  if key=='Y2023':
+   for p in needed:add('source/months/'+p.name,p)
+  else:
+   proof=source.parent/'PUBLIC_SOURCE_RESTORE.json';p=json.loads(proof.read_text());assert p['status']=='PASS_EXACT_PUBLIC_FULL2025_SOURCE_TARGET_RISK' and p['artifact_commit']==binding['source_artifact'] and p['account_advances']==p['provider_downloads']==p['observed_STATE_open_attempts']==0;add('source/REUSED_PUBLIC_SOURCE_RESTORE.json',proof)
  raw=packet.getvalue();total=len(raw)+sum(json.loads(p.read_text())['packet_bytes'] for p in (HERE/'result').glob('*/INDEX.json'));assert total<proto()['budget']['published_total_bytes']
  destination.mkdir(parents=True);parts=[]
  for i,off in enumerate(range(0,len(raw),786432)):
@@ -39,28 +45,35 @@ def pack(state,key,destination):
  save(destination/'INDEX.json',dict(year=key,packet_bytes=len(raw),packet_SHA256=digest(raw),parts=parts,members=members,BINDING_SHA256=sha(state/'BINDING.json'),genuine_state_hash=pointer['state_hash'],source_months=[p.stem for p in needed],source_scope='SHA_EXACT_REUSED_CANONICAL_ARRAYS_FOR_ORIGINAL_SNAPSHOT_TAPE_WALK_RAW_SOURCE_PROVENANCE_REUSED',storage='GENUINE_NATIVE_ACCOUNT_SCHEDULER_ALL37_MINUTE_BITS_ORIGINAL_NPZ_SHA_REPRODUCIBLE'))
  print('HIGH_REFERENCE_PUBLIC_PACKET',key,len(raw),len(parts),flush=True)
 
-def public_window(source,binding):
+def public_window(source,binding,reused_source=None):
  ix=json.loads((source/'SOURCE_INDEX.json').read_text());assert sha(source/'SOURCE_INDEX.json')==binding['source_index_SHA256']
  public_path='research/cs-2023-continuous-economics-20261012/source-result/SOURCE_INDEX.json' if binding['year']=='Y2023' else 'research/portfolio-risk-2025-native-20261012/input/SOURCE_INDEX.json'
  assert (source/'SOURCE_INDEX.json').read_bytes()==b.git('show',binding['source_artifact']+':'+public_path)
  for name in ('DAILY.json','EVENTS.json'):
   r=ix['files'][name];assert sha(source/name)==r['SHA256'] and (source/name).stat().st_size==r['bytes']
+ if reused_source is not None:
+  assert binding['year']=='Y2025' and reused_source.resolve()==Path('/workspace/portfolio-risk-2025-state/PUBLIC_SOURCE_RECOVERED/source')
+  assert (reused_source/'SOURCE_INDEX.json').read_bytes()==(source/'SOURCE_INDEX.json').read_bytes()
+  assert (reused_source.parent/'PUBLIC_SOURCE_RESTORE.json').read_bytes()==(source/'REUSED_PUBLIC_SOURCE_RESTORE.json').read_bytes()
+  for r in ix['months']:
+   p=reused_source/'months'/(r['month']+'.npz');assert sha(p)==r['source_NPZ_SHA256'] and p.stat().st_size==r['source_NPZ_bytes']
  def blocks():
   for r in ix['months']:
-   p=source/'months'/(r['month']+'.npz')
+   p=(reused_source if reused_source is not None else source)/'months'/(r['month']+'.npz')
    if not p.exists():raise RuntimeError('No unconsumed source or financial advance is authorized by this recovery packet')
    assert sha(p)==r['source_NPZ_SHA256'] and p.stat().st_size==r['source_NPZ_bytes']
    with np.load(p,allow_pickle=False) as a:times=a['times'];market={s:{k:a[s+'_'+k] for k in ('open','close','quote_volume','mark')} for s in SYMBOLS}
    for i in range(0,len(times),1440):yield dict(times=times[i:i+1440],market={s:{k:v[i:i+1440] for k,v in fields.items()} for s,fields in market.items()})
  start,end=ix['calendar'];return dict(start=start,end=end,symbols=SYMBOLS,daily=native.pl.DataFrame(json.loads((source/'DAILY.json').read_text())),events=json.loads((source/'EVENTS.json').read_text()),minute_blocks=blocks)
 
-def restore(state,key,artifact):
+def restore(state,key,artifact,reused_source=None):
  assert not state.exists() and not b.git('status','--porcelain');verify();state.mkdir(parents=True);began=time.monotonic();blocked=[]
  forbidden=('/workspace/expert-structure-state/OBSERVED_Y2023','/workspace/expert-structure-state/OBSERVED_Y2025','/workspace/portfolio-risk-budget-state','/workspace/quantity-grid-state','/workspace/unified-exit-economics-state','/workspace/cs-2023-state','/workspace/portfolio-risk-2025-state')
  def audit(event,args):
   if event=='open' and isinstance(args[0],(str,bytes)):
    p=Path(args[0]).absolute()
-   if any(p.is_relative_to(Path(x)) for x in forbidden):blocked.append(str(p));raise RuntimeError('Original financial/source STATE forbidden during cold recovery')
+   allowed=key=='Y2025' and reused_source is not None and p.is_relative_to(Path('/workspace/portfolio-risk-2025-state/PUBLIC_SOURCE_RECOVERED'))
+   if not allowed and any(p.is_relative_to(Path(x)) for x in forbidden):blocked.append(str(p));raise RuntimeError('Original financial/source STATE forbidden during cold recovery')
  sys.addaudithook(audit);prefix=str(HERE.relative_to(ROOT))+'/result/'+key+'/';ix=json.loads(b.git('show',artifact+':'+prefix+'INDEX.json'));assert ix['year']==key
  pieces=[]
  for r in ix['parts']:
@@ -71,7 +84,7 @@ def restore(state,key,artifact):
   for name in z.namelist():
    raw=z.read(name);r=members[name];assert len(raw)==r['bytes'] and digest(raw)==r['SHA256'];p=dest/name;assert p.resolve().is_relative_to(dest.resolve());p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
  binding=json.loads((dest/'BINDING.json').read_text());result=json.loads((dest/'RESULT.json').read_text());identity(binding,result,key);assert sha(dest/'BINDING.json')==ix['BINDING_SHA256'];body=json.loads((dest/'ACCOUNT.json').read_text());snapshot,pointer=restore_snapshot(dest/'recovery',binding)
- win=public_window(dest/'source',binding)
+ win=public_window(dest/'source',binding,reused_source)
  def denied(*args,**kwargs):raise RuntimeError('Financial advance forbidden during recovery')
  native.NativeDailySimulator.advance_day=denied
  sim=native.NativeDailySimulator.from_snapshot(snapshot,win,account_class=Closing);assert sim.state_hash()==pointer['state_hash']==ix['genuine_state_hash'] and sim.account.snapshot()==snapshot['account'] and sim.rows_written==pointer['completed_minutes']
@@ -82,12 +95,12 @@ def restore(state,key,artifact):
  _,q=native.episodes(case['trades'],SYMBOLS)
  for s in SYMBOLS:assert q[s]==sim.account.positions[s].quantity
  finance=native.nav_bridge(case['trades'],case['funding'],q,body['summary']['terminal_mark_prices'],sim.account.nav())
- save(state/'PUBLIC_RESTORE.json',dict(status='PASS_EXACT_PUBLIC_HIGH_REFERENCE_ZERO_ADVANCE',year=key,artifact_commit=artifact,rows=sim.rows_written,genuine_state_hash=pointer['state_hash'],all37minutevalues='EXACT_BITS_CLOCKS',original_NPZ_bytes='EXACT_SHA256_REPRODUCIBLE',all_journals_targets_summary='EXACT',independent_decimal_NAV_bridge=finance,canonical_source_months=ix['source_months'],raw_original_source_decode='REUSED_PREVIOUS_PUBLIC_SOURCE_PROOF_NO_NEW_RAW_DECODE',observed_STATE_open_attempts=len(blocked),account_advances=0,new_wallets=0,new_fits=0,provider_downloads=0,seconds=time.monotonic()-began));print('HIGH_REFERENCE_PUBLIC_RESTORE_PASS',key,sim.rows_written,time.monotonic()-began,flush=True)
+ save(state/'PUBLIC_RESTORE.json',dict(status='PASS_EXACT_PUBLIC_HIGH_REFERENCE_ZERO_ADVANCE',year=key,artifact_commit=artifact,rows=sim.rows_written,genuine_state_hash=pointer['state_hash'],all37minutevalues='EXACT_BITS_CLOCKS',original_NPZ_bytes='EXACT_SHA256_REPRODUCIBLE',all_journals_targets_summary='EXACT',independent_decimal_NAV_bridge=finance,canonical_source_months=ix['source_months'],raw_original_source_decode='REUSED_PREVIOUS_PUBLIC_SOURCE_PROOF_NO_NEW_RAW_DECODE',reused_independent_public_source=reused_source is not None,observed_STATE_open_attempts=len(blocked),account_advances=0,new_wallets=0,new_fits=0,provider_downloads=0,seconds=time.monotonic()-began));print('HIGH_REFERENCE_PUBLIC_RESTORE_PASS',key,sim.rows_written,time.monotonic()-began,flush=True)
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();s=p.add_subparsers(dest='command',required=True)
  q=s.add_parser('pack');q.add_argument('--state',type=Path,required=True);q.add_argument('--year',choices=['Y2023','Y2025'],required=True);q.add_argument('--destination',type=Path,required=True)
- q=s.add_parser('restore');q.add_argument('--state',type=Path,required=True);q.add_argument('--year',choices=['Y2023','Y2025'],required=True);q.add_argument('--artifact-commit',required=True)
+ q=s.add_parser('restore');q.add_argument('--state',type=Path,required=True);q.add_argument('--year',choices=['Y2023','Y2025'],required=True);q.add_argument('--artifact-commit',required=True);q.add_argument('--reused-source',type=Path)
  a=p.parse_args()
  if a.command=='pack':pack(a.state,a.year,a.destination)
- else:restore(a.state,a.year,a.artifact_commit)
+ else:restore(a.state,a.year,a.artifact_commit,a.reused_source)
