@@ -20,3 +20,14 @@ def test_publication_identity_and_full365_targets_reject_wrong_arm_contract_or_c
   binding=expected(a);result=dict(window='Y2025',arm=a,calendar=proto()['calendar'],summary=dict(version=Closing.VERSION,contract=dict(quantity_profile_SHA256=profile_sha(),closing_min_notional_exempt=True)));identity(binding,result,a)
   for changed in ({'arm':'wrong'},{'window':'P2'},{'annual_risk_budget':.2},{'account_class':'default'},{'calendar':['2025-01-01','2025-12-31']},{'quantity_profile_SHA256':'wrong'}):
    with pytest.raises(AssertionError):identity(dict(binding,**changed),result,a)
+
+def test_actual_consumed_target_and_risk_must_bind_to_source(tmp_path):
+ import json
+ from driver import HERE,bind_intents
+ index=json.loads((HERE/'input/SOURCE_INDEX.json').read_text())
+ for name in ('Y2025.npz','Y2025_RISK.json'):(tmp_path/name).write_bytes((HERE/'input'/name).read_bytes())
+ bind_intents(tmp_path,index)
+ (tmp_path/'Y2025.npz').write_bytes(b'another same-calendar target')
+ with pytest.raises(AssertionError):bind_intents(tmp_path,index)
+ fake=json.loads(json.dumps(index));fake['files']['Y2025_RISK.json']['SHA256']='wrong'
+ with pytest.raises(AssertionError):bind_intents(tmp_path,fake)

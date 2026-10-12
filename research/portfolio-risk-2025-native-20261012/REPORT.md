@@ -11,3 +11,17 @@ Native factory/snapshot test1PASS4.32s; final factory plus publication/arm/calen
 Full original H2 archive bodies (60/82770519B) are published as lossless byteparts with oldSHA/current officialchecksums; H1/daily/funding/prerisk bodies reference existing public Git and are not reuploaded. The public source cold rebuild must pass before any financial account. Results, attempt counts, timings, tests and final restoration receipts are appended as actually completed.
 
 All old2024 holes/2026 lock/lostledgers/defaultHALT and residual losses remain. Quantity/funding/MMR/fee/arrival authority is conditional, not exchange-native certified. No Library, account credentials, real trades, deployment, paid service, main, forcepush or other distribution research files.
+
+Source publication534a18fb was pushed and remoteSHA verified. Fresh public-only source restore passed in48.712238s: all120 minute originals,5475 actual funding events and365 target/risk rows, original source/target/risk proof bytes exact; provider requests, financial advances, fits and observed source STATE opens all0. It rebuilt through original Git wrappers and publishedH2parts, not warm source caches. This public source is reused for subsequent account cold checks without duplicate source preparation.
+
+Necessary independent static review found one binding gap: actual consumed HERE/input targets/risk versus the source-index entries needed an explicit same-file assertion. It is now checked by SHA/size and full bytes against admitted source. A dedicated wrong-source/target counterexample test passes; final3native testsPASS5.41s and shell syntaxPASS. The review confirms original financial methods,365days/Dec31/paid terminal and zero-advance restore; no Python, network, financial account or ledger interpretation by reviewer. No target mathematics changed.
+
+After public cold proof only own publicly-restorableH2 transport copies and byte-identical parsed source duplicates were reclaimed; SOURCE_OBSERVED/months remains readable via exact canonical public-source links. Full per-file SHA/proof saved inPUBLIC_SOURCE_DUPLICATE_RECLAIM.json; original financial accounts remain. Standard sparse-checkout will remove only already-published source bytepart working copies in this checkout. Git/remote original source bytes remain and resource reserve stays15GiB. No source body will be downloaded again for replication.
+
+Public restoration command, empty state and a final artifact commit containing the chosen account:
+
+```bash
+bash research/portfolio-risk-2025-native-20261012/reproduce.sh CS_MATCHED /workspace/FRESH2025 "$(git rev-parse HEAD)"
+```
+
+This reconstructs source and the saved real account from publicGit, with0financial advances; it does not replay an old wallet.
