@@ -23,3 +23,20 @@ All three paired95% intervals crosszero: [-6.68316e-7,+1.62039e-6], [-2.14849e-6
 Actual training:273 mature crypto labels,136/137bins;189 distinct VIX observation dates,84labeldates use a carried old quote. Model conditionalmeans -0.0008356840374/-0.0000311053395, identical-supportglobalmean -0.0004319211011. True maximum label maturity2021Dec31<2022Jan1fit. Source first frozen949b507b; published admittedsource/modelcode1959aa16; actualfit2.626311s; coefficients/train IDs/sourceage published ate53d4587 **before** allfoldscores. Source fetched once16:55:28UTCOct12_2026, raw12,539B SHA10429b2c1012fb5b6e2c7fb87d6efff02f1e65030dc6adc367477ad3482da566,740source rows/727actualcloses/13missingholidayrows/34months. All source/prediction/loss/raw attempt/guard evidence retained. Deterministic model arithmetic, bootstrap seed811732/1000draws/14naturalcalendar days; zero nativeaccounts/replays/newfits atscore/scans, exactlyone providerGET. No VIX source alternate or authentication.
 
 708mature validation labels and119/126/254distinctinput observation dates are counts, not independent market innovations. Calendar-block bootstrap retains missing-date locations and repeated weekend inputs but cannot solve vintage revision or few independent regimes. These limitations prevent investment/asof certification even if a point metric improved. Original CS/HOLD/STATIC50 annualresults, unified additional exit condition and all failed recipes remain unchanged.
+
+Actual public zero-refit restoration PASS5.054165s from artifactd2edcdbdf883beb5fc326aa30362e4e00e41f6f8: rawCSV/sourceSHA/fetchtime/date-proxy/age/model/dates/labels/predictions/MSE/bootstrap exact, all three support and distinctobservation counts exact; zero model fits, provider GETs, account advances or observedSTATEopens. Proof and actual guard receipt are inevidence/PUBLIC_RESTORE.json and PUBLIC_COLD_GUARD.json. Scoring2.545655s, source1.233716s, training2.626311s; stage times are not summed as total wall-clock discussion time.
+
+Minimal public inspection command, clean checkout/new STATE and existing runtime required:
+
+```bash
+COIN_CPD_STATE=/workspace/vix-reproduce QUANT_ROOT="$PWD" \
+QUANT_STATE=/workspace/vix-reproduce \
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python \
+ research/vix-conditional-advantage-20261012/cold.py \
+ --state /workspace/vix-reproduce/PUBLIC_COLD \
+ --artifact-commit d2edcdbdf883beb5fc326aa30362e4e00e41f6f8
+```
+
+Historical source ran at949b507b, training at1959aa16 and scoring ate53d4587 using `source.py`/`model.py train|score` with freshSTATE and exact--source-commit under the same guard. Reproduction above uses saved originalsource and does not request or update thelatest vintage. Two source tests are `python -m pytest -q research/vix-conditional-advantage-20261012/test_vix.py` underlaunch.sh with a separateSTATE basetemp; existing mature-label/fitprefix/calendar tests reused unchanged fromrank core, current exactSHA pinned. No package installation or neural training seed; NumPy deterministic means, bootstrap811732.
+
+The bounded iteration produced two actual new candidate fits and two analytic constants, one publicsource GET/12.5KB, no nativewallets or oldfinancialreplays. Both candidates failed preregistered information gates on adverse as well as favorable periods. Read-only old direction/cost results remain in the [rank diagnostic](../rank-persistence-routing-20261012/result/DIRECTION_DIAGNOSIS.json). Project remains active: the next unresolved research question is a genuinely new expert or information channel supported by native continuous opportunity economics; repeating VIXlags/rankmedians/basis/flow/price-state tuning is not authorized by these stopped protocols. No claim that all conditional allocation is impossible, no historical-year routing or newOOS profit.
