@@ -18,6 +18,9 @@ def test_source_date_guard_precedes_network():
  for d in ('2026-03','2026-09','2024-01','2022-07'):
   with pytest.raises(AssertionError):archive_key('BTCUSDT',d)
  assert '2022-10' in archive_key('FTTUSDT','2022-10')
+ with pytest.raises(AssertionError):archive_key('MATICUSDT','2024-01-01',True)
+ assert archive_key('MATICUSDT','2024-01-01',True,True).endswith('2024-01-01.zip')
+ with pytest.raises(AssertionError):archive_key('MATICUSDT','2024-01-02',True,True)
 def test_directory_absence_is_unknown_without_archive_download(tmp_path):
  i=Intake(tmp_path);calls=[]
  def get(url,kind,limit):

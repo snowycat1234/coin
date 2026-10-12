@@ -8,6 +8,7 @@ def test_N_risk_projection_and_future_mask_causality():
  for i,at in enumerate(d):
   k=np.searchsorted(t,at);r=np.diff(p[k-30:k+1],axis=0)/p[k-30:k];cov=np.cov(r,rowvar=False,ddof=1)*365;sig=np.sqrt(raw[i]@cov@raw[i]);gross=np.abs(raw[i]).sum();largest=np.abs(raw[i]).max();factor=min(.10/sig,.6/gross,.3/largest);np.testing.assert_allclose(w[i],raw[i]*factor,rtol=0,atol=1e-14)
  future=p.copy();future[t>d[20]]*=np.arange(2,22);a,_,_=targets(t,future,d,names,names);np.testing.assert_array_equal(a[d<=d[20]],w[d<=d[20]])
+ future[t>d[20]]=np.nan;a,diag,_=targets(t,future,d,names,names);np.testing.assert_array_equal(a[d<=d[20]],w[d<=d[20]]);_,original_diag,_=targets(t,p,d,names,names);assert diag['current_eligible'][:21]==original_diag['current_eligible'][:21]
 def test_original_CORE5_quantity_proxy_golden():
  spec=importlib.util.spec_from_file_location('unchanged_CORE5_reference_for_wide',ROOT/'research/cs-continuous-economics-20261012/core.py');original=importlib.util.module_from_spec(spec);spec.loader.exec_module(original)
  d=1661990400000000+np.arange(5)*DAY;w=np.tile([.1,.1,-.1,-.1,0],(5,1));p0=np.arange(25).reshape(5,5)+30.;p1=p0+1;r,rows=quantity_proxy(d,w,p0,p1);q,old=original.quantity_reference(d,w,p0,p1,np.zeros_like(p0),np.ones_like(p0,bool),np.ones(5,bool));assert r['last_marked_NAV']==q['last_known_NAV'] and r['terminal_cost_proxy_USDT']==q['terminal_cost_USDT'];assert [a['nav_after'] for a in rows]==[a['nav_after'] for a in old]

@@ -14,9 +14,9 @@ CORE5=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT');DAY=86400000000
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def save(p,x):Path(p).write_text(json.dumps(x,sort_keys=True,indent=2,allow_nan=False)+'\n')
 def protocol():return json.loads((HERE/'SOURCE_PROTOCOL.json').read_text())
-def archive_key(symbol,period,daily=False):
+def archive_key(symbol,period,daily=False,terminal_boundary=False):
  assert re.fullmatch('[A-Z0-9]{2,24}USDT',symbol)
- at=date.fromisoformat(period if daily else period+'-01');assert date(2022,8,1)<=at<date(2024,1,1),'Only admitted source2022Aug-2023Dec'
+ at=date.fromisoformat(period if daily else period+'-01');assert date(2022,8,1)<=at<date(2024,1,1) or (terminal_boundary and daily and period=='2024-01-01'),'Only admitted2022Aug-2023Dec orspecificJan1OPENboundary'
  return f'data/futures/um/{"daily" if daily else "monthly"}/klines/{symbol}/1d/{symbol}-1d-{period}.zip'
 def frame(path,period,daily=False):
  with zipfile.ZipFile(path) as z:
@@ -49,8 +49,8 @@ class Intake:
     r.raise_for_status();return bytes(raw),row
   except Exception:
    self.stop.set();raise
- def acquire(self,symbol,period,daily=False):
-  key=archive_key(symbol,period,daily);p=self.state/'raw'/symbol/key.rsplit('/',1)[-1];directory=p.parent;directory.mkdir(parents=True,exist_ok=True)
+ def acquire(self,symbol,period,daily=False,terminal_boundary=False):
+  key=archive_key(symbol,period,daily,terminal_boundary);p=self.state/'raw'/symbol/key.rsplit('/',1)[-1];directory=p.parent;directory.mkdir(parents=True,exist_ok=True)
   receipt=directory/(p.name+'.SOURCE.json');listing=directory/(p.name+'.LIST.xml')
   if receipt.exists():
    old=json.loads(receipt.read_text());assert old['key']==key and old['symbol']==symbol and old['period']==period and old['daily']==daily
