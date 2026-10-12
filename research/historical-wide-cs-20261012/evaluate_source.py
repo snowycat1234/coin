@@ -6,10 +6,13 @@ import pandas as pd
 from source import HERE,ROOT,CORE5,DAY,Intake,protocol,frame,sha,save
 
 def build(state,selection):
- assert not state.exists();state.mkdir(parents=True);pool=json.loads((selection/'POOL.json').read_text());assert (selection/'POOL.json').read_bytes()==(HERE/'input/POOL.json').read_bytes() and pool['status']=='FROZEN_HISTORICAL_TOP20_WITH_ARCHIVE_COVERAGE_LIMITS' and pool['evaluation_price_payloads_read']==0
+ if state.exists():assert not any(state.iterdir()),'Only an empty pre-provider schema-check failure may resume; never restart downloads'
+ else:state.mkdir(parents=True)
+ pool=json.loads((selection/'POOL.json').read_text());assert (selection/'POOL.json').read_bytes()==(HERE/'input/POOL.json').read_bytes() and pool['status']=='FROZEN_HISTORICAL_TOP20_WITH_ARCHIVE_COVERAGE_LIMITS' and pool['evaluation_price_payloads_read']==0
  P=protocol();admission=json.loads((HERE/'EVALUATION_WARMUP_ADMISSION.json').read_text());periods=[admission['additional_warmup_month']]+admission['other_evaluation_source_months'];names=list(CORE5)+sorted(set(pool['symbols'])-set(CORE5));t=np.arange(int(pd.Timestamp('2022-08-01',tz='UTC').value//1000),int(pd.Timestamp('2024-01-01',tz='UTC').value//1000)+DAY,DAY);p=np.full((len(t),len(names)),np.nan);intake=Intake(state);intake.count=pool['HTTP_counts'].copy();intake.bytes=pool['HTTP_body_bytes'].copy();records=[]
  old=ROOT/'research/monetary-policy-information-20261012/input/INPUTS.npz';assert sha(old)=='e33cc15bd53167078252f7d58b406960d543ccb92421f430214e5360971f12f4'
- with np.load(old,allow_pickle=False) as z:at=z['close_available_us'];cp=z['close'];assert tuple(z['symbol_order'])==CORE5
+ orderproof=old.parent/'PREPARATION.json';assert sha(orderproof)=='5108e056c1eb44f854edadd1ef174bb9a031b7b0ffae60acd548cf57fad0594c' and tuple(json.loads(orderproof.read_text())['symbol_order'])==CORE5
+ with np.load(old,allow_pickle=False) as z:at=z['close_available_us'];cp=z['close'];assert cp.shape==(len(at),5)
  ix=np.searchsorted(at,t);np.testing.assert_array_equal(at[ix],t);p[:,:5]=cp[ix]
  def put(record,root):
   if 'path' not in record:return

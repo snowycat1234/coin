@@ -1,0 +1,11 @@
+/workspace/historical-wide-cs-state/source/bounded_cloud.py: OK
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/evaluate_source.py", line 30, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--selection',type=Path,required=True);a=p.parse_args();build(a.state,a.selection)
+                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/evaluate_source.py", line 12, in build
+    with np.load(old,allow_pickle=False) as z:at=z['close_available_us'];cp=z['close'];assert tuple(z['symbol_order'])==CORE5
+                                                                                                    ~^^^^^^^^^^^^^^^^
+  File "/workspace/coin/.venv/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 243, in __getitem__
+    raise KeyError(f"{key} is not a file in the archive") from None
+KeyError: 'symbol_order is not a file in the archive'
