@@ -1,0 +1,42 @@
+/workspace/rank-persistence-state/source/bounded_cloud.py: OK
+.F.                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_maturity_purge_and_future_label_tampering_never_change_training_fit ___
+
+    def test_maturity_purge_and_future_label_tampering_never_change_training_fit():
+     d=np.arange(220,dtype=np.int64)*DAY;x=np.tile([-.5,.5],110);y=np.where(x>0,.002,-.001);m=d+DAY+60000001
+>    model,owned=fit(d,x,y,m,150*DAY,0);assert not owned[149] and model['maximum_maturity_us']<150*DAY
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+research/rank-persistence-routing-20261012/test_core.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+decisions = array([             0,    86400000000,   172800000000,   259200000000,
+         345600000000,   432000000000,   518400...18403200000000, 18489600000000, 18576000000000,
+       18662400000000, 18748800000000, 18835200000000, 18921600000000])
+feature = array([-0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,
+        0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0....5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,
+        0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5, -0.5,  0.5])
+label = array([-0.001,  0.002, -0.001,  0.002, -0.001,  0.002, -0.001,  0.002,
+       -0.001,  0.002, -0.001,  0.002, -0.001, ...  0.002,
+       -0.001,  0.002, -0.001,  0.002, -0.001,  0.002, -0.001,  0.002,
+       -0.001,  0.002, -0.001,  0.002])
+maturity = array([   86460000001,   172860000001,   259260000001,   345660000001,
+         432060000001,   518460000001,   604860...18489660000001, 18576060000001, 18662460000001,
+       18748860000001, 18835260000001, 18921660000001, 19008060000001])
+cut = 12960000000000, train_start = 0
+
+    def fit(decisions,feature,label,maturity,cut,train_start):
+     d=np.asarray(decisions,np.int64);x=np.asarray(feature,float);y=np.asarray(label,float);m=np.asarray(maturity,np.int64)
+     if any(a.shape!=d.shape for a in (x,y,m)):raise ValueError('Exact date alignment')
+     owned=(d>=train_start)&(d<cut)&(m<cut)&np.isfinite(x)&np.isfinite(y)
+     if owned.sum()<80:raise ValueError('Insufficient mature training dates')
+     threshold=float(np.median(x[owned]));bins=x>=threshold;counts=[int((owned&(bins==j)).sum()) for j in (0,1)]
+>    if min(counts)<40:raise ValueError('Insufficient mature bin support')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    ValueError: Insufficient mature bin support
+
+research/rank-persistence-routing-20261012/core.py:29: ValueError
+=========================== short test summary info ============================
+FAILED research/rank-persistence-routing-20261012/test_core.py::test_maturity_purge_and_future_label_tampering_never_change_training_fit
+1 failed, 2 passed in 0.25s

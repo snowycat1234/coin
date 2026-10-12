@@ -1,0 +1,17 @@
+/workspace/rank-persistence-state/source/bounded_cloud.py: OK
+.F.                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_maturity_purge_and_future_label_tampering_never_change_training_fit ___
+
+    def test_maturity_purge_and_future_label_tampering_never_change_training_fit():
+     d=np.arange(220,dtype=np.int64)*DAY;x=np.tile([-.5,.5],110);y=np.where(x>0,.002,-.001);m=d+DAY+60000001
+     model,owned=fit(d,x,y,m,151*DAY,0);assert not owned[150] and model['maximum_maturity_us']<151*DAY
+     y[~owned]=999;other,_=fit(d,x,y,m,151*DAY,0);assert model==other
+>    forecast,const=predict(model,x);assert forecast[0]==-.001 and forecast[1]==pytest.approx(.002) and np.all(const==model['constant'])
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert (np.float64(-0.0010000000000000002) == -0.001)
+
+research/rank-persistence-routing-20261012/test_core.py:16: AssertionError
+=========================== short test summary info ============================
+FAILED research/rank-persistence-routing-20261012/test_core.py::test_maturity_purge_and_future_label_tampering_never_change_training_fit
+1 failed, 2 passed in 0.24s

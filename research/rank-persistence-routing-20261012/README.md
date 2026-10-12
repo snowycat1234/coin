@@ -1,0 +1,11 @@
+# Rank persistence as one conditional information experiment
+
+This tests one previously unlocated input, the correlation across CORE5 of 21-day return ranks now and seven completed days ago. Both original CS/HOLD experts remain unchanged. It is different from the failed dual-speed ranking, which changed cross-sectional directions using rank21-rank1. Signed semivariance, generic taker flow, old Ridge/GRU/Hedge/FixedShare, calibration, CPD, policy, HRP and risk sizing failures are retained.
+
+Existing continuous financial results show that the apparent 2021–22 CS advantage concentrates in 2022H1; both fixed 2021 blocks underperform HOLD. In 2023 all four relative quarters are negative, CS long contribution +2621.147105 is offset by short -2636.177362. These observations suggest testing leadership persistence rather than treating calendar years as a signal. They do not prove a causal explanation or tradable short alpha.
+
+One candidate fit uses mature 2021Apr–Dec opportunity labels, a training-only median split and two bin means. The strongest no-information MSE comparator is the identical-support global training mean. SAME frozen model at 2022Jan1 scores every natural date in 2022H1, 2022H2 and full 2023. Each fold must independently pass; count actual mature common labels, not nominal calendar days. No refit, lag/window/median/threshold search or post-result exclusions. Labels reuse paid one-day quantity reference APIs and actual public funding coefficients; these are supervision, not continuous native portfolio income. New native wallets are prohibited unless all three information gates pass.
+
+The first draft proposed H12022 alone. Explicit user steering arrived before publication or any historical fit/validation query. Initial draft is retained at evidence/INITIAL_PREUSER_PROTOCOL.json; PROTOCOL.json records the 2026-10-12T16:35:52Z pre-result amendment adding reverse evidence and full natural folds. The mechanism and two-bin fit did not change.
+
+Three synthetic causal tests pass; two fixture failures are retained (odd tied-median support and exact float equality). Neither changed historical research parameters. Every Python stage uses the unchanged reconstructed conservative guard, no source downloads/lock body/2026/unknown holdout/live/Library access. Independent branch research/rank-persistence-routing-20261012.
