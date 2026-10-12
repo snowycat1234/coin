@@ -26,9 +26,21 @@ def test_native_factory_and_snapshot_contract_cannot_mix():
 def test_publication_rejects_wrong_arm_window_and_contract():
     from driver import HERE
     spec=importlib.util.spec_from_file_location('unified_publication',HERE/'archive.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-    binding=dict(window='P1',arm='CS_MATCHED',account_class=Closing.VERSION,contract_from_initial_capital=True)
-    result=dict(window='P1',arm='CS_MATCHED');m.identity(binding,result,'P1','CS_MATCHED')
+    binding=dict(window='P1',arm='CS_MATCHED',account_class=Closing.VERSION,contract_from_initial_capital=True,target_archive_SHA256=m.proto()['targets']['SHA256'],mixture_SHA256=m.proto()['windows']['P1']['mixture_SHA256'])
+    result=dict(window='P1',arm='CS_MATCHED',summary=dict(version=Closing.VERSION,contract=dict(closing_min_notional_exempt=True)));m.identity(binding,result,'P1','CS_MATCHED')
     for key,arm in [('P2','CS_MATCHED'),('P1','VOL_MATCHED')]:
         with pytest.raises(AssertionError):m.identity(binding,result,key,arm)
     for field,value in [('account_class','default'),('contract_from_initial_capital',False)]:
         with pytest.raises(AssertionError):m.identity(dict(binding,**{field:value}),result,'P1','CS_MATCHED')
+    m.publication_destination('P1','CS_MATCHED',HERE/'result/P1/CS_MATCHED')
+    for path in (HERE/'result/P1/STATIC50',HERE/'result/P2/CS_MATCHED'):
+        with pytest.raises(AssertionError):m.publication_destination('P1','CS_MATCHED',path)
+    with pytest.raises(AssertionError):m.identity(dict(binding,target_archive_SHA256='wrong'),result,'P1','CS_MATCHED')
+    bad=dict(result,summary=dict(version=Closing.VERSION,contract=dict(closing_min_notional_exempt=False)))
+    with pytest.raises(AssertionError):m.identity(binding,bad,'P1','CS_MATCHED')
+    index=dict(window='P1',arm='CS_MATCHED',members=[dict(name='BINDING.json',SHA256='bound')])
+    sidecar=dict(m.expected_index_identity('P1','CS_MATCHED'),original_INDEX_SHA256='index',BINDING_SHA256='bound')
+    m.check_index_identity(index,sidecar,'P1','CS_MATCHED','index')
+    for key,arm in [('P1','STATIC50'),('P2','CS_MATCHED')]:
+        with pytest.raises(AssertionError):m.check_index_identity(index,sidecar,key,arm,'index')
+    with pytest.raises(AssertionError):m.check_index_identity(index,dict(sidecar,publication_path='wrong'),'P1','CS_MATCHED','index')
