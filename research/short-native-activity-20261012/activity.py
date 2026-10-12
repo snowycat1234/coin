@@ -1,8 +1,11 @@
 from decimal import Decimal,localcontext
 import numpy as np
 
-def targets(d,w,start,end,fit,day=86400000000):
+CORE5=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT')
+
+def targets(d,w,start,end,fit,symbols,day=86400000000):
     d=np.asarray(d,np.int64);w=np.asarray(w,float)
+    if tuple(symbols)!=CORE5:raise ValueError('Exact CORE5 asset identity order')
     if not np.array_equal(d,np.arange(start,end,day)) or fit>start or w.shape!=(len(d),5) or not np.isfinite(w).all():raise ValueError('Exact causal full target calendar')
     if np.abs(w).max()>.3+1e-12 or np.abs(w).sum(1).max()>.6+1e-12:raise ValueError('Original shared caps')
     return w
@@ -33,3 +36,10 @@ def nav_bridge(trades,funds,quantity,marks,nav):
         expected=Decimal(10000)+gross-fees-execution+funding;error=abs(expected-Decimal(str(nav)))
         if error>Decimal('1e-8'):raise ValueError('Independent financial NAV bridge')
     return dict(gross_price_USDT=str(gross),fees_USDT=str(fees),execution_USDT=str(execution),funding_cash_USDT=str(funding),NAV=str(expected),maximum_error_USDT=str(error))
+
+def rejection_counts(rows):
+    out={}
+    for row in rows:
+        key=row.get('reason') or row.get('status') or 'UNKNOWN'
+        out[key]=out.get(key,0)+1
+    return out

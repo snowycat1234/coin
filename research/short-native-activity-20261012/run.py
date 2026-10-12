@@ -4,19 +4,19 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 import pyarrow.parquet as pq
-from activity import targets,episodes,nav_bridge
+from activity import targets,episodes,nav_bridge,rejection_counts
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1];NATIVE=ROOT/'research/native-mark-inputs-20261011'
 sys.path.insert(0,str(NATIVE));spec=importlib.util.spec_from_file_location('input_bridge',NATIVE/'inspect_phase.py');bridge=importlib.util.module_from_spec(spec);spec.loader.exec_module(bridge)
 from mark_bars import source_bars,day_block,legacy_projection,exact_boundary,DAY
 from scripts.investment.resumable_perpetual import NativeDailySimulator
 from scripts.investment.perpetual_directional import COSTS,UNITS,save_case
-from scripts.investment.public_sma_perpetual import SYMBOLS
 import pandas as pd
+SYMBOLS=tuple(bridge.SYMBOLS)
 
 def utc(s):return int(pd.Timestamp(s,tz='UTC').value//1000)
 def verify():
-    for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():
+    for line in (HERE/'ACTIVE_SOURCE_SHA256.txt').read_text().splitlines():
         sha,name=line.split(maxsplit=1);assert bridge.digest((ROOT/name).read_bytes())==sha,name
 
 def fund_events(state,start,end):
@@ -54,7 +54,9 @@ def run(state,source_commit,expected=None):
     path=ROOT/'research/minute-conditional-selector-20261011/result/VECTORS.npz'
     with np.load(path,allow_pickle=False) as z:
         selected=(z['eval_decision_us']>=start)&(z['eval_decision_us']<end);d=z['eval_decision_us'][selected];w=z['A_targets'][selected]
-    targets(d,w,start,end,utc('2022-01-01'))
+    with np.load(ROOT/'research/minute-conditional-selector-20261011/input/SOURCE_PREPARED.npz',allow_pickle=False) as z:
+        assert tuple(z['symbol_order'])==SYMBOLS,'Exact saved target column identity'
+    targets(d,w,start,end,utc('2022-01-01'),SYMBOLS)
     def factory(daily,clocks,mode):
         np.testing.assert_array_equal(clocks,d)
         return pl.DataFrame([dict(available_us=int(t),symbol=s,target_weight=float(w[i,j])) for i,t in enumerate(d) for j,s in enumerate(SYMBOLS)]),dict(source='UNCHANGED_SAVED_CAUSAL_A181_TARGETS',model_fit_available_us=start,target_archive_SHA256=bridge.digest(path.read_bytes()))
@@ -66,14 +68,13 @@ def run(state,source_commit,expected=None):
         sim.advance_day();assert time.monotonic()-began<600
         print('ACTUAL_ACCOUNT_DAY',sim.rows_written//1440,'shortfilllegs',sum(r['leg']=='OPEN' and r['position_delta']<0 for r in sim.account.trades),flush=True)
     case=sim.result();ep,q=episodes(case['trades'],SYMBOLS);summary=case['summary']
+    for s in SYMBOLS:assert q[s]==sim.account.positions[s].quantity,'Independent per-asset inventory bridge'
     financial=nav_bridge(case['trades'],case['funding'],q,summary['terminal_mark_prices'],sim.account.nav())
     saved=save_case(case,state/'ACCOUNT');summary=saved['summary']
     assert abs(sum(v['net_contribution'] for v in summary['long_short_marked_contribution'].values())-(summary['NAV']-10000))<1e-7
     minute=case['minute'];short=np.zeros(minute.height,bool)
     for s in SYMBOLS:short|=minute[s+'_quantity'].to_numpy()<0
-    shortdays=len(np.unique((minute['close_us'].to_numpy()[short]-1)//DAY));reasons={}
-    for r in case['rejections']:
-        key=r.get('reason',r.get('status','UNKNOWN'));reasons[key]=reasons.get(key,0)+1
+    shortdays=len(np.unique((minute['close_us'].to_numpy()[short]-1)//DAY));reasons=rejection_counts(case['rejections'])
     report=dict(status='COMPLETE_CONDITIONAL_SHORT_ACTIVITY' if summary['terminal_cash_realized'] and summary['completed_minutes']==44640 else 'STOP_CONDITIONAL_ACTIVITY_ACCOUNT_WITH_RESIDUAL_OR_HALT',source_commit=source_commit,
         target_dates=31,negative_target_dates=int((w<-1e-12).any(1).sum()),actual_short_open_fill_legs=sum(r['leg']=='OPEN' and r['position_delta']<0 for r in case['trades']),
         actual_short_unique_entry_episodes=len(ep),actual_negative_inventory_minutes=int(short.sum()),actual_negative_inventory_UTC_days=shortdays,
