@@ -1,0 +1,26 @@
+/workspace/historical-wide-cs-state/source/bounded_cloud.py: OK
+ACTUAL_FROZEN_WIDE_EVAL_DAILY_SOURCE 30 210 unknown 0
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/evaluate_source.py", line 33, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--selection',type=Path,required=True);a=p.parse_args();build(a.state,a.selection)
+                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/evaluate_source.py", line 27, in build
+    r=job.result();records.append(r);put(r,state)
+      ^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/source.py", line 55, in acquire
+    body,http=self.get(BUCKET+'?'+urlencode({'prefix':key,'max-keys':4}),'metadata',self.B['single_metadata_bytes']);(directory/(p.name+'.LIST.xml')).write_bytes(body)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/historical-wide-cs-20261012/source.py", line 49, in get
+    r.raise_for_status();return bytes(raw),row
+    ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin/.venv/lib/python3.12/site-packages/requests/models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 503 Server Error: Service Unavailable for url: https://s3-ap-northeast-1.amazonaws.com/data.binance.vision?prefix=data%2Ffutures%2Fum%2Fmonthly%2Fklines%2FBNBUSDT%2F1d%2FBNBUSDT-1d-2023-12.zip&max-keys=4

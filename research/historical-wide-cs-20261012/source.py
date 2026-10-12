@@ -51,13 +51,29 @@ class Intake:
    self.stop.set();raise
  def acquire(self,symbol,period,daily=False):
   key=archive_key(symbol,period,daily);p=self.state/'raw'/symbol/key.rsplit('/',1)[-1];directory=p.parent;directory.mkdir(parents=True,exist_ok=True)
-  if p.exists():raise AssertionError('Duplicateintakefor sameoriginal mustreuse recordedsource')
-  body,http=self.get(BUCKET+'?'+urlencode({'prefix':key,'max-keys':4}),'metadata',self.B['single_metadata_bytes']);(directory/(p.name+'.LIST.xml')).write_bytes(body)
+  receipt=directory/(p.name+'.SOURCE.json');listing=directory/(p.name+'.LIST.xml')
+  if receipt.exists():
+   old=json.loads(receipt.read_text());assert old['key']==key and old['symbol']==symbol and old['period']==period and old['daily']==daily
+   if 'path' in old:
+    assert sha(p)==old['ZIP_SHA256'] and sha(Path(str(p)+'.CHECKSUM'))==old['CHECKSUM_SHA256'];f,complete=frame(p,period,daily);assert len(f)==old['rows'] and complete==old['full_period']
+   assert sha(listing)==old['listing_SHA256'];return old
+  url=BUCKET+'?'+urlencode({'prefix':key,'max-keys':4})
+  if listing.exists():
+   body=listing.read_bytes();http=next(r for r in reversed(self.rows) if r['url']==url and r['status']==200);assert hashlib.sha256(body).hexdigest()==http['SHA256']
+  else:
+   body,http=self.get(url,'metadata',self.B['single_metadata_bytes']);listing.write_bytes(body)
   assert b'<!DOCTYPE' not in body.upper() and b'<!ENTITY' not in body.upper();root=ET.fromstring(body);assert root.tag=='{'+NS['s']+'}ListBucketResult' and root.findtext('s:Name',namespaces=NS)=='data.binance.vision' and root.findtext('s:Prefix',namespaces=NS)==key and root.findtext('s:IsTruncated',namespaces=NS)=='false'
   items={a.findtext('s:Key',namespaces=NS):a for a in root.findall('s:Contents',NS)}
-  if key not in items:return dict(symbol=symbol,period=period,daily=daily,status='UNKNOWN_ARCHIVE_ABSENT_FROM_CURRENT_OFFICIAL_LISTING',historical_nontradable=False,key=key,listing_SHA256=hashlib.sha256(body).hexdigest(),http=http)
+  if key not in items:
+   absent=dict(symbol=symbol,period=period,daily=daily,status='UNKNOWN_ARCHIVE_ABSENT_FROM_CURRENT_OFFICIAL_LISTING',historical_nontradable=False,key=key,listing_SHA256=hashlib.sha256(body).hexdigest(),http=http);save(receipt,absent);return absent
   assert key+'.CHECKSUM' in items and set(items)<={key,key+'.CHECKSUM'};announced=int(items[key].findtext('s:Size',namespaces=NS));assert 0<announced<=self.B['single_ZIP_bytes']
-  check,ch=self.get(BASE+key+'.CHECKSUM','archive',4096);expected=parse_checksum(check.decode('ascii'),p.name);raw,zh=self.get(BASE+key,'archive',self.B['single_ZIP_bytes']);assert len(raw)==announced and hashlib.sha256(raw).hexdigest()==expected;p.write_bytes(raw);Path(str(p)+'.CHECKSUM').write_bytes(check)
+  cp=Path(str(p)+'.CHECKSUM')
+  if cp.exists():check=cp.read_bytes()
+  else:check,ch=self.get(BASE+key+'.CHECKSUM','archive',4096);cp.write_bytes(check)
+  expected=parse_checksum(check.decode('ascii'),p.name)
+  if p.exists():raw=p.read_bytes();zh=next(r for r in reversed(self.rows) if r['url']==BASE+key and r['status']==200)
+  else:raw,zh=self.get(BASE+key,'archive',self.B['single_ZIP_bytes']);p.write_bytes(raw)
+  assert len(raw)==announced and hashlib.sha256(raw).hexdigest()==expected
   f,complete=frame(p,period,daily);out=dict(symbol=symbol,period=period,daily=daily,status='PASS_ACTUAL_1D_SOURCE' if complete else 'PARTIAL_ACTUAL_1D_SOURCE_RETAINED_NOT_NONTRADABILITY',key=key,path=str(p.relative_to(self.state)),ZIP_SHA256=expected,ZIP_bytes=len(raw),CHECKSUM_SHA256=hashlib.sha256(check).hexdigest(),listing_SHA256=hashlib.sha256(body).hexdigest(),object_LastModified=items[key].findtext('s:LastModified',namespaces=NS),retrieved_source_headers=zh['headers'],rows=len(f),full_period=complete,first_open_ms=int(f.timestamp_ms.iloc[0]),last_close_ms=int(f.close_time_ms.iloc[-1]),actual_quote_volume_USDT=math.fsum(f.quote_volume.to_list()),actual_trades=int(f.trades.sum()),archive_historical_arrival_certified=False)
   save(directory/(p.name+'.SOURCE.json'),out);return out
 
