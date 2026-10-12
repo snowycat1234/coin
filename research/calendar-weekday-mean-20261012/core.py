@@ -1,5 +1,8 @@
 """Restricted calendar conditional means, mature training only."""
 import numpy as np
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2]
+SYMBOLS=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT')
 DAY=86_400_000_000;FIT=int(np.datetime64('2023-01-01','us').astype('int64'));START=int(np.datetime64('2021-01-01','us').astype('int64'))
 def weekday(d):return (np.asarray(d,np.int64)//DAY+3)%7
 def fit(d,y,mature):
