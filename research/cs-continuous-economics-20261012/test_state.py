@@ -19,6 +19,17 @@ def test_funding_body_tamper_and_wrong_calendar_stop_before_wallet(tmp_path):
     index['calendar'][0]+=DAY;(tmp_path/'SOURCE_INDEX.json').write_text(json.dumps(index))
     with pytest.raises(AssertionError):window(tmp_path)
 
+def test_actual_rate_source_union_recovers_boundary_without_imputation_or_conflicting_overlap():
+    import pandas as pd,pytest
+    from source_prepare import actual_rate_union
+    old=pd.DataFrame(dict(calc_time_ms=[0,28800000],last_funding_rate=[.01,.02],funding_interval_hours=[8.,8.]))
+    complete=pd.DataFrame(dict(calc_time_ms=[0,28800000,57600000],last_funding_rate=[.01,.02,.03],funding_interval_hours=[8.,8.,8.]))
+    result,duplicates=actual_rate_union(old,complete)
+    assert duplicates==2 and len(result)==3 and result.calc_time_ms.tolist()==[0,28800000,57600000]
+    np.testing.assert_array_equal(result.last_funding_rate,complete.last_funding_rate)
+    bad=complete.copy();bad.loc[0,'last_funding_rate']=.04
+    with pytest.raises(ValueError):actual_rate_union(old,bad)
+
 def test_real_default_kernel_split_snapshot_restores_all_scheduler_account_and_minutes(tmp_path):
     window=dict(start=0,end=DAY,symbols=SYMBOLS,daily=pl.DataFrame([dict(symbol=s,close_us=0,close=100.) for s in SYMBOLS]),events=[],market={s:dict(open=np.full(1440,100.),close=np.full(1440,100.),quote_volume=np.full(1440,1000000.),mark=np.full(1440,100.)) for s in SYMBOLS})
     def factory(daily,clocks,mode):return pl.DataFrame([dict(available_us=0,symbol=s,target_weight=.02) for s in SYMBOLS]),dict(authority='SYNTHETIC')

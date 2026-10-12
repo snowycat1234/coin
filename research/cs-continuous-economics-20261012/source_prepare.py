@@ -13,10 +13,26 @@ cpth=ROOT/'research/composite-mark-replay-20261011';sys.path.insert(0,str(cpth))
 from composite_bars import composite_bars
 from replay import phase
 
+def actual_rate_union(past,recent):
+    from modules.collector_research.pipeline.normalize import deduplicate
+    columns=['calc_time_ms','last_funding_rate','funding_interval_hours']
+    merged,duplicates=deduplicate(pd.concat([past[columns],recent[columns]],ignore_index=True),'calc_time_ms')
+    return merged,duplicates
+
+class CachedPublicReader(b.SourceReader):
+    def __init__(self,inventory,state,reuse):super().__init__(inventory,state,local=False);self.reuse=reuse
+    def wrapper(self,name):
+        if name in self.wrappers:return self.wrappers[name]
+        if self.reuse is not None and name=='Y2021':
+            p=self.reuse/'Y2021.zip';r=self.inventory['source_wrappers'][name]
+            assert p.stat().st_size==r['bytes'] and sha(p)==r['SHA256'],'Exact existing public Git wrapper cache'
+            self.wrappers[name]=zipfile.ZipFile(p);return self.wrappers[name]
+        return super().wrapper(name)
+
 def verify():
     for line in (HERE/'NATIVE_SOURCE_SHA256.txt').read_text().splitlines():s,p=line.split(maxsplit=1);assert sha(ROOT/p)==s,p
 
-def build(state,source,expected=None):
+def build(state,source,expected=None,reuse=None):
     assert not state.exists() and not b.git('status','--porcelain')
     if not expected:assert b.git('rev-parse','HEAD').decode().strip()==source
     verify();state.mkdir();(state/'months').mkdir();started=time.monotonic();b.configure(state,'REUSE_2021_JAN_NOV');proto=json.loads((HERE/'PROTOCOL.json').read_text());start,end=map(native.utc,proto['native_calendar']);d=np.arange(start,end,DAY)
@@ -26,7 +42,7 @@ def build(state,source,expected=None):
         p,c=phase(proto['source']['trade_commit'],b.TRADE,name);tp.update({(r['source']['month'],r['source']['symbol']):r for r in p['sources']});cert.append(dict(domain='klines',phase=name,**c))
     for name in ('REUSE_2021_JAN_NOV','DEC2021','Q12022','Q22022'):
         p,c=phase(proto['source']['mark_commit'],b.MARK,name);mp.update({(r['source']['month'],r['source']['symbol']):r for r in p['sources']});cert.append(dict(domain='markPriceKlines',phase=name,**c))
-    inv,*_=b.inventories();reader=b.SourceReader(inv,state,local=False);records=[];daily=[];previous={}
+    inv,*_=b.inventories();reader=CachedPublicReader(inv,state,reuse);records=[];daily=[];previous={}
     from modules.collector_research.pipeline.normalize import month_limits
     months=pd.period_range('2021-04','2022-06',freq='M')
     for month in months:
@@ -64,12 +80,14 @@ def build(state,source,expected=None):
             name2='source_tables_not_model_inputs/economics/'+s+'_funding_events.parquet';recent=z.read(name2);assert hashlib.sha256(recent).hexdigest()==members[name2]['SHA256']
             columns=['calc_time_ms','last_funding_rate','funding_interval_hours']
             past=pq.read_table(io.BytesIO(old),columns=columns,filters=[('calc_time_ms','>=',start//1000),('calc_time_ms','<',min(end,native.utc('2022-01-01'))//1000)]).to_pandas()
-            new=pq.read_table(io.BytesIO(recent),columns=columns,filters=[('calc_time_ms','>=',native.utc('2022-01-01')//1000),('calc_time_ms','<',end//1000)]).to_pandas()
-            f=pd.concat([past,new],ignore_index=True).sort_values('calc_time_ms');ts=f.calc_time_ms.to_numpy(np.int64)*1000;hours=f.funding_interval_hours.to_numpy(float)
+            # The public small table has actual pre2022 events too. Its full
+            # prefix restores Dec31 16h absent from the truncated Y2021 table.
+            new=pq.read_table(io.BytesIO(recent),columns=columns,filters=[('calc_time_ms','>=',start//1000),('calc_time_ms','<',end//1000)]).to_pandas()
+            f,duplicate_count=actual_rate_union(past,new);ts=f.calc_time_ms.to_numpy(np.int64)*1000;hours=f.funding_interval_hours.to_numpy(float)
             assert len(f)==456*3 and not f.calc_time_ms.duplicated().any() and np.isfinite(f.to_numpy()).all() and ts[0]>=start and ts[-1]<end
             delta=np.diff(ts);assert ((np.abs(delta-hours[:-1]*3600000000)<=1000000)|(np.abs(delta-hours[1:]*3600000000)<=1000000)).all(),'Actual fund coverage/spacing'
             for r in f.itertuples(index=False):events.append(dict(symbol=s,event_us=int(r.calc_time_ms)*1000,raw_rate=float(r.last_funding_rate),reported_interval_hours=float(r.funding_interval_hours)))
-            fundproof.append(dict(symbol=s,events=len(f),actual2021_member_SHA256=hashlib.sha256(old).hexdigest(),actual2022_member_SHA256=hashlib.sha256(recent).hexdigest()))
+            fundproof.append(dict(symbol=s,events=len(f),actual2021_member_SHA256=hashlib.sha256(old).hexdigest(),actual2020plus_member_SHA256=hashlib.sha256(recent).hexdigest(),exact_overlapping_events=duplicate_count,actual_restored_2021_events=len(new[new.calc_time_ms<native.utc('2022-01-01')//1000])-len(past)))
     reader.close();events.sort(key=lambda r:(r['event_us'],r['symbol']));save(state/'EVENTS.json',events);save(state/'DAILY.json',daily)
     report=dict(status='PASS_EXACT_FIXED456DAY_CONTINUOUS_SOURCE',science_source_commit=source,calendar=[start,end],days=456,minutes_per_asset=456*1440,symbol_order=list(SYMBOLS),months=records,source_certificates=cert,funding=fundproof,funding_events=len(events),daily_price_parity=True,provider_downloads=0,new_models=0,new_wallets=0,native_authority='CONDITIONAL_RAWFRACTION_PRIOR_MARK_ASSUMED_MMR_FEE_ARRIVAL_NOT_NATIVE_CERTIFIED')
     report['files']={name:dict(SHA256=sha(state/name),bytes=(state/name).stat().st_size) for name in ('EVENTS.json','DAILY.json')}
@@ -79,4 +97,4 @@ def build(state,source,expected=None):
         save(state/'PUBLIC_SOURCE_RESTORE.json',dict(status='PASS_EXACT_PUBLIC456DAY_SOURCE_PROOF',artifact_commit=expected,provider_downloads=0,new_models=0,new_wallets=0))
     print('CONTINUOUS_SOURCE_READY',456,456*1440,len(events),flush=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);p.add_argument('--expected-commit');a=p.parse_args();build(a.state,a.source_commit,a.expected_commit)
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);p.add_argument('--expected-commit');p.add_argument('--reuse-wrapper',type=Path);a=p.parse_args();build(a.state,a.source_commit,a.expected_commit,a.reuse_wrapper)
