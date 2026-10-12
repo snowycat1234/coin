@@ -1,0 +1,7 @@
+External announced monetary-policy information probe. Fourteen Federal Reserve FOMC releases bind exact New York release time and target upper range; independent official NYFed data checks each bound. No revision-sensitive EFFR history is used as a feature. Source_policy.py, originals in STATEMENTS.json.gz and POLICY_RELEASES.json make the publication clock reviewable.
+
+New standalone owned-day training protocol: 2021/2022 true mature known benchmark labels, at least600 distinct actual training dates per two fitted models, then whole2023 already-seen chronological development. Owned exposure intervals are nonoverlapping even though conservative daily-table label maturity is later. The old selector alternate-date counts and old181/607 results are unchanged. No policy shock causal claim or600 independent policy regimes.
+
+PRICE8 vs POLICY11 uses same existing VOL_MANAGED_HOLD portfolio teacher and unchanged paid daily quantity reference, raw funding interpretation, risk/caps/terminal. Unknown source is retained, not filled with free PnL. Information and economic gates are frozen in PROTOCOL.json before new preparation or fitting. Native run only after gates AND source readiness. No threshold/window rescue.
+
+Prefit focused tests3PASS. Prior matching source/strategy dedup excludes already tested breadth/GMM/RSI2 and residual/HAR/quantile/funding/CPD/flow/wide-pool repetitions. Parent modules preserved at7089b4ef. See appended results/evidence as stages complete.
