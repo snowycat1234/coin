@@ -1,24 +1,35 @@
 """Three-arm lossless packet adapter using original split-state and numeric APIs."""
-import argparse,gc,hashlib,json,sys,time,zipfile
+import argparse,gc,hashlib,io,json,sys,time,zipfile
 from pathlib import Path
+import numpy as np
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1];sys.path.insert(0,str(HERE))
 from experiment import native,b,save,sha,proto,verify,source_window,restore_snapshot,ARMS,SYMBOLS
 sys.path.insert(0,str(ROOT/'research/cs-continuous-economics-20261012'));from persistence import minute_fingerprint
 import source_prepare as prep1
 prep2=sys.modules['source']
 assert Path(prep2.__file__).resolve()==ROOT/'research/cs-2023-continuous-economics-20261012/source.py'
+def encode_chunk(path):
+    with np.load(path,allow_pickle=False) as z:a=z['minute_chunk']
+    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==37 and np.isfinite(a).all()
+    f=io.BytesIO();np.savez_compressed(f,column_chunk=np.ascontiguousarray(a.T));return f.getvalue()
+def decode_chunk(raw,path,expected_sha):
+    with np.load(io.BytesIO(raw),allow_pickle=False) as z:a=np.ascontiguousarray(z['column_chunk'].T)
+    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==37 and np.isfinite(a).all()
+    np.savez_compressed(path,minute_chunk=a);assert sha(path)==expected_sha,'Original NPZ bytes must reproduce exactly'
 def pack(state,key,dest):
-    verify();assert not dest.exists();dest.mkdir();packet=state/'PUBLIC.zip';members=[]
+    verify();assert not dest.exists();dest.mkdir();packet=state/'PUBLIC.zip';members=[];chunks=[]
     for arm in ARMS:
         p=state/arm/'account/minute_nav_inventory.parquet';f=native.pl.read_parquet(p);save(state/arm/'MINUTE_NUMERIC.json',dict(columns=minute_fingerprint(f),original_Parquet_SHA256=sha(p),original_Parquet_bytes=p.stat().st_size));del f;gc.collect()
     with zipfile.ZipFile(packet,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-        def add(name,p):
-            raw=p.read_bytes();info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,raw);members.append(dict(name=name,bytes=len(raw),SHA256=hashlib.sha256(raw).hexdigest()))
+        def add_raw(name,raw):
+            info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,raw);members.append(dict(name=name,bytes=len(raw),SHA256=hashlib.sha256(raw).hexdigest()))
+        def add(name,p):add_raw(name,p.read_bytes())
         for name in ('RESULT.json','BINDINGS.json','TIMING.json'):add(name,state/name)
         for arm in ARMS:
             root=state/arm;ptr=json.loads((root/'recovery/POINTER.json').read_text())
             for name in ('ACCOUNT.json','RESULT.json','DAILY.csv','MINUTE_NUMERIC.json','recovery/POINTER.json','recovery/'+ptr['snapshot_path']):add(arm+'/'+name,root/name)
-            for r in ptr['chunks']:add(arm+'/recovery/'+r['path'],root/'recovery'/r['path'])
+            for r in ptr['chunks']:
+                original=arm+'/recovery/'+r['path'];encoded=original+'.COLUMNS.npz';add_raw(encoded,encode_chunk(root/'recovery'/r['path']));chunks.append(dict(original=original,encoded=encoded,original_SHA256=r['SHA256']))
             for p in sorted((root/'account').iterdir()):
                 if p.is_file() and p.name!='minute_nav_inventory.parquet':add(arm+'/account/'+p.name,p)
     assert packet.stat().st_size<250000000;parts=[]
@@ -26,7 +37,7 @@ def pack(state,key,dest):
         i=0
         while raw:=f.read(786432):
             p=dest/f'PUBLIC.zip.part{i:04d}';p.write_bytes(raw);parts.append(dict(file=p.name,bytes=len(raw),SHA256=hashlib.sha256(raw).hexdigest()));i+=1
-    save(dest/'INDEX.json',dict(window=key,arms=list(ARMS),packet_bytes=packet.stat().st_size,packet_SHA256=sha(packet),parts=parts,members=members,scope='GENUINE3SCHEDULERS_ALL37MINUTEVALUES_EXACT_PQCONTAINER_NOT_REPUBLISHED'));print('DUAL_SPEED_PACKET',key,packet.stat().st_size,len(parts),flush=True)
+    save(dest/'INDEX.json',dict(window=key,arms=list(ARMS),packet_bytes=packet.stat().st_size,packet_SHA256=sha(packet),parts=parts,members=members,lossless_chunks=chunks,codec='FLOAT64_COLUMNS_COPY_TRANSPOSE_NO_ARITHMETIC_OR_QUANTIZATION_OR_NPZ_METADATA_CHANGE_AFTER_DECODE',scope='GENUINE3SCHEDULERS_ALL37MINUTEVALUES_AND_ORIGINAL_NPZ_BYTES_EXACT_PQCONTAINER_NOT_REPUBLISHED'));print('DUAL_SPEED_PACKET',key,packet.stat().st_size,len(parts),flush=True)
 def restore(state,key,artifact):
     assert not state.exists() and not b.git('status','--porcelain');verify();state.mkdir();started=time.monotonic();blocked=[]
     def audit(event,args):
@@ -43,6 +54,8 @@ def restore(state,key,artifact):
         assert z.testzip() is None and len(z.namelist())==len(set(z.namelist())) and set(z.namelist())==set(expected)
         for name in z.namelist():
             p=dest/name;assert p.resolve().is_relative_to(dest.resolve());raw=z.read(name);r=expected[name];assert len(raw)==r['bytes'] and hashlib.sha256(raw).hexdigest()==r['SHA256'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
+    for r in index['lossless_chunks']:
+        p=dest/r['original'];assert p.resolve().is_relative_to(dest.resolve()) and not p.exists();decode_chunk((dest/r['encoded']).read_bytes(),p,r['original_SHA256'])
     W=proto()['windows'][key];prepared=state/'source'
     if key=='P1':prep1.build(prepared,W['source_science'],expected=W['source_artifact'])
     else:
