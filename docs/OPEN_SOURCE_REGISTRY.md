@@ -1,4 +1,3 @@
-# FR61 开源复用登记表
 
 ### D054实际复用
 
@@ -663,3 +662,5 @@ Official Federal Reserve FOMC statements,2019Oct30/2020Mar3-Mar15/2022seven hike
 
 2026-10-12 portfolio risk budget: reuse original signed daily covariance convention (30 simple returns/ddof1/annual365), exact fixed-half components, unchanged QuantityGridAccount/Closing/native financial kernel and current94b2238 quantity assumptions. Thin uniform scaling to existing annual.10 budget with original asset.3/gross.6 bounds; no external allocation model, new package or upstream modifications. Compact checkpoint reuses genuine split_snapshot and existing column transpose-copy NPZ encoding; original NPZ bytes reproducible, all minute bits retained, no redundant Parquet container claim. Standard library gzip/zipfile/hashlib and existing NumPy/Polars/pytest only. Source code/protocol provenance in independent research/portfolio-risk-budget-20261012; no other research source edited.
 2026-10-12 full2025 source-body admission: reuse unchanged collector Job/fetch/check_zip/numeric_csv/validate_price APIs and original Git consumer receipts be48f551, H1/tail d69e9ac9 anddaily/funding primitives88a77396. Thin60-body original-SHA recovery wrapper; no new financial/model/package implementation. Official data.binance.vision URLs only, original complete-grid identities remain mandatory, no API restriction bypass or missing-data interpolation. New independent source/protocol/evidence paths research/portfolio-risk-2025-admission-20261012.
+
+# FR61 开源复用登记表
