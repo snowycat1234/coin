@@ -10,11 +10,12 @@ prep2=sys.modules['source']
 assert Path(prep2.__file__).resolve()==ROOT/'research/cs-2023-continuous-economics-20261012/source.py'
 def encode_chunk(path):
     with np.load(path,allow_pickle=False) as z:a=z['minute_chunk']
-    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==37 and np.isfinite(a).all()
+    # Original scheduler stores36 values; result() adds the37th clock coordinate.
+    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==36 and np.isfinite(a).all()
     f=io.BytesIO();np.savez_compressed(f,column_chunk=np.ascontiguousarray(a.T));return f.getvalue()
 def decode_chunk(raw,path,expected_sha):
     with np.load(io.BytesIO(raw),allow_pickle=False) as z:a=np.ascontiguousarray(z['column_chunk'].T)
-    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==37 and np.isfinite(a).all()
+    assert a.dtype==np.float64 and a.ndim==2 and a.shape[1]==36 and np.isfinite(a).all()
     np.savez_compressed(path,minute_chunk=a);assert sha(path)==expected_sha,'Original NPZ bytes must reproduce exactly'
 def pack(state,key,dest):
     verify();assert not dest.exists();dest.mkdir();packet=state/'PUBLIC.zip';members=[];chunks=[]
