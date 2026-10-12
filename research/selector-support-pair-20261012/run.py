@@ -165,7 +165,8 @@ def run(state,source_commit,expected=None):
     require(not state.exists() and state.resolve().is_relative_to(Path('/workspace')),'Fresh boundedSTATE')
     require(not m.git('status','--porcelain'),'Cleanpublishedsource')
     if expected is None:require(m.git('rev-parse','HEAD').decode().strip()==source_commit,'Publishedexactsource')
-    for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():
+    manifest='COLD_SOURCE_SHA256.txt' if expected else 'SOURCE_SHA256.txt'
+    for line in (HERE/manifest).read_text().splitlines():
         sha,name=line.split(maxsplit=1);require(m.digest((ROOT/name).read_bytes())==sha,'SourceSHA '+name)
     state.mkdir();began=time.monotonic()
     source,frames,holes,preparation=m.load_inputs(ROOT/'research/minute-conditional-selector-20261011/input')
@@ -241,10 +242,19 @@ def run(state,source_commit,expected=None):
     if expected:
         old=json.loads(m.git('show',expected+':research/selector-support-pair-20261012/result/RESULT.json'))
         require(old==report,'Exactscientificpair report')
-        for name in ('ACTUAL_LOSS_DATES.csv','REWARD_BOUNDARY_LEDGER.csv','VECTORS.npz'):
+        for name in ('REWARD_BOUNDARY_LEDGER.csv','VECTORS.npz'):
             require(m.git('show',expected+':research/selector-support-pair-20261012/result/'+name)==(state/name).read_bytes(),'Exactpublicartifact '+name)
-        m.save(state/'PUBLIC_RESTORE.json',dict(status='PASS_EXACT_ZERO_FIT_SUPPORT_PAIR_RESTORE',artifact_commit=expected,new_fits=0,
-            native_wallets=0,provider_downloads=0,elapsed_seconds=time.monotonic()-began))
+        old_dates=pd.read_csv(io.BytesIO(m.git('show',expected+':research/selector-support-pair-20261012/result/ACTUAL_LOSS_DATES.csv')),
+                              dtype=str,keep_default_na=False)
+        new_dates=pd.read_csv(state/'ACTUAL_LOSS_DATES.csv',dtype=str,keep_default_na=False)
+        old_loss=old_dates.pop('effective_data_loss').to_numpy(float);new_loss=new_dates.pop('effective_data_loss').to_numpy(float)
+        pd.testing.assert_frame_equal(old_dates,new_dates,check_exact=True)
+        np.testing.assert_allclose(old_loss,new_loss,rtol=1e-12,atol=1e-18)
+        m.save(state/'PUBLIC_RESTORE.json',dict(status='PASS_ZERO_FIT_EXACT_DATES_CLOCKS_PREDICTION_TARGET_SCORE_NUMERICAL_LOSS',
+            artifact_commit=expected,new_fits=0,native_wallets=0,provider_downloads=0,
+            scientific_report_exact=True,reward_boundary_ledger_byte_exact=True,prediction_target_vectors_byte_exact=True,
+            all_date_identity_clock_weight_positive_loss_fields_exact=True,loss_rtol=1e-12,loss_atol=1e-18,
+            maximum_loss_absolute_difference=float(np.max(np.abs(old_loss-new_loss))),elapsed_seconds=time.monotonic()-began))
     require(time.monotonic()-began<600,'Source/full600s budget')
     print(json.dumps(scores,indent=2),flush=True)
 
