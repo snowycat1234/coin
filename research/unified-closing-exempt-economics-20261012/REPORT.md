@@ -1,4 +1,24 @@
-本模块冻结现有 Closing v2 账户为三臂统一期初合约。只豁免退出腿的最小名义额；开仓门槛、数量步长与真实容量、费用/执行成本、资金费、逐仓保证金、风险限制、原终端付款平仓均沿用。1e-8 是未认证数量代理，不能据此宣称历史或当前交易所原生可交易。
+本模块已完成：统一期初Closing合约下，六个独立共享10k钱包都完整付款清仓、零残仓/债务/清算，六臂原始状态和全部分钟账本公开冷恢复通过。STATIC50两窗口均获正净收益、通过风险门槛，但现金置信区间都跨零，经济结论仍是STOP。此结果解决条件退出可行性，未证明稳健趋势/反转增量或原生可交易性。
+
+| 固定已见窗口 | 臂 | 净USDT | 年化日波动 | 全观察最大回撤 | 冻结门槛 |
+|---|---|---:|---:|---:|---|
+| P1 456日 | CS_MATCHED | +2637.824583 | 9.835080% | 7.975715% | PASS本窗口 |
+| P1 456日 | VOL_MATCHED | +342.136528 | 10.858409% | 18.590239% | STOP |
+| P1 456日 | STATIC50 | +1466.383920 | 6.865349% | 5.540283% | STOP现金CI |
+| P2 365日 | CS_MATCHED | −31.902468 | 12.516437% | 15.046141% | STOP |
+| P2 365日 | VOL_MATCHED | +2398.709871 | 11.204633% | 9.251858% | STOP现金CI |
+| P2 365日 | STATIC50 | +1168.226365 | 7.496374% | 8.704479% | STOP现金CI |
+
+两窗口不拼接，方向贡献来自同一共享钱包。50:50没有重新放大抵消后的风险，联合风险低于分量，净增量不是等风险alpha，也不能事后选择每期最强控制形成oracle收益。各case的费用、执行、资金费、gross/net、保证金、月度路径及完整门槛均在summary RESULT.json。
+
+| STATIC50窗口 | 价格PnL | 手续费 | 执行成本 | 资金费现金 | 同钱包LONG/SHORT净贡献 |
+|---|---:|---:|---:|---:|---|
+| P1 | 1777.258606 | 66.939793 | 97.368108 | −146.566785 | +598.930294 / +867.453625 |
+| P2 | 1411.308734 | 65.756652 | 95.646943 | −81.678773 | +2096.395357 / −928.168992 |
+
+全六包有效载荷458126529B<冻结500MB，3546720分钟行；六公开恢复总626.288182秒，实际钱包阶段P1/P2为631.341437/456.530578秒，单CPU依次运行，不重复计算父子耗时。最大采样RSS944873472B<2GB，各guard成功；6相关测试PASS3.96秒，复现shell语法与29源SHA通过。evidence/COMPLETION.json与IDENTITY_REVIEW.md给出完整收尾证明。
+
+本模块冻结现有 Closing v2 账户为三臂统一期初合约。只豁免退出腿的最小名义额；开仓门槛、数量步长与真实容量、费用/执行成本、资金费、逐仓保证金、风险限制、原终端付款平仓均沿用。1e-8 是未认证数量代理，不能据此宣称历史或当前交易所原生可交易。原内核不保证价格漂移时瞬时caps：P1 CS实际gross最高.607367，原风险付费减仓及该限制均保留，没有提高.6目标上限。
 
 一个固定尝试，P1 `[2021-04-01,2022-07-01)` 456日及 P2 完整2023 365日，各 CS_MATCHED、VOL_MATCHED、STATIC50 三个独立共享10k账户，至多6新账户/0拟合/0下载。目标023ebb…及旧STATIC50 fe694d…/252d34…逐字节复用，50:50 不放大抵消后的风险。所有窗口是已见开发验证，不能称全新样本外、论文原样复现或跨窗口拼接收益。
 
@@ -16,7 +36,7 @@
 COIN_CPD_STATE=/workspace/unified-exit-economics-state QUANT_ROOT=/workspace/coin-tail-risk QUANT_STATE=/workspace/unified-exit-economics-state bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python research/unified-closing-exempt-economics-20261012/driver.py --window P1 --state /workspace/unified-exit-economics-state/OBSERVED_P1 --prepared /workspace/cs-continuous-state/SOURCE_RECOVERED --source-commit "$(git rev-parse HEAD)"
 ```
 
-完整冻结身份和预算见 PROTOCOL.json/SOURCE_SHA256.txt。归档 `archive.py pack --window P1 --arm CS_MATCHED --state <armSTATE> --destination <result/P1/CS_MATCHED>`；公开版本恢复 `archive.py restore --window P1 --arm CS_MATCHED --state <emptySTATE> --artifact-commit <packetSHA>`。P2沿用同命令替换窗口和缓存 `/workspace/cs-2023-state/SOURCE_OBSERVED`。
+完整冻结身份和预算见 PROTOCOL.json/SOURCE_SHA256.txt。归档 `archive.py pack --window P1 --arm CS_MATCHED --state <armSTATE> --destination <result/P1/CS_MATCHED>`；公开版本恢复 `archive.py restore --window P1 --arm CS_MATCHED --state <emptySTATE> --artifact-commit <published-identity-and-packet-SHA>`。P2沿用同命令替换窗口和缓存 `/workspace/cs-2023-state/SOURCE_OBSERVED`。
 
 P1 实际运行631.341437秒（科学来源9c578028），三臂均完整456日/656640分钟、付款清仓、零残仓/债务/清算、独立Decimal NAV误差最大3e-35。CS净+2637.824583（vol9.835080%/DD7.975715%）全部窗口门槛通过；HOLD净+342.136528（vol10.858409%/风险门槛失败/现金CI跨零）；STATIC50净+1466.383920（vol6.865349%/风险门槛通过），现金14日区块CI[-.000044404541,.000691541682]跨零，STOP。STATIC50对CS少1171.440664、对HOLD多1124.247392USDT，联合风险不同的同合约描述性比较。旧默认42日停止记录未覆盖；不同合约从期初重跑不能解释成旧账户中途收益补救。
 
@@ -39,3 +59,7 @@ bash research/unified-closing-exempt-economics-20261012/reproduce.sh P2 STATIC50
 ```
 
 选择P1/P2及三臂名可恢复对应独立案例；脚本保持原guard，必须用空STATE，公开身份与原始INDEX完整核验后从Git恢复行情与账本，零账户推进。预备数据而非执行的恢复读行情Tape不计新经济实验。已认证限于软件与固定历史条件，原生数量/费用/资金费/MMR及到达执行权威缺口仍保留。
+
+最终六臂公开恢复全部PASS。P2 CS/HOLD/STATIC50实际113.050352/122.763990/128.287330秒，各源12个月/525600分钟/5475资金费记录准确，所有37字段位与坐标、原NPZ字节、调度器/账户hash、summary、账本、库存和独立NAV一致；0推进/拟合/供应商请求/观测STATE读取。最后数据与身份版ee86ff44，全部six-path独立只读审阅PASS（0Python/账户/写入），元数据整体检查再次核原OBSERVED与公开BINDING/RESULT逐字节一致。六个原始观测案例永久保留，发布过且验证过的临时重建副本可回收。
+
+结论是有边界的条件执行成功与经济STOP：旧默认42日ETH维护停止、旧残仓及所有负结果保持；新期初合约不能拼接到旧赚钱路径。此两段已见历史不提供全新样本外或选择调整后的统计证据。当前/历史逐币minQty/lot、费用、资金费单位与实际收费mark、MMR及到达执行权威仍未认证；403/451不再请求，2024mark缺口不补造，2026锁未打开，丢失本地账本未声称恢复。没有实盘、部署、钥匙/凭证、付费、Library或另一收益分布研究修改。
