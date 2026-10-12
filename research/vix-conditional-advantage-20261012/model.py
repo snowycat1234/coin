@@ -1,0 +1,38 @@
+"""One VIX scalar, same mature opportunity teacher and all frozen folds."""
+import argparse,hashlib,importlib.util,json,subprocess,sys,time
+from pathlib import Path
+import numpy as np
+import pandas as pd
+from vix import parse,feature
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
+sys.path.insert(0,str(ROOT/'research/rank-persistence-routing-20261012'))
+spec=importlib.util.spec_from_file_location('unchanged_causal_label_source',ROOT/'research/rank-persistence-routing-20261012/run.py');prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior)
+from core import fit,predict,paired_gain
+utc,save,sha,git=prior.utc,prior.save,prior.sha,prior.git
+def verify():
+ for line in (HERE/'SOURCE_SHA256.txt').read_text().splitlines():h,p=line.split(maxsplit=1);assert sha(ROOT/p)==h,p
+def inputs():
+ prior.verify();d,ignored_rank,raw,w=prior.inputs();source=json.loads((HERE/'source/SOURCE_RESULT.json').read_text());path=HERE/'source/VIXCLS.csv';assert sha(path)==source['raw_SHA256'];t,v=parse(path.read_bytes());x,proof=feature(d,t,v)
+ known=np.isfinite(x);obs=np.array([r.get('observation_date_us',-1) for r in proof],np.int64);available=np.array([r.get('available_proxy_us',-1) for r in proof],np.int64);age=np.array([r.get('age_after_proxy_us',-1) for r in proof],np.int64)
+ assert np.all(available[known]<=d[known]);assert np.all(age[known]<=4*86400000000)
+ cutoff=utc('2022-01-01');changed=v.copy();changed[t+2*86400000000>cutoff]*=20;alternate,_=feature(d,t,changed);np.testing.assert_array_equal(x[d<=cutoff],alternate[d<=cutoff])
+ return d,x,raw,w,obs,available,age,proof
+def train(state,science):
+ assert not state.exists() and not git('status','--porcelain') and git('rev-parse','HEAD').decode().strip()==science;verify();state.mkdir(parents=True);began=time.monotonic();d,x,raw,w,obs,available,age,proof=inputs();maturity=raw['true_reward_maturity_us'];cut=utc('2022-01-01');requested=(d<cut)&(maturity<cut)
+ y,net,reason=prior.labels(d,raw,w,requested);model,owned=fit(d,x,y,maturity,cut,utc('2021-04-01'));model.update(input='LAST_ACTUAL_VIX_DAILY_CLOSE_2D_CONSERVATIVE_PROXY',vintage='LATEST_AT_RETRIEVAL_NOT_POINT_IN_TIME',raw_source_SHA256=sha(HERE/'source/VIXCLS.csv'),distinct_actual_VIX_observation_dates_used=int(np.unique(obs[owned]).size),calendar_dates_with_carried_quote=int((age[owned]>0).sum()));save(state/'MODEL.json',model)
+ np.savez_compressed(state/'TRAIN_VECTORS.npz',decision_us=d,feature=x,maturity_us=maturity,label=y,net_return=net,training_mask=owned,VIX_observation_date_us=obs,VIX_available_proxy_us=available,VIX_age_after_proxy_us=age)
+ pd.DataFrame(dict(decision_us=d,feature=x,maturity_us=maturity,training_requested=requested,training_fit=owned,label=y,VIX_observation_date_us=obs,VIX_available_proxy_us=available,VIX_age_after_proxy_us=age,reason=reason)).to_csv(state/'TRAINING_DATES.csv',index=False)
+ report=dict(status='FROZEN_VIX_MODEL_BEFORE_ALL_VALIDATION',science_source_commit=science,training_actual_mature_labels=model['training_rows'],bin_counts=model['counts'],training_median=model['threshold'],conditional_means=model['means'],global_same_support_mean=model['constant'],distinct_VIX_observation_dates=model['distinct_actual_VIX_observation_dates_used'],copied_weekend_holiday_dates_not_extra_independent_observations=model['calendar_dates_with_carried_quote'],candidate_conditional_mean_fits=1,analytic_constant_fits=1,new_native_wallets=0,new_provider_GETs=0,parameter_lag_scans=0,MODEL_SHA256=sha(state/'MODEL.json'),maximum_training_maturity_us=model['maximum_maturity_us'],fit_available_us=cut,authority='LATEST_VINTAGE_CONDITIONAL_2D_PROXY_NOT_STRICT_PIT',seconds=time.monotonic()-began);save(state/'TRAINING_RESULT.json',report);print('ACTUAL_VIX_SINGLE_FIT',report,flush=True)
+def score(state,science):
+ assert not state.exists() and not git('status','--porcelain') and git('rev-parse','HEAD').decode().strip()==science;verify();state.mkdir(parents=True);began=time.monotonic();model=json.loads((HERE/'model/MODEL.json').read_text());d,x,raw,w,obs,available,age,proof=inputs();maturity=raw['true_reward_maturity_us'];selected=d>=utc('2022-01-01');y,net,reason=prior.labels(d,raw,w,selected);candidate,constant=predict(model,x);P=json.loads((HERE/'PROTOCOL.json').read_text());folds=[];traces=[]
+ assert model['maximum_maturity_us']<model['fit_clock_us']==utc('2022-01-01')
+ for fold in P['validation_folds']:
+  left,right=map(utc,fold['calendar']);ids=np.flatnonzero((d>=left)&(d<right));fx=x[ids];fy=y[ids];fc=candidate[ids];f0=constant[ids];support=np.isfinite(fy)&np.isfinite(fc)&(maturity[ids]<right);lc=(fc-fy)**2;l0=(f0-fy)**2;ci=paired_gain(l0-lc,support,seed=811732) if support.sum()>=90 else None
+  corr=float(np.corrcoef(fc[support],fy[support])[0,1]) if support.any() and np.std(fc[support])>0 and np.std(fy[support])>0 else 0.
+  gates=dict(common_actual_mature_labels_at_least90=bool(support.sum()>=90),MSE_beats_same_support_global_mean=bool(support.any() and lc[support].mean()<l0[support].mean()),paired_14day_CI_lower_positive=bool(ci is not None and ci[0]>0),positive_frozen_forecast_advantage_correlation=bool(corr>0))
+  f=dict(name=fold['name'],calendar=fold['calendar'],natural_calendar_dates=len(ids),actual_mature_common_labels=int(support.sum()),distinct_VIX_observation_dates_used=int(np.unique(obs[ids][support]).size),carried_quote_label_dates=int((age[ids][support]>0).sum()),maximum_age_after_conservative_proxy_days=float(age[ids][support].max()/86400000000) if support.any() else None,candidate_MSE=float(lc[support].mean()) if support.any() else None,global_mean_MSE=float(l0[support].mean()) if support.any() else None,MSE_relative_gain=float(1-lc[support].mean()/l0[support].mean()) if support.any() else None,paired_14calendar_day_gain95CI=ci,forecast_advantage_correlation=corr,bin_counts=[int((support&((fx>=model['threshold'])==j)).sum()) for j in (0,1)],actual_advantage_by_bin=[float(fy[support&((fx>=model['threshold'])==j)].mean()) if np.any(support&((fx>=model['threshold'])==j)) else None for j in (0,1)],gates=gates)
+  folds.append(f);traces.append(pd.DataFrame(dict(fold=fold['name'],decision_us=d[ids],feature=fx,maturity_us=maturity[ids],support=support,actual_advantage=fy,candidate=fc,constant=f0,candidate_loss=lc,constant_loss=l0,VIX_observation_date_us=obs[ids],VIX_available_proxy_us=available[ids],VIX_age_after_proxy_us=age[ids],reason=reason[ids])));print('ACTUAL_VIX_ALL_FIXED_FOLD',f,flush=True)
+ report=dict(status='PASS_VIX_CONDITIONAL_INFORMATION_GATE' if all(all(f['gates'].values()) for f in folds) else 'STOP_VIX_CONDITIONAL_INFORMATION_GATE',science_source_commit=science,frozen_MODEL_SHA256=sha(HERE/'model/MODEL.json'),same_2021_model_all_folds=True,folds=folds,total_candidate_fits=1,total_analytic_constant_fits=1,new_fits_at_validation=0,new_native_wallets=0,new_provider_GETs=0,parameter_lag_scans=0,authority='LATEST_VINTAGE_NOT_STRICT_PIT_REVISIONS_AND_PUBLISH_SLA_UNKNOWN_FIXED2D_PROXY',seconds=time.monotonic()-began)
+ pd.concat(traces,ignore_index=True).to_csv(state/'VALIDATION_DATES.csv',index=False);np.savez_compressed(state/'VALIDATION_VECTORS.npz',decision_us=d,feature=x,maturity_us=maturity,actual_advantage=y,net_return=net,candidate=candidate,constant=constant,VIX_observation_date_us=obs,VIX_available_proxy_us=available,VIX_age_after_proxy_us=age);save(state/'RESULT.json',report);print('ACTUAL_VIX_RESULT',report['status'],flush=True)
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('phase',choices=['train','score']);p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);a=p.parse_args();(train if a.phase=='train' else score)(a.state,a.source_commit)
