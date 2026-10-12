@@ -16,7 +16,12 @@ def inspect(folder):
    if len(examples)<8:examples.append(dict(fill_id=key,**x,step=str(step),receipt_reason=r['reason']))
  for row in a['trades']:
   q=D(row['decimal_strings']['quantity']);assert q>0 and q%steps[row['symbol']]==0
- return dict(scope='EXACT_ORIGINAL_SAVED_FILL_REQUEST_IDENTITIES_ZERO_ADVANCE_NOT_ALL_COMBINED_REASONS_ATTRIBUTED_TO_LOTS',snapshot_SHA256=ptr['snapshot_SHA256'],state_hash=ptr['state_hash'],fill_requests=len(a['fill_requests']),zero_floor_counts=dict(counts),zero_floor_by_symbol=dict(by),first_examples=examples,executed_quantity_lattice='ALL_POSITIVE_INTEGER_LOTS',terminal_quantity={s:v['quantity'] for s,v in a['positions'].items()})
+ terminal=[]
+ for key,row in sorted(a['fill_requests'].items(),key=lambda r:(r[1]['identity']['event_us'],r[0])):
+  x=row['identity'];s=x['symbol']
+  if D(a['positions'][s]['quantity']) and x['reduce_only']:
+   terminal.append(dict(fill_id=key,**x,step=str(steps[s]),executed_quantity=row['receipt']['executed_quantity'],reason=row['receipt']['reason']))
+ return dict(scope='EXACT_ORIGINAL_SAVED_FILL_REQUEST_IDENTITIES_ZERO_ADVANCE_NOT_ALL_COMBINED_REASONS_ATTRIBUTED_TO_LOTS',snapshot_SHA256=ptr['snapshot_SHA256'],state_hash=ptr['state_hash'],fill_requests=len(a['fill_requests']),zero_floor_counts=dict(counts),zero_floor_by_symbol=dict(by),first_examples=examples,counts_overlap=True,last_five_reduce_requests_for_residual_symbols=terminal[-5:],executed_quantity_lattice='ALL_POSITIVE_INTEGER_LOTS',terminal_quantity={s:v['quantity'] for s,v in a['positions'].items()})
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--window',choices=['P1','P2'],required=True);a=p.parse_args();root=Path('/workspace/quantity-grid-state')/('OBSERVED_'+a.window);fine=Path('/workspace/unified-exit-economics-state')/('OBSERVED_'+a.window)
  for arm in ('CS_MATCHED','VOL_MATCHED','STATIC50'):
