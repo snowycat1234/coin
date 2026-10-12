@@ -1,0 +1,20 @@
+{
+  "experiment": "HRP_RISK_ALLOCATION_20261012", "attempts": 1,
+  "classification": "ADAPTED_AUTHOR_CODE_MECHANISM_ON_SEEN_CRYPTO_HISTORY_NOT_PAPER_REPRODUCTION",
+  "hypothesis": "Past-only hierarchical covariance allocation reduces realized loss/tail risk against matched inverse volatility AND inverse variance at the same ex-ante risk; no prediction alpha claim.",
+  "arms": ["HRP_MATCHED", "IVOL_MATCHED", "IVAR_MATCHED", "IVOL_ORIGINAL"],
+  "directions": "identical constant LONG for currently available CORE5; allocation only",
+  "calendar": ["2022-01-01T00:00:00Z", "2022-02-01T00:00:00Z"],
+  "data_role": "PREVIOUSLY_SEEN_HISTORICAL_DEVELOPMENT_31_DAYS_NOT_NEW_OOS",
+  "risk": {"lookback_completed_daily_returns":30,"covariance":"sample ddof=1","annualization":365,"library":"PyPortfolioOpt 1.5.6","correlation_round_decimals":6,"linkage":"single on condensed direct correlation distance","raw_gross":0.6,"asset_clip":0.3,"redistribute_clipped_weight":false,"matched_target":"min(0.10, capped raw annual sigma of HRP, IVOL, IVAR); only shrink","IVOL_ORIGINAL":"original 10% overall risk-scaling formula reference, not old signal producer"},
+  "no_fit": "0 supervised fits; 31 rolling covariance estimates, all completed past prices; no validation parameter search",
+  "bootstrap": {"draws":1000,"block_days":14,"seed":811620,"confidence":0.95,"scope":"conditional uncertainty on this already-seen 31-day path, not independent regimes"},
+  "continuation_gates": ["all four 44640-minute calendars, no liquidation, terminal paid-flat and independent NAV bridges", "HRP marked net PnL greater than both matched controls", "14-day block bootstrap 95% lower mean daily realized-return difference >0 against both matched controls", "HRP realized daily vol <=1.10 times both controls", "HRP all-observation drawdown <= both controls", "HRP worst rolling seven-day return >= both controls"],
+  "account": {"kernel":"unchanged default NativeDailySimulator","initial_USDT":10000,"asset_abs_cap":0.3,"portfolio_gross_cap":0.6,"leverage":1,"margin":"ISOLATED_NO_AUTO_TOPUP","cost":"BASE27 unchanged","funding":"actual recovered raw events RAW_FRACTION, charge-price/unit authority remains conditional","capacity":"past completed quote volume times 0.001","min_notional_USDT":10,"quantity_step":1e-8,"latency":"one minute plus 1us","attempts":5,"terminal":"unchanged last six minutes paid close, residual retains STOP"},
+  "source_trade_commit":"306b58c4a52035ac9f374de7c25d40dff22fb658",
+  "source_mark_commit":"a23f8cc36bdaddce832b2305a16fda493d1cf764",
+  "source_risk_npz_SHA256":"04aaab59ccba0b59076f04132c597bf154cf4d9748d52b6a2265c52a9e24d02c",
+  "budget":{"observed_new_wallets":4,"verification_wallets":4,"old_wallet_reruns":0,"model_fits":0,"provider_market_downloads":0,"serial":true,"seconds_per_bundle":600,"threads":1,"address_space_bytes":4000000000,"sampled_RSS_stop_bytes":2000000000,"host_RAM_bytes":8000000000,"GPU":0,"swap":0,"disk_reserve_bytes":16106127360,"state_bytes":1000000000,"published_result_bytes":64000000},
+  "preserve":"FOMC STOP, all old STOPs and frozen evidence, collector 2026-03-01..2026-09-01 locked body unopened, other research untouched",
+  "failure_policy":"no rescue fits, linkage/window/fees/terminal changes; preserve every account including failed liquidation"
+}
