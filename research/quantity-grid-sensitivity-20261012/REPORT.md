@@ -38,6 +38,6 @@ P2实际518.256097秒完成三臂完整365日，未改变粒度或资金/风险/
 
 保留原结果和原账本，另写RESULT_REVIEWED.json区分marked NAV差与付款收益差（HOLD后者为None），并区分marked路径CI和paid现金CI（HOLD后者为None）。原bootstrap文件字段名称含cash，实际计算的是marked日NAV路径：未平仓案例不再据此声称已付款现金CI。这是报告范围澄清，0账户推进/重跑/配置变化。
 
-P2实际请求下取整零计数CS6536/HOLD8760/STATIC8520；fine4565/4976/5124。容量小于一手分别98/120/124，fine均0，原因计数可能重叠。原生执行方法没有例外：HOLD五次终端减仓都请求2000DOGE、可用量都不足1000步长，实际执行0；最后179.16残仓原样持有，无免费销账、借款、改费用、延长窗口或减粒度。详细真实signal/event/quote时钟、数量与最后五请求见REQUEST_DIAGNOSTIC.json。
+P2实际请求下取整零计数CS6536/HOLD8760/STATIC8520；fine4565/4976/5124。容量小于一手分别98/120/124，fine均0，原因计数可能重叠。原生执行方法没有例外：HOLD终端从5000DOGE开始，五次请求中三次各付费减仓1000DOGE、两次因可用量不足1000步长执行0，最终保留2000DOGE；最后179.16残仓原样持有，无免费销账、借款、改费用、延长窗口或减粒度。详细真实signal/event/quote时钟、数量与最后五请求见REQUEST_DIAGNOSTIC.json。
 
 父侧提示工作区回退后，本侧2026-10-12 11:58:49UTC核 own+fine原观测目录、BINDING/POINTER及实时PID111075/日志11:58:41均在，无本侧异常，不重复实验。授权GitHub连接器按branches per_page30分页1/2/3取得30/28/0，共58分支，与完整git ls-remote heads全部名称/SHA精确一致；小型快照与检查记录在evidence，包含当时fcec13ce，随后发表新提交不会回写旧快照。没有复制大行情或声称恢复父侧/丢失账本。
