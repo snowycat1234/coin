@@ -29,6 +29,10 @@ def scale(weight, annual_covariance):
     desired = ANNUAL_BUDGET / sigma
     cap_factor = min(ASSET_CAP / largest, GROSS_CAP / gross)
     factor = min(desired, cap_factor)
+    # Preserve exact existing intents when the computed change is only rounding noise.
+    # This is the same 1e-12 risk/cap tolerance already used by the original controls.
+    if abs(factor - 1.) <= 1e-12:
+        factor = 1.
     out = w * factor
     post = float(np.sqrt(max(0., out @ c @ out)))
     assert np.abs(out).max() <= ASSET_CAP + 1e-12 and np.abs(out).sum() <= GROSS_CAP + 1e-12

@@ -15,6 +15,12 @@ def test_fixed_budget_uses_signed_cross_covariance_and_caps_without_changing_dir
     out,p=scale(np.array([.29,.01,0,0,0]),np.eye(5)*.0001)
     assert p['cap_bound'] and abs(out[0]-.3)<1e-12 and np.abs(out).sum()<.6
 
+def test_existing_target_already_at_budget_or_bound_is_reused_bit_exact():
+    w=np.array([.15,.15,-.15,-.15,0.]);out,p=scale(w,np.eye(5)*(.1/.3)**2)
+    assert p['risk_target_met'];np.testing.assert_array_equal(out,w)
+    out,p=scale(w,np.eye(5)*.01)
+    assert p['cap_bound'];np.testing.assert_array_equal(out,w)
+
 def test_zero_intent_remains_cash_invalid_or_degenerate_context_cannot_force_exposure():
     out,p=scale(np.zeros(5),np.eye(5));assert not out.any() and p['reason']=='INTRINSIC_CASH'
     with pytest.raises(ValueError,match='degenerate'):scale(np.array([.1,0,0,0,0]),np.zeros((5,5)))
