@@ -33,3 +33,26 @@ Actual source admission PASS8.466976s: fiveGittrade originals reused, first60act
 Pre-finance10testsPASS4.07s add owed-funding HALT preserving inventory/debt/no exit/freewriteoff and publicrestore module loading. Paidflat explicitly requires zero inventory, zero unpaid liability and non-HALT status. Finance/source/clock/profile/inputs are SHA-bound in FINANCIAL_SHA256. Actual3exitforks ran only after publication and remoteSHA equality at df29a6d5f6d7f6616e5ab2b685cd883d2eefa5cc. Financial stage23.022222s/guard23.874974s, maximum sampled descendantRSS540225536B, no guard breach. Original19accounts remain and source-only failures did not advance a wallet. Independent staticfinancialreview was narrow/readonly; no old account replay or other study edits.
 
 The review found a cold-verification coverage gap, not a changed financial result: archived TAIL suffixes were not yet compared to the genuine final snapshot journals or rebuilt actual funding events. Added exact historical-prefix/new-suffix equality, owed event coverage, original-source timestamp/rate, funded inventory, strictly past original/source marks, signed Decimal funding amount and recomputed paid-flat/status checks. Twelve targeted tests PASS4.79s including suffix/rate/paid-status tampering and an omitted owed boundary event. These changes only strengthen read-only verification; actual common/source/extend/protocol/input bytes remain identical to df29a6d5. The three exits were not rerun. Test fixtures remain synthetic and distinct from the three real historical forks.
+
+Complete packet published at 1c9542ff095c95652781bfe87beded2b4140990e: 3516515 bytes, five parts/seven members, SHA256 f761dcc18209a72a4718e12f46c0cf34418264f8a0aa10d60f060e38c271cdf7. This retains every historical journal/map and final account plus every actual added request/fill/funding/risk/minute summary. Original annual minute packets stay in parent Git objects, avoiding duplication or annual replay. Publication and remote SHA equality preceded the actual cold run.
+
+Public cold restoration PASS18.075581s/guard19.038945s, sampledRSS604680192B: rebuilt all five real trade/mark minute grids and actual funding from original public Git bodies; INPUTS/EVENTS bytes exact; restored all three genuine financial snapshots, full old journal/map prefixes and new suffixes exact, source capacities/rates/times/marks/owned funding quantities/paid states exact. Zero account advances, new forks, fits, annual replays, provider downloads or forbidden observed STATE open attempts. Full report and resource receipt in evidence/PUBLIC_RESTORE.json and PUBLIC_COLD_RESOURCE_GUARD.json. This is root's actual verification, separate from the read-only reviewer.
+
+Minimal reproduction after checking out this research branch into a clean /workspace repository, with the existing Python environment and at least 15GiB free:
+
+```bash
+bash research/terminal-readiness-2025-20261012/reproduce.sh
+```
+
+Use COIN_TERMINAL_STATE=/workspace/a-new-directory for another fresh read-only restoration and COIN_CPD_PYTHON for the Python executable. Required unchanged runtime: NumPy, pandas, polars and pytest already used by the repository. No model seed is used (deterministic saved-account/source arithmetic); no new model or package installation. Targeted tests, in a separate STATE directory under the same guard:
+
+```bash
+COIN_CPD_STATE=/workspace/terminal-readiness-test QUANT_ROOT="$PWD" \
+QUANT_STATE=/workspace/terminal-readiness-test \
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python \
+  -m pytest -q research/terminal-readiness-2025-20261012/test_source.py \
+  research/terminal-readiness-2025-20261012/test_extend.py \
+  --basetemp=/workspace/terminal-readiness-test/pytest
+```
+
+To reproduce the three financial forks themselves, use the frozen science commit df29a6d5 and its FINANCIAL_SHA256, then invoke extend.py with a fresh STATE and --source-commit df29a6d5f6d7f6616e5ab2b685cd883d2eefa5cc under launch.sh. Published snapshot verification above is sufficient to inspect these actual results and does not rerun them. Costs/quantity/funding/MMR are conditional as explicitly recorded by the inherited contract; historical native venue authority remains uncertified. The current opaque lock file is still absent and not claimed SHA-verified; exact January-only guards remain enforced. No unresolved source or paid-exit gap remains for these three cases.
