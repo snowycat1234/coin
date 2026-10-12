@@ -25,3 +25,5 @@ bash research/portfolio-risk-2025-native-20261012/reproduce.sh CS_MATCHED /works
 ```
 
 This reconstructs source and the saved real account from publicGit, with0financial advances; it does not replay an old wallet.
+
+First financial milestone: CS_MATCHED completed all365days/525600minutes at frozen e5f5205b in186.611749s (guard191.618408s,exit0,sampledRSS688652288B). Inventory and independent Decimal NAV audit PASS, no liquidation/debt. Marked net+2115.817670USDT, actualdailyannualvol9.469339%, minuteDD4.466771%, worst30−2.092574%; mean/maxactualgross47.299043%/60.469661%,24genuine risk reductions. Nominal target10% reached253days, caps112days, no intrinsiccash. Terminal remains signedXRP−1656.99USDT andDOGE−1291.40USDT (gross2948.39), so paid income and paid bootstrap are unavailable; payment gates STOP despite positive marked NAV. No free close, quantity adjustment or extra exit attempts. Complete real original packet57404030B/73parts is published next, then mandatory zero-advance public recovery. HOLD/STATIC50 remainNOT_RUN at this checkpoint.

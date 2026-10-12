@@ -1,0 +1,5 @@
+Read-only review by existing /root/liquidation_semantics_review before the first historical wallet. No Python, tests, financial account, network or ledger interpretation by reviewer.
+
+Original318a NativeDailySimulator and94b2238 QuantityGridAccount/Closing, initial10k, BASE27/RAW1, final6minutes/5attempts and paid terminal are preserved. The full365day calendar includes December31. Public restoration uses the same account_class and checks genuine snapshot,37minute fields and complete journals without advance_day.
+
+One concrete gap: window verified prepared/Y2025.npz andY2025_RISK.json while intents/forecast consumed HERE/input files, without an explicit mutual same-source binding. Before the first wallet, bind_intents now checks actual consumed files against public source-index SHA/size and prepared bytes. Wrong-source/target tests pass, targets and risk mathematics unchanged. No other exact implementation bug identified by static review; this is not a proof of profitable economics or exchange-native certification.
