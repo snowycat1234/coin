@@ -1,0 +1,15 @@
+/workspace/mark-trade-dislocation-state/source/bounded_cloud.py: OK
+fatal: path 'research_artifacts/native_20261008/coin_public_tail_archives_20261008_part01.zip' does not exist in 'd69e9ac94478c5be54cb46c622afec7aaf3c61f7'
+Traceback (most recent call last):
+  File "/tmp/mark_trade_warm_inventory.py", line 5, in <module>
+    ix=json.loads(git('research_artifacts/native_20261008/INDEX.json'));r=next(r for r in ix['files'] if r['file_name']=='coin_public_tail_archives_20261008_part01.zip');raw=git(r['path']);assert len(raw)==r['bytes'] and hashlib.sha256(raw).hexdigest()==r['sha256']
+                                                                                                                                                                              ^^^^^^^^^^^^^^
+  File "/tmp/mark_trade_warm_inventory.py", line 4, in git
+    def git(p):return subprocess.check_output(['git','show',commit+':'+p],cwd=root)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'show', 'd69e9ac94478c5be54cb46c622afec7aaf3c61f7:research_artifacts/native_20261008/coin_public_tail_archives_20261008_part01.zip']' returned non-zero exit status 128.
