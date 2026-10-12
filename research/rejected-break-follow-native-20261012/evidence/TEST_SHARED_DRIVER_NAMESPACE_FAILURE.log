@@ -1,0 +1,89 @@
+/workspace/rejected-break-follow-native-state/source/bounded_cloud.py: OK
+..F.F...FF                                                               [100%]
+=================================== FAILURES ===================================
+__________________ test_exact_reused_targets_and_static_half ___________________
+
+    def test_exact_reused_targets_and_static_half():
+        for key,days in (('P1',456),('P2',365)):
+>           d,w=targets(key);assert len(d)==days
+                ^^^^^^^^^^^^
+
+research/quantity-grid-sensitivity-20261012/test_adapter.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/rejected-break-follow-native-20261012/driver.py:58: in targets
+    p=HERE/'input'/(key+'.npz');ready=json.loads((HERE/'input/READINESS.json').read_text());assert sha(p)==ready['windows'][key]['target_SHA256'];return exact_targets(key,p)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/input/READINESS.json')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/input/READINESS.json'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1013: FileNotFoundError
+____________ test_publication_rejects_wrong_arm_window_and_contract ____________
+
+    def test_publication_rejects_wrong_arm_window_and_contract():
+        from driver import HERE
+>       spec=importlib.util.spec_from_file_location('unified_publication',HERE/'archive.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+research/quantity-grid-sensitivity-20261012/test_adapter.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<frozen importlib._bootstrap_external>:995: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x7fd8ee7f7a70>
+path = '/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/archive.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/archive.py'
+
+<frozen importlib._bootstrap_external>:1190: FileNotFoundError
+_ test_publication_identity_and_full365_targets_reject_wrong_arm_contract_or_calendar _
+
+    def test_publication_identity_and_full365_targets_reject_wrong_arm_contract_or_calendar():
+>    import public_source
+
+research/portfolio-risk-2025-native-20261012/test_native2025.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Build the full admitted source only from exact public Git, with no network."""
+    import argparse,json,shutil,sys,time
+    from pathlib import Path
+>   from driver import source,b,sha,save,HERE
+E   ImportError: cannot import name 'source' from 'driver' (/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/driver.py)
+
+research/portfolio-risk-2025-native-20261012/public_source.py:4: ImportError
+___________ test_actual_consumed_target_and_risk_must_bind_to_source ___________
+
+tmp_path = PosixPath('/workspace/rejected-break-follow-native-state/pytest-importlib/test_actual_consumed_target_an0')
+
+    def test_actual_consumed_target_and_risk_must_bind_to_source(tmp_path):
+     import json
+>    from driver import HERE,bind_intents
+E    ImportError: cannot import name 'bind_intents' from 'driver' (/workspace/coin-tail-risk/research/rejected-break-follow-native-20261012/driver.py)
+
+research/portfolio-risk-2025-native-20261012/test_native2025.py:26: ImportError
+=========================== short test summary info ============================
+FAILED research/quantity-grid-sensitivity-20261012/test_adapter.py::test_exact_reused_targets_and_static_half
+FAILED research/quantity-grid-sensitivity-20261012/test_adapter.py::test_publication_rejects_wrong_arm_window_and_contract
+FAILED research/portfolio-risk-2025-native-20261012/test_native2025.py::test_publication_identity_and_full365_targets_reject_wrong_arm_contract_or_calendar
+FAILED research/portfolio-risk-2025-native-20261012/test_native2025.py::test_actual_consumed_target_and_risk_must_bind_to_source
+4 failed, 6 passed in 4.58s
