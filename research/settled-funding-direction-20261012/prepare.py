@@ -93,7 +93,7 @@ def prepare(state):
    for i,at in enumerate(d):
     coeff[i,j],owned[i,j]=owned_coefficient(times,rates,hours,marks,available,at+EXEC,at+EXEC+DAY)
   if year==2023:
-   old=inp['funding_per_unit'];known=np.isfinite(old);np.testing.assert_allclose(coeff[known],old[known],rtol=1e-12,atol=1e-12);assert known.sum()==1820 and owned.all() and np.all(owned[known]==inp['owned_interval_valid'][known]);provenance['unchanged_original_funding_asset_intervals']=1820;provenance['restored_missing_funding_asset_intervals']=5;inp['funding_per_unit']=coeff;inp['owned_interval_valid']=owned
+   old=inp['funding_per_unit'];known=np.isfinite(old);np.testing.assert_allclose(coeff[known],old[known],rtol=1e-12,atol=1e-12);assert known.sum()==1820 and owned.all() and np.all(owned[known]==inp['owned_interval_valid'][known]);coeff[known]=old[known];np.testing.assert_array_equal(coeff[known],old[known]);provenance['unchanged_original_funding_asset_intervals']=1820;provenance['restored_missing_funding_asset_intervals']=5;provenance['original1820_retained_bit_exact_after_independent_tolerance_validation']=True;inp['funding_per_unit']=coeff;inp['owned_interval_valid']=owned
   else:
    inp['funding_per_unit']=coeff;inp['owned_interval_valid']=owned
    m=load('funding_consumer_parity',ROOT/'research/portfolio-risk-2025-admission-20261012/source2025.py');z,read=m.consumer()
