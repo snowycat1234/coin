@@ -42,3 +42,25 @@ def test_owed_funding_halt_keeps_debt_and_inventory_no_exit_or_freewriteoff():
 def test_public_restore_module_imports_without_running_accounts():
  import archive
  assert callable(archive.pack) and callable(archive.restore)
+
+def test_public_suffix_actual_funding_and_paid_flag_tampering_rejected():
+ from copy import deepcopy
+ from archive import verify_tail_journals
+ a,p=fixture();original=a.snapshot();events=[dict(symbol='XRPUSDT',event_us=START+8000,raw_rate=.0001)]
+ r=extend(a,tape(p,[9999999]*60),events,dict.fromkeys(SYMBOLS,9999999),'TERMINAL60_2026JAN1_SYNTHETIC');final=a.snapshot();marks={s:[float(p[s])]*60 for s in SYMBOLS}
+ verify_tail_journals(original,final,r,events,marks)
+ for field in ('new_trades','new_funding'):
+  bad=deepcopy(r);bad[field]=[]
+  with pytest.raises(AssertionError,match='suffix'):verify_tail_journals(original,final,bad,events,marks)
+ bad=deepcopy(events);bad[0]['raw_rate']=.0002
+ with pytest.raises(AssertionError,match='rate'):verify_tail_journals(original,final,r,bad,marks)
+ bad=deepcopy(r);bad['paid_flat']=False
+ with pytest.raises(AssertionError,match='Paid-flat'):verify_tail_journals(original,final,bad,events,marks)
+ bad=deepcopy(r);bad['status']='STOP_60MIN_DEADLINE_RESIDUAL'
+ with pytest.raises(AssertionError,match='status'):verify_tail_journals(original,final,bad,events,marks)
+
+def test_public_suffix_owed_boundary_event_cannot_be_omitted():
+ from archive import verify_tail_journals
+ a,p=fixture();original=a.snapshot();r=extend(a,tape(p,[50000]*60),[],dict.fromkeys(SYMBOLS,50000),'TERMINAL60_2026JAN1_SYNTHETIC')
+ events=[dict(symbol='XRPUSDT',event_us=END,raw_rate=.0001)];marks={s:[float(p[s])]*60 for s in SYMBOLS}
+ with pytest.raises(AssertionError,match='Owed actual'):verify_tail_journals(original,a.snapshot(),r,events,marks)

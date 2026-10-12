@@ -4,6 +4,45 @@ from pathlib import Path
 import numpy as np
 from decimal import Decimal as D,localcontext
 from common import HERE,ROOT,ARMS,SYMBOLS,START,END,MINUTE,parent,account_api,git,sha,digest,save
+from quant.perpetual_account import HALTS
+
+def verify_tail_journals(original,final,tail,events,marks):
+ """Read-only proof of the actual suffix, source funding and paid endpoint."""
+ oldtrades=len(original['trades']);oldfund=len(original['funding'])
+ assert final['trades'][:oldtrades]==original['trades']
+ assert final['funding'][:oldfund]==original['funding']
+ trades=final['trades'][oldtrades:];funding=final['funding'][oldfund:]
+ assert tail['new_trades']==trades and tail['new_funding']==funding,'Tail journal suffix mismatch'
+ assert all(t['leg']=='CLOSE' and not t.get('liquidation_takeover') for t in trades)
+ end=tail['actual_end_us'];assert START<=end<=END and final['clock_us']==end
+ eligible=[e for e in events if e['event_us']<=end]
+ assert len(funding)==tail['actual_funding_events_applied']
+ if final['status'] not in HALTS:assert len(funding)==len(eligible),'Owed actual funding omitted'
+ else:assert len(funding)<=len(eligible)
+ for row,event in zip(funding,eligible):
+  s=event['symbol'];at=event['event_us'];exact=row['decimal_strings']
+  assert row['symbol']==s and row['event_us']==at and row['rate_available_us']==at
+  assert row['event_id']==f'{s}:{at}' and D(exact['rate_fraction'])==D(str(event['raw_rate'])),'Actual funding identity/rate mismatch'
+  quantity=D(original['positions'][s]['quantity'])
+  for t in trades:
+   if t['symbol']==s and t['event_us']<at:quantity+=D(t['decimal_strings']['position_delta'])
+  assert D(exact['quantity'])==quantity and row['owned']==bool(quantity),'Funding owned inventory mismatch'
+  candidates=[dict(m) for m in original['marks'][s]]
+  candidates += [dict(price=str(float(p)),close_us=START+(i+1)*MINUTE,available_us=START+(i+1)*MINUTE) for i,p in enumerate(marks[s]) if START+(i+1)*MINUTE<=end]
+  mark=next(m for m in reversed(candidates) if m['close_us']<at and m['available_us']<=at)
+  assert row['mark_close_us']==mark['close_us'] and D(exact['mark_price'])==D(mark['price']),'Actual causal funding mark mismatch'
+  with localcontext() as c:
+   c.prec=40;amount=-quantity*D(mark['price'])*D(str(event['raw_rate'])) if quantity else D(0)
+  assert D(exact['signed_funding_USDT'])==amount
+  assert final['funding_events'][f'{s}:{at}']['receipt']==row
+ paid=all(D(p['quantity'])==0 for p in final['positions'].values()) and D(final['unpaid_liability'])==0 and final['status'] not in HALTS
+ assert tail['paid_flat']==paid,'Paid-flat flag mismatch'
+ expected='PASS_PAID_FLAT_WITHIN_60MIN' if paid else 'STOP_ACCOUNT_HALT' if final['status'] in HALTS else 'STOP_60MIN_DEADLINE_RESIDUAL'
+ assert tail['status']==expected,'Exit status mismatch'
+ if expected=='STOP_60MIN_DEADLINE_RESIDUAL':assert end==END
+ assert (tail['short_tail_paid_increment_USDT'] is not None)==paid
+ assert (tail['extended_paid_total_net_USDT'] is not None)==paid
+
 def pack(state):
  dest=HERE/'result';assert not dest.exists();dest.mkdir();members=[];packet=io.BytesIO()
  with zipfile.ZipFile(packet,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
@@ -31,11 +70,13 @@ def restore(state,artifact):
  from source import build
  source=json.loads(git('show',artifact+':'+str(HERE.relative_to(ROOT))+'/source/SOURCE_INDEX.json'));source['artifact_commit']=artifact;build(state/'source',source['source_commit'],public=source)
  for name in ('INPUTS.npz','EVENTS.json'):assert (state/'source'/name).read_bytes()==git('show',artifact+':'+str(HERE.relative_to(ROOT))+'/source/'+name)
- with np.load(state/'source/INPUTS.npz',allow_pickle=False) as z:price={s:z[s+'_open'] for s in SYMBOLS};volume={s:z[s+'_quote_volume'] for s in SYMBOLS}
+ with np.load(state/'source/INPUTS.npz',allow_pickle=False) as z:price={s:z[s+'_open'] for s in SYMBOLS};volume={s:z[s+'_quote_volume'] for s in SYMBOLS};marks={s:z[s+'_mark'] for s in SYMBOLS}
+ events=json.loads((state/'source/EVENTS.json').read_text())
  Closing,_=account_api();reports=[]
  for arm in ARMS:
   tail=json.loads((state/arm/'TAIL.json').read_text());encoded=(state/arm/'FINAL_ACCOUNT.json.gz').read_bytes();raw=gzip.decompress(encoded);assert digest(encoded)==tail['final_snapshot_SHA256'] and digest(raw)==tail['final_account_state_SHA256'];snap=json.loads(raw);account=Closing.from_snapshot(snap);assert account.snapshot()==snap and account.summary()==tail['after']
   original,body,proof=parent(arm);assert proof==tail['parent_proof']
+  verify_tail_journals(original['account'],snap,tail,events,marks)
   for k,v in original['account']['fill_requests'].items():assert snap['fill_requests'][k]==v
   for k,v in original['account']['funding_events'].items():assert snap['funding_events'][k]==v
   for r in tail['requests']:
