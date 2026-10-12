@@ -82,7 +82,13 @@ def new_source(state,quarter,expected=None):
         raw=b''.join(pieces)
         assert len(raw)==row['ZIP_bytes'] and digest(raw)==row['ZIP_SHA256'];check=git('show',quarter+':'+row['checksum_path']);assert digest(check)==row['CHECKSUM_SHA256']
         p=state/row['raw_path'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw);Path(str(p)+'.CHECKSUM').write_bytes(check);frame=checked_frame(p,row['family'],row['source_period']);assert len(frame)==row['numeric_rows']
-    save(state/'PUBLIC_RESTORE.json',dict(status='PASS_EXACT_PUBLIC_OFFICIAL_2023_QUARTER_SOURCE',artifact_commit=quarter,phase=expected,all_original_checksums_CRC_numeric_rows=True,new_provider_downloads=0,new_wallets=0,new_fits=0))
+    from modules.collector_research.pipeline.normalize import month_limits
+    for rec in index['records']:
+        row=rec['source'];family=row['family'];stamp=row['month'];left,right=month_limits(*map(int,stamp.split('-')));frame=checked_frame(state/row['raw_path'],family,stamp)
+        for repair in rec['repairs']:
+            dr=repair['source'];daily=checked_frame(state/dr['raw_path'],family,dr['source_period']);frame,e=union_exact(frame,daily,family,left,right);assert e=={k:v for k,v in repair.items() if k!='source'}
+        np.testing.assert_array_equal(frame.timestamp_ms.to_numpy(),np.arange(left,right,60000,dtype=np.int64));assert len(frame)==rec['actual_minutes']
+    save(state/'PUBLIC_RESTORE.json',dict(status='PASS_EXACT_PUBLIC_OFFICIAL_2023_QUARTER_SOURCE',artifact_commit=quarter,phase=expected,all_original_checksums_CRC_numeric_rows_and_complete_unions=True,new_provider_downloads=0,new_wallets=0,new_fits=0))
     return index
 def h2_wrapper(state,fold):
     P=proto();base=P['source']['reused_H2_base']+fold+'/';commit=P['source']['reused_H2_commit'];index=json.loads(git('show',commit+':'+base+'INDEX.json'));p=state/(fold+'.zip')
@@ -132,7 +138,7 @@ def build(state,source,q1,q2,expected=None):
     for s in SYMBOLS:
         e=[r for r in events if r['symbol']==s];ts=np.array([r['event_us'] for r in e],np.int64);assert len(e)==365*3 and np.all(np.abs(np.diff(ts)-8*3600000000)<=1000000),'FullactualCORE5fundingcoverage'
     save(state/'EVENTS.json',events);save(state/'DAILY.json',daily)
-    report=dict(status='PASS_EXACT_FULL_2023_TRADE_MARK_FUND_SOURCE',source_commit=source,quarter_artifacts=dict(Q1=q1,Q2=q2),calendar=[start,end],days=365,minutes_per_asset=365*1440,symbol_order=list(SYMBOLS),months=records,source_certificates=cert,funding=fund,funding_events=len(events),daily_price_parity=True,provider_downloads=0,new_wallets=0,new_fits=0,initial_mark_boundary='UNOWNED_FRESHFLAT_PRIORUNKNOWN_NO_FABRICATED2022MINUTE',authority='CONDITIONAL_UNCHANGED_FUNDUNIT_CHARGE_MARK_MMR_ARRIVAL')
+    report=dict(status='PASS_EXACT_FULL_2023_TRADE_MARK_FUND_SOURCE',source_commit=source,quarter_artifacts=dict(Q1=q1,Q2=q2),calendar=[start,end],days=365,minutes_per_asset=365*1440,symbol_order=list(SYMBOLS),months=records,source_certificates=cert,funding=fund,funding_events=len(events),actual_2023_completed_daily_closes_match_cube=True,actual_prior_minute_boundary_checks_per_asset=364,initial_trade_daily_boundary='REUSED_SHA_BOUND_DAILY_CUBE_NOT_2022DEC31_MINUTE_CHECKED',provider_downloads=0,new_wallets=0,new_fits=0,initial_mark_boundary='UNOWNED_FRESHFLAT_PRIORUNKNOWN_NO_FABRICATED2022MINUTE',authority='CONDITIONAL_UNCHANGED_FUNDUNIT_CHARGE_MARK_MMR_ARRIVAL')
     report['files']={name:dict(SHA256=sha(state/name),bytes=(state/name).stat().st_size) for name in ('EVENTS.json','DAILY.json')};save(state/'SOURCE_INDEX.json',report);save(state/'TIMING.json',dict(seconds=time.monotonic()-started));assert time.monotonic()-started<P['budget']['source_prepare_seconds']
     if expected:assert report==json.loads(git('show',expected+':'+str(HERE.relative_to(ROOT))+'/source-result/SOURCE_INDEX.json'));save(state/'PUBLIC_SOURCE_RESTORE.json',dict(status='PASS_EXACT_FULL2023_PUBLIC_SOURCE',artifact_commit=expected,provider_downloads=0,new_wallets=0,new_fits=0))
     print('ACTUAL_2023_COMPLETE_SOURCE_READY',365,365*1440,len(events),time.monotonic()-started,flush=True)
@@ -152,6 +158,6 @@ if __name__=='__main__':
     a=s.add_parser('funding-check');a.add_argument('--state',type=Path,required=True)
     a=p.parse_args()
     if a.command=='acquire':acquire(a.state,a.phase,a.source_commit,a.destination)
-    elif a.command=='restore-quarter':configure(a.state);new_source(a.state,a.artifact_commit,a.phase);print('PUBLIC_2023_QUARTER_ZERO_DOWNLOAD_RESTORED',a.phase,flush=True)
+    elif a.command=='restore-quarter':verify();configure(a.state);new_source(a.state,a.artifact_commit,a.phase);print('PUBLIC_2023_QUARTER_ZERO_DOWNLOAD_RESTORED',a.phase,flush=True)
     elif a.command=='funding-check':funding_check(a.state)
     else:build(a.state,a.source_commit,a.q1_commit,a.q2_commit,a.expected_commit)
