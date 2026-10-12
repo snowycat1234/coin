@@ -28,11 +28,12 @@ def prepare(state,source):
  save(state/'PREPARATION.json',dict(status='PASS_TWO_YEAR_CAUSAL_REJECTED_BREAK_TARGETS',years=proof,SOURCE_PROJECTION_SHA256=sha((source/'SOURCE_PROJECTION.json').read_bytes()),protocol_SHA256=sha((HERE/'PROTOCOL.json').read_bytes()),new_fits=0,new_references=0,provider_GETs=0,seconds=time.monotonic()-begin));assert time.monotonic()-begin<60
 def run(state,prepared,commit):
  assert not state.exists() and not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT);assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip()==commit
- state.mkdir(parents=True);begin=time.monotonic();prep=json.loads((prepared/'PREPARATION.json').read_text());assert prep['protocol_SHA256']==sha((HERE/'PROTOCOL.json').read_bytes());years={}
+ state.mkdir(parents=True);begin=time.monotonic();prep=json.loads((prepared/'PREPARATION.json').read_text());assert prep['status']=='PASS_TWO_YEAR_CAUSAL_REJECTED_BREAK_TARGETS' and prep['protocol_SHA256']==sha((HERE/'PROTOCOL.json').read_bytes());admitted=json.loads((HERE/'public/TARGETS/INDEX.json').read_text());assert sha((prepared/'PREPARATION.json').read_bytes())==admitted['members']['PREPARATION.json']['SHA256'];years={}
  for year,seed in ((2023,811744),(2025,811745)):
-  proof=prep['years'][str(year)];p=prepared/f'Y{year}.npz';assert sha(p.read_bytes())==proof['INPUTS_SHA256'];arms={};daily={}
+  proof=prep['years'][str(year)];p=prepared/f'Y{year}.npz';assert sha(p.read_bytes())==proof['INPUTS_SHA256']==admitted['members'][p.name]['SHA256'];assert proof['source_unknown_asset_days']==0 and proof['exact_opposite_target_same_risk_and_gross']=='BIT_EXACT' and proof['future_OHLC_prices_NaN_and_risk_prices_NaN_prefix']=='EXACT';arms={};daily={}
   with np.load(p,allow_pickle=False) as z:
-   d=z['decision_us'];assert tuple(z['symbol_order'])==SYMBOLS and len(d)==365 and np.all(np.diff(d)==DAY)
+   d=z['decision_us'];assert tuple(z['symbol_order'])==SYMBOLS and len(d)==365 and np.all(np.diff(d)==DAY) and int(d[0])==int(np.datetime64(f'{year}-01-01','us').astype('int64'));np.testing.assert_array_equal(z['FADE'],-z['FOLLOW'])
+   for arm in ('FADE','FOLLOW'):assert np.isfinite(z[arm]).all() and np.abs(z[arm]).max()<=.30+1e-12 and np.max(np.abs(z[arm]).sum(1))<=.60+1e-12
    for arm in ('FOLLOW','FADE'):
     arms[arm],daily[arm]=reference(d,z[arm],z['p0'],z['p1'],z['funding_per_unit'],z['owned_interval_valid']);save(state/f'Y{year}_{arm}.json',dict(summary=arms[arm],rows=daily[arm],symbol_order=SYMBOLS,source_commit=commit));print('ACTUAL_REJECTED_BREAK_REFERENCE',year,arm,arms[arm]['status'],arms[arm]['days'],arms[arm]['net_USDT'],flush=True)
   full=all(a['hypothetical_cost_terminal'] and a['days']==365 for a in arms.values());increment=None;ci=None
