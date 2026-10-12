@@ -1,0 +1,38 @@
+/workspace/portfolio-risk-2025-state/source/bounded_cloud.py: OK
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_actual_full2025_funding_reuses_correct_original_family_path _______
+
+tmp_path = PosixPath('/workspace/portfolio-risk-2025-state/pytest-fund-family/test_actual_full2025_funding_r0')
+
+    def test_actual_full2025_funding_reuses_correct_original_family_path(tmp_path):
+>    events,proof=funding(tmp_path);assert len(events)==5475 and len(proof)==60
+                  ^^^^^^^^^^^^^^^^^
+
+research/portfolio-risk-2025-admission-20261012/test_source2025.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/portfolio-risk-2025-admission-20261012/source2025.py:59: in funding
+    path=state/'fundingRate'/s/stem;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(body);lo,hi=month_limits(2025,m);f,duplicates=validate_funding(numeric_csv(path),lo,hi);path.unlink();assert duplicates==0
+                                                                                                                                                                  ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/workspace/portfolio-risk-2025-state/pytest-fund-family/test_actual_full2025_funding_r0/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2025-01.zip')
+funding = False
+
+    def numeric_csv(path: Path, funding: bool = False) -> pd.DataFrame:
+        with zipfile.ZipFile(path) as archive:
+            infos = archive.infolist()
+            if len(infos) != 1:
+                raise ValueError(f'{path.name}: expected a single CSV member')
+            # Checksum/ZIP validation is performed independently before every import.
+            with archive.open(infos[0]) as f:
+                d = pd.read_csv(f, header=None, dtype=str, keep_default_na=False, encoding='utf-8-sig')
+        expected = 3 if funding else 12
+        if d.shape[1] != expected or d.empty:
+>           raise ValueError(f'{path.name}: expected nonempty {expected}-column CSV')
+E           ValueError: BTCUSDT-fundingRate-2025-01.zip: expected nonempty 12-column CSV
+
+modules/collector_research/pipeline/normalize.py:37: ValueError
+=========================== short test summary info ============================
+FAILED research/portfolio-risk-2025-admission-20261012/test_source2025.py::test_actual_full2025_funding_reuses_correct_original_family_path
+1 failed, 1 passed in 5.83s

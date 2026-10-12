@@ -56,7 +56,7 @@ def funding(state):
   for s in SYMBOLS:
    for m in range(1,13):
     stamp=f'2025-{m:02d}';stem=f'{s}-fundingRate-{stamp}.zip';name=f'archives/{s}_fundingRate_{stem}';body=z.read(name);r=manifest['members'][name];assert len(body)==r['bytes'] and sha(body)==r['SHA256']
-    path=state/stem;path.write_bytes(body);lo,hi=month_limits(2025,m);f,duplicates=validate_funding(numeric_csv(path),lo,hi);path.unlink();assert duplicates==0
+    path=state/'fundingRate'/s/stem;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(body);lo,hi=month_limits(2025,m);f,duplicates=validate_funding(numeric_csv(path,funding=True),lo,hi);path.unlink();assert duplicates==0
     for row in f.itertuples(index=False):events.append(dict(symbol=s,event_us=int(row.calc_time_ms)*1000,raw_rate=float(row.last_funding_rate),reported_interval_hours=float(row.funding_interval_hours)))
     proof.append(dict(symbol=s,month=stamp,raw_SHA256=sha(body),events=len(f),source_commit=FUND,member=name))
  for s in SYMBOLS:

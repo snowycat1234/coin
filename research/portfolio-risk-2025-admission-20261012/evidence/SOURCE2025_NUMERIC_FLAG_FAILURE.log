@@ -1,0 +1,26 @@
+/workspace/portfolio-risk-2025-state/source/bounded_cloud.py: OK
+EXACT2025_SOURCE_MONTH_READY 1 12
+EXACT2025_SOURCE_MONTH_READY 2 12
+EXACT2025_SOURCE_MONTH_READY 3 12
+EXACT2025_SOURCE_MONTH_READY 4 12
+EXACT2025_SOURCE_MONTH_READY 5 12
+EXACT2025_SOURCE_MONTH_READY 6 12
+EXACT2025_SOURCE_MONTH_READY 7 12
+EXACT2025_SOURCE_MONTH_READY 8 12
+EXACT2025_SOURCE_MONTH_READY 9 12
+EXACT2025_SOURCE_MONTH_READY 10 12
+EXACT2025_SOURCE_MONTH_READY 11 12
+EXACT2025_SOURCE_MONTH_READY 12 12
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/portfolio-risk-2025-admission-20261012/source2025.py", line 133, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--h2',type=Path,required=True);p.add_argument('--source-commit',required=True);a=p.parse_args();build(a.state,a.h2,a.source_commit)
+                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/portfolio-risk-2025-admission-20261012/source2025.py", line 106, in build
+    events,fund=funding(state);save(state/'EVENTS.json',events);save(state/'DAILY.json',daily)
+                ^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/portfolio-risk-2025-admission-20261012/source2025.py", line 59, in funding
+    path=state/stem;path.write_bytes(body);lo,hi=month_limits(2025,m);f,duplicates=validate_funding(numeric_csv(path),lo,hi);path.unlink();assert duplicates==0
+                                                                                                    ^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/modules/collector_research/pipeline/normalize.py", line 37, in numeric_csv
+    raise ValueError(f'{path.name}: expected nonempty {expected}-column CSV')
+ValueError: BTCUSDT-fundingRate-2025-01.zip: expected nonempty 12-column CSV

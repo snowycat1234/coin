@@ -1,7 +1,12 @@
 """Identity and causal extension tests, without financial account construction."""
 import numpy as np
 import polars as pl
-from source2025 import causal_inputs,targets
+from source2025 import causal_inputs,targets,funding
+
+def test_actual_full2025_funding_reuses_correct_original_family_path(tmp_path):
+ events,proof=funding(tmp_path);assert len(events)==5475 and len(proof)==60
+ assert len({(r['symbol'],r['event_us']) for r in events})==5475
+ assert events[-1]['event_us']>events[0]['event_us']+364*86400000000
 
 def test_full2025_original_targets_and_exact_causal_prefix():
  t,p,d,saved,past,bars=causal_inputs();out,cov,proof=targets(t,p,d,saved,past,bars)
