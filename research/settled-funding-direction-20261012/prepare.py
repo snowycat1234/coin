@@ -45,7 +45,10 @@ def source2025():
  for f in execs:np.testing.assert_array_equal(f.decision_us,d);np.testing.assert_array_equal(f.execution_us,d+EXEC)
  p0=np.stack([f.exec_price.to_numpy(float) for f in execs],1)
  c='d69e9ac94478c5be54cb46c622afec7aaf3c61f7';ix=json.loads(git(c+':research_artifacts/native_20261008/INDEX.json'));r=next(r for r in ix['files'] if r['file_name']=='coin_public_tail_archives_20261008_part01.zip')
- raw=git(c+':'+r['path']);assert len(raw)==r['bytes'] and sha(raw)==r['sha256'];warm=[]
+ parts=[]
+ for part in sorted([q for q in ix['published_files'] if q['file_name'].startswith(r['file_name']+'.bytepart')],key=lambda q:q['index']):
+  b=git(c+':'+part['path']);assert len(b)==part['bytes'] and sha(b)==part['sha256'];parts.append(b)
+ raw=b''.join(parts);assert len(raw)==r['bytes'] and sha(raw)==r['sha256'];warm=[]
  with zipfile.ZipFile(io.BytesIO(raw)) as z:
   # Only the five already admitted December2024 funding members, no price bodies.
   for s in SYMBOLS:

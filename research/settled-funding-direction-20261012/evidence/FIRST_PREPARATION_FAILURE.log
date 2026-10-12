@@ -1,0 +1,22 @@
+/workspace/settled-funding-direction-state/source/bounded_cloud.py: OK
+ACTUAL_FUNDING_DIRECTION_PREPARED 2023 365 109 0 1820
+fatal: path 'research_artifacts/native_20261008/coin_public_tail_archives_20261008_part01.zip' does not exist in 'd69e9ac94478c5be54cb46c622afec7aaf3c61f7'
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/settled-funding-direction-20261012/prepare.py", line 104, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);a=p.parse_args();prepare(a.state)
+                                                                                                   ^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/settled-funding-direction-20261012/prepare.py", line 68, in prepare
+    t,p,inp,events,provenance=reader();d=inp['decision_us'];assert len(d)==365 and np.all(np.diff(d)==DAY);days=np.arange(d[0]-31*DAY,d[-1],DAY,dtype=np.int64);values=np.full((len(days),5),np.nan);latest=np.zeros((len(days),5),np.int64);eventout={};coeff=np.full((365,5),np.nan);owned=np.zeros((365,5),bool)
+                              ^^^^^^^^
+  File "/workspace/coin-tail-risk/research/settled-funding-direction-20261012/prepare.py", line 48, in source2025
+    raw=git(c+':'+r['path']);assert len(raw)==r['bytes'] and sha(raw)==r['sha256'];warm=[]
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/settled-funding-direction-20261012/prepare.py", line 11, in git
+    def git(s):return subprocess.check_output(['git','show',s],cwd=ROOT)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'show', 'd69e9ac94478c5be54cb46c622afec7aaf3c61f7:research_artifacts/native_20261008/coin_public_tail_archives_20261008_part01.zip']' returned non-zero exit status 128.
