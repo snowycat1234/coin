@@ -13,9 +13,9 @@ spec=importlib.util.spec_from_file_location('original',ROOT/'research/minute-con
 SYMBOLS=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT')
 EXEC=60_000_001;FIT=m.utc('2023-01-01')
 
-def run(state,source_commit,cold_git=False):
+def run(state,source_commit,cold_git=False,expected=None):
     m.require(not state.exists() and not m.git('status','--porcelain'),'Fresh STATE/clean frozen source')
-    m.require(m.git('rev-parse','HEAD').decode().strip()==source_commit,'Published preparation source')
+    if not expected:m.require(m.git('rev-parse','HEAD').decode().strip()==source_commit,'Published preparation source')
     m.verify_manifest(HERE/'SOURCE_SHA256.txt');state.mkdir();started=time.monotonic()
     spec=importlib.util.spec_from_file_location('rawsource',ROOT/'research/short-funding-residual-20261011/experiment.py');mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod);raw=mod.source_archive(ROOT,state)
     clocks=np.arange(m.utc('2020-01-02'),m.utc('2024-01-04'),DAY,dtype=np.int64);d=np.arange(m.utc('2021-01-01'),m.utc('2024-01-01'),DAY,dtype=np.int64)
@@ -105,5 +105,10 @@ def run(state,source_commit,cold_git=False):
     pd.DataFrame(labels).to_csv(state/'TEACHER_LABELS.csv',index=False)
     report=dict(status='PASS_PREPARED_ACTUAL600_PLUS_EXTERNAL_POLICY',source_commit=source_commit,actual_training_dates=len(chosen),natural_train_calendar=int((d<FIT).sum()),natural_validation_calendar=int((d>=FIT).sum()),maximum_train_true_reward_maturity_us=int(maturity[chosen].max()),fit_available_us=FIT,original_public_archive_commit=mod.SOURCE_COMMIT,archive_SHA256=mod.ARCHIVE_SHA,symbol_order=list(SYMBOLS),sources=records,official_policy_releases=len(policy),new_model_fits=0,new_wallets=0,policy_vintage='PUBLIC_TIMESTAMPED_ANNOUNCEMENTS_NOT_FINAL_REVISED_EFFR',scope='SEEN_2021_2022_TRAIN_2023_DEV_CONDITIONAL_DAILY_TEACHER',seconds=time.monotonic()-started)
     m.save(state/'PREPARATION.json',report);m.require(report['seconds']<120,'Preparation120sbudget');print(json.dumps(report,indent=2),flush=True)
+    if expected:
+        for name in ('INPUTS.npz','TEACHER_LABELS.csv','READINESS.json'):m.require((state/name).read_bytes()==m.git('show',expected+':research/monetary-policy-information-20261012/input/'+name),'Exact Git source preparation '+name)
+        old=json.loads(m.git('show',expected+':research/monetary-policy-information-20261012/input/PREPARATION.json'))
+        m.require({k:v for k,v in report.items() if k!='seconds'}=={k:v for k,v in old.items() if k!='seconds'},'Exact source metadata apart runtime')
+        m.save(state/'PUBLIC_INPUT_RESTORE.json',dict(status='PASS_EXACT_GIT_MONETARY_INPUT_RESTORE',artifact_commit=expected,new_fits=0,new_wallets=0,provider_downloads=0,original_private_source_opens=0))
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);p.add_argument('--cold-git',action='store_true');a=p.parse_args();run(a.state,a.source_commit,a.cold_git)
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);p.add_argument('--cold-git',action='store_true');p.add_argument('--expected-input-commit');a=p.parse_args();run(a.state,a.source_commit,a.cold_git,a.expected_input_commit)

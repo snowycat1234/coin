@@ -22,3 +22,16 @@ def test_checkpoint_uses_train_only_scaling_and_fixed_coefficients():
 def test_missing_owned_next_day_mark_rejects_label_even_when_trade_and_funding_complete():
     assert not c.held_complete([True,False],[True,True],[True,True],[True,True],[False,True])
     assert c.held_complete([True,False],[True,True],[True,True],[True,True],[True,False])
+
+def test_uniform_retention_exactly_scales_independent_paid_day_money_not_log_utility():
+    import pandas as pd
+    from modules.collector_research.pipeline.economics import replay
+    from scripts.research.conditional_selector_inputs import reference_utility
+    frames={'BTCUSDT':pd.DataFrame(dict(dt=pd.date_range('2021-01-01',periods=3,tz='UTC'),exec_price=[99.,100.,97.],mark_funding_per_unit=[0.,.012,0.],funding_interval_complete=[True]*3,complete_kline=[True]*3))}
+    base,_=replay(frames,np.array([0]),np.array([[.12]]),1.,.00135,10000.)
+    for g in (0.,.37,1.):
+        reduced,_=replay(frames,np.array([0]),np.array([[.12*g]]),1.,.00135,10000.)
+        np.testing.assert_allclose(reduced['net'],g*base['net'],rtol=1e-12,atol=1e-9)
+        np.testing.assert_allclose(reduced['fees'],g*base['fees'],rtol=1e-12,atol=1e-9)
+        expected=np.log1p(g*base['net']/10000.)-.5*max(0.,-g*base['net']/10000.)
+        np.testing.assert_allclose(reference_utility(reduced),expected,rtol=1e-11,atol=1e-14)
