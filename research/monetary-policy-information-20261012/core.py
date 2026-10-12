@@ -1,6 +1,10 @@
 import numpy as np
 DAY=86_400_000_000
 
+def held_complete(own,interval_good,price_good,current_mark,next_mark):
+    own=np.asarray(own,bool)
+    return bool(own.any() and np.all((np.asarray(interval_good,bool)&np.asarray(price_good,bool)&np.asarray(current_mark,bool)&np.asarray(next_mark,bool))[own]))
+
 def policy_features(decisions,releases,upper,market21):
     d=np.asarray(decisions,np.int64);r=np.asarray(releases,np.int64);u=np.asarray(upper,float)
     if len(r)!=len(u) or np.any(np.diff(r)<=0) or not np.isfinite(u).all():raise ValueError('Ordered actual policy releases')

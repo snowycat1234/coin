@@ -18,3 +18,7 @@ def test_retention_preserves_cash_caps_and_unknown_source_without_forcing_direct
 def test_checkpoint_uses_train_only_scaling_and_fixed_coefficients():
     m=dict(A_mean=np.array([1.,2.]),A_scale=np.array([2.,4.]),A_coef=np.array([2.,3.]),A_intercept=np.array(.1))
     np.testing.assert_allclose(c.predict(np.array([[3.,6.]]),m,'A'),[5.1])
+
+def test_missing_owned_next_day_mark_rejects_label_even_when_trade_and_funding_complete():
+    assert not c.held_complete([True,False],[True,True],[True,True],[True,True],[False,True])
+    assert c.held_complete([True,False],[True,True],[True,True],[True,True],[True,False])
