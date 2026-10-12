@@ -18,8 +18,21 @@ Actual frozen result: **STOP_RANK_PERSISTENCE_INFORMATION_GATE**, all three mand
 | 2022H2 |184|175|-0.256665%|[-8.22940e-7,+1.67003e-7]|
 | Full2023 |365|361|+0.172319%|[-4.91862e-8,+4.98534e-7]|
 
-Conditional ordering reverses in2022H2; weak positive point information in2022H1/2023 does not establish reliable increment. Retain all730 natural validation dates; only708 mature common labels scored, not730 independent samples. All per-date feature/prediction/maturity/quality/loss and source gaps are saved. 2023 has two actual old source-quality missing dates plus two immature end dates; complete native source recovery does not retroactively repair this older frozen daily teacher. No feature/threshold/median/fold/model/label rescue and **zero new native wallets**. Fit3.706206s/internal scoring3.294s (actual guard records exact times), deterministic arithmetic/bootstrap seed811731, no parameter scans or data downloads.
+Conditional ordering reverses in2022H2; weak positive point information in2022H1/2023 does not establish reliable increment. Retain all730 natural validation dates; only708 mature common labels scored, not730 independent samples. All per-date feature/prediction/maturity/quality/loss and source gaps are saved. 2023 has two actual old source-quality missing dates plus two immature end dates; complete native source recovery does not retroactively repair this older frozen daily teacher. No feature/threshold/median/fold/model/label rescue and **zero new native wallets**. Fit3.706206s/internal scoring3.806987s (actual guard records exact times), deterministic arithmetic/bootstrap seed811731, no parameter scans or data downloads.
 
 Read-only direction evidence binds originalACCOUNT/DAILY bytes to public packet memberSHAs and recomputes Decimal full-wallet bridges, not financial replay. 2021–22 original CS LONG+211.232793/SHORT+2277.166108; 2023 LONG+2621.147105/SHORT-2636.177362; 2025 LONG+873.162092/SHORT+1242.655577. In2023 the short **price** contribution -2600.300829 dominates; short funding+113.902068 partly offsets fees+execution149.778601. Its adverse result is not merely greater funding charges or omitted costs. In2025 both directions contribute positively while HOLD loses255.795039. 2021relative advantage is not uniformly positive: saved fixed2021blocks negative and2022H1+2529.386509. Different original contract/profile scopes are explicit, wallets are not stitched. Native daily rank-bin descriptions are descriptive after the information experiment and cannot rescue or train the failed recipe.
 
 Next independent information route under bounded history review: CBOE VIX daily implied volatility, distinct from crypto realized vol, policy announcements and old dual-market flow/premium. Premium andSpot/Perp volume inputs overlap oldV7/V8 and are rejected before any download/fit. No VIX economic claim or fit yet. Source admission must use bounded historical dates and actual public provider data, preserve publication/vintage uncertainty, holidays/age and no futurefill; one input/one candidate/strong identical-support globalmean/ALLthreefolds remain required. Rank-persistence stays stopped.
+
+Published zero-refit source/prediction/loss restoration PASS3.129120s from artifactc41afd4d647164902d2a5ff0e34c27629c3fdef5. All frozen date IDs/maturity/model means/median/common support/labels/predictions/MSE/block bootstrap and original risk-target arrays exact; zero fits, account advances, provider requests or observedSTATEopens. Minimal inspection command from clean checkout (new state path required):
+
+```bash
+COIN_CPD_STATE=/workspace/rank-persistence-reproduce QUANT_ROOT="$PWD" \
+QUANT_STATE=/workspace/rank-persistence-reproduce \
+bash research/slow-momentum-cpd-20261011/launch.sh /workspace/coin/.venv/bin/python \
+ research/rank-persistence-routing-20261012/cold.py \
+ --state /workspace/rank-persistence-reproduce/PUBLIC_COLD \
+ --artifact-commit c41afd4d647164902d2a5ff0e34c27629c3fdef5
+```
+
+Actual training ran at5f0eb8cb and scoring ate72ea574 with `run.py train/score --state <fresh directory> --source-commit <exactHEAD>` under the same guard. No rerun needed to inspect the public results. Authoritative experiment scope, initial amendment, counts and all frozen rules are inPROTOCOL.json; actual coefficients/training date support inmodel/, full results inresult/ and original failures/guard receipts inevidence/. The overall research project remains active; this bounded recipe is closed.
