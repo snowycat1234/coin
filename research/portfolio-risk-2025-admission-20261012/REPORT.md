@@ -19,3 +19,11 @@ COIN_CPD_STATE=/workspace/portfolio-risk-2025-state QUANT_ROOT=/workspace/coin-t
 ```
 
 Results and remaining blockers are appended after the actual bounded recovery; source-admission success alone is not a financial or predictive result.
+
+The single H2 recovery completed all60 original ZIPs,82770519B, in106.549048s (guard108.019219s, exit0, sampledRSS158904320B). Every oldSHA/size, current official checksum, CRC and complete minute grid passed;0denials/retries/wallets/fits. The necessary body recovery is now complete, and will be published as original lossless byteparts, avoiding future downloads.
+
+Original2025 CS and HOLD are regenerated through unchanged public_targets/fixed_targets and match saved expert arrays exactly. The original past_returns30 also match the31 completed-close reconstruction exactly. The unchanged component matching and portfolio-risk.allocate implement the frozen relative half weights and10% constrained risk policy. Prefix recalculation excluding later source rows is bit-exact through182decisions. This additional source/causal test passed in5.02s,0financial accounts.
+
+The source adapter reuses existing monthly NPZ/native window format and original normalizers; H1/tail wrappers remain Git-first in memory. It normalizes all120 original trade/mark bodies and verifies daily minute/risk-source parity, including December31; all60 actual funding archives are reused from existing public primitives. Admission preparation has a300s budget and0provider requests. No price source values or allocation policy changed.
+
+Only four own ZIP transport duplicates were reclaimed after complete public INDEX byteSHA/size checks and Git-part existence checks; parsed historical sources and every original financial account remain. Per-file proof is TRANSPORT_RECLAIM.json. This preserves the15GiB reserve without increasing resource limits. An intermediate document-heading relocation was corrected from exact prior HEAD before source execution; original documents and append-only entries remain intact, with both edits retained in Git history.
