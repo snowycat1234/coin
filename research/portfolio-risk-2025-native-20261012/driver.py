@@ -18,6 +18,8 @@ def window(prepared):
  ix=json.loads((prepared/'SOURCE_INDEX.json').read_text());start,end=ix['calendar'];assert ix['status']=='PASS_EXACT_FULL2025_NATIVE_SOURCE_CAUSAL_RISK' and ix['days']==365 and ix['symbol_order']==list(SYMBOLS) and ix['calendar']==[native.utc('2025-01-01'),native.utc('2026-01-01')]
  for name in ('EVENTS.json','DAILY.json','Y2025.npz','Y2025_RISK.json'):r=ix['files'][name];assert sha(prepared/name)==r['SHA256'] and (prepared/name).stat().st_size==r['bytes']
  events=json.loads((prepared/'EVENTS.json').read_text());daily=native.pl.DataFrame(json.loads((prepared/'DAILY.json').read_text()));assert len(events)==ix['funding_events']==5475 and daily.height==1825
+ for row in ix['months']:
+  path=prepared/'months'/(row['month']+'.npz');assert sha(path)==row['source_NPZ_SHA256'] and path.stat().st_size==row['source_NPZ_bytes']
  def blocks():
   for row in ix['months']:
    path=prepared/'months'/(row['month']+'.npz');assert sha(path)==row['source_NPZ_SHA256'] and path.stat().st_size==row['source_NPZ_bytes']

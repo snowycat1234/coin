@@ -10,3 +10,13 @@ def test_factory_and_genuine_snapshot_do_not_change_financial_methods(tmp_path):
  binding={'arm':'SYNTHETIC_FACTORY_NO_HISTORICAL_WALLET'};checkpoint(tmp_path,sim,binding);snapshot,p=restore_snapshot(tmp_path,binding);again=native.NativeDailySimulator.from_snapshot(snapshot,win,account_class=Closing)
  assert again.state_hash()==sim.state_hash()==p['state_hash'] and again.account.snapshot()==sim.account.snapshot()
  with pytest.raises(ValueError,match='version'):native.NativeDailySimulator.from_snapshot(snapshot,win)
+
+def test_publication_identity_and_full365_targets_reject_wrong_arm_contract_or_calendar():
+ import public_source
+ from driver import intents,proto
+ from archive import expected,identity
+ d,w=intents();assert len(d)==365 and d[-1]+DAY==native.utc('2026-01-01')
+ for a in w:
+  binding=expected(a);result=dict(window='Y2025',arm=a,calendar=proto()['calendar'],summary=dict(version=Closing.VERSION,contract=dict(quantity_profile_SHA256=profile_sha(),closing_min_notional_exempt=True)));identity(binding,result,a)
+  for changed in ({'arm':'wrong'},{'window':'P2'},{'annual_risk_budget':.2},{'account_class':'default'},{'calendar':['2025-01-01','2025-12-31']},{'quantity_profile_SHA256':'wrong'}):
+   with pytest.raises(AssertionError):identity(dict(binding,**changed),result,a)
