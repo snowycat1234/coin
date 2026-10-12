@@ -1,0 +1,12 @@
+/workspace/follow-cash-compatibility-state/source/bounded_cloud.py: OK
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/follow-cash-compatibility-20261012/driver.py", line 56, in <module>
+    p=argparse.ArgumentParser();p.add_argument('phase',choices=['prepare','run']);p.add_argument('--state',type=Path,required=True);p.add_argument('--window',choices=['Y2023','Y2025']);p.add_argument('--source-commit',required=True);a=p.parse_args();prepare(a.state,a.source_commit) if a.phase=='prepare' else run(a.state,a.window,a.source_commit)
+                                                                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/follow-cash-compatibility-20261012/driver.py", line 25, in prepare
+    clean(commit);verify();assert not state.exists();state.mkdir(parents=True);begin=time.monotonic();rows={};ready=json.loads((OLD/'input/READINESS.json').read_text());assert ready['status']=='PASS_CONDITIONAL_FOLLOW_NATIVE_SOURCE_TARGET_READINESS'
+    ^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/follow-cash-compatibility-20261012/driver.py", line 16, in clean
+    def clean(commit):assert not b.git('status','--porcelain') and b.git('rev-parse','HEAD').decode().strip()==commit
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
