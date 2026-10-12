@@ -18,3 +18,9 @@ def test_exact_official_monthly_and_daily_job_urls(tmp_path):
   for family,day in (('markPriceKlines',1),('fundingRate',None)):assert Job(s,family,2026,1,day).url==source.expected_url(s,family)
  with pytest.raises(AssertionError):source.expected_url('OTHER','markPriceKlines')
  with pytest.raises(AssertionError):source.expected_url('BTCUSDT','klines')
+
+def test_actual_funding_millisecond_offsets_stay_unchanged():
+ import pandas as pd
+ from common import START
+ f=pd.DataFrame(dict(calc_time_ms=[START//1000+8,START//1000+8*3600000],funding_interval_hours=[8,8],last_funding_rate=[.0001,.0002]))
+ out=source.funding_window(f);assert len(out)==1 and int(out.calc_time_ms.iloc[0])==START//1000+8

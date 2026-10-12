@@ -1,0 +1,11 @@
+/workspace/terminal-readiness-2025-state/source/bounded_cloud.py: OK
+TRADE2026JAN1_GIT_REUSED BTCUSDT
+TAIL2026JAN1_SOURCE BTCUSDT markPriceKlines 2
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/terminal-readiness-2025-20261012/source.py", line 68, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--source-commit',required=True);a=p.parse_args();build(a.state,a.source_commit)
+                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/terminal-readiness-2025-20261012/source.py", line 47, in build
+    f,dups=validate_funding(numeric_csv(job.path,funding=True),*month_limits(2026,1));f=f[(f.calc_time_ms>=START//1000)&(f.calc_time_ms<=END//1000)];assert dups==0 and len(f)>=1 and int(f.calc_time_ms.iloc[0])*1000==START
+                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

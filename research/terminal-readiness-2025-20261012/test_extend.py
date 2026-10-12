@@ -30,3 +30,7 @@ def test_original_profile_methods_invalid_values_and_default_snapshot_rejected()
  with pytest.raises(ValueError,match='version'):Fine.from_snapshot(a.snapshot())
  rows=tape(p,[250000]*60);rows[0][1]['XRPUSDT']['mark']=np.nan
  with pytest.raises(AssertionError,match='Actual complete'):extend(a,rows,[],dict.fromkeys(SYMBOLS,250000),'TERMINAL60_2026JAN1_SYNTHETIC')
+
+def test_actual_8ms_funding_preserves_eventtime_and_available_midnight_mark():
+ a,p=fixture();r=extend(a,tape(p,[50000]*60),[dict(symbol='XRPUSDT',event_us=START+8000,raw_rate=.0001)],dict.fromkeys(SYMBOLS,50000),'TERMINAL60_2026JAN1_SYNTHETIC')
+ assert r['new_funding'][0]['event_us']==START+8000 and r['new_funding'][0]['mark_close_us']==START and r['funding_cash_USDT']==pytest.approx(-.05)
