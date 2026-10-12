@@ -55,7 +55,8 @@ def project(state,boundary,commit):
  clean(commit);verify();assert not state.exists();state.mkdir(parents=True);begin=time.monotonic();B=json.loads((boundary/'BOUNDARY.json').read_text());assert B['status']=='PASS_TWO_REAL_PAIRED_COMPLETED_BOUNDARY_DAYS'
  for r in B['records']:assert file_sha(boundary/r['raw_path'])==r['SHA256'] and file_sha(Path(str(boundary/r['raw_path'])+'.CHECKSUM'))==r['checksum_SHA256']
  mt,msha=raw_npz(MARK,MP,'0ec957375b831255920e90b9d9221ca0422731580faae436576b57fb07daeb74');tr,tsha=raw_npz(TRADE,TP,'9a0e63c0b4f93b185310c65892d424e99307a6678930b5d559e421a1145edde9');cube,csha=raw_npz(CUBE,'research/monetary-policy-information-20261012/input/INPUTS.npz','e33cc15bd53167078252f7d58b406960d543ccb92421f430214e5360971f12f4')
- for z in (mt,tr,cube):assert tuple(z['symbol_order'])==SYMBOLS
+ for z in (mt,tr):assert tuple(z['symbol_order'])==SYMBOLS
+ cube_identity=json.loads(git(CUBE+':research/monetary-policy-information-20261012/input/PREPARATION.json'));assert tuple(cube_identity['symbol_order'])==SYMBOLS
  np.testing.assert_array_equal(mt['available_us'],tr['available_us']);rt=tr['available_us'];assert len(rt)==699 and np.all(np.diff(rt)==DAY);mask=(mt['observed_minutes']==1440)&(tr['observed_minutes']==1440);assert np.all(mask==(mt['missing_minutes']==0))
  # Rawday closes are exact synchronous finalminute projections, not paid funding marks.
  d=np.arange(START,FIT,DAY);ids=np.searchsorted(cube['decision_us'],d);np.testing.assert_array_equal(cube['decision_us'][ids],d);p0=cube['p0'][ids];p1=cube['p1'][ids];trade=np.stack([at(rt,tr['close'],q) for q in d]);mark=np.stack([at(rt,mt['close'],q) for q in d]);ready=np.stack([at(rt,mask.astype(float),q)==1 for q in d]);previous=[];cube_compared=0;cube_unknown=0
