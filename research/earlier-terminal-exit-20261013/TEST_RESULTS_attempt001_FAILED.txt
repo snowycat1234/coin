@@ -1,0 +1,40 @@
+test_budget_bounds_tamper (__main__.Tests.test_budget_bounds_tamper) ... ok
+test_clock_gate_and_fixed_plan (__main__.Tests.test_clock_gate_and_fixed_plan) ... ok
+test_exact_copy_two_expiry_changes (__main__.Tests.test_exact_copy_two_expiry_changes) ... ok
+test_no_future_capacity_and_original_prefix (__main__.Tests.test_no_future_capacity_and_original_prefix) ... ok
+test_nonterminal_five_stays_same (__main__.Tests.test_nonterminal_five_stays_same) ... ERROR
+test_paid_flat_cost_funding (__main__.Tests.test_paid_flat_cost_funding) ... ERROR
+test_sixty_real_clock_capacity_no_reentry (__main__.Tests.test_sixty_real_clock_capacity_no_reentry) ... ok
+test_snapshot_full_restores_terminal (__main__.Tests.test_snapshot_full_restores_terminal) ... ok
+test_snapshot_zero_advance_halt_preserved (__main__.Tests.test_snapshot_zero_advance_halt_preserved) ... ok
+test_terminal_cannot_add_or_be_overwritten (__main__.Tests.test_terminal_cannot_add_or_be_overwritten) ... ok
+
+======================================================================
+ERROR: test_nonterminal_five_stays_same (__main__.Tests.test_nonterminal_five_stays_same)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_earlier_terminal_exit_20261013/test_synthetic.py", line 71, in test_nonterminal_five_stays_same
+    for t in range(M,6*M,M):q.attempt(t,{s:{'open':10.} for s in SYMS})
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_earlier_terminal_exit_20261013/terminal_adapter.py", line 73, in attempt
+    receipt=self.account.execute_fill(s,side,requested,event,order['signal_us'],fill_id,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_native_half_mix_20261013/repo/src/quant/perpetual_account.py", line 463, in execute_fill
+    self._mark(symbol)
+  File "/workspace/scratch/68ef1b82bcac/coin_native_half_mix_20261013/repo/src/quant/perpetual_account.py", line 277, in _mark
+    raise ValueError("no causally available mark")
+ValueError: no causally available mark
+
+======================================================================
+ERROR: test_paid_flat_cost_funding (__main__.Tests.test_paid_flat_cost_funding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_earlier_terminal_exit_20261013/test_synthetic.py", line 57, in test_paid_flat_cost_funding
+    d=f['decimal_strings'];self.assertGreater(D(d['fee_USDT']),0);self.assertGreater(D(d['execution_cost_USDT']),0)
+                                                ~^^^^^^^^^^^^
+KeyError: 'fee_USDT'
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.244s
+
+FAILED (errors=2)

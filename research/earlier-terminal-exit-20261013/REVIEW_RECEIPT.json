@@ -1,0 +1,128 @@
+{
+  "actual_2025_cached_months_bytes_verified": 12,
+  "actual_terminal_quote_rows_checked_per_symbol": 61,
+  "bootstrap_SHA256": "7131254f70e02f6fae589ff17d532e213736c70a92ac87fc573102f5214f4aad",
+  "case_bindings_SHA256": "f888c7c8f22e470c78a17132a33d7c02aa2ea0b257a3d37137c4392c7d0a7381",
+  "cold_audit_SHA256": "2405fab5e8c477129722bf9747004e3f00ea9613c7e481091d09d87e6dd1cd23",
+  "contract": {
+    "automatic_topup": false,
+    "expiry_change_only_terminal_60_nonterminal_5": true,
+    "fees_bp": 5.5,
+    "final_day_target_zero": false,
+    "financial_account_and_helpers_unchanged_byte_bound": true,
+    "fine_quantity_step": "0.00000001",
+    "first_allowed_fill_us": 1767222000000001,
+    "full_capital_USDT": 10000,
+    "funding_same_first_open_event_precedes_fill_and_intraminute_funding_follows_fill": true,
+    "funding_signal_phase_note": "Native funding at the signal boundary is processed by the preceding close phase; terminal hook at signal+1 supersedes pending instructions before open-phase funding and execution. First eligible execution is next real open+1 microsecond.",
+    "half_spread_bp": 4,
+    "isolated_leverage": 1,
+    "last_allowed_fill_us": 1767225540000001,
+    "last_day_targets_dynamic_masks_and_pre_exit_numeric_prefix_preserved": true,
+    "max_terminal_attempts": 60,
+    "native_attempt_exact_except_two_terminal_expiry_substitutions": true,
+    "persist_cash_close": false,
+    "prior_capacity_rule": "previous completed minute quote_volume * 0.001 / current real open",
+    "real_opens_UTC": "2025-12-31 23:00 through 23:59 inclusive",
+    "same_minute_retry_absent": true,
+    "signal_UTC": "2025-12-31T22:59:00Z",
+    "signal_us": 1767221940000000,
+    "signed_residuals_preserved_no_free_flat": true,
+    "slippage_bp": 4,
+    "terminal_duplicate_2354_preserves_signal_order_id_sequence_and_attempt_count": true,
+    "terminal_reduce_only": true,
+    "unchanged_exclusive_end_us": 1767225600000000
+  },
+  "contract_review_blockers": [],
+  "exact_half_definition_verified": "COMBINED == 0.5 * STATIC50 + 0.5 * SMA200_10PCT, exact NumPy equality",
+  "fixed_cases": [
+    {
+      "arm": "STATIC50",
+      "calendar": [
+        1735689600000000,
+        1767225600000000
+      ],
+      "case_id": "Y2025_STATIC50",
+      "display_arm": "CSH_STATIC50",
+      "source_index_SHA256": "8a0235e428902f7a0ea4ec1893343abae6ccc23715080771796b54fb58f1f3c4",
+      "target_archive_SHA256": "c2c4ec2597eac6a0e177b6890ba20391a63dec70572ddd31e6902ce5f5c3e0e3",
+      "target_array_SHA256": "889a957ce54bd18dd008ddce0bc53643b368fd710b8eeefcc848ef430bd35f16"
+    },
+    {
+      "arm": "COMBINED",
+      "calendar": [
+        1735689600000000,
+        1767225600000000
+      ],
+      "case_id": "Y2025_COMBINED",
+      "display_arm": "EXACTHALF",
+      "source_index_SHA256": "8a0235e428902f7a0ea4ec1893343abae6ccc23715080771796b54fb58f1f3c4",
+      "target_archive_SHA256": "c2c4ec2597eac6a0e177b6890ba20391a63dec70572ddd31e6902ce5f5c3e0e3",
+      "target_array_SHA256": "74c2dd832ea4f62bb8c9ab52de5cc0238473a1bb5d46059fced8a53de341027a"
+    }
+  ],
+  "freeze_manifest_SHA256": "edb5f807429f59a5da66e9e4d41c1ebd6076b7495fcf9aa5870dd466e6227e50",
+  "funding_events_exact_original_bytes_and_population": 5475,
+  "historical_wallets_rerun": 0,
+  "native_port_closure_count": 26,
+  "new_historical_wallets_executed": 0,
+  "parent_GO_granted_by_review": false,
+  "provider_downloads": 0,
+  "publication_base_commit": "a5471d18a58315b9eac17aa1e69c4c5f2657849a",
+  "remaining_economic_validation": "NOT_RUN. These synthetic and read-only checks are not evidence of paid-flat success or economic improvement. After authorized histories, both fixed accounts need the frozen zero-advance cold restore and complete 525540-row pre-exit prefix audit.",
+  "remaining_launch_conditions": [
+    "Exact remote preregistration of this freeze and review receipt must be verified",
+    "Fresh shared resource admission must pass",
+    "Separate parent GO is required"
+  ],
+  "retained_2026_data_opened": 0,
+  "review_date_UTC": "2026-10-13",
+  "review_scope": "Fixed 2025 two-arm terminal signal/expiry contract, exact-byte inputs and synthetic counterexamples only",
+  "reviewed_dependencies_count": 54,
+  "reviewed_files_SHA256": {
+    "CASE_BINDINGS.json": "f888c7c8f22e470c78a17132a33d7c02aa2ea0b257a3d37137c4392c7d0a7381",
+    "PROTOCOL.md": "2086c20ff0233582e6f99c77387eca996b950a29c08e54bcf0acf2071238fceb",
+    "TERMINAL_QUOTE_GATE.json": "818109b85ad97ad65bfff9b329addafe5742a7202ae4afba9cbf2341d05f9ed5",
+    "cold_audit.py": "2405fab5e8c477129722bf9747004e3f00ea9613c7e481091d09d87e6dd1cd23",
+    "preflight_terminal.py": "8e851420e60ce42a877129a54dc20b464e055841501e883a3aafd5035e19c400",
+    "resource_gate.py": "e29de5e816620fa86ada83c96fa3f57503f68f282fa4bd56292360d8c132d4ae",
+    "run_budget.py": "c10f9aaf669ce18ae630a63256f1dca72378709bf4ff787b5367a91276b7977a",
+    "run_cases.py": "c708ce7b6ef1275483c0e4fe859c7a3ea0ce3b05a804c0c02cb74e63ff317ca2",
+    "terminal_adapter.py": "923f23a56a3c9a84de49f2527889f2b4c50ac5ad66ad150416f9ed7c2b7d1280",
+    "test_synthetic.py": "b46270efcc38da732136b2f9c3d7801d14fec5d97a5e7f86f887e993d41d1fac",
+    "worker_bounds.py": "96c26c99e9fc3fca537dea52bf831059261d62943a4021ca679008dbdb35aae6"
+  },
+  "same_previously_frozen_dependency_count": 53,
+  "status": "PASS_INDEPENDENT_PRE_GO_REVIEW",
+  "synthetic_constructed_accounts_only": true,
+  "terminal_adapter_SHA256": "923f23a56a3c9a84de49f2527889f2b4c50ac5ad66ad150416f9ed7c2b7d1280",
+  "tests": {
+    "coverage": [
+      "funding signal/first-open/intraminute/close ties and marks",
+      "23:54 duplicate order identity and 54 accumulated attempts",
+      "pending daily increase superseded without reentry",
+      "current open with prior quote capacity and native costs",
+      "nonterminal POOL_EXIT remains five-attempt halted outcome",
+      "final day target and complete synthetic 1380-minute prefill numeric/trade prefix",
+      "residual and halted lossless disk checkpoint zero-financial-advance restores",
+      "actual final 61 cached December quotes and clocks match frozen gate"
+    ],
+    "independent_counterexamples": {
+      "failed": 0,
+      "log_SHA256": "840f688377283b00575660c5650dea374f9a6690dfd868772e33d2ed9ea85eef",
+      "passed": 8,
+      "source_SHA256": "ca064d66790b3ce46e7dd135a6bfa8945252ab2d3d24b9113fde56a7a0e8d6f5"
+    },
+    "independent_input_audit": {
+      "receipt_SHA256": "1242bbe4ce4d16021a307d65c9e0fc11b2bdbb86842a7efbeba8bfaa01dfbceb",
+      "source_SHA256": "a10bd16bab0fab26cebcaf78d11ba9980ea9ded07b919562e7f6d22e6bf70ded",
+      "status": "PASS"
+    },
+    "preserved_initial_fixture_failures": "Worker initial attempt used an unavailable synthetic mark and wrong receipt field names. Independent initial attempt compared Decimal formatting text and placed five-attempt POOL_EXIT exactly at the terminal-supersession boundary. Fixtures were corrected; no candidate finance or terminal code was changed for these failures.",
+    "worker_suite_independently_rerun": {
+      "failed": 0,
+      "log_SHA256": "b985e658649ba20a60a428aa2ae650d55406a21bcdff31244a5ac2686bb5b76f",
+      "passed": 10
+    }
+  }
+}
