@@ -1,0 +1,9 @@
+# Exact 2024 five-wallet native checkpoint archive
+
+This archive preserves all 2,981 original files under `coin_expanded_coverage_20261013/wallets`, including every recovery day NPZ, every intermediate scheduler/account snapshot, each August 12 start checkpoint, five genuine account/trade/funding/rejection journals, results, logs, and bindings. The source includes three full-year wallets (EXACTHALF, SMA200_10PCT, VOL_MATCHED) and two early-halt wallets (STATIC50, CS_MATCHED). An early halt is preserved as such, not extended or imputed.
+
+`pack_all.py` scans SHA-256 values and original hardlink relationships, stores each distinct content object once, removes only exact duplicate float64 minute columns, reversibly shuffles byte lanes, and applies standard-library XZ compression. All 36 float64 minute values per row remain bit-exact; the 37th numeric output is the source-time coordinate from the native scheduler. Other files are compressed losslessly without changing their contents. No wallet was advanced or rerun.
+
+To reconstruct from the public Git branch, use Python with NumPy and run `python restore_public.py PUBLICATION_DIR NEW_ASSEMBLY_DIR NEW_RESTORED_WALLETS_DIR`. It verifies every part SHA-256, compressed stream SHA-256, recovered object SHA-256, every original path, hardlink group, and all ten checkpoint pointer state hashes. The local prepublication test additionally compared all 2,981 restored file bytes to the immutable source.
+
+The complete original directory has 597,307,691 logical bytes; hardlinks reduce that to approximately 408 MB physical. SHA-content dedup leaves 407,821,342 unique source bytes. `MINUTE_BITS.xz` is 218,456,740 bytes and `OTHER_BYTES.xz` is 59,106,144 bytes, 277,562,884 compressed stream bytes before manifest/metadata. This archive is independent of and does not alter the already-published compact results.
