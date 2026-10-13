@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/build_report.py", line 668, in <module>
+    main()
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/build_report.py", line 663, in main
+    write_outputs(report)
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/build_report.py", line 611, in write_outputs
+    summary = render_summary(report)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/build_report.py", line 561, in render_summary
+    + '; residual signed marked USDT ' + number(row['terminal_residual_signed_marked_notional_USDT']) + '.')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/build_report.py", line 526, in number
+    return 'null' if value is None else f'{value * 100:.6f}%' if percent else f'{value:.6f}'
+                                                                                ^^^^^^^^^^^
+TypeError: unsupported format string passed to dict.__format__
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/audit_all.py", line 232, in <module>
+    main(args.stage)
+  File "/workspace/scratch/68ef1b82bcac/coin_2021_strategy_postrun_20261013/audit_all.py", line 210, in main
+    raise RuntimeError('Bounded postrun observer failed: ' + identity)
+RuntimeError: Bounded postrun observer failed: FULL_FOUR_CASE_REPORT
