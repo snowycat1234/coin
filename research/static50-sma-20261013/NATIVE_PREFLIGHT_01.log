@@ -1,0 +1,12 @@
+/workspace/static50-sma-state/source/bounded_cloud.py: OK
+Traceback (most recent call last):
+  File "/workspace/coin-tail-risk/research/static50-sma-20261013/native_wallet.py", line 53, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--window',choices=['Y2023','Y2025'],required=True);p.add_argument('--source-commit',required=True);a=p.parse_args();run(a.state,a.window,a.source_commit)
+                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/static50-sma-20261013/native_wallet.py", line 25, in run
+    P=preflight(state);n.verify();ready=json.loads((HERE/'input/READINESS.json').read_text());assert ready['protocol_SHA256']==n.file_sha(HERE/'PROTOCOL.json')
+      ^^^^^^^^^^^^^^^^
+  File "/workspace/coin-tail-risk/research/static50-sma-20261013/native_wallet.py", line 20, in preflight
+    assert admission(margin,case,packet),f'RESOURCE_STOP: reserve margin {margin}, need {case+2*packet+1048576}; no state created'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RESOURCE_STOP: reserve margin 99598336, need 209497350; no state created

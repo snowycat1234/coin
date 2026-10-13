@@ -10,6 +10,10 @@
 
 原生执行入口 `native_wallet.py` 已预备，读取冻结两年 `COMBINED` 而非重新合成原始目标；实际启动前先检查空间、不创建STATE，复用现有源窗口/NativeDailySimulator/Closing和真实目标工厂。它会保留0/90天等genuine checkpoint、完整37位分钟指纹、账本和独立Decimal桥；一个参考门槛合成测试通过。此代码尚未进入真实财务运行，也未完成新组合自身的公开打包/冷恢复，因此不能把它称为已验证的新native结果。`NATIVE_PLAN.json`是后续固定范围，资源和父侧筛查通过后仍需单独正常发布完整原账户与冷证明。
 
+最小可迁移执行包 `public/EXECUTION/EXECUTION.zip.b64` 是108,303B UTF‑8，解码ZIP SHA `74e46ef224145c3348039b219f402032c84c5960714664027a32c16411a949e1`。它装两年冻结 `COMBINED` NPZ、来源/范围协议、未运行的guarded native入口、资源报告和原目标INDEX；其 `INDEX.json`逐文件SHA并列出需从已固定coin Git读取的318a/94等内核字节。真正的12月度minute源缓存约束仍需按已公开来源恢复，不在这个小包里。打包成功后，对原生CLI做一次真实前置门槛检查：`RESOURCE_STOP: reserve margin 99598336, need 209497350; no state created`，退出码1是预期的资源拒绝，`OBSERVED_Y2023/Y2025`均不存在。`NATIVE_PREFLIGHT_01.log`保留实际错误；该检查未打开真实行情/建账户/前进分钟。
+
+父侧后续通报其独立日级代理（同一冻结目标、6/6 Decimal核对）两年均为正：组合2023 +2.57256%/DD9.51094%，2025 +6.00725%/DD6.51659%。这是父侧代理的报告值，本执行环境未复跑或读取其最终报告；原生费用、离散量格、容量、资金费及残仓检验仍是NOT_RUN，不据代理数字改权重。原SMA完整报告准确提交为 `52bd252fe7d26499ea571d77e4ec3de81aecebb3`，路径 `research/sma200-native-20261013/REPORT.md`，两年原native及公开cold已完成。
+
 后续只有在父侧固定代理筛查证明值得运行、且复核有足够预留后，才能使用原完整共享10k钱包：318a NativeDailySimulator/94Closing、BASE27费用及spread/slippage、原实际资金费条件单位1、容量/可用掩码/逐仓1x/MMR、冻结NAV.99 sizing、end−6分钟五次平仓尝试；分别fresh2023/fresh2025，不重新跑旧STATIC50/SMA，不补现金关闭或免费平仓。要报告真实marked与paid、未平仓、费用/滑点/资金费/毛价PnL、实际波动/DD和同端点控制口径。历史场所和资金费可得性仍有条件代理限制。
 
 复核紧凑输入：`git show 5939173c:research/static50-sma-20261013/public/ORIGINAL_TARGETS/INDEX.json`；各 `.npz.b64` 可 `base64 -d` 到独立临时目录，解码SHA应等于INDEX中的原始SHA。生成目标的最小命令是在代码冻结提交的干净检出中，经项目 `research/slow-momentum-cpd-20261011/launch.sh` 调用 `python -m pytest -q research/static50-sma-20261013/test_targets.py` 后调用 `python research/static50-sma-20261013/targets.py`，输出新的 `input/Y2023.npz`、`input/Y2025.npz`。现有目录已有这些文件，不能在其上重复运行；真实目标文件和READINESS已直接公开。所有四源原对象在对应提交可恢复；无Library、凭证、付费、实盘、部署、force push或2026锁访问。
