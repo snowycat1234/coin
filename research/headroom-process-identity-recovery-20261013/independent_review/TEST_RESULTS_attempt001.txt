@@ -1,0 +1,29 @@
+test_exact_original_misclassification_reproduced_and_minimal_fix (__main__.IdentityTests.test_exact_original_misclassification_reproduced_and_minimal_fix) ... ok
+test_external_pack_reservation_and_busy_cpus_unchanged (__main__.IdentityTests.test_external_pack_reservation_and_busy_cpus_unchanged) ... ok
+test_mismatched_pid_and_malformed_ppid_fail_closed (__main__.IdentityTests.test_mismatched_pid_and_malformed_ppid_fail_closed) ... ok
+test_missing_status_never_assumed_own (__main__.IdentityTests.test_missing_status_never_assumed_own) ... ok
+test_real_financial_parent_sibling_and_orphan_still_block (__main__.IdentityTests.test_real_financial_parent_sibling_and_orphan_still_block) ... FAIL
+test_supported_ppid_owns_child_and_grandchild_without_children_files (__main__.IdentityTests.test_supported_ppid_owns_child_and_grandchild_without_children_files) ... FAIL
+
+======================================================================
+FAIL: test_real_financial_parent_sibling_and_orphan_still_block (__main__.IdentityTests.test_real_financial_parent_sibling_and_orphan_still_block)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_headroom_process_recovery_review_20261013/test_process_identity_independent.py", line 37, in test_real_financial_parent_sibling_and_orphan_still_block
+    self.assertEqual(set(actual['prior_historical_processes']),{10,11,200})
+AssertionError: Items in the second set but not the first:
+10
+
+======================================================================
+FAIL: test_supported_ppid_owns_child_and_grandchild_without_children_files (__main__.IdentityTests.test_supported_ppid_owns_child_and_grandchild_without_children_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_headroom_process_recovery_review_20261013/test_process_identity_independent.py", line 30, in test_supported_ppid_owns_child_and_grandchild_without_children_files
+    self.assertEqual(m.own_process_ids(root,ROOT),{ROOT,101,102})
+AssertionError: Items in the first set but not the second:
+10
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.014s
+
+FAILED (failures=2)
