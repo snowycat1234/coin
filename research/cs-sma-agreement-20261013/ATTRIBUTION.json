@@ -1,0 +1,3458 @@
+{
+  "analysis": "Full-calendar saved-quantity economic attribution",
+  "diagnostic_code_SHA256": "8e3c789304be3f24c4d27d4ce18cf0c78221bde0bde5d12d56a6960af4999bd0",
+  "frozen_code_targets_commit_in_RESULTS": "ea3c90cc85f0bb57749bf5489b245c0bf139d3ff",
+  "interpretation_limits": [
+    "CS kept and removed quantities came from CS full-wallet NAV and risk sizing; their summed cash contributions are attribution, not separately tradable equal-capital strategies.",
+    "AGREEMENT quantities incorporate a different realized NAV path and different covariance-based sizing. Removing CS contributions is not a causal return counterfactual.",
+    "The saved NO_REALLOCATION diagnostic has independent wallet NAV, differs from literal CS-quantity subtraction, and can raise estimated risk when hedges are removed. It remains a diagnostic and cannot rescue failed primary gates.",
+    "Known historical development years and conditional daily quantity proxy only; no execution, capacity, liquidation or pristine holdout qualification."
+  ],
+  "method": {
+    "excluded": "No new account replay, target generation, RNG, fitting, parameter search, shortened calendar, winner selection, protected 2026 data, external downloads or publication",
+    "expense_partitions": "Opening/increasing units use current holding side and gate; closing/decreasing units use previous holding side and previous ownership-date gate; reversals split close/open. Terminal cost uses final holding. This explicit convention is additive, not a causal cost allocation.",
+    "funding": "-saved held_quantity * original signed funding_per_unit",
+    "gate": "Saved agreement_mask and target proof at ownership date; raw_CS defines original long/short leg intent",
+    "price": "saved held_quantity * (original p1 - original p0)",
+    "rebalance": "-abs(current saved quantity - previous saved quantity) * original p0 * .00135; prior initial inventory is zero",
+    "source_identity": "Published RESULTS and quantity hashes, original input and saved target/proof hashes verified before arithmetic",
+    "terminal": "-abs(last saved quantity) * last original p1 * .00135; separated from final saved row trading_cost_proxy"
+  },
+  "next_research_direction": {
+    "falsifiable_design": "On admitted seen-development calendars only, retain CS rank rules, original signed funding and execution costs; freeze one causal inventory/risk adjustment recipe and full-calendar economic gates before replay. Preserve market-neutral hedge structure, account for covariance/cap constraints, and report turnover plus net and drawdown. No search or holdout access is authorized by this attribution.",
+    "no_free_savings": "Same-sign and non-rank-date expenses are research targets, not avoidable-cost estimates. 2023 needs over 89.72 USDT improvement; even deleting all 81.63 non-rank-date fees arithmetically would still leave CS negative before inventory changes.",
+    "preserved_failures": [
+      "CSMOM_ABSOLUTE_SHORT_20261008 own-21-day-return short gate: targeted DEDUP_REVIEW records worse net and drawdown in three windows despite removing historical XRP liquidation.",
+      "Prior failed SMA hard gate and additive SMA/CS mix remain failed evidence; no reset, rescue by diagnostic, or untested rebranding of a sign gate.",
+      "This frozen symmetric daily SMA200 AGREEMENT fails the published primary qualification in both full years."
+    ],
+    "rationale": "2025 lost price PnL overwhelms saved fees; profitable rejected shorts show absolute downtrend is not necessary for cross-sectional shorts. In 2023 ungated CS has positive price PnL but is made net-negative by turnover costs and funding.",
+    "recommendation": "Preserve CS relative ranking and long/short hedge structure; prioritize a single predeclared transaction-cost-aware inventory/risk-rebalancing experiment rather than another absolute-sign hard gate."
+  },
+  "results_publication_commit_from_task": "706493dd6a1c0e6da6d7cd68b6b3e66c197d9de2",
+  "scope": "2023 and 2025; all 365 dates each; original saved CS, AGREEMENT and predeclared AGREEMENT_NO_REALLOCATION holdings only",
+  "source_SHA256": {
+    "inputs/Y2023.npz": "1c500e9d5b0244a1daaabc597d7cc5ae97a21a156cc42d8a44a1504b821e599f",
+    "inputs/Y2025.npz": "88a698ceed87603a36ca2bcf4ae76d805aa90085b344bbeee47e58a8c9770add",
+    "repo/modules/collector_research/pipeline/economics.py": "637441050d0d42bc1a579510272b3fa5f456620dbfb8b45932cc37e894e34a3e",
+    "repo/modules/transformer_v2/portfolio.py": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+    "repo/research/cs-continuous-economics-20261012/core.py": "6c20a5cd26e83294cca820c81e568e402d10c6c741e9477a2bec3ab0d2dcb7d9",
+    "repo/research/cs-sma-agreement-20261013/DEDUP_REVIEW.json": "e50524a88a27a3e6796e5ea06a94a495d4e1ae80a9dc277bc4b06b123e910274",
+    "repo/research/cs-sma-agreement-20261013/PROTOCOL.json": "bb37fd619777bd69e043eddfe3ade6c564e00ebe0eef0257181b68d25fe7f47c",
+    "repo/research/cs-sma-agreement-20261013/QA.json": "e9e1e0e01814a460da5adde4f793c6c46aee027af464e04ed4dd52bc70601684",
+    "repo/research/cs-sma-agreement-20261013/SOURCE_PROVENANCE.json": "3460e82d72e2921d984053deb26c7f0a1be2d6e6b6cfdffb6471f7eb931c8f13",
+    "repo/research/cs-sma-agreement-20261013/TARGETS_MANIFEST.json": "d5bb578d20ec010b9b7f51bc33c2e61644307bcbd234e5e7378eba601baf5a4b",
+    "repo/research/cs-sma-agreement-20261013/TARGETS_PACKET_INDEX.json": "1d453b1e59829cfd5093526ca5fadf32f8ab41c6dda905100205091cf2c2cb3e",
+    "repo/research/cs-sma-agreement-20261013/core.py": "73a0dde810df8b5acf4b4473d68294b7f2738ba33c48748a93d7b5404af31d6a",
+    "repo/research/cs-sma-agreement-20261013/prepare_targets.py": "90fb6f45d69639cfd562203cdb77f3c7f1d70192e261773e8770de65a3a5141b",
+    "repo/research/cs-sma-agreement-20261013/results/RESULTS.json": "d78446e9ec2ae529fbf4096260c709685c9cf37dedfbc65616887c25c89a6b5a",
+    "repo/research/cs-sma-agreement-20261013/results/Y2023_AGREEMENT_NO_REALLOCATION_ROWS.json": "3b2b05e7e2e24fc7cbb70feea59610629547038e80be5b1b8103190e334e4fd5",
+    "repo/research/cs-sma-agreement-20261013/results/Y2023_AGREEMENT_ROWS.json": "accd3c2726ac2a370646971982ef6b64a106617c4cb91c62a93229539b9192fc",
+    "repo/research/cs-sma-agreement-20261013/results/Y2023_CS_ROWS.json": "34795012617c59df9630589264d5103646cf99d8f082788853f89870660cf6d2",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_AGREEMENT_NO_REALLOCATION_ROWS.json": "570ddf10ecc0f5fceb17ddcd29fc889e55a33017120ced82145e8c25787015da",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_AGREEMENT_ROWS.json": "ec369d49332f21e05d83365c4950ca22c8e521bbf67319f7b564b212f4e5b83d",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_CS_ROWS.json": "34624a69dbf7a19b1f5ef1140a234d3a4b7229cf2425383595c984556a3cb09d",
+    "repo/research/cs-sma-agreement-20261013/score.py": "1e0198a7998bdc53309efe54ac0d71fd456e543d8c894e6b2fde7f31bfa5e2f2",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2023.npz": "ca879239c8957b36cfc4fc633e4bbb6392f33e854fe46163931e96904c67eb1d",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2023_PROOF.json": "fbca8867f00ec6fa7deeffd65dd699e8eff5261ab851ded636461394f7eada77",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2025.npz": "4c584f8ee01596c3bdc7811de85213d63aec11bcc076e6a7297d73502f317f92",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2025_PROOF.json": "74f51ecf186c2df04d366b03b9605d718704138200db189975b8bb348a1fea5c",
+    "repo/research/cs-sma-agreement-20261013/test_accounting.py": "1f20e1e963fa1a89b79d6975c155ed18846bb77dc1b4154b4c51aa5ae304652f",
+    "repo/research/cs-sma-agreement-20261013/test_core.py": "b63acc50a52f9918a67cb9a22888b067cad9a69efc72a5637b1d93a1afc7f890",
+    "repo/research/portfolio-risk-budget-20261012/risk_budget.py": "69de58ac83536dfbf1ec3715aadfa65da741c970c4cb5b417bb4c1e8062b19a6",
+    "repo/research/settled-funding-direction-20261012/PROTOCOL.json": "70f7c7f080d637126cd06f7f56ef5aac8ac761babd5f7ed8467b66dfe44a2243",
+    "repo/research/settled-funding-direction-20261012/SOURCE_SHA256.txt": "8d2303cd835adf1e37d05a08b513c1e69f11364658f8138cd22310eff7fbe009",
+    "repo/research/settled-funding-direction-20261012/core.py": "e536049425dd404fac155d9fc757e5ee82199d88e3733ca49216c40a29253245",
+    "repo/research/settled-funding-direction-20261012/test_core.py": "cd6a789634a6518e1dd2554b68be63451a6d6c81eaea50be16c5a0ce59f51cdf",
+    "repo/scripts/investment/public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "repo/scripts/research/cs_numpy_risk_compat.py": "edabc1283330db0dcc2cb9da1fc1f569110f2e02921592ed824597bfa580e7d0",
+    "repo/scripts/research/public_cross_section_momentum.py": "7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f",
+    "repo/scripts/research/public_cross_section_momentum_compat.py": "9ce46e0eecbf7891a28f5ae072eb735d0eea15a41b331ccf37fd637709404599",
+    "repo/tests/test_public_cross_section_momentum.py": "c7c56930df431480a87adaceb3d8111168878bb765ac8de1f6b68935dc21f57e",
+    "repo/tests/test_public_cross_section_momentum_compat.py": "344946744c08549e5e04f9d03206dcf2aba96e85cc932a06c0c526c354117057"
+  },
+  "status": "PASS_ARITHMETIC_RECONCILIATION",
+  "units": "USDT contributions; funding cash positive means receipt; expense contributions negative. Percentage points are USDT/10000*100, not independent strategy returns.",
+  "years": {
+    "2023": {
+      "AGREEMENT_minus_CS": {
+        "by_asset": {
+          "BTCUSDT": {
+            "funding_cash_USDT": -15.044708602944912,
+            "initial_capital_equivalent_percentage_points": -2.684786591479523,
+            "net_USDT": -268.4786591479523,
+            "price_pnl_USDT": -245.6699418253661,
+            "rebalance_cost_contribution_USDT": -8.171967097548524,
+            "terminal_cost_contribution_USDT": 0.40795837790720146
+          },
+          "DOGEUSDT": {
+            "funding_cash_USDT": -9.869895220342812,
+            "initial_capital_equivalent_percentage_points": 3.047151459716728,
+            "net_USDT": 304.7151459716728,
+            "price_pnl_USDT": 313.800779482361,
+            "rebalance_cost_contribution_USDT": 0.7842617096546292,
+            "terminal_cost_contribution_USDT": 0.0
+          },
+          "ETHUSDT": {
+            "funding_cash_USDT": -34.017466155637344,
+            "initial_capital_equivalent_percentage_points": 2.6590767544124763,
+            "net_USDT": 265.9076754412476,
+            "price_pnl_USDT": 297.15795955400256,
+            "rebalance_cost_contribution_USDT": 1.41512312975118,
+            "terminal_cost_contribution_USDT": 1.352058913131174
+          },
+          "SOLUSDT": {
+            "funding_cash_USDT": 21.085548865001442,
+            "initial_capital_equivalent_percentage_points": -9.996881724553877,
+            "net_USDT": -999.6881724553878,
+            "price_pnl_USDT": -1020.4223897841993,
+            "rebalance_cost_contribution_USDT": -0.7564007459394446,
+            "terminal_cost_contribution_USDT": 0.40506920974948746
+          },
+          "XRPUSDT": {
+            "funding_cash_USDT": -33.08871193022222,
+            "initial_capital_equivalent_percentage_points": 2.65183922018371,
+            "net_USDT": 265.18392201837105,
+            "price_pnl_USDT": 303.1326810919094,
+            "rebalance_cost_contribution_USDT": -6.207284550902514,
+            "terminal_cost_contribution_USDT": 1.3472374075863933
+          }
+        },
+        "by_gate": {
+          "kept": {
+            "funding_cash_USDT": 18.98058287962465,
+            "initial_capital_equivalent_percentage_points": -3.620979621547703,
+            "net_USDT": -362.0979621547703,
+            "price_pnl_USDT": -250.35255313126652,
+            "rebalance_cost_contribution_USDT": -131.53901949078514,
+            "terminal_cost_contribution_USDT": 0.8130275876566886
+          },
+          "removed": {
+            "funding_cash_USDT": -89.9158159237705,
+            "initial_capital_equivalent_percentage_points": -0.7026212601727824,
+            "net_USDT": -70.26212601727823,
+            "price_pnl_USDT": -101.64835835002582,
+            "rebalance_cost_contribution_USDT": 118.60275193580051,
+            "terminal_cost_contribution_USDT": 2.6992963207175675
+          }
+        },
+        "by_side": {
+          "long": {
+            "funding_cash_USDT": 17.821601896277457,
+            "initial_capital_equivalent_percentage_points": -13.06779025793359,
+            "net_USDT": -1306.7790257933589,
+            "price_pnl_USDT": -1308.8221606520349,
+            "rebalance_cost_contribution_USDT": -16.59149462525815,
+            "terminal_cost_contribution_USDT": 0.8130275876566886
+          },
+          "short": {
+            "funding_cash_USDT": -88.7568349404233,
+            "initial_capital_equivalent_percentage_points": 8.744189376213104,
+            "net_USDT": 874.4189376213104,
+            "price_pnl_USDT": 956.8212491707427,
+            "rebalance_cost_contribution_USDT": 3.6552270702734972,
+            "terminal_cost_contribution_USDT": 2.6992963207175675
+          }
+        },
+        "by_side_and_gate": {
+          "long": {
+            "kept": {
+              "funding_cash_USDT": -1.3556054222995897,
+              "initial_capital_equivalent_percentage_points": -3.734549573047642,
+              "net_USDT": -373.4549573047642,
+              "price_pnl_USDT": -313.79026635087143,
+              "rebalance_cost_contribution_USDT": -59.12211311924986,
+              "terminal_cost_contribution_USDT": 0.8130275876566886
+            },
+            "removed": {
+              "funding_cash_USDT": 19.177207318577036,
+              "initial_capital_equivalent_percentage_points": -9.333240684885947,
+              "net_USDT": -933.3240684885948,
+              "price_pnl_USDT": -995.0318943011636,
+              "rebalance_cost_contribution_USDT": 42.5306184939917,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "short": {
+            "kept": {
+              "funding_cash_USDT": 20.336188301924228,
+              "initial_capital_equivalent_percentage_points": 0.11356995149993938,
+              "net_USDT": 11.356995149993939,
+              "price_pnl_USDT": 63.43771321960503,
+              "rebalance_cost_contribution_USDT": -72.41690637153532,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "removed": {
+              "funding_cash_USDT": -109.09302324234753,
+              "initial_capital_equivalent_percentage_points": 8.630619424713167,
+              "net_USDT": 863.0619424713167,
+              "price_pnl_USDT": 893.3835359511378,
+              "rebalance_cost_contribution_USDT": 76.0721334418088,
+              "terminal_cost_contribution_USDT": 2.6992963207175675
+            }
+          }
+        },
+        "joint_asset_side_gate": {
+          "BTCUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -7.416275789603517,
+                "initial_capital_equivalent_percentage_points": -0.3957725880259613,
+                "net_USDT": -39.577258802596134,
+                "price_pnl_USDT": -9.641787734502714,
+                "rebalance_cost_contribution_USDT": -22.927153656397106,
+                "terminal_cost_contribution_USDT": 0.40795837790720146
+              },
+              "removed": {
+                "funding_cash_USDT": 4.284770836582385,
+                "initial_capital_equivalent_percentage_points": -1.7040088410778464,
+                "net_USDT": -170.40088410778466,
+                "price_pnl_USDT": -181.08915079223726,
+                "rebalance_cost_contribution_USDT": 6.403495847870205,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": -0.1446334383732478,
+                "initial_capital_equivalent_percentage_points": 0.019310442599349952,
+                "net_USDT": 1.9310442599349953,
+                "price_pnl_USDT": 7.366532090669473,
+                "rebalance_cost_contribution_USDT": -5.29085439236123,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -11.768570211550532,
+                "initial_capital_equivalent_percentage_points": -0.604315604975065,
+                "net_USDT": -60.431560497506496,
+                "price_pnl_USDT": -62.30553538929557,
+                "rebalance_cost_contribution_USDT": 13.642545103339607,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "DOGEUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 3.976521181181621,
+                "initial_capital_equivalent_percentage_points": -0.2654016446276305,
+                "net_USDT": -26.540164462763048,
+                "price_pnl_USDT": -28.104767574453078,
+                "rebalance_cost_contribution_USDT": -2.411918069491591,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 2.12038755169677,
+                "initial_capital_equivalent_percentage_points": 1.5262637537142416,
+                "net_USDT": 152.62637537142416,
+                "price_pnl_USDT": 143.15440994502643,
+                "rebalance_cost_contribution_USDT": 7.35157787470097,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 0.5299308132855245,
+                "initial_capital_equivalent_percentage_points": 1.4304281923796591,
+                "net_USDT": 143.04281923796592,
+                "price_pnl_USDT": 159.3982571797274,
+                "rebalance_cost_contribution_USDT": -16.885368755047008,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -16.496734766506727,
+                "initial_capital_equivalent_percentage_points": 0.35586115825045805,
+                "net_USDT": 35.58611582504581,
+                "price_pnl_USDT": 39.352879932060276,
+                "rebalance_cost_contribution_USDT": 12.72997065949226,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "ETHUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -7.402999944055765,
+                "initial_capital_equivalent_percentage_points": 2.346903448514095,
+                "net_USDT": 234.69034485140946,
+                "price_pnl_USDT": 253.16133214318717,
+                "rebalance_cost_contribution_USDT": -11.067987347721928,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 4.362681858977035,
+                "initial_capital_equivalent_percentage_points": -0.5806974342045448,
+                "net_USDT": -58.06974342045448,
+                "price_pnl_USDT": -72.54699313050563,
+                "rebalance_cost_contribution_USDT": 10.114567851074115,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 0.4162713901928732,
+                "initial_capital_equivalent_percentage_points": -0.23165069770603414,
+                "net_USDT": -23.165069770603413,
+                "price_pnl_USDT": -16.128753356451085,
+                "rebalance_cost_contribution_USDT": -7.452587804345201,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -31.393419460751485,
+                "initial_capital_equivalent_percentage_points": 1.1245214378089596,
+                "net_USDT": 112.45214378089595,
+                "price_pnl_USDT": 132.67237389777208,
+                "rebalance_cost_contribution_USDT": 9.821130430744192,
+                "terminal_cost_contribution_USDT": 1.352058913131174
+              }
+            }
+          },
+          "SOLUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 10.036860315060245,
+                "initial_capital_equivalent_percentage_points": -5.42779685147226,
+                "net_USDT": -542.7796851472259,
+                "price_pnl_USDT": -540.8605307478152,
+                "rebalance_cost_contribution_USDT": -12.361083924220427,
+                "terminal_cost_contribution_USDT": 0.40506920974948746
+              },
+              "removed": {
+                "funding_cash_USDT": 3.731886948021583,
+                "initial_capital_equivalent_percentage_points": -6.644924946516853,
+                "net_USDT": -664.4924946516853,
+                "price_pnl_USDT": -676.6741151830777,
+                "rebalance_cost_contribution_USDT": 8.449733583370797,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 16.006182567811866,
+                "initial_capital_equivalent_percentage_points": 1.514904058991543,
+                "net_USDT": 151.4904058991543,
+                "price_pnl_USDT": 144.66759215026934,
+                "rebalance_cost_contribution_USDT": -9.183368818926908,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -8.689380965892251,
+                "initial_capital_equivalent_percentage_points": 0.5609360144436927,
+                "net_USDT": 56.09360144436926,
+                "price_pnl_USDT": 52.44466399642441,
+                "rebalance_cost_contribution_USDT": 12.338318413837104,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "XRPUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -0.5497111848821614,
+                "initial_capital_equivalent_percentage_points": 0.007518062564113422,
+                "net_USDT": 0.7518062564113421,
+                "price_pnl_USDT": 11.65548756271231,
+                "rebalance_cost_contribution_USDT": -10.353970121418806,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 4.677480123299264,
+                "initial_capital_equivalent_percentage_points": -1.9298732168009456,
+                "net_USDT": -192.98732168009457,
+                "price_pnl_USDT": -207.87604514036946,
+                "rebalance_cost_contribution_USDT": 10.211243336975615,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 3.5284369690072115,
+                "initial_capital_equivalent_percentage_points": -2.619422044764579,
+                "net_USDT": -261.9422044764579,
+                "price_pnl_USDT": -231.86591484461013,
+                "rebalance_cost_contribution_USDT": -33.60472660085496,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -40.74491783764653,
+                "initial_capital_equivalent_percentage_points": 7.193616419185121,
+                "net_USDT": 719.3616419185121,
+                "price_pnl_USDT": 731.2191535141766,
+                "rebalance_cost_contribution_USDT": 27.54016883439564,
+                "terminal_cost_contribution_USDT": 1.3472374075863933
+              }
+            }
+          }
+        },
+        "totals": {
+          "funding_cash_USDT": -70.93523304414585,
+          "initial_capital_equivalent_percentage_points": -4.3236008817204725,
+          "net_USDT": -432.36008817204726,
+          "price_pnl_USDT": -352.00091148129104,
+          "rebalance_cost_contribution_USDT": -12.936267554984624,
+          "terminal_cost_contribution_USDT": 3.512323908374256
+        }
+      },
+      "CS_leg_date_counts": {
+        "long": {
+          "kept": 549,
+          "removed": 181
+        },
+        "short": {
+          "kept": 336,
+          "removed": 394
+        }
+      },
+      "arms": {
+        "AGREEMENT": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -45.91166701474936,
+              "initial_capital_equivalent_percentage_points": 2.3331838557833215,
+              "net_USDT": 233.31838557833217,
+              "price_pnl_USDT": 337.3006045392574,
+              "rebalance_cost_contribution_USDT": -57.11595842324709,
+              "terminal_cost_contribution_USDT": -0.9545935229287711
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 23.984220971297532,
+              "initial_capital_equivalent_percentage_points": -4.298878249506636,
+              "net_USDT": -429.88782495066357,
+              "price_pnl_USDT": -402.3567991322425,
+              "rebalance_cost_contribution_USDT": -51.5152467897186,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": -25.758150839434478,
+              "initial_capital_equivalent_percentage_points": 0.7905894182691349,
+              "net_USDT": 79.05894182691348,
+              "price_pnl_USDT": 157.44824804771537,
+              "rebalance_cost_contribution_USDT": -52.63115538136741,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -52.00047820350392,
+              "initial_capital_equivalent_percentage_points": 0.6809340926365812,
+              "net_USDT": 68.09340926365812,
+              "price_pnl_USDT": 190.9529662784406,
+              "rebalance_cost_contribution_USDT": -69.91124573588408,
+              "terminal_cost_contribution_USDT": -0.9478330753945052
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": 1.0995953395727707,
+              "initial_capital_equivalent_percentage_points": -4.726588175003046,
+              "net_USDT": -472.6588175003046,
+              "price_pnl_USDT": -402.0718389234984,
+              "rebalance_cost_contribution_USDT": -71.68657391637899,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -98.58647974681745,
+              "initial_capital_equivalent_percentage_points": -5.2207590578206435,
+              "net_USDT": -522.0759057820644,
+              "price_pnl_USDT": -118.72681919032755,
+              "rebalance_cost_contribution_USDT": -302.86018024659614,
+              "terminal_cost_contribution_USDT": -1.9024265983232764
+            },
+            "removed": {
+              "funding_cash_USDT": 0.0,
+              "initial_capital_equivalent_percentage_points": 0.0,
+              "net_USDT": 0.0,
+              "price_pnl_USDT": 0.0,
+              "rebalance_cost_contribution_USDT": 0.0,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -127.77299357421853,
+              "initial_capital_equivalent_percentage_points": 13.892518241685975,
+              "net_USDT": 1389.2518241685975,
+              "price_pnl_USDT": 1674.1350438026154,
+              "rebalance_cost_contribution_USDT": -155.20779946147607,
+              "terminal_cost_contribution_USDT": -1.9024265983232764
+            },
+            "short": {
+              "funding_cash_USDT": 29.186513827401075,
+              "initial_capital_equivalent_percentage_points": -19.11327729950662,
+              "net_USDT": -1911.327729950662,
+              "price_pnl_USDT": -1792.8618629929429,
+              "rebalance_cost_contribution_USDT": -147.6523807851201,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -127.77299357421853,
+                "initial_capital_equivalent_percentage_points": 13.892518241685975,
+                "net_USDT": 1389.2518241685975,
+                "price_pnl_USDT": 1674.1350438026154,
+                "rebalance_cost_contribution_USDT": -155.20779946147607,
+                "terminal_cost_contribution_USDT": -1.9024265983232764
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 29.186513827401075,
+                "initial_capital_equivalent_percentage_points": -19.11327729950662,
+                "net_USDT": -1911.327729950662,
+                "price_pnl_USDT": -1792.8618629929429,
+                "rebalance_cost_contribution_USDT": -147.6523807851201,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -45.62882403355233,
+                  "initial_capital_equivalent_percentage_points": 2.144390087392813,
+                  "net_USDT": 214.4390087392813,
+                  "price_pnl_USDT": 310.88838116920675,
+                  "rebalance_cost_contribution_USDT": -49.865954873444366,
+                  "terminal_cost_contribution_USDT": -0.9545935229287711
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -0.282842981197037,
+                  "initial_capital_equivalent_percentage_points": 0.18879376839050857,
+                  "net_USDT": 18.879376839050856,
+                  "price_pnl_USDT": 26.412223370050622,
+                  "rebalance_cost_contribution_USDT": -7.250003549802727,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -13.307419553132448,
+                  "initial_capital_equivalent_percentage_points": -1.5029759531152063,
+                  "net_USDT": -150.29759531152064,
+                  "price_pnl_USDT": -125.7501981982236,
+                  "rebalance_cost_contribution_USDT": -11.239977560164602,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 37.29164052442998,
+                  "initial_capital_equivalent_percentage_points": -2.795902296391429,
+                  "net_USDT": -279.59022963914293,
+                  "price_pnl_USDT": -276.6066009340189,
+                  "rebalance_cost_contribution_USDT": -40.275269229554,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -29.639022525122233,
+                  "initial_capital_equivalent_percentage_points": 2.810121595103986,
+                  "net_USDT": 281.01215951039865,
+                  "price_pnl_USDT": 346.2005729634109,
+                  "rebalance_cost_contribution_USDT": -35.54939092788999,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 3.880871685687756,
+                  "initial_capital_equivalent_percentage_points": -2.019532176834852,
+                  "net_USDT": -201.95321768348518,
+                  "price_pnl_USDT": -188.7523249156955,
+                  "rebalance_cost_contribution_USDT": -17.081764453477422,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -23.814048478191758,
+                  "initial_capital_equivalent_percentage_points": 9.58573622409067,
+                  "net_USDT": 958.573622409067,
+                  "price_pnl_USDT": 1019.167624149187,
+                  "rebalance_cost_contribution_USDT": -35.832120186533764,
+                  "terminal_cost_contribution_USDT": -0.9478330753945052
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -28.186429725312156,
+                  "initial_capital_equivalent_percentage_points": -8.904802131454089,
+                  "net_USDT": -890.4802131454088,
+                  "price_pnl_USDT": -828.2146578707464,
+                  "rebalance_cost_contribution_USDT": -34.07912554935031,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -15.383678984219761,
+                  "initial_capital_equivalent_percentage_points": 0.8552462882137127,
+                  "net_USDT": 85.52462882137128,
+                  "price_pnl_USDT": 123.62866371903439,
+                  "rebalance_cost_contribution_USDT": -22.720355913443356,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 16.483274323792532,
+                  "initial_capital_equivalent_percentage_points": -5.581834463216759,
+                  "net_USDT": -558.1834463216759,
+                  "price_pnl_USDT": -525.7005026425328,
+                  "rebalance_cost_contribution_USDT": -48.96621800293563,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 0,
+            "asset_cap_days": 7,
+            "cap_bound_days": 50,
+            "cash_days": 0,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 43,
+            "max_asset_absolute_weight": 0.3,
+            "max_estimated_annual_risk": 0.10000000000000005,
+            "max_gross": 0.6000000000000001,
+            "max_risk_shortfall": 0.04330395065924713,
+            "maximum_scale_factor": 2.0,
+            "mean_estimated_annual_risk": 0.09781526725048503,
+            "mean_gross": 0.31035923229528783,
+            "mean_long": 0.1808739951886487,
+            "mean_net": 0.05138875808200958,
+            "mean_nonzero_legs": 2.4246575342465753,
+            "mean_risk_shortfall": 0.0021847327495149588,
+            "mean_short": 0.12948523710663912,
+            "risk_shortfall_days": 50,
+            "risk_target_met_days": 315,
+            "scale_amplification_days": 119
+          },
+          "published_metrics": {
+            "annual_vol": 0.09992278401853236,
+            "cumulative_net_return": -0.05220759057820378,
+            "days": 365,
+            "drawdown": 0.17302386499765066,
+            "funding_cash": -98.58647974681743,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9477.924094217962,
+            "net_USDT": -522.0759057820378,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "price_pnl": -118.72681919032694,
+            "rebalance_turnover_USDT": 224340.87425673788,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 1.9024265983232764,
+            "terminal_turnover_USDT": 1409.2048876468714,
+            "total_turnover_USDT": 225750.07914438474,
+            "trading_cost": 304.76260684491945,
+            "worst30": -0.05502962027738412
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": -522.0759057820638,
+            "derived_return": -0.052207590578206384,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 9.094947017729282e-13,
+              "daily_saved_NAV_change": 2.440714297335944e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 8.881784197001252e-16,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 2.603428583825007e-11,
+              "summary_funding_cash": 0.0,
+              "summary_net": 2.603428583825007e-11,
+              "summary_price_pnl": 2.842170943040401e-14,
+              "summary_return_in_USDT": 2.6020852139652106e-11,
+              "summary_terminal_cost": 0.0,
+              "summary_trading_cost": 0.0,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 5.826450433232822e-13,
+            "published_net_USDT": -522.0759057820378,
+            "published_return": -0.05220759057820378,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -98.58647974681743,
+            "initial_capital_equivalent_percentage_points": -5.220759057820638,
+            "net_USDT": -522.0759057820638,
+            "price_pnl_USDT": -118.72681919032696,
+            "rebalance_cost_contribution_USDT": -302.86018024659614,
+            "terminal_cost_contribution_USDT": -1.9024265983232764
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 109.96668157866945,
+              "exit_to_cash": 101.79011534396008,
+              "same_sign_resize": 91.10338332396663,
+              "sign_reversal": 0.0,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 209.66969151636903,
+            "cost_on_CS_weekly_rank_dates_USDT": 145.02209042817702,
+            "cost_on_other_dates_USDT": 157.83808981841912,
+            "rebalance_cost_USDT": 302.86018024659614
+          }
+        },
+        "AGREEMENT_NO_REALLOCATION": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -36.061972883562646,
+              "initial_capital_equivalent_percentage_points": 2.4587997787934417,
+              "net_USDT": 245.87997787934415,
+              "price_pnl_USDT": 316.57890240152415,
+              "rebalance_cost_contribution_USDT": -33.29473018506867,
+              "terminal_cost_contribution_USDT": -1.342221453548674
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 17.362329657974545,
+              "initial_capital_equivalent_percentage_points": -5.250859487598524,
+              "net_USDT": -525.0859487598524,
+              "price_pnl_USDT": -498.9267887618172,
+              "rebalance_cost_contribution_USDT": -43.521489656009734,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": -17.217251954017236,
+              "initial_capital_equivalent_percentage_points": -1.3092124506785883,
+              "net_USDT": -130.92124506785882,
+              "price_pnl_USDT": -76.56600380270082,
+              "rebalance_cost_contribution_USDT": -37.137989311140764,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -77.11884223252285,
+              "initial_capital_equivalent_percentage_points": 4.108592505555811,
+              "net_USDT": 410.8592505555811,
+              "price_pnl_USDT": 551.0656237992406,
+              "rebalance_cost_contribution_USDT": -61.754815192707106,
+              "terminal_cost_contribution_USDT": -1.3327158184295063
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": -1.788461076990938,
+              "initial_capital_equivalent_percentage_points": -2.501774212267288,
+              "net_USDT": -250.17742122672877,
+              "price_pnl_USDT": -194.07618013101006,
+              "rebalance_cost_contribution_USDT": -54.31278001872777,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -114.82419848911913,
+              "initial_capital_equivalent_percentage_points": -2.4944538661951463,
+              "net_USDT": -249.44538661951464,
+              "price_pnl_USDT": 98.0755535052367,
+              "rebalance_cost_contribution_USDT": -230.02180436365404,
+              "terminal_cost_contribution_USDT": -2.6749372719781803
+            },
+            "removed": {
+              "funding_cash_USDT": 0.0,
+              "initial_capital_equivalent_percentage_points": 0.0,
+              "net_USDT": 0.0,
+              "price_pnl_USDT": 0.0,
+              "rebalance_cost_contribution_USDT": 0.0,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -120.104952669473,
+              "initial_capital_equivalent_percentage_points": 16.305605644508535,
+              "net_USDT": 1630.5605644508537,
+              "price_pnl_USDT": 1865.7479760711676,
+              "rebalance_cost_contribution_USDT": -112.40752167886264,
+              "terminal_cost_contribution_USDT": -2.6749372719781803
+            },
+            "short": {
+              "funding_cash_USDT": 5.280754180353866,
+              "initial_capital_equivalent_percentage_points": -18.800059510703683,
+              "net_USDT": -1880.0059510703684,
+              "price_pnl_USDT": -1767.672422565931,
+              "rebalance_cost_contribution_USDT": -117.61428268479142,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -120.104952669473,
+                "initial_capital_equivalent_percentage_points": 16.305605644508535,
+                "net_USDT": 1630.5605644508537,
+                "price_pnl_USDT": 1865.7479760711676,
+                "rebalance_cost_contribution_USDT": -112.40752167886264,
+                "terminal_cost_contribution_USDT": -2.6749372719781803
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 5.280754180353866,
+                "initial_capital_equivalent_percentage_points": -18.800059510703683,
+                "net_USDT": -1880.0059510703684,
+                "price_pnl_USDT": -1767.672422565931,
+                "rebalance_cost_contribution_USDT": -117.61428268479142,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -35.92747129661595,
+                  "initial_capital_equivalent_percentage_points": 2.3053742388946175,
+                  "net_USDT": 230.53742388946176,
+                  "price_pnl_USDT": 297.8451654783157,
+                  "rebalance_cost_contribution_USDT": -30.03804883868935,
+                  "terminal_cost_contribution_USDT": -1.342221453548674
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -0.1345015869466957,
+                  "initial_capital_equivalent_percentage_points": 0.15342553989882413,
+                  "net_USDT": 15.342553989882413,
+                  "price_pnl_USDT": 18.733736923208436,
+                  "rebalance_cost_contribution_USDT": -3.256681346379327,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -16.77818634213205,
+                  "initial_capital_equivalent_percentage_points": -1.1945201424881953,
+                  "net_USDT": -119.45201424881951,
+                  "price_pnl_USDT": -91.31731979530507,
+                  "rebalance_cost_contribution_USDT": -11.356508111382398,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 34.140516000106594,
+                  "initial_capital_equivalent_percentage_points": -4.056339345110328,
+                  "net_USDT": -405.63393451103286,
+                  "price_pnl_USDT": -407.6094689665121,
+                  "rebalance_cost_contribution_USDT": -32.16498154462734,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -20.49833892850838,
+                  "initial_capital_equivalent_percentage_points": 0.44458810101817586,
+                  "net_USDT": 44.45881010181759,
+                  "price_pnl_USDT": 88.28730743711095,
+                  "rebalance_cost_contribution_USDT": -23.330158406784978,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 3.2810869744911444,
+                  "initial_capital_equivalent_percentage_points": -1.753800551696764,
+                  "net_USDT": -175.3800551696764,
+                  "price_pnl_USDT": -164.85331123981177,
+                  "rebalance_cost_contribution_USDT": -13.807830904355786,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -32.86627666551982,
+                  "initial_capital_equivalent_percentage_points": 14.156125615287182,
+                  "net_USDT": 1415.6125615287183,
+                  "price_pnl_USDT": 1480.1934659860601,
+                  "rebalance_cost_contribution_USDT": -30.381911973392544,
+                  "terminal_cost_contribution_USDT": -1.3327158184295063
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -44.25256556700303,
+                  "initial_capital_equivalent_percentage_points": -10.047533109731372,
+                  "net_USDT": -1004.7533109731371,
+                  "price_pnl_USDT": -929.1278421868195,
+                  "rebalance_cost_contribution_USDT": -31.372903219314562,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -14.034679436696793,
+                  "initial_capital_equivalent_percentage_points": 0.5940378317967582,
+                  "net_USDT": 59.40378317967581,
+                  "price_pnl_USDT": 90.73935696498597,
+                  "rebalance_cost_contribution_USDT": -17.30089434861337,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 12.246218359705855,
+                  "initial_capital_equivalent_percentage_points": -3.095812044064046,
+                  "net_USDT": -309.5812044064046,
+                  "price_pnl_USDT": -284.81553709599604,
+                  "rebalance_cost_contribution_USDT": -37.0118856701144,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 154,
+            "asset_cap_days": 0,
+            "cap_bound_days": 0,
+            "cash_days": 0,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 16,
+            "max_asset_absolute_weight": 0.15,
+            "max_estimated_annual_risk": 0.18659917235919737,
+            "max_gross": 0.6,
+            "max_risk_shortfall": 0.091998580797526,
+            "maximum_scale_factor": null,
+            "mean_estimated_annual_risk": 0.09748050078138258,
+            "mean_gross": 0.28237978956592513,
+            "mean_long": 0.16177887137929384,
+            "mean_net": 0.04117795319266259,
+            "mean_nonzero_legs": 2.4246575342465753,
+            "mean_risk_shortfall": 0.015625036516251016,
+            "mean_short": 0.12060091818663124,
+            "risk_shortfall_days": 171,
+            "risk_target_met_days": 40,
+            "scale_amplification_days": 0
+          },
+          "published_metrics": {
+            "annual_vol": 0.10541940124065878,
+            "cumulative_net_return": -0.02494453866195272,
+            "days": 365,
+            "drawdown": 0.1744567121916749,
+            "funding_cash": -114.82419848911913,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9750.554613380473,
+            "net_USDT": -249.4453866195272,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "price_pnl": 98.0755535052372,
+            "rebalance_turnover_USDT": 170386.52175085485,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 2.6749372719781803,
+            "terminal_turnover_USDT": 1981.4350162801334,
+            "total_turnover_USDT": 172367.95676713498,
+            "trading_cost": 232.69674163563224,
+            "worst30": -0.05714728539661351
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": -249.44538661951412,
+            "derived_return": -0.024944538661951413,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 9.094947017729282e-13,
+              "daily_saved_NAV_change": 2.3874235921539366e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 8.881784197001252e-16,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 1.3073986337985843e-11,
+              "summary_funding_cash": 0.0,
+              "summary_net": 1.3073986337985843e-11,
+              "summary_price_pnl": 4.263256414560601e-14,
+              "summary_return_in_USDT": 1.3079815008865125e-11,
+              "summary_terminal_cost": 0.0,
+              "summary_trading_cost": 0.0,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 5.400124791776761e-13,
+            "published_net_USDT": -249.4453866195272,
+            "published_return": -0.02494453866195272,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -114.82419848911913,
+            "initial_capital_equivalent_percentage_points": -2.4944538661951414,
+            "net_USDT": -249.44538661951412,
+            "price_pnl_USDT": 98.07555350523724,
+            "rebalance_cost_contribution_USDT": -230.02180436365407,
+            "terminal_cost_contribution_USDT": -2.6749372719781803
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 92.34380691257522,
+              "exit_to_cash": 86.51982281666204,
+              "same_sign_resize": 51.158174634416774,
+              "sign_reversal": 0.0,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 175.38822148399655,
+            "cost_on_CS_weekly_rank_dates_USDT": 116.42495879336425,
+            "cost_on_other_dates_USDT": 113.5968455702898,
+            "rebalance_cost_USDT": 230.02180436365407
+          }
+        },
+        "CS": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -30.86695841180445,
+              "initial_capital_equivalent_percentage_points": 5.017970447262845,
+              "net_USDT": 501.79704472628447,
+              "price_pnl_USDT": 582.9705463646235,
+              "rebalance_cost_contribution_USDT": -48.94399132569857,
+              "terminal_cost_contribution_USDT": -1.3625519008359726
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 33.854116191640344,
+              "initial_capital_equivalent_percentage_points": -7.346029709223363,
+              "net_USDT": -734.6029709223363,
+              "price_pnl_USDT": -716.1575786146035,
+              "rebalance_cost_contribution_USDT": -52.29950849937323,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": 8.259315316202866,
+              "initial_capital_equivalent_percentage_points": -1.868487336143341,
+              "net_USDT": -186.8487336143341,
+              "price_pnl_USDT": -139.7097115062872,
+              "rebalance_cost_contribution_USDT": -54.04627851111859,
+              "terminal_cost_contribution_USDT": -1.352058913131174
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -73.08602706850536,
+              "initial_capital_equivalent_percentage_points": 10.677815817190458,
+              "net_USDT": 1067.7815817190458,
+              "price_pnl_USDT": 1211.3753560626399,
+              "rebalance_cost_contribution_USDT": -69.15484498994464,
+              "terminal_cost_contribution_USDT": -1.3529022851439927
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": 34.18830726979499,
+              "initial_capital_equivalent_percentage_points": -7.3784273951867565,
+              "net_USDT": -737.8427395186757,
+              "price_pnl_USDT": -705.2045200154078,
+              "rebalance_cost_contribution_USDT": -65.47928936547648,
+              "terminal_cost_contribution_USDT": -1.3472374075863933
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -117.5670626264421,
+              "initial_capital_equivalent_percentage_points": -1.5997794362729412,
+              "net_USDT": -159.9779436272941,
+              "price_pnl_USDT": 131.62573394093897,
+              "rebalance_cost_contribution_USDT": -171.321160755811,
+              "terminal_cost_contribution_USDT": -2.715454185979965
+            },
+            "removed": {
+              "funding_cash_USDT": 89.9158159237705,
+              "initial_capital_equivalent_percentage_points": 0.7026212601727824,
+              "net_USDT": 70.26212601727823,
+              "price_pnl_USDT": 101.64835835002582,
+              "rebalance_cost_contribution_USDT": -118.60275193580051,
+              "terminal_cost_contribution_USDT": -2.6992963207175675
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -145.594595470496,
+              "initial_capital_equivalent_percentage_points": 26.96030849961956,
+              "net_USDT": 2696.0308499619564,
+              "price_pnl_USDT": 2982.9572044546503,
+              "rebalance_cost_contribution_USDT": -138.61630483621792,
+              "terminal_cost_contribution_USDT": -2.715454185979965
+            },
+            "short": {
+              "funding_cash_USDT": 117.94334876782438,
+              "initial_capital_equivalent_percentage_points": -27.85746667571972,
+              "net_USDT": -2785.7466675719725,
+              "price_pnl_USDT": -2749.6831121636856,
+              "rebalance_cost_contribution_USDT": -151.3076078553936,
+              "terminal_cost_contribution_USDT": -2.6992963207175675
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -126.41738815191894,
+                "initial_capital_equivalent_percentage_points": 17.627067814733618,
+                "net_USDT": 1762.7067814733618,
+                "price_pnl_USDT": 1987.9253101534869,
+                "rebalance_cost_contribution_USDT": -96.08568634222621,
+                "terminal_cost_contribution_USDT": -2.715454185979965
+              },
+              "removed": {
+                "funding_cash_USDT": -19.177207318577036,
+                "initial_capital_equivalent_percentage_points": 9.333240684885947,
+                "net_USDT": 933.3240684885948,
+                "price_pnl_USDT": 995.0318943011636,
+                "rebalance_cost_contribution_USDT": -42.5306184939917,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 8.850325525476848,
+                "initial_capital_equivalent_percentage_points": -19.22684725100656,
+                "net_USDT": -1922.684725100656,
+                "price_pnl_USDT": -1856.299576212548,
+                "rebalance_cost_contribution_USDT": -75.23547441358478,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 109.09302324234753,
+                "initial_capital_equivalent_percentage_points": -8.630619424713167,
+                "net_USDT": -863.0619424713167,
+                "price_pnl_USDT": -893.3835359511378,
+                "rebalance_cost_contribution_USDT": -76.0721334418088,
+                "terminal_cost_contribution_USDT": -2.6992963207175675
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -38.21254824394881,
+                  "initial_capital_equivalent_percentage_points": 2.5401626754187743,
+                  "net_USDT": 254.01626754187743,
+                  "price_pnl_USDT": 320.53016890370947,
+                  "rebalance_cost_contribution_USDT": -26.93880121704726,
+                  "terminal_cost_contribution_USDT": -1.3625519008359726
+                },
+                "removed": {
+                  "funding_cash_USDT": -4.284770836582385,
+                  "initial_capital_equivalent_percentage_points": 1.7040088410778464,
+                  "net_USDT": 170.40088410778466,
+                  "price_pnl_USDT": 181.08915079223726,
+                  "rebalance_cost_contribution_USDT": -6.403495847870205,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -0.1382095428237892,
+                  "initial_capital_equivalent_percentage_points": 0.16948332579115863,
+                  "net_USDT": 16.948332579115863,
+                  "price_pnl_USDT": 19.04569127938115,
+                  "rebalance_cost_contribution_USDT": -1.9591491574414974,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 11.768570211550532,
+                  "initial_capital_equivalent_percentage_points": 0.604315604975065,
+                  "net_USDT": 60.431560497506496,
+                  "price_pnl_USDT": 62.30553538929557,
+                  "rebalance_cost_contribution_USDT": -13.642545103339607,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -17.28394073431407,
+                  "initial_capital_equivalent_percentage_points": -1.237574308487576,
+                  "net_USDT": -123.75743084875761,
+                  "price_pnl_USDT": -97.64543062377052,
+                  "rebalance_cost_contribution_USDT": -8.828059490673011,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -2.12038755169677,
+                  "initial_capital_equivalent_percentage_points": -1.5262637537142416,
+                  "net_USDT": -152.62637537142416,
+                  "price_pnl_USDT": -143.15440994502643,
+                  "rebalance_cost_contribution_USDT": -7.35157787470097,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 36.761709711144455,
+                  "initial_capital_equivalent_percentage_points": -4.2263304887710875,
+                  "net_USDT": -422.6330488771088,
+                  "price_pnl_USDT": -436.0048581137463,
+                  "rebalance_cost_contribution_USDT": -23.38990047450699,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 16.496734766506727,
+                  "initial_capital_equivalent_percentage_points": -0.35586115825045805,
+                  "net_USDT": -35.58611582504581,
+                  "price_pnl_USDT": -39.352879932060276,
+                  "rebalance_cost_contribution_USDT": -12.72997065949226,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -22.236022581066468,
+                  "initial_capital_equivalent_percentage_points": 0.4632181465898917,
+                  "net_USDT": 46.32181465898917,
+                  "price_pnl_USDT": 93.0392408202237,
+                  "rebalance_cost_contribution_USDT": -24.48140358016806,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -4.362681858977035,
+                  "initial_capital_equivalent_percentage_points": 0.5806974342045448,
+                  "net_USDT": 58.06974342045448,
+                  "price_pnl_USDT": 72.54699313050563,
+                  "rebalance_cost_contribution_USDT": -10.114567851074115,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 3.4646002954948827,
+                  "initial_capital_equivalent_percentage_points": -1.7878814791288178,
+                  "net_USDT": -178.78814791288175,
+                  "price_pnl_USDT": -172.62357155924443,
+                  "rebalance_cost_contribution_USDT": -9.629176649132221,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 31.393419460751485,
+                  "initial_capital_equivalent_percentage_points": -1.1245214378089596,
+                  "net_USDT": -112.45214378089595,
+                  "price_pnl_USDT": -132.67237389777208,
+                  "rebalance_cost_contribution_USDT": -9.821130430744192,
+                  "terminal_cost_contribution_USDT": -1.352058913131174
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -33.850908793252,
+                  "initial_capital_equivalent_percentage_points": 15.013533075562929,
+                  "net_USDT": 1501.353307556293,
+                  "price_pnl_USDT": 1560.0281548970022,
+                  "rebalance_cost_contribution_USDT": -23.471036262313337,
+                  "terminal_cost_contribution_USDT": -1.3529022851439927
+                },
+                "removed": {
+                  "funding_cash_USDT": -3.731886948021583,
+                  "initial_capital_equivalent_percentage_points": 6.644924946516853,
+                  "net_USDT": 664.4924946516853,
+                  "price_pnl_USDT": 676.6741151830777,
+                  "rebalance_cost_contribution_USDT": -8.449733583370797,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": -44.19261229312402,
+                  "initial_capital_equivalent_percentage_points": -10.41970619044563,
+                  "net_USDT": -1041.9706190445631,
+                  "price_pnl_USDT": -972.8822500210157,
+                  "rebalance_cost_contribution_USDT": -24.8957567304234,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 8.689380965892251,
+                  "initial_capital_equivalent_percentage_points": -0.5609360144436927,
+                  "net_USDT": -56.09360144436926,
+                  "price_pnl_USDT": -52.44466399642441,
+                  "rebalance_cost_contribution_USDT": -12.338318413837104,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -14.8339677993376,
+                  "initial_capital_equivalent_percentage_points": 0.8477282256495994,
+                  "net_USDT": 84.77282256495994,
+                  "price_pnl_USDT": 111.97317615632208,
+                  "rebalance_cost_contribution_USDT": -12.36638579202455,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -4.677480123299264,
+                  "initial_capital_equivalent_percentage_points": 1.9298732168009456,
+                  "net_USDT": 192.98732168009457,
+                  "price_pnl_USDT": 207.87604514036946,
+                  "rebalance_cost_contribution_USDT": -10.211243336975615,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 12.95483735478532,
+                  "initial_capital_equivalent_percentage_points": -2.9624124184521805,
+                  "net_USDT": -296.24124184521804,
+                  "price_pnl_USDT": -293.83458779792267,
+                  "rebalance_cost_contribution_USDT": -15.361491402080675,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 40.74491783764653,
+                  "initial_capital_equivalent_percentage_points": -7.193616419185121,
+                  "net_USDT": -719.3616419185121,
+                  "price_pnl_USDT": -731.2191535141766,
+                  "rebalance_cost_contribution_USDT": -27.54016883439564,
+                  "terminal_cost_contribution_USDT": -1.3472374075863933
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 0,
+            "asset_cap_days": 0,
+            "cap_bound_days": 109,
+            "cash_days": 0,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 109,
+            "max_asset_absolute_weight": 0.15,
+            "max_estimated_annual_risk": 0.10000000000000005,
+            "max_gross": 0.6,
+            "max_risk_shortfall": 0.06405104387034213,
+            "maximum_scale_factor": 1.0,
+            "mean_estimated_annual_risk": 0.09330634781740856,
+            "mean_gross": 0.44146072719055135,
+            "mean_long": 0.22073036359527567,
+            "mean_net": 0.0,
+            "mean_nonzero_legs": 4.0,
+            "mean_risk_shortfall": 0.006693652182591438,
+            "mean_short": 0.22073036359527567,
+            "risk_shortfall_days": 109,
+            "risk_target_met_days": 256,
+            "scale_amplification_days": 0
+          },
+          "published_metrics": {
+            "annual_vol": 0.13321491021753135,
+            "cumulative_net_return": -0.008971581761004562,
+            "days": 365,
+            "drawdown": 0.1497081155984804,
+            "funding_cash": -27.65124670267159,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9910.284182389954,
+            "net_USDT": -89.71581761004563,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              -0.0,
+              0.0,
+              -0.0,
+              0.0
+            ],
+            "price_pnl": 233.27409229096398,
+            "rebalance_turnover_USDT": 214758.45384563817,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 5.4147505066975326,
+            "terminal_turnover_USDT": 4010.9263012574315,
+            "total_turnover_USDT": 218769.3801468956,
+            "trading_cost": 295.33866319830906,
+            "worst30": -0.09598572504843828
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": -89.71581761001657,
+            "derived_return": -0.008971581761001657,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 1.8189894035458565e-12,
+              "daily_saved_NAV_change": 2.3874235921539366e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 1.7763568394002505e-15,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 2.9061197892588098e-11,
+              "summary_funding_cash": 0.0,
+              "summary_net": 2.9061197892588098e-11,
+              "summary_price_pnl": 8.526512829121202e-14,
+              "summary_return_in_USDT": 2.905661822261152e-11,
+              "summary_terminal_cost": 0.0,
+              "summary_trading_cost": 0.0,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 7.389644451905042e-13,
+            "published_net_USDT": -89.71581761004563,
+            "published_return": -0.008971581761004562,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -27.65124670267159,
+            "initial_capital_equivalent_percentage_points": -0.8971581761001657,
+            "net_USDT": -89.71581761001657,
+            "price_pnl_USDT": 233.27409229096406,
+            "rebalance_cost_contribution_USDT": -289.9239126916115,
+            "terminal_cost_contribution_USDT": -5.4147505066975326
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 64.59514861037759,
+              "exit_to_cash": 58.32497721601565,
+              "same_sign_resize": 91.4886284935796,
+              "sign_reversal": 75.51515837163892,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 149.41378242902766,
+            "cost_on_CS_weekly_rank_dates_USDT": 208.2971915795059,
+            "cost_on_other_dates_USDT": 81.62672111210563,
+            "rebalance_cost_USDT": 289.9239126916115
+          }
+        }
+      },
+      "calendar": {
+        "days": 365,
+        "end_UTC": "2023-12-31",
+        "full_calendar_no_date_selection": true,
+        "start_UTC": "2023-01-01"
+      },
+      "kept_quantity_difference_identity": {
+        "caveat": "Additive same-date identity for price/funding only, not causal marginal returns or equal-capital subportfolios. Costs remain actual saved inventory-difference expenses; no term is scored as a new arm.",
+        "decomposition_order": "Sizing evaluated at CS contemporaneous NAV; NAV path evaluated at AGREEMENT sizing. Alternative attribution orders can allocate the interaction differently.",
+        "max_quantity_identity_notional_error_USDT": 3.409695636946708e-13,
+        "terms": {
+          "kept_saved_NAV_path_effect_using_AGREEMENT_sizing": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": 2.0771893059741084,
+                "price_pnl_USDT": -18.510864737545834
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": -1.665876560275445,
+                "price_pnl_USDT": 19.25853646276217
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": 1.4903031517035894,
+                "price_pnl_USDT": -7.198555386353658
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": 0.4915920486451978,
+                "price_pnl_USDT": -32.19285985011853
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": 0.12223870769075622,
+                "price_pnl_USDT": -11.020103271134108
+              }
+            },
+            "funding_cash_USDT": 2.515446653738207,
+            "price_plus_funding_USDT": -47.14840012865175,
+            "price_pnl_USDT": -49.66384678238996
+          },
+          "kept_sizing_at_CS_contemporaneous_NAV": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": -9.63809853395087,
+                "price_pnl_USDT": 16.235609093712785
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": 6.172328554742565,
+                "price_pnl_USDT": 112.0349531425124
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": -8.477031705566484,
+                "price_pnl_USDT": 244.2311341730895
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": 25.55145083422693,
+                "price_pnl_USDT": -364.00007874742636
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": 2.856487076434296,
+                "price_pnl_USDT": -209.19032401076336
+              }
+            },
+            "funding_cash_USDT": 16.465136225886436,
+            "price_plus_funding_USDT": -184.2235701229886,
+            "price_pnl_USDT": -200.68870634887503
+          },
+          "removed_CS_holdings": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": -7.48379937496815,
+                "price_pnl_USDT": -243.39468618153288
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": -14.37634721480996,
+                "price_pnl_USDT": 182.50728987708678
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": -27.03073760177445,
+                "price_pnl_USDT": 60.125380767266485
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": -4.957494017870669,
+                "price_pnl_USDT": -624.2294511866536
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": -36.06743771434726,
+                "price_pnl_USDT": 523.3431083738072
+              }
+            },
+            "funding_cash_USDT": -89.91581592377048,
+            "price_plus_funding_USDT": -191.56417427379645,
+            "price_pnl_USDT": -101.64835835002597
+          }
+        }
+      },
+      "predefined_diagnostic_deltas": {
+        "AGREEMENT_minus_NO_REALLOCATION": {
+          "funding_cash_USDT": 16.237718742301695,
+          "initial_capital_equivalent_percentage_points": -2.726305191625497,
+          "net_USDT": -272.63051916254966,
+          "price_pnl_USDT": -216.8023726955642,
+          "rebalance_cost_contribution_USDT": -72.83837588294207,
+          "terminal_cost_contribution_USDT": 0.7725106736549039
+        },
+        "NO_REALLOCATION_minus_CS": {
+          "funding_cash_USDT": -87.17295178644754,
+          "initial_capital_equivalent_percentage_points": -1.5972956900949755,
+          "net_USDT": -159.72956900949757,
+          "price_pnl_USDT": -135.19853878572684,
+          "rebalance_cost_contribution_USDT": 59.90210832795745,
+          "terminal_cost_contribution_USDT": 2.7398132347193522
+        }
+      },
+      "published_primary_gates_pass": false,
+      "saved_weight_ratio_AGREEMENT_to_CS_on_kept_legs": {
+        "equal_to_one_leg_dates": 224,
+        "greater_than_one_leg_dates": 332,
+        "less_than_one_leg_dates": 329,
+        "quantiles_min_p10_median_p90_max": [
+          0.53590805755292,
+          0.6845669258135239,
+          1.0,
+          1.3333333333333335,
+          8.95123439218408
+        ]
+      }
+    },
+    "2025": {
+      "AGREEMENT_minus_CS": {
+        "by_asset": {
+          "BTCUSDT": {
+            "funding_cash_USDT": -4.218387015052574,
+            "initial_capital_equivalent_percentage_points": -1.565961744178913,
+            "net_USDT": -156.59617441789132,
+            "price_pnl_USDT": -147.08164221641206,
+            "rebalance_cost_contribution_USDT": -7.725813624488858,
+            "terminal_cost_contribution_USDT": 2.4296684380621825
+          },
+          "DOGEUSDT": {
+            "funding_cash_USDT": -6.05126849590785,
+            "initial_capital_equivalent_percentage_points": -6.877164381898764,
+            "net_USDT": -687.7164381898764,
+            "price_pnl_USDT": -703.046846493035,
+            "rebalance_cost_contribution_USDT": 20.106369253755126,
+            "terminal_cost_contribution_USDT": 1.2753075453113758
+          },
+          "ETHUSDT": {
+            "funding_cash_USDT": 3.545431512607097,
+            "initial_capital_equivalent_percentage_points": -9.837336151219978,
+            "net_USDT": -983.7336151219978,
+            "price_pnl_USDT": -1005.5814736939406,
+            "rebalance_cost_contribution_USDT": 15.850179894408647,
+            "terminal_cost_contribution_USDT": 2.452247164927009
+          },
+          "SOLUSDT": {
+            "funding_cash_USDT": 6.168089404668543,
+            "initial_capital_equivalent_percentage_points": -6.947057926517318,
+            "net_USDT": -694.7057926517318,
+            "price_pnl_USDT": -737.2750353325482,
+            "rebalance_cost_contribution_USDT": 36.40115327614788,
+            "terminal_cost_contribution_USDT": 0.0
+          },
+          "XRPUSDT": {
+            "funding_cash_USDT": -9.799779681976819,
+            "initial_capital_equivalent_percentage_points": -0.7170887855917136,
+            "net_USDT": -71.70887855917137,
+            "price_pnl_USDT": -95.25999170097288,
+            "rebalance_cost_contribution_USDT": 32.037825202655796,
+            "terminal_cost_contribution_USDT": 1.3130676211225365
+          }
+        },
+        "by_gate": {
+          "kept": {
+            "funding_cash_USDT": 4.462235451614848,
+            "initial_capital_equivalent_percentage_points": -7.204450833512848,
+            "net_USDT": -720.4450833512848,
+            "price_pnl_USDT": -675.1036903529455,
+            "rebalance_cost_contribution_USDT": -52.39200361638811,
+            "terminal_cost_contribution_USDT": 2.588375166433912
+          },
+          "removed": {
+            "funding_cash_USDT": -14.818149727276449,
+            "initial_capital_equivalent_percentage_points": -18.740158155893837,
+            "net_USDT": -1874.015815589384,
+            "price_pnl_USDT": -2013.1412990839633,
+            "rebalance_cost_contribution_USDT": 149.06171761886668,
+            "terminal_cost_contribution_USDT": 4.881915602989191
+          }
+        },
+        "by_side": {
+          "long": {
+            "funding_cash_USDT": 53.57658684399107,
+            "initial_capital_equivalent_percentage_points": -12.371239376346269,
+            "net_USDT": -1237.1239376346268,
+            "price_pnl_USDT": -1328.6173856093365,
+            "rebalance_cost_contribution_USDT": 33.03494552772938,
+            "terminal_cost_contribution_USDT": 4.881915602989191
+          },
+          "short": {
+            "funding_cash_USDT": -63.93250111965268,
+            "initial_capital_equivalent_percentage_points": -13.573369613060418,
+            "net_USDT": -1357.3369613060418,
+            "price_pnl_USDT": -1359.6276038275723,
+            "rebalance_cost_contribution_USDT": 63.63476847474924,
+            "terminal_cost_contribution_USDT": 2.588375166433912
+          }
+        },
+        "by_side_and_gate": {
+          "long": {
+            "kept": {
+              "funding_cash_USDT": 17.97348010970328,
+              "initial_capital_equivalent_percentage_points": -6.75453831503803,
+              "net_USDT": -675.4538315038029,
+              "price_pnl_USDT": -658.6342456830837,
+              "rebalance_cost_contribution_USDT": -34.793065930422514,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "removed": {
+              "funding_cash_USDT": 35.60310673428779,
+              "initial_capital_equivalent_percentage_points": -5.6167010613082375,
+              "net_USDT": -561.6701061308238,
+              "price_pnl_USDT": -669.9831399262526,
+              "rebalance_cost_contribution_USDT": 67.82801145815189,
+              "terminal_cost_contribution_USDT": 4.881915602989191
+            }
+          },
+          "short": {
+            "kept": {
+              "funding_cash_USDT": -13.511244658088437,
+              "initial_capital_equivalent_percentage_points": -0.4499125184748185,
+              "net_USDT": -44.99125184748185,
+              "price_pnl_USDT": -16.46944466986176,
+              "rebalance_cost_contribution_USDT": -17.598937685965566,
+              "terminal_cost_contribution_USDT": 2.588375166433912
+            },
+            "removed": {
+              "funding_cash_USDT": -50.42125646156424,
+              "initial_capital_equivalent_percentage_points": -13.1234570945856,
+              "net_USDT": -1312.34570945856,
+              "price_pnl_USDT": -1343.1581591577105,
+              "rebalance_cost_contribution_USDT": 81.2337061607148,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          }
+        },
+        "joint_asset_side_gate": {
+          "BTCUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -0.6360712135244206,
+                "initial_capital_equivalent_percentage_points": -0.800419091325018,
+                "net_USDT": -80.0419091325018,
+                "price_pnl_USDT": -41.19622383742936,
+                "rebalance_cost_contribution_USDT": -38.209614081548025,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 17.95296260990765,
+                "initial_capital_equivalent_percentage_points": -1.4803026375659003,
+                "net_USDT": -148.03026375659002,
+                "price_pnl_USDT": -178.9947622814746,
+                "rebalance_cost_contribution_USDT": 10.581867476914768,
+                "terminal_cost_contribution_USDT": 2.4296684380621825
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -21.535278411435804,
+                "initial_capital_equivalent_percentage_points": 0.714759984712005,
+                "net_USDT": 71.4759984712005,
+                "price_pnl_USDT": 73.1093439024919,
+                "rebalance_cost_contribution_USDT": 19.9019329801444,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "DOGEUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 5.6647895910525445,
+                "initial_capital_equivalent_percentage_points": -0.38752085643223233,
+                "net_USDT": -38.75208564322323,
+                "price_pnl_USDT": -51.54251558938121,
+                "rebalance_cost_contribution_USDT": 7.125640355105434,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 4.235406560604918,
+                "initial_capital_equivalent_percentage_points": 0.6855364435315944,
+                "net_USDT": 68.55364435315944,
+                "price_pnl_USDT": 51.931341744980536,
+                "rebalance_cost_contribution_USDT": 12.386896047573984,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": -7.265260994417432,
+                "initial_capital_equivalent_percentage_points": -1.107261928643638,
+                "net_USDT": -110.72619286436381,
+                "price_pnl_USDT": -91.44111556561165,
+                "rebalance_cost_contribution_USDT": -13.295123849646096,
+                "terminal_cost_contribution_USDT": 1.2753075453113758
+              },
+              "removed": {
+                "funding_cash_USDT": -8.686203653147881,
+                "initial_capital_equivalent_percentage_points": -6.0679180403544875,
+                "net_USDT": -606.7918040354488,
+                "price_pnl_USDT": -611.9945570830226,
+                "rebalance_cost_contribution_USDT": 13.888956700721806,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "ETHUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 3.9490444654344206,
+                "initial_capital_equivalent_percentage_points": -2.5666205698325317,
+                "net_USDT": -256.6620569832532,
+                "price_pnl_USDT": -254.10553219035376,
+                "rebalance_cost_contribution_USDT": -6.505569258333875,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 14.526329856200027,
+                "initial_capital_equivalent_percentage_points": -3.3907133623363865,
+                "net_USDT": -339.07133623363865,
+                "price_pnl_USDT": -370.11180651316283,
+                "rebalance_cost_contribution_USDT": 14.061893258397145,
+                "terminal_cost_contribution_USDT": 2.452247164927009
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": -4.835617547700807,
+                "initial_capital_equivalent_percentage_points": 1.6884250733464188,
+                "net_USDT": 168.84250733464188,
+                "price_pnl_USDT": 176.8422817367804,
+                "rebalance_cost_contribution_USDT": -3.16415685443771,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -10.094325261326544,
+                "initial_capital_equivalent_percentage_points": -5.568427292397478,
+                "net_USDT": -556.8427292397478,
+                "price_pnl_USDT": -558.2064167272043,
+                "rebalance_cost_contribution_USDT": 11.45801274878309,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "SOLUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 4.119873006563226,
+                "initial_capital_equivalent_percentage_points": -1.049741937048305,
+                "net_USDT": -104.9741937048305,
+                "price_pnl_USDT": -115.09576507728187,
+                "rebalance_cost_contribution_USDT": 6.001698365888151,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -3.354643535315494,
+                "initial_capital_equivalent_percentage_points": -1.5090711548655849,
+                "net_USDT": -150.9071154865585,
+                "price_pnl_USDT": -162.44072264941374,
+                "rebalance_cost_contribution_USDT": 14.888250698170747,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": -1.5914469919504706,
+                "initial_capital_equivalent_percentage_points": -2.1348812674895186,
+                "net_USDT": -213.48812674895186,
+                "price_pnl_USDT": -212.07490048586794,
+                "rebalance_cost_contribution_USDT": 0.17822072886654539,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 6.994306925371283,
+                "initial_capital_equivalent_percentage_points": -2.25336356711391,
+                "net_USDT": -225.33635671139098,
+                "price_pnl_USDT": -247.6636471199847,
+                "rebalance_cost_contribution_USDT": 15.332983483222442,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "XRPUSDT": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": 4.875844260177509,
+                "initial_capital_equivalent_percentage_points": -1.9502358603999417,
+                "net_USDT": -195.02358603999417,
+                "price_pnl_USDT": -196.69420898863748,
+                "rebalance_cost_contribution_USDT": -3.2052213115342063,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 2.2430512428906924,
+                "initial_capital_equivalent_percentage_points": 0.07784964992803967,
+                "net_USDT": 7.7849649928039675,
+                "price_pnl_USDT": -10.36719022718197,
+                "rebalance_cost_contribution_USDT": 15.909103977095246,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 0.18108087598027733,
+                "initial_capital_equivalent_percentage_points": 1.1038056043119195,
+                "net_USDT": 110.38056043119195,
+                "price_pnl_USDT": 110.20428964483744,
+                "rebalance_cost_contribution_USDT": -1.3178777107483075,
+                "terminal_cost_contribution_USDT": 1.3130676211225365
+              },
+              "removed": {
+                "funding_cash_USDT": -17.099756061025296,
+                "initial_capital_equivalent_percentage_points": 0.05149182056826908,
+                "net_USDT": 5.149182056826907,
+                "price_pnl_USDT": 1.5971178700091406,
+                "rebalance_cost_contribution_USDT": 20.651820247843062,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          }
+        },
+        "totals": {
+          "funding_cash_USDT": -10.355914275661585,
+          "initial_capital_equivalent_percentage_points": -25.944608989406664,
+          "net_USDT": -2594.4608989406665,
+          "price_pnl_USDT": -2688.2449894369065,
+          "rebalance_cost_contribution_USDT": 96.66971400247863,
+          "terminal_cost_contribution_USDT": 7.470290769423104
+        }
+      },
+      "CS_leg_date_counts": {
+        "long": {
+          "kept": 446,
+          "removed": 284
+        },
+        "short": {
+          "kept": 373,
+          "removed": 357
+        }
+      },
+      "arms": {
+        "AGREEMENT": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -19.473605010016456,
+              "initial_capital_equivalent_percentage_points": -3.249082340311478,
+              "net_USDT": -324.9082340311478,
+              "price_pnl_USDT": -240.82568307236397,
+              "rebalance_cost_contribution_USDT": -64.6089459487674,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 9.646091781730464,
+              "initial_capital_equivalent_percentage_points": -10.468322070161443,
+              "net_USDT": -1046.8322070161444,
+              "price_pnl_USDT": -998.9940080548574,
+              "rebalance_cost_contribution_USDT": -56.42097783310839,
+              "terminal_cost_contribution_USDT": -1.0633129099090786
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": -9.004869261120234,
+              "initial_capital_equivalent_percentage_points": 7.152245810479482,
+              "net_USDT": 715.2245810479482,
+              "price_pnl_USDT": 774.0121172816321,
+              "rebalance_cost_contribution_USDT": -49.782666972563725,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -0.43453798742329486,
+              "initial_capital_equivalent_percentage_points": 5.465370787031177,
+              "net_USDT": 546.5370787031177,
+              "price_pnl_USDT": 582.0543772035805,
+              "rebalance_cost_contribution_USDT": -35.082760513039574,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": -5.476390939660008,
+              "initial_capital_equivalent_percentage_points": -2.8851610060485706,
+              "net_USDT": -288.51610060485706,
+              "price_pnl_USDT": -244.27228421015963,
+              "rebalance_cost_contribution_USDT": -37.672629334481044,
+              "terminal_cost_contribution_USDT": -1.0947961205563972
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -24.74331141648953,
+              "initial_capital_equivalent_percentage_points": -3.984948819010836,
+              "net_USDT": -398.4948819010836,
+              "price_pnl_USDT": -128.02548085216847,
+              "rebalance_cost_contribution_USDT": -243.56798060196013,
+              "terminal_cost_contribution_USDT": -2.158109030465476
+            },
+            "removed": {
+              "funding_cash_USDT": 0.0,
+              "initial_capital_equivalent_percentage_points": 0.0,
+              "net_USDT": 0.0,
+              "price_pnl_USDT": 0.0,
+              "rebalance_cost_contribution_USDT": 0.0,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -48.62713053548078,
+              "initial_capital_equivalent_percentage_points": -2.7129770901160586,
+              "net_USDT": -271.29770901160583,
+              "price_pnl_USDT": -93.6890613226393,
+              "rebalance_cost_contribution_USDT": -128.98151715348573,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "short": {
+              "funding_cash_USDT": 23.883819118991248,
+              "initial_capital_equivalent_percentage_points": -1.2719717288947778,
+              "net_USDT": -127.19717288947778,
+              "price_pnl_USDT": -34.33641952952917,
+              "rebalance_cost_contribution_USDT": -114.58646344847439,
+              "terminal_cost_contribution_USDT": -2.158109030465476
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -48.62713053548078,
+                "initial_capital_equivalent_percentage_points": -2.7129770901160586,
+                "net_USDT": -271.29770901160583,
+                "price_pnl_USDT": -93.6890613226393,
+                "rebalance_cost_contribution_USDT": -128.98151715348573,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 23.883819118991248,
+                "initial_capital_equivalent_percentage_points": -1.2719717288947778,
+                "net_USDT": -127.19717288947778,
+                "price_pnl_USDT": -34.33641952952917,
+                "rebalance_cost_contribution_USDT": -114.58646344847439,
+                "terminal_cost_contribution_USDT": -2.158109030465476
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -19.473605010016456,
+                  "initial_capital_equivalent_percentage_points": -3.249082340311478,
+                  "net_USDT": -324.9082340311478,
+                  "price_pnl_USDT": -240.82568307236397,
+                  "rebalance_cost_contribution_USDT": -64.6089459487674,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -5.423999284159953,
+                  "initial_capital_equivalent_percentage_points": -0.14065503831952303,
+                  "net_USDT": -14.065503831952302,
+                  "price_pnl_USDT": -2.0250864970880054,
+                  "rebalance_cost_contribution_USDT": -6.616418050704345,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 15.070091065890416,
+                  "initial_capital_equivalent_percentage_points": -10.327667031841923,
+                  "net_USDT": -1032.7667031841922,
+                  "price_pnl_USDT": -996.9689215577695,
+                  "rebalance_cost_contribution_USDT": -49.80455978240404,
+                  "terminal_cost_contribution_USDT": -1.0633129099090786
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -13.452182237938873,
+                  "initial_capital_equivalent_percentage_points": 3.3695873571289376,
+                  "net_USDT": 336.95873571289377,
+                  "price_pnl_USDT": 377.5150129151182,
+                  "rebalance_cost_contribution_USDT": -27.10409496428552,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 4.447312976818638,
+                  "initial_capital_equivalent_percentage_points": 3.782658453350544,
+                  "net_USDT": 378.2658453350544,
+                  "price_pnl_USDT": 396.49710436651395,
+                  "rebalance_cost_contribution_USDT": -22.678572008278206,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -2.3754205573882636,
+                  "initial_capital_equivalent_percentage_points": -1.056364670017009,
+                  "net_USDT": -105.63646700170092,
+                  "price_pnl_USDT": -94.80021761786355,
+                  "rebalance_cost_contribution_USDT": -8.46082882644911,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 1.9408825699649688,
+                  "initial_capital_equivalent_percentage_points": 6.5217354570481865,
+                  "net_USDT": 652.1735457048186,
+                  "price_pnl_USDT": 676.854594821444,
+                  "rebalance_cost_contribution_USDT": -26.62193168659046,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -7.901923445977234,
+                  "initial_capital_equivalent_percentage_points": -1.6364623985969853,
+                  "net_USDT": -163.64623985969854,
+                  "price_pnl_USDT": -133.55308705044195,
+                  "rebalance_cost_contribution_USDT": -22.191229363279355,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 2.425532506317226,
+                  "initial_capital_equivalent_percentage_points": -1.2486986074515853,
+                  "net_USDT": -124.86986074515853,
+                  "price_pnl_USDT": -110.71919715971768,
+                  "rebalance_cost_contribution_USDT": -15.481399971201686,
+                  "terminal_cost_contribution_USDT": -1.0947961205563972
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 0,
+            "asset_cap_days": 0,
+            "cap_bound_days": 9,
+            "cash_days": 17,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 9,
+            "max_asset_absolute_weight": 0.273859749054049,
+            "max_estimated_annual_risk": 0.10000000000000005,
+            "max_gross": 0.6000000000000001,
+            "max_risk_shortfall": 0.1,
+            "maximum_scale_factor": 1.8257316603603266,
+            "mean_estimated_annual_risk": 0.09451591027265256,
+            "mean_gross": 0.22679113856716196,
+            "mean_long": 0.12262747317884513,
+            "mean_net": 0.018463807790528308,
+            "mean_nonzero_legs": 2.243835616438356,
+            "mean_risk_shortfall": 0.005484089727347426,
+            "mean_short": 0.10416366538831683,
+            "risk_shortfall_days": 26,
+            "risk_target_met_days": 339,
+            "scale_amplification_days": 35
+          },
+          "published_metrics": {
+            "annual_vol": 0.11300009317642139,
+            "cumulative_net_return": -0.039849488190106606,
+            "days": 365,
+            "drawdown": 0.12166290120157963,
+            "funding_cash": -24.743311416489508,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9601.505118098934,
+            "net_USDT": -398.49488190106604,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": -128.02548085216728,
+            "rebalance_turnover_USDT": 180420.72637182227,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 2.1581090304654755,
+            "terminal_turnover_USDT": 1598.599281826278,
+            "total_turnover_USDT": 182019.32565364856,
+            "trading_cost": 245.72608963242556,
+            "worst30": -0.09088773459094812
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": -398.4948819010824,
+            "derived_return": -0.039849488190108244,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 9.094947017729282e-13,
+              "daily_saved_NAV_change": 2.2524204723595176e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 8.881784197001252e-16,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 1.6370904631912708e-11,
+              "summary_funding_cash": 0.0,
+              "summary_net": 1.6370904631912708e-11,
+              "summary_price_pnl": 5.684341886080802e-14,
+              "summary_return_in_USDT": 1.637578961322106e-11,
+              "summary_terminal_cost": 4.440892098500626e-16,
+              "summary_trading_cost": 2.842170943040401e-14,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 1.1368683772161603e-12,
+            "published_net_USDT": -398.49488190106604,
+            "published_return": -0.039849488190106606,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -24.743311416489508,
+            "initial_capital_equivalent_percentage_points": -3.984948819010824,
+            "net_USDT": -398.4948819010824,
+            "price_pnl_USDT": -128.02548085216733,
+            "rebalance_cost_contribution_USDT": -243.5679806019601,
+            "terminal_cost_contribution_USDT": -2.158109030465476
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 80.48011689576956,
+              "exit_to_cash": 75.64768140420324,
+              "same_sign_resize": 87.44018230198728,
+              "sign_reversal": 0.0,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 153.5367104635099,
+            "cost_on_CS_weekly_rank_dates_USDT": 122.16386052004488,
+            "cost_on_other_dates_USDT": 121.40412008191521,
+            "rebalance_cost_USDT": 243.5679806019601
+          }
+        },
+        "AGREEMENT_NO_REALLOCATION": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -17.02687749498312,
+              "initial_capital_equivalent_percentage_points": -2.5165504167376116,
+              "net_USDT": -251.65504167376116,
+              "price_pnl_USDT": -185.25871747603924,
+              "rebalance_cost_contribution_USDT": -49.36944670273882,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 9.566725716207205,
+              "initial_capital_equivalent_percentage_points": -8.454731558434986,
+              "net_USDT": -845.4731558434986,
+              "price_pnl_USDT": -798.0964592346046,
+              "rebalance_cost_contribution_USDT": -55.007405172506495,
+              "terminal_cost_contribution_USDT": -1.9360171525947305
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": -7.196899953901679,
+              "initial_capital_equivalent_percentage_points": 7.133065217042141,
+              "net_USDT": 713.3065217042141,
+              "price_pnl_USDT": 771.5826920133139,
+              "rebalance_cost_contribution_USDT": -51.0792703551981,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -2.6923566017667038,
+              "initial_capital_equivalent_percentage_points": 7.222488755754145,
+              "net_USDT": 722.2488755754144,
+              "price_pnl_USDT": 766.9327300163357,
+              "rebalance_cost_contribution_USDT": -41.99149783915451,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": -9.529653641272665,
+              "initial_capital_equivalent_percentage_points": -2.2456200758270697,
+              "net_USDT": -224.562007582707,
+              "price_pnl_USDT": -175.22862249890798,
+              "rebalance_cost_contribution_USDT": -37.81039152514248,
+              "terminal_cost_contribution_USDT": -1.9933399173838589
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -26.87906197571696,
+              "initial_capital_equivalent_percentage_points": 1.1386519217966184,
+              "net_USDT": 113.86519217966185,
+              "price_pnl_USDT": 379.9316228200978,
+              "rebalance_cost_contribution_USDT": -235.2580115947404,
+              "terminal_cost_contribution_USDT": -3.9293570699785896
+            },
+            "removed": {
+              "funding_cash_USDT": 0.0,
+              "initial_capital_equivalent_percentage_points": 0.0,
+              "net_USDT": 0.0,
+              "price_pnl_USDT": 0.0,
+              "rebalance_cost_contribution_USDT": 0.0,
+              "terminal_cost_contribution_USDT": 0.0
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -59.00600012377177,
+              "initial_capital_equivalent_percentage_points": 2.47338348229458,
+              "net_USDT": 247.338348229458,
+              "price_pnl_USDT": 422.6133355701119,
+              "rebalance_cost_contribution_USDT": -116.2689872168821,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "short": {
+              "funding_cash_USDT": 32.12693814805481,
+              "initial_capital_equivalent_percentage_points": -1.3347315604979615,
+              "net_USDT": -133.47315604979616,
+              "price_pnl_USDT": -42.68171275001407,
+              "rebalance_cost_contribution_USDT": -118.9890243778583,
+              "terminal_cost_contribution_USDT": -3.9293570699785896
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -59.00600012377177,
+                "initial_capital_equivalent_percentage_points": 2.47338348229458,
+                "net_USDT": 247.338348229458,
+                "price_pnl_USDT": 422.6133355701119,
+                "rebalance_cost_contribution_USDT": -116.2689872168821,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 32.12693814805481,
+                "initial_capital_equivalent_percentage_points": -1.3347315604979615,
+                "net_USDT": -133.47315604979616,
+                "price_pnl_USDT": -42.68171275001407,
+                "rebalance_cost_contribution_USDT": -118.9890243778583,
+                "terminal_cost_contribution_USDT": -3.9293570699785896
+              },
+              "removed": {
+                "funding_cash_USDT": 0.0,
+                "initial_capital_equivalent_percentage_points": 0.0,
+                "net_USDT": 0.0,
+                "price_pnl_USDT": 0.0,
+                "rebalance_cost_contribution_USDT": 0.0,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -17.02687749498312,
+                  "initial_capital_equivalent_percentage_points": -2.5165504167376116,
+                  "net_USDT": -251.65504167376116,
+                  "price_pnl_USDT": -185.25871747603924,
+                  "rebalance_cost_contribution_USDT": -49.36944670273882,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -9.818243463612944,
+                  "initial_capital_equivalent_percentage_points": 0.22791975219479932,
+                  "net_USDT": 22.791975219479934,
+                  "price_pnl_USDT": 44.83989141443112,
+                  "rebalance_cost_contribution_USDT": -12.229672731338244,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 19.38496917982015,
+                  "initial_capital_equivalent_percentage_points": -8.682651310629785,
+                  "net_USDT": -868.2651310629785,
+                  "price_pnl_USDT": -842.9363506490357,
+                  "rebalance_cost_contribution_USDT": -42.777732441168254,
+                  "terminal_cost_contribution_USDT": -1.9360171525947305
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -15.180464996599206,
+                  "initial_capital_equivalent_percentage_points": 5.216809638708972,
+                  "net_USDT": 521.6809638708972,
+                  "price_pnl_USDT": 557.8734987544339,
+                  "rebalance_cost_contribution_USDT": -21.012069886937425,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 7.983565042697527,
+                  "initial_capital_equivalent_percentage_points": 1.9162555783331692,
+                  "net_USDT": 191.62555783331692,
+                  "price_pnl_USDT": 213.70919325888008,
+                  "rebalance_cost_contribution_USDT": -30.067200468260673,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -5.513066409872944,
+                  "initial_capital_equivalent_percentage_points": -0.526544431337089,
+                  "net_USDT": -52.654443133708895,
+                  "price_pnl_USDT": -34.086849699567544,
+                  "rebalance_cost_contribution_USDT": -13.054527024268406,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 2.82070980810624,
+                  "initial_capital_equivalent_percentage_points": 7.749033187091234,
+                  "net_USDT": 774.9033187091234,
+                  "price_pnl_USDT": 801.0195797159032,
+                  "rebalance_cost_contribution_USDT": -28.936970814886106,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -11.46734775870356,
+                  "initial_capital_equivalent_percentage_points": 0.07174893946550895,
+                  "net_USDT": 7.174893946550895,
+                  "price_pnl_USDT": 39.245512576853656,
+                  "rebalance_cost_contribution_USDT": -20.6032708715992,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 1.9376941174308953,
+                  "initial_capital_equivalent_percentage_points": -2.3173690152925785,
+                  "net_USDT": -231.73690152925786,
+                  "price_pnl_USDT": -214.47413507576164,
+                  "rebalance_cost_contribution_USDT": -17.207120653543274,
+                  "terminal_cost_contribution_USDT": -1.9933399173838589
+                },
+                "removed": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 254,
+            "asset_cap_days": 0,
+            "cap_bound_days": 0,
+            "cash_days": 17,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 0,
+            "max_asset_absolute_weight": 0.15,
+            "max_estimated_annual_risk": 0.2576130813735194,
+            "max_gross": 0.5662573036324716,
+            "max_risk_shortfall": 0.1,
+            "maximum_scale_factor": null,
+            "mean_estimated_annual_risk": 0.1356565918999611,
+            "mean_gross": 0.2798064638524031,
+            "mean_long": 0.14255631118751796,
+            "mean_net": 0.00530615852263281,
+            "mean_nonzero_legs": 2.243835616438356,
+            "mean_risk_shortfall": 0.010459813815954223,
+            "mean_short": 0.13725015266488513,
+            "risk_shortfall_days": 76,
+            "risk_target_met_days": 35,
+            "scale_amplification_days": 0
+          },
+          "published_metrics": {
+            "annual_vol": 0.1548680547287222,
+            "cumulative_net_return": 0.01138651921796736,
+            "days": 365,
+            "drawdown": 0.1411519490819757,
+            "funding_cash": -26.87906197571696,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 10113.865192179674,
+            "net_USDT": 113.86519217967361,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": 379.9316228200986,
+            "rebalance_turnover_USDT": 174265.19377388177,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 3.929357069978589,
+            "terminal_turnover_USDT": 2910.6348666508065,
+            "total_turnover_USDT": 177175.82864053256,
+            "trading_cost": 239.18736866471897,
+            "worst30": -0.09381538252484012
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": 113.86519217966253,
+            "derived_return": 0.011386519217966252,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 9.094947017729282e-13,
+              "daily_saved_NAV_change": 2.3643309532417334e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 8.881784197001252e-16,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 1.1084466677857563e-11,
+              "summary_funding_cash": 0.0,
+              "summary_net": 1.1084466677857563e-11,
+              "summary_price_pnl": 1.1368683772161603e-13,
+              "summary_return_in_USDT": 1.1084883011491797e-11,
+              "summary_terminal_cost": 4.440892098500626e-16,
+              "summary_trading_cost": 0.0,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 6.821210263296962e-13,
+            "published_net_USDT": 113.86519217967361,
+            "published_return": 0.01138651921796736,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -26.87906197571696,
+            "initial_capital_equivalent_percentage_points": 1.138651921796625,
+            "net_USDT": 113.86519217966253,
+            "price_pnl_USDT": 379.9316228200985,
+            "rebalance_cost_contribution_USDT": -235.2580115947404,
+            "terminal_cost_contribution_USDT": -3.9293570699785896
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 91.74566713026681,
+              "exit_to_cash": 89.31301229022024,
+              "same_sign_resize": 54.19933217425338,
+              "sign_reversal": 0.0,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 177.5894603089919,
+            "cost_on_CS_weekly_rank_dates_USDT": 134.13307557531508,
+            "cost_on_other_dates_USDT": 101.1249360194253,
+            "rebalance_cost_USDT": 235.2580115947404
+          }
+        },
+        "CS": {
+          "by_asset": {
+            "BTCUSDT": {
+              "funding_cash_USDT": -15.255217994963882,
+              "initial_capital_equivalent_percentage_points": -1.683120596132565,
+              "net_USDT": -168.3120596132565,
+              "price_pnl_USDT": -93.74404085595191,
+              "rebalance_cost_contribution_USDT": -56.88313232427854,
+              "terminal_cost_contribution_USDT": -2.4296684380621825
+            },
+            "DOGEUSDT": {
+              "funding_cash_USDT": 15.697360277638314,
+              "initial_capital_equivalent_percentage_points": -3.5911576882626814,
+              "net_USDT": -359.11576882626815,
+              "price_pnl_USDT": -295.9471615618225,
+              "rebalance_cost_contribution_USDT": -76.52734708686351,
+              "terminal_cost_contribution_USDT": -2.3386204552204544
+            },
+            "ETHUSDT": {
+              "funding_cash_USDT": -12.550300773727331,
+              "initial_capital_equivalent_percentage_points": 16.98958196169946,
+              "net_USDT": 1698.958196169946,
+              "price_pnl_USDT": 1779.5935909755726,
+              "rebalance_cost_contribution_USDT": -65.63284686697237,
+              "terminal_cost_contribution_USDT": -2.452247164927009
+            },
+            "SOLUSDT": {
+              "funding_cash_USDT": -6.602627392091838,
+              "initial_capital_equivalent_percentage_points": 12.412428713548495,
+              "net_USDT": 1241.2428713548495,
+              "price_pnl_USDT": 1319.3294125361288,
+              "rebalance_cost_contribution_USDT": -71.48391378918745,
+              "terminal_cost_contribution_USDT": 0.0
+            },
+            "XRPUSDT": {
+              "funding_cash_USDT": 4.32338874231681,
+              "initial_capital_equivalent_percentage_points": -2.1680722204568568,
+              "net_USDT": -216.8072220456857,
+              "price_pnl_USDT": -149.01229250918675,
+              "rebalance_cost_contribution_USDT": -69.71045453713684,
+              "terminal_cost_contribution_USDT": -2.4078637416789337
+            }
+          },
+          "by_gate": {
+            "kept": {
+              "funding_cash_USDT": -29.205546868104378,
+              "initial_capital_equivalent_percentage_points": 3.2195020145020123,
+              "net_USDT": 321.95020145020123,
+              "price_pnl_USDT": 547.078209500777,
+              "rebalance_cost_contribution_USDT": -191.17597698557202,
+              "terminal_cost_contribution_USDT": -4.746484196899388
+            },
+            "removed": {
+              "funding_cash_USDT": 14.818149727276449,
+              "initial_capital_equivalent_percentage_points": 18.740158155893837,
+              "net_USDT": 1874.015815589384,
+              "price_pnl_USDT": 2013.1412990839633,
+              "rebalance_cost_contribution_USDT": -149.06171761886668,
+              "terminal_cost_contribution_USDT": -4.881915602989191
+            }
+          },
+          "by_side": {
+            "long": {
+              "funding_cash_USDT": -102.20371737947185,
+              "initial_capital_equivalent_percentage_points": 9.65826228623021,
+              "net_USDT": 965.8262286230209,
+              "price_pnl_USDT": 1234.928324286697,
+              "rebalance_cost_contribution_USDT": -162.0164626812151,
+              "terminal_cost_contribution_USDT": -4.881915602989191
+            },
+            "short": {
+              "funding_cash_USDT": 87.81632023864393,
+              "initial_capital_equivalent_percentage_points": 12.30139788416564,
+              "net_USDT": 1230.139788416564,
+              "price_pnl_USDT": 1325.2911842980432,
+              "rebalance_cost_contribution_USDT": -178.22123192322363,
+              "terminal_cost_contribution_USDT": -4.746484196899388
+            }
+          },
+          "by_side_and_gate": {
+            "long": {
+              "kept": {
+                "funding_cash_USDT": -66.60061064518406,
+                "initial_capital_equivalent_percentage_points": 4.0415612249219715,
+                "net_USDT": 404.15612249219714,
+                "price_pnl_USDT": 564.9451843604444,
+                "rebalance_cost_contribution_USDT": -94.18845122306321,
+                "terminal_cost_contribution_USDT": 0.0
+              },
+              "removed": {
+                "funding_cash_USDT": -35.60310673428779,
+                "initial_capital_equivalent_percentage_points": 5.6167010613082375,
+                "net_USDT": 561.6701061308238,
+                "price_pnl_USDT": 669.9831399262526,
+                "rebalance_cost_contribution_USDT": -67.82801145815189,
+                "terminal_cost_contribution_USDT": -4.881915602989191
+              }
+            },
+            "short": {
+              "kept": {
+                "funding_cash_USDT": 37.395063777079685,
+                "initial_capital_equivalent_percentage_points": -0.8220592104199594,
+                "net_USDT": -82.20592104199594,
+                "price_pnl_USDT": -17.86697485966741,
+                "rebalance_cost_contribution_USDT": -96.98752576250882,
+                "terminal_cost_contribution_USDT": -4.746484196899388
+              },
+              "removed": {
+                "funding_cash_USDT": 50.42125646156424,
+                "initial_capital_equivalent_percentage_points": 13.1234570945856,
+                "net_USDT": 1312.34570945856,
+                "price_pnl_USDT": 1343.1581591577105,
+                "rebalance_cost_contribution_USDT": -81.2337061607148,
+                "terminal_cost_contribution_USDT": 0.0
+              }
+            }
+          },
+          "joint_asset_side_gate": {
+            "BTCUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -18.837533796492036,
+                  "initial_capital_equivalent_percentage_points": -2.44866324898646,
+                  "net_USDT": -244.866324898646,
+                  "price_pnl_USDT": -199.62945923493461,
+                  "rebalance_cost_contribution_USDT": -26.399331867219374,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -17.95296260990765,
+                  "initial_capital_equivalent_percentage_points": 1.4803026375659003,
+                  "net_USDT": 148.03026375659002,
+                  "price_pnl_USDT": 178.9947622814746,
+                  "rebalance_cost_contribution_USDT": -10.581867476914768,
+                  "terminal_cost_contribution_USDT": -2.4296684380621825
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 0.0,
+                  "initial_capital_equivalent_percentage_points": 0.0,
+                  "net_USDT": 0.0,
+                  "price_pnl_USDT": 0.0,
+                  "rebalance_cost_contribution_USDT": 0.0,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 21.535278411435804,
+                  "initial_capital_equivalent_percentage_points": -0.714759984712005,
+                  "net_USDT": -71.4759984712005,
+                  "price_pnl_USDT": -73.1093439024919,
+                  "rebalance_cost_contribution_USDT": -19.9019329801444,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "DOGEUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -11.088788875212497,
+                  "initial_capital_equivalent_percentage_points": 0.24686581811270927,
+                  "net_USDT": 24.68658181127093,
+                  "price_pnl_USDT": 49.517429092293206,
+                  "rebalance_cost_contribution_USDT": -13.742058405809779,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -4.235406560604918,
+                  "initial_capital_equivalent_percentage_points": -0.6855364435315944,
+                  "net_USDT": -68.55364435315944,
+                  "price_pnl_USDT": -51.931341744980536,
+                  "rebalance_cost_contribution_USDT": -12.386896047573984,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 22.335352060307848,
+                  "initial_capital_equivalent_percentage_points": -9.220405103198285,
+                  "net_USDT": -922.0405103198284,
+                  "price_pnl_USDT": -905.5278059921578,
+                  "rebalance_cost_contribution_USDT": -36.509435932757945,
+                  "terminal_cost_contribution_USDT": -2.3386204552204544
+                },
+                "removed": {
+                  "funding_cash_USDT": 8.686203653147881,
+                  "initial_capital_equivalent_percentage_points": 6.0679180403544875,
+                  "net_USDT": 606.7918040354488,
+                  "price_pnl_USDT": 611.9945570830226,
+                  "rebalance_cost_contribution_USDT": -13.888956700721806,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "ETHUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -17.401226703373293,
+                  "initial_capital_equivalent_percentage_points": 5.93620792696147,
+                  "net_USDT": 593.620792696147,
+                  "price_pnl_USDT": 631.6205451054719,
+                  "rebalance_cost_contribution_USDT": -20.598525705951644,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -14.526329856200027,
+                  "initial_capital_equivalent_percentage_points": 3.3907133623363865,
+                  "net_USDT": 339.07133623363865,
+                  "price_pnl_USDT": 370.11180651316283,
+                  "rebalance_cost_contribution_USDT": -14.061893258397145,
+                  "terminal_cost_contribution_USDT": -2.452247164927009
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 9.282930524519445,
+                  "initial_capital_equivalent_percentage_points": 2.094233380004125,
+                  "net_USDT": 209.4233380004125,
+                  "price_pnl_USDT": 219.65482262973356,
+                  "rebalance_cost_contribution_USDT": -19.514415153840496,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 10.094325261326544,
+                  "initial_capital_equivalent_percentage_points": 5.568427292397478,
+                  "net_USDT": 556.8427292397478,
+                  "price_pnl_USDT": 558.2064167272043,
+                  "rebalance_cost_contribution_USDT": -11.45801274878309,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "SOLUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -6.495293563951489,
+                  "initial_capital_equivalent_percentage_points": -0.006622732968704374,
+                  "net_USDT": -0.6622732968704375,
+                  "price_pnl_USDT": 20.295547459418312,
+                  "rebalance_cost_contribution_USDT": -14.46252719233726,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": 3.354643535315494,
+                  "initial_capital_equivalent_percentage_points": 1.5090711548655849,
+                  "net_USDT": 150.9071154865585,
+                  "price_pnl_USDT": 162.44072264941374,
+                  "rebalance_cost_contribution_USDT": -14.888250698170747,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 3.5323295619154393,
+                  "initial_capital_equivalent_percentage_points": 8.656616724537704,
+                  "net_USDT": 865.6616724537704,
+                  "price_pnl_USDT": 888.929495307312,
+                  "rebalance_cost_contribution_USDT": -26.800152415457006,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -6.994306925371283,
+                  "initial_capital_equivalent_percentage_points": 2.25336356711391,
+                  "net_USDT": 225.33635671139098,
+                  "price_pnl_USDT": 247.6636471199847,
+                  "rebalance_cost_contribution_USDT": -15.332983483222442,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            },
+            "XRPUSDT": {
+              "long": {
+                "kept": {
+                  "funding_cash_USDT": -12.777767706154743,
+                  "initial_capital_equivalent_percentage_points": 0.31377346180295645,
+                  "net_USDT": 31.377346180295646,
+                  "price_pnl_USDT": 63.14112193819554,
+                  "rebalance_cost_contribution_USDT": -18.98600805174515,
+                  "terminal_cost_contribution_USDT": 0.0
+                },
+                "removed": {
+                  "funding_cash_USDT": -2.2430512428906924,
+                  "initial_capital_equivalent_percentage_points": -0.07784964992803967,
+                  "net_USDT": -7.7849649928039675,
+                  "price_pnl_USDT": 10.36719022718197,
+                  "rebalance_cost_contribution_USDT": -15.909103977095246,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              },
+              "short": {
+                "kept": {
+                  "funding_cash_USDT": 2.2444516303369486,
+                  "initial_capital_equivalent_percentage_points": -2.352504211763505,
+                  "net_USDT": -235.2504211763505,
+                  "price_pnl_USDT": -220.92348680455513,
+                  "rebalance_cost_contribution_USDT": -14.163522260453378,
+                  "terminal_cost_contribution_USDT": -2.4078637416789337
+                },
+                "removed": {
+                  "funding_cash_USDT": 17.099756061025296,
+                  "initial_capital_equivalent_percentage_points": -0.05149182056826908,
+                  "net_USDT": -5.149182056826907,
+                  "price_pnl_USDT": -1.5971178700091406,
+                  "rebalance_cost_contribution_USDT": -20.651820247843062,
+                  "terminal_cost_contribution_USDT": 0.0
+                }
+              }
+            }
+          },
+          "published_exposure": {
+            "above_nominal_estimated_risk_days": 0,
+            "asset_cap_days": 0,
+            "cap_bound_days": 112,
+            "cash_days": 0,
+            "caution": "Common nominal risk policy does not imply all-day matched achieved or realized risk; filtered diagnostic can remove hedges.",
+            "days": 365,
+            "gross_cap_days": 112,
+            "max_asset_absolute_weight": 0.15,
+            "max_estimated_annual_risk": 0.10000000000000005,
+            "max_gross": 0.6,
+            "max_risk_shortfall": 0.04052748403649204,
+            "maximum_scale_factor": 1.0,
+            "mean_estimated_annual_risk": 0.09543600618270041,
+            "mean_gross": 0.4888891385079554,
+            "mean_long": 0.2444445692539777,
+            "mean_net": 0.0,
+            "mean_nonzero_legs": 4.0,
+            "mean_risk_shortfall": 0.004563993817299582,
+            "mean_short": 0.2444445692539777,
+            "risk_shortfall_days": 112,
+            "risk_target_met_days": 253,
+            "scale_amplification_days": 0
+          },
+          "published_metrics": {
+            "annual_vol": 0.09695067308677105,
+            "cumulative_net_return": 0.219596601703958,
+            "days": 365,
+            "drawdown": 0.03559937601750718,
+            "funding_cash": -14.387397140827925,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 12195.96601703958,
+            "net_USDT": 2195.96601703958,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": 2560.2195085847393,
+            "rebalance_turnover_USDT": 252027.92192921386,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 9.62839979988858,
+            "terminal_turnover_USDT": 7132.147999917466,
+            "total_turnover_USDT": 259160.06992913134,
+            "trading_cost": 349.8660944043273,
+            "worst30": -0.027055051330851843
+          },
+          "reconciliation": {
+            "absolute_tolerance_USDT": 1e-08,
+            "additive_net_USDT": 2195.966017039584,
+            "derived_return": 0.21959660170395842,
+            "max_absolute_daily_return_error": 0.0,
+            "max_absolute_errors_USDT": {
+              "daily_funding_cash": 0.0,
+              "daily_price_pnl": 0.0,
+              "daily_rebalance_turnover": 1.8189894035458565e-12,
+              "daily_saved_NAV_change": 2.3590018827235326e-12,
+              "daily_saved_NAV_continuity": 0.0,
+              "daily_trading_cost": 1.7763568394002505e-15,
+              "initial_NAV": 0.0,
+              "saved_final_NAV": 4.092726157978177e-12,
+              "summary_funding_cash": 1.7763568394002505e-15,
+              "summary_net": 4.092726157978177e-12,
+              "summary_price_pnl": 0.0,
+              "summary_return_in_USDT": 4.163336342344337e-12,
+              "summary_terminal_cost": 0.0,
+              "summary_trading_cost": 0.0,
+              "target_notional_identity": 2.2737367544323206e-13
+            },
+            "max_joint_partition_reconciliation_error_USDT": 9.094947017729282e-13,
+            "published_net_USDT": 2195.96601703958,
+            "published_return": 0.219596601703958,
+            "status": "PASS"
+          },
+          "totals": {
+            "funding_cash_USDT": -14.387397140827924,
+            "initial_capital_equivalent_percentage_points": 21.959660170395843,
+            "net_USDT": 2195.966017039584,
+            "price_pnl_USDT": 2560.2195085847393,
+            "rebalance_cost_contribution_USDT": -340.23769460443873,
+            "terminal_cost_contribution_USDT": -9.62839979988858
+          },
+          "turnover": {
+            "CS_weekly_rank_dates": 52,
+            "caveat": "Expense classification only. These costs are not certified avoidable; holding fewer rebalances would change inventory and price/funding PnL.",
+            "cost_by_inventory_transition_USDT": {
+              "entry_from_cash": 75.24724316043016,
+              "exit_to_cash": 66.14620281912603,
+              "same_sign_resize": 104.76350435317521,
+              "sign_reversal": 94.08074427170739,
+              "unchanged": 0.0
+            },
+            "cost_in_assets_whose_gate_changed_since_prior_date_USDT": 175.01313812822153,
+            "cost_on_CS_weekly_rank_dates_USDT": 255.4408842814048,
+            "cost_on_other_dates_USDT": 84.79681032303395,
+            "rebalance_cost_USDT": 340.23769460443873
+          }
+        }
+      },
+      "calendar": {
+        "days": 365,
+        "end_UTC": "2025-12-31",
+        "full_calendar_no_date_selection": true,
+        "start_UTC": "2025-01-01"
+      },
+      "kept_quantity_difference_identity": {
+        "caveat": "Additive same-date identity for price/funding only, not causal marginal returns or equal-capital subportfolios. Costs remain actual saved inventory-difference expenses; no term is scored as a new arm.",
+        "decomposition_order": "Sizing evaluated at CS contemporaneous NAV; NAV path evaluated at AGREEMENT sizing. Alternative attribution orders can allocate the interaction differently.",
+        "max_quantity_identity_notional_error_USDT": 3.3911068397785016e-13,
+        "terms": {
+          "kept_saved_NAV_path_effect_using_AGREEMENT_sizing": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": 2.1160640545236378,
+                "price_pnl_USDT": 49.09907110367041
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": -1.4264652909638413,
+                "price_pnl_USDT": 50.00533187060694
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": 1.4640646104859152,
+                "price_pnl_USDT": -57.67110197390559
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": 0.06879595147530901,
+                "price_pnl_USDT": -85.22787770026424
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": 0.6397415858396373,
+                "price_pnl_USDT": 12.822089704635246
+              }
+            },
+            "funding_cash_USDT": 2.8622009113606577,
+            "price_plus_funding_USDT": -28.110286083896582,
+            "price_pnl_USDT": -30.972486995257242
+          },
+          "kept_sizing_at_CS_contemporaneous_NAV": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": -2.7521352680480504,
+                "price_pnl_USDT": -90.29529494109971
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": -0.17400611240104602,
+                "price_pnl_USDT": -192.98896302559885
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": -2.350637692752303,
+                "price_pnl_USDT": -19.592148479668207
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": 2.459630063137444,
+                "price_pnl_USDT": -241.9427878628845
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": 4.417183550318151,
+                "price_pnl_USDT": -99.31200904843519
+              }
+            },
+            "funding_cash_USDT": 1.6000345402541956,
+            "price_plus_funding_USDT": -642.5311688174322,
+            "price_pnl_USDT": -644.1312033576864
+          },
+          "removed_CS_holdings": {
+            "by_asset": {
+              "BTCUSDT": {
+                "funding_cash_USDT": -3.582315801528142,
+                "price_pnl_USDT": -105.8854183789827
+              },
+              "DOGEUSDT": {
+                "funding_cash_USDT": -4.4507970925429605,
+                "price_pnl_USDT": -560.0632153380419
+              },
+              "ETHUSDT": {
+                "funding_cash_USDT": 4.432004594873487,
+                "price_pnl_USDT": -928.3182232403672
+              },
+              "SOLUSDT": {
+                "funding_cash_USDT": 3.639663390055786,
+                "price_pnl_USDT": -410.1043697693983
+              },
+              "XRPUSDT": {
+                "funding_cash_USDT": -14.85670481813461,
+                "price_pnl_USDT": -8.770072357172873
+              }
+            },
+            "funding_cash_USDT": -14.818149727276438,
+            "price_plus_funding_USDT": -2027.9594488112396,
+            "price_pnl_USDT": -2013.141299083963
+          }
+        }
+      },
+      "predefined_diagnostic_deltas": {
+        "AGREEMENT_minus_NO_REALLOCATION": {
+          "funding_cash_USDT": 2.1357505592274535,
+          "initial_capital_equivalent_percentage_points": -5.12360074080745,
+          "net_USDT": -512.360074080745,
+          "price_pnl_USDT": -507.9571036722658,
+          "rebalance_cost_contribution_USDT": -8.309969007219706,
+          "terminal_cost_contribution_USDT": 1.7712480395131136
+        },
+        "NO_REALLOCATION_minus_CS": {
+          "funding_cash_USDT": -12.491664834889038,
+          "initial_capital_equivalent_percentage_points": -20.821008248599217,
+          "net_USDT": -2082.100824859922,
+          "price_pnl_USDT": -2180.287885764641,
+          "rebalance_cost_contribution_USDT": 104.97968300969833,
+          "terminal_cost_contribution_USDT": 5.699042729909991
+        }
+      },
+      "published_primary_gates_pass": false,
+      "saved_weight_ratio_AGREEMENT_to_CS_on_kept_legs": {
+        "equal_to_one_leg_dates": 140,
+        "greater_than_one_leg_dates": 131,
+        "less_than_one_leg_dates": 548,
+        "quantiles_min_p10_median_p90_max": [
+          0.3881790453606958,
+          0.48567466770656476,
+          0.7269968473361264,
+          1.2451636197569895,
+          3.0262363145738025
+        ]
+      }
+    }
+  }
+}

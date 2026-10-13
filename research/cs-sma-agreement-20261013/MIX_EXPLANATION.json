@@ -1,0 +1,289 @@
+{
+  "year": 2025,
+  "days": 365,
+  "units": "USDT; percentage-point contribution = USDT / 10000 * 100",
+  "method": "Read-only algebra on original saved targets, scale proof, quantity rows and market intervals; no account replay or newly scored strategy",
+  "actual_definition": "w_STATIC50 = f_mix * (0.5*raw_CS + 0.5*raw_SMA200)",
+  "effective_coefficients_identity": "w_STATIC50 = (0.5*f_mix/f_CS)*w_CS + (0.5*f_mix/f_SMA200)*w_SMA200",
+  "coefficient_caveat": "These are time-varying virtual coefficients on already-sized target weights, not capital shares, probabilities, or independent executable wallets; they need not sum to one.",
+  "coefficient_summary": {
+    "CS": {
+      "min": 0.19990062651409804,
+      "p10": 0.24613345454430427,
+      "median": 0.3419185485454586,
+      "mean": 0.5559867271853409,
+      "p90": 0.8772243146989898,
+      "max": 3.70847274110015,
+      "below_half_days": 261,
+      "equal_half_days": 0,
+      "above_half_days": 104,
+      "min_date": "2025-11-07",
+      "max_date": "2025-05-27"
+    },
+    "SMA200": {
+      "min": 0.46213512104997334,
+      "p10": 0.6226194553776029,
+      "median": 0.825202398188853,
+      "mean": 0.9897858939041735,
+      "p90": 1.421799653451039,
+      "max": 4.100820178948348,
+      "below_half_days": 4,
+      "equal_half_days": 10,
+      "above_half_days": 351,
+      "min_date": "2025-10-31",
+      "max_date": "2025-05-27"
+    }
+  },
+  "first_date_example": {
+    "date": "2025-01-01",
+    "raw_CS": [
+      0.15,
+      0.15,
+      -0.15,
+      0.0,
+      -0.15
+    ],
+    "raw_SMA200": [
+      0.12,
+      0.12,
+      0.12,
+      0.12,
+      0.12
+    ],
+    "scale_factors": {
+      "CS": 0.8565973114802785,
+      "SMA200": 0.2668357738616235,
+      "STATIC50": 0.608674193754433
+    },
+    "effective_coefficients": {
+      "CS": 0.35528607526364303,
+      "SMA200": 1.1405408370582295
+    },
+    "already_sized_targets": {
+      "CS": [
+        0.12848959672204177,
+        0.12848959672204177,
+        -0.12848959672204177,
+        0.0,
+        -0.12848959672204177
+      ],
+      "SMA200": [
+        0.03202029286339482,
+        0.03202029286339482,
+        0.03202029286339482,
+        0.03202029286339482,
+        0.03202029286339482
+      ],
+      "STATIC50": [
+        0.08217101615684846,
+        0.08217101615684846,
+        -0.009130112906316495,
+        0.03652045162526598,
+        -0.009130112906316495
+      ]
+    },
+    "half_already_sized_reference_weight": [
+      0.0802549447927183,
+      0.0802549447927183,
+      -0.048234651929323476,
+      0.01601014643169741,
+      -0.048234651929323476
+    ]
+  },
+  "actual_metrics": {
+    "annual_vol": 0.11102546581190088,
+    "cumulative_net_return": 0.027244198011017944,
+    "days": 365,
+    "drawdown": 0.09917329893283133,
+    "funding_cash": -23.307543785054527,
+    "hypothetical_cost_terminal": true,
+    "marked_NAV": 10272.44198011018,
+    "net_USDT": 272.44198011017943,
+    "planned_days": 365,
+    "positions": [
+      0.0,
+      0.0,
+      -0.0,
+      -0.0,
+      -0.0
+    ],
+    "price_pnl": 585.4013580918747,
+    "rebalance_turnover_USDT": 212525.43119763656,
+    "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+    "stop": null,
+    "terminal_cost_proxy_USDT": 2.7425020798525903,
+    "terminal_turnover_USDT": 2031.4830221130298,
+    "total_turnover_USDT": 214556.9142197496,
+    "trading_cost": 289.6518341966619,
+    "worst30": -0.08131827490917665
+  },
+  "standalone_metrics": {
+    "CS": {
+      "annual_vol": 0.09695067308677105,
+      "cumulative_net_return": 0.219596601703958,
+      "days": 365,
+      "drawdown": 0.03559937601750718,
+      "funding_cash": -14.387397140827925,
+      "hypothetical_cost_terminal": true,
+      "marked_NAV": 12195.96601703958,
+      "net_USDT": 2195.96601703958,
+      "planned_days": 365,
+      "positions": [
+        0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -0.0
+      ],
+      "price_pnl": 2560.2195085847393,
+      "rebalance_turnover_USDT": 252027.92192921386,
+      "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+      "stop": null,
+      "terminal_cost_proxy_USDT": 9.62839979988858,
+      "terminal_turnover_USDT": 7132.147999917466,
+      "total_turnover_USDT": 259160.06992913134,
+      "trading_cost": 349.8660944043273,
+      "worst30": -0.027055051330851843
+    },
+    "SMA200": {
+      "annual_vol": 0.1045760287351009,
+      "cumulative_net_return": -0.046124960053050564,
+      "days": 365,
+      "drawdown": 0.11806298742862031,
+      "funding_cash": -12.25529394349942,
+      "hypothetical_cost_terminal": true,
+      "marked_NAV": 9538.750399469494,
+      "net_USDT": -461.24960053050563,
+      "planned_days": 365,
+      "positions": [
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "price_pnl": -235.11129100256233,
+      "rebalance_turnover_USDT": 156663.36103835865,
+      "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+      "stop": null,
+      "terminal_cost_proxy_USDT": 2.387478182650654,
+      "terminal_turnover_USDT": 1768.5023575190028,
+      "total_turnover_USDT": 158431.86339587765,
+      "trading_cost": 213.88301558443484,
+      "worst30": -0.07832544003552366
+    }
+  },
+  "exact_price_funding_attribution_at_actual_STATIC_NAV_and_p0": {
+    "CS": {
+      "price_pnl_USDT": 1176.3321613587345,
+      "funding_cash_USDT": -11.766495232127246
+    },
+    "SMA200": {
+      "price_pnl_USDT": -590.9308032668597,
+      "funding_cash_USDT": -11.541048552927277
+    }
+  },
+  "actual_reconciliation": {
+    "price_USDT": 585.4013580918748,
+    "funding_cash_USDT": -23.307543785054524,
+    "rebalance_expense_USDT": 286.9093321168093,
+    "terminal_expense_USDT": 2.7425020798525903,
+    "total_expense_USDT": 289.6518341966619,
+    "net_USDT": 272.44198011015834,
+    "price_minus_expense_before_funding_USDT": 295.7495238952129,
+    "price_plus_funding_before_expense_USDT": 562.0938143068203
+  },
+  "half_initial_separate_capital_linear_scaling_benchmark": {
+    "price_pnl": 1162.5541087910885,
+    "funding_cash": -13.321345542163673,
+    "trading_cost": 281.87455499438107,
+    "net_USDT": 867.3582082545372,
+    "cumulative_net_return": 0.08673582082545372
+  },
+  "half_initial_separate_capital_caveat": "Each original wallet, quantity, NAV and proportional cost is hypothetically scaled by one half, with no sleeve reallocation and no cross-wallet netting. Arithmetic is exact under the original linear quantity/cost model; no new account, live fill, minQty or capital/capacity validation is claimed.",
+  "actual_minus_half_initial_separate_wallets": {
+    "price_pnl_USDT": -577.1527506992138,
+    "funding_cash_USDT": -9.986198242890854,
+    "expense_contribution_USDT": -7.777279202280852,
+    "net_USDT": -594.9162281443578
+  },
+  "daily_50_50_saved_return_descriptive_benchmark": {
+    "formula": "prod_t(1 + 0.5*r_CS,t + 0.5*r_SMA200,t) - 1",
+    "cumulative_return": 0.08041455734738912,
+    "final_10000_capital_arithmetic": 10804.145573473892,
+    "caveat": "Descriptive combination of saved standalone daily net returns, including saved terminal charges. Not an executed or validated 50/50 mix; additional allocation/reallocation turnover, netting, and account-path cost changes have not been modeled."
+  },
+  "same_actual_NAV_half_already_sized_reference": {
+    "CS": {
+      "half_already_sized_target_at_actual_mix_NAV": {
+        "price_pnl_USDT": 1187.592400025746,
+        "funding_cash_USDT": -5.973150336490304
+      },
+      "actual_virtual_component": {
+        "price_pnl_USDT": 1176.3321613587345,
+        "funding_cash_USDT": -11.766495232127246
+      },
+      "scaling_difference_at_same_NAV": {
+        "price_pnl_USDT": -11.260238667011294,
+        "funding_cash_USDT": -5.7933448956369435
+      }
+    },
+    "SMA200": {
+      "half_already_sized_target_at_actual_mix_NAV": {
+        "price_pnl_USDT": -121.71486622274512,
+        "funding_cash_USDT": -6.257549152035488
+      },
+      "actual_virtual_component": {
+        "price_pnl_USDT": -590.9308032668597,
+        "funding_cash_USDT": -11.541048552927277
+      },
+      "scaling_difference_at_same_NAV": {
+        "price_pnl_USDT": -469.21593704411464,
+        "funding_cash_USDT": -5.283499400891788
+      }
+    }
+  },
+  "reference_caveat": "Same-date algebraic price/funding terms at actual STATIC50 NAV and p0 only. No NAV recursion or account scoring is run. The allocation of sizing vs NAV-path differences depends on the chosen reference and is descriptive, not a causal intervention.",
+  "same_virtual_endpoints_netting_expense_identity": {
+    "sum_virtual_component_endpoint_expenses_USDT": 428.8821431621993,
+    "actual_netted_endpoint_expense_USDT": 289.651834196662,
+    "algebraic_difference_USDT": 139.23030896553735,
+    "caveat": "Triangle-inequality endpoint diagnostic on the virtual component decomposition only, not a separately replayed two-wallet alternative or a certified attainable trading-cost saving. Opposite-sign inventory netting lowers proportional endpoint expense for these same quantities."
+  },
+  "limitations": [
+    "Known development year and conditional daily quantity proxy, not pristine out-of-sample evidence.",
+    "No providers, holdout, new target generation, fitting, search or account replay.",
+    "Cancellation alone cannot break additive price/funding PnL for fixed weights; the mixed raw intent is separately and nonlinearly risk-sized.",
+    "Common nominal risk budget does not establish equal realized risk."
+  ],
+  "source_SHA256": {
+    "repo/research/cs-sma-agreement-20261013/results/RESULTS.json": "d78446e9ec2ae529fbf4096260c709685c9cf37dedfbc65616887c25c89a6b5a",
+    "inputs/Y2025.npz": "88a698ceed87603a36ca2bcf4ae76d805aa90085b344bbeee47e58a8c9770add",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2025.npz": "4c584f8ee01596c3bdc7811de85213d63aec11bcc076e6a7297d73502f317f92",
+    "repo/research/cs-sma-agreement-20261013/targets/Y2025_PROOF.json": "74f51ecf186c2df04d366b03b9605d718704138200db189975b8bb348a1fea5c",
+    "repo/research/cs-sma-agreement-20261013/core.py": "73a0dde810df8b5acf4b4473d68294b7f2738ba33c48748a93d7b5404af31d6a",
+    "repo/research/portfolio-risk-budget-20261012/risk_budget.py": "69de58ac83536dfbf1ec3715aadfa65da741c970c4cb5b417bb4c1e8062b19a6",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_CS_ROWS.json": "34624a69dbf7a19b1f5ef1140a234d3a4b7229cf2425383595c984556a3cb09d",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_SMA200_ROWS.json": "58813155009366a06d3ee6a0b45f9e996903b9e0cc0a0f300c832d0f6e82938e",
+    "repo/research/cs-sma-agreement-20261013/results/Y2025_STATIC50_ROWS.json": "d85e21231078fffef6c5adfca023d1c5482c49a550050e527748332372b51234"
+  },
+  "arithmetic_audit": {
+    "CS": {
+      "saved_quantity_target_identity_max_error_USDT": 2.2737367544323206e-13,
+      "saved_scale_identity_max_weight_error": 0.0
+    },
+    "SMA200": {
+      "saved_quantity_target_identity_max_error_USDT": 1.1368683772161603e-13,
+      "saved_scale_identity_max_weight_error": 0.0
+    },
+    "STATIC50": {
+      "saved_quantity_target_identity_max_error_USDT": 2.2737367544323206e-13,
+      "saved_scale_identity_max_weight_error": 0.0
+    },
+    "mix_weight_identity_max_error": 8.326672684688674e-17,
+    "mix_virtual_quantity_identity_max_error_USDT": 6.771733751520514e-13,
+    "price_attribution_reconciliation_error_USDT": 1.1368683772161603e-13,
+    "funding_attribution_reconciliation_error_USDT": 3.552713678800501e-15,
+    "net_reconciliation_error_USDT": 2.1088908397359774e-11
+  }
+}
