@@ -4,6 +4,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def verify(inputs,year):
+ assert not sys.flags.optimize, "Hash checks require normal Python without -O"
  m=json.loads((HERE/'PUBLIC_REPRODUCIBILITY.json').read_text())
  assert sha(HERE/'FREEZE.json')==m['freeze_sha256']
  f=json.loads((HERE/'FREEZE.json').read_text())
@@ -13,6 +14,7 @@ def verify(inputs,year):
  for name,h in m['public_entry_and_restore_sha256'].items():assert sha(HERE/name)==h,name
  for row in json.loads((HERE/'PINNED_CODE_AND_TARGETS.json').read_text()):
   assert sha(inputs/row['relative_destination'])==row['sha256'],row['relative_destination']
+ if year==2021:assert sha(inputs/'inputs/Y2023.npz')=='1c500e9d5b0244a1daaabc597d7cc5ae97a21a156cc42d8a44a1504b821e599f', 'Original 2021 initial daily close cube'
  b=json.loads((HERE/'SOURCE_BINDINGS.json').read_text())[str(year)]['source_index']
  actual=json.loads((inputs/f'prepared_{year}/SOURCE_INDEX.json').read_text())
  for a,r in zip(actual['months'],b['months'],strict=True):
