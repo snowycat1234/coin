@@ -1,0 +1,27 @@
+{
+  "experiment": "SAVED_RISK_CONTROLLED_STATIC50_PLUS_ORIGINAL_SMA_EQUAL_WEIGHTS",
+  "stage": "FROZEN_INPUT_EXPORT_AND_TARGET_ONLY_BEFORE_NEW_COMBINATION_OUTCOMES",
+  "user_direction": "2026-10-13: combine (CS+HOLD) and SMA; parent explicitly fixes half of each already risk-controlled saved target, no rescaling.",
+  "formula": "COMBINED[d,s]=0.5*ORIGINAL_SAVED_STATIC50[d,s]+0.5*ORIGINAL_SAVED_SMA200_10PCT[d,s]. No further amplification, controller refit, weight/date/asset search, gate or direction selection.",
+  "STATIC50_identity": "Exact saved STATIC50 inside original P2.npz/Y2025.npz, after its existing separate uniform annual10% risk control; it may have been scaled UP. Do not rebuild from raw CS/HOLD, and do not simplify this risk-controlled formula into unscaled .25CS+.25HOLD+.5SMA.",
+  "SMA_identity": "Original main downscale-only SMA200_10PCT, unchanged 27,652 /27,963 byte targets from completed research/sma200-native-20261013. No CS+SMA substitute.",
+  "original_sources": {
+    "STATIC50_Y2023.npz": {"commit":"2c551f8606ac0b9328c52115c761836099517439","path":"research/portfolio-risk-budget-20261012/input/P2.npz","bytes":64558,"selected_weights":"STATIC50","risk_path":"research/portfolio-risk-budget-20261012/input/P2_RISK.json"},
+    "STATIC50_Y2025.npz": {"commit":"af6d8e1426c663f3d5afb2da311755487681c232","path":"research/portfolio-risk-2025-native-20261012/input/Y2025.npz","bytes":64610,"selected_weights":"STATIC50","risk_path":"research/portfolio-risk-2025-native-20261012/input/Y2025_RISK.json"},
+    "SMA200_Y2023.npz": {"commit":"52bd252fe7d26499ea571d77e4ec3de81aecebb3","path":"research/sma200-native-20261013/input/Y2023.npz","bytes":27652,"selected_weights":"SMA200_10PCT"},
+    "SMA200_Y2025.npz": {"commit":"52bd252fe7d26499ea571d77e4ec3de81aecebb3","path":"research/sma200-native-20261013/input/Y2025.npz","bytes":27963,"selected_weights":"SMA200_10PCT"}
+  },
+  "years": {"Y2023":["2023-01-01","2024-01-01"],"Y2025":["2025-01-01","2026-01-01"]},
+  "symbols":["BTCUSDT","ETHUSDT","SOLUSDT","XRPUSDT","DOGEUSDT"],
+  "target_checks": "Exact365 UTC decision clocks/order, finite source weights, asset abs<=.3 and gross<=.6; arithmetic half-sum obeys convex caps, equals exact source formulas. Frozen causal provenance/risk proofs reused, no future outcomes/labels read for construction.",
+  "wallet_semantics": "One shared10k wallet annually if a later native stage is admitted; daily weighted signed target netted across legs, current actual holdings rebalance with original costs/funding/capacity/masks/risk/paidterminal. Mathematical mean of two independently held half-capital wallets has different holdings/path/turnover/grid/costs and is not the same experiment.",
+  "native_contract": "Existing unchanged318a/94Closing/BASE27/rawactualfundconditionalunit1/one-wayisolated1x/no-auto-topup/MMR.005/.99NAVsizing/.3asset/.6gross/previousquote.001capacity; end-6minutes5attempts,persist_cash_close=false,final_day_target_zero=false. No initial-capital or resource expansion or nativeauthority claim.",
+  "controls": "REUSED complete original STATIC50 and original SMA per same full-year source/native contract; exact source/code/calendar/profile/end flags required before any native combination. Original SMA annualaccounts completed and publiccold verified; do not modify/replay those accounts.",
+  "visibility": "SMA/CS/STATIC50/FOLLOW old outcomes and parent prior dailyproxy outcomes already visible. User requested fixed mixture, not return-selected recipe. Parent independently does compact dailyproxy screening; do not duplicate its proxy or confuse with native financial accounts.",
+  "dedup": "Necessary independent ROreview of readable public Git pending completion, old halfyear CS+SMA/three-expert/BTC direction mixes are different. Freeze export before array reads/newoutcomes; equivalent full native case would be reused.",
+  "budget_this_stage": {"fits":0,"new_wallets":0,"old_wallet_replays":0,"provider_downloads":0,"new_RNG":0,"source_seconds":120,"published_bytes":1500000,"threads":1,"AS":4000000000,"RSS_stop":2000000000,"host_stop":8000000000,"swap":0,"GPU":0,"disk_reserve":16106127360},
+  "native_resource_gate": "No new native run in this input/target stage. Current available space only about101MB above15GiB reserve after26retainedoriginalstates; two additional fullnative states+publicGit packets are not yet admitted. Report accurately and preserve originals; no enlarged guard or unverified deletion.",
+  "export": "Four original Git NPZ byte streams, exact sizes/SHA256 and original paths/commits; small UTF8 newline-wrapped Base64 copies and deterministicZIP Base64 package. No binary replacement/recalculation/price download.",
+  "publication": "Separate research branch/directory; code/protocol normalpush+remoteverify before inputexport/derivedtargets; immediate original-byte Base64 publication for parent, then target checks if source/dedup admits. No Library, keys, credential, pay, live, deploy, force, distribution WIP or protected2026lock body.",
+  "interpretation": "Alreadyseen development years. Target validity/synthetic assertions do not prove returns. No oracle payoff, winner-year stitching, new OOS or adoption claim. Negative and residual old evidence retained."
+}
