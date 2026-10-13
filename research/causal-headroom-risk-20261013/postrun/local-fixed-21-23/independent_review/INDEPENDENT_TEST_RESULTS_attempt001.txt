@@ -1,0 +1,22 @@
+test_all_named_transition_calls_forbidden_even_on_result_inspection (__main__.ObserverTests.test_all_named_transition_calls_forbidden_even_on_result_inspection) ... ok
+test_prefix_includes_signal_close_and_excludes_later_changed_execution (__main__.ObserverTests.test_prefix_includes_signal_close_and_excludes_later_changed_execution) ... /workspace/scratch/68ef1b82bcac/coin_headroom_risk_candidate_postrun_audit_20261013/cold_audit.py:171: RuntimeWarning: invalid value encountered in divide
+  signed_net = sum(old_all[:, 14+j] for j in range(5))/old_all[:, 0] if len(old_all) else np.array([])
+ERROR
+test_same_clock_funding_sees_only_strictly_earlier_fills (__main__.ObserverTests.test_same_clock_funding_sees_only_strictly_earlier_fills) ... ok
+
+======================================================================
+ERROR: test_prefix_includes_signal_close_and_excludes_later_changed_execution (__main__.ObserverTests.test_prefix_includes_signal_close_and_excludes_later_changed_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_headroom_risk_candidate_postrun_review_20261013/test_observer_independent.py", line 22, in test_prefix_includes_signal_close_and_excludes_later_changed_execution
+    proof=a.prefix_proof(out,{'calendar':[0,2*a.MINUTE]},root,ptr);self.assertEqual(proof['minute_rows'],1);self.assertTrue(proof['through_first_HEADROOM_signal']);self.assertEqual(proof['funding_rows'],1)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_headroom_risk_candidate_postrun_audit_20261013/cold_audit.py", line 172, in prefix_proof
+    baseline_metrics = {key: saved['summary'][key] for key in ('gross_PnL_same_quantities',
+                             ~~~~~^^^^^^^^^^^
+KeyError: 'summary'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.058s
+
+FAILED (errors=1)
