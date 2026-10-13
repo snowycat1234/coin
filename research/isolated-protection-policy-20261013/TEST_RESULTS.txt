@@ -1,0 +1,26 @@
+Protective full-exit policy, offline-only preregistration QA
+UTC date: 2026-10-13
+
+Command:
+PYTHONDONTWRITEBYTECODE=1 coin_native_half_mix_20261013/.venv/bin/python coin_margin_protective_policy_20261013/test_policy_synthetic.py
+
+Result: 11 tests passed in 2.002s.
+- completed-mark guard waits until all same-timestamp funding events finish; funding halt wins
+- next eligible later open +1 microsecond; full reduce-only close and original fees
+- same-direction daily target blocked until later zero/opposite DAILY_TARGET reset
+- one-mark adverse gap halts original account before guard action
+- zero-capacity pure protective intent persists with compact deferred-minute counter, not falsely flat
+- short capacity gap followed by later whole-lot full close
+- only partial close before adverse mark still halts
+- frozen exposure-cap five-attempt unexecutable-risk STOP takes priority; bounded witness
+- if cap resolves with residual position, full protective exit intent rearms
+- checkpoint/recovery parity while protective intent is still pending
+- no-trigger account/economic parity with original scheduler
+- direct-account partial-close margin-ratio invariant
+
+Read-only preregistered input preflight:
+PYTHONDONTWRITEBYTECODE=1 coin_native_half_mix_20261013/.venv/bin/python coin_margin_protective_policy_20261013/preflight_run_plan.py --workspace-root .
+
+Result: exact 11 case IDs, 3 archive bytes, 11 per-arm target-array bytes, 4 standalone original archive bytes and selected array equality, 3 source-index bytes plus all month NPZ and DAILY/EVENTS bytes verified. Disk at last check: 27,442,458,624 free, 16,856,127,360 required for conservative two-worker admission. RAM/cgroup limit unverified; preflight does not authorize a historical run.
+
+Historical protective wallets run: 0. Frozen original wallets changed: 0. Fits: 0. Source downloads: 0. No 2026 protected data opened.

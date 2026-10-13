@@ -1,0 +1,68 @@
+{
+  "policy_id": "isolated_half_equity_full_exit_v1",
+  "status": "PREREGISTERED_CODE_AND_SYNTHETIC_TESTS_ONLY_NO_HISTORICAL_REPLAY",
+  "hypothesis": "A one-way isolated 1x position that has lost half its assigned collateral should be exited in full at the next executable open, rather than relying on portfolio NAV or proportional partial reductions.",
+  "primary_parameter": {
+    "isolated_equity_fraction_trigger": "0.5",
+    "selection_basis": "Fixed 50% loss of the position's current isolated collateral; generic 1x risk budget chosen before protective historical replay, not fitted to the 2024-11-16 XRP event.",
+    "search_or_fitting": false
+  },
+  "signal": "Immediately after the original account has applied a completed causally available minute-close mark, checked its own liquidation rule, and applied every funding event due through that exact close, the guard checks still-open positions. It waits until all equal-timestamp funding events are processed, never signaling between same-clock events. If isolated equity <= 0.5 times that position's current isolated balance and not already protected, issue a full reduce-only zero-quantity target. Off-minute funding events are not guard trigger clocks; any ensuing isolated-balance change is seen at the next completed minute mark. An account halt at a mark or funding event has priority and cannot be rescued by the guard.",
+  "execution": "The original scheduler attempts the zero target at the earliest eligible next minute open plus 1 microsecond, using existing BASE27 fee/spread/slippage, previous completed minute quote-volume times 0.001 capacity, assumed instrument quantity step, closing minimum-notional exemption, reduction-before-increase sequencing, and funding timing. No fill at the trigger mark, no extra priority beyond the original reduction phase, no synthetic capacity or liquidity.",
+  "persistence": "Protective full reduce-only intent persists across five-attempt windows, daily target supersessions, and insufficient capacity until flat, an actual account halt or original exposure-cap five-attempt unexecutable-risk stop, or the fixed calendar ends. The frozen BOUND_BREACH_REDUCTION_REQUIRED hard-risk order takes priority for protected symbols and also targets zero; if its five eligible attempts cannot resolve the cap breach, the original scheduler stops. If the cap resolves but exposure remains, re-arm the full protective exit with normal latency. At an open where previous-minute participation capacity is below one instrument lot, a pure protective (not cap-priority) order skips the impossible fill and counts one compact deferred minute rather than emitting an unbounded duplicate rejection journal. Remaining open exposure at calendar end is not a successful protective exit.",
+  "reentry": "After the protective exit, the original direction is blocked for that symbol until a subsequent DAILY_TARGET instruction is exactly zero or opposite in sign; a new eligible daily signal may then proceed. An exit-type instruction or cap-reduction order does not reset the gate. The triggering day's frozen target cannot immediately reopen the old direction. No arbitrary time-based cooldown.",
+  "unchanged": [
+    "original frozen annual target arrays",
+    "source market and funding observations",
+    "Decimal financial account and per-position isolated balances",
+    "shared free cash",
+    "one-way 1x",
+    "0.005 conditional maintenance rate",
+    "uncertified quantity profile",
+    "fees, slippage, capacity, and terminal convention",
+    "no auto-top-up or new leverage",
+    "frozen baseline wallet states and results"
+  ],
+  "observation_limit": "Completed minute-close marks only. Intraminute risk can precede a guard signal; an adverse gap or unexecutable full exit is an explicit failure, not a hypothetical fill or proof of actual venue liquidation.",
+  "comparison_plan": {
+    "scope": "Eleven predeclared baseline-comparable CORE5 cases under the same native account contract and public sources: all five 2024 native-baseline arms (CS_MATCHED, VOL_MATCHED, STATIC50, SMA200_10PCT, EXACTHALF), and 2023/2025 STATIC50, SMA200_10PCT, COMBINED. The latter COMBINED arrays are the exact arithmetic half-sum of standalone original STATIC50 and SMA200_10PCT targets. Standalone CS_MATCHED/VOL_MATCHED arrays for 2023/2025 exist, but paired native baselines are not yet verified for this module; adding them requires a separately preregistered extension, never outcome-based omission. Exact original standalone and archived target bytes are bound in RUN_MANIFEST.json. Missing source artifacts must be reported, not replaced or silently omitted. No 2026 protected data.",
+    "primary_endpoints": [
+      "completed required minutes",
+      "account halt and completion status",
+      "terminal cash realized/paid flat",
+      "net paid USDT and return only if fully complete and flat",
+      "number and timing of protective triggers and full exits",
+      "unexecuted protective intents"
+    ],
+    "secondary_endpoints": [
+      "minute peak-to-trough drawdown",
+      "daily annualized volatility",
+      "worst 30-day return",
+      "gross exposure",
+      "turnover",
+      "fees, execution costs, and funding"
+    ],
+    "comparison": "Paired baseline versus new-policy wallet for each predeclared year/arm; retain all negative and stopped cases. Do not select a threshold, symbol, year, or winning arm using these results. Not an out-of-sample or native-exchange claim.",
+    "target_archive_SHA256": {
+      "2023": "5a1a99b9651320f752347853399d293c27723c25e457335a5759e2e1733c85ad",
+      "2024": "4f3b615b524de3220df3c10595ba2a7723f6e62dcff59b31ed82cb9476a9b5d5",
+      "2025": "c2c4ec2597eac6a0e177b6890ba20391a63dec70572ddd31e6902ce5f5c3e0e3"
+    },
+    "source_index_SHA256": {
+      "2023": "5c88d0022fe185f966266b54c9962b1e632048817d369e00112f72b2071c7251",
+      "2024": "0b319baf450c8a0f2f89c2a15fdabf2741471bd0ae75aef6f5be1f76cb439c69",
+      "2025": "8a0235e428902f7a0ea4ec1893343abae6ccc23715080771796b54fb58f1f3c4"
+    },
+    "standalone_original_archive_SHA256": {
+      "2023": {
+        "STATIC50": "e81bf92d3599a6d3059ab462ac984ed9cc066647b1ea839d6147d2e10c40359f",
+        "SMA200_10PCT": "2047463e7be0ea4f086de744018d65924568dbd2e37f5960e75951c32746abf7"
+      },
+      "2025": {
+        "STATIC50": "5e525cf65a5519a739d7ce2baf9c83809af44a1b9722f37fcf9891ede79bbf4e",
+        "SMA200_10PCT": "595425c86df274c6c6105d058d478d772c75ae75cb9c6d2c3ca8c5b9b4c1d968"
+      }
+    }
+  },
+  "runtime_gate": "No historical wallet execution in this module or stage; require separate parent review/GO, immutable code/protocol hashes, fresh state directory per case, resource reserve, source/target hash checks and baseline retention."
+}
