@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -70,7 +72,12 @@ def inspect(inputs: Path):
 
 
 if __name__ == "__main__":
-    report = inspect(ROOT / "coin_cs_sma_recovery_20261013/inputs")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--inputs", type=Path,
+                        default=Path(os.environ.get("COIN_INPUTS_DIR",
+                            str(ROOT / "coin_cs_sma_recovery_20261013/inputs"))))
+    args = parser.parse_args()
+    report = inspect(args.inputs)
     (HERE / "DAILY_PREFLIGHT.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: report[k] for k in ("status", "decision_days",
           "complete_full_five_200_close_days", "later_cube_2022_discrepancy_count")}))

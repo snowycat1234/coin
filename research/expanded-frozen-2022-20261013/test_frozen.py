@@ -1,5 +1,6 @@
 """Non-economic verification of the frozen 2022 target specification."""
 import json
+import os
 from pathlib import Path
 import unittest
 
@@ -8,11 +9,15 @@ import targets_2022
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+REPO = Path(os.environ.get("COIN_REPO_ROOT",
+    str(HERE.parents[1] if HERE.parent.name == "research" else ROOT / "coin_cs_sma_recovery_20261013/repo")))
+INPUTS = Path(os.environ.get("COIN_INPUTS_DIR", str(ROOT / "coin_cs_sma_recovery_20261013/inputs")))
+SAVED = Path(os.environ.get("COIN_SAVED_TARGETS_DIR", str(ROOT / "coin_strong_candidates_20261013")))
 
 
 class Frozen2022Tests(unittest.TestCase):
     def test_full_year_original_cube_and_warmup(self):
-        r = preflight_2022.inspect(ROOT / "coin_cs_sma_recovery_20261013/inputs")
+        r = preflight_2022.inspect(INPUTS)
         self.assertEqual(r["decision_days"], 365)
         self.assertEqual(r["complete_full_five_200_close_days"], 365)
         self.assertEqual(r["oldest_200_close_first_decision_utc"], "2021-06-16T00:00:00+00:00")
@@ -21,9 +26,7 @@ class Frozen2022Tests(unittest.TestCase):
 
     def test_original_saved_year_targets_remain_bit_exact(self):
         result = targets_2022.verify_history(
-            ROOT / "coin_cs_sma_recovery_20261013/repo",
-            ROOT / "coin_cs_sma_recovery_20261013/inputs",
-            ROOT / "coin_strong_candidates_20261013",
+            REPO, INPUTS, SAVED,
         )
         self.assertEqual(set(result), {"2023", "2025"})
         for row in result.values():

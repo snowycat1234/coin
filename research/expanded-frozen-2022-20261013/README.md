@@ -58,5 +58,9 @@ To rerun this non-economic preflight with the companion restored sources:
     python -m unittest discover -s coin_2022_frozen_coverage_20261013 \
       -p test_frozen.py -v
 
+In a standalone public checkout, set `COIN_REPO_ROOT` to that checkout and
+`COIN_INPUTS_DIR` / `COIN_SAVED_TARGETS_DIR` to local restored copies of
+the original SHA-pinned packets. `preflight_2022.py` also accepts `--inputs`.
+
 No protected 2026 March–September data, credentials, live accounts, paid
 resources, Library, target outputs or economic wallets were used.
