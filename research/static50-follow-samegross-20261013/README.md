@@ -1,0 +1,13 @@
+# Fixed STATIC50/FOLLOW same-gross preparation
+
+This is the exact pre-execution six-case package. It contains the unchanged original FOLLOW equations, complete actual 2024 trade-HLC source gate (31 December2023 warmup days plus366 evaluation days), saved2023/2025 FOLLOW matrices, frozen original STATIC50 arrays inside each new target packet, all three fixed derived target matrices, synthetic tests and independent exact-byte review receipt. No new historical result is represented by this publication.
+
+The recipe is fixed C=.5S+.5F, G=min(sum(abs(S)),sum(abs(C))), with both candidate C and new S direction control scaled down to G. The new STATIC50_SAMEGROSS control depends on F through G. It is never the original S; the unchanged original fine S accounts are separately reused. Equal target gross is not equal realized risk. All old FOLLOW/FADE and related STOPs remain. No alpha/OOS/venue certification is claimed.
+
+The runner uses the existing shared workspace restoration layout. To reproduce preparation, place this directory's exact contents in an absent coin_follow_samegross_20261013 directory alongside the already restored prior coin_* workspace dependencies. FROZEN_CODE.json enumerates exact own bytes and64 frozen dependency bytes, including both original26/28-entry native port manifests and their full28-entry union before financial imports. It fails closed if restoration/layout/identity differs. This is not a claim of a standalone repository-root runner; the prior public artifacts and source-provenance commits are explicitly retained in the manifests.
+
+Read PROTOCOL.md, CASE_BINDINGS.json, SOURCE_GATE.json under source_audit, PUBLIC_PROVENANCE.json, TARGET_PREPARATION.json and REVIEW_RECEIPT.json before execution. Original market-provider archives and prior financial account states are not duplicated here. The small Y2024_REAL_OHLC.npz projection retains verified actual high/low/close and exact clocks; no close or mark substituted for high/low. Existing native2024 ten-derived-mark-cell qualification remains.
+
+The two ordinary preparation checks are test_synthetic.py and run_cases.py --check-only using the existing fine Python environment. They make zero historical wallets. Historical launch still requires the bound independent receipt, separate parent GO, fresh source/hash/resource gates, absent state* path, bounded nonce-controlled workers and a single module-wide six-wallet batch. Changing state-root cannot authorize repeats. Publication does not imply GO or empirical success.
+
+No retained2026-03–09, Library, account keys, credential creation, new market provider, live order, deployment, main push or force push is used. Original2025 full-backup publication remains outside this module.
