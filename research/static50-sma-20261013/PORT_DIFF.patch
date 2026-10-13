@@ -1,0 +1,43 @@
+--- coin_native_half_mix_20261013/repo/research/static50-sma-20261013/native_wallet.py	1979-12-31 23:30:00.000000000 +0730
++++ coin_native_half_mix_20261013/repo/research/static50-sma-20261013/native_wallet_local.py	2026-10-13 16:17:39.641233777 +0800
+@@ -1,9 +1,9 @@
+-"""Frozen shared-wallet adapter, resource-guarded; no run while gate is STOP."""
++"""Location/provenance port of frozen native_wallet.py; financial path unchanged."""
+ import argparse,importlib.util,json,os,shutil,subprocess,time
+ from pathlib import Path
+ import numpy as np
+ HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
+-spec=importlib.util.spec_from_file_location('mix_verified_sma_native_apis',ROOT/'research/sma200-native-20261013/native_apis.py')
++spec=importlib.util.spec_from_file_location('mix_verified_sma_native_apis',HERE/'local_native_apis.py')
+ n=importlib.util.module_from_spec(spec);spec.loader.exec_module(n)
+ native=n.native;Closing=n.Closing;DAY=n.DAY;SYMBOLS=n.SYMBOLS
+ def data(key):
+@@ -13,19 +13,19 @@
+  np.testing.assert_array_equal(w,.5*a+.5*b);return d,w
+ def admission(margin,case_bytes,packet_bytes):return margin>=case_bytes+2*packet_bytes+1048576
+ def preflight(state):
+- assert not state.exists();p=json.loads((HERE/'NATIVE_PLAN.json').read_text());assert p['future_bounded_native_budget_if_admitted']['disk_reserve']==16106127360
+- case=max(sum(f.stat().st_size for f in (Path('/workspace/sma200-native-state')/('OBSERVED_'+year)).rglob('*') if f.is_file()) for year in ('Y2023','Y2025'))
+- packet=max(json.loads((ROOT/'research/sma200-native-20261013/result'/year/'INDEX.json').read_text())['packet_bytes'] for year in ('Y2023','Y2025'))
+- margin=shutil.disk_usage('/workspace').free-16106127360
+- assert admission(margin,case,packet),f'RESOURCE_STOP: reserve margin {margin}, need {case+2*packet+1048576}; no state created'
++ assert not state.exists() and state.parent.exists();p=json.loads((HERE/'NATIVE_PLAN_LOCAL.json').read_text());assert p['future_bounded_native_budget_if_admitted']['disk_reserve']==16106127360
++ # Original observed state is absent here. Do not let a missing reference count as zero.
++ case=150000000;packet=63204609
++ margin=shutil.disk_usage(state.parent).free-16106127360
++ required=max(209497350,case+2*packet+1048576)
++ assert margin>=required,f'RESOURCE_STOP: reserve margin {margin}, need {required}; no state created'
+  return p
+ def run(state,key,commit):
+- assert not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT)
+- assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip()==commit
++ assert commit=='b9c0020ec0ae9c7be991e58544bb5227657ef640'
+  P=preflight(state);n.verify();ready=json.loads((HERE/'input/READINESS.json').read_text());assert ready['protocol_SHA256']==n.file_sha(HERE/'PROTOCOL.json')
+  d,w=data(key);win=n.window(key);np.testing.assert_array_equal(d,np.arange(win['start'],win['end'],DAY))
+- assert ready['years'][key]['source_index_SHA256']==n.file_sha(Path(n.proto()['windows'][key]['prepared'])/'SOURCE_INDEX.json')
+- state.mkdir(parents=True);begin=time.monotonic();binding=dict(window=key,arm='STATIC50_SMA_HALF',science_source_commit=commit,protocol_SHA256=n.file_sha(HERE/'PROTOCOL.json'),native_plan_SHA256=n.file_sha(HERE/'NATIVE_PLAN.json'),readiness_SHA256=n.file_sha(HERE/'input/READINESS.json'),target_archive_SHA256=n.file_sha(HERE/'input'/(key+'.npz')),source_index_SHA256=ready['years'][key]['source_index_SHA256'],account_class=Closing.VERSION,quantity_profile_SHA256=n.profile_sha(),contract_from_initial_capital=True,persist_cash_close=False,final_day_target_zero=False,end_us=win['end'],terminal_signal_us=win['end']-360000000)
++ assert ready['years'][key]['source_index_SHA256']==n.file_sha(n.prepared(key)/'SOURCE_INDEX.json')
++ state.mkdir(parents=True);begin=time.monotonic();binding=dict(window=key,arm='STATIC50_SMA_HALF',science_source_commit=commit,financial_base_commit='b9c0020ec0ae9c7be991e58544bb5227657ef640',local_code_manifest_SHA256=n.file_sha(HERE/'LOCAL_CODE_MANIFEST.json'),native_wallet_local_SHA256=n.file_sha(HERE/'native_wallet_local.py'),local_native_apis_SHA256=n.file_sha(HERE/'local_native_apis.py'),protocol_SHA256=n.file_sha(HERE/'PROTOCOL.json'),native_plan_SHA256=n.file_sha(HERE/'NATIVE_PLAN_LOCAL.json'),readiness_SHA256=n.file_sha(HERE/'input/READINESS.json'),target_archive_SHA256=n.file_sha(HERE/'input'/(key+'.npz')),source_index_SHA256=ready['years'][key]['source_index_SHA256'],account_class=Closing.VERSION,quantity_profile_SHA256=n.profile_sha(),contract_from_initial_capital=True,persist_cash_close=False,final_day_target_zero=False,end_us=win['end'],terminal_signal_us=win['end']-360000000)
+  n.save(state/'BINDING.json',binding);n.save(state/'RUN_PROCESS.json',dict(pid=os.getpid(),source_commit=commit,stage='ACTUAL_ONE_SHARED_NATIVE_WALLET_STARTED',clock_UTC=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+  def factory(_daily,clocks,mode):
+   np.testing.assert_array_equal(clocks,d);assert mode=='LONG_SHORT'
