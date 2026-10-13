@@ -21,14 +21,19 @@ bit-exact reproduces both original 2023 and 2025 saved four-arm matrices
 and annual covariance. `preflight_2022.py`, `PROTOCOL.json`, and
 `test_frozen.py` contain no 2022 target generation or financial scoring.
 
-`GIT_ARCHIVE_MATRIX.json` inventories 110/120 SHA-bound original CORE5
-monthly 1m trade/mark ZIP receipts for Jan–Nov 2022 on the project's public
-Git branches. This task has not reassembled those originals locally. The
-remaining five Dec trade and five Dec mark monthly originals were not
-identified in the reviewed public Git manifests. A direct official archive
-HEAD timed out in this environment, and the cloud browser could list an
-official December object but was blocked from opening its checksum; this
-route was stopped. There is no provider-download ETA here.
+`GIT_ARCHIVE_MATRIX.json` now inventories 115/120 SHA-bound original CORE5
+monthly 1m trade/mark ZIPs: 110 Jan–Nov receipts plus five December trade
+ZIPs and CHECKSUM members in the already-public jump-share-risk INPUTS
+packet (SHA256 `285528c6c0e204e5d69632a4fdc7dd5ee5f17aeeeaffc2292a5fcea90e10a9ac`).
+The earlier 110/120 assessment preceded a read-only cloud cache lookup;
+it remains recorded as history. December's five mark monthly originals
+are still unlocated. Old SHA/size receipts for them are metadata, not
+recoverable ZIP bytes. No source ZIP was reassembled here, so original
+December trade minute-grid and Y2023 close parity still require checking.
+A direct official archive HEAD timed out in this environment, and the
+cloud browser could list an official December object but was blocked from
+opening its checksum; that route was stopped. There is no provider-download
+ETA here.
 
 The locally present original public `features.zip` funding archive has five
 2022 event tables and 5,550 actual recorded rate/event rows. SOL's 1,170
@@ -44,7 +49,7 @@ minutes** on July 12–13, 2022. Exact runs are ETH July12 12:57 (1), 13:07
 13:16–13:21 (6); XRP and DOGE July12 13:17–13:21 (5 each). They are
 recorded in the project's public Q3 mark cold recovery. No 2022 mark gap
 interpolation has been authorized or applied. The original-source full-year
-native gate remains closed even after recovering the December ZIPs unless
+native gate remains closed even after recovering the December mark ZIPs unless
 genuine mark observations resolve these gaps or a separately approved,
 clearly labeled sensitivity is frozen.
 

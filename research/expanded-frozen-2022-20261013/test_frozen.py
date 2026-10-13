@@ -39,8 +39,8 @@ class Frozen2022Tests(unittest.TestCase):
         self.assertEqual(protocol["days"], 365)
         self.assertEqual(protocol["expected_native_minutes_per_arm"], 525600)
         self.assertEqual(inventory["mark_gap_original_total"], 27)
-        self.assertEqual(git_archive["unique_month_symbol_family"], 110)
-        self.assertEqual(git_archive["december_missing"], 10)
+        self.assertEqual(git_archive["unique_month_symbol_family"], 115)
+        self.assertEqual(git_archive["december_missing"], 5)
         self.assertIn("No 2022 interpolation", protocol["market_source"]["mark_policy"])
 
 
