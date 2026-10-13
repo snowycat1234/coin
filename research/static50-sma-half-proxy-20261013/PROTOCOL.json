@@ -1,0 +1,19 @@
+{
+  "experiment": "static50-sma-half-proxy-20261013",
+  "status": "FROZEN_BEFORE_TARGET_GENERATION_AND_ECONOMIC_SCORING",
+  "request": "Fixed one-half of each already risk-controlled saved STATIC50 (CS+HOLD) and original downscale-only SMA200 target",
+  "years": [2023, 2025],
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"],
+  "arms": ["STATIC50", "SMA200", "COMBINED"],
+  "capital_per_independent_wallet_USDT": 10000,
+  "target_formula": "COMBINED[t,j] = 0.5*STATIC50[t,j] + 0.5*SMA200_10PCT[t,j], on exactly aligned full daily UTC calendars and CORE5 order; no second risk.scale, leverage amplification, fitting, or signal recalculation",
+  "source_admission": "Exact four original public Git NPZ byte hashes, INDEX identity, complete 365 Jan1-Dec31 decisions, ordered CORE5, finite targets, original 30% single asset and 60% gross limits, symmetric PSD daily annual covariance; exact original owned execution inputs",
+  "risk": "No post-mix sizing. Report actual annual covariance sigma of both components and mix; PSD triangle inequality yields sigma(mix) <= 0.5*sigma(STATIC50)+0.5*sigma(SMA200) <= max(component sigmas). Do not describe as exact all-day 10% matched risk or infer realized risk from estimated risk.",
+  "cash": "Signed opposite targets algebraically cancel; zeros are genuine uninvested cash, never unknown source values. Gross and turnover use netted target.",
+  "execution": "Unchanged conditional daily quantity proxy using original p0,p1,funding_per_unit,owned_interval_valid. Per-side .00135 total cost; Jan1 next-year hypothetical terminal exit paid. Three independent 10000 USDT wallets per year; no native account, exchange fill, margin, liquidation, capacity, or minQty certification.",
+  "inference": "Full-calendar same-date 14-calendar-day circular block bootstrap, 1000 draws, seeds 811762 (2023) and 811763 (2025), paired mean daily paid-proxy-return increments COMBINED minus each control. Conditional known development-year intervals, unadjusted for research selection; not holdout/OOS.",
+  "benchmarks": "Also report arithmetic mean of separate control cumulative net returns (initial 50/50 allocation, no shared execution) and compounded daily 50/50-rebalanced control daily returns; neither equals shared-wallet COMBINED quantity execution in general.",
+  "frozen_quality_gates": ["verified source identity, target/execution calendars, causal/synthetic assertions", "complete 365 paid proxy terminal and independent Decimal audit for every arm in both years", "COMBINED net USDT positive in each year", "COMBINED maximum drawdown <= 0.12 each year"],
+  "comparisons": "Report separate descriptive COMBINED-minus-STATIC50 and COMBINED-minus-SMA200 net USDT, paired daily-return CIs, gross exposure, realized annual volatility and drawdown, without requiring mix to beat both components; lower gross alone is not alpha.",
+  "stop": "Do not start economics until parent verifies target/code/protocol remote publication and explicitly authorizes score. No holdout 2026-03-01 through 2026-09-01, no new providers or fitted variants. Quality-gate success is not deployment approval."
+}
