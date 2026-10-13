@@ -1,0 +1,60 @@
+{
+  "experiment": "cs-sma-agreement-20261013",
+  "status": "FROZEN_BEFORE_TARGETS_AND_ECONOMIC_SCORING",
+  "scope": "One causal signed SMA200 agreement filter on existing weekly CS21. Known historical development only; not a new signal family or pristine OOS.",
+  "base_commit": "dbdae93b4a4b77eeef5afb9350d05f67b2c33f2b",
+  "source_commit": "53357f33f4e6ccb536af762fbff39b269c24d837",
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "years": [
+    2023,
+    2025
+  ],
+  "capital_per_independent_wallet": 10000,
+  "source_admission": "Exact original INPUTS_FINAL hashes; complete365 decisions,200 contiguous completed finite positive closes,30 past risk returns, actual owned p0/p1/funding/mask. Unknown remains unknown; never shorten calendar to eligible winners.",
+  "signals": {
+    "CS": "Existing public_targets weekly anchor1704067200000000,21day returns,top2 long/bottom2 short, sticky weekly ranking with original market_neutral raw weights and missing-mask semantics. Preserve exact tie behavior.",
+    "SMA": "sign(last completed close minus arithmetic mean of latest200completedcloses), zero means CASH. Raw .12 per eligible signed CORE5 asset.",
+    "AGREEMENT": "Keep CS raw leg only when signed SMA200 agrees; gate daily, no replacement ranking or raw-slot redistribution."
+  },
+  "risk": "Same original risk_budget.scale sample30day covariance ddof1 annual365, nominal10% risk target capped singleasset30% gross60%. May scale up below caps; this is a common-policy adaptation of old downscale-only SMA, not exact reproduction. Report capdays/shortfall and realized risk; never claim all-day matchedrisk.",
+  "arms": [
+    "CS",
+    "SMA200",
+    "STATIC50",
+    "AGREEMENT",
+    "AGREEMENT_NO_REALLOCATION"
+  ],
+  "arm_details": {
+    "STATIC50": "Scale half CS raw plus half SMA raw with same risk policy.",
+    "AGREEMENT": "Scale gated raw with common risk policy; primary candidate.",
+    "AGREEMENT_NO_REALLOCATION": "Filter already risk-sized CS weights by same SMA gate, do not resize survivors; predefined exposure diagnostic, not alternative winner selection."
+  },
+  "execution": "Unchanged reviewed daily quantity proxy, decisions00UTC based completedavailablecloses, real trade00:01OPEN+1us, ownership24h, actual signed funding_per_unit originalrawunitstrictpastmark, per-sidefee5.5bp+spread4bp+slippage4bp=.00135, paid hypothetical terminal nextJan1; no leverage/MMR/capacity/minQtysimulation.",
+  "tests": [
+    "SMAcurrentbaravailability and200history",
+    "bothlongshortandflat directions",
+    "future price AND NaN-mask prefix invariance",
+    "CS legacy raw/weekly/tie parity",
+    "raw agreement no replacement",
+    "riskcaps/diagnostic no increase",
+    "independent Decimal inventory and NAV arithmetic"
+  ],
+  "gates": {
+    "source_identity_and_causal_tests": true,
+    "full365_and_paid_proxy_terminal_both_years": true,
+    "primary_positive_net_both_years": true,
+    "primary_positive_increment_over_each_CS_SMA_STATIC50_both_years": true,
+    "paired_daily_increment_CI_lower_over_each_control_positive_both_years": true,
+    "primary_MDD_max": 0.12
+  },
+  "inference": "14calendar-day circular paired-date bootstrap1000draws; frozen seeds811760(Y2023),811761(Y2025), sharedindicesacrossallarms. Conditional seenhistorical intervals, notresearchselectionadjusted. No choosingyearorwindowafterresults.",
+  "dedup": "Old CS absolute short-confirmation using21day own return testedandfailed; old additive SMA/CSmix alreadytested. This specific symmetricSMA200gate must be checked bysource reviewer; stopwithoutnewscore ifexactduplicated.",
+  "budget": "Own dot compute, one CPU threads1, no fitting/gridsearch/newproviderdownload/nativewallet; fivearms*twoyears dailyproxy only. Reusepubliccompactinputs; persistcode/protocol/targets before scoring, outputs andcoldrestore after.",
+  "stop": "If frozen information/source/cost gates fail preserve and do not expand heavy native run. Recipefailure doesnotstopproject; noholdout2026Mar1-Sep1/unknownreserve access."
+}
