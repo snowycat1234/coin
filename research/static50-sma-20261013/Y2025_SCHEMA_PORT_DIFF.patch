@@ -1,0 +1,45 @@
+--- local_native_apis.py
++++ local_native_apis_2025.py
+@@ -96,7 +96,7 @@
+ 
+ 
+ def verify():
+-    manifest = json.loads((HERE / 'LOCAL_CODE_MANIFEST.json').read_text())
++    manifest = json.loads((HERE / 'LOCAL_CODE_MANIFEST_2025.json').read_text())
+     for path, expected in manifest['sha256'].items():
+         assert file_sha(ROOT / path) == expected, path
+     assert profile_sha() == '94b2238b25ed345a24a1fa148c6f35523b8efe9bf47496958028844432cb8ebf'
+@@ -111,7 +111,12 @@
+     assert index['calendar'] == ([1672531200000000, 1704067200000000] if key == 'Y2023'
+                                  else [1735689600000000, 1767225600000000])
+     assert index['days'] == 365 and index['symbol_order'] == list(SYMBOLS)
+-    assert index['funding_events'] == 5475 and index['minutes_per_asset'] == 525600
++    assert index['funding_events'] == 5475
++    assert sum(month['minutes'] for month in index['months']) == 525600
++    if key == 'Y2023':
++        assert index['minutes_per_asset'] == 525600
++    else:
++        assert 'minutes_per_asset' not in index  # Frozen 2025 index omits this aggregate.
+     for name in ('EVENTS.json', 'DAILY.json'):
+         record = index['files'][name]
+         assert file_sha(path / name) == record['SHA256'] and (path / name).stat().st_size == record['bytes']
+--- native_wallet_local.py
++++ native_wallet_local_2025.py
+@@ -3,7 +3,7 @@
+ from pathlib import Path
+ import numpy as np
+ HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
+-spec=importlib.util.spec_from_file_location('mix_verified_sma_native_apis',HERE/'local_native_apis.py')
++spec=importlib.util.spec_from_file_location('mix_verified_sma_native_apis',HERE/'local_native_apis_2025.py')
+ n=importlib.util.module_from_spec(spec);spec.loader.exec_module(n)
+ native=n.native;Closing=n.Closing;DAY=n.DAY;SYMBOLS=n.SYMBOLS
+ def data(key):
+@@ -25,7 +25,7 @@
+  P=preflight(state);n.verify();ready=json.loads((HERE/'input/READINESS.json').read_text());assert ready['protocol_SHA256']==n.file_sha(HERE/'PROTOCOL.json')
+  d,w=data(key);win=n.window(key);np.testing.assert_array_equal(d,np.arange(win['start'],win['end'],DAY))
+  assert ready['years'][key]['source_index_SHA256']==n.file_sha(n.prepared(key)/'SOURCE_INDEX.json')
+- state.mkdir(parents=True);begin=time.monotonic();binding=dict(window=key,arm='STATIC50_SMA_HALF',science_source_commit=commit,financial_base_commit='b9c0020ec0ae9c7be991e58544bb5227657ef640',local_code_manifest_SHA256=n.file_sha(HERE/'LOCAL_CODE_MANIFEST.json'),native_wallet_local_SHA256=n.file_sha(HERE/'native_wallet_local.py'),local_native_apis_SHA256=n.file_sha(HERE/'local_native_apis.py'),protocol_SHA256=n.file_sha(HERE/'PROTOCOL.json'),native_plan_SHA256=n.file_sha(HERE/'NATIVE_PLAN_LOCAL.json'),readiness_SHA256=n.file_sha(HERE/'input/READINESS.json'),target_archive_SHA256=n.file_sha(HERE/'input'/(key+'.npz')),source_index_SHA256=ready['years'][key]['source_index_SHA256'],account_class=Closing.VERSION,quantity_profile_SHA256=n.profile_sha(),contract_from_initial_capital=True,persist_cash_close=False,final_day_target_zero=False,end_us=win['end'],terminal_signal_us=win['end']-360000000)
++ state.mkdir(parents=True);begin=time.monotonic();binding=dict(window=key,arm='STATIC50_SMA_HALF',science_source_commit=commit,financial_base_commit='b9c0020ec0ae9c7be991e58544bb5227657ef640',local_code_manifest_SHA256=n.file_sha(HERE/'LOCAL_CODE_MANIFEST_2025.json'),native_wallet_local_SHA256=n.file_sha(HERE/'native_wallet_local_2025.py'),local_native_apis_SHA256=n.file_sha(HERE/'local_native_apis_2025.py'),protocol_SHA256=n.file_sha(HERE/'PROTOCOL.json'),native_plan_SHA256=n.file_sha(HERE/'NATIVE_PLAN_LOCAL.json'),readiness_SHA256=n.file_sha(HERE/'input/READINESS.json'),target_archive_SHA256=n.file_sha(HERE/'input'/(key+'.npz')),source_index_SHA256=ready['years'][key]['source_index_SHA256'],account_class=Closing.VERSION,quantity_profile_SHA256=n.profile_sha(),contract_from_initial_capital=True,persist_cash_close=False,final_day_target_zero=False,end_us=win['end'],terminal_signal_us=win['end']-360000000)
+  n.save(state/'BINDING.json',binding);n.save(state/'RUN_PROCESS.json',dict(pid=os.getpid(),source_commit=commit,stage='ACTUAL_ONE_SHARED_NATIVE_WALLET_STARTED',clock_UTC=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+  def factory(_daily,clocks,mode):
+   np.testing.assert_array_equal(clocks,d);assert mode=='LONG_SHORT'
