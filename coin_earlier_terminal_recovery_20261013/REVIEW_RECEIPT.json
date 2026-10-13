@@ -1,0 +1,166 @@
+{
+  "anchors": [
+    {
+      "account_status": "ACTIVE",
+      "case_id": "Y2025_STATIC50_FINE_ORIGINAL",
+      "cursor": 1761609600000000,
+      "durable_days": 300,
+      "durable_minutes": 432000,
+      "event_cursor": 4505,
+      "financial_advances": 0,
+      "funding_journal_rows": 4505,
+      "maximum_remaining_worker_wall_seconds": 869.7002997060044,
+      "original_sampled_peak_RSS": 440098816,
+      "original_worker_elapsed_seconds": 330.29970029399556,
+      "pending": {},
+      "pointer_SHA256": "b43c130eaef2dbf69628efaf909554b35877288e033d23ff5c1484735a3dd124",
+      "previous_quote": {
+        "BTCUSDT": 3056794.5027,
+        "DOGEUSDT": 477672.29357,
+        "ETHUSDT": 3554134.10175,
+        "SOLUSDT": 690209.1762,
+        "XRPUSDT": 397485.93751
+      },
+      "snapshot_SHA256": "51913c7aeadc37717e3c940c136a02c17a67d4c404f3603bc8b91c8d3d936fa5",
+      "state_hash": "e50753c8e09d6b13623fb66039091a581c1fdb52f200d5c7ab1f636528f81e71",
+      "stop": null,
+      "terminal": false
+    },
+    {
+      "account_status": "ACTIVE",
+      "case_id": "Y2025_COMBINED_FINE_ORIGINAL",
+      "cursor": 1764201600000000,
+      "durable_days": 330,
+      "durable_minutes": 475200,
+      "event_cursor": 4950,
+      "financial_advances": 0,
+      "funding_journal_rows": 4950,
+      "maximum_remaining_worker_wall_seconds": 869.6713234429917,
+      "original_sampled_peak_RSS": 425332736,
+      "original_worker_elapsed_seconds": 330.3286765570083,
+      "pending": {},
+      "pointer_SHA256": "6c8d905610e7daf98a8b0b0482453484e0bc2bad7e24e991eb2f0f7e1335d241",
+      "previous_quote": {
+        "BTCUSDT": 2560708.5501,
+        "DOGEUSDT": 112549.63108,
+        "ETHUSDT": 2348409.86163,
+        "SOLUSDT": 496844.5099,
+        "XRPUSDT": 217716.98012
+      },
+      "snapshot_SHA256": "ddabc9fad347f89062e9af95610a06a858c1c1847725f9a45258f1f78fcb6f63",
+      "state_hash": "ef07bc6bafe130d1fb841a8f49d3f2e872c18dea9ab78879d67ac88bd75763be",
+      "stop": null,
+      "terminal": false
+    }
+  ],
+  "bootstrap_SHA256": "cbfcf0d83c952755512646544ebe3383e228fa5d09c8cc1f0d08104149bd32a9",
+  "controller_verification": {
+    "economic_halt_retained_without_censoring_other_fixed_case": true,
+    "financial_RESULT_serialization_AST_identical_to_original_except_stricter_pure_resource_size_guard": true,
+    "fresh_CPU_per_case": true,
+    "last_case_unhandled_exception_keeps_STOP_PARTIAL": true,
+    "live_external_CPU_overlap_fail_closed": true,
+    "new_exact_recovery_publication_gate_repeated_in_controller_and_worker": true,
+    "one_shot_marker_and_exact_destination": true,
+    "restored_finance_verified_before_advance": true
+  },
+  "durable_zero_advance_receipt_SHA256": "4f6b266942589e87a12aea27203cb5374e1d0eefc0af2b132f65844ff3a93078",
+  "financial_advances": 0,
+  "freeze_manifest_SHA256": "301e930cd3a6534f927599051c33a0b92ef8bea9fec1d2418f7181526e8953e5",
+  "new_variants": 0,
+  "new_wallets": 0,
+  "observer_verification": {
+    "complete_525540_row_pre_exit_prefix_and_actual_terminal_capacity_audit_required_after_run": true,
+    "new_ACCOUNT_and_RESULT_SHA_bound": true,
+    "recovery_aggregate_and_original_STOP_SHA_checked_first": true,
+    "same_original_frozen_zero_financial_advance_cold_audit_reused_without_source_edits": true,
+    "two_layer_cold_receipts": true
+  },
+  "original_STOP_receipt_SHA256": "38df9083bb6c81519c6222afebd81b6f6e0611da91b7863347d831446f2307c0",
+  "original_financial_freeze_SHA256": "edb5f807429f59a5da66e9e4d41c1ebd6076b7495fcf9aa5870dd466e6227e50",
+  "parent_GO_granted_by_review": false,
+  "remaining_launch_conditions": [
+    "Exact remote recovery publication for this manifest and review receipt",
+    "Fresh conservative one-worker shared admission",
+    "Separate parent GO"
+  ],
+  "resource_contract": {
+    "GPU_use": 0,
+    "disk_reserve_bytes": 16106127360,
+    "fixed_remaining_resume_wall_and_CPU_seconds": 869,
+    "host_used_cap_bytes": 8000000000,
+    "max_parallel": 1,
+    "original_plus_recovery_same_wallet_state_cap_bytes": 250000000,
+    "per_case_original_CPU_upper_bound_plus_resume_CPU_cap_seconds": 1200,
+    "per_case_original_plus_resume_wall_cap_seconds": 1200,
+    "restore_in_controller_resume_elapsed": true,
+    "swap_bytes": 0,
+    "worker_AS_cap_bytes": 4000000000,
+    "worker_RSS_stop_bytes": 2000000000,
+    "worker_affinity_CPUs": 1
+  },
+  "resource_stop_diagnosis": {
+    "characterization": "Overly conservative reserve accounting; the raw host-used 8GB branch did not trigger. Exact triggering host counters were not saved and remain UNKNOWN.",
+    "fix": "Keep original full reservation formula and all caps. Run one resumed account at a time, with one full 2000000000-byte reservation.",
+    "formula": "host_used already includes live workers, then the full future two-worker 4000000000-byte reservation is added again",
+    "original_stop_reason": "SHARED_RESOURCE_CONFLICT:Host cap cannot reserve guard-pack plus financial workers",
+    "original_worker_sampled_RSS_sum": 865431552
+  },
+  "resume_plan_SHA256": "83b5d602954a3c394ce9484ec606aae80b3a46919cd743d09087b581747f3a8f",
+  "resume_risks": [
+    "Any volatile suffix after the last 300/330-day checkpoint was lost and will be deterministically replayed from the exact durable anchor; no persisted financial prefix is replayed.",
+    "The unchanged conservative reservation can still STOP if background host memory grows. It does not relax the 8GB cap or justify discarding a STOP.",
+    "If the one-shot continuation fails, preserve all genuine states and receipts. This review does not grant another attempt or a new batch.",
+    "Completion and paid-flat economics remain NOT_RUN for the resumed suffix. Synthetic and zero-advance checks do not establish economic improvement."
+  ],
+  "resume_started": false,
+  "retained_2026_data_opened": 0,
+  "review_blockers": [],
+  "reviewed_dependencies_SHA256": {
+    "coin_earlier_terminal_exit_20261013/FROZEN_CODE.json": "edb5f807429f59a5da66e9e4d41c1ebd6076b7495fcf9aa5870dd466e6227e50",
+    "coin_earlier_terminal_exit_20261013/PUBLICATION_RECEIPT.json": "23a14519e2e2770e70bbbb91ef88e820b69b0cd3fc4ef0fd033da7e09f975249",
+    "coin_earlier_terminal_exit_20261013/REVIEW_RECEIPT.json": "7447dc4bc343e5bc32e79740ce7b0d4807cfe0c7ac39df9e61e097f3523858d7",
+    "coin_earlier_terminal_exit_20261013/freeze_terminal.py": "7131254f70e02f6fae589ff17d532e213736c70a92ac87fc573102f5214f4aad",
+    "coin_earlier_terminal_exit_20261013/resource_gate.py": "e29de5e816620fa86ada83c96fa3f57503f68f282fa4bd56292360d8c132d4ae",
+    "coin_earlier_terminal_exit_20261013/run_cases.py": "c708ce7b6ef1275483c0e4fe859c7a3ea0ce3b05a804c0c02cb74e63ff317ca2",
+    "coin_earlier_terminal_exit_review_20261013/DURABLE_STOP_REVIEW_RECEIPT.json": "4f6b266942589e87a12aea27203cb5374e1d0eefc0af2b132f65844ff3a93078"
+  },
+  "reviewed_files_SHA256": {
+    "PROTOCOL.md": "97772d9dcf1209f0ea19f08c37ff6c5d311137961fd71c411051c359b75509bc",
+    "RESUME_PLAN.json": "83b5d602954a3c394ce9484ec606aae80b3a46919cd743d09087b581747f3a8f",
+    "cold_recovery.py": "7ba837c66e55bc49a6b8ce0114534cc0e3eb2a24d3db48fc5b2829c794ccd418",
+    "resume_cases.py": "bab8878fe1f94b9a3e513e348e10f6009fc54116b797634df145440a3ef425f4",
+    "resume_limits.py": "8f98fb870b57f4cbd4cdac4e569cacb9f16d382d7261754be26b5787bf9b13a8",
+    "test_resume.py": "bb2b741a06ef4810f0312f7c3ed2a0253944a5d2a7ac918dbbb79653dcc65b7f"
+  },
+  "scope": "Operational one-shot serial continuation of the same two interrupted accounts, from exact existing durable anchors. No financial kernel, target, cost, funding, mask, terminal timing or calendar changes.",
+  "source_downloads": 0,
+  "state_integrity": {
+    "ACTIVE_before_resume": true,
+    "account_snapshot_exact": true,
+    "all_365x5_targets_and_weights_exact": true,
+    "event_cursor_and_funding_journal_exact": true,
+    "minute_chunks_exact": true,
+    "only_financial_suffix_after_durable_cursor_may_advance": true,
+    "original_RUN_BINDING_and_BINDING_copied_exact_bytes": true,
+    "original_STOP_and_source_pointers_not_overwritten": true,
+    "original_economic_stop_null": true,
+    "pending_and_order_sequence_preserved": true,
+    "previous_quote_equals_final_durable_completed_minute": true,
+    "scheduler_state_exact": true,
+    "terminal_false_before_resume": true
+  },
+  "status": "PASS_INDEPENDENT_PRE_GO_SERIAL_RESUME_REVIEW",
+  "tests": {
+    "check_only_affinity_note": "The unchanged controller admission requires two available CPU candidates; initial reviewer check-only pinned to one CPU failed this guard. Rechecked with two candidate CPUs and passed. Actual resumed workers remain pinned to one CPU.",
+    "independent_check_only_receipt_SHA256": "d7e5ff375ada906697c4af0a81393751dce64fe760b15702cf804f0f42e86d2a",
+    "independent_log_SHA256": "d7cf5123592c7b372ef51dfce47f984999d464fca50224e4bc177316dcd2d9c6",
+    "independent_mock_controller_tests_passed": 6,
+    "independent_real_durable_zero_advance_restores_passed": 2,
+    "independent_source_SHA256": "fe391663dcc51ed3364e335a64118695691f3c6ac5ef3858a5c28425654b38cb",
+    "initial_mock_fixture_errors_preserved": "Initial mocks omitted publication-return and anchor fields; corrected independently. AST comparison excludes only the strengthened operational same-wallet-size guards.",
+    "subprocesses_spawned_by_independent_tests": 0,
+    "worker_log_SHA256": "97b2cb216f5e11e338e9130b3ab88a31c905cdfce57084acb9d6fe2d0c71fe49",
+    "worker_pure_tests_passed": 7
+  }
+}
