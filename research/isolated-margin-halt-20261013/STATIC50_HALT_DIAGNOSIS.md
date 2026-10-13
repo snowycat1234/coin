@@ -52,4 +52,4 @@ The portfolio NAV remains positive because cash and the other positions' gains o
 - `coin_expanded_coverage_20261013/prepared_2024_cold/months/2024-11.npz`
 - `coin_native_half_mix_20261013/repo/src/quant/perpetual_account.py` — SHA-256 `ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110`
 - `coin_native_half_mix_20261013/repo/research/quantity-grid-sensitivity-20261012/QUANTITY_PROFILE.json` — SHA-256 `94b2238b25ed345a24a1fa148c6f35523b8efe9bf47496958028844432cb8ebf`
-- `coin_2024_halt_diagnosis_20261013/test_isolated_policy_synthetic.py` — SHA-256 `dc440d97dc76bc015a51445ec20e4cdce85550b02af1c64d7f817627b5954df5`
+- `coin_2024_halt_diagnosis_20261013/test_isolated_policy_synthetic.py` — SHA-256 `75360e2de5875607fb921d4b87cd2825e36411b97ecc68b32c4ba8b997694bac`
