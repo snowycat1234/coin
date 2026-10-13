@@ -1,0 +1,57 @@
+{
+  "experiment": "FROZEN_CORE5_FULL_2022_BEAR_FIVE_ARM_SOURCE_GATED",
+  "status": "FROZEN_BEFORE_2022_TARGET_GENERATION_AND_ECONOMIC_SCORING",
+  "role": "Previously seen bear-year development episode; not independent OOS evidence or live investment approval",
+  "calendar_utc": [
+    "2022-01-01T00:00:00Z",
+    "2023-01-01T00:00:00Z"
+  ],
+  "days": 365,
+  "expected_native_minutes_per_arm": 525600,
+  "symbols_ordered": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "arms": [
+    "CS_MATCHED",
+    "VOL_MATCHED",
+    "STATIC50",
+    "SMA200_10PCT",
+    "EXACTHALF"
+  ],
+  "daily_source": {
+    "path": "coin_cs_sma_recovery_20261013/inputs/Y2023.npz",
+    "origin": "Whole original research/settled-funding-direction-20261012/public/INPUTS_FINAL/PACKET.zip at source commit 53357f33f4e6ccb536af762fbff39b269c24d837",
+    "SHA256": "1c500e9d5b0244a1daaabc597d7cc5ae97a21a156cc42d8a44a1504b821e599f",
+    "warmup": "All five require 200 contiguous finite positive completed daily closes on each UTC decision. On 2022-01-01 the oldest required close-availability is 2021-06-16. Canonical fixed weekly anchor back-ranks on 2021-12-27 with its own 31-close context. Missing means UNKNOWN, never silent CASH.",
+    "discrepant_other_original": "Whole Y2025.npz SHA256 88a698ceed87603a36ca2bcf4ae76d805aa90085b344bbeee47e58a8c9770add differs in ten SOL/XRP 2022 finite/NaN cells. Never splice its history into Y2023 or silently use it for 2022. Trade-minute close parity must be separately checked."
+  },
+  "targets": {
+    "logic": "Exact reuse of frozen expanded-2024 targets_2024.py formulas and SHA-pinned original public modules, changing only decision calendar to full UTC 2022 and input cube to whole original Y2023. Retain fixed Monday anchor 2024-01-01 for historical weekly back-ranking; do not reset ranking on 2022-01-01.",
+    "CS_MATCHED": "Canonical public_targets weekly 21-day relative-return top2 long/bottom2 short, raw gross .6; original daily signed covariance risk downscale, then common=min(.10, CS sigma, HOLD sigma) matching and original portfolio risk-budget scale.",
+    "VOL_MATCHED": "Original unconditional long .6/K eligible (K=5 here), original signed covariance downscale from 30 returns, same common matching and original portfolio risk-budget scale.",
+    "STATIC50": "Original risk-budget scale of .5*old matched CS + .5*old matched HOLD before final budget scales; not average of post-budget arms.",
+    "SMA200_10PCT": "Original main signed_intents SMA column zero, rolling200 min_periods200 mean including current completed available close, .6/K for all eligible including zero-direction members, original signed covariance downscale only.",
+    "EXACTHALF": "Literal .5*STATIC50 + .5*SMA200_10PCT for each same ordered UTC day and asset, no subsequent scale; opposing signed positions cancel to cash.",
+    "risk": "Original past-30 daily return sample covariance ddof1 annualized by 365, .10 nominal annual risk, .3 absolute asset and .6 gross caps. Preserve under-risk cap shortfall.",
+    "regression": "Before 2022 targets, bit-exact reproduce original 2023 and 2025 CS_MATCHED, VOL_MATCHED, STATIC50, SMA200_10PCT and annual covariance from original source and saved target bytes. Future source rows cannot affect past targets."
+  },
+  "market_source": {
+    "expected": "Five full-year actual trade 1m streams and five full-year actual mark 1m streams, plus all actual funding events/rates and strict-prior actual marks for each charged event. Full year is mandatory, no favorable cut or missing-as-cash.",
+    "current_gate": "STOP_SOURCE_INCOMPLETE. 110 of 120 Jan-Nov 2022 monthly trade/mark original ZIPs have SHA-bound public Git manifests, but have not been locally reconstructed; ten December monthly trade/mark ZIPs are not located in reviewed public Git. Official monthly-plus-daily repair leaves 27 actual mark-minute gaps on July12/13. Full 2022 funding event histories are present in original public feature archive but 18 saved prior-mark fields are null.",
+    "source_reuse": "Inventory and recover already available public project or official archive originals first, verify SHA/checksum/CRC/CSV member, exact UTC minute grids, daily close parity with Y2023 and funding event chronology. Reuse original 2022 SOL/XRP trade daily gap repairs only after original bytes are recovered and verified.",
+    "mark_policy": "No 2022 interpolation or unknown mark fill approved. Preserve all actual missingness and HALT financial admission if any remains. Do not apply the 2024 two-minute bridge to 2022's different gaps. If exact original marks cannot be recovered from authorized genuine sources, report source failure and seek a separately frozen/approved mark-only sensitivity with day-start checkpoints and impacted-position/margin audit.",
+    "alternate_sources": "An alternate actual mark series must be same venue, instrument, mark semantics, minute timestamp, and verified true observation, with overlap parity and provenance. Index, premium, last trade and a differently calculated provider mark are not substitutes. A previously denied provider endpoint is not retried through another host or route.",
+    "existing_public_git": "Jan-Sep 45 trade originals in research/core5-continuous-risk600-20261011/phases/Q1–Q32022; Jan-Sep 45 mark originals in research/core5-continuous-mark-20261011/phases/Q1–Q32022; Oct/Nov twenty trade/mark originals in both REUSE_OCTNOV2022 source receipts, backed by research/core5-october-warmup-20261011 and research_artifacts/e5_bear_recovery_20261008. Each needs actual original ZIP part reassembly and hash/CRC/Grid verification in this task. December five trade and five mark monthly ZIPs unlocated in reviewed public Git.",
+    "funding": "Whole original feature archive coin_native_half_mix_20261013/source/2023_FUND/features.zip SHA256 bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30 contains all five original funding event histories for 2022; BTC/ETH/XRP/DOGE 1095 events each at 8h; SOL 1170 events with reported intervals 8h×1069, 2h×99, 4h×2. All rates finite and clocks unique; preserve actual irregular timing, never assert fixed eight-hour SOL slots. Eighteen archived prior-mark fields null; recover strict-prior actual source or stop.",
+    "known_gaps_utc": "ETH 2022-07-12 12:57(1m),13:07(1m),13:15–13:21(7m),13:52(1m), plus 2022-07-13 06:59(1m); SOL 2022-07-12 13:16–13:21(6m); XRP and DOGE 2022-07-12 13:17–13:21(5m each). Exact open-ms list in public Git research/core5-continuous-mark-20261011/phases/Q32022/RECOVERY.json."
+  },
+  "native_if_source_admitted": "Same original 2024 NativeDailySimulator and quantity-grid account class and exact original 2024 account/quantity/source code SHAs. Fresh independent 10,000 USDT shared wallet per arm; BASE27 per-side 5.5bp fee+4bp half-spread+4bp slippage, actual raw funding scale1, 1x isolated, no auto top-up, MMR .005, .99 prior NAV sizing, .3 asset/.6 gross target caps, previous actual quote volume*.001 capacity, DAILY_TARGET five attempts, persist_cash_close=false, final_day_target_zero=false, original paid terminal six minutes with five reduce attempts. Separate capital each arm; no year stitching or silently freed residual. Funding scheduler must use actual 2022 event clocks and reported 2h/4h/8h intervals; 2024 fixed-eight-hour source assertion is inapplicable to SOL 2022.",
+  "comparison_if_admitted": "Whole365-day net and marked/paid distinction, realized daily volatility, observed-minute maximum drawdown, worst30 days, price/funding/cost, turnover/exposure, liquidation/stop, inventory/NAV reconciliation, and paired same-date 14-calendar-day circular bootstrap seed811764 with 1000 draws for EXACTHALF versus each arm. Previously seen descriptive episode, no selection-adjusted inference.",
+  "qualification": "Separate source, target, and accounting/inventory/terminal gates from performance. Positive net, <=12% observed-minute maximum drawdown, no liquidation, paid terminal flat are fixed descriptive 2024 gates reused here, never deployment approval.",
+  "publication_order": "Freeze and publish 2022 protocol, target code, daily preflight and source inventory first. Parent verifies identities and issues GO before target generation. Reconstruct and certify all 2022 original market source separately. Only then may parent issue a distinct GO for economic wallets.",
+  "excluded": "Protected 2026-03-01 through 2026-09-01 or unknown holdouts; live orders, credentials, paid providers, new access, third-party contact, provider blocks by alternate route, new fits, fee/risk/account tweaks, window cherry-picking, or fabricated source rows."
+}
