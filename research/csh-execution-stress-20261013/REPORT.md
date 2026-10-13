@@ -66,3 +66,5 @@ python research/csh-execution-stress-20261013/cold_remote.py --commit EXACT_PUSH
 历史重放需要恢复原真实source，不能直接拿公开指标当行情：recover.py恢复字节绑定的金融源码和原目标；restore_source_code.py + prepare2021.py复用公开2021解析/资金费/边界代码；prepare2023.py/prepare2025.py仅恢复旧公开Git行情与真实事件，并逐月逐文件匹配原hash，不生成新策略目标。原预先发布SOURCE_BINDINGS/PINNED_CODE_AND_TARGETS提供全部定位/哈希。当前已验证36/36月份、各年5475真实事件、完成日价格。2021source index只含运行统计的字段会变，实际12月NPZ与EVENTS/DAILY字节完全相同。
 
 Binance观测+条件Bybit费用/过滤器/MMR/到达时间仍是跨场所代理；funding使用原RAW_AS_FRACTION，单位/历史到达/真实venue清算仍未认证。全部已见开发集，不称真实实盘、严格OOS或可靠实盘APR。封存2026-03-01至2026-09-01正文未访问；锁文件本实例不存在，未解析。API403未重试/换API域；未碰dot SMA或60分钟终端窗口、旧源代码、main或环境设置。
+
+Public contract addendum: see PUBLIC_REPRODUCIBILITY.json and README.md. New public entry removes only private non-economic metadata dependence and checks frozen financial/source/target hashes. Three-year source hash gates and four nonfinancial tests passed; authorized historical launch is provided but NOT executed/verified. Original freeze/run/results unchanged; wallets remain six. Exact remote d7cf56a readonly finance/indicator recovery passed for all six after two preserved HTTP503 interruptions.
