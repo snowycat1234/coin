@@ -3,8 +3,11 @@ import argparse,gzip,io,json,time,zipfile
 from decimal import Decimal,localcontext
 from pathlib import Path
 import numpy as np
-from native_apis import HERE,ROOT,SYMBOLS,DAY,native,git,sha,file_sha,save,proto,verify
-from driver import directional_parts
+from native_apis import HERE,ROOT,SYMBOLS,DAY,native,git,sha,file_sha,save,proto,verify,load
+# Existing adapters change sys.path and also use the bare name "driver".
+# Bind our report helper by its exact file, without altering financial modules.
+directional_parts=load('sma_readonly_directional_api',HERE/'driver.py').directional_parts
+assert directional_parts.__module__=='sma_readonly_directional_api'
 
 PREFIXES={'Y2023':'research/quantity-grid-sensitivity-20261012/result/P2/CS_MATCHED/',
           'Y2025':'research/portfolio-risk-2025-native-20261012/result/Y2025/CS_MATCHED/'}
