@@ -1,0 +1,579 @@
+{
+  "all_frozen_quality_gates_pass": true,
+  "bootstrap": {
+    "block_calendar_days": 14,
+    "draws": 1000,
+    "seeds": {
+      "2023": 811762,
+      "2025": 811763
+    },
+    "shared_paired_dates": true
+  },
+  "capital_per_independent_wallet_USDT": 10000.0,
+  "caveats": [
+    "Known development years, not pristine out-of-sample or holdout",
+    "Conditional proxy only: no native account, margin, liquidation, capacity, minQty, or fills",
+    "Paired CIs are conditional and not research-selection-adjusted",
+    "Quality gates do not authorize deployment"
+  ],
+  "comparison_not_quality_gate": "No required win over both components, no alpha claim from lower gross, no deployment approval.",
+  "economic_model": "UNCHANGED_DAILY_QUANTITY_REFERENCE",
+  "execution_input_hashes": {
+    "2023": "1c500e9d5b0244a1daaabc597d7cc5ae97a21a156cc42d8a44a1504b821e599f",
+    "2025": "88a698ceed87603a36ca2bcf4ae76d805aa90085b344bbeee47e58a8c9770add"
+  },
+  "experiment": "static50-sma-half-proxy-20261013",
+  "original_source_hashes": {
+    "SMA200_Y2023.npz": "2047463e7be0ea4f086de744018d65924568dbd2e37f5960e75951c32746abf7",
+    "SMA200_Y2025.npz": "595425c86df274c6c6105d058d478d772c75ae75cb9c6d2c3ca8c5b9b4c1d968",
+    "STATIC50_Y2023.npz": "e81bf92d3599a6d3059ab462ac984ed9cc066647b1ea839d6147d2e10c40359f",
+    "STATIC50_Y2025.npz": "5e525cf65a5519a739d7ce2baf9c83809af44a1b9722f37fcf9891ede79bbf4e"
+  },
+  "per_side_cost_rate": 0.00135,
+  "protocol_SHA256": "ea74b7f8b876993d84951e5a8e2f9e03e8384b6546b0f28f7e984a0fe084032f",
+  "publication_record_SHA256": "4591051d6546197e00d27d082a46f879269a8cbdedd92264d1f93dc211650203",
+  "published_commit": "2a0f9f29299ba9d1b12fb5fa9321460da5e4d30f",
+  "quality_gates": {
+    "combined_max_drawdown_le_12pct_both_years": true,
+    "combined_net_positive_both_years": true,
+    "complete_paid_proxy_terminal_both_years": true,
+    "independent_Decimal_audit_all_arms_both_years": true,
+    "source_identity_and_full_calendars": true
+  },
+  "status": "CONDITIONAL_SAVED_HISTORICAL_PROXY",
+  "target_manifest_SHA256": "dc608f1760e9225252130ff767e5fa13b9e29b0cda21d333ab3e83b434631955",
+  "years": {
+    "2023": {
+      "arms": {
+        "COMBINED": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "10257.2560703753182585225610732324172585693035183500151260554",
+            "decimal_funding_cash_USDT": "-131.314014789618308730918129905398669930494508905045241644003",
+            "decimal_net_USDT": "257.2560703753182585225610732324172585693035183500151260554",
+            "decimal_price_pnl_USDT": "628.998422391118359443902721738137768779698550554442426792072",
+            "decimal_rebalance_turnover_USDT": "176506.858548035146617933540046594445059839456367222253879111",
+            "decimal_terminal_cost_USDT": "2.14407818633433164116088233662095251162513289966268361521846",
+            "decimal_terminal_turnover_USDT": "1588.20606395135668714876338594456116210922614386858406090606",
+            "decimal_total_turnover_USDT": "178095.064611986503305082303432539006221948682511090837940017",
+            "decimal_trading_cost_USDT": "240.428337226181792190423518600321840279900523299382059092553",
+            "errors": [],
+            "max_absolute_daily_return_error": "3.0586432538598972919452969274707014971405041E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "3.8861887009590138024123120123655287928193222E-16",
+              "nav_after": "1.099914483674930371155361217945509925467693383E-11",
+              "nav_before": "1.099914483674930371155361217945509925467693383E-11",
+              "net": "6.0120490209460966537863525714816499848739446E-12",
+              "price_pnl": "3.2911980219703655291438903026532787850276605E-14",
+              "summary_funding_cash": "3.575711247511867698935472287969954758355997E-15",
+              "summary_price_pnl": "6.5013187719399414492572840511945557573207928E-14",
+              "summary_trading_cost": "1.0474273519771553110116326304549382059092553E-14",
+              "target_quantity_notional": "2.2207660117349287747566377032762923024108991988040E-13",
+              "terminal_cost": "2.5132105905846900907675758804760294138478154E-16",
+              "trading_cost": "8.1155993139373743170603876198372162515672596E-16",
+              "turnover": "4.7596894228527524474899689273865170982141814E-13"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.1518318964149777,
+            "max_estimated_annual_sigma": 0.09974861781033617,
+            "max_gross": 0.6000000000000001,
+            "mean_estimated_annual_sigma": 0.07718789740595967,
+            "mean_gross": 0.2902717687502073,
+            "mean_long": 0.19829672666668038,
+            "mean_short": 0.09197504208352696
+          },
+          "metrics": {
+            "annual_vol": 0.09052397238170429,
+            "cumulative_net_return": 0.025725607037532426,
+            "days": 365,
+            "drawdown": 0.09510943047249032,
+            "funding_cash": -131.3140147896183,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 10257.256070375324,
+            "net_USDT": 257.25607037532427,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "price_pnl": 628.9984223911184,
+            "rebalance_turnover_USDT": 176506.85854803515,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 2.144078186334332,
+            "terminal_turnover_USDT": 1588.2060639513568,
+            "total_turnover_USDT": 178095.0646119865,
+            "trading_cost": 240.42833722618178,
+            "worst30": -0.049769467896529807
+          },
+          "quantity_rows_SHA256": "67af1569c3896765a64847c49b0b59a58fcfd2cb41e04dbe35e506386403ce39",
+          "quantity_rows_file": "Y2023_COMBINED_ROWS.json"
+        },
+        "SMA200": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "9298.77547765860039176508709172938353866711705707878786962916",
+            "decimal_funding_cash_USDT": "-123.562310428957449518135062309549536335679621390889070576282",
+            "decimal_net_USDT": "-701.22452234139960823491290827061646133288294292121213037084",
+            "decimal_price_pnl_USDT": "-330.967663061414440265230738121160201310760831573607848024301",
+            "decimal_rebalance_turnover_USDT": "180910.643237145253491212550839234672741440026684814328190235",
+            "decimal_terminal_cost_USDT": "2.46518048088161330861664125226460051584819645748214792716638",
+            "decimal_terminal_turnover_USDT": "1826.05961546786161341263091308965800795347200947411458581832",
+            "decimal_total_turnover_USDT": "182736.702852613115104625181752324330749393498694288442776053",
+            "decimal_trading_cost_USDT": "246.694548851027718451547107839906723686442489956715211770312",
+            "errors": [],
+            "max_absolute_daily_return_error": "3.02550054241912570866715814025296834840437902E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "3.4950114771069957841790251475937790464385807E-16",
+              "nav_after": "2.757926885811752908125494335797364979356230916E-11",
+              "nav_before": "2.757926885811752908125494335797364979356230916E-11",
+              "net": "2.513657413347940180785507336705707878786962916E-11",
+              "price_pnl": "7.8717782543424492208631145478955371019066239E-14",
+              "summary_funding_cash": "3.866558499059276070225450129203389070576282E-15",
+              "summary_price_pnl": "1.206921509903780289411895418426392151975699E-15",
+              "summary_trading_cost": "2.31779276212727515510334853793284788229688E-16",
+              "target_quantity_notional": "1.95730515955302583763128715332988209301941579571340106908730E-13",
+              "terminal_cost": "3.657322097748030322741886286868972707283362E-17",
+              "trading_cost": "9.5519942703928227186643091840099191482238885E-16",
+              "turnover": "7.7442433075786080366833613720437157703258175E-13"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.12,
+            "max_estimated_annual_sigma": 0.10000000000000005,
+            "max_gross": 0.6,
+            "mean_estimated_annual_sigma": 0.09632126893139697,
+            "mean_gross": 0.3628469001952997,
+            "mean_long": 0.21359034774420924,
+            "mean_short": 0.14925655245109037
+          },
+          "metrics": {
+            "annual_vol": 0.12650034328438303,
+            "cumulative_net_return": -0.07012245223414247,
+            "days": 365,
+            "drawdown": 0.16241247559056138,
+            "funding_cash": -123.56231042895745,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9298.775477658575,
+            "net_USDT": -701.2245223414247,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "price_pnl": -330.96766306141444,
+            "rebalance_turnover_USDT": 180910.64323714527,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 2.4651804808816133,
+            "terminal_turnover_USDT": 1826.0596154678617,
+            "total_turnover_USDT": 182736.70285261312,
+            "trading_cost": 246.69454885102772,
+            "worst30": -0.07001154770077755
+          },
+          "quantity_rows_SHA256": "292bea56c1101ba17a9d45866a8857095e7f78415fc1821fec7d3b2501256812",
+          "quantity_rows_file": "Y2023_SMA200_ROWS.json"
+        },
+        "STATIC50": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "11201.1900950414517539411997941473503619890545296753835358277",
+            "decimal_funding_cash_USDT": "-136.851645928771651908325344667757736853109124782226286809433",
+            "decimal_net_USDT": "1201.1900950414517539411997941473503619890545296753835358277",
+            "decimal_price_pnl_USDT": "1617.16721282353343538685103370718300176548720846604268933908",
+            "decimal_rebalance_turnover_USDT": "203898.727860658509380348592055916603493530067244313802712170",
+            "decimal_terminal_cost_USDT": "3.86218924142102730108940601893604143307243070556414983645581",
+            "decimal_terminal_turnover_USDT": "2860.88091957113118268185891924798083606102566282035892922036",
+            "decimal_total_turnover_USDT": "206759.608780229640563030450975164584329591092907134161641390",
+            "decimal_trading_cost_USDT": "279.125471853310029537325894892074902923323554008432866702021",
+            "errors": [],
+            "max_absolute_daily_return_error": "2.8359961380920360518718123041043484289230763E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "7.0094368020590485925988581124941220450908804E-16",
+              "nav_after": "1.67084456247466910872542447211598003990934520E-11",
+              "nav_before": "1.67084456247466910872542447211598003990934520E-11",
+              "net": "4.3329874268320539970905046795296753835358277E-12",
+              "price_pnl": "3.5051843241708397247308234135717798905947617E-14",
+              "summary_funding_cash": "8.101844963273977053948892828342773713190567E-15",
+              "summary_price_pnl": "1.690037415786556541753697158346604268933908E-14",
+              "summary_trading_cost": "1.6307083719909331957428238945991567133297979E-14",
+              "target_quantity_notional": "2.58714526644455153829795943462991603101729102187791611213797E-13",
+              "terminal_cost": "2.5942194849448182030365501127197039983645581E-16",
+              "trading_cost": "1.01325982583524331060397835781144432467477112E-15",
+              "turnover": "9.6472162457463511870889646077692174119393468E-13"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.19004417195350531,
+            "max_estimated_annual_sigma": 0.10000000000000005,
+            "max_gross": 0.6000000000000001,
+            "mean_estimated_annual_sigma": 0.09438350177307005,
+            "mean_gross": 0.39071541451903347,
+            "mean_long": 0.26951249419611073,
+            "mean_short": 0.12120292032292276
+          },
+          "metrics": {
+            "annual_vol": 0.10559639784800912,
+            "cumulative_net_return": 0.12011900950414474,
+            "days": 365,
+            "drawdown": 0.11193882040105674,
+            "funding_cash": -136.85164592877166,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 11201.190095041447,
+            "net_USDT": 1201.1900950414474,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              -0.0,
+              0.0,
+              -0.0,
+              0.0
+            ],
+            "price_pnl": 1617.1672128235334,
+            "rebalance_turnover_USDT": 203898.72786065852,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 3.862189241421027,
+            "terminal_turnover_USDT": 2860.880919571131,
+            "total_turnover_USDT": 206759.60878022964,
+            "trading_cost": 279.12547185331005,
+            "worst30": -0.04835622894513836
+          },
+          "quantity_rows_SHA256": "ecc6257a2632d5870de6ff9bab749a294da4956ef8ce25280840491a500f7703",
+          "quantity_rows_file": "Y2023_STATIC50_ROWS.json"
+        }
+      },
+      "benchmarks": {
+        "daily_50_50_rebalanced_compounded_net_return": 0.02328266970178161,
+        "initial_split_arithmetic_mean_cumulative_net_return": 0.024998278635001134,
+        "method": "Control-wallet arithmetic / daily return paper benchmark; no extra shared execution or transaction fees charged"
+      },
+      "bootstrap_SHA256": "11537004bbcce35b41e2dfa1b6dad029b3eb9bdb18a4169595da65267563c7f9",
+      "bootstrap_file": "Y2023_BOOTSTRAP.npz",
+      "comparisons": {
+        "SMA200": {
+          "combined_minus_control_annual_vol": -0.035976370902678745,
+          "combined_minus_control_drawdown": -0.06730304511807106,
+          "combined_minus_control_mean_gross": -0.07257513144509237,
+          "combined_minus_control_net_USDT": 958.480592716749
+        },
+        "STATIC50": {
+          "combined_minus_control_annual_vol": -0.015072425466304828,
+          "combined_minus_control_drawdown": -0.01682938992856642,
+          "combined_minus_control_mean_gross": -0.10044364576882614,
+          "combined_minus_control_net_USDT": -943.9340246661232
+        }
+      },
+      "inference": {
+        "SMA200": {
+          "CI_lower_positive": false,
+          "mean_daily_return_increment": 0.0002583149829211536,
+          "paired_mean_daily_return_95pct_CI": [
+            -0.00013259249965773655,
+            0.000648787472100478
+          ]
+        },
+        "STATIC50": {
+          "CI_lower_positive": false,
+          "mean_daily_return_increment": -0.00024525124848170726,
+          "paired_mean_daily_return_95pct_CI": [
+            -0.0006338860038355566,
+            0.0001420802525886471
+          ]
+        }
+      },
+      "mix_target_diagnostics": {
+        "annual_sigma_triangle_all_days": true,
+        "exact_half_sum": true,
+        "full_cash_days": 0,
+        "mean_signed_cancellation_gross": 0.08650938860695923,
+        "no_post_mix_risk_scale": true
+      }
+    },
+    "2025": {
+      "arms": {
+        "COMBINED": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "10600.7246891770116486830870405170526504798529746586644321098",
+            "decimal_funding_cash_USDT": "-41.1572989949091766190136843516188872248411899351193997081365",
+            "decimal_net_USDT": "600.7246891770116486830870405170526504798529746586644321098",
+            "decimal_price_pnl_USDT": "884.998416165590822819551516026987319382045817837718969866604",
+            "decimal_rebalance_turnover_USDT": "177044.743807087008967160853298442726353899152200076959652629",
+            "decimal_terminal_cost_USDT": "4.10602385410252275828829593074347589827307053605268676867397",
+            "decimal_terminal_turnover_USDT": "3041.49915118705373400778130811974207851407963241380743984468",
+            "decimal_total_turnover_USDT": "180086.242958274062701168634606562468432413231832490767092474",
+            "decimal_trading_cost_USDT": "243.116427993669997517450791158315781677351653243935138048461",
+            "errors": [],
+            "max_absolute_daily_return_error": "2.7100960139914734107552397515673980350249389E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "1.2997910324173297574864957862274618769919339E-16",
+              "nav_after": "1.39603338511500626972024398080972321270204805E-11",
+              "nav_before": "1.39603338511500626972024398080972321270204805E-11",
+              "net": "2.0666967843874957952499107720253413355678902E-12",
+              "price_pnl": "4.69888081360815830813780091992350040213961153E-14",
+              "summary_funding_cash": "3.039091245892155182749510532163693997081365E-16",
+              "summary_price_pnl": "1.01900611941068635696975376057162281030133396E-13",
+              "summary_trading_cost": "1.7921969448841574545776261628006064861951539E-14",
+              "target_quantity_notional": "2.02143455321814834604603694315414320821803691898233631764567E-13",
+              "terminal_cost": "5.9333965541163619841717950514754106323132603E-16",
+              "trading_cost": "1.05154133351006235201198060083855706696305915E-15",
+              "turnover": "6.4803092566124125424228122612735760435755718E-13"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.15024695998633997,
+            "max_estimated_annual_sigma": 0.09923592197795451,
+            "max_gross": 0.6000000000000001,
+            "mean_estimated_annual_sigma": 0.06488106595731966,
+            "mean_gross": 0.2655107802193414,
+            "mean_long": 0.16612123270396897,
+            "mean_short": 0.09938954751537239
+          },
+          "metrics": {
+            "annual_vol": 0.08186570729382585,
+            "cumulative_net_return": 0.06007246891770137,
+            "days": 365,
+            "drawdown": 0.06516593461972509,
+            "funding_cash": -41.157298994909176,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 10600.724689177014,
+            "net_USDT": 600.7246891770137,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": 884.9984161655909,
+            "rebalance_turnover_USDT": 177044.743807087,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 4.106023854102523,
+            "terminal_turnover_USDT": 3041.4991511870544,
+            "total_turnover_USDT": 180086.24295827406,
+            "trading_cost": 243.11642799367002,
+            "worst30": -0.05043830829541618
+          },
+          "quantity_rows_SHA256": "c1df2692c812645444ae7126986a80f8f33158c307764a5629c94994cd24c24a",
+          "quantity_rows_file": "Y2025_COMBINED_ROWS.json"
+        },
+        "SMA200": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "9538.75039946950316564969221036981540010623480896734376932439",
+            "decimal_funding_cash_USDT": "-12.2552939434994165852594505598525908097414997993289420150166",
+            "decimal_net_USDT": "-461.24960053049683435030778963018459989376519103265623067561",
+            "decimal_price_pnl_USDT": "-235.111291002562546115314597478602185180602553628480189584686",
+            "decimal_rebalance_turnover_USDT": "156663.361038358671343200620165393203214427954265724298269784",
+            "decimal_terminal_cost_USDT": "2.38747818265065413958736335920193956747590763329833679781166",
+            "decimal_terminal_turnover_USDT": "1768.50235751900297273438964042220262340189894778239360268769",
+            "decimal_total_turnover_USDT": "158431.863395877674315935009805815405837829853213506691872472",
+            "decimal_trading_cost_USDT": "213.883015584434871649733741591729823903421137604847099075786",
+            "errors": [],
+            "max_absolute_daily_return_error": "3.3094168648547455158974466618715121904463800E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "1.28239962037380136638695072289153810073502924E-15",
+              "nav_after": "2.500278844799452013578720830659652309383417748E-11",
+              "nav_before": "2.500278844799452013578720830659652309383417748E-11",
+              "net": "6.97812854746263574557588748480896734376932439E-12",
+              "price_pnl": "3.1890162094836011903802771897477871061634541E-14",
+              "summary_funding_cash": "2.4440487777862009200945706339897335579849834E-15",
+              "summary_price_pnl": "2.2115728478162083878448424819253480189584686E-14",
+              "summary_trading_cost": "7.30636765425048168345114018645152900924214E-16",
+              "target_quantity_notional": "1.99536473627182157328924478775844652688083169517696998611640E-13",
+              "terminal_cost": "2.2845925322323082222089231746435791320218834E-16",
+              "trading_cost": "8.3410681134249803694889134664873391713397988E-16",
+              "turnover": "7.6913877791161702526652527046044036779080420E-13"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.12,
+            "max_estimated_annual_sigma": 0.10000000000000005,
+            "max_gross": 0.6,
+            "mean_estimated_annual_sigma": 0.09812368607826107,
+            "mean_gross": 0.2529473638711777,
+            "mean_long": 0.13074707367143476,
+            "mean_short": 0.12220029019974292
+          },
+          "metrics": {
+            "annual_vol": 0.10457602873510093,
+            "cumulative_net_return": -0.04612496005305038,
+            "days": 365,
+            "drawdown": 0.1180629874286202,
+            "funding_cash": -12.255293943499419,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 9538.750399469496,
+            "net_USDT": -461.2496005305038,
+            "planned_days": 365,
+            "positions": [
+              -0.0,
+              -0.0,
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": -235.11129100256252,
+            "rebalance_turnover_USDT": 156663.36103835868,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 2.3874781826506544,
+            "terminal_turnover_USDT": 1768.5023575190032,
+            "total_turnover_USDT": 158431.86339587768,
+            "trading_cost": 213.88301558443487,
+            "worst30": -0.07832544003552366
+          },
+          "quantity_rows_SHA256": "bc740ae1acbcd6bdbc6834af9966f867144b8a9816a11661a765bec497381b0b",
+          "quantity_rows_file": "Y2025_SMA200_ROWS.json"
+        },
+        "STATIC50": {
+          "decimal_audit": {
+            "absolute_tolerance_USDT": "0.00000001",
+            "decimal_final_NAV": "11674.3307081373577089600058787201355896853549173277771046220",
+            "decimal_funding_cash_USDT": "-74.5988822278121872321447060606384617452674773119089213497615",
+            "decimal_net_USDT": "1674.3307081373577089600058787201355896853549173277771046220",
+            "decimal_price_pnl_USDT": "2073.92974379343235806297226583979057448547364101694970276342",
+            "decimal_rebalance_turnover_USDT": "233877.550935304612531107842079167997466107720602891333328527",
+            "decimal_terminal_cost_USDT": "9.26545966560121823845551606104373971131693609561629778927757",
+            "decimal_terminal_turnover_USDT": "6863.30345600090203550448192036296494879408543655026515433208",
+            "decimal_total_turnover_USDT": "240740.854391305514566612323999530962414901806039441598482859",
+            "decimal_trading_cost_USDT": "325.000153428262461870821681059016523054851246377263676790858",
+            "errors": [],
+            "max_absolute_daily_return_error": "3.0839660214861103316086788546462961099214125E-16",
+            "max_absolute_errors_USDT": {
+              "funding_debit": "8.3537481961200136648520225141235443538196952E-16",
+              "nav_after": "2.68640168756254043407961139723754731474394941E-11",
+              "nav_before": "2.68640168756254043407961139723754731474394941E-11",
+              "net": "1.36937394944436217833556271450826722228953780E-11",
+              "price_pnl": "7.0250578424647107437448126124129379546927494E-14",
+              "summary_funding_cash": "4.1998885624273622376089149382494089213497615E-15",
+              "summary_price_pnl": "4.0482697724139711784499328614101694970276342E-13",
+              "summary_trading_cost": "1.7012149072998152437516437816122736323209142E-14",
+              "target_quantity_notional": "4.01096285626785641712983051245519229674636746034449794101019E-13",
+              "terminal_cost": "2.3676162183215245565268147699032120221072243E-16",
+              "trading_cost": "1.77175031884311967759663036706329316976801329E-15",
+              "turnover": "1.17300350697669497229692076324528904762050425E-12"
+            },
+            "method": "Decimal.from_float original saved quantity rows; precision60",
+            "passed": true,
+            "status": "PASS"
+          },
+          "exposure": {
+            "cash_days": 0,
+            "max_asset_abs_weight": 0.1916650933774653,
+            "max_estimated_annual_sigma": 0.10000000000000006,
+            "max_gross": 0.6000000000000001,
+            "mean_estimated_annual_sigma": 0.09050388282499024,
+            "mean_gross": 0.4539109551234782,
+            "mean_long": 0.2894137710144898,
+            "mean_short": 0.16449718410898845
+          },
+          "metrics": {
+            "annual_vol": 0.10398034059042312,
+            "cumulative_net_return": 0.16743307081373715,
+            "days": 365,
+            "drawdown": 0.07369595668132967,
+            "funding_cash": -74.59888222781218,
+            "hypothetical_cost_terminal": true,
+            "marked_NAV": 11674.330708137371,
+            "net_USDT": 1674.3307081373714,
+            "planned_days": 365,
+            "positions": [
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              -0.0
+            ],
+            "price_pnl": 2073.929743793432,
+            "rebalance_turnover_USDT": 233877.5509353046,
+            "status": "COMPLETE_CONDITIONAL_DAILY_QUANTITY_REFERENCE",
+            "stop": null,
+            "terminal_cost_proxy_USDT": 9.265459665601218,
+            "terminal_turnover_USDT": 6863.303456000902,
+            "total_turnover_USDT": 240740.8543913055,
+            "trading_cost": 325.0001534282625,
+            "worst30": -0.0462119294314246
+          },
+          "quantity_rows_SHA256": "5d3974dd871079acb363acfd0d082c9a6f43328e08b44706db98618f13adcc61",
+          "quantity_rows_file": "Y2025_STATIC50_ROWS.json"
+        }
+      },
+      "benchmarks": {
+        "daily_50_50_rebalanced_compounded_net_return": 0.05747157329385,
+        "initial_split_arithmetic_mean_cumulative_net_return": 0.06065405538034338,
+        "method": "Control-wallet arithmetic / daily return paper benchmark; no extra shared execution or transaction fees charged"
+      },
+      "bootstrap_SHA256": "ee2399c8d158a0f1de554cc1fdf1814146fdc0bb443bcd9bc73a907ed655f693",
+      "bootstrap_file": "Y2025_BOOTSTRAP.npz",
+      "comparisons": {
+        "SMA200": {
+          "combined_minus_control_annual_vol": -0.022710321441275078,
+          "combined_minus_control_drawdown": -0.05289705280889512,
+          "combined_minus_control_mean_gross": 0.012563416348163658,
+          "combined_minus_control_net_USDT": 1061.9742897075175
+        },
+        "STATIC50": {
+          "combined_minus_control_annual_vol": -0.02211463329659727,
+          "combined_minus_control_drawdown": -0.00853002206160458,
+          "combined_minus_control_mean_gross": -0.1884001749041368,
+          "combined_minus_control_net_USDT": -1073.6060189603577
+        }
+      },
+      "inference": {
+        "SMA200": {
+          "CI_lower_positive": true,
+          "mean_daily_return_increment": 0.0002833812147722434,
+          "paired_mean_daily_return_95pct_CI": [
+            1.92752159735645e-05,
+            0.000580309830044024
+          ]
+        },
+        "STATIC50": {
+          "CI_lower_positive": false,
+          "mean_daily_return_increment": -0.00026991555481861013,
+          "paired_mean_daily_return_95pct_CI": [
+            -0.0005659969241596205,
+            -6.438341468367746e-06
+          ]
+        }
+      },
+      "mix_target_diagnostics": {
+        "annual_sigma_triangle_all_days": true,
+        "exact_half_sum": true,
+        "full_cash_days": 0,
+        "mean_signed_cancellation_gross": 0.08791837927798657,
+        "no_post_mix_risk_scale": true
+      }
+    }
+  }
+}
