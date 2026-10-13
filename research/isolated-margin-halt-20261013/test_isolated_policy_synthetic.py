@@ -7,7 +7,10 @@ from pathlib import Path
 import sys
 import unittest
 
-REPO = Path(__file__).resolve().parents[1] / 'coin_native_half_mix_20261013' / 'repo'
+HERE = Path(__file__).resolve()
+REPO = next((p for p in HERE.parents if (p / 'src/quant/perpetual_account.py').exists()), None)
+if REPO is None:  # Local research artifact before copying into the public repository.
+    REPO = HERE.parents[1] / 'coin_native_half_mix_20261013' / 'repo'
 sys.path[:0] = [str(REPO), str(REPO / 'src')]
 from quant.perpetual_account import InstrumentProfile, USDTLinearPerpetualAccount
 
