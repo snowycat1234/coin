@@ -64,10 +64,11 @@ def sign(value: Decimal) -> int:
 class ProtectiveFullExitSimulator(NativeDailySimulator):
     """Full close after a completed 50%-collateral-loss mark; no new account math.
 
-    The original PROTECTIVE_STOP intent already persists after its first five
-    capacity-limited attempts. This adapter prevents newer daily targets and
-    exposure-cap reductions from replacing it. Same-direction reentry requires
-    a later neutral/opposite *daily* target after the position is flat.
+    A pure PROTECTIVE_STOP intent persists through limited capacity and later
+    daily targets. An original exposure-cap RISK_REDUCTION can take priority,
+    still aims at full zero, and keeps its frozen five-attempt risk stop.
+    Same-direction reentry requires a later neutral/opposite *daily* target
+    after the position is flat.
     """
 
     VERSION = "native_daily_scheduler_with_isolated_half_equity_full_exit_v1"
