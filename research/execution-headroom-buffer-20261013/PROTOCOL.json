@@ -1,0 +1,18 @@
+{
+  "candidate": "execution_headroom_buffer_v1",
+  "scope": "READ_ONLY_ORIGINAL_FINE_STATIC50_CSH_SHADOW_NO_COUNTERFACTUAL_PNL",
+  "years": [2021, 2023, 2024, 2025],
+  "mark_window": "43201 completed minute close endpoints from t-30DAY through t inclusive. All real, finite, positive, exact continuous grid. Current completed close t is known at signal time.",
+  "adverse_5min": "a_up=max(0,max(log(P(u+5MIN)/P(u)))); a_down=min(0,min(log(P(u+5MIN)/P(u)))); u in [t-30DAY,t-5MIN]",
+  "execution_gap": "G(v)=log(TradeOpen(v)/P(v)), v in [t-30DAY,t-MIN], v+MIN<=t. P(v) is previous minute close, strictly before modeled fill v+1us. g_up=max(0,max(G)); g_down=min(0,min(G)).",
+  "long": "P_s=P(t)*exp(a_down); mid_s=P_s*exp(g_down); fill_s=mid_s*.9992",
+  "short": "P_s=P(t)*exp(a_up); mid_s=P_s*exp(g_up); fill_s=mid_s*1.0008",
+  "trigger": "q!=0 and original account not halted and window READY and E+q*(P_s-P(t)) <= abs(q)*P_s*.005 + abs(q)*abs(fill_s-P_s) + abs(q)*fill_s*.00055",
+  "not_ready": "No shorter window, insertion, interpolation, new source, derived/unknown mark, duplicate or missing minute. Preserve original path and report reason, symbol, time coverage.",
+  "latency": "First eligible real open t+MIN modeled at t+MIN+1us; fifth at t+5MIN+1us. No open t execution.",
+  "capacity_witness": "Posterior only. Freeze trigger q; five real opens with previous completed minute quote_volume*.001/current trade open; floor quantity to 1e-8 and share each symbol/open bucket across all legs. Real open times, spread4bp+slip4bp per side and fee5.5bp on actual fill. Never feed future capacity or price into trigger.",
+  "limits": "Historical maxima are a conservative empirical buffer, not a future-risk bound. Funding, future gaps, mark rules and capacity can still defeat it. Shadow does not modify original q/E/cash/cost/target path. No new PnL, wallet, fits or downloading.",
+  "2024": "Only 461448 successful original account minutes; halt witness separate. Source after halt is posterior price/capacity evidence only, not recovered positions.",
+  "resource_bounds": {"cpu_workers":1,"RSS_limit_bytes":2000000000,"AS_limit_bytes":4000000000,"CPU_seconds":600,"wall_seconds":900,"new_output_bytes_limit":50000000,"free_disk_reserve_bytes":16106127360,"shared_RAM_bytes":8000000000,"swap":0,"GPU":0},
+  "new_historical_wallets":0,"new_fits":0,"new_market_downloads":0,"parameter_searches":0
+}
