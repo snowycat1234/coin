@@ -1,0 +1,123 @@
+{
+  "additional_independent_synthetic_checks": {
+    "cases": [
+      "FineGrid paid-flat disk checkpoint/restore/continuation",
+      "FineGrid reentered disk checkpoint/restore/continuation",
+      "FineGrid partial protective exit disk checkpoint/restore/continuation",
+      "FineGrid terminal disk checkpoint/restore exact identity"
+    ],
+    "failed": 0,
+    "passed": 4,
+    "script_SHA256": "99bef1ce6adbda540b69fae40ac8300d1a584255c2a929803660289754040ad3"
+  },
+  "blocking_findings": [],
+  "bootstrap_SHA256": "58eb413de253b1ad026ce9a5a3362218ab58d68c52298714c4c7ea8e2b4b8b2a",
+  "comparator_wallets_rerun": 0,
+  "dependencies_SHA256": {
+    "coin_margin_guard_lossless_pack_20261013/pack_minimal_guard.py": "10bf0d56b173300cde04187b4f0ade81fa0e803bd74f7b1b0ebc2e787ad318be",
+    "coin_margin_protective_policy_20261013/FREEZE.json": "1a447073dc204ae0dc11ee93a712f0a3a66fa2d8ec20cd12772148846d250881",
+    "coin_margin_protective_policy_20261013/PROTOCOL.json": "1ff06b9c9225ce28c36e32010f0e2551d344c0742baf644c6096a2d22e579adc",
+    "coin_margin_protective_policy_20261013/RUN_MANIFEST.json": "5c90821bf067ae825313ea2196b9db90c0b91814a5b465b40e4af00102783e97",
+    "coin_margin_protective_policy_20261013/preflight_run_plan.py": "debc8f14193011812a182d80cdae0d46fc4804cedaf29f9480c13a0520c81e3f",
+    "coin_margin_protective_policy_20261013/protective_policy.py": "d593138b2a8e8767485090a1ded6b71d3c525fdee291cc589a94f2169c7fe249",
+    "coin_margin_protective_policy_20261013/test_policy_synthetic.py": "977ba5893cced80881be091c6cbf279bbc18a1e2c720b06a7076eb259a431ecd",
+    "coin_margin_protective_runner_20261013/run_guard_cases.py": "b5e8a6ebd54e790066861da5c05d0c193175d965ceb75995779d70b2fe8c27a6",
+    "coin_native_half_mix_20261013/repo/research/cs-continuous-economics-20261012/state_io.py": "5be8524a6b0ae69bca24a3e0f94b7f7b18d102fddbdddb8a83812c5d7317d7b2",
+    "coin_native_half_mix_20261013/repo/research/static50-sma-20261013/local_native_apis.py": "c290175e490ac982b37f60e5b45793068169629fbeb70dc1625d49f7cfb4cb22",
+    "coin_native_half_mix_20261013/repo/research/static50-sma-20261013/local_native_apis_2025.py": "22882ac609574b964699e15545786ce9906f8ab73962d5466da0cccd41e1bca2",
+    "coin_native_half_mix_20261013/repo/scripts/investment/perpetual_closing_exempt_account.py": "691f8a5049688df1b45c376656746e45b21720033cf5353988b655cb11dfaf7c",
+    "coin_native_half_mix_20261013/repo/scripts/investment/resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+    "coin_native_half_mix_20261013/repo/src/quant/perpetual_account.py": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+    "coin_quantity_resolution_20261013/CASE_BINDINGS.json": "68379d5adf916f06695bb64163f9dcf33b593a60167db26a8ec2782456eac9a2",
+    "coin_quantity_resolution_20261013/FINE_PROFILE.json": "ac2deafbd26546e511fc3f43e40164c15f4da81822dde2ddc89add666b8d07a8",
+    "coin_quantity_resolution_20261013/FROZEN_CODE.json": "4daea6e1aba830a051deeb4164a881684c64ad126d63869da7118b1ccbeae963",
+    "coin_quantity_resolution_20261013/REVIEW_RECEIPT.json": "c7ac57ac18247d1c79c53af7c0926d5b2db2c12362023389e4689ee691246f1f",
+    "coin_quantity_resolution_20261013/fine_account.py": "050806a41fefd33814f6dbbe2b5c9dfa4e1c446187fd100e77431d154143e386",
+    "coin_quantity_resolution_20261013/freeze_bootstrap.py": "dc256aa242c38b4d86c43ce36a3e82865922a6f86e075a4ec4e34e7951c2bf70",
+    "coin_quantity_resolution_20261013/preflight.py": "15b69dc6910382b7f1f7267cac57191e968a3d47e5f796b13ac81d85e4128713",
+    "coin_quantity_resolution_postrun_20261013/POSTRUN_REVIEW_RECEIPT_V2.json": "b3904ac239134a6995ced3ba0b0a90716db03c117e93b5195ff597248932ef15",
+    "coin_quantity_resolution_postrun_20261013/REVIEWED_POSTRUN_CODE_V2.json": "0d227bb887d7e1ad4fb34e1ed6ec3f83a88fa710f5cbdf1de71c6ddf91699906"
+  },
+  "downloads_performed": 0,
+  "freeze_manifest_SHA256": "bd68e8cf8019507e24f30780bb7c6f97724de7bca64cdfae721b501759628a71",
+  "historical_cold_audits_executed": 0,
+  "limitations_and_required_followup": [
+    "The execution environment exposes no /sys/fs/cgroup. Cgroup limits and cgroup swap are unverified; host memory, worker sampled RSS, zero host swap and conservative commitments remain enforced. Parent explicitly accepted this disclosed limitation at pre-GO review.",
+    "New class recovery is explicitly selected via FreshDailyReentrySimulator.from_snapshot, with four independent synthetic disk restore checks. A later historical zero-advance audit must use a new three-case dispatcher and this class; the old fixed twelve-cell cold_audit is not a valid audit of this experiment.",
+    "Resource admission is a point-in-time observation and must be rechecked by the controller at parent GO and each worker admission.",
+    "No historical outcome, return, cold-restore certification or publication is established by this receipt. Separate parent GO and publication authorization remain required."
+  ],
+  "new_historical_wallets_executed": 0,
+  "original_synthetic_prechecks": {
+    "failed": 0,
+    "independent_rerun_seconds": 10.659,
+    "passed": 23
+  },
+  "preparation_report_SHA256": "5fd9e76312410ea355dc8d5afdedb74d8d8c51e4db5401eff14da5a8cb9b66a6",
+  "prepared_SHA256SUMS_entries_independently_verified": 15,
+  "prepared_files_SHA256": {
+    "CASE_BINDINGS.json": "02ab7afdb5a51cf1f2d47617f64b7d84d73fa960e011b4a061bac70bff9f3998",
+    "GUARD_PACK_RELEASE.json": "05b51e5419fbf907910eae60ec08c18dd1a1a8e667b6c9b72d2bab3ef913b60b",
+    "PROTOCOL.md": "5a161f3af0caf5eedba000906de8f681f663b026faad8b180b0c2d6c7b85f0cb",
+    "daily_reentry_policy.py": "651155112ea357da2d3a68016c78f0a7561193599709f8889802ccadd9362c99",
+    "prefix_acceptance.py": "1e01cba26d5d5f806c3474872cc04aae071caecb349c2fff0d7cde7b2ad42ff6",
+    "reentry_preflight.py": "bc4a2d1ae24fdb8fcbc76532ec945369dd586bc2f6035b0b4d2727d547ca1df2",
+    "resource_gate.py": "eafdfa5102f051995627d2d65f099d5062acd4ea4e67c287cecf3fb7fee127df",
+    "run_cases.py": "53d26592a6b42224373c1ef0fd60bd22fc21ddfc55eb97a391122bc293ebdebe",
+    "test_synthetic.py": "e9aaa8015f0846c6be9c966f5736503b5123595cdef6013fb8d4d5fade2b0f33"
+  },
+  "read_only_preflight": {
+    "comparator_wallets_to_rerun": 0,
+    "full_comparator_bytes_checked": true,
+    "full_source_checked": true,
+    "new_wallets": 3,
+    "status": "PASS_PREPARED_READONLY_NO_NEW_HISTORY"
+  },
+  "resource_observation": {
+    "active_swaps": 0,
+    "allowed_CPUs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cgroup_limit_verified": false,
+    "disk_free_bytes": 22555807744,
+    "external_pack_reserved_bytes": 0,
+    "host_used_bytes": 2329063424,
+    "host_used_cap_bytes": 8000000000,
+    "new_two_worker_commitment_bytes": 4000000000,
+    "observed_UTC": "2026-10-13T11:51:44Z",
+    "one_and_two_worker_admission_passed": true,
+    "prior_historical_processes": [],
+    "swap_total_bytes": 0,
+    "two_worker_required_disk_bytes": 16859994372
+  },
+  "review_UTC": "2026-10-13T11:51:52Z",
+  "reviewed_properties": {
+    "account_halt_and_terminal_priority": true,
+    "bit_exact_minute_trade_funding_prefix_gate_before_RESULT": true,
+    "equal_clock_funding_before_protection_decision": true,
+    "exact_Decimal_flat_and_strict_signal_after_flat": true,
+    "fixed_half_equity_trigger_and_paid_capacity_limited_full_exit": true,
+    "frozen_source_target_cost_account_profile_dependencies": true,
+    "no_cached_trigger_day_target": true,
+    "no_live_exit_daily_supersession": true,
+    "no_trigger_native_identity_and_opposite_target_guard_identity": true,
+    "old_cap_STOP_and_protective_terminal_interaction_unchanged": true,
+    "review_parent_GO_nonce_bound_worker_and_fresh_state_no_overwrite": true,
+    "shared_8GB_host_zero_swap_15GiB_disk_250MB_wallet_limits": true,
+    "shared_controller_lock_prior_jobs_and_external_pack_commitment": true,
+    "snapshot_new_policy_identity_and_FineGrid_disk_restore_compatible": true,
+    "three_fixed_new_year_arm_cases_and_reused_verified_controls": true,
+    "two_one_CPU_workers_4GB_AS_2GB_sampled_RSS_1200s_CPU_wall_controller": true
+  },
+  "reviewer": "review_daily_reentry_ablation",
+  "status": "PASS_INDEPENDENT_PRE_GO_REVIEW",
+  "uploads_performed": 0
+}
