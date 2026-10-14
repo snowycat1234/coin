@@ -1,0 +1,7 @@
+Run from the restored package directory, with Python3.12, numpy2.3.5, polars1.44.2 and pyarrow23.0.1 already installed. No install or network request is part of these commands.
+
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python run_verified.py --freeze-sha cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f tests
+
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python run_checks.py --freeze-sha cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f --receipt-dir cold_bounded_receipts_new
+
+Receipt directories must be new. The source freeze hash is supplied externally by the package review. Do not substitute a packet-selected hash or relabel synthetic source pins as real authority. Historical execution remains NO_GO; H090 restore/fork deliberately refuse.

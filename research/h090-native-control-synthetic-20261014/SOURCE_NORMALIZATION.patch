@@ -1,0 +1,26 @@
+--- a/calendar_readiness_v2.py
++++ b/calendar_readiness_v2.py
+@@ -47,8 +47,11 @@
+             if r.get('complete') is not True or r.get('imputed') is not False or r.get('actual_source') is not True:
+                 raise SourceReadinessError('ACTUAL_COMPLETE_NONIMPUTED_SOURCE_REQUIRED')
+             p=r.get('close')
+-            if isinstance(p,bool) or not isinstance(p,(int,float)) or not np.isfinite(p) or p<=0:
+-                raise SourceReadinessError('POSITIVE_FINITE_SOURCE_CLOSE_REQUIRED')
++            try:
++                if isinstance(p,bool) or not isinstance(p,(int,float)) or not np.isfinite(p) or p<=0:
++                    raise SourceReadinessError('POSITIVE_FINITE_SOURCE_CLOSE_REQUIRED')
++            except (TypeError,OverflowError) as error:
++                raise SourceReadinessError('POSITIVE_FINITE_SOURCE_CLOSE_REQUIRED') from error
+             locator=r.get('record_locator')
+             if not isinstance(locator,str) or not locator or locator.startswith('/') or '..' in Path(locator).parts:
+                 raise SourceReadinessError('PROJECT_RELATIVE_SOURCE_RECORD_LOCATOR_REQUIRED')
+@@ -80,6 +83,9 @@
+     if manifest.get('schema')!='H090_REVIEWED_SOURCE_BAR_BINDING_V2' or manifest.get('status')!='PINNED_ACTUAL_COMPLETE_SOURCE_BARS':
+         raise SourceReadinessError('REVIEWED_SOURCE_BAR_BINDING_REQUIRED')
+     if manifest.get('source_blob_SHA256')!=hashlib.sha256(packet.source_bytes).hexdigest():raise SourceReadinessError('SOURCE_BLOB_HASH_MISMATCH')
++    orders=(manifest.get('symbol_order'),source.get('symbol_order'))
++    if any(not isinstance(order,list) or len(order)!=5 or any(not isinstance(symbol,str) for symbol in order) for order in orders):
++        raise SourceReadinessError('EXACT_CORE5_SOURCE_ORDER_REQUIRED')
+     if tuple(manifest.get('symbol_order',()))!=CORE5 or tuple(source.get('symbol_order',()))!=CORE5:
+         raise SourceReadinessError('EXACT_CORE5_SOURCE_ORDER_REQUIRED')
+     if not isinstance(manifest.get('source_index_SHA256'),str) or len(manifest['source_index_SHA256'])!=64 or any(x not in '0123456789abcdef' for x in manifest['source_index_SHA256']):

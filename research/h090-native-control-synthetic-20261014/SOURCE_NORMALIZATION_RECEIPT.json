@@ -1,0 +1,44 @@
+{
+  "schema": "H090_MINIMAL_SOURCE_ERROR_NORMALIZATION_V1",
+  "scope": "Generated-only source-readiness checks. No accounts, market arrays, historical execution, downloads or publication.",
+  "baseline_calendar_SHA256": "0982d86a69a7244133f62e2ec5a6aa1afe15fb2f453e194fcacf89b372256b50",
+  "normalized_calendar_SHA256": "8894b6469f09e545704fcd4dd2566ef991eecc92a915478a006550f57e28894a",
+  "risk_controller_byte_identical": true,
+  "risk_controller_SHA256": "c38fe099151fe391bcaa5598dacc1c85edc8c0713944510d23be0207d18ab36f",
+  "risk_math_statement": "The h090 risk controller is byte-identical to the reviewed calendar V2 component. Original _math, validate_weights, verify_originals and require_native_integration ASTs equal the prior independent risk review. H090 0.30 asset / 0.90 gross / 0.15 annual vol and original 0.30 / 0.60 / 0.10 arithmetic are unchanged.",
+  "calendar_AST_statement": "Only two validation sites change. Removing the five-string JSON-list order guard and unwrapping the close predicate yields exact whole-module AST equality to calendar V2. No calendar, warmup, availability, return, covariance or sizing rule changed.",
+  "normalizations": [
+    "Both manifest and source symbol_order must be a five-string JSON list before existing exact CORE5 order check. Null and malformed shape/type raise SourceReadinessError(EXACT_CORE5_SOURCE_ORDER_REQUIRED).",
+    "Existing positive finite close predicate is unchanged; only TypeError/OverflowError raised by that predicate are normalized to SourceReadinessError(POSITIVE_FINITE_SOURCE_CLOSE_REQUIRED), preserving the cause."
+  ],
+  "generated_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 python test_source_normalization.py",
+    "tests": 11,
+    "status": "PASS",
+    "valid_calendar_parity": "Exact array bytes, dtype and provenance match at daily, all six four-hour UTC points and midnight rollover.",
+    "baseline_dependency_note": "AST/byte/parity checks read the cached sibling calendar and risk independent-review packages; all source bar fixtures are generated in the test."
+  },
+  "original_source_pin_checks": {
+    "bybit_cost_inputs.py": true,
+    "execution_contract.py": true,
+    "public_sma_perpetual.py": true,
+    "resumable_perpetual.py": true
+  },
+  "original_source_pins": {
+    "bybit_cost_inputs.py": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+    "execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "public_sma_perpetual.py": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+    "resumable_perpetual.py": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585"
+  },
+  "patch_SHA256": "d8c8b1c0ac0a07ad2717999d57b302943c74864b4446fa8338f3d94533a50e87",
+  "test_source_normalization_SHA256": "53d34d341e9b1b960110ff33bbc15d94da7f7db92f2a8e5f8a019a1d970ec7f5",
+  "source_authority_statement": "Fixture hashes establish consistency only, not real-source certification or historical GO.",
+  "reviewed_generated_rerun": {
+    "status": "PASS",
+    "producer_tests": 17,
+    "independent_tests": 11,
+    "total": 28,
+    "excluded_obsolete_test": "One original independent test asserted TypeError for the three malformed-source cases; replaced by the new 11-test normalization suite.",
+    "results_file": "SOURCE_NORMALIZATION_REVIEWED_RERUN.txt"
+  }
+}

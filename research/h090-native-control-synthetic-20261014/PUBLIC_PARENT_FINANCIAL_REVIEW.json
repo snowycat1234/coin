@@ -1,0 +1,102 @@
+{
+  "schema": "H090_NATIVE_CONTROL_PARENT_FINANCIAL_REVIEW_V1",
+  "status": "PASS_GENERATED_CODE_ONLY",
+  "reviewed_freeze_SHA256": "cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f",
+  "producer_tests_independently_replayed": 51,
+  "additional_independent_generated_cases": [
+    {
+      "cost": "BASE27",
+      "capacity": 10000000.0,
+      "rows": 4320,
+      "trade_legs": 18,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    },
+    {
+      "cost": "BASE27",
+      "capacity": 75000.0,
+      "rows": 4320,
+      "trade_legs": 70,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    },
+    {
+      "cost": "BASE27",
+      "capacity": 0.0,
+      "rows": 4320,
+      "trade_legs": 0,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    },
+    {
+      "cost": "STRESS43",
+      "capacity": 10000000.0,
+      "rows": 4320,
+      "trade_legs": 18,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    },
+    {
+      "cost": "STRESS43",
+      "capacity": 75000.0,
+      "rows": 4320,
+      "trade_legs": 70,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    },
+    {
+      "cost": "STRESS43",
+      "capacity": 0.0,
+      "rows": 4320,
+      "trade_legs": 0,
+      "funding_events": 15,
+      "checks": "PASS_DIRECT_PRELOAD_EXACT_AND_CASH_BRIDGE"
+    }
+  ],
+  "additional_original060_three_day_full_parity": true,
+  "checks": [
+    "Direct versus preloaded admission preserves exact account, funding, rejections, targets and minute arrays across three days of long/short target changes",
+    "BASE27 and STRESS43 full, partial and zero execution capacity",
+    "Paid-flat final NAV equals initial capital plus realized PnL less fees plus signed funding, exact Decimal40",
+    "Every funding entry equals negative signed quantity times prior mark times rate",
+    "Exact sum of charged fill fees equals account fees",
+    "All 4320 minute rows present and no halt in fixed generated cases",
+    "Unchanged original060 account snapshot and minute arrays match exact original simulator",
+    "Frozen project source runtime audit passed"
+  ],
+  "private_raw_evidence_SHA256": {
+    "independent_financial_results.json": "65ae641b12c4a5d6117dd3f0610e401029419f210cf33485a38f7205d54e21d2",
+    "independent_financial_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "check_financial_paths.py": "59e67b354444b972512d963ee9e2e037ff0b1fa93086eecb5694a383dc3a38e1",
+    "producer_replay.txt": "d388a8841e5f1376fa6f15b4f168b0cf4e3318e2f19ac224dc4fda54c238eeb1"
+  },
+  "limits": [
+    "Generated-path tests do not parse or use historical target/market values. Exact inherited loader closure hashes two already-public2023/2025 development target archives (50586bytes total); this is not zero historical-artifact file access. No provider authority, market-return claim or independent later-period validation.",
+    "Full H090 restore/fork deliberately unsupported; no restartable-history certification",
+    "This is parent financial review plus producer-test replay, not a completed separate reviewer-agent run",
+    "No finite-program integration or bot strategy profitability tested",
+    "Actual market exposure can drift beyond target caps; actual historical risk comparisons remain required"
+  ],
+  "historical_GO": false,
+  "wallet_GO": false,
+  "checksum_only_public_target_dependencies": {
+    "commit": "accda281f1da8bdcbf10d23a1e569acda58deb62",
+    "files": [
+      {
+        "path": "research/static50-sma-20261013/input/Y2023.npz",
+        "bytes": 25151,
+        "git_blob_SHA1": "b1e741f6c9b855dbb00c405685a03b2eb9952ab6",
+        "SHA256": "5a1a99b9651320f752347853399d293c27723c25e457335a5759e2e1733c85ad"
+      },
+      {
+        "path": "research/static50-sma-20261013/input/Y2025.npz",
+        "bytes": 25435,
+        "git_blob_SHA1": "177a1461a39f35ef35bb7602c8503b45b12a0d17",
+        "SHA256": "c2c4ec2597eac6a0e177b6890ba20391a63dec70572ddd31e6902ce5f5c3e0e3"
+      }
+    ],
+    "transport": "Reuse already-public Git blobs unchanged; no new upload or parsing",
+    "historical_admission_waived": false
+  },
+  "wording_correction_from_SHA256": "0456694e227f293765e75c7750a216559d38fe4c14444d94437a95e641c287ff"
+}
