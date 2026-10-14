@@ -1,0 +1,10 @@
+--- observe_source.before.py
++++ observe_source.after.py
+@@ -1,6 +1,6 @@
+ from pathlib import Path
+ import subprocess,json,datetime,time,os,hashlib
+-R=Path(__file__).parent;module=R/'checkout/research/paired-headroom-source-runner-20261014';exe=json.loads((R/'PRIVATE_MATCHING_RUNTIME.json').read_text())['interpreter'];receipt=json.loads((module/'cold_synthetic_receipts/PUBLIC_SAFE_COLD_RECEIPT.json').read_text());assert receipt['status']=='PASS_BOUNDED_SOURCE_FREE_PUBLIC_COLD';assert not (R/'attempt001').exists()
++R=Path(__file__).parent;module=Path('<consumer-project-root>/paired-headroom-source-2023-run-20261014/checkout/research/paired-headroom-source-runner-20261014');exe=json.loads((R/'PRIVATE_MATCHING_RUNTIME.json').read_text())['interpreter'];receipt=json.loads((module/'cold_synthetic_receipts/PUBLIC_SAFE_COLD_RECEIPT.json').read_text());assert receipt['status']=='PASS_BOUNDED_SOURCE_FREE_PUBLIC_COLD';assert not (R/'attempt001').exists()
+ for d in Path('/proc').iterdir():
+  if not d.name.isdigit():continue
+  try:
