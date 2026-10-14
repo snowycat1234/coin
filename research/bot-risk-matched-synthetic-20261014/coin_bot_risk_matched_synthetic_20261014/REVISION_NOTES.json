@@ -1,0 +1,23 @@
+{
+  "scope": "Synthetic helper API corrections; no historical/source/financial account execution",
+  "fixed_findings": [
+    "daily bar end is distinct from logical availability; maximum24h admission avoids forced extra-day lag",
+    "confirmed cancellation retains old pending orders/reserves until acknowledgement",
+    "immutable session/order identity, side and unique fill IDs prevent stale callbacks mutating successors",
+    "all observation/fill/cancel/expiry clocks monotone and initial/current prices timestamped",
+    "fixed7day session end enforced without requiring caller expiry",
+    "malformed/missing report mappings and bool numerics rejected; literal True required",
+    "retained CORE5 target lineage and pending-buy cash/notional arithmetic checked",
+    "arbitrary helper claims never certify native/shared-wallet/risk matching",
+    "each constructor uses an instance UUID nonce so recreated same-clock sessions cannot accept prior-instance callbacks"
+  ],
+  "remaining_blockers": [
+    "no native snapshot or verified artifact loader",
+    "no original-account/scheduler fill/paid-reduction integration",
+    "no exact actual source clock/availability mapping or capacity/mask parity proof",
+    "no historical GO/replay, holdouts remain closed",
+    "native session identity persistence/restart and paid flattening callbacks remain unimplemented"
+  ],
+  "final_receipt": "CHECK_RECEIPT_RUN_0002.json",
+  "prior_receipts": "Preliminary source versions; not proof final source was tested"
+}

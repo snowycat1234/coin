@@ -1,0 +1,54 @@
+{
+  "scope": "Generated synthetic reproductions during independent source review only",
+  "observed_UTC_window": "2026-10-14T04:19:55Z/2026-10-14T04:22:19Z",
+  "source_hash_limit": "Source was still under active revision. No immutable pre-fix hash was captured for these initial exploratory reproductions. Final regressions must bind the confirmed freeze.",
+  "findings": [
+    {
+      "id": "ORDER_SLOT_ABA",
+      "classification": "Source ownership bug",
+      "reproduction": "Create grid from 30 generated alternating 90/110 closes with decision T, current 100, replacement budget 200. Emit paid initial buy a. Fully fill a, then emit successor sell b in the same slot. Call old on_cancel_confirmed(a.slot).",
+      "observed": "Successor sell b is silently removed because cancellation is keyed only by slot.",
+      "required_regression": "Old order cancellation must reject before mutating successor, including after partial fill, confirmed cancel and reissue."
+    },
+    {
+      "id": "OLD_BUY_AS_NEW_SELL",
+      "classification": "Source ownership bug",
+      "reproduction": "Fully fill buy a and emit successor sell b, then deliver old buy quantity with a.slot and a timestamp eligible for b.",
+      "observed": "Old buy callback is applied as sell b; owned inventory becomes zero and slot returns to BUY.",
+      "required_regression": "Callbacks require immutable order identity, side and unique fill identity. Duplicate and stale callbacks must fail closed without mutation."
+    },
+    {
+      "id": "TRUTHY_FALSE_CERTIFICATION",
+      "classification": "Certification schema bug",
+      "reproduction": "Provide otherwise complete canonical scalar report with complete_calendar='False', paid_flat='False'.",
+      "observed": "PASS_OBSERVED_RISK_ONLY was returned. Integer no_topup=1 was also accepted as canonical True.",
+      "required_regression": "Require literal booleans and refuse economic certification without independently bound native snapshots."
+    },
+    {
+      "id": "UNBOUND_RETAINED_CASH_CAPACITY",
+      "classification": "Input contract gap with overbroad helper claim",
+      "reproduction": "Original weights (.2,.1,-.1,0,0), retained legs (.18,0,0,0,0) or empty, pending BTC buy weight .02, zero free/reserved cash and zero requested notional.",
+      "observed": "Helper allowed=True when original shorts/other legs were dropped, and allowed=True for positive pending buys despite zero cash/request inputs.",
+      "required_regression": "Bind retained net lineage, valuation and reservation/request notionals; helper arithmetic alone may never certify native wallet execution."
+    },
+    {
+      "id": "BACKDATED_CALLBACK",
+      "classification": "Source causal clock bug",
+      "reproduction": "Emit buy at T, observe price again at T+10 minutes, then fill at original eligible T+1 minute+1us.",
+      "observed": "Backdated fill was admitted after the later observation.",
+      "required_regression": "All admitted fill, cancel and price-observation events share monotone causal clocks; reject before mutation."
+    },
+    {
+      "id": "UNENFORCED_SESSION_BOUNDARY",
+      "classification": "Unimplemented scheduler behavior presented as fixed weekly session",
+      "reproduction": "Create a session and call intents at T+30 days without manually invoking expire().",
+      "observed": "Old session emitted a successor sell intent.",
+      "required_regression": "Fixed session end disables new intents automatically while retaining executable pending orders and inventory. Native paid exit and no-overlap remain separate adapter prerequisites."
+    }
+  ],
+  "historical_wallets": 0,
+  "market_data_reads": 0,
+  "downloads": 0,
+  "native_financial_advances": 0,
+  "external_mutations": 0
+}
