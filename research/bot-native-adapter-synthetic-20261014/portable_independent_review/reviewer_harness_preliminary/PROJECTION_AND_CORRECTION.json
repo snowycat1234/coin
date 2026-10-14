@@ -1,0 +1,10 @@
+{
+  "schema": "LABELED_REVIEWER_HARNESS_LOG_PROJECTION_V1",
+  "status": "REVIEWER_HARNESS_FALSE_POSITIVE_NOT_CANDIDATE_FAILURE",
+  "projection": "Only exact current workspace and Python standard-library installation prefixes replaced by <REVIEW_WORKSPACE> and <PYTHON_STDLIB>; all traceback/test content retained",
+  "raw_SHA256": "b797f325be45c67ae0167c05b37b0d8ea441aa61d34dc33c6a1e48c56ea23bba",
+  "projected_SHA256": "f81cb737a87cc71163ae18bce37944cf05372dd12e1a83c9089b15dc635bc54b",
+  "raw_bytes": 2736,
+  "projected_bytes": 2405,
+  "cause": "Python os.open audit records omit dir_fd. The reviewer guard incorrectly interpreted a relative tempfile cleanup directory as a warm-source file. Guard was tightened to apply workspace isolation to absolute or cwd-resolvable file paths; all array opens remain prohibited regardless of relative path."
+}

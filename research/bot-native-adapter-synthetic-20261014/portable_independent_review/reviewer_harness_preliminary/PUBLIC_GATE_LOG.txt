@@ -1,0 +1,33 @@
+test_assertions_required (test_portable_binding.PortableBindingTests.test_assertions_required) ... ok
+test_code_gate_scope_and_no_arrays (test_portable_binding.PortableBindingTests.test_code_gate_scope_and_no_arrays) ... ok
+test_explicit_runtime_sites_required (test_portable_binding.PortableBindingTests.test_explicit_runtime_sites_required) ... ok
+test_loading_cannot_read_arrays (test_portable_binding.PortableBindingTests.test_loading_cannot_read_arrays) ... ok
+test_runtime_site_priority_cannot_use_cached_other_site (test_portable_binding.PortableBindingTests.test_runtime_site_priority_cannot_use_cached_other_site) ... ERROR
+test_wrong_source_origin_rejected (test_portable_binding.PortableBindingTests.test_wrong_source_origin_rejected) ... ok
+
+======================================================================
+ERROR: test_runtime_site_priority_cannot_use_cached_other_site (test_portable_binding.PortableBindingTests.test_runtime_site_priority_cannot_use_cached_other_site)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<REVIEW_WORKSPACE>/coin_bot_native_portable_independent_review_20261014/cold_run_0001/coin_bot_native_adapter_portable_synthetic_20261014/test_portable_binding.py", line 47, in test_runtime_site_priority_cannot_use_cached_other_site
+    with tempfile.TemporaryDirectory() as folder:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PYTHON_STDLIB>/tempfile.py", line 950, in __exit__
+    self.cleanup()
+  File "<PYTHON_STDLIB>/tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<PYTHON_STDLIB>/tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<PYTHON_STDLIB>/shutil.py", line 759, in rmtree
+    _rmtree_safe_fd(stack, onexc)
+  File "<PYTHON_STDLIB>/shutil.py", line 674, in _rmtree_safe_fd
+    topfd = os.open(name, os.O_RDONLY | os.O_NONBLOCK, dir_fd=dirfd)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REVIEW_WORKSPACE>/coin_bot_native_portable_independent_review_20261014/cold_run_0001/independent_review/cold_stage.py", line 45, in guarded
+    raise RuntimeError('WARM_WORKSPACE_READ_FORBIDDEN:' + path.name)
+RuntimeError: WARM_WORKSPACE_READ_FORBIDDEN:numpy
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.359s
+
+FAILED (errors=1)
