@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/run_verified.py", line 31, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/run_verified.py", line 30, in main
+    sys.argv=[str(HERE/'driver.py'),a.command,*rest];return driver.main()
+                                                            ^^^^^^^^^^^^^
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/driver.py", line 151, in main
+    result=B.metadata() if a.command=='metadata' else worker(a) if a.worker else dispatch(a)
+                                                      ^^^^^^^^^
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/driver.py", line 132, in worker
+    sim=make_sim(admitted,args.arm,case_args=args)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/original_bridge.py", line 205, in make_sim
+    registry=OriginalProjectionRegistry(admitted,generated=generated,case_args=case_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "${CODE_ROOT}/coin_h090_original2023_bridge_20261014/original_bridge.py", line 56, in __init__
+    raise ValueError('FINITE_COMPLETE_ORIGINAL_PROJECTION_REQUIRED')
+ValueError: FINITE_COMPLETE_ORIGINAL_PROJECTION_REQUIRED
