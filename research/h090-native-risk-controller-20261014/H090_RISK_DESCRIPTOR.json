@@ -7,7 +7,7 @@
     "ddof": 1,
     "estimation": "unchanged sample covariance formula; no fit/optimization",
     "observations": 30,
-    "source": "completed consecutive daily returns, end/availability <= unchanged decision_us",
+    "source": "Exactly30 returns from latest31 pin-bound actual complete positive finite UTC daily closes ending floor(decision/DAY)*DAY; availability derived from BOTH endpoints across CORE5.",
     "zero_or_singular": "valid PSD; no upscaling, epsilon volatility floor or fabricated returns"
   },
   "financial_code_modified": false,
@@ -22,10 +22,11 @@
   },
   "isolated_leverage": 1,
   "original_control": {
-    "asset010_scope": "Requires original strategy/target contract binding, not certified by these four source files",
+    "annual_vol_target": 0.1,
+    "asset_cap": 0.3,
+    "gross_cap": 0.6,
     "preservation": "no original control code or targets changed",
-    "requested_asset_cap": 0.1,
-    "requested_gross_cap": 0.6,
+    "scope": "Verified original signed-risk caps; no additional target-specific asset cap is inferred or certified.",
     "verified_original_math": {
       "annual_vol_target": 0.1,
       "asset_cap": 0.3,
@@ -33,6 +34,18 @@
     }
   },
   "schema": "H090_NATIVE_RISK_SOURCE_ONLY_V1",
+  "source_readiness": {
+    "authority": "approved source-manifest hash must come from independent trusted source closure; synthetic fixture pins are not real/provider authority",
+    "clock": "nonnegative nonboolean Int64, unchanged UTC grid",
+    "execution_clocks_shifted": false,
+    "failure_action": "block new risk; preserve original explicit data-gap/reduce-only handling and actual inventory",
+    "signal_interval_minutes": [
+      1440,
+      240
+    ],
+    "warmup": "source signal/risk200-bar prerequisite preserved; this module neither generates targets nor substitutes for original target eligibility"
+  },
+  "source_readiness_version": "H090_CALENDAR_SOURCE_READINESS_V2",
   "status": "SYNTHETIC_PREPARATION_ONLY_NO_HISTORY_GO",
   "unchanged_finance": {
     "capacity": "original prior-minute quote.001, original shared budget; not implemented here",

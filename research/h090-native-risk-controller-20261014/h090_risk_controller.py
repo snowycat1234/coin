@@ -66,47 +66,29 @@ def _math(raw,returns,gross_cap,asset_cap,vol_target):
         net_target_weight=float(w.sum()),gross_target_weight=float(np.abs(w).sum()),
         covariance_observations=30,covariance_assets=len(w),past_only=True),covariance
 
-def size_h090(raw, past_returns, *, decision_us, return_end_us, available_us,
-              symbols=CORE5, covariance_symbol_order=CORE5):
-    """Input is a signal vector, not generated strategy targets or an account.
-
-    Each daily return must end and be available at or before decision_us.
-    Equality admits only a fully completed logically available bar. No clock
-    shift is introduced; caller remains responsible for truthful provenance.
-    The newest30 observations must be consecutive complete daily returns.
-    """
-    decision=_clock(decision_us,'decision_us')
+def size_h090(raw, source_packet, *, decision_us, signal_interval_minutes, symbols=CORE5, covariance_symbol_order=CORE5):
+    """V2 public boundary: exact latest UTC source bars, never caller return clocks."""
+    from calendar_readiness_v2 import certify_source
     if tuple(symbols)!=CORE5 or tuple(covariance_symbol_order)!=CORE5:
         raise RiskGateError('EXACT_CORE5_COVARIANCE_ORDER_REQUIRED')
-    a=np.asarray(raw);r=np.asarray(past_returns)
-    if a.dtype.kind not in 'fi' or a.shape!=(5,) or r.dtype.kind not in 'fi' or r.ndim!=2 or r.shape[1]!=5 or r.shape[0]<30:
-        raise RiskGateError('NUMERIC_CORE5_COMPLETE30_REQUIRED')
-    ends=np.asarray(return_end_us);known=np.asarray(available_us)
-    if ends.dtype.kind not in 'iu' or known.dtype.kind not in 'iu' or ends.shape!=(r.shape[0],) or known.shape!=ends.shape:
-        raise RiskGateError('EXACT_RETURN_PROVENANCE_CLOCKS_REQUIRED')
-    if np.any(ends<0) or np.any(known<ends) or np.any(known>decision) or np.any(ends>decision):
-        raise RiskGateError('FUTURE_OR_UNAVAILABLE_COVARIANCE')
-    if np.any(ends[1:]<=ends[:-1]) or any(int(ends[i+1])-int(ends[i])!=DAY_US for i in range(len(ends)-30,len(ends)-1)):
-        raise RiskGateError('COMPLETE_CONSECUTIVE_DAILY_RETURNS_REQUIRED')
-    w,details,cov=_math(a,r,.90,.30,.15)
-    # Floating point multiplication can overshoot a decimal cap by one ULP.
-    # Shrink uniformly; never replace a cap with a tolerance or upsize a signal.
+    a=np.asarray(raw)
+    if a.dtype.kind not in 'fi' or a.shape!=(5,):raise RiskGateError('NUMERIC_CORE5_WEIGHTS_REQUIRED')
+    returns,ends,available,provenance=certify_source(source_packet,decision_us=decision_us,signal_interval_minutes=signal_interval_minutes)
+    w,details,cov=_math(a,returns,.90,.30,.15)
     if np.abs(w).sum()>.90:w*=np.nextafter(.90,0.)/float(np.abs(w).sum())
     validate_weights(w)
     sigma_after=float(np.sqrt(max(float(w@cov@w),0.)))
     if np.isfinite(sigma_after) and sigma_after>.15:
         w*=np.nextafter(.15,0.)/sigma_after
         sigma_after=float(np.sqrt(max(float(w@cov@w),0.)))
-    if not np.isfinite(sigma_after) or sigma_after>.15:
-        raise RiskGateError('POST_SCALE_VOLATILITY_INVALID')
-    selected=np.ascontiguousarray(r[-30:],dtype='<f8')
+    if not np.isfinite(sigma_after) or sigma_after>.15:raise RiskGateError('POST_SCALE_VOLATILITY_INVALID')
     cov=np.array(cov,copy=True);cov.setflags(write=False);w.setflags(write=False)
-    details.update(net_target_weight=float(w.sum()),gross_target_weight=float(np.abs(w).sum()),risk_version=H090.version,annual_vol_target=.15,
-        annual_vol_after_scaling=sigma_after,decision_us=decision,
-        last_return_end_us=int(ends[-1]),last_available_us=int(known[-1]),
-        selected_returns_SHA256=hashlib.sha256(selected.tobytes()).hexdigest(),
+    details.update(net_target_weight=float(w.sum()),gross_target_weight=float(np.abs(w).sum()),risk_version=H090.version,
+        annual_vol_target=.15,annual_vol_after_scaling=sigma_after,decision_us=int(decision_us),
+        selected_returns_SHA256=provenance['selected_returns_SHA256'],source_readiness=provenance,
         covariance_symbol_order=list(CORE5),financial_execution='NO_GO_SOURCE_ONLY')
     return w,details,cov
+
 
 def verify_originals(root=None):
     root=Path(root) if root is not None else Path(__file__).resolve().parent

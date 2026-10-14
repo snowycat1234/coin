@@ -1,0 +1,185 @@
+--- a/research/h090-native-risk-controller-20261014/CODE_IDENTITY_BOUNDARY.json
++++ b/research/h090-native-risk-controller-20261014/CODE_IDENTITY_BOUNDARY.json
+@@ -5,7 +5,6 @@
+     "native account/financial transitive closure",
+     "H090 native guard integration",
+     "actual isolated margin/free cash/budget",
+-    "original control asset010 target contract",
+     "strategy/finite-add/owner/reservations",
+     "historical execution"
+   ],
+--- a/research/h090-native-risk-controller-20261014/FILES.json
++++ b/research/h090-native-risk-controller-20261014/FILES.json
+@@ -1,27 +1,27 @@
+ {
+   "CODE_IDENTITY_BOUNDARY.json": {
+-    "SHA256": "91eaebf1eff79af7e1a613035f2b152602d9b440abddb4c31700277eb36d5637",
+-    "bytes": 748
++    "SHA256": "3b3328d2b925afc6025e4b14995c5b6c1553060af198bc2b84072d1e21e0502e",
++    "bytes": 699
+   },
+   "H090_RISK_DESCRIPTOR.json": {
+-    "SHA256": "948aaa6ce94032d6567ba3a09b4d7ae74f40e8cf691fbd480cc6f8ae04e63c87",
+-    "bytes": 1804
++    "SHA256": "4d41b1212378d1a3787463538d8d4c3c675cc6c71fbb959f1c3ce95d9a83bcdc",
++    "bytes": 1814
+   },
+   "INTEGRATION_GATES.json": {
+-    "SHA256": "22b3bbeb601f037e0c8a51be4baaac6e2cbcf611c4c920f15b902a481332dc51",
+-    "bytes": 9321
++    "SHA256": "80c59921570f28eeb5e68f57f500badfe61a24c5e9fd3881788c25b3d84d747f",
++    "bytes": 9383
+   },
+   "ORIGINAL_INPUT_BINDINGS.json": {
+     "SHA256": "bb585e1f3b8cf2a28322c862958019a04b57dff5ef64bc3f83ee5bd00772cbf0",
+     "bytes": 46230
+   },
+   "PUBLICATION_SCOPE_RECEIPT.json": {
+-    "SHA256": "aab9152b2fb36f6b669f16a359158a141f44802111bc6eb890e736b112f563f1",
++    "SHA256": "70d825531daecc1b98c415117d266e4032a16daa49aa1ccf898659d427699fe0",
+     "bytes": 2776
+   },
+   "README.md": {
+-    "SHA256": "75d7ab866543377ba295e8a61fb7009871b774ebff3b681b2cd082dce474a7e6",
+-    "bytes": 2988
++    "SHA256": "4f604d38f48eb3595c46d0b0fb5ec76f109c0b0c53f267e94dc633c2a0a9cf9b",
++    "bytes": 2974
+   },
+   "SOURCE_PINS.json": {
+     "SHA256": "ba1b3b04998c0c8fcb831a316a8396ffee2f0b9d96bea352a215e97e0ac49f3d",
+@@ -32,7 +32,7 @@
+     "bytes": 1168
+   },
+   "TEST_RECEIPT.json": {
+-    "SHA256": "72c55328c55e5979ce58caa2657690d4e6e4a03c57f3ce466ba20018017ed2a1",
++    "SHA256": "d71e1e6bd9d20944462634413d89c51cca0123afafd1a586b767de5f8e0a0f53",
+     "bytes": 825
+   },
+   "h090_risk_controller.py": {
+@@ -56,7 +56,7 @@
+     "bytes": 4363
+   },
+   "test_h090_synthetic.py": {
+-    "SHA256": "b8e68e5d993b0271557e6e8e26ffcaf37f96ea0ceaae4ba0247eed52297d171f",
+-    "bytes": 7039
++    "SHA256": "40f26416df62f894b4bf21f20aa79ce8e59e43ca72275ccb5246469cae22b0f1",
++    "bytes": 7045
+   }
+ }
+--- a/research/h090-native-risk-controller-20261014/H090_RISK_DESCRIPTOR.json
++++ b/research/h090-native-risk-controller-20261014/H090_RISK_DESCRIPTOR.json
+@@ -22,10 +22,11 @@
+   },
+   "isolated_leverage": 1,
+   "original_control": {
+-    "asset010_scope": "Requires original strategy/target contract binding, not certified by these four source files",
++    "annual_vol_target": 0.1,
++    "asset_cap": 0.3,
++    "gross_cap": 0.6,
+     "preservation": "no original control code or targets changed",
+-    "requested_asset_cap": 0.1,
+-    "requested_gross_cap": 0.6,
++    "scope": "Verified original signed-risk caps; no additional target-specific asset cap is inferred or certified.",
+     "verified_original_math": {
+       "annual_vol_target": 0.1,
+       "asset_cap": 0.3,
+--- a/research/h090-native-risk-controller-20261014/INTEGRATION_GATES.json
++++ b/research/h090-native-risk-controller-20261014/INTEGRATION_GATES.json
+@@ -114,7 +114,7 @@
+         }
+       ],
+       "id": "ORIGINAL_STRATEGY_VOL010_AND_GROSS060",
+-      "required": "New descriptor applies only separate risk math; original strategy targets/control untouched. Binding actual control asset010 targets remains required.",
++      "required": "New descriptor applies only separate risk math; original strategy targets/control untouched. Verified original caps are asset0.30/gross0.60/annual-volatility0.10; no additional asset0.10 control gate is inferred.",
+       "status": "BLOCKED_FOR_DIRECT_H090_CALL"
+     },
+     {
+--- a/research/h090-native-risk-controller-20261014/PUBLICATION_SCOPE_RECEIPT.json
++++ b/research/h090-native-risk-controller-20261014/PUBLICATION_SCOPE_RECEIPT.json
+@@ -3,18 +3,18 @@
+   "excluded": "private controller/logs/host/runtime fingerprints/credentials/market arrays/financial outcomes",
+   "files_inspected": [
+     {
+-      "SHA256": "91eaebf1eff79af7e1a613035f2b152602d9b440abddb4c31700277eb36d5637",
+-      "bytes": 748,
++      "SHA256": "3b3328d2b925afc6025e4b14995c5b6c1553060af198bc2b84072d1e21e0502e",
++      "bytes": 699,
+       "path": "CODE_IDENTITY_BOUNDARY.json"
+     },
+     {
+-      "SHA256": "948aaa6ce94032d6567ba3a09b4d7ae74f40e8cf691fbd480cc6f8ae04e63c87",
+-      "bytes": 1804,
++      "SHA256": "4d41b1212378d1a3787463538d8d4c3c675cc6c71fbb959f1c3ce95d9a83bcdc",
++      "bytes": 1814,
+       "path": "H090_RISK_DESCRIPTOR.json"
+     },
+     {
+-      "SHA256": "22b3bbeb601f037e0c8a51be4baaac6e2cbcf611c4c920f15b902a481332dc51",
+-      "bytes": 9321,
++      "SHA256": "80c59921570f28eeb5e68f57f500badfe61a24c5e9fd3881788c25b3d84d747f",
++      "bytes": 9383,
+       "path": "INTEGRATION_GATES.json"
+     },
+     {
+@@ -23,8 +23,8 @@
+       "path": "ORIGINAL_INPUT_BINDINGS.json"
+     },
+     {
+-      "SHA256": "75d7ab866543377ba295e8a61fb7009871b774ebff3b681b2cd082dce474a7e6",
+-      "bytes": 2988,
++      "SHA256": "4f604d38f48eb3595c46d0b0fb5ec76f109c0b0c53f267e94dc633c2a0a9cf9b",
++      "bytes": 2974,
+       "path": "README.md"
+     },
+     {
+@@ -38,7 +38,7 @@
+       "path": "SYNTHETIC_TEST_RESULTS.txt"
+     },
+     {
+-      "SHA256": "72c55328c55e5979ce58caa2657690d4e6e4a03c57f3ce466ba20018017ed2a1",
++      "SHA256": "d71e1e6bd9d20944462634413d89c51cca0123afafd1a586b767de5f8e0a0f53",
+       "bytes": 825,
+       "path": "TEST_RECEIPT.json"
+     },
+@@ -68,8 +68,8 @@
+       "path": "originals/repo/src/quant/execution_contract.py"
+     },
+     {
+-      "SHA256": "b8e68e5d993b0271557e6e8e26ffcaf37f96ea0ceaae4ba0247eed52297d171f",
+-      "bytes": 7039,
++      "SHA256": "40f26416df62f894b4bf21f20aa79ce8e59e43ca72275ccb5246469cae22b0f1",
++      "bytes": 7045,
+       "path": "test_h090_synthetic.py"
+     }
+   ],
+--- a/research/h090-native-risk-controller-20261014/README.md
++++ b/research/h090-native-risk-controller-20261014/README.md
+@@ -6,6 +6,6 @@
+ 
+ Public nesting: carrier fc24dc8efbc356a5131e24231de9f185c381dcf2 has no direct four-file runtime_dependencies subtree. Its exact research/funding-rank-native-pair-v2-20261014/SYNTHETIC_DEPENDENCIES.json references21d65f31ebdc33322d95d96b8a4fb3d2991f2593 at research/causal-headroom-risk-20261013/runtime_dependencies/coin_native_half_mix_20261013/repo/. SOURCE_PINS.json binds this authority, actual paths and all four required SHA256s. Included original copies are byte unchanged.
+ 
+-Original signed_risk_weights has asset0.30/gross0.60/vol0.10 hard limits. The requested original control asset0.10 is a separate strategy/target-contract condition, not universal native account certification. Original control code and targets are untouched; parity covers both that <=0.10 input subset and the original broader .30 math. Native advance_day rejects gross>.60; fixed_targets rejects vol>.10; legacy account config/factory and ExecutionContractV2 remain frozen. require_native_integration always refuses. INTEGRATION_GATES.json lists exact static evidence and unperformed integration requirements.
++Original signed_risk_weights has asset0.30/gross0.60/annual-volatility0.10 hard limits. The 0.10 is the annual volatility target; no additional asset0.10 control condition is inferred. Original control code and targets are untouched; parity covers the original .30/.60/.10 math, including arbitrary small-magnitude inputs. Native advance_day rejects gross>.60; fixed_targets rejects vol>.10; legacy account config/factory and ExecutionContractV2 remain frozen. require_native_integration always refuses. INTEGRATION_GATES.json lists exact static evidence and unperformed integration requirements.
+ 
+ External planned budget9000USDT, actual isolated margin8500 and free cash1000 are REQUIRED, NOT PROVEN. Target notional is not isolated margin; no owners/reservations are invented here. Isolated1x/no-topup, original BASE27/event/funding/Decimal/capacity/quantity and source identities are preserved as integration requirements, not re-certified by this math module. Financial execution/historical wallets/replay/fit/target generation remain NO_GO. Existing raw funding units/arrival/venue limitations, fine-grid idealization and2024 ten derived mark cells remain unchanged. No original financial/result artifact or old freeze is modified.
+--- a/research/h090-native-risk-controller-20261014/TEST_RECEIPT.json
++++ b/research/h090-native-risk-controller-20261014/TEST_RECEIPT.json
+@@ -18,6 +18,6 @@
+   "native_margin_budget_integration": "NOT_RUN",
+   "original_control_bitwise_cases": 250,
+   "status": "PASS_SYNTHETIC_MATH_AND_CODE_IDENTITY_ONLY",
+-  "test_code_SHA256": "b8e68e5d993b0271557e6e8e26ffcaf37f96ea0ceaae4ba0247eed52297d171f",
++  "test_code_SHA256": "40f26416df62f894b4bf21f20aa79ce8e59e43ca72275ccb5246469cae22b0f1",
+   "tests": 9
+ }
+--- a/research/h090-native-risk-controller-20261014/test_h090_synthetic.py
++++ b/research/h090-native-risk-controller-20261014/test_h090_synthetic.py
+@@ -37,7 +37,7 @@
+ 
+     def test_original_control_math_bitwise_parity(self):
+         oracle=original_math_oracle();rng=np.random.default_rng(77)
+-        # Original .30/.60/.10 math; includes requested <=.10 control input subset.
++        # Original asset.30/gross.60/annual-vol.10 math; includes small-magnitude inputs.
+         for i in range(250):
+             raw=rng.uniform(-(.10 if i<125 else 2),(.10 if i<125 else 2),5)
+             returns=rng.normal(0,(.005 if i%2 else .2),(40,5))
