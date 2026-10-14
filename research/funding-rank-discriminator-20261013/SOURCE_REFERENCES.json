@@ -1,0 +1,122 @@
+{
+  "schema": "FUNDING_BASKET_PREPARATION_SOURCE_REFERENCES_V1",
+  "historical_status": "NO_GO_INCOMPLETE_2021_2024_FUNDING_AND_SOURCE_CERTIFICATES",
+  "restored": [
+    {
+      "local": "inputs_restored/FUNDING_DIRECTION_INPUTS.zip",
+      "commit": "53357f33f4e6ccb536af762fbff39b269c24d837",
+      "path": "research/settled-funding-direction-20261012/public/INPUTS_FINAL/PACKET.zip",
+      "bytes": 389393,
+      "SHA256": "0d2cf51769f2c9444c83b1715c5a6fd730d282e96cc4e84d1feaecf482ffdcd2",
+      "git_blob_SHA1": "2ed4c77fa43d4a4d0908c4252ffd975320e4bbab",
+      "source_only_fields": [
+        "close_available_us",
+        "close",
+        "symbol_order",
+        "raw_event_times",
+        "raw_event_rates",
+        "raw_event_hours"
+      ],
+      "outcome_arrays_not_consumed": [
+        "p0",
+        "p1",
+        "funding_per_unit",
+        "owned_interval_valid",
+        "CARRY",
+        "SHORT"
+      ]
+    },
+    {
+      "local": "inputs_restored/CORE5_WARMUP_MASKS.npz",
+      "commit": "560d9afbe40ffe7d961b4d3b22db9df684d21800",
+      "path": "research/core5-2021-fullsource-20261013/CORE5_WARMUP_MASKS.npz",
+      "bytes": 5980,
+      "SHA256": "13d2cd62d6baf3059d991c11f2d2bd887a6faf571c206b11c4b3ba1e8a438bb2",
+      "git_blob_SHA1": "0ba84f1950ec285b8802e7014910b51126baaf9d"
+    },
+    {
+      "local": "inputs_restored/Y2024_TARGETS.npz",
+      "commit": "1aa73932cc34ba22f92af50dfe29d0d1b97fb722",
+      "path": "research/causal-headroom-2024-result-20261013/Y2024_TARGETS.npz",
+      "bytes": 79421,
+      "SHA256": "4f3b615b524de3220df3c10595ba2a7723f6e62dcff59b31ed82cb9476a9b5d5",
+      "git_blob_SHA1": "477790bfc88ab746dbfbb27e3eb7b1160291db26",
+      "fields_read": [
+        "decision_us",
+        "symbol_order",
+        "annual_covariance"
+      ],
+      "held_target_arrays_not_evaluated": [
+        "CS_MATCHED",
+        "VOL_MATCHED",
+        "STATIC50",
+        "SMA200_10PCT",
+        "EXACTHALF"
+      ]
+    }
+  ],
+  "exact_original_code": [
+    {
+      "commit": "6ac400bad359d401c72b36366c98a5763c51322c",
+      "path": "scripts/research/public_cross_section_momentum_compat.py",
+      "git_blob_SHA1": "77c7902755b11dd4edbc7aa0dcf1f9593384900f",
+      "SHA256": "9ce46e0eecbf7891a28f5ae072eb735d0eea15a41b331ccf37fd637709404599"
+    },
+    {
+      "commit": "6ac400bad359d401c72b36366c98a5763c51322c",
+      "path": "modules/transformer_v2/portfolio.py",
+      "SHA256": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b"
+    },
+    {
+      "commit": "45052aacfa54fc62aba103e3e82c7c1c2d247efc",
+      "path": "research/expanded-frozen-2024-20261013/targets_2024.py",
+      "git_blob_SHA1": "c6fbdb53132dc36c2130672580461bc04494c2e1",
+      "role": "Exact original fullfive200 admission rule, dailycube pin and target/covariance producer"
+    },
+    {
+      "commit": "53357f33f4e6ccb536af762fbff39b269c24d837",
+      "path": "research/settled-funding-direction-20261012/core.py",
+      "git_blob_SHA1": "b7c5a01f1752f7d66f65070cad7577994b172de0",
+      "role": "Borrowed daily_rates asymmetric cadence QA corrected only in new discriminator"
+    }
+  ],
+  "pending_funding": [
+    {
+      "year": 2021,
+      "commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+      "index_path": "research/temporal-feature-data-20261009/INDEX.json",
+      "bytes": 2246454,
+      "SHA256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+      "parts": 3,
+      "status": "NOT_RESTORED; exact original funding event Parquet projection requires isolated verified dependency"
+    },
+    {
+      "year": 2024,
+      "original_source_index_commit": "1aa73932cc34ba22f92af50dfe29d0d1b97fb722",
+      "original_source_index_path": "research/causal-headroom-2024-result-20261013/SOURCE_INDEX.json",
+      "original_source_index_git_blob_SHA1": "cb69a7ae4b73ba721e5ad03de126cf7316e9252e",
+      "original_event_file_bytes": 708927,
+      "original_event_file_SHA256": "44c91c0310974527e850c280ab073c07668160b9ee947471cd64a03269d93dbb",
+      "original_actual_event_count": 5490,
+      "status": "Original file listed but not separately published in this packet; parent is obtaining bounded source-only compact export in existing task"
+    }
+  ],
+  "restorations_errors": [
+    {
+      "action": "GitHub fetch_blob for binaryY2024TARGETS",
+      "error": "UTF8 UnicodeDecodeError",
+      "resolution": "Exact known commit:path base64 fetch_file succeeded; verified same blobSHA/bytes/SHA256"
+    },
+    {
+      "action": "Treat2024 subtree SHA ddf7a46955abad6f937d0189697b6a47a7356f20 as commit ref",
+      "error": "404 No commit found",
+      "resolution": "Parent supplied exact fullcommit1aa73932/path; no guessing"
+    },
+    {
+      "action": "Initial read from blob:none local Git",
+      "error": "Small public code/report lazy fetch detected before workspace reset",
+      "resolution": "Disabled lazy fetch for subsequent local reads; parent clarified public code/report retrieval authorized; no market or locked body fetched"
+    }
+  ],
+  "authority": "All seen development; rawfraction1 and24h publication proxy conditional. No original archive/economic/PIT authority upgraded."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "attempt": 1,
+    "stage": "SYNTHETIC_ONLY",
+    "tests": 13,
+    "passed": 12,
+    "errors": 1,
+    "failure": "test_variable_intervals_not_eight_hour_rescaled: settled_sum returned NOT_READY; assertAlmostEqual(None,.0105) raised TypeError",
+    "cause": "Fixture spaced each next event using previous interval h, but original source cadence QA correctly compares spacing to next reported h. A day with first/last8h and middle2/2/4h has observed events0/2/4/8/16h; corrected fixture reports8/2/2/4/8.",
+    "correction": "Synthetic fixture only; algorithm, score, historical source and frozen scientific parameters unchanged.",
+    "historical_evaluations": 0,
+    "wallets": 0,
+    "fits": 0
+  },
+  {
+    "attempt": 2,
+    "stage": "SYNTHETIC_ONLY",
+    "tests": 13,
+    "passed": 13,
+    "historical_evaluations": 0,
+    "finding": "Independent review then found borrowed day-edge QA incorrectly projected the last preceding interval forward; first/last8h fixture hid asymmetric cadence failure.",
+    "original_borrowed_function": "research/settled-funding-direction-20261012/core.py:daily_rates",
+    "original_public_commit": "53357f33f4e6ccb536af762fbff39b269c24d837",
+    "original_git_blob_SHA1": "b7c5a01f1752f7d66f65070cad7577994b172de0",
+    "superseded_QA_clause": "Each of21 UTC days requires finite raw rates, finite positive reported intervals,24 nominal interval-hours, day-edge alignment and consecutive reported cadence within original60s archive jitter tolerance.",
+    "scope": "New discriminator source-admission correction only; no prior native wallet accounting fault or prior2023/25 result invalidity established."
+  },
+  {
+    "attempt": 3,
+    "stage": "SYNTHETIC_ONLY",
+    "tests": 16,
+    "passed": 15,
+    "failures": 1,
+    "historical_evaluations": 0,
+    "failure": "Asymmetric fixture expected502 reported intervalhours but actual endpoint semantics give510. Corrected expectation510; source algorithm accepted genuine changing cadence correctly. No score/lag/lookback/ranking changes."
+  }
+]
