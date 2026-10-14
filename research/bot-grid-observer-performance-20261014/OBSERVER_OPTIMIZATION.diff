@@ -1,0 +1,164 @@
+--- original_adapter65277
++++ optimized_adapter503dcdda
+@@ -6,6 +6,8 @@
+ from decimal import Decimal as D,localcontext,ROUND_DOWN
+ from copy import deepcopy
+ from itertools import product
++from collections.abc import Mapping,Sequence
++from types import MappingProxyType
+ import numpy as np
+ from bind_sources import load
+ PORT,ACCOUNT,NATIVE,H,RISK,F=load()
+@@ -16,6 +18,26 @@
+ 
+ 
+ def floor(x):return (x/STEP).to_integral_value(rounding=ROUND_DOWN)*STEP
++
++
++class OwnerAuditLedger(Sequence):
++ """Composed append-only owner evidence. No mutable public backing or rows."""
++ def __init__(self):self.__rows=[]
++ def __len__(self):return len(self.__rows)
++ def __getitem__(self,index):
++  value=self.__rows[index]
++  return tuple(value) if isinstance(index,slice) else value
++ @staticmethod
++ def _freeze_records(rows):
++  def freeze(value):
++   if isinstance(value,Mapping):return MappingProxyType({key:freeze(item) for key,item in value.items()})
++   if isinstance(value,(tuple,list)):return tuple(freeze(item) for item in value)
++   return value
++  return tuple(freeze(row) for row in rows)
++ def _commit(self,records):self.__rows.extend(records)
++ def _append(self,row):self._commit(self._freeze_records((row,)))
++ def _deny(self,*args,**kwargs):raise ValueError('OWNER_AUDIT_LEDGER_MUTATION_REFUSED')
++ __setitem__=__delitem__=__iadd__=__imul__=append=extend=insert=pop=remove=clear=reverse=sort=_deny
+ 
+ 
+ class GridNativeAdapter(NATIVE):
+@@ -26,7 +48,10 @@
+   self.base_btc=ZERO;self.base_desired=ZERO;self.original_desired=ZERO
+   self.daily_closes=daily_closes or {};self.covariance=covariance or {};self.initial_observations=initial_observations or {}
+   self.expired_sessions=set()
+-  self.allocations=[];self.funding_allocations=[];self.policy_events=[]
++  self.allocations=OwnerAuditLedger();self.funding_allocations=OwnerAuditLedger();self.policy_events=[]
++  self._owner_allocation_ledger=self.allocations;self._owner_funding_ledger=self.funding_allocations
++  self._owner_allocation_count=0;self._owner_funding_count=0
++  self._owner_fee_total=ZERO;self._owner_cost_total=ZERO;self._owner_funding_total=ZERO
+   self.seen_native_legs=set();self.seen_native_funding=set();self.settling=False
+   self._inside_funding=False;self._last_attempt_open=None;self.original_target=dict.fromkeys(S,ZERO)
+   self.restore_base_after_settlement=True
+@@ -160,17 +185,59 @@
+     allocated_fee=fee-used_fee if last else fee*quantity/q
+     allocated_cost=friction-used_cost if last else friction*quantity/q
+     used_fee+=allocated_fee;used_cost+=allocated_cost
+-    self.allocations.append(dict(native_leg=list(key),owner=owner,slot=slot,quantity=str(quantity),side=row['side'],fee=str(allocated_fee),execution_cost=str(allocated_cost)))
++    self._record_owner_fill(dict(native_leg=list(key),owner=owner,slot=slot,quantity=str(quantity),side=row['side'],fee=str(allocated_fee),execution_cost=str(allocated_cost)))
+   self.seen_native_legs.add(key)
+ 
++ def _check_owner_ledgers(self):
++  if self.allocations is not self._owner_allocation_ledger or self.funding_allocations is not self._owner_funding_ledger or len(self.allocations)!=self._owner_allocation_count or len(self.funding_allocations)!=self._owner_funding_count:
++   raise ValueError('OWNER_AUDIT_LEDGER_IDENTITY_OR_LENGTH_CHANGED')
++
++ def _record_owner_fill(self,row):
++  self._check_owner_ledgers()
++  records=OwnerAuditLedger._freeze_records((row,))
++  with localcontext() as ctx:
++   ctx.prec=40
++   # Same left-to-right ctx40 additions; stage all fallible work first.
++   fee_total=self._owner_fee_total+D(records[0]['fee'])
++   cost_total=self._owner_cost_total+D(records[0]['execution_cost'])
++  self._owner_allocation_ledger._commit(records)
++  self._owner_fee_total=fee_total;self._owner_cost_total=cost_total;self._owner_allocation_count+=1
++
++ def _record_owner_funding(self,rows):
++  self._check_owner_ledgers()
++  records=OwnerAuditLedger._freeze_records(rows)
++  with localcontext() as ctx:
++   ctx.prec=40
++   funding_total=self._owner_funding_total
++   for row in records:funding_total+=D(row['cash'])
++  # Both owner rows commit together, just as the original pair.extend did.
++  self._owner_funding_ledger._commit(records)
++  self._owner_funding_total=funding_total;self._owner_funding_count+=len(records)
++
++ def audit_owner_totals(self):
++  # One full independent fold at final result/snapshot, never a per-bar scan.
++  self._check_owner_ledgers()
++  with localcontext() as ctx:
++   ctx.prec=40
++   if sum((D(a['fee']) for a in self.allocations),ZERO)!=self._owner_fee_total:raise AssertionError('OWNER_FEE_PREFIX_TOTAL_CHANGED')
++   if sum((D(a['execution_cost']) for a in self.allocations),ZERO)!=self._owner_cost_total:raise AssertionError('OWNER_COST_PREFIX_TOTAL_CHANGED')
++   if sum((D(a['cash']) for a in self.funding_allocations),ZERO)!=self._owner_funding_total:raise AssertionError('OWNER_FUNDING_PREFIX_TOTAL_CHANGED')
++  self._reconcile()
++  if self._owner_funding_total!=self.account.funding_cash:raise AssertionError('FUNDING_DOUBLE_COUNT')
++
++ def result(self):
++  self.audit_owner_totals()
++  return super().result()
++
+  def _reconcile(self):
++  self._check_owner_ledgers()
+   grid=self.grid.inventory() if self.grid else ZERO
+   if self.account.positions[BTC].quantity!=self.base_btc+grid:raise AssertionError('NATIVE_OWNERSHIP_BRIDGE')
+   if grid and self.base_btc<0:raise AssertionError('OPPOSING_BTC_LEGS_FORBIDDEN')
+   with localcontext() as ctx:
+    ctx.prec=40
+-   if sum((D(a['fee']) for a in self.allocations),ZERO)!=self.account.fees:raise AssertionError('FEE_DOUBLE_COUNT')
+-   if sum((D(a['execution_cost']) for a in self.allocations),ZERO)!=self.account.execution_cost:raise AssertionError('FRICTION_DOUBLE_COUNT')
++   if self._owner_fee_total!=self.account.fees:raise AssertionError('FEE_DOUBLE_COUNT')
++   if self._owner_cost_total!=self.account.execution_cost:raise AssertionError('FRICTION_DOUBLE_COUNT')
+ 
+  def attempt(self,open_us,market_row):
+   if type(open_us) is not int or self._last_attempt_open is not None and open_us<=self._last_attempt_open:
+@@ -214,11 +281,12 @@
+    with localcontext() as ctx:
+     ctx.prec=40
+     g=amount*grid/quantity if quantity and grid else ZERO
+-    self.funding_allocations.extend([dict(native_event=key,owner='GRID',cash=str(g)),dict(native_event=key,owner='BASE',cash=str(amount-g))])
++    self._record_owner_funding([dict(native_event=key,owner='GRID',cash=str(g)),dict(native_event=key,owner='BASE',cash=str(amount-g))])
+    self.seen_native_funding.add(key)
+-  with localcontext() as ctx:
+-   ctx.prec=40
+-   if sum((D(a['cash']) for a in self.funding_allocations),ZERO)!=self.account.funding_cash:raise AssertionError('FUNDING_DOUBLE_COUNT')
++  self._check_owner_ledgers()
++  with localcontext() as ctx:
++   ctx.prec=40
++   if self._owner_funding_total!=self.account.funding_cash:raise AssertionError('FUNDING_DOUBLE_COUNT')
+ 
+  def _risk_envelope(self,ends,reference):
+   nav=self.account.nav()
+@@ -336,11 +404,12 @@
+   self.policy_events.append(dict(event_us=stamp,kind='GRID_NATIVE_BOUND',session_id=self.grid.session_id,native_order=self.binding['native_order'],orders=[i.order_id for i in intents]))
+ 
+  def snapshot(self):
++  self.audit_owner_totals()
+   result=super().snapshot()
+   def pack(x):
+    if isinstance(x,D):return str(x)
+-   if isinstance(x,dict):return {str(k):pack(v) for k,v in x.items()}
+-   if isinstance(x,(tuple,list,set)):return [pack(v) for v in x]
++   if isinstance(x,Mapping):return {str(k):pack(v) for k,v in x.items()}
++   if isinstance(x,set) or isinstance(x,Sequence) and not isinstance(x,(str,bytes,bytearray)):return [pack(v) for v in x]
+    if hasattr(x,'__dataclass_fields__'):return {k:pack(getattr(x,k)) for k in x.__dataclass_fields__}
+    if isinstance(x,np.ndarray):return x.tolist()
+    return x
+--- wallet44/evidence.py
++++ optimized/evidence.py
+@@ -6,13 +6,14 @@
+ from pathlib import Path
+ from decimal import Decimal
+ import dataclasses,gzip,hashlib,json,math
++from collections.abc import Mapping,Sequence
+ 
+ def safe(v):
+  if isinstance(v,Decimal):return str(v)
+  if dataclasses.is_dataclass(v):return {k:safe(getattr(v,k)) for k in v.__dataclass_fields__}
+- if isinstance(v,dict):return {str(k):safe(x) for k,x in v.items()}
++ if isinstance(v,Mapping):return {str(k):safe(x) for k,x in v.items()}
+  if isinstance(v,set):return [safe(x) for x in sorted(v,key=repr)]
+- if isinstance(v,(tuple,list)):return [safe(x) for x in v]
++ if isinstance(v,Sequence) and not isinstance(v,(str,bytes,bytearray)):return [safe(x) for x in v]
+  if hasattr(v,'tolist'):return v.tolist()
+  if hasattr(v,'item'):return v.item()
+  return v

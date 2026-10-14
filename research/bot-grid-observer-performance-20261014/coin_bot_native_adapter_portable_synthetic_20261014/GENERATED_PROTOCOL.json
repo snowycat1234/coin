@@ -1,0 +1,54 @@
+{
+  "candidate": "CSH_BTC_GRID_REPLACE10",
+  "stage": "GENERATED_ONLY_NATIVE_ADAPTER",
+  "historical_GO": false,
+  "risk_parity_certified": false,
+  "controls": [
+    "UNCHANGED_CSH",
+    "FIXED_POSITIVE_BTC_REPLACE10_CASH"
+  ],
+  "prehistory_clarification": "GRID ineligible before its first trade retains original BTC CSH target; CASH control always trims10% positive native BTC quantity.",
+  "policy": {
+    "range_daily_completed_closes": 30,
+    "arithmetic_intervals": 4,
+    "freeze_weekday_UTC": "Monday00:00",
+    "session_days": 7,
+    "replacement_fraction": 0.1,
+    "initial_inventory": "paid native next-open buys",
+    "unknown_covariance": "fail_closed_original_target_fallback",
+    "capacity": "causal decision completed quote admission plus unchanged native execution .001 previous-minute cap"
+  },
+  "finance": {
+    "shared_initial_USDT": 10000,
+    "leverage": 1,
+    "no_topup": true,
+    "gross_target": 0.6,
+    "asset_target": 0.3,
+    "annual_covariance_vol": 0.1,
+    "fee_bps": 5.5,
+    "half_spread_bps": 4,
+    "slippage_bps": 4,
+    "terminal_opens": 60,
+    "quantity_step": "1e-8_idealized_conditional",
+    "funding": "RAW_FRACTION_SCALE1_CONDITIONAL"
+  },
+  "metrics_plan": [
+    "all_event_minute_MDD",
+    "daily_realized_annual_vol",
+    "daily_ES95_loss",
+    "worst_complete_30d_loss",
+    "actual_max_and_mean_gross",
+    "actual_max_abs_net",
+    "actual_max_per_asset_gross",
+    "halt_and_ruin_counts",
+    "risk_exit_failure_count",
+    "paid_terminal_residual_notional"
+  ],
+  "future_gate": "Serial exact-source/cost/calendar matched original and candidate actual ledgers; every risk metric nonincrease plus fixed absolute bounds; insufficient observations or any marked/unfilled/halted terminal means inconclusive/fail, never certification.",
+  "current_blockers": [
+    "real source availability and original daily admission mapping unimplemented",
+    "no adapter restore/fork/split parity",
+    "no historical paired risk evidence",
+    "funding convention and fine quantity grid remain inherited conditional assumptions"
+  ]
+}

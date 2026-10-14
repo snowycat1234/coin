@@ -1,0 +1,124 @@
+{
+  "array_archive_open_attempts": 0,
+  "bounded_replay": {
+    "limits": {
+      "AS_bytes": 4000000000,
+      "CPU_seconds": 180,
+      "CPUs": 1,
+      "RSS_bytes": 2000000000,
+      "output_bytes": 250000000,
+      "wall_seconds_per_side": 240
+    },
+    "stages": [
+      {
+        "exit_code": 0,
+        "log_SHA256": "fc64db89edea72a01e8ce0c0be3b4891b3a8100c24a52315220c8b516007cb85",
+        "mode": "baseline",
+        "peak_group_RSS_bytes": 258023424,
+        "stop": null,
+        "wall_seconds": 51.230419362997054
+      },
+      {
+        "exit_code": 0,
+        "log_SHA256": "e052e56efb20b119fd0925b84de49bee28a7a18954a74bf9555eca6695578594",
+        "mode": "candidate",
+        "peak_group_RSS_bytes": 255463424,
+        "stop": null,
+        "wall_seconds": 28.66218995700183
+      }
+    ]
+  },
+  "dense_generated_profile": {
+    "baseline_loop_seconds": 29.067338597000344,
+    "days": 30,
+    "fill_legs": 143,
+    "funding_events": 445,
+    "minutes": 43200,
+    "observed_loop_speedup": 2.982809905848235,
+    "optimized_loop_seconds": 9.744951745000435,
+    "owner_funding_rows": 890,
+    "timing_scope": "ONE_SAME_MACHINE_SINGLE_CPU_GENERATED_PAIR_UNPROFILED_NOT_ANNUAL_ESTIMATE"
+  },
+  "evidence": {
+    "EXACT_GENERATED_PARITY.json": {
+      "SHA256": "52a6829821f24a41ef4b6bdb63fc478431fd74faaa7fbd615b76ed691438e1d0",
+      "bytes": 55247
+    },
+    "compare_exact_generated.py": {
+      "SHA256": "6bb4fe30f094a6122fb012f67c5e205b4b56e74169675ef6ef54fca377616609",
+      "bytes": 3126
+    },
+    "financial_AST_and_pure_observer_review": {
+      "SHA256": "91c6ec7961d8139eaaf16d20d85cfd7575208d6f25a293b31a2fc46291038659",
+      "bytes": 2430
+    },
+    "paired_attempt001/BOUNDED_RECEIPT.json": {
+      "SHA256": "ed807112aff3450fc0a9e268f2b35a4e29e51dc73e8ab78c578d7af2235af929",
+      "bytes": 950
+    },
+    "paired_attempt001/baseline/EXECUTION_RECEIPT.json": {
+      "SHA256": "68b7d5a5ee3adc25791a933a8360f2f84847eccec151e4c65bd6499c6152da9c",
+      "bytes": 4579
+    },
+    "paired_attempt001/candidate/EXECUTION_RECEIPT.json": {
+      "SHA256": "5f294ce90942701a8cef746d3fde02d93e51e34c44368edd14154a31cf12333d",
+      "bytes": 4582
+    },
+    "run_bounded_independent.py": {
+      "SHA256": "485bbcb39b6e6d205112fd66716e455d3d1337f8b452b93fd282ead7f57e7514",
+      "bytes": 3765
+    },
+    "run_exact_generated.py": {
+      "SHA256": "e3f2a09ddb3d00a7c6948b199c7ef02d449e27ece030b1aded4a3dcfb4920463",
+      "bytes": 4733
+    }
+  },
+  "evidence_serializer_SHA256": "682c40d797e29e758bafaed316967a15765c1a2dfc610bf3370db8d068b0705e",
+  "financial_strategy_scheduler_source_changed": false,
+  "generated_full_parity": {
+    "account_native_owner_snapshot_decoded_bytes_exact": true,
+    "cases": 10,
+    "complete_bodies": 170,
+    "completed_minutes_per_side": 82080,
+    "deterministic_fixture_identity": "DETERMINISTIC_UUID4_COUNTER_AND_PYTHONHASHSEED_0_ON_BOTH_SIDES",
+    "identity_normalizations": 0,
+    "ignored_financial_fields": 0,
+    "parquet_file_bytes_exact": true,
+    "validated_evidence_manifests": 20
+  },
+  "historical_GO": false,
+  "historical_execution": false,
+  "historical_wallets": 0,
+  "limitations": [
+    "Fixed Decimal rounding/trap context required for chronological prefix versus prior rescan parity; final fold rejects changed-context divergence.",
+    "Immutable Mapping/Sequence rows deliberately change list/dict copy/deepcopy behavior; snapshot/export retains canonical plain dict/list evidence.",
+    "Arbitrary hostile private in-process memory editing excluded by published scope.",
+    "Generated dense parity and performance acceptance owned by parent reviewer.",
+    "Copy/deepcopy is not a supported replay or resume mechanism; unchanged fork/from_snapshot explicitly refuse.",
+    "No historical yearly runtime, profitability, risk parity, restored-wallet or live trading claim.",
+    "Observed generated timing is machine/workload-specific. Existing actual133-day partial attempt is preserved and is not an annual result.",
+    "Historical execution still requires separate exact review/source/resource/one-case parent authorization and unchanged original26 checksum-only admission."
+  ],
+  "optimized_adapter_SHA256": "503dcdda95927e612f5c2bb81a900bf7bbb8f65376a66600379d04d5219e2e37",
+  "original_adapter_SHA256": "65277cc7fc79955792198ceaf1c300a0aac4b7c0ad461ec88d11ae1b320ed5c4",
+  "preparation_manifest_SHA256": "1b4c05b89dc1fe99f890d7364b3017d58ce0b3b622450c9a5cefe03fa08ef563",
+  "previous_blockers": [
+    {
+      "finding": "Mutable list/dict subclasses allowed builtin mutation with unchanged identity and length.",
+      "resolution": "Composed Sequence and recursively immutable Mapping/tuple rows; public/builtin mutators now refuse.",
+      "revision": "bbd02f3933e80cea747bf7147139b5bf7640ca5e314dd2f11cbe4f6d79340d3e"
+    },
+    {
+      "finding": "Fee cache and first funding row could commit before later validation failure.",
+      "resolution": "Freeze/conversions/ctx40 prospective totals staged before ledger/cache/count commit; independent failure probes pass.",
+      "revision": "d155f0be_preview"
+    }
+  ],
+  "prior_wallet_preparation_manifest_SHA256": "44d66918dea6183553f54947a4a73b4fb77601065163b21e75b9aded4ddb91b4",
+  "pure_observer_checks_passed": 11,
+  "restore_supported": false,
+  "review_scope": "EXACT_INCREMENTAL_OWNER_OBSERVER_PERFORMANCE_REVISION",
+  "schema": "INDEPENDENT_ORIGINAL_CSH_GRID_DRIVER_PREPARATION_REVIEW_V1",
+  "source_closure_and_financial_AST_status": "PASS_EXACT_FINAL_FINANCIAL_AST_AND_PURE_OBSERVER_REVIEW",
+  "status": "PASS_PREPARATION_GENERATED_ONLY"
+}
