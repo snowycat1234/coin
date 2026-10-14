@@ -1,0 +1,24 @@
+[
+  {
+    "method": "H090NativeControl._atomic_risk_admission",
+    "modified_method_SHA256": "6e308374477b781f9365d9de64045708c11fff65cd4184a7165f5c0c3186e5e3",
+    "original_method_SHA256": "62800da1d0b9615680f9f58c8bd40d4064b94c1f222eb257449dd1fc2340c1e8",
+    "single_literal_replacement": {
+      "new": "probe=clone_preview_account(raw)",
+      "old": "probe=deepcopy(raw,{id(raw.instrument_profiles):raw.instrument_profiles})"
+    },
+    "source": "coin_h090_finite_native_20261014/native_control.py",
+    "source_SHA256": "83a802731fd8a7d42b6e77873e42449f2fe736e20d720abf15f39a718f582429"
+  },
+  {
+    "method": "CapitalGuard.execute_fill",
+    "modified_method_SHA256": "5725d298d1fadb9923782704a6ba9a103e8ae4caec3b6353bd253e161681a9ff",
+    "original_method_SHA256": "f670eedfdf0a51bd9e1e90d553bf289f597e6f879fa5d4731d2e54a9e63244c7",
+    "single_literal_replacement": {
+      "new": "probe = clone_preview_account(self.account)",
+      "old": "probe = deepcopy(self.account, {id(self.account.instrument_profiles):\n                                            self.account.instrument_profiles})"
+    },
+    "source": "coin_h090_finite_native_20261014/dependencies/account/bounded_policy.py",
+    "source_SHA256": "b6f9c3163d2d4fcfca34eacb0ac58dad86862f71775419a4c582852a6b481fae"
+  }
+]

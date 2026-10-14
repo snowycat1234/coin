@@ -1,0 +1,9 @@
+# Exact original2023 prefix CONTROL preparation
+
+This code-only carrier preserves exact reviewed b58 source, schema-compatible review5be22fd5 and the small author saved parity summary. The unchanged financial/source closure and public original200 proof/receipt bytes are reused. No denied performance archive, its catalog or raw generated-output contents is carried or claimed publicly restorable. The scoped review references private retained generated evidence; publication introduces no new account, profile, source audit or historical execution.
+
+Copy the33 frozen source files listed by OVERLAY_MAP.json into its consumer module directory under the existing verified H090 consumer base. Keep the prior185-path code/checksum cache unchanged. Copy the current review to its separate indicated path. Verify PUBLIC_PAYLOAD_MANIFEST.json and every selected SHA before any project import. Then supply the exact consumer runtime sites, remove PYTHONOPTIMIZE, and run python -I -S -B run_verified.py --preparation-manifest-sha b58cafe58b51714926aa00929726618619e6ae37c53f5222f4417451480f3fc7 metadata. No tape or financial test replay is required for this transport.
+
+HARNESS_ONLY_CORRECTION.json retains an original generic ephemeral /workspace/scratch project-output locator as frozen provenance. It is not a portable consumer destination; all actual consumer files belong under the consumer-selected base. Generic /opt/codex installation defaults in the unchanged generated controller are likewise original environment provenance. Existing original-source case entrypoint receives explicit consumer runtime sites.
+
+The failed68b7 harness identity and its narrow monitoring-slot correction remain in frozen metadata/diffs and the review. Author summaries retain their original pending-review labels; the separate review supplies later scoped acceptance. Historical execution requires another exact root one-case GO. FINITE remains unchanged and unoptimized.

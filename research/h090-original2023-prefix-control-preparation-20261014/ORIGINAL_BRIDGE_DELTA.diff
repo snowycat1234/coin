@@ -1,0 +1,39 @@
+--- accepted263cc/original_bridge.py
++++ descendant/original_bridge.py
+@@ -12,6 +12,8 @@
+ from native_control import H090NativeControl,DESCRIPTOR,POLICY,S,NATIVE,h090_factory
+ from finite_candidate import FiniteNativeCandidate
+ from calendar_readiness_v2 import SourcePacket,SourceReadinessError
++from preview_callers import PrefixH090NativeControl,PrefixCapitalGuard
++from preview_prefix import install_preview_histories
+ 
+ def raw_sha(a):return hashlib.sha256(a.tobytes()).hexdigest()
+ 
+@@ -210,6 +212,18 @@
+    raise ValueError('H090_COV365_BIT_MISMATCH_WITH_SAVED_ORIGINAL_PROJECTION')
+   return result
+ 
++class OriginalPrefixH090Control(OriginalH090Control):
++ # VERSION/meta stay exact for full scheduler/account scientific parity.
++ # Descendant performance provenance lives in BRIDGE_SCOPE and the freeze.
++ _atomic_risk_admission=PrefixH090NativeControl._atomic_risk_admission
++ def __init__(self,window,registry,*,case_args=None):
++  # Keep every original source/proof/root gate and native constructor first.
++  super().__init__(window,registry,case_args=case_args)
++  # The installer refuses all non-fresh accounts; there is no migration.
++  install_preview_histories(self.account.engine)
++  self.account.capital_guard=PrefixCapitalGuard(self.account.engine)
++  self.account.risk_admission=self._atomic_risk_admission
++
+ class OriginalFiniteCandidate(FiniteNativeCandidate,OriginalH090Control):
+  VERSION='h090_finite_original2023_one_case_bridge_v1'
+ 
+@@ -222,7 +236,7 @@
+  from native_control import PORT
+  window=dict(admitted['window'])
+  if not isinstance(window['daily'],PORT.native.pl.DataFrame):window['daily']=PORT.native.pl.DataFrame(window['daily'])
+- cls=OriginalH090Control if arm=='CONTROL' else OriginalFiniteCandidate
++ cls=OriginalPrefixH090Control if arm=='CONTROL' else OriginalFiniteCandidate
+  sim=cls(window,registry,case_args=case_args)
+  sim.bridge_arm=arm;sim.bridge_source_scope=registry.scope
+  return sim

@@ -1,0 +1,13 @@
+{
+  "clone_fork_and_snapshot_deepcopy_paths_unchanged": true,
+  "file": "preview_prefix.py",
+  "finance_and_preview_callers_unchanged": true,
+  "new_file_SHA256": "18527c7db95d4cff4642df280ab10a9cbe3949dca4efb51505b0b95fc2149d82",
+  "old_file_SHA256": "0352cd6c58688ad014f43ab145cd4202a0e504526e3ea0b32b643a84b5c9e70b",
+  "old_source_freeze_SHA256": "b35b9437abf85ae4c580b3c3d3b5360e21492627bf0bed2793eb861060f0a532",
+  "plain_dict_list_path_unchanged": true,
+  "single_replacement": {
+    "new": "    if type(value) in (FrozenList, FrozenDict):\n        # Public constructors may contain mutable children. Copy and validate\n        # incoming wrappers; only stored prefixes bypass freeze during forks.\n        active = set() if active is None else active\n        if id(value) in active:\n            raise TypeError('CYCLIC_HISTORY_RECORD_REFUSED')\n        active.add(id(value))\n        try:\n            plain = dict(value) if type(value) is FrozenDict else list(value)\n            return freeze(plain, active)\n        finally:\n            active.remove(id(value))\n",
+    "old": "    if type(value) in (FrozenList, FrozenDict):\n        return value\n"
+  }
+}
