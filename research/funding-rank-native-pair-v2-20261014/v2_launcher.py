@@ -35,6 +35,24 @@ def verify_financial(roots):
   r=closure['resource_only_guard'];check(Path(roots['workspace'])/r['path'],r['SHA256'])
  return {'original_port_files':26,'fine_guard_files':7,'fine_freeze_bootstrap_review':3,'status':'PASS_V2_FINANCIAL_CLOSURE_ONLY_NOT_V1_DIAGNOSIS'}
 
+def verify_imported_financial(roots,port):
+ """Bind actual file-backed runtime imports, including cached modules, before accounts."""
+ closure=read(HERE/'EXECUTABLE_CLOSURE.json');repo=Path(roots['repo']);fine=Path(roots['fine'])
+ def module_identity(module,path,expected):
+  filename=getattr(module,'__file__',None);spec=getattr(module,'__spec__',None);origin=getattr(spec,'origin',None)
+  if filename is None or origin is None or Path(filename).resolve()!=path.resolve() or Path(origin).resolve()!=path.resolve():raise GateError('FINANCIAL_IMPORT_SHADOW:'+str(path.name))
+  check(Path(filename),expected)
+ for n,r in closure['repo_files'].items():
+  # public_sma_perpetual is the unchanged original port's intentional in-memory stub.
+  if n=='scripts/investment/public_sma_perpetual.py':continue
+  if n.startswith('src/quant/') and n.endswith('.py'):name=n[4:-3].replace('/','.')
+  elif n.startswith('scripts/') and n.endswith('.py'):name=n[:-3].replace('/','.')
+  else:continue
+  module_identity(sys.modules.get(name),repo/n,r['SHA256'])
+ for name in ('fine_account','freeze_bootstrap'):module_identity(sys.modules.get(name),fine/(name+'.py'),closure['fine_files'][name+'.py']['SHA256'])
+ for module,n in ((port,'research/static50-sma-20261013/local_native_apis.py'),(port.grid,'research/quantity-grid-sensitivity-20261012/grid_account.py'),(port.state_io,'research/cs-continuous-economics-20261012/state_io.py'),(port.activity,'research/short-native-activity-20261012/activity.py')):module_identity(module,repo/n,closure['repo_files'][n]['SHA256'])
+ module_identity(sys.modules.get('terminal_adapter'),HERE/'terminal_adapter.py',closure['terminal_adapter_SHA256'])
+
 def load_engine(roots):
  verify_financial(roots);repo=Path(roots['repo']);fine=Path(roots['fine']);sys.path[:0]=[str(repo),str(repo/'src'),str(fine)]
  os.environ['QUANT_ROOT']=str(repo);os.environ['QUANT_STATE']=str(roots.get('workspace',fine.parent));os.environ['CONFIG_FILE']='/dev/null'
@@ -43,6 +61,7 @@ def load_engine(roots):
  if Path(fine_account.__file__).resolve()!= (fine/'fine_account.py').resolve() or Path(terminal_adapter.__file__).resolve()!=HERE/'terminal_adapter.py':raise GateError('FINANCIAL_IMPORT_SHADOW')
  if tuple(port.SYMBOLS)!=S or port.native.NativeDailySimulator.__module__!='scripts.investment.resumable_perpetual':raise GateError('NATIVE_CLASS_SYMBOL_IDENTITY')
  if port.native.COSTS[0]!={'id':'BASE27','half_spread_bps':4,'slippage_bps':4,'roundtrip_bps':27} or port.native.UNITS[0]!={'id':'RAW_AS_FRACTION','scale':1.0}:raise GateError('COST_FUNDING_REGISTRY')
+ verify_imported_financial(roots,port)
  return port,fine_account.FineGridAccount,terminal_adapter.EarlierTerminalSimulator
 
 def daily_frame(records):
