@@ -1,0 +1,50 @@
+{
+  "PID": 351088,
+  "start_UTC": "2026-10-14T18:57:17.949484+00:00",
+  "deadline_UTC": "2026-10-14T18:59:17.949484+00:00",
+  "historical_GO": false,
+  "tests_run": 10,
+  "fixed_nodes": [
+    "test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator",
+    "test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory",
+    "test_synthetic.Tests.test_all_invalid_only_original_paid_reduction",
+    "test_synthetic.Tests.test_below_opening_minimum_native_refusal",
+    "test_synthetic.Tests.test_cash_and_funding_before_fills",
+    "test_synthetic.Tests.test_dust_distinct_from_liquidity_whole_lot",
+    "test_synthetic.Tests.test_fee_charged_boundary",
+    "test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact",
+    "test_synthetic.Tests.test_future_signal_price_rejected",
+    "test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed",
+    "test_synthetic.Tests.test_long_short_original_reduce_then_increase",
+    "test_synthetic.Tests.test_mixed_priority_does_not_bypass_unrelated_increase",
+    "test_synthetic.Tests.test_nonmonotonic_no_shortcut",
+    "test_synthetic.Tests.test_nonrepresentable_dust_not_silently_filled",
+    "test_synthetic.Tests.test_nontick_original_scheduler_journals_exact",
+    "test_synthetic.Tests.test_partial_fill_real_residual_and_executed_position",
+    "test_synthetic.Tests.test_partial_valid_all_gates_enumerated",
+    "test_synthetic.Tests.test_pending_mixed_corner_native_cash_risk",
+    "test_synthetic.Tests.test_shared_capacity_partial_selection",
+    "test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact"
+  ],
+  "errors": [
+    {
+      "test": "test_invalid_and_future_covariance_fail_closed (test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed)",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/coin-cloud/original-csh-admission-partial-v3-20261014/test_synthetic.py\", line 73, in test_invalid_and_future_covariance_fail_closed\n    with self.assertRaises(ValueError):ChargedPreview(a,prices=self.vec(100,100,100,100,100),covariance=np.eye(5),pending=self.vec(),previous_quote=self.vec(100000000,100000000,100000000,100000000,100000000),event_us=180000001,signal_us=120000000,covariance_available_us=120000001,quote_available_us=0)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: ChargedPreview.__init__() missing 1 required keyword-only argument: 'price_available_us'\n"
+    }
+  ],
+  "failures": [],
+  "status": "FAILED_PRESERVED",
+  "resource": {
+    "exit": 1,
+    "end_UTC": "2026-10-14T18:57:18.626464+00:00",
+    "wall_seconds": 0.6772465499961982,
+    "CPU_seconds": 0.761294,
+    "peak_RSS_bytes": 127827968
+  },
+  "files": {
+    "TEST_LOG.txt": {
+      "bytes": 2447,
+      "SHA256": "6ffc798b30a2213d8dd6618f0cec66971bd4e2ba0c194468ac173d18384e7b80"
+    }
+  }
+}

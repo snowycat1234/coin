@@ -1,0 +1,24 @@
+test_actual_marks_not_execution_quote_risk_denominator (test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator) ... ok
+test_all_invalid_increase_preserves_actual_inventory (test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory) ... ok
+test_all_invalid_only_original_paid_reduction (test_synthetic.Tests.test_all_invalid_only_original_paid_reduction) ... ok
+test_below_opening_minimum_native_refusal (test_synthetic.Tests.test_below_opening_minimum_native_refusal) ... ok
+test_cash_and_funding_before_fills (test_synthetic.Tests.test_cash_and_funding_before_fills) ... ok
+test_dust_distinct_from_liquidity_whole_lot (test_synthetic.Tests.test_dust_distinct_from_liquidity_whole_lot) ... ok
+test_fee_charged_boundary (test_synthetic.Tests.test_fee_charged_boundary) ... ok
+test_full_valid_original_scheduler_and_account_exact (test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact) ... ok
+test_future_signal_price_rejected (test_synthetic.Tests.test_future_signal_price_rejected) ... ok
+test_invalid_and_future_covariance_fail_closed (test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed) ... ERROR
+
+======================================================================
+ERROR: test_invalid_and_future_covariance_fail_closed (test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/coin-cloud/original-csh-admission-partial-v3-20261014/test_synthetic.py", line 73, in test_invalid_and_future_covariance_fail_closed
+    with self.assertRaises(ValueError):ChargedPreview(a,prices=self.vec(100,100,100,100,100),covariance=np.eye(5),pending=self.vec(),previous_quote=self.vec(100000000,100000000,100000000,100000000,100000000),event_us=180000001,signal_us=120000000,covariance_available_us=120000001,quote_available_us=0)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ChargedPreview.__init__() missing 1 required keyword-only argument: 'price_available_us'
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.040s
+
+FAILED (errors=1)

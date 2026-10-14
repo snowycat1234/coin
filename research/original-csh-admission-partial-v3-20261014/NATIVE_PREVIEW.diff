@@ -1,0 +1,36 @@
+--- v2/native_preview.py
++++ v3/native_preview.py
+@@ -1,5 +1,5 @@
+ """Original .60/.30/.10 charged native preview, independent immutable corners.
+-Partial/refused native forecasts are invalid, with real executed/residual witnesses.
++Native floor dust remains pending; whole-lot partial/refusal forecasts fail closed.
+ No live account is modified, no fills are fabricated, no risk cap is raised.
+ """
+ from copy import deepcopy
+@@ -10,8 +10,10 @@
+ from candidate import S,vector
+ 
+ class ChargedPreview:
+- def __init__(self,account,*,prices,covariance,pending,previous_quote,event_us,signal_us,covariance_available_us,quote_available_us):
++ def __init__(self,account,*,prices,covariance,pending,previous_quote,event_us,signal_us,covariance_available_us,quote_available_us,price_available_us):
+   self.account=account;self.actual={s:account.positions[s].quantity for s in S};self.prices=vector(prices);self.pending=vector(pending);self.quote=vector(previous_quote);self.event_us=event_us;self.signal_us=signal_us;self.quote_us=quote_available_us
++  self.price_us=dict(price_available_us)
++  if set(self.price_us)!=set(S) or any(type(x) is not int or x<0 or x>signal_us for x in self.price_us.values()):raise ValueError("SIGNAL_TIME_PRICE_AVAILABILITY_REQUIRED")
+   clocks=(event_us,signal_us,covariance_available_us,quote_available_us)
+   if any(type(x) is not int or x<0 for x in clocks) or not covariance_available_us<=signal_us<event_us or quote_available_us>signal_us:raise ValueError('PAST_COVARIANCE_PRIOR_QUOTE_AND_ORIGINAL_CLOCK_REQUIRED')
+   if tuple(account.symbols)!=S or any(x<=0 for x in self.prices.values()) or any(x<0 for x in self.quote.values()):raise ValueError('EXACT_SHARED_CORE5_INPUTS')
+@@ -39,10 +41,10 @@
+     requested=min(abs(delta),abs(q)) if phase=='REDUCE' else abs(delta)
+     before=len(probe.trades);receipt=probe.execute_fill(s,'BUY' if delta>0 else 'SELL',requested,self.event_us,self.signal_us,tag+':'+phase+':'+s,execution_mid_price=self.prices[s],quote_available_us=self.quote_us,available_quantity=capacity[s],reduce_only=phase=='REDUCE')
+     rows=probe.trades[before:];executed=sum((D(row['decimal_strings']['quantity']) for row in rows),D(0));capacity[s]-=executed;legs.extend(rows)
+-    residual=requested-executed;w={'phase':phase,'symbol':s,'requested_quantity':str(requested),'executed_quantity':str(executed),'remaining_pending_quantity':str(residual),'pending_side':'BUY' if delta>0 else 'SELL','native_receipt':receipt,'actual_after':self._risk(probe)};requests.append(w)
+-    if residual:
+-     # Strictly refuse the candidate instead of pretending requested risk was
+-     # executed or silently dropping the real unfilled residual endpoint.
++    residual=requested-executed;native_full_lot=probe._floor(s,requested);unfilled_whole_lot=native_full_lot-executed;w={'phase':phase,'symbol':s,'requested_quantity':str(requested),'executed_quantity':str(executed),'remaining_pending_quantity':str(residual),'native_full_lot_quantity':str(native_full_lot),'unfilled_whole_lot_quantity':str(unfilled_whole_lot),'rounding_dust_quantity':str(requested-native_full_lot),'pending_side':'BUY' if delta>0 else 'SELL','native_receipt':receipt,'actual_after':self._risk(probe)};requests.append(w)
++    if unfilled_whole_lot or (requested and not executed):
++     # Native rounding dust remains pending exactly as scheduled; genuine
++     # liquidity whole-lot partials and native refusals fail closed.
+      return None,{'reason':'NATIVE_REFUSAL_OR_PARTIAL_WITH_RESIDUAL_PENDING','requests':requests,'legs':legs,'actual_executed_risk':w['actual_after']}
+   return probe,{'requests':requests,'legs':legs,'funding_before_preview_preserved':probe.funding==self.account.funding}
+  def evaluate(self,target,lam):
