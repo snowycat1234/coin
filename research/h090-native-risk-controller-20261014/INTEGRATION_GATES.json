@@ -1,0 +1,254 @@
+{
+  "excluded": [
+    "finite-add strategy",
+    "owner/reservation modules",
+    "historical arrays",
+    "financial wallets",
+    "replay",
+    "training/fit",
+    "strategy target generation"
+  ],
+  "gates": [
+    {
+      "evidence": {
+        "SHA256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+        "definition_line": 399,
+        "evidence": [
+          {
+            "line": 405,
+            "text": "            need(np.isfinite(w).all() and np.abs(w).max()<=.3+1e-12 and np.abs(w).sum()<=.6+1e-12,"
+          },
+          {
+            "line": 406,
+            "text": "                 'Existing .30 asset and .60 gross target caps')"
+          }
+        ],
+        "file": "originals/repo/scripts/investment/resumable_perpetual.py",
+        "symbol": "advance_day"
+      },
+      "id": "NATIVE_SCHEDULER_GROSS060",
+      "required": "Separate authorized reviewed H090 scheduler boundary retaining all clocks/finance; current adapter never invokes or bypasses original advance_day.",
+      "status": "BLOCKED_UNCHANGED_HARDCODED_GUARD"
+    },
+    {
+      "evidence": [
+        {
+          "SHA256": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+          "definition_line": 30,
+          "evidence": [
+            {
+              "line": 30,
+              "text": "def signed_risk_weights(raw, past_returns, annual_vol_target=.10):"
+            },
+            {
+              "line": 37,
+              "text": "    require(0 < annual_vol_target <= .10, 'Existing volatility target cannot increase')"
+            },
+            {
+              "line": 38,
+              "text": "    w = np.clip(w, -.3, .3)"
+            },
+            {
+              "line": 40,
+              "text": "    if gross > .6:"
+            },
+            {
+              "line": 41,
+              "text": "        w *= .6 / gross"
+            },
+            {
+              "line": 46,
+              "text": "    if sigma > annual_vol_target:"
+            },
+            {
+              "line": 47,
+              "text": "        w *= annual_vol_target / sigma"
+            },
+            {
+              "line": 48,
+              "text": "    return w, dict(unscaled_signed_covariance_annual_vol=sigma,"
+            }
+          ],
+          "file": "originals/repo/scripts/investment/public_sma_perpetual.py",
+          "symbol": "signed_risk_weights"
+        },
+        {
+          "SHA256": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+          "definition_line": 53,
+          "evidence": [
+            {
+              "line": 55,
+              "text": "                  completed_bar_count=200, annual_vol_target=.10,"
+            },
+            {
+              "line": 69,
+              "text": "    require(isinstance(annual_vol_target, (int, float)) and not isinstance(annual_vol_target, bool)"
+            },
+            {
+              "line": 70,
+              "text": "            and np.isfinite(annual_vol_target) and 0 < annual_vol_target <= .10,"
+            },
+            {
+              "line": 177,
+              "text": "            raw[symbol] = min(.3, .6 / len(membership)) * c['state']"
+            },
+            {
+              "line": 188,
+              "text": "            size = min(.3, .6 / len(active)) if active else 0."
+            },
+            {
+              "line": 218,
+              "text": "                sizes = np.minimum(.3, .6 * inverse / inverse.sum())"
+            },
+            {
+              "line": 230,
+              "text": "                                                  np.column_stack(returns), annual_vol_target)"
+            },
+            {
+              "line": 233,
+              "text": "            details = dict(unscaled_signed_covariance_annual_vol=0., net_target_weight=0.,"
+            }
+          ],
+          "file": "originals/repo/scripts/investment/public_sma_perpetual.py",
+          "symbol": "fixed_targets"
+        }
+      ],
+      "id": "ORIGINAL_STRATEGY_VOL010_AND_GROSS060",
+      "required": "New descriptor applies only separate risk math; original strategy targets/control untouched. Binding actual control asset010 targets remains required.",
+      "status": "BLOCKED_FOR_DIRECT_H090_CALL"
+    },
+    {
+      "evidence": {
+        "SHA256": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+        "definition_line": 48,
+        "evidence": [
+          {
+            "line": 48,
+            "text": "def scenario_config(cost: dict) -> PerpetualConfig:"
+          },
+          {
+            "line": 50,
+            "text": "    config = PerpetualConfig(fee_rate=cost.get('fee_rate_fraction', '0.00055'),"
+          },
+          {
+            "line": 51,
+            "text": "        half_spread_bps=cost['half_spread_bps'], slippage_bps=cost['slippage_bps'])"
+          },
+          {
+            "line": 53,
+            "text": "    if D(str(cost['roundtrip_bps'])) != expected:"
+          },
+          {
+            "line": 54,
+            "text": "        raise ValueError(\"roundtrip includes commission plus both execution components\")"
+          }
+        ],
+        "file": "originals/repo/scripts/investment/bybit_cost_inputs.py",
+        "symbol": "scenario_config"
+      },
+      "id": "ACCOUNT_CONFIG_FACTORY_AND_FULL_FINANCIAL_CLOSURE",
+      "required": "Original factory constructs legacy config; four source pins are not full account/registry/scheduler closure. Need exact authorized H090 config compatibility and isolated1x/no-topup identity without changing original finance.",
+      "status": "NOT_CERTIFIED"
+    },
+    {
+      "evidence": {
+        "SHA256": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+        "definition_line": 19,
+        "evidence": [
+          {
+            "line": 29,
+            "text": "    max_weight: float = 0.30"
+          },
+          {
+            "line": 30,
+            "text": "    max_gross: float = 0.60"
+          },
+          {
+            "line": 31,
+            "text": "    annual_vol_target: float = 0.10"
+          },
+          {
+            "line": 35,
+            "text": "        canonical = ("
+          },
+          {
+            "line": 42,
+            "text": "            and self.max_weight == 0.30 and self.max_gross == 0.60"
+          },
+          {
+            "line": 43,
+            "text": "            and self.annual_vol_target == 0.10 and self.min_notional == 10"
+          },
+          {
+            "line": 45,
+            "text": "        if not canonical:"
+          },
+          {
+            "line": 46,
+            "text": "            raise ValueError(\"ExecutionContractV2 canonical parameters are frozen\")"
+          },
+          {
+            "line": 57,
+            "text": "            raise ValueError(\"decision_us must be a nonnegative integer\")"
+          },
+          {
+            "line": 60,
+            "text": "            raise ValueError(\"stress delay must be a nonnegative integer\")"
+          },
+          {
+            "line": 66,
+            "text": "            raise ValueError(\"execution timestamp has no previous complete minute\")"
+          },
+          {
+            "line": 75,
+            "text": "            raise ValueError(\"signal cannot be received before logical availability\")"
+          },
+          {
+            "line": 89,
+            "text": "            raise ValueError(\"execution costs must be finite and nonnegative\")"
+          },
+          {
+            "line": 93,
+            "text": "    def rebalance_buffer(execution_rate: float, fee_rate: float, max_gross: float) -> float:"
+          },
+          {
+            "line": 95,
+            "text": "        return max(0.0, 1 - 2 * max_gross * ("
+          }
+        ],
+        "file": "originals/repo/src/quant/execution_contract.py",
+        "symbol": "ExecutionContractV2"
+      },
+      "id": "OLD_EXECUTION_CONTRACT_FREEZE",
+      "required": "New independent H090 risk descriptor/protocol review, preserving original frozen execution contract bytes; no old freeze relabel.",
+      "status": "BLOCKED_OLD_METADATA_NOT_H090_CERTIFICATION"
+    },
+    {
+      "id": "BUDGET_MARGIN_FREE_CASH",
+      "required": "Read actual Decimal financial balances after authorized native integration; target notional is not actual isolated margin. No reservations/owners implemented here.",
+      "required_actual_free_cash_USDT": "1000",
+      "required_actual_isolated_margin_USDT": "8500",
+      "required_external_planned_budget_USDT": "9000",
+      "status": "NOT_RUN_NOT_PROVEN"
+    },
+    {
+      "id": "INDEPENDENT_REVIEW_AND_PARENT_HISTORICAL_GO",
+      "required": "Source-only synthetic evidence cannot authorize any financial execution.",
+      "status": "MISSING_NO_GO"
+    }
+  ],
+  "historical_status": "NO_GO",
+  "native_certification": false,
+  "parity_scope": "Exact whole-file hash verified; test executes only original require/signed_risk_weights function nodes as a math oracle. No native account, strategy target or financial freeze certification.",
+  "schema": "H090_SOURCE_ONLY_INTEGRATION_GATES_V1",
+  "unchanged_scope": [
+    "account/Decimal finance",
+    "cost",
+    "funding",
+    "event clock",
+    "scheduler",
+    "source identities",
+    "original control",
+    "completed funding-result artifacts"
+  ]
+}
