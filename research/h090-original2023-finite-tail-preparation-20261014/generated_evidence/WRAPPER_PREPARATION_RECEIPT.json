@@ -1,0 +1,20 @@
+{
+  "old_wrapper": {
+    "bytes": 6829,
+    "SHA256": "a3bc6f3e940cf52ea235ccf73c20dfa7a0d4a356c5c5df16ade4ae4e396387c7"
+  },
+  "new_wrapper": {
+    "bytes": 7019,
+    "SHA256": "d031add88668aa8d654c726c1c605e1041fd8663364864ee7caff3b2e91feb67"
+  },
+  "binding_file": {
+    "bytes": 149,
+    "SHA256": "65c5f0c8290a3cc64c1ecce771fe2b38f6ea59f41e64224ef16a0c36e0baa7c8"
+  },
+  "ordered_sites": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages",
+    "/workspace/coin/.venv/lib/python3.12/site-packages"
+  ],
+  "Python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "diff": "--- h090_finite_tail_four_tests_worker_attempt001.py\n+++ h090_finite_tail_four_tests_worker_attempt002.py\n@@ -1,6 +1,6 @@\n import os,sys,time,datetime,resource,signal,json,hashlib,traceback,unittest,importlib.util\n from pathlib import Path\n-REV=Path('/workspace/coin-cloud/h090-finite-tail-read-20261014/revision001');OUT=REV/'test_attempt001'\n+REV=Path('/workspace/coin-cloud/h090-finite-tail-read-20261014/revision001');OUT=REV/'test_attempt002'\n START=datetime.datetime.now(datetime.timezone.utc);BEG=time.monotonic();END=START+datetime.timedelta(seconds=150)\n os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})\n for k,v in ((resource.RLIMIT_CPU,120),(resource.RLIMIT_AS,4000000000),(resource.RLIMIT_FSIZE,25000000)):resource.setrlimit(k,(v,v))\n@@ -32,6 +32,7 @@\n   if not any(n in ('sha','file_sha','bytes','check') for n in chain):raise RuntimeError('NPZ_CHECKSUM_ONLY_CALL_PATH_REQUIRED')\n   array_observations.append({'relative_path':str(p.relative_to(ACCEPTED)),'scope':'UNCHANGED_ORIGINAL_GUARD_WHOLE_FILE_CHECKSUM_ONLY','callers':chain})\n sys.addaudithook(audit)\n+os.environ[\"BOT_NATIVE_RUNTIME_SITES\"]='[\"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages\", \"/workspace/coin/.venv/lib/python3.12/site-packages\"]'\n rc=1;runner_result=None;recordings=0\n try:\n  mf=(REV/'REVISION_MANIFEST.json').read_bytes();assert len(mf)==2067 and sha(mf)=='f7528d125f939645fd6dd5d22dc113ddc0d3240bd048015f8f00edb7ecab56bd'\n"
+}

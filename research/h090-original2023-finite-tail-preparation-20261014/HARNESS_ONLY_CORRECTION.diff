@@ -1,0 +1,50 @@
+--- failed68b7/test_original_prefix_worker.py
++++ corrected/test_original_prefix_worker.py
+@@ -5,7 +5,7 @@
+ from pathlib import Path
+ import ast,cProfile,gzip,hashlib,importlib.machinery,json,os,resource,time,traceback,types
+ from unittest import mock
+-BASE=Path(__file__).resolve().parent;ROOT=BASE.parent;OUT=BASE/'generated_original_parity_attempt001'
++BASE=Path(__file__).resolve().parent;ROOT=BASE.parent;OUT=BASE/'generated_original_parity_attempt002'
+ PIN=sys.argv[1];BEGAN=time.monotonic();NPZ_OPENS=[];PARSER_CALLS=[];CASES=[]
+ KNOWN_NPZ={(ROOT/'coin_h090_finite_native_20261014/dependencies/repo/research/static50-sma-20261013/input'/n).resolve() for n in ('Y2023.npz','Y2025.npz')}
+ def digest(data):return hashlib.sha256(data).hexdigest()
+@@ -96,10 +96,17 @@
+  except (TypeError,ValueError) as error:
+   assert pattern in str(error),(pattern,str(error));return str(error)
+  raise AssertionError('EXPECTED_SOURCE_ADMISSION_REFUSAL_ABSENT:'+pattern)
++def unused_monitoring_tool(label):
++ # Select an unused slot without displacing cProfile or any other owner.
++ for tool in (4,3,0,1,5,2):
++  if sys.monitoring.get_tool(tool) is None:
++   sys.monitoring.use_tool_id(tool,label)
++   return tool
++ raise RuntimeError('NO_UNUSED_MONITORING_SLOT_FAIL_CLOSED')
+ def source_gates(O,A,P,K,N,F,T,np):
+  data=T.admitted(F.make_generated(days=1,original_recipe=True),recipe=True)
+  import bridge_bindings as B
+- errors=[];native_starts=[];tool=2;sys.monitoring.use_tool_id(tool,'source_gate_account_order')
++ errors=[];native_starts=[];tool=unused_monitoring_tool('source_gate_account_order')
+  code=N.NATIVE.__init__.__code__
+  def entered(code,offset):native_starts.append('native_constructor')
+  sys.monitoring.register_callback(tool,sys.monitoring.events.PY_START,entered)
+@@ -139,7 +146,7 @@
+  bundle=F.make_generated(days=days,weights=case.get('weights'),original_recipe=case['recipe'],quote=case['quote'],events=events)
+  data=T.admitted(bundle,recipe=case['recipe'])
+  baseline=A.make_sim(data,'CONTROL',generated=True)
+- timeline=[];tool=1;sys.monitoring.use_tool_id(tool,'original_bridge_constructor_order')
++ timeline=[];tool=unused_monitoring_tool('original_bridge_constructor_order')
+  codes={O.OriginalPrefixH090Control.__init__.__code__:'prefix_constructor',O.OriginalH090Control.__init__.__code__:'original_gated_constructor',N.NATIVE.__init__.__code__:'native_constructor',P.install_preview_histories.__code__:'fresh_history_installer'}
+  def start(code,offset):timeline.append(dict(event='start',method=codes[code]))
+  def end(code,offset,result):timeline.append(dict(event='return',method=codes[code]))
+--- failed68b7/run_original_prefix_once.py
++++ corrected/run_original_prefix_once.py
+@@ -5,7 +5,7 @@
+ ROOT=Path(__file__).resolve().parent.parent;BASE=Path(__file__).resolve().parent
+ assert len(sys.argv)==2
+ MODE='original_bridge_generated';FREEZE_PIN=sys.argv[1]
+-OUT=BASE/'generated_original_parity_attempt001'
++OUT=BASE/'generated_original_parity_attempt002'
+ LIMITS=dict(wall_seconds=150,CPU_seconds=120,RSS_bytes=2000000000,AS_bytes=4000000000,output_bytes=25000000,CPUs=1,math_threads=1)
+ INSTRUCTION='Root authorizes a separate narrow original2023 CONTROL preview-prefix descendant: original source/proof/root gates and exact CONTROL economics retained, immutable histories installed only after original gated native construction and before any event, exactly the two accepted clone callers. One bounded generated original-bridge parity worker: 1-day unfilled, 2-day signed partial-capacity/funding, 3-day original recipe; full native outputs. No historical arrays, drivers, public writes, installs, broad suite replay, migration, or retries. Independent review and published restoration plus fresh GO precede any full-year CONTROL.'
+ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()

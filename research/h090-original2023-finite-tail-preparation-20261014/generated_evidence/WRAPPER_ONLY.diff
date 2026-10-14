@@ -1,0 +1,18 @@
+--- h090_finite_tail_four_tests_worker_attempt001.py
++++ h090_finite_tail_four_tests_worker_attempt002.py
+@@ -1,6 +1,6 @@
+ import os,sys,time,datetime,resource,signal,json,hashlib,traceback,unittest,importlib.util
+ from pathlib import Path
+-REV=Path('/workspace/coin-cloud/h090-finite-tail-read-20261014/revision001');OUT=REV/'test_attempt001'
++REV=Path('/workspace/coin-cloud/h090-finite-tail-read-20261014/revision001');OUT=REV/'test_attempt002'
+ START=datetime.datetime.now(datetime.timezone.utc);BEG=time.monotonic();END=START+datetime.timedelta(seconds=150)
+ os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+ for k,v in ((resource.RLIMIT_CPU,120),(resource.RLIMIT_AS,4000000000),(resource.RLIMIT_FSIZE,25000000)):resource.setrlimit(k,(v,v))
+@@ -32,6 +32,7 @@
+   if not any(n in ('sha','file_sha','bytes','check') for n in chain):raise RuntimeError('NPZ_CHECKSUM_ONLY_CALL_PATH_REQUIRED')
+   array_observations.append({'relative_path':str(p.relative_to(ACCEPTED)),'scope':'UNCHANGED_ORIGINAL_GUARD_WHOLE_FILE_CHECKSUM_ONLY','callers':chain})
+ sys.addaudithook(audit)
++os.environ["BOT_NATIVE_RUNTIME_SITES"]='["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages", "/workspace/coin/.venv/lib/python3.12/site-packages"]'
+ rc=1;runner_result=None;recordings=0
+ try:
+  mf=(REV/'REVISION_MANIFEST.json').read_bytes();assert len(mf)==2067 and sha(mf)=='f7528d125f939645fd6dd5d22dc113ddc0d3240bd048015f8f00edb7ecab56bd'
