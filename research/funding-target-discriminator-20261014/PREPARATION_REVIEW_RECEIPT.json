@@ -1,0 +1,111 @@
+{
+  "schema": "EXACT_FUNDING_CSH_TARGET_PREPARATION_INDEPENDENT_REVIEW_V1",
+  "status": "PASS_EXACT_TARGET_PREPARATION_NO_ECONOMICS",
+  "manifest_sha256": "ec933f33144bb853cef6cbd877c69f23f6896f6f74cf652cbc7f28be7736b05e",
+  "manifest_bytes": 5875,
+  "verified_payload_files": 34,
+  "verified_payload_bytes": 288291,
+  "reviewed_at_UTC": "2026-10-14T01:12:56.745050+00:00",
+  "scope": "Frozen source/code/protocol, synthetic allocation and causality checks, resource and launch preservation review only. No new historical candidate or same-lag target pass.",
+  "independent_tests": {
+    "source_invariants": 6,
+    "allocation_state_parity_and_causality": 4,
+    "funding_provider_and_dependency_integrity": 4,
+    "total_distinct": 14,
+    "status": "PASS"
+  },
+  "worker_tests_independently_rerun": {
+    "tests": 12,
+    "status": "PASS",
+    "elapsed_seconds": 0.392
+  },
+  "independent_synthetic_resource": {
+    "elapsed_seconds": 0.6547722639998028,
+    "peak_RSS_bytes": 35151872,
+    "CPU_threads": 1,
+    "wall_cap_seconds": 60,
+    "AS_cap_bytes": 4000000000,
+    "CPU_cap_seconds": 60
+  },
+  "checks": [
+    "Exact pinned source Git blob and SHA256 identities were independently verified. The frozen 34-file payload was verified before and after final synthetic tests.",
+    "With synthetic unlagged identical scores, CS replay, common matching, STATIC50 and final allocation are bit-exact versus independently restored original sources, including covariance and proofs.",
+    "The original weekly anchor, stable ties, minimum-four price eligibility, sticky clearing and HOLD200-independent weekly CS31 state are preserved.",
+    "Existing mask metadata confirms that the March 29, 2021 rank owns the April 2 activation. A changed synthetic pre-admission rank changes the activation target.",
+    "Original signed held-subset covariance, 30 completed returns, ddof=1, annualization by 365, zero-common cashing, final upscaling, and 0.10/0.30/0.60 risk/asset/gross limits are preserved.",
+    "Identical raw baskets yield bit-identical daily targets despite changed scores. Unavailable future price/funding mutations and prefixes leave prior outputs unchanged.",
+    "Actual variable 8/4/12-hour intervals do not reweight raw rates. Missing certificates remain unknown; unknown raw intervals stay separate from normalized metadata. Negative rates raise the long-oriented score.",
+    "Every source-known raw rank receives direct Decimal rate-sum and Python stable-basket checks, including ranks preceding HOLD200 admission.",
+    "External source code and its manifest are byte-bound before import. A synthetic changed-code override is rejected without execution.",
+    "Rejected retries cannot overwrite existing attempts. New incomplete attempts retain failure receipts.",
+    "Parent GO binds exact preparation and review receipts. Timeout, one numeric thread, AS/CPU limits, RSS sampling, swap/host-memory/disk gates, and the SUMMARY-inclusive output cap are present."
+  ],
+  "source_parity_receipt_reviewed": {
+    "sha256": "6cb5b8593e8ec288a294498c824374c38aca5758754da227c1de4e891318a056",
+    "reported_status": "PASS_FOUR_YEAR_ORIGINAL_SOURCE_TARGET_ARITHMETIC_PARITY_ONLY",
+    "reported_days": [
+      365,
+      365,
+      366,
+      365
+    ],
+    "reported2021cash_days": 91,
+    "independently_repeated_historical_source_parity": false,
+    "meaning": "Previously published unlagged source arithmetic QA, separate from the new funding-versus-same-lag target experiment."
+  },
+  "closed_review_findings": [
+    "Rejected existing attempt could overwrite a failure receipt; guarded and sentinel tested.",
+    "External imported source code was unbound; now byte-verified before import.",
+    "Final-stage resource samples and direct early-rank numerical checks added.",
+    "Output budget now includes prospective SUMMARY bytes."
+  ],
+  "interpretation_limits": [
+    "The prior 2021 result of 0 changed baskets among 39 ranks covers all-five-200-admitted scheduled ranks only. It did not establish full daily target identity or activation ownership coverage.",
+    "Target comparison readiness includes original mandatory-cash daily outputs. Unknown unused owning-rank days are disclosed separately. A missing owning rank feeding an admitted output stays NaN and forces INCONCLUSIVE.",
+    "A complete zero-difference result can establish only exact target identity versus the same-lag control. A difference establishes no economic improvement.",
+    "Raw fractional-rate scale 1, the 24-hour feature availability proxy and project/archive-relative completeness remain conditional. Provider coverage, publication and actual charge times are uncertified.",
+    "Only rank price and funding windows are lagged. The shared daily risk estimator retains original current-31 completed-close inputs.",
+    "No future returns, funding cash, costs, turnover, NAV, wallets, models or holdout bodies were evaluated. Locked and unknown holdouts remain closed."
+  ],
+  "evidence_hashes": {
+    "SOURCE_PINS.json": {
+      "bytes": 3764,
+      "sha256": "949160925ad983e7b9153cfe65b4ef92457c44ba4a182ac25d45ec2de176a5e3"
+    },
+    "ACTIVATION_MASK_METADATA_RECEIPT.json": {
+      "bytes": 472,
+      "sha256": "35947a735f1090012f81d650c3f5f4a8c4e92d1822ad0f87ae12a73d6fc22c9a"
+    },
+    "test_source_invariants.py": {
+      "bytes": 6888,
+      "sha256": "ccdaa257907aa37f3ae902e18c0052bf1cdff34266b84967d37b877543500455"
+    },
+    "test_worker_synthetic.py": {
+      "bytes": 4566,
+      "sha256": "578af1ad0d9b978c7f16b6f504b69b1982c9125f2779e93ff375277439195433"
+    },
+    "test_worker_provider.py": {
+      "bytes": 4321,
+      "sha256": "c769054e05279bb22ce13e7e4a33ebd893056829f275ab8ac1bed21536757f2f"
+    },
+    "FINAL_INDEPENDENT_SYNTHETIC_LOG.txt": {
+      "bytes": 2904,
+      "sha256": "f9a6fb13f9edc7bc2df64ae4b26bfafbddc74da4c3b1ff88e9b5b8892860f15f"
+    },
+    "FINAL_WORKER_SYNTHETIC_LOG.txt": {
+      "bytes": 1821,
+      "sha256": "1220493a03da2f1d558151c04cf2e47df0036b2cdf53509df53ae2b845421420"
+    },
+    "FINAL_SYNTHETIC_RESOURCE_RECEIPT.json": {
+      "bytes": 431,
+      "sha256": "2e7c52abfd1d2f2be8f2e3356dc586e7118bb9c53b80b3676d890ad5ccc03635"
+    }
+  },
+  "historical_candidate_or_lagcontrol_target_passes": 0,
+  "future_outcome_arrays_read": 0,
+  "wallets": 0,
+  "fits": 0,
+  "provider_requests": 0,
+  "locked_holdouts_opened": 0,
+  "remaining_authority": "A separate exact parent GO is still required for the one frozen four-calendar target-only pass; this review does not authorize any economics or wallet execution."
+}
