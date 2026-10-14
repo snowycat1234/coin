@@ -1,0 +1,87 @@
+{
+  "completed_successful_native_tests": 0,
+  "fractions": [
+    "1",
+    ".75",
+    ".5",
+    ".25",
+    "0"
+  ],
+  "last_source_corrections_not_executed": true,
+  "no_grid_or_finite_component": true,
+  "no_return_claim": true,
+  "original_branch_and_financial_code_changed": false,
+  "preserved_failures": [
+    {
+      "attempt": 1,
+      "errors": [],
+      "original_receipt_SHA256": "c17dad92bef3ae9944ff3393fa2ca0c9ef735d12e2b8e43d2584a2a0601615d2",
+      "resource": {
+        "CPU_seconds": 0.180238,
+        "end_UTC": "2026-10-14T18:25:13.534441+00:00",
+        "exit": 1,
+        "peak_RSS_bytes": 24276992,
+        "wall_seconds": 0.09400473699497525
+      },
+      "setup_error": "ModuleNotFoundError(\"No module named 'quant'\")",
+      "status": "FAILED_PRESERVED",
+      "tests_run": 0
+    },
+    {
+      "attempt": 2,
+      "errors": [
+        {
+          "test": "test_all_invalid_no_increase_preserves_inventory (test_synthetic.Tests.test_all_invalid_no_increase_preserves_inventory)",
+          "traceback": "Traceback (most recent call last):\n  File \"/workspace/coin-cloud/original-csh-admission-partial-20261014/test_synthetic.py\", line 21, in test_all_invalid_no_increase_preserves_inventory\n    a=self.account();a.execute_fill(S[0],'BUY',D(5),1,0,'SEED',mid_price=D(100));o=self.oracle(a,9);r=self.select(o,self.vec(6,0,0,0,0));self.assertIsNone(r.fraction);self.assertTrue(r.all_invalid);self.assertEqual(r.target['BTCUSDT'],a.positions[S[0]].quantity);self.assertEqual(len(a.trades),1)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: USDTLinearPerpetualAccount.execute_fill() got an unexpected keyword argument 'mid_price'\n"
+        }
+      ],
+      "original_receipt_SHA256": "0758e763d7cd47873e59e997d2f5302973aca77d36070ec70ce154468fe31153",
+      "resource": {
+        "CPU_seconds": 0.21650899999999998,
+        "end_UTC": "2026-10-14T18:26:17.610203+00:00",
+        "exit": 1,
+        "peak_RSS_bytes": 28286976,
+        "wall_seconds": 0.10673070400662255
+      },
+      "setup_error": null,
+      "status": "FAILED_PRESERVED",
+      "tests_run": 1
+    },
+    {
+      "attempt": 3,
+      "errors": [
+        {
+          "test": "test_all_invalid_no_increase_preserves_inventory (test_synthetic.Tests.test_all_invalid_no_increase_preserves_inventory)",
+          "traceback": "Traceback (most recent call last):\n  File \"/workspace/coin-cloud/original-csh-admission-partial-20261014/test_synthetic.py\", line 21, in test_all_invalid_no_increase_preserves_inventory\n    a=self.account();a.execute_fill(S[0],'BUY',D(5),1,0,'SEED',execution_mid_price=D(100),quote_available_us=0);o=self.oracle(a,9);r=self.select(o,self.vec(6,0,0,0,0));self.assertIsNone(r.fraction);self.assertTrue(r.all_invalid);self.assertEqual(r.target['BTCUSDT'],a.positions[S[0]].quantity);self.assertEqual(len(a.trades),1)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/coin-cloud/h090-original2023-code-20261014/native_pair_replacement_review_20261014/synthetic_dependencies_ca11e94d/repo/src/quant/perpetual_account.py\", line 462, in execute_fill\n    raise ValueError(\"fill precedes execution latency or quote availability\")\nValueError: fill precedes execution latency or quote availability\n"
+        }
+      ],
+      "original_receipt_SHA256": "d120871ba65ff9a37b62aa90d3a43b4c87c30759a472a8cac6269a504fe092b6",
+      "resource": {
+        "CPU_seconds": 0.27509,
+        "end_UTC": "2026-10-14T18:26:59.235944+00:00",
+        "exit": 1,
+        "peak_RSS_bytes": 28274688,
+        "wall_seconds": 0.187376358997426
+      },
+      "setup_error": null,
+      "status": "FAILED_PRESERVED",
+      "tests_run": 1
+    }
+  ],
+  "remaining_gates": [
+    "Execute corrected native synthetic fixture after separate budget authorization",
+    "Review charged-preview account/capacity versus actual native scheduler binding",
+    "Bind original causal covariance/source readiness at the historical seam",
+    "Independent review before any historical GO"
+  ],
+  "required_coverage_nodes": 11,
+  "risk_caps": {
+    "annual_volatility": ".10",
+    "asset": ".30",
+    "gross": ".60"
+  },
+  "schema": "FIXED_FRACTION_SOURCE_SELECTION_REVIEW_V1",
+  "source_proof": "select_partial returns exact rawtarget when fullvalid; after fullfailure it evaluates every fraction from independently passed actual/pending snapshots; chooses max allowed fraction, not bisection; exceptions reject; allinvalid schedules only paid reduction target.",
+  "source_signal_unchanged": true,
+  "status": "NOT_YET_VALIDATED_NATIVE_SYNTHETICS_BLOCKED_BY_EXPIRED_BUDGET"
+}

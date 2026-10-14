@@ -1,0 +1,15 @@
+test_all_invalid_no_increase_preserves_inventory (test_synthetic.Tests.test_all_invalid_no_increase_preserves_inventory) ... ERROR
+
+======================================================================
+ERROR: test_all_invalid_no_increase_preserves_inventory (test_synthetic.Tests.test_all_invalid_no_increase_preserves_inventory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/coin-cloud/original-csh-admission-partial-20261014/test_synthetic.py", line 21, in test_all_invalid_no_increase_preserves_inventory
+    a=self.account();a.execute_fill(S[0],'BUY',D(5),1,0,'SEED',mid_price=D(100));o=self.oracle(a,9);r=self.select(o,self.vec(6,0,0,0,0));self.assertIsNone(r.fraction);self.assertTrue(r.all_invalid);self.assertEqual(r.target['BTCUSDT'],a.positions[S[0]].quantity);self.assertEqual(len(a.trades),1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: USDTLinearPerpetualAccount.execute_fill() got an unexpected keyword argument 'mid_price'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)
