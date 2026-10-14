@@ -1,0 +1,186 @@
+{
+  "CONTROL_retests": 0,
+  "accepted_scientific_independent_review_SHA256": "d2538894cd8c8d0925cb770e51806e9bb49409c84ceb13132bac9964089812d3",
+  "accepted_scientific_preparation_SHA256": "a9b6cbf65b42003b77a9508b6c857ab1c8eee5bb9951cd0f089de56b06ea18b9",
+  "external_publication_writes": 0,
+  "fixed_prior_transport_findings": [
+    {
+      "finding": "Instructed nonisolated launch executed an unmanifested stdlib shadow before manifest verification.",
+      "rejected_manifest_SHA256": "dd37944d05129fc50d66cdcddda18a3e090acbbc3a9c2e869f9cb62eadb7a598",
+      "resolution": "Early builtin-sys isolation/no-site/no-bytecode/assertion flag guard, documented isolated launch, exact payload recursive file/directory set."
+    },
+    {
+      "finding": "Unsupported-launch negative test children inherited PYTHONPATH and executed a generated sitecustomize sentinel. Supported restore and all restore-boundary probes already passed.",
+      "resolution": "Every test child removes PYTHONPATH, PYTHONHOME, PYTHONOPTIMIZE and PYTHONSTARTUP; explicit -O exercises optimization refusal. Final polluted-environment suite passes without sentinel execution.",
+      "superseded_manifest_SHA256": "a656a579bf92762f5d17c2940636d7188c45f0ecbd482535a19e0abd56783f01"
+    }
+  ],
+  "focused_execution_proof": {
+    "all_child_test_startup_environment_sanitized": true,
+    "exact_payload_file_and_directory_set_enforced_before_cache_or_output": true,
+    "frozen_payload_unchanged_after_all_probes": true,
+    "full_restore_receipt_SHA256": "65630e7809953f52d83c8d91e18118836d931d47c7f742ecc1d233d849669a2f",
+    "full_restore_receipt_byte_identical_to_author_current_004": true,
+    "independent_restore_and_negative_probes": [
+      {
+        "case": "isolated_full_restore",
+        "log_SHA256": "6cdabc9cbd7347a8511a41f7df2ffba0903cb34a83968e9c45e78772019e4913",
+        "output_created": true,
+        "receipt_created": true,
+        "returncode": 0,
+        "wall_seconds": 0.09064339399992605
+      },
+      {
+        "case": "wrong_external_manifest",
+        "log_SHA256": "d87d3793d3eab2642882292ed35da6296a3df9d76510e9668d5c4698f571cda3",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.03193159800139256
+      },
+      {
+        "case": "nonisolated_shadow_guard",
+        "log_SHA256": "a58877d2ec4b95e9ff351562f44fb669f92a01cbc9941c702a447575aaccd370",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.013279085000249324
+      },
+      {
+        "case": "isolated_extra_shadow_refused",
+        "log_SHA256": "f0888d823d51d63a7593dcd950ee31c0042e927d8114941440ea80fcbf68b044",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.034448569000232965
+      },
+      {
+        "case": "unmanifested_pyc_refused",
+        "log_SHA256": "93dfdff3916197e4b82a1f16730cbfeeea4fdd9ccd2a2f556edbb003ea6c396c",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.035737167003389914
+      },
+      {
+        "case": "same_size_scientific_tamper_refused",
+        "log_SHA256": "bdfd68721ff163f92b6b56e5e5eebcb55b1663bc8ed5f10a57c8664e66b013ca",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.03817877000255976
+      },
+      {
+        "case": "symlinked_payload_member_refused",
+        "log_SHA256": "5d456c9ee044f036bcb40ccae4b15eaa35f488d09339e85e013b4966301f0b97",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.031836299000133295
+      },
+      {
+        "case": "same_size_gzip_tamper_refused",
+        "log_SHA256": "1b05595c91aee70eecf96a39bc3adfcc929b6ebef73a4d2fca9f60f8e58ed21e",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.032313456998963375
+      },
+      {
+        "case": "same_size_cache_tamper_refused",
+        "log_SHA256": "c69d9f3ad241ceb4986581bdba888188277092a277fb5b5a24ef8e817fc9a4ab",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.034953988000779646
+      },
+      {
+        "case": "symlink_cache_leaf_refused",
+        "log_SHA256": "c2f6d29754208afaa5e295d799f3cbda013d5f40de5480f098d6607e2aa10a7c",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.03448792799827061
+      },
+      {
+        "case": "existing_output_refused",
+        "log_SHA256": "9cf496c61a2dfe72500aed60e5bcd1da56d094b0ac8b392dab2231ec0f959df1",
+        "output_created": false,
+        "receipt_created": false,
+        "returncode": 1,
+        "wall_seconds": 0.0646742050012108
+      }
+    ],
+    "inherited_PYTHONPATH_and_PYTHONOPTIMIZE_pollution_executed": false,
+    "isolated_no_site_no_bytecode_assertion_enabled_guard_before_nonbuiltin_imports": true,
+    "limits": {
+      "AS_bytes": 1000000000,
+      "CPU_seconds": 15,
+      "CPUs": 1,
+      "wall_seconds_per_probe": 30
+    },
+    "stdlib_transport_tests": 8,
+    "suite_returncode": 0,
+    "supported_launch": "python -I -S -B restore_transport.py",
+    "test_log_SHA256": "8b5887eeb85c6d1e714d1c8b47857326de29670da8c540d1477a256f5789289e",
+    "unmanifested_stdlib_shadow_executed": false
+  },
+  "historical_GO": false,
+  "historical_array_bodies_opened_hashed_or_parsed": 0,
+  "model_or_package_downloads": 0,
+  "network_calls": 0,
+  "project_or_account_imports": 0,
+  "public_payload_files_including_manifest": 31,
+  "public_payload_listed_members": 30,
+  "public_payload_manifest_SHA256": "4caa236e012d32eeebe2145aeb561d3b5f84dd70141a40ae687dba4cc4178ce0",
+  "publication_placement": "Keep this acceptance receipt separate from the 31-file exact manifest-bound payload. Adding it inside that payload changes the accepted file set and requires another transport freeze.",
+  "restore_wallet_recovery_GO": false,
+  "restore_wrapper_SHA256": "9062c6840bc59a07dce1c98aae81833365a88423c6b10498f0fef0473a88933d",
+  "risk_or_profitability_certified": false,
+  "schema": "INDEPENDENT_PAIRED_NATIVE_PUBLIC_TRANSPORT_REVIEW_V1",
+  "scientific_and_saved_body_proof": {
+    "all_fourteen_scientific_constituents_byte_exact": true,
+    "attempt_archive_members": 19,
+    "changed_host_prefix_only_files": 8,
+    "complete_generated_runs": 19,
+    "gzip_mtime_zero": true,
+    "immutable_bytes_SHA256_size_GitBlob_and_local_originals_checked": true,
+    "immutable_restore_destinations": 61,
+    "independent_scientific_review_byte_exact": true,
+    "nineteen_run_witness_SHA256": "99b934cdbf99679512cf484cb145a654d131207d5d94cb92433a2aa6a4b2ce97",
+    "nineteen_run_witness_bytes": 2087930,
+    "ordered_forward_and_reverse_projections_equal_originals": true,
+    "private_reversal_literal_in_payload_or_receipt": false,
+    "restored_files": 102,
+    "scientific_source_or_nineteen_run_evidence_projected": false,
+    "twenty_dependency_pins_match_restoration": true,
+    "unique_immutable_SHA256_bodies": 60,
+    "witness_original_aliases_byte_exact": [
+      "coin_paired_headroom_native_generated_20261014/receipts_attempt012/GENERATED_PRIORITY_WITNESS.json",
+      "coin_paired_headroom_native_generated_20261014/receipts_independent_review001/GENERATED_PRIORITY_WITNESS.json"
+    ]
+  },
+  "scientific_test_reruns": 0,
+  "scope": "New offline stdlib restore wrapper, exact immutable code/evidence transport and reversible host-prefix-only projections. The accepted a9b6 scientific review is reused; no scientific or CONTROL suite repeated.",
+  "status": "PASS_FOCUSED_OFFLINE_CODE_EVIDENCE_TRANSPORT",
+  "supporting_receipts": {
+    "FIXED_TRANSPORT_PROBE_RECEIPT.json": {
+      "SHA256": "82a7582f7be92bd61270b23c91275b543e10afc23e1e2191912ea48c1110601a",
+      "bytes": 5069
+    },
+    "SAVED_BODY_AUDIT_RECEIPT.json": {
+      "SHA256": "c84c1e296c2db5f8f1b274b6db378015e1548dcb68ba53d6810a2707dbcfbf1d",
+      "bytes": 30281
+    },
+    "STDLIB_SHADOW_PROBE.json": {
+      "SHA256": "63183849eacfb176b4bf16ef7487b34dca2702d2c96bd044bef3d889fa996431",
+      "bytes": 282
+    },
+    "UNSUPPORTED_CHILD_STARTUP_PROBE.json": {
+      "SHA256": "87f6c90bec1bb5b952489029d628d6f7fa25b1e6489c6583934b1913cd84d51f",
+      "bytes": 1154
+    }
+  },
+  "transport_test_source_SHA256": "92d799ce06a4d648162af458c2da4f535c9f91a644e5f093291dc91caff7c051",
+  "wallet_advances": 0
+}
