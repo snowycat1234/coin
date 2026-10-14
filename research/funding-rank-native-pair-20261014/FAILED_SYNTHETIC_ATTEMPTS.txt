@@ -1,0 +1,24 @@
+test_core5_shared_cash_costs (__main__.Tests.test_core5_shared_cash_costs) ... ERROR
+test_exact_terminal_attempt_copy (__main__.Tests.test_exact_terminal_attempt_copy) ... ok
+test_funding_before_first_fill_and_owned_quantity (__main__.Tests.test_funding_before_first_fill_and_owned_quantity) ... ok
+test_missing_targets_preaccount (__main__.Tests.test_missing_targets_preaccount) ... ok
+test_polars_daily_parity (__main__.Tests.test_polars_daily_parity) ... ok
+test_shared_capacity_reduce_then_increase (__main__.Tests.test_shared_capacity_reduce_then_increase) ... ok
+test_target_schema_hash_clock_mask (__main__.Tests.test_target_schema_hash_clock_mask) ... ok
+test_terminal60_and_five_nonterminal (__main__.Tests.test_terminal60_and_five_nonterminal) ... ok
+test_terminal_priority_reduce_only (__main__.Tests.test_terminal_priority_reduce_only) ... ok
+test_wrong_source_code_registry (__main__.Tests.test_wrong_source_code_registry) ... ok
+
+======================================================================
+ERROR: test_core5_shared_cash_costs (__main__.Tests.test_core5_shared_cash_costs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "PROJECT_PREPARATION/test_synthetic.py", line 49, in test_core5_shared_cash_costs
+    sim.advance_day();self.assertEqual(sim.account.config.leverage,D('1'));self.assertFalse(sim.account.config.allow_margin_topup)
+                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PerpetualConfig' object has no attribute 'allow_margin_topup'
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.384s
+
+FAILED (errors=1)
