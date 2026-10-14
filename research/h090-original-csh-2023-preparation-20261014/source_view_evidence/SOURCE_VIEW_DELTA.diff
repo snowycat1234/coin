@@ -1,0 +1,84 @@
+--- c209/original_bridge.py
++++ 263cc069/original_bridge.py
+@@ -50,6 +50,18 @@
+       or not np.array_equal(self.decisions,np.arange(window['start'],window['end'],B.DAY,dtype=np.int64))
+       or tuple(window['symbols'])!=S or not np.array_equal(self.clock[self.ids],self.decisions)):
+    raise ValueError('EXACT_ORIGINAL_PROJECTION_SHAPE_CLOCK_ORDER')
++  if not generated:
++   # The unchanged source loader copies the entire pinned cube container,
++   # including unrelated unavailable prefixes/suffixes. Admit only the exact
++   # reviewed original200 union, without filtering/filling any required row.
++   first=int(self.ids[0])-199;last=int(self.ids[-1])+1
++   required=np.arange(int(self.decisions[0])-199*B.DAY,int(self.decisions[-1])+B.DAY,B.DAY,dtype=np.int64)
++   remapped=self.ids-first
++   if (first<0 or last>len(self.clock) or len(required)!=564
++       or not np.array_equal(self.clock[first:last],required)
++       or not np.array_equal(remapped,np.arange(199,564,dtype=np.int64))):
++    raise ValueError('EXACT_REVIEWED564_ORIGINAL200_SOURCE_VIEW_REQUIRED')
++   self.clock=self.clock[first:last].copy();self.prices=self.prices[first:last].copy();self.ids=remapped.copy()
+   if (not np.isfinite(self.original).all() or not np.isfinite(self.covariance).all()
+       or not np.isfinite(self.prices).all() or np.any(self.prices<=0)
+       or np.any(np.diff(self.clock)!=B.DAY) or np.any(self.clock<0)):
+@@ -118,6 +130,10 @@
+    raise ValueError('SEALED_REVIEWED_ORIGINAL_REGISTRY_REQUIRED')
+   try:
+    quality=B.require_original200_source_quality();r=B.read(B.HERE/'SOURCE_RECEIPT_2023.json')
++   if (self.clock.shape!=(564,) or self.prices.shape!=(564,5)
++       or not np.array_equal(self.clock,np.arange(self.decisions[0]-199*B.DAY,self.decisions[-1]+B.DAY,B.DAY,dtype=np.int64))
++       or not np.array_equal(self.ids,np.arange(199,564,dtype=np.int64))):
++    raise ValueError('EXACT_REVIEWED564_ORIGINAL200_SOURCE_VIEW_REQUIRED')
+    identity=quality.validate_projection(self.decisions,self.clock,self.prices,self.ids)
+    expected_scope='ROOT_GO_SINGLE2023_PINNED_ORIGINAL_CLOSE_AVAILABLE_US'
+    if (self.scope!=expected_scope or self.source_index!=r['source_index_SHA256']
+--- c209/run_verified.py
++++ 263cc069/run_verified.py
+@@ -8,7 +8,7 @@
+ 
+ def main():
+  p=argparse.ArgumentParser();p.add_argument('--preparation-manifest-sha',required=True)
+- p.add_argument('command',choices=('metadata','tests','quality-tests','case'));a,rest=p.parse_known_args()
++ p.add_argument('command',choices=('metadata','tests','quality-tests','source-view-tests','case'));a,rest=p.parse_known_args()
+  raw=(HERE/'PREPARATION_MANIFEST.json').read_bytes()
+  if hashlib.sha256(raw).hexdigest()!=a.preparation_manifest_sha:raise ValueError('EXTERNAL_BRIDGE_FREEZE_REQUIRED')
+  f=json.loads(raw)
+@@ -20,11 +20,11 @@
+  if 'verified_source' in sys.modules:raise ValueError('COLD_SOURCE_BOOTSTRAP_REQUIRED')
+  path=HERE/'verified_source.py';source=path.read_bytes();m=types.ModuleType('verified_source');m.__file__=str(path)
+  m.__spec__=importlib.machinery.ModuleSpec('verified_source',loader=None,origin=str(path));sys.modules['verified_source']=m
+- exec(compile(source,str(path),'exec'),m.__dict__);runtime=m.install(a.preparation_manifest_sha,'generated' if a.command in ('tests','quality-tests') else 'source_case')
++ exec(compile(source,str(path),'exec'),m.__dict__);runtime=m.install(a.preparation_manifest_sha,'generated' if a.command in ('tests','quality-tests','source-view-tests') else 'source_case')
+  import bridge_runtime_locator
+  runtime.runtime_packages=bridge_runtime_locator.configure_runtime()
+- if a.command in ('tests','quality-tests'):
+-  suite=unittest.defaultTestLoader.loadTestsFromNames(['test_proof_consumer','test_registry_boundary','test_bridge.Bridge.test_case_GO_types_year_arm_review_and_control_first'] if a.command=='quality-tests' else ['test_bridge']);result=unittest.TextTestRunner(verbosity=2).run(suite)
++ if a.command in ('tests','quality-tests','source-view-tests'):
++  suite=unittest.defaultTestLoader.loadTestsFromNames(['test_source_view'] if a.command=='source-view-tests' else (['test_proof_consumer','test_registry_boundary','test_bridge.Bridge.test_case_GO_types_year_arm_review_and_control_first'] if a.command=='quality-tests' else ['test_bridge']));result=unittest.TextTestRunner(verbosity=2).run(suite)
+   print(json.dumps({'tests_run':result.testsRun,'tests_passed':result.wasSuccessful(),'source_audit':runtime.audit(),'historical_GO':False},sort_keys=True));return 0 if result.wasSuccessful() else 1
+  import driver
+  sys.argv=[str(HERE/'driver.py'),a.command,*rest];return driver.main()
+--- c209/BRIDGE_SCOPE.json
++++ 263cc069/BRIDGE_SCOPE.json
+@@ -1,6 +1,7 @@
+ {
+   "accepted_CONTROL_source_SHA256": "cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f",
+   "accepted_finite_source_SHA256": "6f915e88d0f29a1307706d25a206edac5751700687196b88c82643c45e9b2c96",
++  "c209_actual_failure_conjunct": "Likely blanket full-container price-finiteness rejection; exact OR conjunct was not recorded in the saved case log.",
+   "direct_constructor_gate": "Immutable registry seal and exact proof/price/packet/approval/original-target/covariance reconstruction before native account creation; no generic hostile-Python sandbox claim.",
+   "disabled_predecessor_SHA256": "bf61fac4b4dcb5690ae4bb6a284ad31488faa7145cf24bff9e747839926197e1",
+   "historical_GO": false,
+@@ -13,6 +14,7 @@
+   ],
+   "original200_quality_proof_SHA256": "0f61b8fa7a099a6071a6e0505a6cf99c2ce04b3843ac2799ed638b402e2808b1",
+   "original200_quality_review_SHA256": "3ce7f58d42423379453c9015ce386f0074627380cf71cc64ef7e1f6ff1c21cfe",
++  "original200_source_view": "Unchanged loader hashes/decodes/copies the full pinned cube close/clock members. Registry copies exactly the reviewed 564-clock union and remaps source IDs; all required rows remain finite, positive, contiguous and proof-bit identical. No filling or filtering of required rows.",
+   "required_preparation_review_status": "PASS_REVIEWED_PROOF_CONSUMER_PREPARATION_ONLY",
+   "schema": "H090_EXPLICIT_ORIGINAL_SOURCE_CONSTRUCTOR_SEAM_V1",
+   "source_job_or_historical_wallets_run": 0,
+--- c209/README.md
++++ 263cc069/README.md
+@@ -15,3 +15,5 @@
+ This preparation grants no historical GO. An independent review of this consumer revision and verified public restoration must precede a fresh exact one-case root GO. GO must bind both original200 proof and proof-review hashes, current preparation/review, saved source identity and output. The exact preparation review status is PASS_REVIEWED_PROOF_CONSUMER_PREPARATION_ONLY; audited original proof prices are never described as generated. CONTROL is first. FINITE requires another exact GO and completed full-year same-bridge CONTROL evidence; a partial133-day control cannot qualify. No automatic sweep, retry, resume, rescue or wallet recovery is provided.
+ 
+ The original oneCPU, one math thread,600-second wall/CPU,2GB descendant RSS,4GB address space,250MB output, host/swap/cgroup/disk/controller and inherited-pipe gates remain. Annual completion within those caps is not certified; separate performance acceptance remains required. Final export preserves all actual fills/funding, owner money, finite witnesses/budgets, source/policy gates, pending orders and complete minute/target tables with paid/marked/partial labels. Recovery, risk parity, profitability and live finance remain uncertified.
++
++Source-view revision: the unchanged original loader hashes, decodes and copies its full source cube close/clock members. Only the exact reviewed 564-clock original200 union is copied into the historical registry, with source IDs remapped to 199..563. Required prices, clocks, 365 decisions, target/covariance bits and proof-derived flags remain strict. Unrelated prefix/suffix rows are never used, filled or newly certified. The c209 case failed before account construction; full-container price finiteness is a likely, not observed, failing conjunct. The exact c209 predecessor and failed attempt remain retained. No historical retry is included.

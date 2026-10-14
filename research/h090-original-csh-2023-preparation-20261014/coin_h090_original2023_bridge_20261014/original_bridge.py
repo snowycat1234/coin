@@ -50,6 +50,18 @@ class OriginalProjectionRegistry:
       or not np.array_equal(self.decisions,np.arange(window['start'],window['end'],B.DAY,dtype=np.int64))
       or tuple(window['symbols'])!=S or not np.array_equal(self.clock[self.ids],self.decisions)):
    raise ValueError('EXACT_ORIGINAL_PROJECTION_SHAPE_CLOCK_ORDER')
+  if not generated:
+   # The unchanged source loader copies the entire pinned cube container,
+   # including unrelated unavailable prefixes/suffixes. Admit only the exact
+   # reviewed original200 union, without filtering/filling any required row.
+   first=int(self.ids[0])-199;last=int(self.ids[-1])+1
+   required=np.arange(int(self.decisions[0])-199*B.DAY,int(self.decisions[-1])+B.DAY,B.DAY,dtype=np.int64)
+   remapped=self.ids-first
+   if (first<0 or last>len(self.clock) or len(required)!=564
+       or not np.array_equal(self.clock[first:last],required)
+       or not np.array_equal(remapped,np.arange(199,564,dtype=np.int64))):
+    raise ValueError('EXACT_REVIEWED564_ORIGINAL200_SOURCE_VIEW_REQUIRED')
+   self.clock=self.clock[first:last].copy();self.prices=self.prices[first:last].copy();self.ids=remapped.copy()
   if (not np.isfinite(self.original).all() or not np.isfinite(self.covariance).all()
       or not np.isfinite(self.prices).all() or np.any(self.prices<=0)
       or np.any(np.diff(self.clock)!=B.DAY) or np.any(self.clock<0)):
@@ -118,6 +130,10 @@ class OriginalProjectionRegistry:
    raise ValueError('SEALED_REVIEWED_ORIGINAL_REGISTRY_REQUIRED')
   try:
    quality=B.require_original200_source_quality();r=B.read(B.HERE/'SOURCE_RECEIPT_2023.json')
+   if (self.clock.shape!=(564,) or self.prices.shape!=(564,5)
+       or not np.array_equal(self.clock,np.arange(self.decisions[0]-199*B.DAY,self.decisions[-1]+B.DAY,B.DAY,dtype=np.int64))
+       or not np.array_equal(self.ids,np.arange(199,564,dtype=np.int64))):
+    raise ValueError('EXACT_REVIEWED564_ORIGINAL200_SOURCE_VIEW_REQUIRED')
    identity=quality.validate_projection(self.decisions,self.clock,self.prices,self.ids)
    expected_scope='ROOT_GO_SINGLE2023_PINNED_ORIGINAL_CLOSE_AVAILABLE_US'
    if (self.scope!=expected_scope or self.source_index!=r['source_index_SHA256']

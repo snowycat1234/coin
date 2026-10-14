@@ -6,7 +6,7 @@ from pathlib import Path,PurePosixPath
 import argparse,gzip,hashlib,io,json,re
 HERE=Path(__file__).resolve().parent
 SCIENCE='coin_h090_original2023_bridge_20261014'
-SCIENCE_SHA='c209bab0cc76cfc265be8fb61d45fbc1246c139c4b10470e4bfbc25a00b3b5ed'
+SCIENCE_SHA='263cc069a9cae93d3123f47d6218c9445fa17d0f808a0e4fb4186c5d9bba03f9'
 FORBIDDEN=('.npy','.parquet','.arrow','.zip','.whl','.so','.pyc')
 def digest(b):return hashlib.sha256(b).hexdigest()
 def safe_name(name,npz=False):
