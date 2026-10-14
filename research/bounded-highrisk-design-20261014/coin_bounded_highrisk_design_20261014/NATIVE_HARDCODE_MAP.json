@@ -1,0 +1,72 @@
+{
+  "status": "SOURCE_MAP_ONLY_NATIVE_INTEGRATION_UNIMPLEMENTED",
+  "base_path": "native_pair_replacement_review_20261014/synthetic_dependencies_6a8bf051/common/runtime_dependencies/coin_native_half_mix_20261013/repo",
+  "source_files": [
+    {
+      "relative_path": "src/quant/perpetual_account.py",
+      "SHA256": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+      "gates": [
+        {
+          "lines": "74\u201378",
+          "gate": "Config permits only 1x, asset<=.30, gross<=.60; one toy-only vendor line extends gross validation to .90."
+        },
+        {
+          "lines": "316,388",
+          "gate": "Runtime risk/post-fill checks already read account.config caps, no new financial formulas needed."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/resumable_perpetual.py",
+      "SHA256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+      "gates": [
+        {
+          "lines": "405\u2013406",
+          "gate": "advance_day hardcodes .30 asset/.60 gross; requires reviewed separate native adapter."
+        },
+        {
+          "lines": "147",
+          "gate": "account_for_cost returns original scenario config through factory; needs explicit H090 binding."
+        },
+        {
+          "lines": "304",
+          "gate": "risk reductions already read account.config caps; unchanged reduce-first, own-ledger and capacity logic must be preserved."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/public_sma_perpetual.py",
+      "SHA256": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "gates": [
+        {
+          "lines": "30\u201348",
+          "gate": "signed_risk_weights hardcodes .60 gross/.10 maximum vol; higher-risk intent controller is separate, not an edit here."
+        },
+        {
+          "lines": "69\u201370,177,188,218,230",
+          "gate": "fixed_targets additionally has .10 vol and .60 sizing; do not silently scale account NAV or relabel caps."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/bybit_cost_inputs.py",
+      "SHA256": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "gates": [
+        {
+          "lines": "48\u201357,70\u201373",
+          "gate": "scenario_config/account_for_cost instantiate original PerpetualConfig, including original .60 risk default. Cost math must stay unchanged while H090 config binding is explicit."
+        }
+      ]
+    },
+    {
+      "relative_path": "src/quant/execution_contract.py",
+      "SHA256": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "gates": [
+        {
+          "lines": "22\u201344",
+          "gate": "Frozen canonical .60/.30/.10 risk fields; only original timing/cost arithmetic reused. New H090 risk descriptor required; this object is not high-risk certification."
+        }
+      ]
+    }
+  ]
+}

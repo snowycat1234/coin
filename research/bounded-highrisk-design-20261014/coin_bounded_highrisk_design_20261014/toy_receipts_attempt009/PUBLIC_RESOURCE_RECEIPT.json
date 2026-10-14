@@ -1,0 +1,68 @@
+{
+  "status": "PASS_SYNTHETIC_ONLY",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "source_preflight.py"
+      ],
+      "returncode": 0,
+      "stopped": null,
+      "wall_seconds": 0.06471400699956575,
+      "sampled_max_rss_bytes": 14188544,
+      "output": "source_preflight.txt",
+      "output_sha256": "ad21a2321b81347cafce77bda4aa7e5fe1d72cbd8abd10254730b5a5a1b27730"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_bounded_highrisk"
+      ],
+      "returncode": 0,
+      "stopped": null,
+      "wall_seconds": 0.28546796899900073,
+      "sampled_max_rss_bytes": 33038336,
+      "output": "unit_tests.txt",
+      "output_sha256": "cabe353bb8edfba457d3ef6412d6a448f863f2c6f3e516e925d3139f4767f5e7"
+    },
+    {
+      "command": [
+        "python3",
+        "run_toy.py"
+      ],
+      "returncode": 0,
+      "stopped": null,
+      "wall_seconds": 0.1638685660000192,
+      "sampled_max_rss_bytes": 15941632,
+      "output": "toy.json",
+      "output_sha256": "7245f452991d15a02328537fdcaaa2fdb1ec37fe8e8e42bb9a4fc0b26b596984"
+    }
+  ],
+  "market_reads": 0,
+  "historical_wallets": 0,
+  "source_freeze_SHA256": "2dbe6b118bb9e981dc37b2f4ed2cdcba5e1c5efc9a8b99ad2b58b68932875c58",
+  "bounds": {
+    "cpus": 1,
+    "math_threads": 1,
+    "address_space_bytes": 4294967296,
+    "rss_stop_bytes": 2147483648,
+    "cpu_seconds": 60,
+    "wall_seconds_per_command": 120
+  },
+  "_public_projection": {
+    "classification": "PUBLIC_SAFE_PROJECTION_OF_PRIVATE_RAW_RESOURCE_RECEIPT",
+    "original_relative_path": "coin_bounded_highrisk_design_20261014/toy_receipts_attempt009/RESOURCE_RECEIPT.json",
+    "original_SHA256": "8c4f2ceebc64401ab631cba873fb532445f252b89ab04bdbd7691abd9e93f303",
+    "only_changed_JSON_pointers": [
+      "/commands/0/command/0",
+      "/commands/1/command/0",
+      "/commands/2/command/0"
+    ],
+    "replacement": "python3",
+    "reason": "Private interpreter locator only. All source/output hashes, outcomes, stops, run limits and resource results preserved.",
+    "historical_go": false
+  }
+}

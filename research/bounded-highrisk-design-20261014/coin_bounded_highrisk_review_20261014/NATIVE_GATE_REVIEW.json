@@ -1,0 +1,116 @@
+{
+  "scope": "Pinned relevant native and original companion controller code only; code reads, not historical execution. This bounded inventory does not claim to cover every branch ancestor.",
+  "primary_native_gates": [
+    {
+      "relative_path": "src/quant/perpetual_account.py",
+      "SHA256": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+      "gates": [
+        {
+          "lines": "74\u201378",
+          "gate": "Config permits only 1x, asset<=.30, gross<=.60; one toy-only vendor line extends gross validation to .90."
+        },
+        {
+          "lines": "316,388",
+          "gate": "Runtime risk/post-fill checks already read account.config caps, no new financial formulas needed."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/resumable_perpetual.py",
+      "SHA256": "318a0ae63056775db4e24c09abc1831de0dd166f9117b0ce0240630de6aad585",
+      "gates": [
+        {
+          "lines": "405\u2013406",
+          "gate": "advance_day hardcodes .30 asset/.60 gross; requires reviewed separate native adapter."
+        },
+        {
+          "lines": "147",
+          "gate": "account_for_cost returns original scenario config through factory; needs explicit H090 binding."
+        },
+        {
+          "lines": "304",
+          "gate": "risk reductions already read account.config caps; unchanged reduce-first, own-ledger and capacity logic must be preserved."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/public_sma_perpetual.py",
+      "SHA256": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "gates": [
+        {
+          "lines": "30\u201348",
+          "gate": "signed_risk_weights hardcodes .60 gross/.10 maximum vol; higher-risk intent controller is separate, not an edit here."
+        },
+        {
+          "lines": "69\u201370,177,188,218,230",
+          "gate": "fixed_targets additionally has .10 vol and .60 sizing; do not silently scale account NAV or relabel caps."
+        }
+      ]
+    },
+    {
+      "relative_path": "scripts/investment/bybit_cost_inputs.py",
+      "SHA256": "e8a135fcf87903fafb5f1c4028246f80b4b2044e45844842dba603cdc1df091c",
+      "gates": [
+        {
+          "lines": "48\u201357,70\u201373",
+          "gate": "scenario_config/account_for_cost instantiate original PerpetualConfig, including original .60 risk default. Cost math must stay unchanged while H090 config binding is explicit."
+        }
+      ]
+    },
+    {
+      "relative_path": "src/quant/execution_contract.py",
+      "SHA256": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+      "gates": [
+        {
+          "lines": "22\u201344",
+          "gate": "Frozen canonical .60/.30/.10 risk fields; only original timing/cost arithmetic reused. New H090 risk descriptor required; this object is not high-risk certification."
+        }
+      ]
+    }
+  ],
+  "additional_companion_gates": [
+    {
+      "source_label": "scripts/investment/perpetual_directional.py",
+      "sha256": "805c786ea647e09965e70df59331efe49d8c24bb097ab0180c5f94a5f4737ec6",
+      "gate": "RULES baseline metadata: annual_vol_target=.10, asset_abs_cap=.3, gross_cap=.6; sizing_buffer=.99, leverage1 and original funding-then-reductions-then-increases order. A future native H090 descriptor must not reuse this .60/.10 identity.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "risk_budget.py",
+      "sha256": "69de58ac83536dfbf1ec3715aadfa65da741c970c4cb5b417bb4c1e8062b19a6",
+      "gate": "ANNUAL_BUDGET=.10, ASSET_CAP=.30, GROSS_CAP=.60; input caps, desired/cap factors and post-sigma proofs all depend on these constants. The H090 shrink-only toy is not a reviewed replacement for this risk-matching allocator.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "portfolio.py",
+      "sha256": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+      "gate": "directional and market_neutral default gross=.6; market_neutral asserts .60 gross and .30 assets. More exposure requires a separately reviewed intent recipe, with original expert/direction logic preserved.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "cs_numpy_risk_compat.py",
+      "sha256": "edabc1283330db0dcc2cb9da1fc1f569110f2e02921592ed824597bfa580e7d0",
+      "gate": "Compatibility signed_risk_weights retains <=.10 vol, .60 gross scaling and .30 clipping.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "public_cs_compat.py",
+      "sha256": "9ce46e0eecbf7891a28f5ae072eb735d0eea15a41b331ccf37fd637709404599",
+      "gate": "CS target controller declares annual_vol_target=.10 and passes .10 explicitly to signed_risk_weights for held and kept assets.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "targets_2024.py",
+      "sha256": "18db796ea316006661e0f2777e6168721b1bd59d634868ead84ccb32fa37a24c",
+      "gate": "SMA input sizing uses .6/K, calls baseline signed_risk_weights, and validates every original arm at .30 assets/.60 gross. EXACTHALF stays a .5/.5 original mix; changing these guards is not authorized by a vendor config change.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    },
+    {
+      "source_label": "original_functions.py",
+      "sha256": "d8f8eff11edb3a770611d6b57eef19f04a2fbd750acd87651c0f0bf053f80ddc",
+      "gate": "RULES baseline annual budget .10, asset cap .30, gross cap .60 and original continuous-economics execution metadata remain separate from H090.",
+      "status": "UNCHANGED_NATIVE_INTEGRATION_UNIMPLEMENTED"
+    }
+  ],
+  "native_integration_ready": false
+}

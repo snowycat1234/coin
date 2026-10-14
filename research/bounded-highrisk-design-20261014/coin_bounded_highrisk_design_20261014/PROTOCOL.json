@@ -1,0 +1,140 @@
+{
+  "version": "bounded_highrisk_synthetic_090_v1",
+  "status": "SOURCE_AND_TOY_ONLY_NO_HISTORICAL_GO",
+  "research_question": "Can one bounded existing-strategy plus bot-inspired recipe remain viable over adverse long-term regimes at moderately higher risk, compared with the same higher-risk CSH control?",
+  "authorization_scope": {
+    "offline_design_and_generated_tests": true,
+    "historical_launch": false,
+    "market_downloads": false,
+    "accounts_api_keys_bots_paid_access_or_real_trading": false,
+    "publication_before_parent_review": false
+  },
+  "stage": {
+    "id": "H090_ISOLATED1X",
+    "fresh_initial_USDT": "10000",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "XRPUSDT",
+      "DOGEUSDT"
+    ],
+    "gross_target_cap": ".90",
+    "absolute_net_intent_cap": ".90",
+    "per_asset_cap": ".30",
+    "annual_past_covariance_vol_target": ".15",
+    "isolated_leverage": "1",
+    "initial_committed_capital_cap_USDT": "9000",
+    "actual_isolated_margin_increase_cap_USDT": "8500",
+    "free_cash_floor_for_increases_USDT": "1000",
+    "external_topups": false,
+    "margin_transfers_or_rescue": false,
+    "marked_actual_cap_guaranteed": false
+  },
+  "deferred_stage": {
+    "gross": "1.20",
+    "leverage": "2",
+    "status": "NOT_SUPPORTED_OR_ADMITTED"
+  },
+  "fixed_candidates": [
+    {
+      "id": "CSH_H090_CONTROL",
+      "kind": "Control, not a new alpha algorithm",
+      "recipe": "Multiply frozen original causal CSH targets by 1.5, then apply .30 asset/.90 gross/.15 same 30-observation covariance controller; same 9000 committed budget and 8500 actual-margin guard. Do not refit original signals."
+    },
+    {
+      "id": "CSH_MART_FINITE_REPLACE10",
+      "kind": "One new bounded Martingale-inspired candidate, not a Bybit bot replica",
+      "recipe": "Reserve 8000 original USDT capital for the scaled CSH ownership sleeve, including its fees/funding buffer, and 1000 for one fixed finite BTC program. Total reservation remains 9000; retain 1000 uncommitted. The 10% denotes original initial capital, not 10% of the positive BTC position. Global H090 covariance/concentration/pending/capital gates apply to the COMBINED portfolio."
+    }
+  ],
+  "finite_program": {
+    "symbol": "BTCUSDT",
+    "direction": "LONG",
+    "initial_order_margin_USDT": "150",
+    "margin_multiplier": "1.25",
+    "maximum_adds": 3,
+    "maximum_opening_orders": 4,
+    "planned_order_margins_USDT": [
+      "150",
+      "187.50",
+      "234.3750",
+      "292.968750"
+    ],
+    "planned_total_margin_USDT": "864.843750",
+    "total_original_sleeve_investment_USDT": "1000",
+    "cost_funding_reserve_USDT": "135.156250",
+    "add_trigger": "Actual quantity-weighted filled average entry basis multiplied by .95, recalculated after each complete order",
+    "stop_signal": "Actual net sleeve PnL <= -200 USDT; a signal only, never a loss guarantee",
+    "entry_eligibility_proposal": "First causally eligible original CSH BTC-positive decision in the annual wallet; exact ownership adapter remains unimplemented",
+    "maximum_adds_reached": "Keep actual inventory marked; no automatic free closure",
+    "receipt_completion": "Only accumulated actual account-bound opening-margin receipts within one pinned 1e-8 quantity tick at actual fill price advance the order index. Partial fills and duplicate receipts do not count twice.",
+    "restart_rule": "ONE finite, non-refillable program per fresh annual wallet. Released reservations are permanently retired and cannot be reused under renamed owners. No automatic restart, compounding or new cash rescue. Multi-round behavior requires a separately prespecified reviewed model."
+  },
+  "unchanged_accounting": {
+    "source_perpetual_sha256": "ffa57a4c3c3b031945fcbc5db429d8b5e6ef06e880a8a577265836602ad55110",
+    "only_account_diff": "The max_gross_weight validation upper bound .60 to .90 in a separate vendor namespace; default .60 and all Decimal financial methods unchanged.",
+    "fee_bps_per_side": "5.5",
+    "half_spread_bps": "4",
+    "slippage_bps": "4",
+    "nominal_roundtrip_bps": "27",
+    "funding": "Original signed q*mark*rate cash arithmetic, actual caller-supplied event cadence; RAW_AS_FRACTION1 remains conditional, not certified.",
+    "capacity": "One shared per-symbol minute capacity from prior completed quote volume times .001 divided by current execution midpoint.",
+    "clock": "Original next eligible minute open +1 microsecond.",
+    "closing": "1e-8 idealized quantity filter, opening minimum10, explicit closing exemption, unpaid residual retained.",
+    "terminal": "60 charged real-minute reduce-only attempts in toy fixture; production terminal60 adapter parity remains an integration gate.",
+    "liquidation": "Original isolated-maintenance .005 model can HALT, does not simulate certified native liquidation or whole-wallet ruin."
+  },
+  "fixed_metrics": {
+    "primary": [
+      "full-account evaluated/not-evaluable and terminal residual status",
+      "maximum actual equity drawdown and duration",
+      "net equity and tail loss/expected shortfall95,99",
+      "unpaid liability, bankruptcy halt and liquidation-required halt separately",
+      "economic ruin: NAV<=1000 original USDT, distinct from isolated halt",
+      "time under water and fraction profitable completed 90/365-day windows",
+      "funding cash, fee/slippage costs, turnover, fill latency and rejected increases",
+      "actual gross/net/asset concentration and pending risk at marks and fills"
+    ],
+    "probability_plan": "Only after source and historical adapter admission, use past-available development segments and prespecified stationary block stress resampling with 7/30/90-day blocks, preserved cross-asset dependence, 2000 fixed-seed paths per regime/cost setting, 1/3/5-year horizons. State counts and Wilson95 intervals as conditional scenario-model probabilities; do not call them calibrated future real-world probabilities. Cost/funding/halts/paid terminal must replay the reviewed financial engine, not rescale historical PnL. Horizon extrapolation from sparse development data is explicitly uncertain.",
+    "toy_probabilities": "NOT_ESTIMATED: seven hand-constructed adversarial fixtures are counterexamples, not frequency evidence."
+  },
+  "bad_regime_coverage": [
+    "persistent bear market with failure to rebound",
+    "monotonic short squeeze/adverse mark gap",
+    "correlated cross-asset selloff and changing correlations",
+    "long sideways market with grid/martingale cost churn",
+    "funding sign reversal, larger cumulative debit and more frequent settlements",
+    "zero/low prior-minute capacity, delayed or partial reductions",
+    "mark/trade dislocation and missing held-asset mark/execution; fail closed",
+    "large gap that jumps past a stop before executable capacity exists"
+  ],
+  "development_source_rules": {
+    "already_seen_years": [
+      2021,
+      2023,
+      2024,
+      2025
+    ],
+    "2022": "Known mark-source gaps; not silently interpolated or completed",
+    "2026_March_September": "LOCKED_CLOSED",
+    "unknown_holdouts": "CLOSED",
+    "current_2025_runs": "Reuse authorized completed source checkpoints only after their own finish; do not duplicate current runs",
+    "selection": "No combinatorial search, winner leaderboard, multiplier/lookback optimization on seen data, or retrospective Aurora top-pick selection. Any later selector must use only past available observations and requires its own fixed preregistration."
+  },
+  "dedup": {
+    "branch_count": 111,
+    "branch_snapshot_SHA256": "32072adc4f6f44033b7ec893745c9610df63ba7263e557a77692b9196bd2c5f2",
+    "coverage": "111 branch names plus pinned main mechanism-path/content search and sibling bounded dedup evidence. Existing expert mixtures, SMA/static50, funding rank, risk budgets, headroom and quantity grids are prior art. No named margin-multiplied finite Martingale program found in this bounded inspection.",
+    "claim": "Full content dedup across every historical branch ancestor remains pending; no exhaustive novelty claim."
+  },
+  "blocking_native_integration_gates": [
+    "Separate reviewed target/risk controller extension for original .60/.10 guards and sizing",
+    "Separate reviewed NativeDailySimulator .60 target guard and account/cost factory/risk descriptor binding",
+    "Combined actual ownership, per-symbol pending, reservation, fee/funding and source-availability reconciliation",
+    "Finite add and original strategy decisions share original reduce-first capacity and direction locks; no independently funded sleeves",
+    "Original persistent paid full exit and terminal60 scheduler parity, snapshot recovery and replay invariants",
+    "Complete dedup, independent source review, historical source/calendar/profile admission and explicit parent GO"
+  ],
+  "stopping_rule": "Stop this stage after exact source freeze, bounded synthetic checks and independent review. No historical integration launch occurs from this package. Do not promise high returns, stable APR or safe losses."
+}
