@@ -1,0 +1,77 @@
+{
+  "PID": 5,
+  "start_UTC": "2026-10-14T19:31:33.487742+00:00",
+  "deadline_UTC": "2026-10-14T19:33:33.487742+00:00",
+  "historical_GO": false,
+  "market_data_read": false,
+  "published_sources_modified": false,
+  "scope": "PRESERVED_V3_21_PLUS_CAUSAL_NATIVE_INTEGRATION_GENERATED_ONLY",
+  "tests_run": 22,
+  "fixed_nodes": [
+    "test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator",
+    "test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory",
+    "test_synthetic.Tests.test_all_invalid_only_original_paid_reduction",
+    "test_synthetic.Tests.test_below_opening_minimum_native_refusal",
+    "test_synthetic.Tests.test_cash_and_funding_before_fills",
+    "test_synthetic.Tests.test_dust_distinct_from_liquidity_whole_lot",
+    "test_synthetic.Tests.test_fee_charged_boundary",
+    "test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact",
+    "test_synthetic.Tests.test_future_signal_price_rejected",
+    "test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed",
+    "test_synthetic.Tests.test_long_short_original_reduce_then_increase",
+    "test_synthetic.Tests.test_mixed_priority_does_not_bypass_unrelated_increase",
+    "test_synthetic.Tests.test_nonmonotonic_no_shortcut",
+    "test_synthetic.Tests.test_nonrepresentable_dust_not_silently_filled",
+    "test_synthetic.Tests.test_nontick_original_scheduler_journals_exact",
+    "test_synthetic.Tests.test_original_weight_nav_price_raw_formula_parity",
+    "test_synthetic.Tests.test_partial_fill_real_residual_and_executed_position",
+    "test_synthetic.Tests.test_partial_valid_all_gates_enumerated",
+    "test_synthetic.Tests.test_pending_mixed_corner_native_cash_risk",
+    "test_synthetic.Tests.test_shared_capacity_partial_selection",
+    "test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact",
+    "test_causal_integration.Tests.test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation",
+    "test_causal_integration.Tests.test_close_and_mark_future_fields_not_read_at_execution_seam",
+    "test_causal_integration.Tests.test_every_increase_refreshes_after_previous_native_fee_and_fill",
+    "test_causal_integration.Tests.test_full_valid_native_fills_account_pending_exact",
+    "test_causal_integration.Tests.test_full_valid_nontick_long_short_signflip_and_retry_exact",
+    "test_causal_integration.Tests.test_funding_tie_after_signal_before_attempt_fresh_rejection",
+    "test_causal_integration.Tests.test_future_covariance_constituent_rejected_before_scheduling",
+    "test_causal_integration.Tests.test_future_execution_price_availability_rejected_without_mutation",
+    "test_causal_integration.Tests.test_future_selected_signal_price_rejected_before_scheduling",
+    "test_causal_integration.Tests.test_gap_native_without_guard_accepts_same_annual_vol_breach",
+    "test_causal_integration.Tests.test_gap_old_signal_go_fresh_volatility_rejected_account_unchanged",
+    "test_causal_integration.Tests.test_install_routes_actual_native_advance_day_and_preserves_causal_order",
+    "test_causal_integration.Tests.test_later_book_rows_cannot_change_signal_binding",
+    "test_causal_integration.Tests.test_mixed_priority_original_close_then_guard_unrelated_increase",
+    "test_causal_integration.Tests.test_original_reduction_priority_parity_with_fresh_gap",
+    "test_causal_integration.Tests.test_original_weight_nav_source_price_formula_dispatch_unchanged",
+    "test_causal_integration.Tests.test_partial_enumeration_still_fixed_and_true_partial_refused",
+    "test_causal_integration.Tests.test_pending_change_after_signal_rejected_from_live_net_targets",
+    "test_causal_integration.Tests.test_signal_binding_uses_completed_source_not_future_open",
+    "test_causal_integration.Tests.test_terminal_passes_original_paid_close_even_without_signal_source",
+    "test_causal_integration.Tests.test_unbound_order_signal_cannot_use_another_signal_certificate"
+  ],
+  "errors": [
+    {
+      "test": "test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation (test_causal_integration.Tests.test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation)",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/research/original-csh-causal-execution-v4-20261014/test_causal_integration.py\", line 218, in test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation\n    before = sim.account.snapshot(); adapter.attempt(SIGNAL+MINUTE, self.market())\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/research/original-csh-causal-execution-v4-20261014/causal_adapter.py\", line 291, in attempt\n    return self.original_attempt(open_us, market_row)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/minimal_code_root/coin_h090_finite_native_20261014/dependencies/terminal_adapter.py\", line 83, in attempt\n    if receipt['status']!='FILLED':self.rejections.append(dict(symbol=s,event_us=event,\n                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dict() got multiple values for keyword argument 'symbol'\n"
+    }
+  ],
+  "failures": [],
+  "status": "FAILED_PRESERVED",
+  "source_hashes_verified_before_and_after": true,
+  "source_manifest_SHA256": "33477e2bf7919d0b3b709d2cab47db5f2577c9351f299ea188815cc07b185fca",
+  "resource": {
+    "exit": 1,
+    "end_UTC": "2026-10-14T19:31:33.973640+00:00",
+    "wall_seconds": 0.48591016399950604,
+    "CPU_seconds": 0.511948,
+    "peak_RSS_bytes": 90710016
+  },
+  "files": {
+    "TEST_LOG.txt": {
+      "bytes": 4294,
+      "SHA256": "f70ac0f08ea6c8b0be6753a65eb709893cf511c2d4cfee12b214a06e9b0a8b9d"
+    }
+  }
+}

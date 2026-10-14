@@ -1,0 +1,42 @@
+test_actual_marks_not_execution_quote_risk_denominator (test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator) ... ok
+test_all_invalid_increase_preserves_actual_inventory (test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory) ... ok
+test_all_invalid_only_original_paid_reduction (test_synthetic.Tests.test_all_invalid_only_original_paid_reduction) ... ok
+test_below_opening_minimum_native_refusal (test_synthetic.Tests.test_below_opening_minimum_native_refusal) ... ok
+test_cash_and_funding_before_fills (test_synthetic.Tests.test_cash_and_funding_before_fills) ... ok
+test_dust_distinct_from_liquidity_whole_lot (test_synthetic.Tests.test_dust_distinct_from_liquidity_whole_lot) ... ok
+test_fee_charged_boundary (test_synthetic.Tests.test_fee_charged_boundary) ... ok
+test_full_valid_original_scheduler_and_account_exact (test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact) ... ok
+test_future_signal_price_rejected (test_synthetic.Tests.test_future_signal_price_rejected) ... ok
+test_invalid_and_future_covariance_fail_closed (test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed) ... ok
+test_long_short_original_reduce_then_increase (test_synthetic.Tests.test_long_short_original_reduce_then_increase) ... ok
+test_mixed_priority_does_not_bypass_unrelated_increase (test_synthetic.Tests.test_mixed_priority_does_not_bypass_unrelated_increase) ... ok
+test_nonmonotonic_no_shortcut (test_synthetic.Tests.test_nonmonotonic_no_shortcut) ... ok
+test_nonrepresentable_dust_not_silently_filled (test_synthetic.Tests.test_nonrepresentable_dust_not_silently_filled) ... ok
+test_nontick_original_scheduler_journals_exact (test_synthetic.Tests.test_nontick_original_scheduler_journals_exact) ... ok
+test_original_weight_nav_price_raw_formula_parity (test_synthetic.Tests.test_original_weight_nav_price_raw_formula_parity) ... ok
+test_partial_fill_real_residual_and_executed_position (test_synthetic.Tests.test_partial_fill_real_residual_and_executed_position) ... ok
+test_partial_valid_all_gates_enumerated (test_synthetic.Tests.test_partial_valid_all_gates_enumerated) ... ok
+test_pending_mixed_corner_native_cash_risk (test_synthetic.Tests.test_pending_mixed_corner_native_cash_risk) ... ok
+test_shared_capacity_partial_selection (test_synthetic.Tests.test_shared_capacity_partial_selection) ... ok
+test_terminal_paid_close_original_scheduler_exact (test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact) ... ok
+test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation (test_causal_integration.Tests.test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation) ... ERROR
+
+======================================================================
+ERROR: test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation (test_causal_integration.Tests.test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/research/original-csh-causal-execution-v4-20261014/test_causal_integration.py", line 218, in test_capacity_shrink_after_signal_rejects_true_partial_without_account_mutation
+    before = sim.account.snapshot(); adapter.attempt(SIGNAL+MINUTE, self.market())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/research/original-csh-causal-execution-v4-20261014/causal_adapter.py", line 291, in attempt
+    return self.original_attempt(open_us, market_row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/68ef1b82bcac/coin_partial_restore_20261014/minimal_code_root/coin_h090_finite_native_20261014/dependencies/terminal_adapter.py", line 83, in attempt
+    if receipt['status']!='FILLED':self.rejections.append(dict(symbol=s,event_us=event,
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'symbol'
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.153s
+
+FAILED (errors=1)
