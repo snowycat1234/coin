@@ -1,0 +1,136 @@
+{
+  "schema": "FAILED_LINE60_SAVED_OPERAND_DIAGNOSTIC_V1",
+  "audit_status": "FAILED_AUDIT_PRESERVED_NOT_PASS",
+  "prior_script_SHA256": "609e27ec00d1dd3ac6284ed415524a4702ad6086afec4ae0aee4a7dde7a6d6df",
+  "original_failure_SHA256": "936a0d794b9dab5871db35ee5c9f195f748190e279f37b0a57f162c6436b06de",
+  "prior_line60": "assert D(rb['explicit_cumulative_funding_rounding_bridge'])==fundingbridge and D(rb['explicit_decimal_rounding_bridge'])==economicbridge",
+  "Decimal_precision": 40,
+  "rounding": "ROUND_HALF_EVEN",
+  "positions_iteration_order": [
+    "BTCUSDT",
+    "DOGEUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT"
+  ],
+  "owner_asset_fold_order": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "owner_fold_order": [
+    "CSH",
+    "MART_FINITE_REPLACE10"
+  ],
+  "native_operands": {
+    "free_cash": "5355.630791016740508412225869126902987732",
+    "isolated_balance_fold_operands": [
+      "1301.346367895450444109899405771963066677",
+      "654.5275730121030308435919284365485061364",
+      "661.54711958709048",
+      "1183.466440472333114450163038600855663880",
+      "403.9262673677870472"
+    ],
+    "isolated_balance_fold_sum": "4204.813768334764116603654372809367236693",
+    "unrealized_fold_operands": [
+      "321.2074485335706808901005942280369333230",
+      "-69.77310272268146715640807156345149386365",
+      "-42.06058044140952",
+      "434.3149453758989237498369613991443361188",
+      "19.6436405396361796"
+    ],
+    "unrealized_fold_sum": "663.3323512850147970835294840637297755782",
+    "unpaid_liability": "0",
+    "independently_grouped_NAV": "10223.77691063651942209940972600000000000",
+    "saved_marked_NAV": "10223.77691063651942209940972600000000001",
+    "NAV_difference": "-1E-35",
+    "journal_funding_left_to_right_sum": "-64.3158022002492714224582740",
+    "saved_account_funding_total": "-64.3158022002492714224582740",
+    "journal_realized_left_to_right_sum": "-284.3052813721194597235294840637297755787",
+    "journal_fee_left_to_right_sum": "90.9343570761266438381320",
+    "independent_native_cash_bridge": "10223.77691063651942209940972600000000000",
+    "cash_bridge_minus_saved_NAV": "-1E-35"
+  },
+  "owner_operands": {
+    "CSH": {
+      "realized": "-284.3052813721194597235294840637297755787",
+      "unrealized_asset_fold": [
+        [
+          "BTCUSDT",
+          "321.2074485335706808901005942280369333230"
+        ],
+        [
+          "ETHUSDT",
+          "-42.06058044140952"
+        ],
+        [
+          "SOLUSDT",
+          "434.3149453758989237498369613991443361188"
+        ],
+        [
+          "XRPUSDT",
+          "19.6436405396361796"
+        ],
+        [
+          "DOGEUSDT",
+          "-69.77310272268146715640807156345149386365"
+        ]
+      ],
+      "unrealized_sum": "663.3323512850147970835294840637297755782",
+      "funding": "-64.3158022002492714224582740",
+      "fees": "90.9343570761266438381320",
+      "net_PnL": "223.7769106365194220994097259999999999995"
+    },
+    "MART_FINITE_REPLACE10": {
+      "realized": "0",
+      "unrealized_asset_fold": [],
+      "unrealized_sum": "0",
+      "funding": "0E-25",
+      "fees": "0",
+      "net_PnL": "0E-25"
+    }
+  },
+  "funding_conjunct": {
+    "formula": "journal_funding_left_to_right_sum - sum(owner_funding[CSH], owner_funding[MART_FINITE_REPLACE10]); Decimal40",
+    "owner_funding_operands": [
+      "-64.3158022002492714224582740",
+      "0E-25"
+    ],
+    "owner_funding_sum": "-64.3158022002492714224582740",
+    "independent_result": "0E-25",
+    "inherited_result": "0E-25",
+    "exact_equal": true
+  },
+  "economic_conjunct": {
+    "formula": "(free_cash + sum(isolated_balance in saved positions order) + sum(unrealized in saved positions order) - unpaid_liability) - 10000 - sum(owner netPnL in CSH/FINITE order); all operations Decimal40",
+    "initial_cash_operand": "10000",
+    "owner_PnL_fold_operands": [
+      "223.7769106365194220994097259999999999995",
+      "0E-25"
+    ],
+    "owner_PnL_sum": "223.7769106365194220994097259999999999995",
+    "independent_result": "5E-37",
+    "inherited_result": "1.05E-35",
+    "exact_equal": false
+  },
+  "inherited_accounting_bridge_error_USDT": "1.05E-35",
+  "no_equality_forced": true,
+  "no_tolerance_added": true,
+  "no_bridge_assigned_to_cash_or_owner_profit": true,
+  "financial_advance_calls": 0,
+  "account_constructions": 0,
+  "prior_checks_completed_before_line60_by_recorded_control_flow": [
+    "Saved EVIDENCE_MANIFEST file hashes",
+    "Native journals equal saved account; owner allocations equal owner snapshot",
+    "Per-fill owner quantity/fee/execution/native-realized and owner basis/realized classification checks",
+    "Per-funding strict prior owner quantity and exact allocation/rounding fields",
+    "Per-owner final quantity/basis and all accumulated totals",
+    "Native fee/cost/funding journal totals and prior native cash/NAV assertions"
+  ],
+  "release_accounting_certification": "NOT_YET_AUDITED",
+  "failed_conjuncts": [
+    "economic_conjunct"
+  ]
+}
