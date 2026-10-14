@@ -1,0 +1,17 @@
+# Paired source-runner public code-only cold restoration
+
+This publication preserves runner manifest d0148be6c9e3ecd24742cd005fff93b512f11a0f59346fddd5113f04c269e297 exactly. It is code/metadata and generated-test preparation. Reading cached 2023/2024/2025 source data still requires the exact independent review and a separate per-year parent GO. 2021, 2022, locked 2026 and unknown holdouts remain closed. No wallet execution or financial-result claim is authorized here.
+
+The branch inherits the unchanged paired module at its original sibling prefix research/paired-headroom-discriminator-20261014 from immutable parent 7a31299c0f7eb6136599d5954a206944f50b27a2. Restore that exact 22-file subtree alongside this module, avoiding duplicated source publication. PUBLIC_CODE_REFERENCES.json pins each inherited file and the five additive existing public input/resource code+metadata bodies. These five bodies reuse original Git blobs. No cached market arrays, derived CSV, wallet or dependency wheels are included.
+
+Restore PUBLIC_PAYLOAD_MANIFEST.json members plus that manifest and the separate cold/projection review receipt. The eleven runner files and nine public reviewer files are byte-identical to their accepted freezes. The reviewer set preserves the rejected prior review/baseline, accepted baseline, 19-active-check portable source and bounded wrapper. Do not copy private original wrappers, rejected full snapshots, raw operational logs or generated receipt directories.
+
+Use Python 3.12 and NumPy 2.3.5 on Linux, from this module root:
+
+    PYTHONDONTWRITEBYTECODE=1 python3 -B run_public_cold.py --expected-manifest-sha256 EXACT_PUBLIC_MANIFEST_SHA256
+
+Use the exact public manifest SHA-256 reported by publication. Before candidate imports the portable wrapper verifies all public members, frozen runner bytes, 22 inherited paired files, five original input/resource code+metadata files and the complete public reviewer set. CODE_ONLY_LAYOUT.json contains only fixed project-relative code locators. The wrapper writes the required absolute roots only into a new private consumer-local cold_synthetic_receipts/CODE_ONLY_ROOTS.json. Never publish that runtime roots map.
+
+Three fixed bounded stages check runtime identity, the unchanged canonical code-metadata preflight / 27 generated tests, and the independent 19-active-check replay. The latter also reruns the unchanged 27-test cold CLI; those repeated executions are not additional distinct tests. Five retired-freeze probes are deliberately skipped. Each process inherits one CPU/math thread, 4GB address space, 60 CPU seconds and 120 wall seconds; wrappers sample a 2GB parent-process RSS stop, and canonical/independent child wrappers retain their own bounds. Inherited optimization/PYTHONPATH and operational roots are removed, and children use -B. Generated logs/receipts remain local. All frozen/inherited hashes are rechecked afterward.
+
+This cold run never selects source_cli run mode, supplies source-year roots, reads historical arrays or invokes a financial wallet. It verifies the exact dependency scope declared by this runner. It does not execute the paired module's separate finance-source preflight or close native historical/economic admission. Host-resource admission and real cached-data execution remain future separately authorized steps. Rejected findings and all scientific limitations remain in the independent_review files.
