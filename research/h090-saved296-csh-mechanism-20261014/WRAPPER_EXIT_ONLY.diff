@@ -1,0 +1,12 @@
+--- immutable95c
++++ additive_exit_corrected
+@@ -117,6 +117,7 @@
+  receipt.update(exit=rc,end_UTC=datetime.datetime.now(datetime.timezone.utc).isoformat(),wall_seconds=time.monotonic()-begin,output_bytes=sum(p.stat().st_size for p in OUT.rglob('*') if p.is_file()),status='PASS_TINY_DIAGNOSTIC' if rc==0 else 'FAILED_NO_RETRY');jwrite(OUT/'RESOURCE_RECEIPT_PRIVATE.json',receipt);print('DIAGNOSTIC_TERMINAL',json.dumps(receipt));print((OUT/'WORKER_PRIVATE.log').read_text()[-3500:] if (OUT/'WORKER_PRIVATE.log').exists() else 'NO_CHILD');return rc
+ if __name__=='__main__':
+  if '--worker' in sys.argv:
+-  try:sys.exit(worker())
+-  except BaseException:traceback.print_exc();sys.exit(1)
++  try:worker_exit_code=worker()
++  except BaseException:traceback.print_exc();worker_exit_code=1
++  sys.exit(worker_exit_code)
+  else:sys.exit(controller())
