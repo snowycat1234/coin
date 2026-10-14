@@ -1,0 +1,88 @@
+{
+  "confirmed_semantics": [
+    "Single unchanged native wallet, no owner cash accounts or synthetic transfers",
+    "Actual-fill owner basis/realized/unrealized PnL with explicit native blended classification bridges",
+    "Current native margin + fees + funding debits + realized losses for CSH 8000, credits/profits do not offset consumed costs",
+    "Finite paid margin receipts advance order count, shared prior-minute capacity and reduction/owner priority ordering",
+    "8000 exact/tick-over and -200 exact/neighbor witnesses reproduced",
+    "Decimal40 trigger correction and -1e-43 cumulative funding bridge disclosed and reproduced"
+  ],
+  "decision": "WITHHOLD_GENERATED_ADAPTER_ACCEPTANCE_PENDING_TWO_ATOMIC_BOUNDARY_FIXES",
+  "evidence_SHA256": {
+    "bounded_rerun/RECEIPT.json": "864a6405b071f47f47262083be604d6ed7c906799fd093e607a9dcb24a304a56",
+    "bounded_rerun/command_1.txt": "0ed77339cf156ec44d5ee37dd818c36a11868f9028ebd0dcba80a10d4b61ad51",
+    "bounded_rerun/command_2.txt": "9953f23f01340ad9bce98d4c84c3dd6eb0976d6c47d35160c2f1f1874863029e",
+    "bounded_rerun/command_3.txt": "784ceeabc516d633462ceeb223d3a40015ade6a55b24853c491122aaa743ac02",
+    "bounded_rerun/demo/DEMO.json": "edd86d6b85756a715b292e35a28e57bba82324afe5f4778adf3617aadd1aba65",
+    "bounded_rerun/owner_boundaries/OWNER_BOUNDARIES.json": "c3b8193988c5e68662e8cf6483aaa922d88c8f5d6143f761f8047ce5e9223d48",
+    "bounded_rerun_stdout.txt": "864a6405b071f47f47262083be604d6ed7c906799fd093e607a9dcb24a304a56",
+    "review_probes.json": "595ac5931616c648f6cfa8fb9f1a4551b7b6c3f7bdd68ff629d42a4b20742472",
+    "review_probes.py": "24bde8d7aaa3b0177ba6cbacf739ed9c53635ea65779234facac342bd67b152f",
+    "review_scenarios.json": "1dc204934a53e7799ed14f4c57673410e0163d52d5425942f85f9a00d40a8618",
+    "review_scenarios.py": "24c4015f553664c81a84a1e833fe078874d95d3de120e362d72d4d78121b00ee"
+  },
+  "external_actions": {
+    "credentials": 0,
+    "historical_array_parses": 0,
+    "historical_wallets": 0,
+    "live_finance": 0,
+    "publishing": 0,
+    "uploads": 0
+  },
+  "findings": [
+    {
+      "file": "finite_candidate.py",
+      "fix": "Validate complete canonical signal authorization before native mutation: source decision and interval, original BTC-positive ready state, first DAILY_TARGET activation, signal-time actual finite fill basis and exact Decimal40 trigger, completed mark availability and mark<=trigger. Preserve original signal basis for partial fills and quote rebounds. Store signal-time record independently because native marks retain only two entries.",
+      "id": "R1",
+      "lines": "246-259",
+      "required_regression": "Each invalid field rejects without account/owner/program mutation; genuine multi-minute partials and quote rebound still pass.",
+      "scope": "Direct corruption of stored witness state; normal generated scheduler remains valid. Acceptance claim explicitly includes atomic causal witness binding.",
+      "severity": "ATOMIC_CAUSAL_BOUNDARY",
+      "summary": "Finite admission never validates stored source-decision or trigger-proof contents. Corrupting one source_decision_us, authorization, mark_available_us, mark_price, trigger_price or actual_filled_basis field still commits the add and advances its index."
+    },
+    {
+      "files": [
+        "cost_factory.py:31-41",
+        "finite_candidate.py:235-264"
+      ],
+      "fix": "Candidate-only routing validates explicit owner, symbol, reduction direction and quantity against actual owner inventory before native financial mutation. Keep duplicate native replay first and keep paid reductions exempt from source/risk/budget increase gates. Do not modify immutable CONTROL finance/clock/cost files.",
+      "id": "R2",
+      "required_regression": "Missing/wrong owner, wrong symbol/direction and over-close reject before account/owner/program mutation; legal reductions still execute after cost/source/risk breaches; duplicates remain idempotent.",
+      "scope": "Direct exposed candidate account execution; ordinary scheduler already limits its request to the owner inventory.",
+      "severity": "ATOMIC_OWNER_FINANCIAL_BOUNDARY",
+      "summary": "reduce_only bypasses the owner callback. A finite-bound close of actual finite quantity plus 1 BTC commits a native CLOSE then owner flush raises PAID_CLOSE_EXCEEDS_ACTUAL_OWNER_INVENTORY, leaving native financial state mutated."
+    }
+  ],
+  "independent_bounded_rerun": {
+    "demo_exactly_matches_final": true,
+    "demo_native_account_journals_and_owner_fills_exactly_match_preserved_first": true,
+    "executed_verified_modules": 41,
+    "passed": true,
+    "project_bytecode_consumed": false,
+    "receipt": "bounded_rerun/RECEIPT.json",
+    "tests": 79,
+    "witnesses_exactly_match_final": true
+  },
+  "independent_generated_scenarios": {
+    "cases": 36,
+    "evidence": "review_scenarios.json",
+    "failures": 0,
+    "scope": "Correctness only; fixed paths, both costs, no strategy search or performance ranking"
+  },
+  "reviewed_source_freeze_SHA256": "2bf251db63085e3d90a127cbd6e22897a5f4bc543a4549ce3691f67eefe07a01",
+  "schema": "INDEPENDENT_FINITE_NATIVE_REVIEW_V1",
+  "unchanged_CONTROL_freeze_SHA256": "cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f",
+  "unchanged_limits": [
+    "Generated integration only; not strategy profitability evidence",
+    "Historical wallet and real source/provider/arrival/filter/funding certification remain NO_GO",
+    "Full restore/fork remain NO_GO",
+    "Exit thresholds are signals; gaps/capacity/halts can overshoot or retain inventory",
+    "Loader checksum reads two already-public target NPZ files, 50586 bytes; no array parsing"
+  ],
+  "verified_hash_counts": {
+    "CONTROL_freeze": 17,
+    "candidate_freeze": 28,
+    "dependencies": 62,
+    "evidence_manifest": 33
+  }
+}

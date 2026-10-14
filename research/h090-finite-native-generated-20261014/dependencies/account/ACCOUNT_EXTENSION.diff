@@ -1,0 +1,11 @@
+--- original/perpetual_account.py
++++ vendor_quant/perpetual_account.py
+@@ -72,7 +72,7 @@
+                 or self.half_spread_bps < 0 or self.slippage_bps < 0
+                 or self.half_spread_bps + self.slippage_bps >= 10000
+                 or self.leverage != 1 or not 0 < self.max_asset_weight <= D("0.3")
+-                or not 0 < self.max_gross_weight <= D("0.6")
++                or not 0 < self.max_gross_weight <= D("0.9")
+                 or self.maintenance_margin_rate != D("0.005")
+                 or self.min_notional != 10 or self.quantity_step != D("0.00000001")):
+             raise ValueError("invalid costs or unsupported perpetual risk/product scenario")

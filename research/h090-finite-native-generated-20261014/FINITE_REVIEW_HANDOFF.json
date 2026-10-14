@@ -1,0 +1,155 @@
+{
+  "CONTROL_freeze_SHA256": "cf886908cb2a55537c7ddc1d7e5a73a5a09ed48eff110634cbc59242240ea40f",
+  "add_trigger_rounding_boundary": {
+    "Decimal40_signals": true,
+    "Decimal40_trigger": "89.54832557707259429542768216277279031500",
+    "actual_owner_basis": "94.26139534428694136360808648712925296316",
+    "generated_mark": "89.54832557707259429542768216277279031500",
+    "legacy_ambient28_trigger": "89.54832557707259429542768216",
+    "legacy_ambient28_would_signal": false,
+    "scope": "Engineered sub-1e-26 price boundary; adapter context correction, no native finance or owner amount changes",
+    "trigger_difference_USDT_per_BTC": "2.77279031500E-27"
+  },
+  "bounded_receipt": "bounded_finite_receipts_003/RECEIPT.json",
+  "demo": {
+    "native_trade_legs": 11,
+    "one_wallet_owner_reconciliation": {
+      "actual_attributed_isolated_margin": {
+        "CSH": "0",
+        "MART_FINITE_REPLACE10": "0"
+      },
+      "economic_rounding_bridge_convention": "USDT; native NAV minus 10000 minus summed owner actual-fill net PnL; never allocated to an owner",
+      "explicit_cumulative_funding_rounding_bridge": "0",
+      "explicit_decimal_rounding_bridge": "0E-37",
+      "funding_rounding_bridge_convention": "USDT; native cumulative funding minus summed owner cumulative funding; independent Decimal40 addition order; never allocated as owner profit or cash",
+      "native_realized_classification_bridge": "0E-37",
+      "native_unrealized_classification_bridge": "0",
+      "native_wallet_net_PnL": "-239.246414693311867200000000000000000000",
+      "owner_actual_fill_net_PnL": {
+        "CSH": "-150.208406538542920800",
+        "MART_FINITE_REPLACE10": "-89.03800815476894640000000000000000000003"
+      },
+      "owner_cash_accounts": false,
+      "owner_quantities": {
+        "CSH": {
+          "BTCUSDT": "0E-8",
+          "DOGEUSDT": "0",
+          "ETHUSDT": "0E-8",
+          "SOLUSDT": "0E-8",
+          "XRPUSDT": "0"
+        },
+        "MART_FINITE_REPLACE10": {
+          "BTCUSDT": "0E-8",
+          "DOGEUSDT": "0",
+          "ETHUSDT": "0",
+          "SOLUSDT": "0",
+          "XRPUSDT": "0"
+        }
+      },
+      "synthetic_cash_transfers": false
+    },
+    "owner_fill_allocations": 11,
+    "paid_flat_terminal": true,
+    "program_opening_orders": 4,
+    "retired_original_USDT": {
+      "MART_FINITE_REPLACE10": "1000"
+    },
+    "total_original_committed_USDT": "9000"
+  },
+  "exact_native_account_matches_preserved_first_generated_demo": true,
+  "funding_rounding": {
+    "convention": "USDT; native cumulative funding minus summed owner cumulative funding; independent Decimal40 addition order; never allocated as owner profit or cash",
+    "different_addition_orders": {
+      "chronological_owner_events": "-0.0001135683992827604619282760461928276046196",
+      "independently_accumulated_then_summed_owners": "-0.0001135683992827604619282760461928276046195",
+      "native_cumulative": "-0.0001135683992827604619282760461928276046196"
+    },
+    "final_native_minus_owners_USDT": "-1E-43",
+    "native_finance_and_owner_amounts_changed": false,
+    "reproduced_failure": "FINITE_TEST_RESULTS_004.txt"
+  },
+  "historical_GO": false,
+  "independent_review_revision": {
+    "delayed_partial_proof": "Five paid partials preserve the original signal basis after native two-mark history no longer contains the signal mark.",
+    "failed_probes": "rejected_2bf251/review_probes.json",
+    "first_new_test_failure": "FINITE_TEST_RESULTS_007.txt: the five-part fixture initially left an opening remainder below unchanged native 10-USDT minimum. Corrected the generated capacity only; no execution rule changed.",
+    "fixes": [
+      "Reconstruct every causal witness field from signal-interval ready original-positive source state, actual pre-signal owner receipts, and retained immutable native mark evidence; compare canonical types and values before commit.",
+      "Candidate-only OwnerRoutedAccount validates actual owner quantity, basis, reduction direction and maximum requested reduction before unchanged native finance. Duplicate replay is still first; valid reductions remain exempt from increase gates."
+    ],
+    "new_atomic_state_comparison": [
+      "full native account snapshot",
+      "owner ledger",
+      "finite program state",
+      "budget cost events",
+      "pending order",
+      "reservations",
+      "owner events",
+      "causal authorizations",
+      "retained mark tuples",
+      "owner bindings",
+      "receipt IDs",
+      "journal cursors"
+    ],
+    "new_regression_groups": 7,
+    "preserved_rejected_package": "rejected_2bf251/",
+    "publication": "NOT_AUTHORIZED_OR_PERFORMED",
+    "rejected_previous_freeze_SHA256": "2bf251db63085e3d90a127cbd6e22897a5f4bc543a4549ce3691f67eefe07a01",
+    "review_status": "PENDING_INDEPENDENT_RERUN"
+  },
+  "limits": [
+    "Historical source/provider/arrival admission remains NO_GO.",
+    "Native public filters, funding provenance and historical performance are not certified.",
+    "Full restore/fork is deliberately unsupported; snapshot is evidence only.",
+    "Stop thresholds are signals; paid execution can overshoot or retain inventory under zero capacity.",
+    "The initial generated demo is a functional accounting fixture, not evidence of strategy performance.",
+    "The .95 add threshold now uses native Decimal40; a specially engineered mark changes the signal within 2.77279031500e-27 USDT/BTC of the earlier ambient28 threshold."
+  ],
+  "minus200_exit_boundary_signals": [
+    false,
+    true,
+    true
+  ],
+  "new_atomic_checks": [
+    "Exact 8000 after actual fees and funding under BASE27 and STRESS43",
+    "One cash tick and one native quantity tick over budget reject without account or owner mutation",
+    "Funding credits and realized profits cannot replenish consumed costs or realized losses",
+    "Paid reductions remain allowed after a lawful debit exceeds the owner budget",
+    "Actual finite trigger authorization binds owner, index, signal, source decision, pending order, side and fill ID",
+    "No add above actual fill-basis trigger; valid prior trigger survives execution quote rebound",
+    "Eight fractional funding updates and chronological versus grouped-owner addition reconciliation",
+    "Exact -200 owner-PnL loss signal and +/-1e-20 USDT neighbors",
+    "Explicit native Decimal40 versus legacy ambient28 microscopic add-trigger boundary"
+  ],
+  "read_only_review": "Independent review rejected the prior 2bf251 revision with two concrete atomic-admission gaps. Both were fixed narrowly and the replacement freeze was sent for independent replay. No review PASS claimed yet.",
+  "resources": {
+    "CPU_affinity_count": 1,
+    "CPU_seconds_per_command": 60,
+    "address_space_bytes": 4294967296,
+    "math_threads": 1,
+    "wall_seconds_per_command": 120
+  },
+  "schema": "H090_FINITE_GENERATED_REVIEW_HANDOFF_V1",
+  "scope": {
+    "Git_mutations": 0,
+    "checksum_only_already_public_target_NPZ_files": 2,
+    "checksum_only_public_target_bytes": 50586,
+    "historical_array_parses": 0,
+    "historical_wallets": 0,
+    "live_operations": 0,
+    "uploads": 0,
+    "zero_historical_file_access_claim": false
+  },
+  "source_freeze_SHA256": "6f915e88d0f29a1307706d25a206edac5751700687196b88c82643c45e9b2c96",
+  "status": "PASS_BOUNDED_GENERATED_ONLY_PENDING_INDEPENDENT_REVIEW",
+  "tests": {
+    "final_output": "bounded_finite_receipts_003/command_1.txt",
+    "finite_owner": 35,
+    "project_bytecode_consumed": false,
+    "total": 86,
+    "unchanged_CONTROL": 51,
+    "verified_executed_source_modules": 42
+  },
+  "unchanged_CONTROL_source_files_verified": 17,
+  "wallet_GO": false
+}
