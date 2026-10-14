@@ -1,0 +1,33 @@
+test_actual_marks_not_execution_quote_risk_denominator (test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator) ... ok
+test_all_invalid_increase_preserves_actual_inventory (test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory) ... ok
+test_all_invalid_only_original_paid_reduction (test_synthetic.Tests.test_all_invalid_only_original_paid_reduction) ... ok
+test_below_opening_minimum_native_refusal (test_synthetic.Tests.test_below_opening_minimum_native_refusal) ... ok
+test_cash_and_funding_before_fills (test_synthetic.Tests.test_cash_and_funding_before_fills) ... ok
+test_fee_charged_boundary (test_synthetic.Tests.test_fee_charged_boundary) ... ok
+test_full_valid_original_scheduler_and_account_exact (test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact) ... ok
+test_invalid_and_future_covariance_fail_closed (test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed) ... ok
+test_long_short_original_reduce_then_increase (test_synthetic.Tests.test_long_short_original_reduce_then_increase) ... ok
+test_mixed_priority_does_not_bypass_unrelated_increase (test_synthetic.Tests.test_mixed_priority_does_not_bypass_unrelated_increase) ... ok
+test_nonmonotonic_no_shortcut (test_synthetic.Tests.test_nonmonotonic_no_shortcut) ... ok
+test_nonrepresentable_dust_not_silently_filled (test_synthetic.Tests.test_nonrepresentable_dust_not_silently_filled) ... ok
+test_partial_fill_real_residual_and_executed_position (test_synthetic.Tests.test_partial_fill_real_residual_and_executed_position) ... ok
+test_partial_valid_all_gates_enumerated (test_synthetic.Tests.test_partial_valid_all_gates_enumerated) ... ok
+test_pending_mixed_corner_native_cash_risk (test_synthetic.Tests.test_pending_mixed_corner_native_cash_risk) ... ok
+test_shared_capacity_partial_selection (test_synthetic.Tests.test_shared_capacity_partial_selection) ... ok
+test_terminal_paid_close_original_scheduler_exact (test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact) ... ERROR
+
+======================================================================
+ERROR: test_terminal_paid_close_original_scheduler_exact (test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/coin-cloud/original-csh-admission-partial-v2-20261014/test_synthetic.py", line 63, in test_terminal_paid_close_original_scheduler_exact
+    raw=self.vec();baseline.schedule(raw,120000000,'TERMINAL');adapter=ScheduleAdapter(candidate.schedule,lambda t:(_ for _ in ()).throw(AssertionError('NO_ALLOCATOR_FOR_TERMINAL')));adapter.schedule(raw,120000000,'TERMINAL');self.assertEqual(candidate.pending,baseline.pending)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/coin-cloud/h090-original2023-code-20261014/coin_h090_finite_native_20261014/dependencies/terminal_adapter.py", line 29, in schedule
+    raise ValueError('Only fixed terminal60 signal is allowed')
+ValueError: Only fixed terminal60 signal is allowed
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.084s
+
+FAILED (errors=1)

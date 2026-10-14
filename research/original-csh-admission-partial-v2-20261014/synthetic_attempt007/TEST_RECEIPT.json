@@ -1,0 +1,47 @@
+{
+  "PID": 346068,
+  "start_UTC": "2026-10-14T18:46:42.234386+00:00",
+  "deadline_UTC": "2026-10-14T18:48:42.234386+00:00",
+  "historical_GO": false,
+  "tests_run": 17,
+  "fixed_nodes": [
+    "test_synthetic.Tests.test_actual_marks_not_execution_quote_risk_denominator",
+    "test_synthetic.Tests.test_all_invalid_increase_preserves_actual_inventory",
+    "test_synthetic.Tests.test_all_invalid_only_original_paid_reduction",
+    "test_synthetic.Tests.test_below_opening_minimum_native_refusal",
+    "test_synthetic.Tests.test_cash_and_funding_before_fills",
+    "test_synthetic.Tests.test_fee_charged_boundary",
+    "test_synthetic.Tests.test_full_valid_original_scheduler_and_account_exact",
+    "test_synthetic.Tests.test_invalid_and_future_covariance_fail_closed",
+    "test_synthetic.Tests.test_long_short_original_reduce_then_increase",
+    "test_synthetic.Tests.test_mixed_priority_does_not_bypass_unrelated_increase",
+    "test_synthetic.Tests.test_nonmonotonic_no_shortcut",
+    "test_synthetic.Tests.test_nonrepresentable_dust_not_silently_filled",
+    "test_synthetic.Tests.test_partial_fill_real_residual_and_executed_position",
+    "test_synthetic.Tests.test_partial_valid_all_gates_enumerated",
+    "test_synthetic.Tests.test_pending_mixed_corner_native_cash_risk",
+    "test_synthetic.Tests.test_shared_capacity_partial_selection",
+    "test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact"
+  ],
+  "errors": [
+    {
+      "test": "test_terminal_paid_close_original_scheduler_exact (test_synthetic.Tests.test_terminal_paid_close_original_scheduler_exact)",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/coin-cloud/original-csh-admission-partial-v2-20261014/test_synthetic.py\", line 63, in test_terminal_paid_close_original_scheduler_exact\n    raw=self.vec();baseline.schedule(raw,120000000,'TERMINAL');adapter=ScheduleAdapter(candidate.schedule,lambda t:(_ for _ in ()).throw(AssertionError('NO_ALLOCATOR_FOR_TERMINAL')));adapter.schedule(raw,120000000,'TERMINAL');self.assertEqual(candidate.pending,baseline.pending)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/coin-cloud/h090-original2023-code-20261014/coin_h090_finite_native_20261014/dependencies/terminal_adapter.py\", line 29, in schedule\n    raise ValueError('Only fixed terminal60 signal is allowed')\nValueError: Only fixed terminal60 signal is allowed\n"
+    }
+  ],
+  "failures": [],
+  "status": "FAILED_PRESERVED",
+  "resource": {
+    "exit": 1,
+    "end_UTC": "2026-10-14T18:46:42.981973+00:00",
+    "wall_seconds": 0.7475967950013,
+    "CPU_seconds": 0.832052,
+    "peak_RSS_bytes": 129576960
+  },
+  "files": {
+    "TEST_LOG.txt": {
+      "bytes": 3221,
+      "SHA256": "15c311cc5184baee9c62000fcf655a5f8aa484461f6e64c84d9fca8cd4094498"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+--- attempt007/test_synthetic.py
++++ attempt008/test_synthetic.py
+@@ -60,8 +60,9 @@
+  def test_terminal_paid_close_original_scheduler_exact(self):
+   baseline=self.simulator();candidate=self.simulator()
+   for sim in (baseline,candidate):self.seed(sim.account)
+-  raw=self.vec();baseline.schedule(raw,120000000,'TERMINAL');adapter=ScheduleAdapter(candidate.schedule,lambda t:(_ for _ in ()).throw(AssertionError('NO_ALLOCATOR_FOR_TERMINAL')));adapter.schedule(raw,120000000,'TERMINAL');self.assertEqual(candidate.pending,baseline.pending)
+-  for sim in (baseline,candidate):sim.attempt(180000000,self.market())
++  signal=baseline.terminal_signal_us;self.assertEqual(signal,baseline.end-61*60000000);self.assertEqual(candidate.terminal_signal_us,signal)
++  raw=self.vec();baseline.schedule(raw,signal,'TERMINAL');adapter=ScheduleAdapter(candidate.schedule,lambda t:(_ for _ in ()).throw(AssertionError('NO_ALLOCATOR_FOR_TERMINAL')));adapter.schedule(raw,signal,'TERMINAL');self.assertEqual(candidate.pending,baseline.pending)
++  for sim in (baseline,candidate):sim.attempt(signal+60000000,self.market())
+   self.assertEqual(candidate.snapshot(),baseline.snapshot());self.assertEqual(candidate.account.positions[S[0]].quantity,0);self.assertEqual(candidate.account.unpaid_liability,0);self.assertGreater(candidate.account.fees,0)
+  def test_actual_marks_not_execution_quote_risk_denominator(self):
+   a=self.account();o=ChargedPreview(a,prices=self.vec(101,101,101,101,101),covariance=np.eye(5)*.04,pending=self.vec(),previous_quote=self.vec(100000000,100000000,100000000,100000000,100000000),event_us=180000001,signal_us=120000000,covariance_available_us=0,quote_available_us=60000000)
