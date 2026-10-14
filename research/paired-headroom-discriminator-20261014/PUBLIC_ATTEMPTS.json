@@ -1,0 +1,85 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "candidate_source_SHA256": "f2f424e2e0c7821a6ba805543e1925a856aba5831fcaff198c9a338683fb292b",
+      "exit_code": 1,
+      "failed": [
+        "test_current_close_mark_is_known_but_latest_pair_is_previous_open"
+      ],
+      "failure": "Fixture equity2 was greater than neutral required equity1.270088 at mark200; the expected True was incorrect. Production formula was not changed to rescue this test.",
+      "fits": 0,
+      "historical_array_reads": 0,
+      "passed": 14,
+      "stage": "SYNTHETIC_UNIT_TESTS",
+      "test_source_SHA256": "78314a3243fac51f5e203736d9241e74c22ccdceea44aeb79302d3cf1d9541e9",
+      "tests_run": 15,
+      "wallets": 0
+    },
+    {
+      "attempt": 2,
+      "exit_code": 1,
+      "financial_changes": false,
+      "fits": 0,
+      "historical_array_reads": 0,
+      "source_manifest_generation_failure": "Incorrect working-directory-relative path before manifest generation; final preflight failed because SOURCE_MANIFEST.json was absent. The 17 unit tests and generated toy passed; failed operational receipt preserved separately.",
+      "stage": "BOUNDED_SYNTHETIC_CODE_PREFLIGHT",
+      "wallets": 0
+    },
+    {
+      "attempt": 3,
+      "fits": 0,
+      "historical_array_reads": 0,
+      "source_manifest_SHA256_at_run": "b6f92f99c3d6035e8b1e873373e8d0952b25d26946270e46a54c7c2f491592a2",
+      "stage": "BOUNDED_SYNTHETIC_SOURCE_CHECKS",
+      "status": "PASS_18_TESTS_SOURCE_PINS_TOY_AND_SCALING",
+      "subsequent_nonfinancial_change": "Added retained extreme LONG coefficient-ordering counterexample and precise warning; fixed candidate formula unchanged. New bound validation follows.",
+      "wallets": 0
+    },
+    {
+      "attempt": 4,
+      "fits": 0,
+      "historical_array_reads": 0,
+      "source_manifest_SHA256_at_run": "01794013357413405fe5e1f9d4d2509e21a5afc6e8ebe679dac1f12028c5d3d3",
+      "stage": "BOUNDED_SYNTHETIC_SOURCE_CHECKS",
+      "status": "PASS_19_TESTS_SOURCE_PINS_TOY_AND_SCALING",
+      "subsequent_nonfinancial_change": "Source preflight validates hashes/AST before importing candidate; bounded runner orders preflight first. No candidate formula or tests changed.",
+      "wallets": 0
+    },
+    {
+      "attempt": 5,
+      "candidate_formula_changed_for_tests": false,
+      "fits": 0,
+      "historical_array_reads": 0,
+      "source_manifest_SHA256_at_run": "620f6a8c9ef9beb775a35bd56b834a71ac88d441f9b1e1c6a6fe306c87e143d0",
+      "stage": "FINAL_FROZEN_BOUNDED_SYNTHETIC_SOURCE_CHECKS",
+      "status": "PASS_19_TESTS_SOURCE_PINS_TOY_AND_SCALING",
+      "wallets": 0
+    },
+    {
+      "attempt": 6,
+      "counterexamples": [
+        "q1e308 equity1 mark10 neutral ratios: required equity overflows",
+        "q1e308 equity-1e308 mark1 move log(.0001) gap0: headroom subtraction overflows"
+      ],
+      "fits": 0,
+      "fix": "Explicit ValueError on nonfinite READY-owned required/headroom; final trigger includes original finite-headroom condition. Mathematical formula unchanged. Two regression tests added.",
+      "historical_array_reads": 0,
+      "previous_manifest_SHA256": "620f6a8c9ef9beb775a35bd56b834a71ac88d441f9b1e1c6a6fe306c87e143d0",
+      "stage": "INDEPENDENT_REVIEW_COUNTEREXAMPLES",
+      "status": "NUMERICAL_REFUSAL_DEFECT_FOUND_AND_FIXED_PENDING_REVIEW",
+      "wallets": 0
+    },
+    {
+      "attempt": 7,
+      "fits": 0,
+      "historical_array_reads": 0,
+      "source_manifest_SHA256_at_run": "11d645f59e1cdec1ee141517d550d514a8ffcbe196ddaf27cfede17b589c9f98",
+      "stage": "FINAL_FIXED_BOUNDED_SYNTHETIC_SOURCE_CHECKS",
+      "status": "PASS_21_TESTS_SOURCE_PINS_TOY_AND_SCALING",
+      "wallets": 0
+    }
+  ],
+  "private_full_attempts_SHA256": "a20cfd4f6c3c6fadfb40030b264535ed0a8aa77dd1abf023043f555ca64d00ee",
+  "projection": "Complete seven-attempt scientific summary; raw operational receipt paths omitted."
+}
