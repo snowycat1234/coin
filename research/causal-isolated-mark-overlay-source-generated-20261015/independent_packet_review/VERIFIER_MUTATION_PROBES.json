@@ -1,0 +1,105 @@
+{
+  "all_expected_rejections_pass": true,
+  "expected_rejections": 9,
+  "results": [
+    {
+      "accepted": false,
+      "case": "payload_byte_tamper",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Byte pin mismatch: README.md"
+    },
+    {
+      "accepted": false,
+      "case": "missing_payload",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "unlisted_regular_file",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "payload_file_symlink",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Symlink forbidden"
+    },
+    {
+      "accepted": false,
+      "case": "payload_directory_symlink",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "parent_traversal_path",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "absolute_payload_path",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "noncanonical_dot_path",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Exact file set mismatch"
+    },
+    {
+      "accepted": false,
+      "case": "backslash_payload_path",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "result": "ValueError: Unsafe path"
+    },
+    {
+      "accepted": true,
+      "case": "duplicate_manifest_row",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "result": "{\"payload_files\": 38, \"runs\": [], \"status\": \"PASS_GENERATED_ONLY_NO_ACTUAL_AUTHORITY\"}"
+    },
+    {
+      "accepted": true,
+      "case": "incorrect_manifest_count",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "result": "{\"payload_files\": 38, \"runs\": [], \"status\": \"PASS_GENERATED_ONLY_NO_ACTUAL_AUTHORITY\"}"
+    },
+    {
+      "accepted": true,
+      "case": "manifest_file_symlink",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "result": "{\"payload_files\": 38, \"runs\": [], \"status\": \"PASS_GENERATED_ONLY_NO_ACTUAL_AUTHORITY\"}"
+    },
+    {
+      "accepted": true,
+      "case": "unlisted_dangling_symlink",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "result": "{\"payload_files\": 38, \"runs\": [], \"status\": \"PASS_GENERATED_ONLY_NO_ACTUAL_AUTHORITY\"}"
+    }
+  ],
+  "schema": "ISOLATED_PACKET_VERIFIER_MUTATION_PROBES_V1",
+  "scope": "Externally SHA256-pinned archive remains authoritative. These mutations alter owned test copies only. The verifier is a regular-payload byte checker, not an authenticated manifest or whole-filesystem object validator.",
+  "structural_limits_observed": [
+    "duplicate_manifest_row",
+    "incorrect_manifest_count",
+    "manifest_file_symlink",
+    "unlisted_dangling_symlink"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "actual_application_enabled": false,
+  "actual_gap_shape": {
+    "asset_minutes": 27,
+    "asset_specific_runs": 8,
+    "isolated_single_minute_runs": 4,
+    "longest_run_minutes": 7
+  },
+  "anchor": "Latest earlier genuine completed MARK observation both available and installed at or before the missing minute completion evaluation clock",
+  "clock_contract": "Explicit source minute OPEN; raw inclusive CLOSE is OPEN+59999ms; completed boundary is OPEN+60000ms; actual mapping is separately pinned metadata and never inferred from an ambiguous timestamp",
+  "consecutive_holes": "Every estimate keeps the original genuine anchor identity; estimates never enter the observation set",
+  "domain": "MARK",
+  "downstream_quality": "UNKNOWN_OR_DERIVED",
+  "estimate_method": "ESTIMATED_CAUSAL_PREVIOUS_GENUINE_MARK",
+  "forbidden": [
+    "TRADE",
+    "volume",
+    "OHLCV fabrication",
+    "future observation",
+    "interpolation",
+    "actual source overwrite",
+    "generic fill any gap",
+    "monthly gap",
+    "ETHUSDT February2022 trade",
+    "financial replay",
+    "source admission",
+    "publication"
+  ],
+  "freshness": "Retain original genuine anchor availability and installation times; no synthetic fresh source availability or recovery",
+  "maximum_consecutive_asset_minutes": 7,
+  "maximum_overlay_records": 27,
+  "phase": "SOURCE_ONLY_GENERATED_TESTS_NOT_ADMITTED",
+  "policy_id": "CAUSAL_PREVIOUS_GENUINE_MARK_27_SOURCE_ONLY_V1",
+  "price_representation": "Copy exact input decimal string; no conversion, rounding, epsilon, fitting or interpolation",
+  "quality_contract": {
+    "actual_historical_arrival_status": "UNKNOWN_NOT_CERTIFIED_BY_THIS_POLICY",
+    "certifies_liquidation": false,
+    "certifies_no_liquidation": false,
+    "funding_trigger_execution_mark_valuations": "UNKNOWN_OR_DERIVED",
+    "native_intent_lifecycle": "UNCHANGED_NOT_IMPLEMENTED_HERE",
+    "new_increase_source_eligible": false,
+    "topup_source_eligible": false
+  },
+  "schema": "CAUSAL_ISOLATED_MARK_OVERLAY_POLICY_V1",
+  "selected_field": "selected_mark_price",
+  "sensitivity_reference_range": {
+    "definition": "Min/max of exactly the last two genuine selected MARK observations available and installed before the target evaluation clock; fixed count two with no tuning or outcome selection",
+    "financial_arithmetic": "None; quantity/cashflow sensitivity PENDING actual saved event evidence",
+    "guaranteed_bound_on_missing_price": false,
+    "interpretation": "Weak descriptive past-price anchors only; not a future bound, robust stress guarantee, probability statement, or financial safety evidence",
+    "liquidation_or_no_liquidation_certification": false,
+    "missing_second_anchor": "PENDING; actual sensitivity admission remains blocked"
+  }
+}
