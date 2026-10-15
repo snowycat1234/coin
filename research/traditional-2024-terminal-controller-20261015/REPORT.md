@@ -1,0 +1,13 @@
+# V2 controller: economic terminal ends a case
+
+Independent review passes23 generated/saved-only checks. This is a narrow control/status/reporting revision. Strategy targets, source projection, causal quality guard, quantities, costs, risk, capital, margin and financial execution are unchanged. Original controller and the retained MID path remain unchanged.
+
+A fully paid complete2024 path remains a full-year result. A native LIQUIDATION_REQUIRED_HALT or BANKRUPT_HALT can instead be retained as an unpaid partial economic terminal. Its native witness, exact actual account snapshot, retained positions, partial risk, costs, funding, residual/liability and original stop clock are saved and hash-bound to an atomic checkpoint. Native status predicates use exact Decimal strings, including global bankruptcy with no symbol. Paid annual return and APR are null; no liquidation fill, closure, transfer, restart or continuation is fabricated.
+
+Only a distinct separately root-approved case may follow that recognized terminal. Unknown incomplete paths, malformed witnesses, snapshot/hash/source/config mismatches, nonzero process exits, infrastructure errors and resource limits still stop the queue without retry. The previously retained MID cell is permitted only as an exact prior terminal reference bound to its original receipt/result/root GO and independent saved review. It cannot be scheduled again.
+
+The exact new root GO and combined independent review must explicitly bind the terminal policy, new/old controller hashes, unchanged report/source/preparation, and any prior economic terminal. This packet does not create or authorize a financial run. Per-case limits remain600seconds,1CPU,2GBRSS,4GBAS and250MB output, serial.
+
+A nine-cell matrix must retain every requested cell and count paid full-year, economic HALT and engineering-blocked states separately. A halted path is not omitted from averages to create a complete-year result. Same-period full-year excess is undefined if either comparator halts. Admission volatility checks do not guarantee ongoing isolated-position solvency. A separate source-backed margin-aware exit study would require preregistration and independent comparison; this controller is not such a financial repair.
+
+Recover the published causal-module base and retained MID packet in PUBLIC_BASES.json, then overlay this delta. For saved-reference tests, map the MID packet case/ into traditional_three_tier_freeze_20261015/actual_2024_pilot_attempt001/STATIC50_MID/, controller/ into its parent, and independent/ into traditional_three_tier_independent_review_20261015/. The full original minute matrix is unnecessary for these controller tests.

@@ -1,0 +1,1 @@
+Minimal reviewed V2 controller delta. Read REPORT.md. Verify all hashes with verify_packet.py, recover the two public bases, then overlay the relative files. No financial source, targets, account policy, original run evidence or old controller was changed. This package is not a root GO.
