@@ -1,0 +1,191 @@
+{
+  "status": "PASS_FOR_STATED_SEEN_DEVELOPMENT_DIAGNOSTIC",
+  "independent_method": "Separate implementation; exact Fraction arithmetic on the serialized decimal inputs; no production scoring/selection imports.",
+  "scope": "Only the permitted plan, code, test, derived-input, results and final test-log files were read; no refit, wallet, source-array read, holdout, external download or allocation tuning.",
+  "verification": {
+    "checks_passed": 24,
+    "reported_leaf_fields_compared": 1112,
+    "numeric_fields_compared": 658,
+    "absolute_numeric_tolerance": 1e-16,
+    "maximum_absolute_numeric_difference": 9.365079365079365e-17,
+    "maximum_difference_field": "root.models.market.pooled_pairwise_accuracy",
+    "supplied_unit_tests_passed": 22
+  },
+  "support": {
+    "score_rows": 182,
+    "usable_rows": 176,
+    "selected_blocks": 22,
+    "excluded_unusable": [
+      {
+        "date": "2024-06-25",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      },
+      {
+        "date": "2024-06-26",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      },
+      {
+        "date": "2024-06-27",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      },
+      {
+        "date": "2024-06-28",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      },
+      {
+        "date": "2024-06-29",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      },
+      {
+        "date": "2024-06-30",
+        "reasons": [
+          "incomplete_original_label",
+          "label_unavailable_by_existing_end",
+          "nonfinite_original_label"
+        ]
+      }
+    ],
+    "unselected_usable_overlap": 154
+  },
+  "models": {
+    "state": {
+      "mean_chosen_utility": -0.002061852500040921,
+      "mean_oracle_regret": 0.013269922771070345,
+      "positive_utility_blocks": 11,
+      "zero_utility_blocks": 5,
+      "negative_utility_blocks": 6,
+      "chosen_fractional_counts": {
+        "CASH": 5.0,
+        "VOL_MANAGED_HOLD": 5.0,
+        "PUBLIC_SMA50_200_SIGNED": 1.0,
+        "CSMOM21": 7.0,
+        "PRICE_ONLY_PATCH_CAUSAL_RANK": 4.0
+      },
+      "pairwise_comparisons": 315,
+      "pooled_pairwise_accuracy": 0.6253968253968254,
+      "mean_block_pairwise_accuracy": 0.6266400266400266,
+      "top_forecast_tied_blocks": 0,
+      "actual_pair_ties_excluded": 15,
+      "forecast_pair_ties_half_credit": 0
+    },
+    "market": {
+      "mean_chosen_utility": -0.004648958960134037,
+      "mean_oracle_regret": 0.01585702923116346,
+      "positive_utility_blocks": 7,
+      "zero_utility_blocks": 7,
+      "negative_utility_blocks": 8,
+      "chosen_fractional_counts": {
+        "CSMOM21": 7.0,
+        "VOL_MANAGED_HOLD": 7.0,
+        "CASH": 6.0,
+        "DONCHIAN_EXIT10": 2.0
+      },
+      "pairwise_comparisons": 315,
+      "pooled_pairwise_accuracy": 0.5492063492063493,
+      "mean_block_pairwise_accuracy": 0.549034299034299,
+      "top_forecast_tied_blocks": 0,
+      "actual_pair_ties_excluded": 15,
+      "forecast_pair_ties_half_credit": 0
+    }
+  },
+  "paired": {
+    "mean_market_minus_state_utility": -0.002587106460093117,
+    "market_better_blocks": 2,
+    "state_better_blocks": 6,
+    "equal_blocks": 14,
+    "different_choice_blocks": 8
+  },
+  "opportunity": {
+    "mean_unattainable_oracle_utility": 0.011208070271029423,
+    "positive_oracle_blocks": 21,
+    "cash_best_or_tied_blocks": 1,
+    "cash_mean_utility": 0.0
+  },
+  "exact_pooled_accuracy": {
+    "state": "197/315",
+    "market": "173/315"
+  },
+  "selected_dates": [
+    "2024-01-01",
+    "2024-01-09",
+    "2024-01-17",
+    "2024-01-25",
+    "2024-02-02",
+    "2024-02-10",
+    "2024-02-18",
+    "2024-02-26",
+    "2024-03-05",
+    "2024-03-13",
+    "2024-03-21",
+    "2024-03-29",
+    "2024-04-06",
+    "2024-04-14",
+    "2024-04-22",
+    "2024-04-30",
+    "2024-05-08",
+    "2024-05-16",
+    "2024-05-24",
+    "2024-06-01",
+    "2024-06-09",
+    "2024-06-17"
+  ],
+  "checks": [
+    "176 derived mature usable rows",
+    "182 original saved forecast rows",
+    "Six original rows excluded with explicit reasons",
+    "Chronological unique decision timestamps",
+    "Eligibility vectors match common expert count",
+    "All six common experts eligible on every usable row",
+    "Derived rows have no recorded exclusion reason",
+    "Label windows use seven days plus 120.000001 seconds",
+    "All usable labels mature by the configured existing evaluation cutoff",
+    "Both saved fits available by each decision",
+    "Derived market and target availability no later than decision",
+    "Derived state feedback strictly earlier than decision",
+    "CASH realized reference utility is exactly zero",
+    "Saved training-best proof names CASH on 40 training rows",
+    "Saved training proof label availability precedes training cutoff",
+    "Saved training means make CASH the unique best static baseline",
+    "Earliest-first strict nonoverlap selection yields 22 blocks",
+    "Selected decision dates are eight days apart",
+    "Selected support runs January 1 through June 17, 2024",
+    "Every reported block, choice, tie, comparison, count, support field, and aggregate matches independent exact recomputation",
+    "Independent exact top-tie averaging test",
+    "Independent forecast-tie half-credit test",
+    "Independent realized-tie exclusion test",
+    "All 22 supplied unit tests pass"
+  ],
+  "limitations": [
+    "Nonoverlapping label windows are not established to be statistically independent; no significance claim is supported.",
+    "Highest-forecast reference-utility scoring is a forecast diagnostic, not executable portfolio returns; shared-wallet nonlinearities and switching costs are absent.",
+    "This is previously seen development evidence, with one fixed earliest-date phase; no fresh out-of-sample or phase-robustness claim is supported.",
+    "Forecast publication timestamps are absent. Fit, feature, target, feedback and reviewed ranker conditions support causal-clock consistency but do not certify historical live issuance.",
+    "Source reader code was reviewed, including immutable-member hash checks, original mask equality, label reconstruction and ranker clocks. This reviewer did not reopen source arrays or independently execute their provenance checks.",
+    "Training-best CASH is verified against the supplied saved training-mean proof and reader logic; original training arrays were not independently recomputed by this reviewer."
+  ],
+  "nonblocking_code_notes": [
+    "The initially noted no-comparison aggregate edge case is fixed in the current production implementation; two regression tests cover all-realized-utility ties and CASH-only eligibility.",
+    "The frozen-selection intent is documented, but this review does not independently establish that the plan was created before any payload values were inspected."
+  ],
+  "bottom_line": "Market-plus-state underperforms state-only on this fixed 22-block argmax diagnostic; both have negative mean chosen reference utility versus zero for CASH. This cannot establish financial portfolio performance or statistical generalization."
+}
