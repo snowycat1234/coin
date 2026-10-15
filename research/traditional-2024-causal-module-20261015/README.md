@@ -1,0 +1,1 @@
+Recover public base archives in PUBLIC_BASES.json, then overlay this minimal delta. Verify every file using verify_packet.py. No raw source is duplicated. No actual 2024 financial account was constructed or advanced for this source/generated review packet. The empty GO template is not authority. See REPORT.md for causal timing, qualification, source pins and campaign boundaries.
