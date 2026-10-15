@@ -1,0 +1,62 @@
+{
+  "schema": "INDEPENDENT_COMPACT_NO_TOPUP_BASELINE_PACKET_REVIEW_V1",
+  "status": "PASS_COMPACT_PACKET_AND_ZIP",
+  "packet": "legacy_hold_core5_2023_baseline_results_20261015_v1",
+  "archive_SHA256": "2ffa4bdbcf76ffd3c292d620d0738a3593d9f58d25a2550f593657b708852dc7",
+  "archive_bytes": 2146940,
+  "manifest_SHA256": "2735a90dcc2f45264d53b3775d6293711049a5e87368b8583287750833ad9a4e",
+  "files": 48,
+  "errors": [],
+  "cases": [
+    {
+      "config": "HOLD_CORE5_VOL_MATCHED_NOREEXP_LOW",
+      "selected_rows": 1943,
+      "daily_rows": 365,
+      "funding_objects_recovered": 5475,
+      "trade_objects_exact": 205,
+      "own_tier_target_identity": "e7d97eea545e76e1d3e44ac8caf751afb6ce1790c4f8e9f656d22c9358c57ac6"
+    },
+    {
+      "config": "HOLD_CORE5_VOL_MATCHED_NOREEXP_MID",
+      "selected_rows": 2041,
+      "daily_rows": 365,
+      "funding_objects_recovered": 5475,
+      "trade_objects_exact": 417,
+      "own_tier_target_identity": "ee8a96be4ae760a6c27526295c1ce996ec2c03022ff024f8a5d9cee35ef13bd4"
+    },
+    {
+      "config": "HOLD_CORE5_VOL_MATCHED_NOREEXP_HIGH",
+      "selected_rows": 2047,
+      "daily_rows": 365,
+      "funding_objects_recovered": 5475,
+      "trade_objects_exact": 421,
+      "own_tier_target_identity": "184599380db054791676568e2a5d6c68361e1ae60fe27f216b13b0f782f972d0"
+    }
+  ],
+  "clean_extraction_checks": [
+    {
+      "tool": "verify_packet.py",
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"files\": 48,\n  \"cells\": 3,\n  \"full_year_paid_cells\": 3,\n  \"recognized_unpaid_economic_halt_cells\": 0,\n  \"cases\": [\n    {\n      \"config\": \"HOLD_CORE5_VOL_MATCHED_NOREEXP_LOW\",\n      \"daily_rows\": 365,\n      \"selected_minute_rows\": 1943,\n      \"status\": \"PASS\",\n      \"errors\": [],\n      \"trade_legs\": 205,\n      \"applied_funding_rows\": 5470,\n      \"cashflow_NAV_delta\": \"0E-35\"\n    },\n    {\n      \"config\": \"HOLD_CORE5_VOL_MATCHED_NOREEXP_MID\",\n      \"daily_rows\": 365,\n      \"selected_minute_rows\": 2041,\n      \"status\": \"PASS\",\n      \"errors\": [],\n      \"trade_legs\": 417,\n      \"applied_funding_rows\": 5470,\n      \"cashflow_NAV_delta\": \"1E-35\"\n    },\n    {\n      \"config\": \"HOLD_CORE5_VOL_MATCHED_NOREEXP_HIGH\",\n      \"daily_rows\": 365,\n      \"selected_minute_rows\": 2047,\n      \"status\": \"PASS\",\n      \"errors\": [],\n      \"trade_legs\": 421,\n      \"applied_funding_rows\": 5470,\n      \"cashflow_NAV_delta\": \"1E-35\"\n    }\n  ],\n  \"financial_accounts_constructed\": 0,\n  \"financial_replays\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "test_saved_packaging.py",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "....................\n----------------------------------------------------------------------\nRan 20 tests in 0.043s\n\nOK\n"
+    }
+  ],
+  "source_financial_outputs_modified": 0,
+  "accounts_created_or_replayed": 0,
+  "financial_jobs_run": 0,
+  "network_requests": 0,
+  "publications": 0,
+  "scope": "Archive/file identity and safe paths, exact original saved-result/parent parity, full unique economic objects/funding journal recovery, daily/selected-minute parity, own-tier target/account policy, frozen NO_TOPUP and recovery/risk qualifications.",
+  "limitations": [
+    "This compact packet cannot reconstruct omitted full minute arrays, full original account/idempotency snapshots or full guard/rejection journals. Whole-parent hashes preserve their identities only.",
+    "Full source-dependent OPEN checks are retained in the independent saved review; the compact verifier cannot reproduce omitted original market/source data.",
+    "Seen2023 development and conditional raw funding/provider/venue assumptions remain. This is not a new financial run or launch authorization."
+  ],
+  "reviewer_script_SHA256": "7ec112a8667f3206caf04cfa26bd9c0189eaf4680087f36a67fcb8e3cb0986e4"
+}
