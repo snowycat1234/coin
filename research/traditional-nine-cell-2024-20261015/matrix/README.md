@@ -1,0 +1,1 @@
+Read REPORT.md and MATRIX.json first. Nine terminal experiments comprise three paid full years and six retained unpaid economic HALTs. Verify hashes with verify_packet.py. No financial rerun, source download or financial-policy change was performed for this report packet.
