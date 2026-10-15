@@ -1,0 +1,97 @@
+{
+  "claim_correction": "The original generated receipt overclaimed unchanged B admission. Finance/hash/ledger checks remain valid; intended-policy performance and A-to-B continuation-only attribution are not established by v1.",
+  "completed_cases": {
+    "B": {
+      "path": "bounded_native_continuation_independent_review_20261015/SAVED_B_INDEPENDENT_REVIEW.json",
+      "sha256": "d23e705ecda55c1f1f6d4871f9f8a053dbdfb283d6127fd130b3e86797488c80"
+    },
+    "C": {
+      "path": "bounded_native_continuation_independent_review_20261015/SAVED_C_INDEPENDENT_REVIEW.json",
+      "sha256": "832119b4d5ea77a8ec8821e5e289e917907fcf4820e0d228e3d1feb08d11fc53"
+    }
+  },
+  "defect": "V1 monitor creates STALE_OR_UNKNOWN_MARK full-position paid-exit intents in both B and C. Frozen A only blocks new risk during the quality gap. This changes B before its first conditional settlement and violates the intended unchanged-admission continuation-only control.",
+  "diagnostic_metrics_only": {
+    "B_conditional_model_return": 0.10545535019463025,
+    "C_minus_B_observed_difference": -0.0007674262933993758,
+    "C_observed_paid_return": 0.10468792390123087,
+    "both_calendars_complete": true,
+    "both_primary_ledgers_exact": true
+  },
+  "earliest_divergence": {
+    "earliest_new_exit_intent_UTC": "2024-08-12T10:03:00+00:00",
+    "earliest_new_exit_intent_us": 1723456980000000,
+    "earliest_paid_trade_divergence_UTC": "2024-08-12T10:04:00.000001+00:00",
+    "earliest_paid_trade_divergence_us": 1723457040000001,
+    "first_differing_minute_close_UTC": "2024-08-12T10:05:00+00:00",
+    "first_differing_minute_close_us": 1723457100000000,
+    "first_differing_trade_zero_based_index": 247,
+    "paid_warning_exits": [
+      {
+        "event_us": 1723457040000001,
+        "quantity": "0.010",
+        "signal_us": 1723456980000000,
+        "symbol": "BTCUSDT"
+      },
+      {
+        "event_us": 1723457040000001,
+        "quantity": "0.17",
+        "signal_us": 1723456980000000,
+        "symbol": "ETHUSDT"
+      },
+      {
+        "event_us": 1723457040000001,
+        "quantity": "2",
+        "signal_us": 1723456980000000,
+        "symbol": "SOLUSDT"
+      },
+      {
+        "event_us": 1723457040000001,
+        "quantity": "1500",
+        "signal_us": 1723456980000000,
+        "symbol": "XRPUSDT"
+      },
+      {
+        "event_us": 1723457100000001,
+        "quantity": "1000",
+        "signal_us": 1723456980000000,
+        "symbol": "DOGEUSDT"
+      },
+      {
+        "event_us": 1723457220000001,
+        "quantity": "1000",
+        "signal_us": 1723456980000000,
+        "symbol": "DOGEUSDT"
+      }
+    ],
+    "unchanged_initial_trade_rows": 247,
+    "unchanged_minute_financial_prefix_rows": 323164,
+    "unchanged_minute_prefix_byte_exact": true,
+    "unchanged_pre_gap_funding_rows": 3365
+  },
+  "future_regression": "During known stale/unknown quality, neither B nor C may manufacture a new exit; block top-up/new increase and retain any previously legitimate exit. Prove missing-gap and partial-bar A/B pre-settlement financial/pending path parity.",
+  "historical_accounts_constructed_by_reviewer": 0,
+  "historical_financial_reruns_by_reviewer": 0,
+  "intended_policy_performance_claim_valid": false,
+  "later_events": {
+    "A_original_halt_UTC": "2024-11-06T02:57:00+00:00",
+    "A_original_halt_quantity": "-2000",
+    "A_original_halt_symbol": "DOGEUSDT",
+    "B_first_conditional_settlement_UTC": "2024-11-16T09:54:00+00:00",
+    "B_settlement_quantity": "-300",
+    "B_settlement_symbol": "XRPUSDT"
+  },
+  "metadata_only_qualification": "Inherited continuation_policy name contains GENERATED_ONLY while generated_only is false. The actual immutable historical scope, source/code/GO/review identities are valid. This is a misleading legacy label, not use of a fake generated scope.",
+  "original_generated_review": {
+    "path": "bounded_native_continuation_independent_review_20261015/INDEPENDENT_NATIVE_CONTINUATION_REVIEW.json",
+    "preserved_unchanged": true,
+    "sha256": "bf2d65f857b9e8b8209dcf8c7fd4c1094a57e261e7ed5492ea57467183f13e59"
+  },
+  "original_outputs_deleted_or_modified": false,
+  "preservation": "Keep original code, reviews, GO, outputs and diagnostic numbers unchanged. Any correction belongs in a separate version, with generated prefix-parity tests and a new exact root GO before new financial execution.",
+  "publication_actions": 0,
+  "review_utc": "2026-10-15T07:23:00Z",
+  "root_GO_SHA256": "a188fbff41a75066f9a41fa9cdc302f2d20a6e82969459ecdca1873b68f14088",
+  "schema": "BOUNDED_NATIVE_CONTINUATION_V1_READ_ONLY_DIAGNOSTIC_POLICY_VARIANCE_ADDENDUM_V1",
+  "status": "FINANCIAL_LEDGER_AND_EVIDENCE_PASS_INTENDED_POLICY_CONFORMITY_FAIL"
+}
