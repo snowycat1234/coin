@@ -1,0 +1,62 @@
+--- original40/ranker.py
++++ dense301/ranker.py
+@@ -52,12 +52,27 @@
+  if cutoff is not None and row['label_available_us']>=cutoff:raise ValueError('Training label not strictly mature')
+ 
+ def validate(data):
+- assert len(data['training'])==40 and len(data['feature_names'])==60 and len(data['experts'])==6
++ assert len(data['training'])==301 and len(data['feature_names'])==60 and len(data['experts'])==6
+  assert len(data['evaluation'])==182 and sum(r['mature'] for r in data['evaluation'])==176
+  assert len(data['preselected_dates'])==22 and len(set(data['preselected_dates']))==22
+  previous=-1
+  for r in data['training']:
++  clocks(r,data['training_cutoff_us']);assert r['decision_us']>previous;previous=r['decision_us']
++ original=json.loads((Path(__file__).parent/'original40_inputs.json').read_text())
++ assert data['training_cutoff_us']==original['training_cutoff_us']
++ assert data['simulated_fit_available_us']==original['simulated_fit_available_us']
++ assert data['evaluation_label_availability_cutoff_us']==original['evaluation_label_availability_cutoff_us']
++ for key in ['evaluation','preselected_dates','experts','feature_names']:assert data[key]==original[key]
++ assert data['train_best']=='CASH_FIXED_ORIGINAL40_BASELINE_NOT_RESELECTED'
++ assert data['original_40_training_mean_utility']==original['training_mean_utility']
++ assert original['train_best']=='CASH'
++ assert len(original['training'])==40
++ dense={r['date']:r for r in data['training']};previous=-1
++ assert len(dense)==301
++ for r in original['training']:
++  assert dense[r['date']]==r
+   clocks(r,data['training_cutoff_us']);assert r['decision_us']>previous;previous=r['label_available_us']
++ assert set(dense).isdisjoint(r['date'] for r in data['evaluation'])
+  previous=-1;selected=[]
+  for r in data['evaluation']:
+   clocks(r);assert r['decision_us']>=data['simulated_fit_available_us']
+@@ -82,12 +97,18 @@
+  acc=[v['pairwise_accuracy'] for v in vals if v['pairwise_accuracy'] is not None]
+  return dict(mean_chosen_utility=math.fsum(v['chosen_utility'] for v in vals)/n,mean_oracle_regret=math.fsum(v['oracle_regret'] for v in vals)/n,pooled_pairwise_accuracy=math.fsum(v['pairwise_correct_equivalent'] for v in vals)/pairs if pairs else None,mean_date_pairwise_accuracy=math.fsum(acc)/len(acc) if acc else None,pairwise_comparisons=pairs,choice_mix=dict(mix),top_tied_dates=sum(len(v['chosen'])>1 for v in vals),positive_utility_dates=sum(v['chosen_utility']>0 for v in vals),negative_utility_dates=sum(v['chosen_utility']<0 for v in vals),zero_utility_dates=sum(v['chosen_utility']==0 for v in vals))
+ 
++def paired_comparison(rows,a,b):
++ delta=[r[a]['chosen_utility']-r[b]['chosen_utility'] for r in rows]
++ return dict(dates=len(rows),mean_utility_difference=math.fsum(delta)/len(delta),a_better=int(sum(v>0 for v in delta)),b_better=int(sum(v<0 for v in delta)),equal=int(sum(v==0 for v in delta)),different_choices=int(sum(r[a]['chosen']!=r[b]['chosen'] for r in rows)))
++
+ def evaluate(data,coeff):
+  validate(data);names=data['experts'];cash=names.index('CASH');rows=data['evaluation'];x=transform([r['x'] for r in rows],coeff['scaler']);pred=predict(x,coeff['theta'],cash,len(names));output=[]
+- for r,p in zip(rows,pred):
+-  out={k:r[k] for k in ['date','decision_us','label_available_us','eligible','mature','prediction_state']};out['prediction_challenger_ordinal']=p.tolist();out['selected_block']=r['date'] in data['preselected_dates']
++ original_coeff=json.loads((Path(__file__).parent/'original40_coefficients.json').read_text())
++ original_pred=predict(transform([r['x'] for r in rows],original_coeff['scaler']),original_coeff['theta'],cash,len(names))
++ for r,p,op in zip(rows,pred,original_pred):
++  out={k:r[k] for k in ['date','decision_us','label_available_us','eligible','mature','prediction_state']};out['prediction_challenger_ordinal']=p.tolist();out['prediction_original40_ordinal']=op.tolist();out['selected_block']=r['date'] in data['preselected_dates']
+   if r['mature']:
+-   out['utility']=r['utility'];out['challenger']=score(p,r['utility'],r['eligible'],names);out['state']=score(r['prediction_state'],r['utility'],r['eligible'],names)
++   out['original40']=score(op,r['utility'],r['eligible'],names);out['utility']=r['utility'];out['challenger']=score(p,r['utility'],r['eligible'],names);out['state']=score(r['prediction_state'],r['utility'],r['eligible'],names)
+    # CASH/train-best is a fixed selection, not an all-zero forecast argmax tie.
+    cash_pred=np.full(len(names),-1.);cash_pred[cash]=0
+    out['cash_train_best']=score(cash_pred,r['utility'],r['eligible'],names)
+@@ -100,7 +121,7 @@
+  blocks=[r for r in output if r['selected_block']];delta=[r['challenger_minus_state_utility'] for r in blocks]
+  train=data['training'];xt=transform([r['x'] for r in train],coeff['scaler']);yp=predict(xt,coeff['theta'],cash,len(names));trainrows=[{'challenger':score(p,r['utility'],r['eligible'],names)} for p,r in zip(yp,train)]
+  design,w,counts=pair_design(xt,[r['utility'] for r in train],[r['eligible'] for r in train],cash);theta=np.asarray(coeff['theta']).ravel();loss,g=objective(theta,design,w)
+- return dict(role='REPEATEDLY_SEEN_DEV_ORDINAL_DIAGNOSTIC_NOT_PORTFOLIO_RETURN',actual_fit_started_utc=coeff['actual_fit_started_utc'],simulated_historical_fit_availability_us=data['simulated_fit_available_us'],blocks=blocks,all_182_scoring_rows=output,models={m:summary(blocks,m) for m in ['challenger','state','cash_train_best']},paired=dict(mean_challenger_minus_state_utility=math.fsum(delta)/len(delta),challenger_better_blocks=sum(v>0 for v in delta),state_better_blocks=sum(v<0 for v in delta),equal_blocks=sum(v==0 for v in delta),different_choices=sum(r['challenger']['chosen']!=r['state']['chosen'] for r in blocks)),oracle=dict(mean_unattainable_utility=math.fsum(r['oracle_utility'] for r in blocks)/len(blocks)),training=dict(independent_dates=40,pairs=sum(counts),unequal_pairs_by_date=counts,total_loss=loss,data_loss=float(w@np.logaddexp(0,-design@theta)),penalty=.5*float(theta@theta),gradient_inf_norm=float(np.max(np.abs(g))),fit=summary(trainrows,'challenger')),limitations=['305 free parameters for 40 independent dates; strong fixed shrinkage is essential but does not create evidence.','Ordinal scores are not utility forecasts; no MSE, old softmax, wallet or deployment use.','Lambda 1 and penalized intercepts differ from Ridge alpha 30, not an objective-only causal comparison.','Historical availability is simulated causal cutoff; this model was fitted in 2026, not issued in 2024.','Repeatedly seen development; no fresh OOS, significance, annualization or portfolio-return claim.'])
++ return dict(role='REPEATEDLY_SEEN_DEV_ORDINAL_DIAGNOSTIC_NOT_PORTFOLIO_RETURN',actual_fit_started_utc=coeff['actual_fit_started_utc'],simulated_historical_fit_availability_us=data['simulated_fit_available_us'],blocks=blocks,all_182_scoring_rows=output,models={m:summary(blocks,m) for m in ['challenger','original40','state','cash_train_best']},all_mature_models={m:summary([r for r in output if r['mature']],m) for m in ['challenger','original40','state','cash_train_best']},dense_vs_original40={scope:paired_comparison(rs,'challenger','original40') for scope,rs in [('fixed22',blocks),('all176',[r for r in output if r['mature']])]},paired=dict(mean_challenger_minus_state_utility=math.fsum(delta)/len(delta),challenger_better_blocks=sum(v>0 for v in delta),state_better_blocks=sum(v<0 for v in delta),equal_blocks=sum(v==0 for v in delta),different_choices=sum(r['challenger']['chosen']!=r['state']['chosen'] for r in blocks)),oracle=dict(mean_unattainable_utility=math.fsum(r['oracle_utility'] for r in blocks)/len(blocks)),training=dict(unique_overlapping_dates=301,original_disjoint_support_dates=40,overlap_is_not_independence=True,pairs=sum(counts),unequal_pairs_by_date=counts,total_loss=loss,data_loss=float(w@np.logaddexp(0,-design@theta)),penalty=.5*float(theta@theta),gradient_inf_norm=float(np.max(np.abs(g))),fit=summary(trainrows,'challenger')),limitations=['305 free parameters, 301 overlapping training dates, and 40 original disjoint support dates; overlaps, six experts and pairs do not create independent evidence.','Ordinal scores are not utility forecasts; no MSE, old softmax, wallet or deployment use.','Lambda 1 and penalized intercepts differ from Ridge alpha 30, not an objective-only causal comparison.','Historical availability is simulated causal cutoff; this model was fitted in 2026, not issued in 2024.','Repeatedly seen development; no fresh OOS, significance, annualization or portfolio-return claim.'])
+ 
+ def fit_once(data,out):
+  validate(data);out=Path(out);receipt=out/'FIT_RECEIPT.json'
