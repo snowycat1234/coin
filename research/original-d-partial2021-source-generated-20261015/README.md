@@ -1,0 +1,27 @@
+# Original D partial2021 DEV source/generated publication
+
+This additive research publication preserves the independently passed minimal portable SOURCE/generated snapshot. It contains 153 exact expanded ZIP members, the original unmodified ZIP, seven exact explicitly allowlisted independent review/support files and their allowlist, and the privacy-checked exact author handoff. Existing parent leaves and modes are preserved. No pull request, merge or default-branch update is part of this publication.
+
+## Start here
+
+The [portable packet README](traditional_D_partial2021_source_generated_public_recovery_20261015_v1/README.md) explains the entry, precise dependencies, omitted inputs and verification seam. [FILE_MANIFEST.json](traditional_D_partial2021_source_generated_public_recovery_20261015_v1/FILE_MANIFEST.json) pins the 152 other members. [Independent packet review](independent_packet_review/INDEPENDENT_PACKET_REVIEW.json) is the final PASS for these exact ZIP bytes; [allowlist](independent_packet_review/PUBLIC_SUPPORT_ALLOWLIST.json) names the only exported support files. [RECOVERY_MANIFEST.json](RECOVERY_MANIFEST.json) pins every other published addition.
+
+Download the ZIP from this same immutable publication commit and confirm length 696892 bytes and SHA256 b0dcec82a6f8c28feba170aa080a131fb6c6494b3b06b2046a962e99f004c8f7 before extracting into an empty directory. The ZIP and expanded tree are exact equivalents, with 153 safe members and passing CRCs. NumPy 2.3.5 and Polars 1.44.2 are documented installed prerequisites; environments, wheels and bytecode are absent. From the extracted packet root run:
+
+    python -B verify_recovery.py --cpu ASSIGNED_IDLE_CPU --output NEW_RECEIPT.json
+
+The reviewer observed 49 tests passed and four explicit two-CPU runner skips in the 53-test one-CPU cold run. This is not 53 passes. Original archived evidence retains 60 unit tests, 75 negative checks and the active two-worker generated profile; it was not cold repeated in full. Six additional independent metadata-only tests made 80 checks with all 19 mocked actual boundaries at zero. Source/code identity and imports work with old 2023/24 GO/review bodies absent. Their immutable hashes are historical evidence only.
+
+## Public source recovery and deliberate omissions
+
+The [omission record](traditional_D_partial2021_source_generated_public_recovery_20261015_v1/OMISSIONS.json), frozen source and small-input allowlists, public immutable commits, part hashes/byte caps, source qualification and exact normalizer/reader adapters remain in the packet. Public retrieval is qualified by the original narrow member, field and date allowlists. Mixed wrappers do not authorize broader retrieval; inaccessible or denied sources remain inaccessible. This publication performs no downloads or source-provider iteration. Historical hardcoded CPU choices in reference scripts require resource coordination before use.
+
+Raw market transport, normalized monthly/source/minute arrays, funding-event/parquet bodies, warmup arrays, actual target arrays/numeric target-proof bodies, actual authority/account/financial-result/live-claim bodies and old private GO/review bodies are omitted. Hash-only records do not recover omitted bytes. The omitted source transport is 171932044 bytes, with separate small-input transport capped at 2635847 bytes. The packet is self-contained only for its documented generated and metadata-negative subset with installed dependencies. Full source preparation and positive source/target gates remain unavailable. A separate exact recovered source/target set, new independent review and new external root GO are still required for an actual historical run. The unchanged invalid template grants no authority.
+
+The exact public upstream generic /home/ubuntu/coin/execution-state default is preserved and explicitly classified in PRIVACY_PORTABILITY_AUDIT.json and independent STATIC_AUDIT.json; it is not a private workspace path. Private workspace, temporary and home-agent prefixes and credential values are excluded. Only 45 exact runtime files plus two bound fixtures are vendored. Older full inheritance ZIPs are absent.
+
+## Preserved policy and interpretation
+
+STATIC50, H090 and VOL_MANAGED_HOLD each have LOW/MID/HIGH, exactly nine cells and no aliases. H090 raw targets differ from same-tier STATIC50 at all three tiers. January 1 through April 1 is warmup only; April 2 through December 31 is partial DEV with a fresh shared 10000 USDT wallet, 274 decisions and 394560 native minutes. Native initial latency is unchanged. Terminal signal is December 31 22:59 UTC, the eligible opens run 23:00 through 23:59, and the last possible paid clock is 23:59:00.000001. That is a boundary, not evidence that a fill occurred. No annual CAGR, continuous wallet compounding, OOS claim, full-history resource certificate or exchange certification is made.
+
+All zero-actual-action fields in the source/archive receipts describe their completed source/generated snapshot. They make no claim about later work outside this SOURCE publication. This module publishes no actual2021 outcome claims. Frozen prepublication status fields remain unchanged historical evidence. Remote-byte, sole-parent, additive-tree, branch/main and CI observations are recorded separately in the final publication verification receipt; an unsigned commit or absent CI is not represented as a CI pass.

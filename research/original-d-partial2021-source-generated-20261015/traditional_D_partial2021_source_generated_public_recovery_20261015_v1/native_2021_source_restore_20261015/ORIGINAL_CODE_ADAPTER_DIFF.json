@@ -1,0 +1,50 @@
+[
+  {
+    "path": "source_parser.py",
+    "original_SHA256": "4275d0fb6b09c20f67377af94dc5fcbf7830a07b40d9002ea9ce54aab291ac2f",
+    "working_SHA256": "4275d0fb6b09c20f67377af94dc5fcbf7830a07b40d9002ea9ce54aab291ac2f",
+    "diff": ""
+  },
+  {
+    "path": "test_source_parser.py",
+    "original_SHA256": "abea10f153761c1a55c7adc6f7d7562ad9850c264524420245cdd821b9fdd987",
+    "working_SHA256": "abea10f153761c1a55c7adc6f7d7562ad9850c264524420245cdd821b9fdd987",
+    "diff": ""
+  },
+  {
+    "path": "assemble_offline.py",
+    "original_SHA256": "117e9889995dae1a3a3f052d61f8987b0bab575d41de3b9364b04c8b96be82ca",
+    "working_SHA256": "117e9889995dae1a3a3f052d61f8987b0bab575d41de3b9364b04c8b96be82ca",
+    "diff": ""
+  },
+  {
+    "path": "prepare_full_2021.py",
+    "original_SHA256": "808ad5102f3c94e0a10843d5e8f9926913bcb4c3bec5b6136bd333763523c959",
+    "working_SHA256": "808ad5102f3c94e0a10843d5e8f9926913bcb4c3bec5b6136bd333763523c959",
+    "diff": ""
+  },
+  {
+    "path": "audit_warmup.py",
+    "original_SHA256": "7dce6c9ff3cf5bc550ffbb69acb09a4c6e3f0e6b9b3f4dafd2fff9c1aa041049",
+    "working_SHA256": "ea3678c0ddb3ce6dd20d2ee45d8ebc283cd6ec264a2ae4a168ad22704991f64e",
+    "diff": "--- original/audit_warmup.py\n+++ audit_warmup.py\n@@ -7,7 +7,7 @@\n import datetime,hashlib,io,json,time,zipfile\n from pathlib import Path\n import numpy as np\n-import pyarrow.parquet as pq\n+import parquet_reader_adapter as pq\n ROOT=Path(__file__).resolve().parent;BASE=ROOT.parent\n S=('BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT')\n DAY=86400000000;START=1609459200000000;END=1640995200000000\n"
+  },
+  {
+    "path": "audit_funding.py",
+    "original_SHA256": "2063140785d1df1ffc78221909862b9c80dd05d6f4c8a248f1fe2e88cdbf9df0",
+    "working_SHA256": "3f549275959c1fe261460921ffdaf2a811c244e423747ba6a37ea30538fb8f62",
+    "diff": "--- original/audit_funding.py\n+++ audit_funding.py\n@@ -7,7 +7,7 @@\n import hashlib,io,json,time,zipfile\n from pathlib import Path\n import numpy as np\n-import pyarrow.parquet as pq\n+import parquet_reader_adapter as pq\n from inspect_cached_prefix import prefix_members\n from source_parser import S,START,END,MINUTE,utc\n ROOT=Path(__file__).resolve().parent;FEATURES=Path(os.environ.get('COIN_FEATURES_PATH',str(ROOT.parent/'coin_native_half_mix_20261013/source/2023_FUND/features.zip')))\n@@ -20,7 +20,7 @@\n     with zipfile.ZipFile(io.BytesIO(raw)) as z:\n         members=json.loads(z.read('MEMBERS.json'))['files']\n         for s in S:\n-            name='derived/economics/'+s+'_funding_events.parquet';old=past_members[name];name2='source_tables_not_model_inputs/economics/'+s+'_funding_events.parquet';new=z.read(name2);assert sha(new)==members[name2]['SHA256']\n+            name='derived/economics/'+s+'_funding_events.parquet';old=past_members[name];name2='source_tables_not_model_inputs/economics/'+s+'_funding_events.parquet';new=(ROOT.parent/'native_2023_source_restore_20261015'/'funding_inputs'/(s+'_funding_events.parquet')).read_bytes();assert sha(new)==members[name2]['SHA256']\n             past=pq.read_table(io.BytesIO(old),columns=COLS).to_pandas();recent=pq.read_table(io.BytesIO(new),columns=COLS).to_pandas();past=past[(past.calc_time_ms>=START//1000)&(past.calc_time_ms<END//1000)].sort_values('calc_time_ms');recent=recent[(recent.calc_time_ms>=START//1000)&(recent.calc_time_ms<END//1000)].sort_values('calc_time_ms')\n             assert len(past)==1094 and len(recent)==1095 and not recent.calc_time_ms.duplicated().any() and np.isfinite(recent.to_numpy()).all()\n             common=past.set_index('calc_time_ms');newcommon=recent.set_index('calc_time_ms').loc[common.index];assert np.array_equal(common.to_numpy(),newcommon.to_numpy()) and common.to_numpy().tobytes()==newcommon.to_numpy().tobytes(),'Conflicting actual-rate overlap'\n"
+  },
+  {
+    "path": "verify_few_boundaries.py",
+    "original_SHA256": "738be4b65921f12e30e63a34f10496f3fa345264f2296d8cafd909d803ffd20f",
+    "working_SHA256": "738be4b65921f12e30e63a34f10496f3fa345264f2296d8cafd909d803ffd20f",
+    "diff": ""
+  },
+  {
+    "path": "inspect_cached_prefix.py",
+    "original_SHA256": "e8cef9f29319e54474f2065d22c1d735d4be833db95063bd9251f6b6e7c90749",
+    "working_SHA256": "e8cef9f29319e54474f2065d22c1d735d4be833db95063bd9251f6b6e7c90749",
+    "diff": ""
+  }
+]
