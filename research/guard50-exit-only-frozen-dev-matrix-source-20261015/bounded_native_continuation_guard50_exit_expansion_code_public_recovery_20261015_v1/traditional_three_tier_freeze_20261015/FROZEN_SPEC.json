@@ -1,0 +1,120 @@
+{
+  "schema": "FROZEN_TRADITIONAL_THREE_BY_THREE_DEVELOPMENT_GRID_V1",
+  "frozen_before_historical_outcomes": true,
+  "strategies": [
+    "STATIC50",
+    "H090",
+    "VOL_MANAGED_HOLD"
+  ],
+  "tiers": [
+    {
+      "name": "LOW",
+      "gross_ceiling": 0.3,
+      "annual_volatility_budget": 0.05
+    },
+    {
+      "name": "MID",
+      "gross_ceiling": 0.6,
+      "annual_volatility_budget": 0.1
+    },
+    {
+      "name": "HIGH",
+      "gross_ceiling": 0.9,
+      "annual_volatility_budget": 0.15
+    }
+  ],
+  "shared": {
+    "initial_cash_USDT": "10000",
+    "absolute_asset_ceiling": ".30",
+    "leverage": 1,
+    "margin_mode": "ISOLATED",
+    "automatic_topup": false,
+    "free_cash_increase_floor_USDT": "1000",
+    "actual_isolated_margin_ceiling_USDT": "8500",
+    "cost_primary": "BASE27",
+    "cost_sensitivity": "STRESS43",
+    "quantity_profile_SHA256": "94b2238b25ed345a24a1fa148c6f35523b8efe9bf47496958028844432cb8ebf",
+    "funding_unit": "RAW_AS_FRACTION_CONDITIONAL_UNCERTIFIED"
+  },
+  "canonical": {
+    "STATIC50": "LATER_PORTFOLIO_RISK_RETARGETED_STATIC50_2c551f8606ac0b9328c52115c761836099517439",
+    "old_no_reexpansion_mixture": "RETAINED_SEPARATE_PROOF_FIELD_NOT_SILENTLY_SUBSTITUTED",
+    "H090": "ONCE_1_5_TIMES_CANONICAL_STATIC50_THEN_ORIGINAL_CLIP_GROSS_VOL_SHRINK_ORDER",
+    "VOL_MANAGED_HOLD": "ORIGINAL_EQUAL_CORE5_CONSTANT_LONG_0_6_DIVIDED_BY_5_THEN_SIGNED_PAST30_COVARIANCE_DOWNSCALE",
+    "independent_alpha_claim": false
+  },
+  "risk": {
+    "covariance_observations": 30,
+    "covariance_returns": "COMPLETED_SIMPLE_DAILY_RETURNS",
+    "covariance_ddof": 1,
+    "annualization_days": 365,
+    "readiness_completed_closes": 200,
+    "tier_scaling": "UNIFORM_MIN_VOL_BUDGET_AND_ASSET_GROSS_CAP_FACTOR",
+    "achieved_risk_matching_guaranteed": false
+  },
+  "execution": {
+    "version": "FIXED_THREE_TIER_PARTIAL_SIGNAL_AND_FRESH_REPLACEMENT_MARK_PRESERVING_TERMINAL60_V3",
+    "partial_ladder": [
+      "1",
+      ".75",
+      ".5",
+      ".25",
+      "0"
+    ],
+    "partial_selection": "INDEPENDENT_CHARGED_CORNERS_NO_ASSUMED_MONOTONICITY",
+    "partial_stages": [
+      "SIGNAL_OR_FROZEN_FIRST_QUOTE_ADMISSION",
+      "FRESH_NORMAL_PENDING_REPLACEMENT_BEFORE_EVERY_INCREASE"
+    ],
+    "priority_endpoints": "PRESERVED_ALL_CANDIDATES",
+    "financial_methods": "EXACT_PUBLIC_VENDOR_DECIMAL_METHODS_INHERITED",
+    "capital_guard": "EXACT_EXISTING_CAPITALGUARD_DRYRUN_COMMIT_WITH_PRIVATE_EXACT_PERSISTENT_TREE_EQUALITY",
+    "native_order_objects_and_signal_retry_identity": "PRESERVED",
+    "terminal": "EXACT_TERMINAL60_CAPACITY_LIMITED_PAID_FILLS_NO_FREE_CLOSE",
+    "cold_start": "FRESH_FLAT_SIGNAL_FROZEN_DEFER_TO_REAL_FIRST_MINUTE_QUOTE_START_PLUS_MINUTE_PLUS_1US",
+    "native_venue_certified": false,
+    "restart_fork_certified": false,
+    "signal_mark_observations": "PRESERVE_EVERY_EXISTING_NATIVE_MARK_SEED_ONLY_MISSING_FRESH_FLAT_DETACHED_PROBE"
+  },
+  "roles": {
+    "all_historical_years": "SEEN_OR_ROLE_UNPROVEN_DEVELOPMENT_NOT_UNTOUCHED_OOS",
+    "locked_2026": "NOT_AUTHORIZED_NOT_OPENED_UNTOUCHED_UNPROVEN",
+    "future_OOS": "DATE_WINDOW_AND_STOPPING_RULE_TO_BE_FINALIZED_AFTER_SELECTION_EXECUTABLE_FREEZE_AND_FEED_READINESS_BEFORE_OUTCOMES"
+  },
+  "data": {
+    "real_smoke_calendar": [
+      1672531200000000,
+      1672790400000000
+    ],
+    "annual_execution_authorized": false,
+    "real_smoke_requires_exact_external_root_GO": true
+  },
+  "metrics_required": [
+    "full_calendar_coverage",
+    "marked_net_return",
+    "paid_flat_net_return",
+    "all_observation_MDD",
+    "liquidation_required_halt_count",
+    "actual_liquidation_fill_count",
+    "residual_notional",
+    "unpaid_liability",
+    "fees",
+    "execution_cost",
+    "signed_funding",
+    "turnover",
+    "actual_gross_net",
+    "actual_daily_volatility",
+    "forecast_risk_shortfalls",
+    "capital_capacity_constraints",
+    "same_tier_HOLD_and_CASH_excess_with_risk_mismatch_qualification"
+  ],
+  "execution_reuse": "EXACT_TARGET_CALENDAR_PLUS_SAME_TIER_SOURCE_COST_EXECUTION_IDENTITY_REQUIRED",
+  "selection": "NO_ADAPTIVE_SEARCH_OR_PER_YEAR_WINNER_SWITCHING_ALL_NINE_REPORTS_REQUIRED",
+  "code_identity": {
+    "frozen_grid.py": "a64abec4b396b17ff1e93bbc95ad77c6a76a26e54ecdf36bb5c9ddaedac6b8f1",
+    "native_runtime.py": "e716eace323b82954cd13755d0af80e046cd4daf5b37147300c417e7ac7d4b1a",
+    "historical_entry.py": "f8be19239bef56d7db514a327e09dfacf153bc1bdf54bbbc2b87616254df66b7",
+    "SOURCE_PROVENANCE.json": "ef36bee5b7c6d8dbef5ebd10f604b00a2f46aeceab88d848b958b4212416df56",
+    "NATIVE_SOURCE_PROVENANCE.json": "a8a59ba72e61cab35f4bd84da1f09f5a3d0052fcaa3effba819d93f4b102f1fb"
+  }
+}

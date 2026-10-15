@@ -1,0 +1,87 @@
+{
+  "schema": "INDEPENDENT_BOUNDED_SCHEDULER_REVIEW_FINAL_V1",
+  "status": "PASS_WITHIN_STATIC_AND_TINY_NONFINANCIAL_TEST_SCOPE",
+  "reviewed_source_SHA256": {
+    "run_expansion.py": "085d58c293e35ab23d7eb28c70a31520f9721423d6b32c3090884adb1fbdd7de",
+    "profile_generated_pool.py": "150277fac46eb37f367281394a69f7d09d155862162582345a137de7c90cbd5d",
+    "test_matrix_runner.py": "2d9fca37412565cb3ea7a26af364641eb27ecdac908c755256c3adf374130478"
+  },
+  "receipt_files": {
+    "recheck_final/RECEIPT.json": {
+      "SHA256": "85be30d601d281735a19946414117228eb975ed38440bdc0c657ebb6c3a8b883",
+      "checks": [
+        "maximum_two_workers",
+        "distinct_one_CPU_per_worker",
+        "CPU_restriction_and_thread_environment_before_numerical_imports",
+        "permitted_helper_threads_stay_on_worker_CPU",
+        "kernel_CPU_AS_limits",
+        "dynamic_pressure_blocks_second_launch",
+        "atomic_complete_no_replace_publication",
+        "failed_spawn_claim_permanent_cross_output"
+      ]
+    },
+    "startup_final/RECEIPT.json": {
+      "SHA256": "2454b5c62a58ac97038f433d7e21cc433151497a0dc2a1ba5a6790d1f0e93be1",
+      "checks": [
+        "Popen_has_no_preexec_fn",
+        "startup_time_included_in_wall_budget",
+        "overdue_startup_stops_before_next_cell"
+      ]
+    },
+    "lease_final/RECEIPT.json": {
+      "SHA256": "bd80a9a6455a66a22f4f85f660b61ce66164a3221100c4f22290d91bc3a72e59",
+      "checks": [
+        "canonical_flock_blocks_other_controller",
+        "actual_run_pool_passes_lease_FD",
+        "stdlib_bootstrap_exec_preserves_lease_and_PID",
+        "parent_death_keeps_live_worker_lease",
+        "worker_exit_releases_lease"
+      ]
+    },
+    "ownership_final/RECEIPT.json": {
+      "SHA256": "5a653c82ad7cc921b488d1a2b930f3665e6b018f3250db598c860547852bcacf",
+      "checks": [
+        "live_worker_matching_immutable_claim_and_actual_PID_start_parent_CPU",
+        "second_actual_process_rejected_with_same_claim_scope_and_output"
+      ]
+    },
+    "own_bytes_final/RECEIPT.json": {
+      "SHA256": "2b5a4d826610aedccd638b06a4860fb1fdefaa2592ccab236e50a931fc7dcbc9",
+      "checks": [
+        "hardlink_inode_counted_once",
+        "disappearing_temp_stat_tolerated"
+      ]
+    }
+  },
+  "fixed_findings": [
+    "Serial pressure fallback is reobserved before each launch instead of cached across both starts.",
+    "Immutable ownership publication exposes only fully fsynced bytes.",
+    "Output monitoring tolerates disappearing atomic temporaries and counts hardlink inode once.",
+    "No preexec_fn; stdlib bootstrap limits and CPU affinity precede numerical imports; wall clock begins before Popen.",
+    "Canonical inherited flock excludes cross-tranche controllers while any worker survives.",
+    "Permanent per-cell claims bind the case output and actual PID/start-ticks/parent/CPU handshake before account construction."
+  ],
+  "static_limits": {
+    "maximum_live_workers": 2,
+    "numerical_pool_thread_environment": "all configured pools 1 before imports",
+    "per_case_wall_seconds": 600,
+    "per_case_CPU_seconds": 600,
+    "per_case_RSS_stop_bytes": 2000000000,
+    "per_case_AS_bytes": 4000000000,
+    "per_case_output_bytes": 250000000,
+    "aggregate_live_worker_RSS_stop_bytes": 3500000000
+  },
+  "remaining_scoped_blockers": [],
+  "scope_caveats": [
+    "RSS/output/affinity monitoring is sampled; no enforceable host quota is claimed.",
+    "Tests intentionally import no numerical packages and construct no accounts. Actual full-calendar resource feasibility is not certified.",
+    "This receipt is a scheduler review; it grants no historical GO or execution permission."
+  ],
+  "historical_account_objects_constructed": 0,
+  "historical_runs": 0,
+  "source_arrays_read": 0,
+  "external_GO_executed": false,
+  "publication_actions": 0,
+  "author_files_modified": false,
+  "test_registries": "temporary review directories only"
+}

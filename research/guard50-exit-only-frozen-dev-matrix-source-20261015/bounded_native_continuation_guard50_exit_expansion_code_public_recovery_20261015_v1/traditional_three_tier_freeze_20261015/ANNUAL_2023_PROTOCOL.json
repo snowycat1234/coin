@@ -1,0 +1,82 @@
+{
+  "schema": "FIXED_FINITE_2023_ANNUAL_PROTOCOL_V1",
+  "calendar": [
+    1672531200000000,
+    1704067200000000
+  ],
+  "days": 365,
+  "native_minutes": 525600,
+  "execution_version": "FIXED_THREE_TIER_PARTIAL_SIGNAL_AND_FRESH_REPLACEMENT_MARK_PRESERVING_TERMINAL60_V3",
+  "frozen_V3_core_identity": {
+    "frozen_grid.py": "a64abec4b396b17ff1e93bbc95ad77c6a76a26e54ecdf36bb5c9ddaedac6b8f1",
+    "native_runtime.py": "e716eace323b82954cd13755d0af80e046cd4daf5b37147300c417e7ac7d4b1a",
+    "historical_entry.py": "f8be19239bef56d7db514a327e09dfacf153bc1bdf54bbbc2b87616254df66b7",
+    "SOURCE_PROVENANCE.json": "ef36bee5b7c6d8dbef5ebd10f604b00a2f46aeceab88d848b958b4212416df56",
+    "NATIVE_SOURCE_PROVENANCE.json": "a8a59ba72e61cab35f4bd84da1f09f5a3d0052fcaa3effba819d93f4b102f1fb",
+    "FROZEN_SPEC.json": "53392714aea7f1ec545cc4476291044e0640b8c63c7aa822af2808c40dae36e7"
+  },
+  "requested_configs": [
+    "STATIC50_LOW",
+    "STATIC50_MID",
+    "STATIC50_HIGH",
+    "H090_LOW",
+    "H090_MID",
+    "H090_HIGH",
+    "VOL_MANAGED_HOLD_LOW",
+    "VOL_MANAGED_HOLD_MID",
+    "VOL_MANAGED_HOLD_HIGH"
+  ],
+  "selection": "ALL_FIXED_CELLS_WITH_SAME_TIER_BYTE_EXACT_PRE_RETURN_EXECUTION_DEDUP_ONLY",
+  "primary_cost": "BASE27",
+  "funding_units": "RAW_AS_FRACTION_CONDITIONAL_UNCERTIFIED",
+  "initial_cash_USDT": "10000",
+  "leverage": 1,
+  "common_free_cash_floor_USDT": "1000",
+  "common_isolated_margin_ceiling_USDT": "8500",
+  "warmup": "EXACT_ORIGINAL200_ALL365_COMPLETED_UNIMPUTED_WINDOWS",
+  "riskmatched_excess_method": "NOT_PREREGISTERED_NOT_CLAIMED",
+  "same_budget_comparison": "Compare STATIC50 and H090 with HOLD and cash within the same nominal tier; exact identical paths are one economic strategy, not independent alpha.",
+  "risk_report": {
+    "minute_observation": "Native post-transition minute close marked weights and NAV; retain intraminute MDD from native simulator.",
+    "forecast_covariance": "Latest completed-daily decision past30 simple-return ddof1 covariance annualized365; same matrix as frozen sizing.",
+    "forecast_breach": "Report count and max positive sigma-minus-tier-target; inventory drift diagnostic, no admission-policy change.",
+    "realized_volatility": "Daily NAV simple-return sample standard deviation ddof1 times sqrt365, including initial10000 NAV and final paid terminal NAV; complete calendar days only.",
+    "required": [
+      "net_return_marked_and_paid",
+      "all_observation_MDD",
+      "liquidation_required_halt",
+      "bankruptcy_halt",
+      "actual_liquidation_fills_model_qualification",
+      "residual_marked_notional",
+      "unpaid_liability",
+      "fees",
+      "spread_slippage_execution_cost",
+      "funding",
+      "turnover",
+      "max_and_mean_gross_and_asset_exposure",
+      "max_and_mean_forecast_volatility",
+      "forecast_vol_budget_breach_minutes_and_max_magnitude",
+      "realized_daily_return_volatility",
+      "guard_ladder_selections_and_binding_reasons",
+      "capital_floor_and_margin_ceiling_binding_shortfall",
+      "same_budget_excess_vs_HOLD_and_cash",
+      "runtime_peak_RSS_output_bytes"
+    ]
+  },
+  "known_risk_qualification": "Nominal target sizing and new-fill guards do not enforce an instantaneous invariant on persistent held inventory; covariance refresh, price drift and coarse dust can exceed sizing targets. Parameters matched is not realized-risk matched.",
+  "terminal": "UNCHANGED_PAID_TERMINAL60; incomplete/halted/residual cases not eligible for paid annual comparisons",
+  "OOS": "2023 IS SEEN DEVELOPMENT; no claim of untouched historical OOS. Future post-final-freeze window dates require final executable/data-feed readiness.",
+  "resource_limits": {
+    "per_case_wall_seconds": 600,
+    "CPU_threads": 1,
+    "RSS_stop_bytes": 2000000000,
+    "AS_bytes": 4000000000,
+    "output_bytes": 250000000,
+    "maximum_cases": 9
+  },
+  "run_policy": "New external exact root GO; serial one fresh process per canonical config; stop on failure and preserve, no automatic retry or uncertified restart. Pilot subset GO allowed before remaining jobs.",
+  "other_years_authorized": false,
+  "holdout_consumed": false,
+  "financial_runtime_changes": false,
+  "target_optimization_from_smoke": false
+}
