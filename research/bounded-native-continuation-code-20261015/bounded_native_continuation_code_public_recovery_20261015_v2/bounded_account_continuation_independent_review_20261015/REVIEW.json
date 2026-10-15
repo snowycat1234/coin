@@ -1,0 +1,87 @@
+{
+  "review_status": "PASS_GENERATED_PRIMITIVES_ONLY",
+  "review_utc": "2026-10-15T06:44:00Z",
+  "candidate_directory": "bounded_account_continuation_20261015",
+  "independent_tests": 12,
+  "independent_tests_passed": 12,
+  "author_tests_independently_rerun": 45,
+  "author_tests_passed": 45,
+  "historical_runs": 0,
+  "publication_actions": 0,
+  "locked_2025_source_reads": 0,
+  "candidate_sha256": {
+    "continuation.py": "bf8c3df52420af95ac1b2528e75c9ad7268ccdd2e56bbacf3baa2c39e7c562a8",
+    "test_continuation.py": "bba17b07f5d5738d7c1bfacb095895cb21fed6053c77a0c8ea02af186bd785ec",
+    "POLICY.json": "f8a5313a0f538f13a38e738737bb489d66ee47f934bd61d84198c0a860e023b1",
+    "README.md": "85f198db838d90fe68ff4748acff48f9bc5144c105d3f33df251cac32402b11b",
+    "PRIMITIVE_PINS.json": "b715ed772ab61530a3195d559af2ea8fc8fce0e75b43ece82825c0839833951f",
+    "SOURCE_PROVENANCE.json": "e5e8cb6bcee38e44d729915d93eb6b1ae705468e63e9039440acf4f442e41a56",
+    "OFFICIAL_REFS.json": "46bc237e9488ac0c2c1796f45d9913badeef60035f241ef3ae7a5515582d1da9",
+    "QUANTITY_PROFILE.json": "94b2238b25ed345a24a1fa148c6f35523b8efe9bf47496958028844432cb8ebf",
+    "vendor_quant/perpetual_account.py": "14916598f3dab6a631b89317b38be9a3740549cb7882acf02b8a80658c64433c",
+    "vendor_quant/execution_contract.py": "b7fc110d84240233611e2f7e7360c1b7cc5c92308f842a796560964db33f97d1",
+    "vendor_quant/bybit_isolated_account.py": "54c7d9ff823d8c2f95e6d0e96973c1fea95afd15148a1c196d61a2d342246c42",
+    "headroom_buffer.py": "2ab4158bf610c0075bc901b4ba0a649eed5b993251090bf54bbaa5332f1dfb39",
+    "HANDOFF.json": "0205f6262006232ac8e38b3e59b3e67d162776c5eaa2d609dc790e493cdded8b",
+    "FILES.json": "1d59bc2d5d74c84b5abef5f059c2bb2d4a27dfed206bdb064fcb7a1d08120667",
+    "verify_packet.py": "e10fe8553030f65703c7aebf4fde8f0e2b8507ba84eb22e695d05ddeed7eb030"
+  },
+  "primitive_pin_checks": [
+    {
+      "path": "vendor_quant/perpetual_account.py",
+      "bytes_sha256_gitblob_match": true
+    },
+    {
+      "path": "vendor_quant/execution_contract.py",
+      "bytes_sha256_gitblob_match": true
+    },
+    {
+      "path": "vendor_quant/bybit_isolated_account.py",
+      "bytes_sha256_gitblob_match": true
+    },
+    {
+      "path": "headroom_buffer.py",
+      "bytes_sha256_gitblob_match": true
+    },
+    {
+      "path": "QUANTITY_PROFILE.json",
+      "bytes_sha256_gitblob_match": true
+    }
+  ],
+  "fixed_findings": [
+    "Optional headroom/extra reserve branch removed; only exact Guard50 and pre-transfer collateral target admitted.",
+    "Conditional negative marked equity is an explicit balanced clearing-value cashflow; support excluded from diagnostic marked/paid-cost PnL; conditional settled-flat distinct from paid-flat.",
+    "Transfer primitive requires exact account clock and idempotent/conflict-checked transfer ID.",
+    "Terminal intent requires exact native clock; no-fill reduction events advance global clock.",
+    "Later-leg policy/native fill-ID collision preflight rejects the entire batch before clock or financial mutation.",
+    "Explicit native available_quantity=None semantics preserved.",
+    "Hypothetical charged fills use callback-suppressed owned preview and reject additional conditional settlement."
+  ],
+  "independent_evidence": [
+    "Exact Guard50 equality, prior-point no trigger, target equity, unchanged quantity/NAV/fees/funding/realized PnL.",
+    "Risk-based deterministic symbol allocator and common capital guards covered by author suite.",
+    "One-position takeover preserves other asset and cash; other asset continues; stale signal blocked; fresh causal signal reentry passes normal latency.",
+    "Both positive-residual forfeiture and negative-equity support balance exact equity and NAV ledgers.",
+    "Paid partial close releases proportional collateral; later takeover forfeits only actual remaining collateral.",
+    "Unknown mark breach cannot be relabelled to restore HALT; genuine funding debt and duplicate receipt remain unchanged.",
+    "No-fill clock monotonicity and policy/native fill-ID batch atomicity.",
+    "Native finance/funding methods inherited unchanged and BASE27/STRESS43 author goldens independently passed.",
+    "No external callback or actual state change from rejected capital preview."
+  ],
+  "attribution": "A exact native-stop reference; B unchanged strategy/admission plus conditional position settlement and no new Guard50 warning action; C entire bounded margin-management package plus the same settlement. C minus B is package effect, not pure transfer-only increment.",
+  "not_admitted": [
+    "Historical runs or new financial results.",
+    "Native V3 scheduler/32-corner preview/shared-pending integration.",
+    "Persistent journal recovery or post-HALT resume.",
+    "Historical/native venue risk tiers, partial liquidation, insurance sufficiency, ADL, intraminute triggering or execution certification.",
+    "Scenarios as universal best/worst bounds or profit robustness claims."
+  ],
+  "next_review_scope": "Separate generated-only native integration may be reviewed after root authorization; preserve exact phase ordering, causal pending-signal invalidation, shared capacity, preview isolation and paid-versus-conditional terminal reporting.",
+  "packet_verification": {
+    "historical_admission": false,
+    "historical_replays": 0,
+    "packet_files_verified": 19,
+    "primitive_bytes_verified": true,
+    "snapshot_recovery_certified": false
+  }
+}
