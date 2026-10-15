@@ -1,0 +1,276 @@
+{
+  "schema": "PUBLIC_2023_SOURCE_RECOVERY_HANDOFF_V1",
+  "repository": "snowycat1234/coin",
+  "calendar_us": [
+    1672531200000000,
+    1704067200000000
+  ],
+  "symbol_order": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "role": "SEEN_DEVELOPMENT_2023_SOURCE_ONLY",
+  "coverage": {
+    "days": 365,
+    "minutes_per_symbol": 525600,
+    "monthly_native_files": 12,
+    "daily_records": 1825,
+    "funding_events": 5475,
+    "derived_mark_cells": 0,
+    "raw_monthly_trade_mark_archives": 120,
+    "additional_official_daily_mark_archives": 5,
+    "H1_original_ZIP_bytes": 77488290,
+    "H2_original_ZIP_bytes": 77522788,
+    "public_source_part_count": 239,
+    "public_source_part_bytes": 155199657
+  },
+  "public_sources": {
+    "H1": {
+      "commit": "f2db682ff77eba85de3b811529f313b739dba2be",
+      "base": "research/cs-2023-continuous-economics-20261012/",
+      "code_path": "research/cs-2023-continuous-economics-20261012/source.py",
+      "code_SHA256": "923db96473f5b4a79d313073bdaaed121ee24d631e7a79a298972aa613f2d156",
+      "indexes": [
+        {
+          "path": "research/cs-2023-continuous-economics-20261012/source-phases/Q1/SOURCE_INDEX.json",
+          "SHA256": "20c75452fbda48ab7d1ff3bc984a228f28cab228f21af4446accbe3218b0fccb",
+          "bytes": 126179
+        },
+        {
+          "path": "research/cs-2023-continuous-economics-20261012/source-phases/Q2/SOURCE_INDEX.json",
+          "SHA256": "628f1401ccc787bb913faa9a6942fc84de4241d534c787c400dcb64c595f22a1",
+          "bytes": 110030
+        }
+      ],
+      "part_resolution": "Each all_archives record supplies ordered public part paths, part SHA256/size, complete original ZIP identity, CHECKSUM identity, and exact daily repair union."
+    },
+    "H2": {
+      "commit": "b6f71c9f208a0c4a3dbfc3aac45fe8f4bb472c3e",
+      "base": "research/core5-binance-native-2023-data/",
+      "folds": [
+        {
+          "fold": "JULY2023",
+          "index_path": "research/core5-binance-native-2023-data/JULY2023/INDEX.json",
+          "index_SHA256": "b8e53d761dd0db3bd506de626fdbabce86cf8dd19398ed22c6f5db1ba41d589e",
+          "index_bytes": 20267,
+          "wrapper_SHA256": "c61a58ab58ef6ad21b8562234f72cb69774e36485f45e4a64dfbff56fce876b2",
+          "wrapper_bytes": 37957161,
+          "part_count": 49
+        },
+        {
+          "fold": "OCTOBER2023",
+          "index_path": "research/core5-binance-native-2023-data/OCTOBER2023/INDEX.json",
+          "index_SHA256": "175091eaad7f25173ad59715e484dc040eab6522dc3d1af8710c597f4aba6c68",
+          "index_bytes": 20592,
+          "wrapper_SHA256": "dd466c1dbfdd9bb9d2fb712b40a66f49f4597f1f935b6f81abe483c324acb02a",
+          "wrapper_bytes": 39754206,
+          "part_count": 51
+        }
+      ]
+    },
+    "final_source_index": {
+      "commit": "a4dbb6ded845a70d48a7c1d16e9c4a5b18034377",
+      "path": "research/cs-2023-continuous-economics-20261012/source-result/SOURCE_INDEX.json",
+      "SHA256": "5c88d0022fe185f966266b54c9962b1e632048817d369e00112f72b2071c7251",
+      "bytes": 187720
+    },
+    "warmup_cube": {
+      "commit": "f2db682ff77eba85de3b811529f313b739dba2be",
+      "path": "research/monetary-policy-information-20261012/input/INPUTS.npz",
+      "SHA256": "e33cc15bd53167078252f7d58b406960d543ccb92421f430214e5360971f12f4",
+      "bytes": 258168,
+      "select_only": [
+        "close_available_us",
+        "close"
+      ],
+      "order_authority": "Implicit CORE5 order in pinned original source.py; source cube has no symbol_order member."
+    },
+    "funding": {
+      "commit": "e0d3400b23842f11f167a63e7d80856d76501de8",
+      "archive_SHA256": "bdbcdc488fc4245c1fb6b433df1fc4bf806a120433db71e180816119cebbcc30",
+      "members": [
+        {
+          "events": 1095,
+          "member_SHA256": "ade62f232d4a5bc7f66c34a0df8648903f8468f1dd131b590814c08da1631090",
+          "symbol": "BTCUSDT"
+        },
+        {
+          "events": 1095,
+          "member_SHA256": "d49f5c887b60d63f905cd2836717d3281c3d538f8c35c7a118f2595cba75ee09",
+          "symbol": "ETHUSDT"
+        },
+        {
+          "events": 1095,
+          "member_SHA256": "d8f45b5f83e524932d0b93d7293f5e2ee93d542778f43db2eb5fadef29249e25",
+          "symbol": "SOLUSDT"
+        },
+        {
+          "events": 1095,
+          "member_SHA256": "b81ef7e3343b206c22bcac4145c20b52e9fda81879178275b1e01722cb858d8a",
+          "symbol": "XRPUSDT"
+        },
+        {
+          "events": 1095,
+          "member_SHA256": "e97407a991096b15c5352f88a184a112f0486f40112412cb7aeaf498e14dacdc",
+          "symbol": "DOGEUSDT"
+        }
+      ],
+      "local_source_reuse": "All five member hashes matched existing public sparse-recovery funding Parquet bytes. Only calc_time_ms,last_funding_rate,funding_interval_hours were projected for 2023.",
+      "member_path_prefix": "source_tables_not_model_inputs/economics/",
+      "locator_code": {
+        "commit": "f2db682ff77eba85de3b811529f313b739dba2be",
+        "path": "research/short-funding-residual-20261011/experiment.py",
+        "function": "source_archive",
+        "usage": "Inspect the pinned existing public source locator; do not run its financial experiment."
+      }
+    }
+  },
+  "prepared_files": {
+    "months/2023-01.npz": {
+      "SHA256": "fa4ec554dafd8ce7faaaca97074325ca88017be999a81810c57fc03af7f22727",
+      "bytes": 3657003
+    },
+    "months/2023-02.npz": {
+      "SHA256": "653e967a983b7536cf1a2660e00c13e0f538beac1077d5dd1d36fa70cb76e861",
+      "bytes": 3295380
+    },
+    "months/2023-03.npz": {
+      "SHA256": "f72e515a97c82bdbcc920801e1058c8264d5eaadb711032f3265b6014a7ac37c",
+      "bytes": 3650045
+    },
+    "months/2023-04.npz": {
+      "SHA256": "6ee2adc1379c040a536889a8a06a09e9877651e9e5fcf57db09b20171f202ba0",
+      "bytes": 3497715
+    },
+    "months/2023-05.npz": {
+      "SHA256": "248cc14526233921a953bfc1fea124910619c8d91ada1d4118a00f78c3210fac",
+      "bytes": 3483240
+    },
+    "months/2023-06.npz": {
+      "SHA256": "10c1bfa54af4ed876a2b54a9629ec420c6c3933413a20f8b311df7b6b0d63051",
+      "bytes": 3434725
+    },
+    "months/2023-07.npz": {
+      "SHA256": "a33179628c3bc2ddffca0060424c504b881b37309734c9159e8ec7eb6dde3421",
+      "bytes": 3578090
+    },
+    "months/2023-08.npz": {
+      "SHA256": "9eb962dc34641538dd637e51e010e66ebd52199f6f54470e0f890eae5c46207b",
+      "bytes": 3474000
+    },
+    "months/2023-09.npz": {
+      "SHA256": "0cb731ecff197499d9b5a8097c29011ae9958d68fb62ee9f11c12f002b7c688c",
+      "bytes": 3280870
+    },
+    "months/2023-10.npz": {
+      "SHA256": "c57f00c3ce38eb7032dcdde43f2f97a717e992aebab70c52e454e18bb9bc2ad1",
+      "bytes": 3542504
+    },
+    "months/2023-11.npz": {
+      "SHA256": "9bc110b0f5d74b9fbe401bbf2f49a68b69c25051d45e518139b384df652828bd",
+      "bytes": 3662693
+    },
+    "months/2023-12.npz": {
+      "SHA256": "5d22969750939256bb18ff23e206752b70e851b9f628842ab886fc7b3bd2eb99",
+      "bytes": 3750150
+    },
+    "DAILY.json": {
+      "SHA256": "74b39d7f36478b4f56d007e8ad9a998f1ff92c37ba710787401176263137457d",
+      "bytes": 161904
+    },
+    "EVENTS.json": {
+      "SHA256": "9333a4493a3e1ce1a1e101b3b9f056e81ef29571983effc0533bef7bc35efbdb",
+      "bytes": 706295
+    },
+    "SOURCE_INDEX.json": {
+      "SHA256": "5c88d0022fe185f966266b54c9962b1e632048817d369e00112f72b2071c7251",
+      "bytes": 187720
+    }
+  },
+  "warmup_export": {
+    "SHA256": "45a3d6dd8c788a5a721a560736c611073d41fe65648f7b5e408cb07a71e0a75f",
+    "bytes": 16182,
+    "fields": [
+      "close_available_us",
+      "close"
+    ],
+    "first_available_us": 1655337600000000,
+    "last_available_us": 1704067200000000,
+    "rows": 565,
+    "jan1_first_200bar_indices": [
+      0,
+      199
+    ]
+  },
+  "original200": {
+    "public_commit": "45679cc60e20c8b1ac9423533d9774ff8ac0ee95",
+    "artifacts": {
+      "ORIGINAL200_SOURCE_QUALITY_PROOF.json.gz": {
+        "path": "research/h090-original2023-prefix-control-preparation-20261014/ORIGINAL200_SOURCE_QUALITY_PROOF.json.gz",
+        "bytes": 80536,
+        "SHA256": "ffb99d83840828c3bc6547562b530d9c584938acd9e23f1391a71079fdf091d7",
+        "GitBlobSHA1": "0d4a423b2ec19795ea150329d1dd66c566674d94"
+      },
+      "ORIGINAL200_SOURCE_QUALITY_REVIEW.json": {
+        "path": "research/h090-original2023-prefix-control-preparation-20261014/ORIGINAL200_SOURCE_QUALITY_REVIEW.json",
+        "bytes": 3312,
+        "SHA256": "3ce7f58d42423379453c9015ce386f0074627380cf71cc64ef7e1f6ff1c21cfe",
+        "GitBlobSHA1": "fbb27901b6f207d890a368847eb612706a2ebe9d"
+      },
+      "original200_quality.py": {
+        "path": "research/h090-original2023-prefix-control-preparation-20261014/original200_quality.py",
+        "bytes": 8919,
+        "SHA256": "657b96aeba85c769be63b5bf3184953244eba6fdd83d6fc95065761f8aa1b01a",
+        "GitBlobSHA1": "e4b66ed140042de1b2baa0f803340a08cc20b661"
+      }
+    },
+    "scientific_proof": {
+      "SHA256": "0f61b8fa7a099a6071a6e0505a6cf99c2ce04b3843ac2799ed638b402e2808b1",
+      "bytes": 3628422
+    },
+    "covered_clocks": 564,
+    "covered_clock_symbol_bars": 2820,
+    "observed_minutes_per_bar": 1440,
+    "decisions": 365,
+    "window_days": 200,
+    "first_available_us": 1655337600000000,
+    "last_available_us": 1703980800000000,
+    "terminal_row_outside_prior_proof": true,
+    "actual_2023_source_terminal_check": "All 1825 completed 2023 daily minute-close cells, including Jan1 2024 terminal close, matched source cube bits."
+  },
+  "normalization": {
+    "monthly_containers": "All twelve exact original sizes and SHA256 values matched; no compression/container exception.",
+    "daily_and_events": "Exact original JSON bytes matched.",
+    "funding_reader": "Explicit approved Polars1.44.2 three-column Parquet reader in place of pyarrow; final complete EVENTS.json matched original exact bytes. No rates were rescaled.",
+    "runtime": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "polars": "1.44.2",
+      "zlib": "1.3.2"
+    },
+    "synthetic_tests": 5,
+    "independent_original_transport_check": "PASS; unchanged original pure transport SHA256 b9d079718d262bfad9d487a05ba8d80c7b866ee2c823dd7582540b7a69500e58"
+  },
+  "uncertainties": [
+    "Funding raw-rate unit is not archive-certified; fraction/percent remain conditional scenarios.",
+    "event_us preserves original calc_time_ms*1000; exchange publication, arrival and charge-price timing are not certified.",
+    "Original200 quality proof inherits pinned prior raw reconstruction/checkpoint evidence, rather than fresh raw verification of all warmup minutes.",
+    "Daily clocks are completed UTC boundary proxies, not provider publication/arrival certificates.",
+    "Pre-2023 minute quote/mark prior is unknown. Do not fabricate Dec31 2022 data. First actual Jan1 minute quote is available at00:01; any coldstart policy must be separately frozen and common to the compared accounts.",
+    "No venue execution, margin/liquidation policy, investment performance, annual account, live use or historical constructor GO is granted by source recovery.",
+    "This recovery did not open holdouts or restore 2024/2025 source bodies."
+  ],
+  "preserved_nonfinancial_corrections": [
+    "Initial warmup reporting attempted a nonexistent symbol_order member; source was unchanged and CORE5 order is explicitly attributed to pinned source.py.",
+    "Materialization helper added one trailing newline to three JSON metadata files; each was corrected to its immutable public Git blob identity without changing JSON values.",
+    "404 at source-code commit was resolved by locating final SOURCE_INDEX at its existing later public artifact commit."
+  ],
+  "financial_runs": 0,
+  "accounts_constructed": 0,
+  "provider_requests": 0,
+  "new_raw_source_uploads": 0
+}
