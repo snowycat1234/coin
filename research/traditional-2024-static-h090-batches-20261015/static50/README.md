@@ -1,0 +1,1 @@
+Read REPORT.md and SUMMARY.json first. This is a three-risk terminal-evidence batch, not a claim that every cell completed a full paid year. Verify with python tools/verify_packet.py. Original complete parent hashes and public dependencies are pinned. MINUTE.npz, duplicate request snapshots and original MID evidence are not duplicated.
