@@ -1,0 +1,348 @@
+# FOLLOW pair 2024 compact report and source bindings
+
+LOCAL PREPARATION ONLY. No publication, upload, Git action, source capture, target recomputation, account, provider or financial execution.
+
+The six fixed 2024 accounts each completed 527040 simulated minutes, total 3162240, with actual paid market-flat completion. Each account began separately with 10000 USDT. No cross-account compounding, conditional settlement, economic halt, debt, topup, internal transfer or new capital. Paid net returns (pool / control): LOW 2.3618% / 8.9876%, MID 11.6259% / 8.8615%, HIGH 10.1458% / 8.2335%. These are adaptive DEV same-nominal-tier outcomes; no risk-matched, post-tier samegross, continuous-risk-ceiling, deployability, venue, funding-unit/arrival, future-performance or OOS certification is made.
+
+Control LOW forecast-held volatility reached 11.58969858786537% against nominal 5%, with 88406 breach minutes. Pool LOW reached 8.604288272133505%, with 69176 breach minutes. Full exact six-case risk warnings appear in the identical verified scope below and both reader PASS outputs. Capital/risk constraints admit increases but do not guarantee continuous marked-state ceilings. Risk diagnostics are post-transition minute-close observations. MDD includes all saved observations with checked extrema witnesses, without independent full observation-stream replay.
+
+The stale/derived-mark proxy interval is 2024-08-12 10:03:00 UTC inclusive to 10:05:00 UTC exclusive, from original genuine observation 10:02:00 UTC (start_us 1723456980000000, end_us 1723457100000000, original genuine observation_us 1723456920000000). Each case has two minute rows, ten derived-mark cells across CORE5, one guard50 monitor row, no paid trades, funding or owned-funding rows, ledger rows, immediate-native-risk rows, quality blocks or terminal event in that interval. Nonzero positions occur for both rows in each symbol except pool LOW SOLUSDT has zero nonzero-position rows. Zero source-quality cells or quality blocks does not certify genuine current venue marks or erase stale-position exposure.
+
+Funding rates/clocks remain literal saved observations with unconfirmed raw units and historical publication/arrival. Fees, adverse spread/slippage execution cost and signed funding are distinct; embedded execution costs must not be deducted twice. Intrinsic samegross precedes independent lower-only tier adaptation. Full event histories and inherited financial closure are omitted. The public packet alone CANNOT reconstruct all native40 checks. Target recomputation is unavailable. Exact omitted-file byte/hash pins do not restore missing bytes. Big-three histories are gzip6: raw unchanged runtime JSON hashes and exact compressed stored-file hashes have separate namespaces and must never be interchanged. Historical code, source metadata, existing authority and proof copies are inert exact bytes only, never imported or executed. Existing authority is not reissued and grants no new execution.
+
+Only six 2024 cases are in this packet. Other-year/all30 definitions in inert historical maps are reference metadata, not completion or execution claims. Historical controller-stage pending flags remain unchanged. The root EXIT0 receipt existed at matrix generation, but its inherited writer deferred root certification; final audit and MATRIX_FINAL_CLOSURE.json certify complete status. Prior results and failures are preserved. Read RECOVERY.md and independently authenticate archive and launcher before use. A fresh independent compact review and root-controlled publication decision remain required.
+
+The exact JSON scope below is cross-bound to SCOPE_AND_LIMITS.json, MANIFEST.json and both reader PASS results.
+
+SCOPE_JSON_BEGIN
+{
+  "OOS_or_live_certification": false,
+  "actual_risk_interpretation": "Nominal tiers are not risk-matched evidence. Control LOW forecast-held annual volatility max 11.58969858786537% versus nominal 5%, with 88406 breach minutes; pool LOW max 8.604288272133505% with 69176 breach minutes. Independent lower-only tiering and marked-state drift mean post-tier samegross and continuous risk ceilings are not guaranteed.",
+  "actual_risk_warnings": [
+    {
+      "asset_exposure_absolute_max": 0.09205479247512299,
+      "cell_id": "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_LOW_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.08604288272133505,
+      "forecast_volatility_breach_minutes": 69176,
+      "gross_exposure_max": 0.30021520856926415,
+      "nominal_annual_volatility_budget": 0.05,
+      "realized_daily_simple_return_annual_volatility": 0.040304725974476485
+    },
+    {
+      "asset_exposure_absolute_max": 0.14177765182659074,
+      "cell_id": "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_MID_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.1273846797188301,
+      "forecast_volatility_breach_minutes": 3730,
+      "gross_exposure_max": 0.31342634204396774,
+      "nominal_annual_volatility_budget": 0.1,
+      "realized_daily_simple_return_annual_volatility": 0.06740063748607282
+    },
+    {
+      "asset_exposure_absolute_max": 0.14177765182659074,
+      "cell_id": "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_HIGH_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.15520696617012011,
+      "forecast_volatility_breach_minutes": 1,
+      "gross_exposure_max": 0.3130894484610465,
+      "nominal_annual_volatility_budget": 0.15,
+      "realized_daily_simple_return_annual_volatility": 0.07129193916664206
+    },
+    {
+      "asset_exposure_absolute_max": 0.09845368472223798,
+      "cell_id": "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_LOW_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.1158969858786537,
+      "forecast_volatility_breach_minutes": 88406,
+      "gross_exposure_max": 0.290080828224793,
+      "nominal_annual_volatility_budget": 0.05,
+      "realized_daily_simple_return_annual_volatility": 0.04926014104880506
+    },
+    {
+      "asset_exposure_absolute_max": 0.10623828216400749,
+      "cell_id": "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_MID_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.11384318178558664,
+      "forecast_volatility_breach_minutes": 924,
+      "gross_exposure_max": 0.3112133309160567,
+      "nominal_annual_volatility_budget": 0.1,
+      "realized_daily_simple_return_annual_volatility": 0.06309592080718268
+    },
+    {
+      "asset_exposure_absolute_max": 0.10623828216400749,
+      "cell_id": "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_HIGH_D_INTRINSIC_LOWER_ONLY_V1",
+      "forecast_annual_volatility_max": 0.11617258640304776,
+      "forecast_volatility_breach_minutes": 0,
+      "gross_exposure_max": 0.3112133309160567,
+      "nominal_annual_volatility_budget": 0.15,
+      "realized_daily_simple_return_annual_volatility": 0.06453601528357623
+    }
+  ],
+  "adaptive_DEV_only": true,
+  "all37_or_current_D_all30_completion_claim": false,
+  "case_count": 6,
+  "completed_minutes": 3162240,
+  "continuous_risk_ceiling_guaranteed": false,
+  "deployability_established": false,
+  "exact_saved_2024_minute_quality_impacts": {
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_HIGH_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 2,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    },
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_LOW_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 2,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    },
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_MID_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 2,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    },
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_HIGH_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 2,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    },
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_LOW_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 0,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    },
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_MID_D_INTRINSIC_LOWER_ONLY_V1": {
+      "actual_saved_interval_impacts": [
+        {
+          "end_us": 1723457100000000,
+          "funding_rows": 0,
+          "guard50_monitor_rows": 1,
+          "immediate_native_risk_rows": 0,
+          "ledger_rows": 0,
+          "minute_rows": 2,
+          "nonzero_position_minute_cells_by_symbol": {
+            "BTCUSDT": 2,
+            "DOGEUSDT": 2,
+            "ETHUSDT": 2,
+            "SOLUSDT": 2,
+            "XRPUSDT": 2
+          },
+          "owned_funding_rows": 0,
+          "paid_trades": 0,
+          "quality_blocks": 0,
+          "start_us": 1723456980000000,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "XRPUSDT",
+            "DOGEUSDT"
+          ],
+          "terminal_in_interval": false
+        }
+      ],
+      "derived_mark_cells": 10,
+      "interval_count": 1,
+      "quality_block_rows": 0,
+      "source_arrival_or_venue_mark_certified": false,
+      "source_quality_cell_count": 0,
+      "stale_position_is_not_certified_genuine_mark": true
+    }
+  },
+  "existing_authority_copy": "INERT_EXISTING_BYTES_NOT_REISSUED_NOT_RUN_PERMISSION",
+  "financial_history_self_contained": false,
+  "financial_own_file_snapshots_complete": true,
+  "financial_reconstruction_gap": "Full ACCOUNT_FINANCIAL_AUDIT.json, NATIVE_RESULT.json and GUARD_RECEIPTS.json gzip6 histories and MINUTE.npz are omitted, along with portions of inherited financial runtime closure. Proof receipts and hashes evidence the prior full saved audit, not a rerun.",
+  "financial_runtime_closure_complete": false,
+  "full_event_history_omitted": true,
+  "funding_units_or_arrival_certified": false,
+  "future_performance_established": false,
+  "hashes_restore_omitted_bytes": false,
+  "historical_code_snapshots": "INERT_BYTES_ONLY_NEVER_IMPORTED",
+  "limitation_sentence": "compact report and source bindings only; omitted full event history means the public packet alone CANNOT reconstruct all native40 checks.",
+  "minutes_per_case": 527040,
+  "native_venue_or_liquidation_certified": false,
+  "ordered_cells": [
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_LOW_D_INTRINSIC_LOWER_ONLY_V1",
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_MID_D_INTRINSIC_LOWER_ONLY_V1",
+    "2024_STATIC50_FOLLOW_POOL_SAMEGROSS_HIGH_D_INTRINSIC_LOWER_ONLY_V1",
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_LOW_D_INTRINSIC_LOWER_ONLY_V1",
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_MID_D_INTRINSIC_LOWER_ONLY_V1",
+    "2024_STATIC50_FOLLOW_DEPENDENT_SAMEGROSS_CONTROL_HIGH_D_INTRINSIC_LOWER_ONLY_V1"
+  ],
+  "originals_modified": false,
+  "post_tier_samegross_guaranteed": false,
+  "public_packet_alone_CANNOT_reconstruct_all_native40_checks": true,
+  "publication_performed": false,
+  "quality_interpretation": "Each account has one stale/derived-mark proxy interval, two minute rows and ten derived-mark cells over all CORE5 symbols; no paid trades, funding/owned-funding, ledger, immediate-native-risk or quality-block rows, one guard50 monitor row and no terminal event. Positions remain nonzero for two rows in every symbol except pool LOW SOLUSDT has zero such rows. Estimated valuation is not a certified genuine/current venue mark. Source-quality cells and quality-block rows are zero; this does not imply no stale-mark exposure.",
+  "quality_interval_UTC": "2024-08-12T10:03:00Z inclusive to 2024-08-12T10:05:00Z exclusive; original genuine observation 2024-08-12T10:02:00Z",
+  "quality_original_genuine_observation_us": 1723456920000000,
+  "raw_and_stored_gzip6_pins_are_not_interchangeable": true,
+  "remaining18_authorized": false,
+  "risk_matched_claim": false,
+  "schema": "FOLLOW_2024_COMPACT_REPORT_SOURCE_BINDINGS_ONLY_V1",
+  "scope": "COMPACT_REPORT_AND_SOURCE_BINDINGS_ONLY",
+  "source_and_signal_own_file_snapshots_complete": true,
+  "source_direct_manifest_dependencies_complete": true,
+  "source_or_financial_execution_authorized": false,
+  "target_recomputation_available": false,
+  "target_recomputation_gap": "Qualified 2024 HLC, full-prefix and saved target bodies are omitted and pinned; historical modules are never imported.",
+  "upload_authority_granted": false,
+  "year": 2024
+}
+SCOPE_JSON_END
