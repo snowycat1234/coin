@@ -1,0 +1,59 @@
+{
+  "schema": "FIXED_SETTLEMENT_WINDOW_ATTRIBUTION_V2_CLOCK_CLARIFICATION",
+  "hypothesis": "Conditional short funding receipts may be offset by settlement-window trade-price movement and round-trip execution costs; compare a fixed nearby non-settlement window.",
+  "source_recovery_commit": "d14b526b026f67f2672935032cf81a364853389a",
+  "calendar": [
+    "2023-01-01",
+    "2024-01-01"
+  ],
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "UTC_hours": [
+    0,
+    8,
+    16
+  ],
+  "event_entry_minutes": -5,
+  "event_exit_minutes": 5,
+  "control_entry_minutes": 55,
+  "control_exit_minutes": 65,
+  "side": "SHORT",
+  "fee_bps_each_fill": 5.5,
+  "halfspread_bps_each_fill": 4,
+  "slippage_bps_each_fill": 4,
+  "funding": "q times fixed strictly-pre-event completed mark proxy times observed raw rate as fraction, positive receipt for SHORT; retrospective conditional attribution, not an available trading forecast",
+  "mark_reference": "Use the CLOSE value of the minute mark bar whose OPEN timestamp is T-2min. Its raw close endpoint is T-1min-1ms and logical availability T-1min, strictly before T. Fixed conservative charge-mark proxy, not exact original latest-eligible-mark selection or actual venue charge mark.",
+  "clock_policy": "Preserve actual event_us and fixed UTC slot T separately. Map only T <= event_us <= T+1second, using the existing source one-second tolerance, exactly one event per asset per slot, else STOP. Price windows remain anchored to fixed T, never shifted. Actual event must lie inside event window; control must contain none.",
+  "boundary_policy": "exclude only pairs missing required source minutes outside 2023; expected five Jan1 00h asset pairs; report all exclusions",
+  "selection": "all assets and slots, no funding-sign, return, month or asset filter; no parameter/window sweep",
+  "arithmetic": "base quantity q=1/entry_OPEN; sell_fill=entry_OPEN*(1-8bp); cover_fill=exit_OPEN*(1+8bp); fee=5.5bp*q*(sell_fill+cover_fill); price=q*(entry_OPEN-exit_OPEN); execution=q*8bp*(entry_OPEN+exit_OPEN); net=price+funding-execution-fee",
+  "primary_reporting": "one-USDT reference PnL in basis points, calendar-day equal-weight mean event net and paired event-minus-control net; pooled sample means separately",
+  "uncertainty": {
+    "method": "circular moving-block bootstrap over joint calendar-day means",
+    "block_days": 14,
+    "draws": 2000,
+    "seed": 20261020,
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "scope": "descriptive conditional seen2023 dependence sensitivity; not selection-corrected causal inference"
+  },
+  "outputs": "all five assets, all12 months, full-year component means,365 daily joint means, full exclusion list, cost allowance, sample counts and source/code hashes",
+  "limitations": [
+    "No shared-wallet replay or executable strategy return",
+    "Minute OPENs are retrospective references, not quotes or proven fills",
+    "Funding fraction/charge-mark/credit-time/arrival authority remains conditional",
+    "Nearby controls do not identify a causal funding effect",
+    "No2026 values, no new market download or model fitting",
+    "No annualized NAV, liquidation result or profitable-month selection",
+    "One-USDT normalization is an attribution unit, not a min-notional-compliant executable order"
+  ],
+  "initial_trade_open_reference_notional_USDT": 1,
+  "amendment": "V1 stopped before outcomes because2025 of5475 timestamps had1\u201329ms record offsets. This source-clock clarification changes no price window, filter, rate, cost or uncertainty parameter."
+}
