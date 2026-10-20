@@ -1,0 +1,143 @@
+{
+  "accounting": {
+    "both_paths": "Both counterfactuals terminally exit at original Tnext+1min solely for comparable conditional attribution. Report price, funding, execution, actual-fill fee and net for keep/switch/difference.",
+    "definitions": "For each non-CASH j: R_j=exit_OPEN_j/entry_OPEN_j; F_j=-sum(actual interval funding rate*strictly past mark proxy/entry_OPEN_j). c_s=.0008+.00055*(1-.0008); c_b=.0008+.00055*(1+.0008).",
+    "equal_count_identity": "Delta=(1-c_s)*(mean(R_i)-mean(R_o))+(mean(F_i)-mean(F_o))-.0027. Terminal costs do not cancel unless endpoint notionals agree.",
+    "fills": "BUY reference_OPEN*(1+0.0008); SELL reference_OPEN*(1-0.0008); fee=0.00055*actual modeled fill notional. All quantities normalized to reference trade OPEN, not fill.",
+    "incumbent_initial_entry": "Sunk and not charged again. Its starting position is marked at entry_OPEN. Keeping pays only terminal sell cost; switching pays old sell plus new buy at start and new terminal sell.",
+    "keep": "K=(sum over outgoing non-CASH of [R_o-1+F_o-c_s*R_o])/m; omitted padded CASH contributes zero.",
+    "paired": "Delta=S-K. Primary complete-week contribution=(m/2)*Delta. If m=0, K=S=Delta=primary=0 exactly.",
+    "switch": "S=(sum over incoming non-CASH of [R_i-1+F_i-c_b-c_s*R_i] - c_s*n_outgoing)/m."
+  },
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "calendar": [
+    "2023-01-01",
+    "2024-01-01"
+  ],
+  "execution_bps_each_fill": 8,
+  "execution_split_bps": {
+    "half_spread": 4,
+    "slippage": 4
+  },
+  "fee_bps_each_fill": 5.5,
+  "funding": {
+    "mark_proxy": "Fixed conservative CLOSE of minute mark bar with OPEN=scheduled_slot-2min. Raw close endpoint=slot-1min-1ms and logical availability=slot-1min, both strictly before actual event. Retained declared settlement V2 proxy, not exact latest-eligible original mark or actual venue charge mark.",
+    "membership": "Use actual event_us, strictly entry_us<event_us<exit_us. An exact funding/fill timestamp collision fails closed rather than assuming priority. None is expected under verified one-second slot tolerance and one-minute endpoints.",
+    "rate": "Observed raw_rate interpreted as fractional rate, long cash=-quantity*mark*rate. Conditional, not a known-at-decision forecast.",
+    "slot_clock": "Preserve actual event_us separately; map only scheduled8h_slot<=event_us<=slot+1second; exactly one event per asset per slot, otherwise STOP."
+  },
+  "holding_interval": {
+    "boundary": "Require complete source for entire original interval and all endpoints. Apply boundary classification before examining change/no-change. Dec25-to-Jan1 interval is excluded uniformly; no Dec31/partial-last-week shortcut. Report every excluded date and requested endpoints.",
+    "entry": "Actual trade minute OPEN at original Monday T+1 minute",
+    "exit": "Actual trade minute OPEN at next original Monday Tnext+1 minute",
+    "expected_boundary_intervals": 1,
+    "expected_complete_calendar_intervals": 51,
+    "expected_scheduled_weeks": 52
+  },
+  "hypothesis": "On the original fixed weekly schedule, do incoming long raw-membership names outperform the displaced names enough to pay incremental switching and terminal cost differences?",
+  "limitations": [
+    "Recovered2023 original-signal opportunity only; cannot explain the lost three-year wallet difference.",
+    "Not a wallet replay, reconstructed NAV, risk-sized target-gross comparison, or executable strategy return.",
+    "No fill-capacity, margin, liquidation, min-notional, borrow, self-financing, or funding-credit-arrival claim.",
+    "Minute trade OPENs are retrospective price references and modeled fills, not actual executed trades or executable quotes.",
+    "Fixed funding rate-unit, conservative charge-mark and source-clock interpretation remain conditional.",
+    "Both paths terminally exit for attribution; original continuing holdings need not actually have exited.",
+    "No2026 market values, no new market downloads, no fitting or parameter sweep.",
+    "No inference about original three-year relative wallet profits, no annualized NAV or investable recommendation."
+  ],
+  "membership": {
+    "contiguous_eligible_closes": 31,
+    "forced_eligibility": "Record every daily long eligibility clear separately. If an invalid incumbent at rank or invalid asset in either compared basket before exit would require retaining an invalid holding, or any original long is forced out inside the interval, write STOP audit and compute no economic outcomes. Do not silently exclude affected weeks. Prior daily clears are preserved in predecessor state and separately labeled. Include next Monday Tnext eligibility and every forced clear strictly before the actual Tnext+1minute exit, not only decisions before Tnext.",
+    "meaning": "Positive original raw market_neutral weight, NOT positive absolute momentum. No absolute momentum filter.",
+    "momentum_days": 21,
+    "original_anchor_us": 1704067200000000,
+    "ranker": "Call pinned original market_neutral(k=2,gross=0.6); minimum 4 eligible, stable ascending input-order ties, all-score range <=1e-12 produces cash.",
+    "selection": "All original 2023 scheduled dates, including unchanged dates, CASH transitions and boundary exclusions. No window/lookback/threshold/sign/month/asset sweep.",
+    "warmup": "Pinned close_available_us and close arrays only; recover immediately preceding original weekly rank and preserve intervening daily eligibility clears. Other daily cube arrays must not be opened.",
+    "weekly_calendar": "Monday 00:00 UTC"
+  },
+  "notional": {
+    "cash": "CASH has terminal/reference ratio 1, price contribution 0, funding 0, and no buys/sells. No interest.",
+    "changed_basket": "Cancel retained names. m=max(number outgoing,number incoming). Pad smaller basket with CASH. Each differing basket totals 1 reference USDT across m equal 1/m slots, then multiply paired result by m/2 for primary original-two-slot contribution. No arbitrary pair assignment or pair optimization.",
+    "original_reference_basket_USDT": 1,
+    "quantity": "Per non-CASH changed-basket member q=(1/m)/entry_OPEN. Fixed reference notional, no reinvestment, leverage or deduction of costs from incoming size; cost cash differences are accounted explicitly, not claimed financeable.",
+    "reference_notional_per_slot_USDT": 0.5,
+    "slots": 2
+  },
+  "preparation_rules": {
+    "endpoint_clarification": "Before any publication or real outcome run, independent review found that the eligibility check must include Tnext. The correction is covered by a generated endpoint-invalid regression test. No economics, selection, cost, funding or uncertainty parameter changed; original local preparation preserved under superseded_preparation.",
+    "execute_guard": "Analyzer requires exact SPEC.json SHA256 and verifies local FREEZE.json source files. Guard does not itself authorize execution.",
+    "new_market_downloads": 0,
+    "publication": "No publication in this preparation task.",
+    "real_outcomes": "Do not execute real analysis during preparation. Freeze SPEC/code/tests and verify remote freeze before any authorized real-data outcome run.",
+    "tests": "Generated arrays only, unchanged original public_targets AST and market_neutral differential memberships, accounting cashflow identities, CASH transitions, no-change zeros, strict clocks, future-price invariance, boundary and forced-eligibility checks."
+  },
+  "reporting": {
+    "detail": "All 52 scheduled-week classifications, predecessor ranks/raw names/clears, full boundary exclusions, all weekly components and member endpoints, actual funding event/mark audit, all12 rank-month primary means. No selective profitable periods.",
+    "keep_switch_scope": "Keep/switch component means describe only the differing slots, not full two-long basket returns; unchanged common holdings cancel and are not valued.",
+    "primary": "Equal average over all 51 complete original weekly intervals of fixed-two-slot m/2 weighted paired net, including exact zero unchanged weeks; basis points per original 1 USDT reference basket.",
+    "secondary": "All-complete-week mean of unscaled 1-USDT changed-set Delta (zero unchanged), plus conditional changed-week mean of same Delta; show m and both non-CASH counts."
+  },
+  "restore_pins": {
+    "closure/SOURCE_INDEX.json": {
+      "SHA256": "5c88d0022fe185f966266b54c9962b1e632048817d369e00112f72b2071c7251",
+      "bytes": 187720
+    },
+    "closure/source/modules/transformer_v2/portfolio.py": {
+      "SHA256": "e4e02b0204e2861bb44eb78c8069b13a09edf6ca9390f3c86490d6e6f8a5e68b",
+      "bytes": 1197
+    },
+    "closure/source/research/cs-2023-continuous-economics-20261012/source.py": {
+      "SHA256": "923db96473f5b4a79d313073bdaaed121ee24d631e7a79a298972aa613f2d156",
+      "bytes": 18715
+    },
+    "closure/source/scripts/investment/public_sma_perpetual.py": {
+      "SHA256": "c9fe8a916f300e91396dba70948ab44348b947ec333d7c82b8429db36e064e18",
+      "bytes": 15354
+    },
+    "closure/source/scripts/research/public_cross_section_momentum.py": {
+      "SHA256": "7d6f1794c0ade6e2c2d951a325e4e68ca45be0e87c84c68f05061442fad8a38f",
+      "bytes": 7163
+    },
+    "daily/INPUTS.npz": {
+      "SHA256": "e33cc15bd53167078252f7d58b406960d543ccb92421f430214e5360971f12f4",
+      "bytes": 258168
+    }
+  },
+  "schema": "FIXED_WEEKLY_REPLACEMENT_ATTRIBUTION_V1",
+  "settlement_proxy_precedent": {
+    "code": {
+      "SHA256": "a57117e7ca7a30e1bd96142cac1986caadfaac550a4127ad3ebb76137f20e7e8",
+      "bytes": 7928
+    },
+    "directory": "public_2023_settlement_window_v2",
+    "spec": {
+      "SHA256": "d5965868e3ad30095069a1aebe1be9e303bce84bb21012ba569ebe6d648dd383",
+      "bytes": 3599
+    }
+  },
+  "source_index": {
+    "SHA256": "5c88d0022fe185f966266b54c9962b1e632048817d369e00112f72b2071c7251",
+    "bytes": 187720
+  },
+  "source_recovery_commit": "d14b526b026f67f2672935032cf81a364853389a",
+  "status": "PREPARED_SOURCE_ONLY_NO_REAL_OUTCOMES",
+  "uncertainty": {
+    "block_weeks": 2,
+    "draws": 2000,
+    "equivalent_calendar_days": 14,
+    "method": "Joint circular moving-block bootstrap on all complete ordered weekly observations including no-change zeros",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "scope": "Descriptive dependence sensitivity on seen recovered2023 original-signal opportunity; not confirmatory, causal or selection-corrected.",
+    "seed": 20261021
+  }
+}
